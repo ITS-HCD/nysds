@@ -3486,8 +3486,23 @@
               "lang": "html"
             },
             {
-              "title": "Other option",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" other label=\"Other\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "title": "Checkbox group",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-checkbox label=\"Disabled checkbox\" disabled></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Size",
+              "code": "<nys-checkbox label=\"Small checkbox\" size=\"sm\"></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Tile",
+              "code": "<nys-checkbox label=\"Tile checkbox\" tile></nys-checkbox>",
               "lang": "html"
             },
             {
@@ -3498,6 +3513,11 @@
             {
               "title": "Slot description",
               "code": "<nys-checkbox label=\"Subscribe\">\n<p slot=\"description\">Read about previous updates <a href=\"https://www.ny.gov/\" target=\"__blank\">here</a></p>\n</nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Other option",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" other label=\"Other\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
           ]

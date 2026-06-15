@@ -10,12 +10,12 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 | `nys-accordionitem` | ✅ Match   | 2026-06-12   | Example is included in `nys-accordion` stories.                                          |
 | `nys-alert`         | ✅ Match   | 2026-06-12   | Comprehensive coverage of all functional states.                                         |
 | `nys-avatar`        | ✅ Match   | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.                                           |
-| `nys-backtotop`     | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-backtotop`     | ✅ Match   | 2026-06-12   | All JSDoc e xamples have matching stories.                                               |
 | `nys-badge`         | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.                                                |
 | `nys-breadcrumbs`   | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.                                                |
 | `nys-button`        | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories. Stories are now granular (one demo per story). |
-| `nys-checkbox`      | ⚠️ Missing | 2026-06-12   | Missing JSDoc examples for size, tile, other.                                            |
-| `nys-checkboxgroup` | ⚠️ Missing | 2026-06-12   | Missing JSDoc examples for size, tile, optional.                                         |
+| `nys-checkbox`      | ✅ Match   | 2026-06-15   | Examples granularized to fix violations.                                                 |
+| `nys-checkboxgroup` | ✅ Match   | 2026-06-15   | Examples granularized to fix violations.                                                 |
 | `nys-combobox`      | ❌ Missing | 2026-06-12   | No JSDoc examples present.                                                               |
 | `nys-datepicker`    | ✅ Match   | 2026-06-12   | Good coverage; missing minDate/maxDate examples.                                         |
 | `nys-divider`       | ✅ Match   | 2026-06-12   | Basic coverage; missing subtle/inverted.                                                 |

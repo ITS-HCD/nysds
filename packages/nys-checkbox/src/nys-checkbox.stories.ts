@@ -100,7 +100,7 @@ export const Basic: Story = {
   },
 };
 
-export const OtherOption: Story = {
+export const CheckboxGroup: Story = {
   render: () => {
     return html`
       <nys-checkboxgroup label="Select landmarks">
@@ -109,7 +109,11 @@ export const OtherOption: Story = {
           value="adirondacks"
           label="Adirondacks"
         ></nys-checkbox>
-        <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
       </nys-checkboxgroup>
     `;
   },
@@ -119,8 +123,57 @@ export const OtherOption: Story = {
         code: `
 <nys-checkboxgroup label="Select landmarks">
   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
-  <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
 </nys-checkboxgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox label="Disabled checkbox" disabled></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="Disabled checkbox" disabled></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Size: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox label="Small checkbox" size="sm"></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="Small checkbox" size="sm"></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Tile: Story = {
+  render: () => {
+    return html` <nys-checkbox label="Tile checkbox" tile></nys-checkbox> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="Tile checkbox" tile></nys-checkbox>`,
         type: "auto",
       },
     },
@@ -173,6 +226,33 @@ export const SlotDescription: Story = {
     <a href="https://www.ny.gov/" target="__blank">here</a>
   </p>
 </nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const OtherOption: Story = {
+  render: () => {
+    return html`
+      <nys-checkboxgroup label="Select landmarks">
+        <nys-checkbox
+          name="landmarks"
+          value="adirondacks"
+          label="Adirondacks"
+        ></nys-checkbox>
+        <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
+      </nys-checkboxgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup label="Select landmarks">
+  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
+</nys-checkboxgroup>`,
         type: "auto",
       },
     },
@@ -285,7 +365,7 @@ export const SizeSmall: Story = {
   },
 };
 
-export const Tile: Story = {
+export const TileAlt: Story = {
   render: () => {
     return html`
       <nys-checkboxgroup label="Select landmarks" tile>
