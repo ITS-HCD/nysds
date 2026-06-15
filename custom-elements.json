@@ -1684,11 +1684,11 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.",
+          "description": "A breadcrumb navigation trail composed of `li` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.",
           "name": "NysBreadcrumbs",
           "slots": [
             {
-              "description": "One or more `nys-breadcrumbitem` elements defining the trail.",
+              "description": "One or more `li` elements defining the trail.",
               "name": ""
             }
           ],

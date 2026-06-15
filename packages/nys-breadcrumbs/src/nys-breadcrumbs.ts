@@ -6,7 +6,7 @@ import styles from "./nys-breadcrumbs.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.
+ * A breadcrumb navigation trail composed of `li` elements.
  * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
  * showing the first, last, and item before the current page, with an ellipsis to expand.
  * A single item renders as a back-to-parent link instead of a trail.
@@ -14,7 +14,7 @@ let componentIdCounter = 0;
  * @summary Breadcrumb navigation trail with responsive collapse support.
  * @element nys-breadcrumbs
  *
- * @slot - One or more `nys-breadcrumbitem` elements defining the trail.
+ * @slot - One or more `li` elements defining the trail.
  *
  * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
  *
