@@ -12,7 +12,7 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 | `nys-avatar`        | ✅ Match   | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.   |
 | `nys-backtotop`     | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.        |
 | `nys-badge`         | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.        |
-| `nys-breadcrumbs`   | ⚠️ Missing | 2026-06-12   | Missing JSDoc examples for size, backToParent.   |
+| `nys-breadcrumbs`   | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.        |
 | `nys-button`        | ✅ Match   | 2026-06-12   | Good coverage; missing size/inverted examples.   |
 | `nys-checkbox`      | ⚠️ Missing | 2026-06-12   | Missing JSDoc examples for size, tile, other.    |
 | `nys-checkboxgroup` | ⚠️ Missing | 2026-06-12   | Missing JSDoc examples for size, tile, optional. |
@@ -154,20 +154,19 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-breadcrumbs`
 
-| JSDoc Example | Storybook Story | Status | Notes |
-| :--- | :--- | :--- | :--- |
-| `Full trail with current page` | `Basic` | ✅ Match | |
-| `Trail without current page` | `WithoutCurrentPage` | ✅ Match | |
-| `Single item renders as back-to-parent` | `SingleCrumb` | ✅ Match | |
-| `Size small` | `Size` | ✅ Match | |
-| `Back to parent (mobile)` | `BackToParent` | ✅ Match | |
-| `With background bar` | `BackgroundBar` | ✅ Match | |
-| `Disabled` | `Disabled` | ✅ Match | |
+| JSDoc Example                           | Storybook Story      | Status   | Notes |
+| :-------------------------------------- | :------------------- | :------- | :---- |
+| `Full trail with current page`          | `Basic`              | ✅ Match |       |
+| `Trail without current page`            | `WithoutCurrentPage` | ✅ Match |       |
+| `Single item renders as back-to-parent` | `SingleCrumb`        | ✅ Match |       |
+| `Size small`                            | `Size`               | ✅ Match |       |
+| `Back to parent (mobile)`               | `BackToParent`       | ✅ Match |       |
+| `With background bar`                   | `BackgroundBar`      | ✅ Match |       |
+| `Disabled`                              | `Disabled`           | ✅ Match |       |
 
 #### To Add
 
 - None (All properties covered).
-
 
 ### `nys-backtotop`
 
@@ -247,5 +246,5 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 - **Lazy Loading**: Example demonstrating the `lazy` property for images to showcase performance optimization options.
 - **Custom ID**: Example explicitly setting a custom `id` property.
-howcase performance optimization options.
+  howcase performance optimization options.
 - **Custom ID**: Example explicitly setting a custom `id` property.
