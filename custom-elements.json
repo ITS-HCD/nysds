@@ -3977,6 +3977,11 @@
               "lang": "html"
             },
             {
+              "title": "Tile",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" tile>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
               "title": "Optional",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
@@ -3989,16 +3994,6 @@
             {
               "title": "Size Small",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" size=\"sm\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
-              "lang": "html"
-            },
-            {
-              "title": "Tile",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\" tile>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
-              "lang": "html"
-            },
-            {
-              "title": "Checkbox group with tooltip",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\" tooltip=\"Choose your favorite landmarks.\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
           ]

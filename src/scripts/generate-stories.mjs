@@ -418,11 +418,26 @@ async function main() {
       if (path.dirname(modPath) === dir) {
         for (const decl of declarations) {
           if (decl.examples) {
-            allExamples.push(...decl.examples);
+            allExamples.push(
+              ...decl.examples.map((ex) => ({ ...ex, tagName: decl.tagName || componentName }))
+            );
           }
         }
       }
     }
+
+    // Sort allExamples: parent components (e.g. groups) first, then alphabetical by tag
+    allExamples.sort((a, b) => {
+      const aTag = a.tagName;
+      const bTag = b.tagName;
+      const aIsGroup = aTag.endsWith("group");
+      const bIsGroup = bTag.endsWith("group");
+
+      if (aIsGroup && !bIsGroup) return -1;
+      if (!aIsGroup && bIsGroup) return 1;
+
+      return aTag.localeCompare(bTag);
+    });
 
     // Format all examples
     for (const example of allExamples) {
@@ -534,12 +549,11 @@ type Story = StoryObj<${interfaceName}>;`;
     const storyBlocks = allExamples.map((example, i) => {
       if (i === 0) {
         const args = buildBasicArgs(example.code, allAttributesMap);
-        let name = "Basic";
+        let name = toStoryName(example.title || "Basic");
         if (usedNames.has(name)) {
-            name = toStoryName(example.title || "Story");
-            while(usedNames.has(name)) {
-                name += "Alt";
-            }
+          while (usedNames.has(name)) {
+            name += "Alt";
+          }
         }
         usedNames.add(name);
         return buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap, name);

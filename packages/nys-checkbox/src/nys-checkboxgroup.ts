@@ -27,6 +27,13 @@ let checkboxgroupIdCounter = 0;
  * </nys-checkboxgroup>
  * ```
  *
+ * @example Tile
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" tile>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
  * @example Optional
  * ```html
  * <nys-checkboxgroup label="Select landmarks" optional>
@@ -44,20 +51,6 @@ let checkboxgroupIdCounter = 0;
  * @example Size Small
  * ```html
  * <nys-checkboxgroup label="Select landmarks" size="sm">
- *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- * </nys-checkboxgroup>
- * ```
- *
- * @example Tile
- * ```html
- * <nys-checkboxgroup label="Select landmarks" tile>
- *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- * </nys-checkboxgroup>
- * ```
- *
- * @example Checkbox group with tooltip
- * ```html
- * <nys-checkboxgroup label="Select landmarks" tooltip="Choose your favorite landmarks.">
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
