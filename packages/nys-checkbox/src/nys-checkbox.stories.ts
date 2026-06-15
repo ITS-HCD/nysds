@@ -127,6 +127,11 @@ export const Tile: Story = {
           value="adirondacks"
           label="Adirondacks"
         ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
       </nys-checkboxgroup>
     `;
   },
@@ -136,31 +141,7 @@ export const Tile: Story = {
         code: `
 <nys-checkboxgroup label="Select landmarks" tile>
   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
-</nys-checkboxgroup>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Optional: Story = {
-  render: () => {
-    return html`
-      <nys-checkboxgroup label="Select landmarks" optional>
-        <nys-checkbox
-          name="landmarks"
-          value="adirondacks"
-          label="Adirondacks"
-        ></nys-checkbox>
-      </nys-checkboxgroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkboxgroup label="Select landmarks" optional>
-  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
 </nys-checkboxgroup>`,
         type: "auto",
       },
@@ -177,6 +158,11 @@ export const Required: Story = {
           value="adirondacks"
           label="Adirondacks"
         ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
       </nys-checkboxgroup>
     `;
   },
@@ -186,6 +172,7 @@ export const Required: Story = {
         code: `
 <nys-checkboxgroup label="Select landmarks" required>
   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
 </nys-checkboxgroup>`,
         type: "auto",
       },
@@ -193,19 +180,30 @@ export const Required: Story = {
   },
 };
 
-export const OptionalAlt: Story = {
+export const Optional: Story = {
   render: () => {
-    return html`<pre
-      style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"
-    ><code>${'```html\n<nys-checkboxgroup label="Select landmarks" optional>\n  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>\n</nys-checkboxgroup>'}</code></pre>`;
+    return html`
+      <nys-checkboxgroup label="Select landmarks" optional>
+        <nys-checkbox
+          name="landmarks"
+          value="adirondacks"
+          label="Adirondacks"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-\`\`\`html
 <nys-checkboxgroup label="Select landmarks" optional>
   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
 </nys-checkboxgroup>`,
         type: "auto",
       },
@@ -255,6 +253,11 @@ export const SizeSmall: Story = {
           value="adirondacks"
           label="Adirondacks"
         ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
       </nys-checkboxgroup>
     `;
   },
@@ -264,6 +267,7 @@ export const SizeSmall: Story = {
         code: `
 <nys-checkboxgroup label="Select landmarks" size="sm">
   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
 </nys-checkboxgroup>`,
         type: "auto",
       },
@@ -282,7 +286,12 @@ export const OtherOption: Story = {
         ></nys-checkbox>
         <nys-checkbox
           name="landmarks"
-          value="other"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value=""
           label="Other"
           other
         ></nys-checkbox>
@@ -295,7 +304,8 @@ export const OtherOption: Story = {
         code: `
 <nys-checkboxgroup label="Select landmarks">
   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
-  <nys-checkbox name="landmarks" value="other" label="Other" other></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="" label="Other" other></nys-checkbox>
 </nys-checkboxgroup>`,
         type: "auto",
       },
@@ -316,6 +326,11 @@ export const ErrorMessage: Story = {
           value="adirondacks"
           label="Adirondacks"
         ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
       </nys-checkboxgroup>
     `;
   },
@@ -329,6 +344,7 @@ export const ErrorMessage: Story = {
   errorMessage="Please select at least one landmark"
 >
   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
 </nys-checkboxgroup>`,
         type: "auto",
       },
@@ -336,7 +352,45 @@ export const ErrorMessage: Story = {
   },
 };
 
-export const SingleCheckbox: Story = {
+export const Single: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox label="I agree to the terms" name="terms"></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="I agree to the terms" name="terms"></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SingleTile: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox
+        label="I agree to the terms"
+        name="terms"
+        tile
+      ></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="I agree to the terms" name="terms" tile></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SingleRequired: Story = {
   render: () => {
     return html`
       <nys-checkbox
@@ -351,6 +405,125 @@ export const SingleCheckbox: Story = {
       source: {
         code: `
 <nys-checkbox label="I agree to the terms" name="terms" required></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SingleOptional: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox
+        label="I agree to the terms"
+        name="terms"
+        optional
+      ></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="I agree to the terms" name="terms" optional></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SingleDisabled: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox
+        label="I agree to the terms"
+        name="terms"
+        disabled
+      ></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="I agree to the terms" name="terms" disabled></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SingleSizeSmall: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox
+        label="I agree to the terms"
+        name="terms"
+        size="sm"
+      ></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="I agree to the terms" name="terms" size="sm"></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SingleErrorMessage: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox
+        label="I agree to the terms"
+        name="terms"
+        showError
+        errorMessage="You must agree to continue"
+      ></nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox
+  label="I agree to the terms"
+  name="terms"
+  showError
+  errorMessage="You must agree to continue"
+></nys-checkbox>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SingleDescriptionSlot: Story = {
+  render: () => {
+    return html`
+      <nys-checkbox label="I agree to the terms" name="terms">
+        <div slot="description">
+          By checking this, you agree to our
+          <strong>Privacy Policy</strong>
+          .
+        </div>
+      </nys-checkbox>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox label="I agree to the terms" name="terms">
+  <div slot="description">
+    By checking this, you agree to our
+    <strong>Privacy Policy</strong>
+    .
+  </div>
+</nys-checkbox>`,
         type: "auto",
       },
     },

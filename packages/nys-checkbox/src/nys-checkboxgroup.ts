@@ -31,13 +31,7 @@ let checkboxgroupIdCounter = 0;
  * ```html
  * <nys-checkboxgroup label="Select landmarks" tile>
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- * </nys-checkboxgroup>
- * ```
- *
- * @example Optional
- * ```html
- * <nys-checkboxgroup label="Select landmarks" optional>
- *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *
@@ -45,6 +39,7 @@ let checkboxgroupIdCounter = 0;
  * ```html
  * <nys-checkboxgroup label="Select landmarks" required>
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *
@@ -52,7 +47,9 @@ let checkboxgroupIdCounter = 0;
  * ```html
  * <nys-checkboxgroup label="Select landmarks" optional>
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
  * </nys-checkboxgroup>
+ * ```
  *
  * @example Disabled
  * ```html
@@ -66,6 +63,7 @@ let checkboxgroupIdCounter = 0;
  * ```html
  * <nys-checkboxgroup label="Select landmarks" size="sm">
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *
@@ -73,7 +71,8 @@ let checkboxgroupIdCounter = 0;
  * ```html
  * <nys-checkboxgroup label="Select landmarks">
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- *   <nys-checkbox name="landmarks" value="other" label="Other" other></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="" label="Other" other></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *
@@ -81,6 +80,7 @@ let checkboxgroupIdCounter = 0;
  * ```html
  * <nys-checkboxgroup label="Select landmarks" showError errorMessage="Please select at least one landmark">
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *

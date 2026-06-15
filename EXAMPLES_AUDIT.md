@@ -114,41 +114,38 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-checkbox`
 
-| JSDoc Example     | Storybook Story | Status     | Notes                                     |
-| :---------------- | :-------------- | :--------- | :---------------------------------------- |
-| `Single checkbox` | `Required`      | ✅ Match   | Matches the required state story.         |
-| `Checkbox group`  | `Basic`         | ✅ Match   | Matches the basic group configuration.    |
-| None              | `Disabled`      | ⚠️ Missing | Violation: Story contains multiple demos. |
-| None              | `Size`          | ⚠️ Missing | Violation: Story contains multiple demos. |
-| None              | `Tile`          | ⚠️ Missing | Violation: Story contains multiple demos. |
-| None              | `ErrorMessage`  | ✅ Missing | Should be added as JSDoc example.         |
-| None              | `Slot`          | ✅ Missing | Should be added as JSDoc example.         |
-| None              | `Other`         | ⚠️ Missing | Violation: Story contains multiple demos. |
+| JSDoc Example      | Storybook Story  | Status     | Notes                            |
+| :----------------- | :--------------- | :--------- | :------------------------------- |
+| `Single checkbox`  | `SingleCheckbox` | ✅ Match   |                                  |
+| `Disabled`         | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Tile`             | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Size Small`       | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Error Message`    | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Tooltip`          | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Description Slot` | None             | ⚠️ Missing | Storybook missing granular demo. |
 
 #### To Add
 
-- **ErrorMessage**: Example showing `showError` and `errorMessage`.
-- **Description Slot**: Example showing rich content in the `description` slot.
+- None (All properties covered in JSDoc).
 
 ### `nys-checkboxgroup`
 
-| JSDoc Example          | Storybook Story | Status     | Notes                                     |
-| :--------------------- | :-------------- | :--------- | :---------------------------------------- |
-| `Basic checkbox group` | `Basic`         | ✅ Match   |                                           |
-| None                   | `Grouping`      | ⚠️ Missing | Violation: Story contains multiple demos. |
-| None                   | `Optional`      | ⚠️ Missing | Violation: Story contains multiple demos. |
-| None                   | `Size`          | ⚠️ Missing |                                           |
-| None                   | `Tile`          | ⚠️ Missing |                                           |
-| None                   | `Other`         | ⚠️ Missing |                                           |
+| JSDoc Example   | Storybook Story | Status   | Notes |
+| :-------------- | :-------------- | :------- | :---- |
+| `Basic`         | `Basic`         | ✅ Match |       |
+| `Tile`          | `Tile`          | ✅ Match |       |
+| `Optional`      | `Optional`      | ✅ Match |       |
+| `Required`      | `Required`      | ✅ Match |       |
+| `Disabled`      | `Disabled`      | ✅ Match |       |
+| `Size Small`    | `SizeSmall`     | ✅ Match |       |
+| `Other Option`  | `OtherOption`   | ✅ Match |       |
+| `Error Message` | `ErrorMessage`  | ✅ Match |       |
 
 #### To Add
 
-- **Grouping**: Example showing grouping multiple `nys-checkboxgroup` elements.
-- **Optional**: Example showing `optional` property.
-- **Size**: Example showing `size="sm"`.
-- **Tile**: Example showing `tile` property.
-- **Other**: Example showing `other` checkbox usage.
 - **Tooltip**: Example showing the `tooltip` property.
+- **Description Slot**: Example showing rich content in the `description` slot.
+- **Form**: Example showing the `form` property.
 
 ### `nys-button`
 

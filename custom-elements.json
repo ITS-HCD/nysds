@@ -3481,8 +3481,43 @@
           "summary": "Checkbox for binary choices or multi-select options.",
           "examples": [
             {
-              "title": "Single checkbox",
+              "title": "Single",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\"></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Single Tile",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" tile></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Single Required",
               "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" required></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Single Optional",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" optional></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Single Disabled",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" disabled></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Single Size Small",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" size=\"sm\"></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Single Error Message",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" showError errorMessage=\"You must agree to continue\"></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Single Description Slot",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\">\n<div slot=\"description\">By checking this, you agree to our <strong>Privacy Policy</strong>.</div>\n</nys-checkbox>",
               "lang": "html"
             }
           ]
@@ -3973,22 +4008,18 @@
             },
             {
               "title": "Tile",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\" tile>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
-              "lang": "html"
-            },
-            {
-              "title": "Optional",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" tile>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
               "title": "Required",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
               "title": "Optional",
-              "code": "```html\n<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>"
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
             },
             {
               "title": "Disabled",
@@ -3997,17 +4028,17 @@
             },
             {
               "title": "Size Small",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\" size=\"sm\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" size=\"sm\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
               "title": "Other Option",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"other\" label=\"Other\" other></nys-checkbox>\n</nys-checkboxgroup>",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"\" label=\"Other\" other></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
               "title": "Error Message",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\" showError errorMessage=\"Please select at least one landmark\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" showError errorMessage=\"Please select at least one landmark\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
           ]
