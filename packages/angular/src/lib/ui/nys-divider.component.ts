@@ -37,4 +37,12 @@ export class NysDividerComponent {
   @Input() set inverted(value: boolean) {
     this.renderer.setProperty(this.elementRef.nativeElement, 'inverted', value);
   }
+
+  /**
+   * If true, the divider will use a lighter color.
+   * @default false
+   */
+  @Input() set subtle(value: boolean) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'subtle', value);
+  }
 }

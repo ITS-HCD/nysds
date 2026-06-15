@@ -19,7 +19,7 @@ import { Component, ElementRef, Input, Renderer2, inject } from '@angular/core';
 /**
  * Wrapper component for `<nys-icon>`.
  *
- * SVG icon from Material Symbols library with size, rotation, and color options.
+ * SVG icon with swappable library support, size, rotation, and color options.
  */
 @Component({
   selector: 'nys-icon',
@@ -31,11 +31,19 @@ export class NysIconComponent {
   private readonly renderer: Renderer2 = inject(Renderer2);
 
   /**
-   * Icon name from Material Symbols library. Required.
+   * Icon name to resolve from the selected library. Required.
    * @default ""
    */
   @Input() set name(value: string) {
     this.renderer.setProperty(this.elementRef.nativeElement, 'name', value);
+  }
+
+  /**
+   * Which registered icon library to use. Defaults to the built-in NYSDS library.
+   * @default "default"
+   */
+  @Input() set library(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'library', value);
   }
 
   /**
@@ -93,5 +101,12 @@ export class NysIconComponent {
     | "40"
     | "50") {
     this.renderer.setProperty(this.elementRef.nativeElement, 'size', value);
+  }
+
+  /**
+   * Resolves when the current icon load (if any) is complete.
+   */
+  @Input() set updateComplete(value: Promise<boolean>) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'updateComplete', value);
   }
 }

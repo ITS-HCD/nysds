@@ -19,7 +19,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output, Rende
 /**
  * Wrapper component for `<nys-radiobutton>`.
  *
- * Radio button for single selection from mutually exclusive options.
+ * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
  */
 @Component({
   selector: 'nys-radiobutton',
@@ -132,27 +132,12 @@ export class NysRadiobuttonComponent {
     this.renderer.setProperty(this.elementRef.nativeElement, 'showOtherError', value);
   }
 
-  @Output() readonly nysErrorClear = new EventEmitter<CustomEvent>();
-
-  @HostListener('nys-error-clear', ['$event'])
-  protected _emit_nysErrorClear(event: Event): void {
-    this.nysErrorClear.emit(event as CustomEvent);
-  }
-
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
   @Output() readonly nysChange = new EventEmitter<CustomEvent>();
 
   @HostListener('nys-change', ['$event'])
   protected _emit_nysChange(event: Event): void {
     this.nysChange.emit(event as CustomEvent);
-  }
-
-  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
-  @Output() readonly nysOtherInput = new EventEmitter<CustomEvent>();
-
-  @HostListener('nys-other-input', ['$event'])
-  protected _emit_nysOtherInput(event: Event): void {
-    this.nysOtherInput.emit(event as CustomEvent);
   }
 
   /** Fired when radio gains focus. */
@@ -171,10 +156,11 @@ export class NysRadiobuttonComponent {
     this.nysBlur.emit(event as CustomEvent);
   }
 
-  @Output() readonly nysError = new EventEmitter<CustomEvent>();
+  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
+  @Output() readonly nysOtherInput = new EventEmitter<CustomEvent>();
 
-  @HostListener('nys-error', ['$event'])
-  protected _emit_nysError(event: Event): void {
-    this.nysError.emit(event as CustomEvent);
+  @HostListener('nys-other-input', ['$event'])
+  protected _emit_nysOtherInput(event: Event): void {
+    this.nysOtherInput.emit(event as CustomEvent);
   }
 }
