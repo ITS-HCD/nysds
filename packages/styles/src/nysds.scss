@@ -10,12 +10,6 @@
    * Version: 1.19.0
 */
 
-/* 
- * Cascade layer order — later layers have higher priority.
- * Unlayered consumer CSS always wins over all layers. 
- */
-@layer nysds.base, nysds.components;
-
 /* Include Design Tokens (variables for colors, spacing, typography) */
 @use "./core/tokens";
 
