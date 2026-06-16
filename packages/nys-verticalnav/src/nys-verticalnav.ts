@@ -23,33 +23,133 @@ type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Basic usage
  * ```html
- * <nys-verticalnav header="Freshwater Fishing">
+ * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
  *   <ul>
- *     <li><a href="/home">Home</a></li>
+ *     <li><a href="/">Home</a></li>
+ *     <li><a href="/services">Services</a></li>
  *     <li>
- *       <h3>Regulations</h3>
+ *       <h3>Freshwater Fishing Regulations</h3>
  *       <ul>
- *         <li><a href="/places">Places to Fish</a></li>
+ *         <li><a href="">Places to Fish</a></li>
+ *         <li><a href="">Learn to Fish</a></li>
+ *         <li><a href="">Ice Fishing</a></li>
  *       </ul>
  *     </li>
  *   </ul>
  * </nys-verticalnav>
  * ```
  *
- * @example With custom header and footer slots
+ * @example With custom header slot
  * ```html
- * <nys-verticalnav header="Freshwater Fishing">
+ * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
  *   <div slot="header">
- *     <h2>🎣 Freshwater Fishing</h2>
- *     <p>2024 Season Guide</p>
+ *     <h2>Freshwater Fishing</h2>
+ *     <p>2026 Season Open</p>
  *   </div>
  *   <ul>
- *     <li><a href="/home">Home</a></li>
+ *     <li><a href="/">Home</a></li>
+ *     <li><a href="/services">Services</a></li>
+ *     <li>
+ *       <h3>Freshwater Fishing Regulations</h3>
+ *       <ul>
+ *         <li><a href="">Places to Fish</a></li>
+ *         <li><a href="">Learn to Fish</a></li>
+ *         <li><a href="">Ice Fishing</a></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example With footer slot
+ * ```html
+ * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
+ *   <ul>
+ *     <li><a href="/">Home</a></li>
+ *     <li><a href="/services">Services</a></li>
+ *     <li>
+ *       <h3>Freshwater Fishing Regulations</h3>
+ *       <ul>
+ *         <li><a href="">Places to Fish</a></li>
+ *         <li><a href="">Learn to Fish</a></li>
+ *         <li><a href="">Ice Fishing</a></li>
+ *       </ul>
+ *     </li>
  *   </ul>
  *   <div slot="footer">
  *     <nys-divider></nys-divider>
- *     <p>Last updated: January 2024</p>
+ *     <p>Regulations last updated: January 2024</p>
+ *     <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
  *   </div>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example With dropdown group
+ * ```html
+ * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ *   <ul>
+ *     <li><a href="/">Foundations</a></li>
+ *     <li><a href="/components">Components</a></li>
+ *     <li>
+ *       <nys-verticalnavgroup label="Accessibility">
+ *         <ul>
+ *           <li><a href="">WCAG Guidelines</a></li>
+ *           <li><a href="">Screen Readers</a></li>
+ *           <li><a href="">Color Contrast</a></li>
+ *         </ul>
+ *       </nys-verticalnavgroup>
+ *     </li>
+ *     <li>
+ *       <h3>Resources</h3>
+ *       <ul>
+ *         <li><a href="">Design Tokens</a></li>
+ *         <li><a href="">Utilities</a></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example With active link (aria-current="page")
+ * ```html
+ * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ *   <ul>
+ *     <li><a href="/">Foundations</a></li>
+ *     <li><a href="/components">Components</a></li>
+ *     <li>
+ *       <nys-verticalnavgroup label="Accessibility">
+ *         <ul>
+ *           <li><a aria-current="page" href="">WCAG Guidelines</a></li>
+ *           <li><a href="">Screen Readers</a></li>
+ *           <li><a href="">Color Contrast</a></li>
+ *         </ul>
+ *       </nys-verticalnavgroup>
+ *     </li>
+ *   </ul>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example With disabled links and group
+ * ```html
+ * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ *   <ul>
+ *     <li><a href="/">Foundations</a></li>
+ *     <li>
+ *       <nys-verticalnavgroup disabled label="Accessibility">
+ *         <ul>
+ *           <li><a aria-disabled="true">WCAG Guidelines</a></li>
+ *           <li><a href="">Screen Readers</a></li>
+ *         </ul>
+ *       </nys-verticalnavgroup>
+ *     </li>
+ *     <li>
+ *       <h3>Resources</h3>
+ *       <ul>
+ *         <li><a aria-disabled="true">Design Tokens</a></li>
+ *         <li><a href="">Utilities</a></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
  * </nys-verticalnav>
  * ```
  *

@@ -9,7 +9,8 @@ import styles from "./nys-verticalnav.scss?inline";
  * Renders a toggle button and an expandable panel for a nested `<ul>` of links.
  * Designed to be placed as a direct child of a `<li>` inside the vertical nav's
  * default slot. Use `expanded` to open it by default, and `disabled` to prevent
- * interaction.
+ * interaction. Set `aria-current="page"` on an `<a>` inside to automatically
+ * expand the group and apply the active state.
  *
  * @summary Collapsible link group for use within `<nys-verticalnav>`.
  * @element nys-verticalnavgroup
@@ -22,8 +23,9 @@ import styles from "./nys-verticalnav.scss?inline";
  *     <li>
  *       <nys-verticalnavgroup label="Accessibility">
  *         <ul>
- *           <li><a href="/wcag">WCAG Guidelines</a></li>
- *           <li><a href="/screen-readers">Screen Readers</a></li>
+ *           <li><a href="">WCAG Guidelines</a></li>
+ *           <li><a href="">Screen Readers</a></li>
+ *           <li><a href="">Color Contrast</a></li>
  *         </ul>
  *       </nys-verticalnavgroup>
  *     </li>
@@ -31,20 +33,34 @@ import styles from "./nys-verticalnav.scss?inline";
  * </nys-verticalnav>
  * ```
  *
- * @example Expanded by default
+ * @example With active link — group auto-expands
  * ```html
- * <nys-verticalnavgroup label="Resources" expanded>
+ * <nys-verticalnavgroup label="Accessibility">
  *   <ul>
- *     <li><a href="/tokens">Design Tokens</a></li>
+ *     <li><a aria-current="page" href="">WCAG Guidelines</a></li>
+ *     <li><a href="">Screen Readers</a></li>
+ *     <li><a href="">Color Contrast</a></li>
  *   </ul>
  * </nys-verticalnavgroup>
  * ```
  *
- * @example Disabled
+ * @example Expanded by default
  * ```html
- * <nys-verticalnavgroup label="Coming Soon" disabled>
+ * <nys-verticalnavgroup label="Resources" expanded>
  *   <ul>
- *     <li><a href="/future">Future Feature</a></li>
+ *     <li><a href="">Design Tokens</a></li>
+ *     <li><a href="">Utilities</a></li>
+ *   </ul>
+ * </nys-verticalnavgroup>
+ * ```
+ *
+ * @example Disabled group with disabled links
+ * ```html
+ * <nys-verticalnavgroup disabled label="Accessibility">
+ *   <ul>
+ *     <li><a aria-disabled="true">WCAG Guidelines</a></li>
+ *     <li><a href="">Screen Readers</a></li>
+ *     <li><a href="">Color Contrast</a></li>
  *   </ul>
  * </nys-verticalnavgroup>
  * ```
