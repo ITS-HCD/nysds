@@ -231,8 +231,20 @@ a {
 a:hover,
 a:focus {
   color: var(--nys-color-link-strong);
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: var(--nys-font-decoration-thickness-strong, 14%);
+  text-underline-offset: auto;
+  text-underline-position: from-font;
 }
 
 a:active {
   color: var(--nys-color-link-strongest);
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: var(--nys-font-decoration-thickness-strong, 14%);
+  text-underline-offset: auto;
+  text-underline-position: from-font;
 }
