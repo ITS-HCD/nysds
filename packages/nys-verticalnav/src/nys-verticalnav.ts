@@ -104,7 +104,9 @@ export class NysVerticalnav extends LitElement {
     const slot = this.shadowRoot?.querySelector(
       "slot:not([name])",
     ) as HTMLSlotElement;
+
     slot?.addEventListener("slotchange", () => {
+      this._removeDividers();
       this._applyActiveState();
       if (this._isMobile) this._injectDividers();
       else this._injectSubheaderDividers();
@@ -116,34 +118,72 @@ export class NysVerticalnav extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  // private _handleSlotChange(e: Event) {
-  //   const slot = e.target as HTMLSlotElement;
-  //   const container = this.shadowRoot?.querySelector(
-  //     ".nys-verticalnav__content",
-  //   );
-  //   if (!container) return;
-
-  //   container.innerHTML = "";
-
-  //   // Clone assigned node into the vertical nav's shadow DOM
-  //   slot.assignedNodes({ flatten: true }).forEach((node) => {
-  //     container.appendChild(node.cloneNode(true));
-  //   });
-
-  //   this._applyActiveState(container);
-
-  //   if (this._isMobile) {
-  //     this._injectDividers(container);
-  //   }
-
-  //   if (!this._isMobile) {
-  //     this._injectSubheaderDividers(container);
-  //   }
-  // }
-
   private _handleResize = (e: MediaQueryListEvent) => {
     this._isMobile = e.matches;
+    this._removeDividers();
+    if (this._isMobile) this._injectDividers();
+    else this._injectSubheaderDividers();
   };
+
+  private _removeDividers() {
+    this.querySelectorAll(
+      "nys-divider.nys-verticalnav__divider--injected",
+    ).forEach((divider) => divider.remove());
+  }
+
+  private _injectDividers() {
+    this.querySelectorAll("ul > li").forEach((li) => {
+      if (li.parentElement?.closest("nys-verticalnavgroup")) return;
+      if (li.nextElementSibling?.tagName.toLowerCase() === "nys-divider")
+        return;
+      if (li.nextElementSibling) {
+        const divider = document.createElement("nys-divider");
+        divider.setAttribute("subtle", "");
+        divider.classList.add("nys-verticalnav__divider--injected");
+        li.insertAdjacentElement("afterend", divider);
+      }
+    });
+  }
+
+  private _injectSubheaderDividers() {
+    this.querySelectorAll("ul > li").forEach((li) => {
+      const hasSubheader = li.querySelector(
+        ":scope > :is(h1, h2, h3, h4, h5, h6)",
+      );
+
+      if (!hasSubheader) return;
+
+      // Prevent double-up if previous sibling is already a divider
+      const prev = li.previousElementSibling;
+      if (!prev) return;
+
+      const prevIsDivider = prev.tagName.toLowerCase() === "nys-divider";
+      const prevIsDividerLi =
+        prev.tagName === "LI" &&
+        prev.children.length === 1 &&
+        prev.children[0].tagName.toLowerCase() === "nys-divider";
+      if (prevIsDivider || prevIsDividerLi) return;
+
+      const divider = document.createElement("nys-divider");
+      divider.setAttribute("subtle", "");
+      divider.classList.add("nys-verticalnav__divider--injected");
+      li.insertAdjacentElement("beforebegin", divider);
+    });
+  }
+
+  private _applyActiveState() {
+    this.querySelectorAll('a[aria-current="page"]').forEach((a) => {
+      a.classList.add("nys-verticalnav__link--active");
+    });
+
+    // Auto-expand any group that contains an active link
+    this.querySelectorAll("nys-verticalnavgroup").forEach((group) => {
+      if (group.querySelector('a[aria-current="page"]')) {
+        group.setAttribute("expanded", "");
+        group.setAttribute("active", "");
+      }
+    });
+  }
 
   /**
    * Helper Render Functions
@@ -188,7 +228,6 @@ export class NysVerticalnav extends LitElement {
     >
       ${this._renderHeader()}
       <slot></slot>
-      <!-- <div class="nys-verticalnav__content"></div> -->
       <slot name="footer"></slot>
     </nav>`;
   }
@@ -198,63 +237,10 @@ export class NysVerticalnav extends LitElement {
       <nys-accordion bordered>
         <nys-accordionitem id="${this.id}-accordion" heading="${this.header}">
           <slot></slot>
-          <!-- <div class="nys-verticalnav__content"></div> -->
           <slot name="footer"></slot>
         </nys-accordionitem>
       </nys-accordion>
     </nav>`;
-  }
-
-  private _injectDividers() {
-    this.querySelectorAll("ul > li").forEach((li) => {
-      if (li.parentElement?.closest("nys-verticalnavgroup")) return;
-      if (li.nextElementSibling?.tagName.toLowerCase() === "nys-divider")
-        return;
-      if (li.nextElementSibling) {
-        const divider = document.createElement("nys-divider");
-        divider.setAttribute("subtle", "");
-        li.insertAdjacentElement("afterend", divider);
-      }
-    });
-  }
-
-  private _injectSubheaderDividers() {
-    this.querySelectorAll("ul > li").forEach((li) => {
-      const hasSubheader = li.querySelector(
-        ":scope > :is(h1, h2, h3, h4, h5, h6)",
-      );
-
-      if (!hasSubheader) return;
-
-      // Prevent double-up if previous sibling is already a divider
-      const prev = li.previousElementSibling;
-      if (!prev) return;
-
-      const prevIsDivider = prev.tagName.toLowerCase() === "nys-divider";
-      const prevIsDividerLi =
-        prev.tagName === "LI" &&
-        prev.children.length === 1 &&
-        prev.children[0].tagName.toLowerCase() === "nys-divider";
-      if (prevIsDivider || prevIsDividerLi) return;
-
-      const divider = document.createElement("nys-divider");
-      divider.setAttribute("subtle", "");
-      li.insertAdjacentElement("beforebegin", divider);
-    });
-  }
-
-  private _applyActiveState() {
-    this.querySelectorAll('a[aria-current="page"]').forEach((a) => {
-      a.classList.add("nys-verticalnav__link--active");
-    });
-
-    // Auto-expand any group that contains an active link
-    this.querySelectorAll("nys-verticalnavgroup").forEach((group) => {
-      if (group.querySelector('a[aria-current="page"]')) {
-        group.setAttribute("expanded", "");
-        group.setAttribute("active", "");
-      }
-    });
   }
 
   /**

@@ -147,8 +147,8 @@ export const WithHeaderSlot: Story = {
         code: `
 <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
   <div slot="header">
-    <h2>🎣 Freshwater Fishing</h2>
-    <p>2024 Season Guide</p>
+    <h2>Freshwater Fishing</h2>
+    <p>2026 Season Open</p>
   </div>
   <ul>
     <li><a href="/">Home</a></li>
@@ -239,7 +239,8 @@ export const WithFooterSlot: Story = {
   </ul>
   <div slot="footer">
     <nys-divider></nys-divider>
-    <p>Last updated: January 2024</p>
+    <p>Regulations last updated: January 2024</p>
+    <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
   </div>
 </nys-verticalnav>`,
         type: "auto",
@@ -256,6 +257,40 @@ export const WithHeaderAndFooterSlot: Story = {
     headerLevel: "h2",
   },
   render: (args) => html`
+    <style>
+      [slot="header"] p {
+        margin: 0;
+        font-size: var(--nys-font-size-xs, 0.75rem);
+        color: var(--nys-color-text-weak, #4a4d4f);
+        letter-spacing: 0.08em;
+        font-weight: 600;
+      }
+      [slot="header"] h2 {
+        margin: 0;
+        font-size: var(--nys-font-size-h4, 1.25rem);
+        color: var(--nys-color-theme, #154973);
+      }
+      [slot="header"] p:last-child {
+        font-size: var(--nys-font-size-xs, 0.75rem);
+        color: var(--nys-color-success, #2e7d32);
+        font-weight: 500;
+      }
+      [slot="footer"] {
+        display: flex;
+        flex-direction: column;
+        gap: var(--nys-space-100, 8px);
+      }
+      [slot="footer"] p {
+        margin: 0;
+        font-size: var(--nys-font-size-xs, 0.75rem);
+        color: var(--nys-color-text-weak, #4a4d4f);
+      }
+      [slot="footer"] a {
+        font-size: var(--nys-font-size-sm, 0.875rem);
+        color: var(--nys-color-theme, #154973);
+      }
+    </style>
+
     <nys-verticalnav
       id=${args.id}
       header=${args.header}
@@ -263,8 +298,8 @@ export const WithHeaderAndFooterSlot: Story = {
       headerLevel=${args.headerLevel}
     >
       <div slot="header">
-        <h2 style="margin:0">🎣 Freshwater Fishing</h2>
-        <p style="margin:0;font-size:0.875rem;color:#555">2024 Season Guide</p>
+        <h2>Freshwater Fishing</h2>
+        <p>2026 Season Open</p>
       </div>
       <ul>
         <li><a href="/">Home</a></li>
@@ -278,12 +313,10 @@ export const WithHeaderAndFooterSlot: Story = {
           </ul>
         </li>
       </ul>
-      <div
-        slot="footer"
-        style="font-size:0.875rem;color:#555;padding-top:0.5rem"
-      >
+      <div slot="footer">
         <nys-divider></nys-divider>
-        <p style="margin:0.5rem 0 0">Last updated: January 2024</p>
+        <p>Regulations last updated: January 2024</p>
+        <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
       </div>
     </nys-verticalnav>
   `,
@@ -293,8 +326,8 @@ export const WithHeaderAndFooterSlot: Story = {
         code: `
 <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
   <div slot="header">
-    <h2>🎣 Freshwater Fishing</h2>
-    <p>2024 Season Guide</p>
+    <h2>Freshwater Fishing</h2>
+    <p>2026 Season Open</p>
   </div>
   <ul>
     <li><a href="/">Home</a></li>
@@ -309,7 +342,8 @@ export const WithHeaderAndFooterSlot: Story = {
   </ul>
   <div slot="footer">
     <nys-divider></nys-divider>
-    <p>Last updated: January 2024</p>
+    <p>Regulations last updated: January 2024</p>
+    <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
   </div>
 </nys-verticalnav>`,
         type: "auto",
@@ -415,9 +449,7 @@ export const WithDisabledStates: Story = {
           <nys-verticalnavgroup disabled label="Accessibility">
             <ul>
               <li>
-                <a aria-disabled="true" tabindex="-1" href=""
-                  >WCAG Guidelines</a
-                >
+                <a aria-disabled="true">WCAG Guidelines</a>
               </li>
               <li><a href="">Screen Readers</a></li>
               <li><a href="">Color Contrast</a></li>
@@ -428,7 +460,7 @@ export const WithDisabledStates: Story = {
           <h3>Resources</h3>
           <ul>
             <li>
-              <a aria-disabled="true" tabindex="-1" href="">Design Tokens</a>
+              <a aria-disabled="true">Design Tokens</a>
             </li>
             <li><a href="">Utilities</a></li>
           </ul>
