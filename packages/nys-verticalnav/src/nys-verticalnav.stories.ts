@@ -419,7 +419,7 @@ export const WithActiveStates: Story = {
         <li>
           <h3>Resources</h3>
           <ul>
-            <li><a aria-current="page" href="">Design Tokens</a></li>
+            <li><a href="">Design Tokens</a></li>
             <li><a href="">Utilities</a></li>
           </ul>
         </li>
@@ -433,6 +433,48 @@ export const WithDisabledStates: Story = {
     id: "verticalnav5",
     header: "NYS Design System",
     hideHeader: false,
+    headerLevel: "h2",
+  },
+  render: (args) => html`
+    <nys-verticalnav
+      id=${args.id}
+      header=${args.header}
+      ?hideHeader=${args.hideHeader}
+      headerLevel=${args.headerLevel}
+    >
+      <ul>
+        <li><a href="/">Foundations</a></li>
+        <li><a href="/components">Components</a></li>
+        <li>
+          <nys-verticalnavgroup disabled label="Accessibility">
+            <ul>
+              <li>
+                <a aria-disabled="true">WCAG Guidelines</a>
+              </li>
+              <li><a href="">Screen Readers</a></li>
+              <li><a href="">Color Contrast</a></li>
+            </ul>
+          </nys-verticalnavgroup>
+        </li>
+        <li>
+          <h3>Resources</h3>
+          <ul>
+            <li>
+              <a aria-disabled="true">Design Tokens</a>
+            </li>
+            <li><a href="">Utilities</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nys-verticalnav>
+  `,
+};
+
+export const WithHiddenHeader: Story = {
+  args: {
+    id: "verticalnav5",
+    header: "NYS Design System",
+    hideHeader: true,
     headerLevel: "h2",
   },
   render: (args) => html`

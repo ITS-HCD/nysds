@@ -14612,18 +14612,7 @@
             },
             {
               "kind": "method",
-              "name": "_renderHeader",
-              "privacy": "private",
-              "description": "Helper Render Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "renderContentDesktop",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "renderContentMobile",
+              "name": "_removeDividers",
               "privacy": "private"
             },
             {
@@ -14639,6 +14628,22 @@
             {
               "kind": "method",
               "name": "_applyActiveState",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderHeader",
+              "privacy": "private",
+              "description": "Helper Render Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "renderContentDesktop",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderContentMobile",
               "privacy": "private"
             }
           ],

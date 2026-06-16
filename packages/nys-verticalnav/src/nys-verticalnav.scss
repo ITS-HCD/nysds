@@ -4,6 +4,8 @@
   /* Global Verticalnav Styles */
   --_nys-verticalnav-color: var(--nys-color-text-weak, #4a4d4f);
   --_nys-verticalnav-color--subheader: var(--nys-color-text, #1b1b1b);
+  --_nys-verticalnav-background-color: var(--nys-color-surface, #fff);
+  --_nys-verticalnav-border-color: var(--nys-color-neutral-200, #bec0c1);
 
   /* Typography */
   --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
@@ -26,6 +28,17 @@
       sans-serif
     )
   );
+
+  /* Trigger states */
+  --_nys-verticalnav-trigger-hover: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-verticalnav-trigger-active: var(--nys-color-neutral-50, #ededed);
+  --_nys-verticalnav-trigger-disabled: var(--nys-color-text-disabled, #bec0c1);
+  --_nys-verticalnav-trigger-focus: var(--nys-color-focus, #004dd1);
+
+  /* Active navgroup trigger states */
+  --_nys-verticalnav-trigger-current: var(--nys-color-theme-faint, #f7fafd);
+  --_nys-verticalnav-trigger-current-hover: var(--nys-color-theme-weaker, #eff6fb);
+  --_nys-verticalnav-trigger-current-active: var(--nys-color-theme-weak, #cddde9);
 }
 
 nys-accordion {
@@ -37,7 +50,7 @@ nys-accordion {
 .nys-verticalnav {
   display: flex;
   flex-direction: column;
-  background-color: var(--nys-color-surface, #fff);
+  background-color: var(--_nys-verticalnav-background-color);
   font-family: var(--_nys-verticalnav-font-family);
   font-size: var(--_nys-verticalnav-font-size);
   font-weight: var(--_nys-verticalnav-font-weight);
@@ -50,7 +63,7 @@ nys-accordion {
     padding: var(--nys-space-300, 24px) 0 var(--nys-space-300, 24px)
       var(--nys-space-400, 32px);
     width: 249px;
-    border-right: 1px solid var(--nys-color-neutral-200, #bec0c1);
+    border-right: 1px solid var(--_nys-verticalnav-border-color);
     gap: 10px;
   }
 
@@ -60,6 +73,8 @@ nys-accordion {
     font-size: var(--_nys-verticalnav-font-size--header);
     font-weight: 700;
     text-transform: none;
+    margin: 0;
+    margin-left: var(--nys-space-100, 8px);
   }
 }
 
@@ -80,18 +95,18 @@ nys-accordion {
     font-weight: var(--_nys-verticalnav-font-weight--subheader);
     line-height: var(--_nys-verticalnav-line-height);
     &:hover {
-      background-color: var(--nys-color-neutral-10, #f6f6f6);
+      background-color: var(--_nys-verticalnav-trigger-hover);
     }
     &:active {
-      background-color: var(--nys-color-neutral-50, #ededed);
+      background-color: var(--_nys-verticalnav-trigger-active);
     }
     &:focus-visible {
       outline: var(--nys-border-width-md, 2px) solid
-        var(--nys-color-focus, #004dd1);
+        var(--_nys-verticalnav-trigger-focus);
       outline-offset: -2px;
     }
     &:disabled {
-      color: var(--nys-color-text-disabled, #bec0c1);
+      color: var(--_nys-verticalnav-trigger-disabled);
     }
   }
 
@@ -109,7 +124,7 @@ nys-accordion {
   .nys-verticalnavgroup {
     &__trigger {
       &:disabled {
-        color: var(--nys-color-text-disabled, #bec0c1);
+        color: var(--_nys-verticalnav-trigger-disabled);
         cursor: not-allowed;
       }
     }
@@ -126,15 +141,15 @@ nys-accordion {
   }
 }
 
-:host([active]) {
+:host([active]:not([expanded])) {
   .nys-verticalnavgroup {
     &__trigger {
-      background-color: var(--nys-color-theme-faint, #f7fafd);
+      background-color: var(--_nys-verticalnav-trigger-current);
       &:hover {
-        background-color: var(--nys-color-theme-weaker, #eff6fb);
+        background-color: var(--_nys-verticalnav-trigger-current-hover);
       }
       &:active {
-        background-color: var(--nys-color-theme-weak, #cddde9);
+        background-color: var(--_nys-verticalnav-trigger-current-active);
       }
     }
   }
