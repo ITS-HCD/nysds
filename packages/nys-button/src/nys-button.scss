@@ -4,14 +4,11 @@
   --_nys-button-height: var(--nys-size-600, 48px);
   --_nys-button-border-radius: var(--nys-radius-xl, 12px);
   --_nys-button-padding--y: calc(
-    
     var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px)
-  
   );
   --_nys-button-cursor: pointer;
   --_nys-button-padding--x: calc(
     var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)
-  
   );
   --_nys-button-gap: var(--nys-space-100, 8px);
   --_nys-button-justify-content: center;
