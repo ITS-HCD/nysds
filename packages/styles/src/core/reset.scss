@@ -1,238 +1,237 @@
 @use "sass:map";
 @use "sass:list";
 
-/* === Selective Resets */
-
-/* Box Model */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* Margin/Padding for Text Elements */
-
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-ul,
-ol,
-blockquote,
-figure,
-pre {
-  margin: 0;
-  padding: 0;
-}
-
-/* Lists */
-
-ul,
-ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* === Global Styles */
-
-/* === Typography */
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
-    var(--nys-font-family-body);
-  color: var(--nys-color-ink);
-}
-
-small {
-  font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs)
-    var(--nys-font-family-body);
-}
-
-/* --- Headings --- */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--nys-font-family-heading);
-  font-weight: 700;
-}
-
-// Heading configuration map
-$headings: (
-  h1: (
-    letterspacing: negative-300,
-    margin-top: 600,
-    margin-bottom: 250,
-  ),
-  h2: (
-    letterspacing: negative-200,
-    margin-top: 500,
-    margin-bottom: 200,
-  ),
-  h3: (
-    letterspacing: negative-200,
-    margin-top: 400,
-    margin-bottom: 150,
-  ),
-  h4: (
-    letterspacing: null,
-    margin-top: 300,
-    margin-bottom: 100,
-  ),
-  h5: (
-    letterspacing: null,
-    margin-top: 250,
-    margin-bottom: 100,
-  ),
-  h6: (
-    letterspacing: null,
-    margin-top: 200,
-    margin-bottom: 100,
-  ),
-);
-
-@each $heading, $props in $headings {
-  #{$heading} {
-    font-size: var(--nys-font-size-#{$heading});
-    line-height: var(--nys-font-lineheight-#{$heading});
-
-    @if map.get($props, letterspacing) {
-      letter-spacing: var(
-        --nys-font-letterspacing-#{map.get($props, letterspacing)}
-      );
-    }
-
-    margin-top: var(--nys-space-#{map.get($props, margin-top)});
-    margin-bottom: var(--nys-space-#{map.get($props, margin-bottom)});
+@layer nysds.base {
+  /* === Selective Resets */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
-}
 
-/* Adjacent heading spacing */
-$heading-pairs: (h1 h2, h2 h3, h3 h4, h4 h5, h5 h6);
+  /* Margin/Padding for Text Elements */
 
-@each $pair in $heading-pairs {
-  #{list.nth($pair, 1)} + #{list.nth($pair, 2)} {
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul,
+  ol,
+  blockquote,
+  figure,
+  pre {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Lists */
+
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* === Global Styles */
+
+  /* === Typography */
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
+      var(--nys-font-family-body);
+    color: var(--nys-color-ink);
+  }
+
+  small {
+    font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs)
+      var(--nys-font-family-body);
+  }
+
+  /* --- Headings --- */
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--nys-font-family-heading);
+    font-weight: 700;
+  }
+
+  // Heading configuration map
+  $headings: (
+    h1: (
+      letterspacing: negative-300,
+      margin-top: 600,
+      margin-bottom: 250,
+    ),
+    h2: (
+      letterspacing: negative-200,
+      margin-top: 500,
+      margin-bottom: 200,
+    ),
+    h3: (
+      letterspacing: negative-200,
+      margin-top: 400,
+      margin-bottom: 150,
+    ),
+    h4: (
+      letterspacing: null,
+      margin-top: 300,
+      margin-bottom: 100,
+    ),
+    h5: (
+      letterspacing: null,
+      margin-top: 250,
+      margin-bottom: 100,
+    ),
+    h6: (
+      letterspacing: null,
+      margin-top: 200,
+      margin-bottom: 100,
+    ),
+  );
+
+  @each $heading, $props in $headings {
+    #{$heading} {
+      font-size: var(--nys-font-size-#{$heading});
+      line-height: var(--nys-font-lineheight-#{$heading});
+
+      @if map.get($props, letterspacing) {
+        letter-spacing: var(
+          --nys-font-letterspacing-#{map.get($props, letterspacing)}
+        );
+      }
+
+      margin-top: var(--nys-space-#{map.get($props, margin-top)});
+      margin-bottom: var(--nys-space-#{map.get($props, margin-bottom)});
+    }
+  }
+
+  /* Adjacent heading spacing */
+  $heading-pairs: (h1 h2, h2 h3, h3 h4, h4 h5, h5 h6);
+
+  @each $pair in $heading-pairs {
+    #{list.nth($pair, 1)} + #{list.nth($pair, 2)} {
+      margin-top: var(--nys-space-150);
+    }
+  }
+
+  /* --- Body Text --- */
+
+  p,
+  ul,
+  ol,
+  dl,
+  blockquote {
+    font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
+      var(--nys-font-family-body);
+    margin-bottom: var(--nys-space-150);
+  }
+
+  small {
+    margin-bottom: var(--nys-space-100);
+  }
+
+  p + p {
     margin-top: var(--nys-space-150);
   }
-}
 
-/* --- Body Text --- */
-
-p,
-ul,
-ol,
-dl,
-blockquote {
-  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
-    var(--nys-font-family-body);
-  margin-bottom: var(--nys-space-150);
-}
-
-small {
-  margin-bottom: var(--nys-space-100);
-}
-
-p + p {
-  margin-top: var(--nys-space-150);
-}
-
-section + section {
-  margin-top: var(--nys-space-300);
-}
-
-@media (width >= 768px) {
   section + section {
-    margin-bottom: var(--nys-space-600);
-  }
-}
-
-/* --- Lists --- */
-
-ul,
-ol {
-  margin-top: 0;
-  padding-left: var(--nys-space-200);
-}
-
-blockquote > ul,
-blockquote > ol {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-/* Unordered Lists (Bullets) */
-$ul-styles: (disc, circle, square);
-
-@for $i from 1 through list.length($ul-styles) {
-  $selector: "ul";
-
-  @for $j from 2 through $i {
-    $selector: $selector + " ul";
+    margin-top: var(--nys-space-300);
   }
 
-  #{$selector} {
-    list-style-type: list.nth($ul-styles, $i);
-
-    @if $i > 1 {
-      padding-left: var(--nys-space-200);
+  @media (width >= 768px) {
+    section + section {
+      margin-bottom: var(--nys-space-600);
     }
   }
-}
 
-/* Ordered Lists (Numbers) */
-$ol-styles: (decimal, lower-alpha, lower-roman);
+  /* --- Lists --- */
 
-@for $i from 1 through list.length($ol-styles) {
-  $selector: "ol";
-
-  @for $j from 2 through $i {
-    $selector: $selector + " ol";
+  ul,
+  ol {
+    margin-top: 0;
+    padding-left: var(--nys-space-200);
   }
 
-  #{$selector} {
-    list-style-type: list.nth($ol-styles, $i);
+  blockquote > ul,
+  blockquote > ol {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
-    @if $i > 1 {
-      padding-left: var(--nys-space-200);
+  /* Unordered Lists (Bullets) */
+  $ul-styles: (disc, circle, square);
+
+  @for $i from 1 through list.length($ul-styles) {
+    $selector: "ul";
+
+    @for $j from 2 through $i {
+      $selector: $selector + " ul";
+    }
+
+    #{$selector} {
+      list-style-type: list.nth($ul-styles, $i);
+
+      @if $i > 1 {
+        padding-left: var(--nys-space-200);
+      }
     }
   }
-}
 
-/* List Items */
+  /* Ordered Lists (Numbers) */
+  $ol-styles: (decimal, lower-alpha, lower-roman);
 
-li {
-  margin-bottom: var(--nys-space-100);
-}
+  @for $i from 1 through list.length($ol-styles) {
+    $selector: "ol";
 
-li::marker {
-  color: var(--nys-color-theme-primary, #000000);
-}
+    @for $j from 2 through $i {
+      $selector: $selector + " ol";
+    }
 
-/* --- Links --- */
+    #{$selector} {
+      list-style-type: list.nth($ol-styles, $i);
 
-a {
-  color: var(--nys-color-link);
-}
+      @if $i > 1 {
+        padding-left: var(--nys-space-200);
+      }
+    }
+  }
 
-a:hover,
-a:focus {
-  color: var(--nys-color-link-strong);
-}
+  /* List Items */
 
-a:active {
-  color: var(--nys-color-link-strongest);
+  li {
+    margin-bottom: var(--nys-space-100);
+  }
+
+  li::marker {
+    color: var(--nys-color-theme-primary, #000000);
+  }
+
+  /* --- Links --- */
+
+  a {
+    color: var(--nys-color-link);
+  }
+
+  a:hover,
+  a:focus {
+    color: var(--nys-color-link-strong);
+  }
+
+  a:active {
+    color: var(--nys-color-link-strongest);
+  }
 }

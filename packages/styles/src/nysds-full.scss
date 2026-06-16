@@ -1,3 +1,9 @@
+/* 
+ * Cascade layer order — later layers have higher priority.
+ * Unlayered consumer CSS always wins over all layers. 
+ */
+@layer nysds.base, nysds.components, nysds.utilities;
+
 /* Include the selective CSS reset  */
 @use "./core/reset";
 
@@ -8,4 +14,6 @@
 @use "./core/typography";
 
 /* Include NYSDS Utility classes */
-@use "./utilities";
+@layer nysds.utilities {
+  @use "./utilities";
+}

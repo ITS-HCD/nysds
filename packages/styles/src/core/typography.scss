@@ -8,72 +8,74 @@
 
 /* --- Body --- */
 
-$body-sizes: (xs, sm, md);
+@layer nysds.base {
+  $body-sizes: (xs, sm, md);
 
-@each $size in $body-sizes {
-  .nys-font-body-#{$size} {
-    font: var(--nys-font-size-#{$size}) /
-      var(--nys-font-lineheight-#{$size})
-      var(--nys-font-family-body);
+  @each $size in $body-sizes {
+    .nys-font-body-#{$size} {
+      font: var(--nys-font-size-#{$size}) /
+        var(--nys-font-lineheight-#{$size})
+        var(--nys-font-family-body);
+    }
   }
-}
 
-/* --- Heading --- */
+  /* --- Heading --- */
 
-@for $i from 1 through 6 {
-  .nys-font-h#{$i} {
-    font: normal
-      normal
-      var(--nys-font-weight-h#{$i}, bold)
-      var(--nys-font-size-h#{$i}) /
-      var(--nys-font-lineheight-h#{$i})
-      var(--nys-font-family-heading);
+  @for $i from 1 through 6 {
+    .nys-font-h#{$i} {
+      font: normal
+        normal
+        var(--nys-font-weight-h#{$i}, bold)
+        var(--nys-font-size-h#{$i}) /
+        var(--nys-font-lineheight-h#{$i})
+        var(--nys-font-family-heading);
+    }
   }
-}
 
-/* --- UI --- */
+  /* --- UI --- */
 
-$ui-sizes: (xs, sm, md, lg, xl);
+  $ui-sizes: (xs, sm, md, lg, xl);
 
-@each $size in $ui-sizes {
-  .nys-font-ui-#{$size} {
-    font: var(--nys-font-size-ui-#{$size}) /
-      var(--nys-font-lineheight-ui-#{$size})
-      var(--nys-font-family-ui);
+  @each $size in $ui-sizes {
+    .nys-font-ui-#{$size} {
+      font: var(--nys-font-size-ui-#{$size}) /
+        var(--nys-font-lineheight-ui-#{$size})
+        var(--nys-font-family-ui);
+    }
   }
-}
 
-/* --- Display --- */
+  /* --- Display --- */
 
-$display-sizes: (sm, md, lg, xl);
+  $display-sizes: (sm, md, lg, xl);
 
-@each $size in $display-sizes {
-  .nys-font-display-#{$size} {
-    font: var(--nys-font-size-display-#{$size}) /
-      var(--nys-font-lineheight-display-#{$size})
-      var(--nys-font-family-display);
+  @each $size in $display-sizes {
+    .nys-font-display-#{$size} {
+      font: var(--nys-font-size-display-#{$size}) /
+        var(--nys-font-lineheight-display-#{$size})
+        var(--nys-font-family-display);
+    }
   }
-}
 
-/* --- Agency/Application Title --- */
+  /* --- Agency/Application Title --- */
 
-.nys-font-agency {
-  font: var(--nys-font-size-agency-xl) / var(--nys-font-lineheight-h1)
-    var(--nys-font-family-agency);
-}
+  .nys-font-agency {
+    font: var(--nys-font-size-agency-xl) / var(--nys-font-lineheight-h1)
+      var(--nys-font-family-agency);
+  }
 
-/* --- Font Family Attribute Selectors --- */
+  /* --- Font Family Attribute Selectors --- */
 
-/* These set font-family for any class matching the pattern */
+  /* These set font-family for any class matching the pattern */
 
-[class*="nys-font-mono-"] {
-  font-family: var(--nys-font-family-monospace), monospace;
-}
+  [class*="nys-font-mono-"] {
+    font-family: var(--nys-font-family-monospace), monospace;
+  }
 
-[class*="nys-font-sans-"] {
-  font-family: var(--nys-font-family-sans), sans-serif;
-}
+  [class*="nys-font-sans-"] {
+    font-family: var(--nys-font-family-sans), sans-serif;
+  }
 
-[class*="nys-font-serif-"] {
-  font-family: var(--nys-font-family-serif), serif;
+  [class*="nys-font-serif-"] {
+    font-family: var(--nys-font-family-serif), serif;
+  }
 }

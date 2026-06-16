@@ -10,8 +10,17 @@
    * Version: 1.19.0
 */
 
+/* 
+ * Cascade layer order — later layers have higher priority.
+ * Unlayered consumer CSS always wins over all layers. 
+ */
+@layer nysds.base, nysds.components, nysds.utilities;
+
 /* Include Design Tokens (variables for colors, spacing, typography) */
 @use "./core/tokens";
+
+/* Include NYSDS component styles (Light DOM) */
+@use "./components";
 
 /* Hide unstyled components until they are fully loaded */
 nys-breadcrumbs:not(:defined),
@@ -47,6 +56,7 @@ nys-textinput:not(:defined),
 nys-toggle:not(:defined),
 nys-tooltip:not(:defined),
 nys-unavheader:not(:defined),
-nys-unavfooter:not(:defined) {
+nys-unavfooter:not(:defined),
+nys-verticalnav:not(:defined) {
   visibility: hidden;
 }
