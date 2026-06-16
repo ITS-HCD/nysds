@@ -65,7 +65,7 @@ type Story = StoryObj<NysTextareaArgs>;
 export const BasicTextarea: Story = {
   args: {
     label: "Comments",
-    rows: "4",
+    rows: 4,
   },
   render: (args) => {
     return html`

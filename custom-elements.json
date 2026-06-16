@@ -9075,8 +9075,18 @@
           "summary": "Page navigation with numbered links, prev/next buttons, and responsive layout.",
           "examples": [
             {
-              "title": "Basic pagination",
+              "title": "Basic",
+              "code": "<nys-pagination currentPage=\"5\" totalPages=\"10\"></nys-pagination>",
+              "lang": "html"
+            },
+            {
+              "title": "First Page",
               "code": "<nys-pagination currentPage=\"1\" totalPages=\"10\"></nys-pagination>",
+              "lang": "html"
+            },
+            {
+              "title": "Last Page",
+              "code": "<nys-pagination currentPage=\"10\" totalPages=\"10\"></nys-pagination>",
               "lang": "html"
             }
           ]

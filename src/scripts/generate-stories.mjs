@@ -147,21 +147,30 @@ function buildBasicArgs(html, allAttributesMap) {
   const args = {};
   const tags = extractTags(html);
 
-  if (tags.length > 0) {
-    const { booleans, strings } = parseTagAttrs(tags[0].attrStr, tags[0].tagName, allAttributesMap);
+  const setArgsFromAttrs = (tagName, attrStr) => {
+    const { booleans, strings } = parseTagAttrs(attrStr, tagName, allAttributesMap);
     booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => (args[b] = true));
+    
+    const attrs = allAttributesMap[tagName] || [];
     Object.entries(strings)
       .filter(([k]) => !SKIP_ATTRS.has(k))
-      .forEach(([k, v]) => (args[k] = v));
+      .forEach(([k, v]) => {
+        const attr = attrs.find(a => a.name === k);
+        if (attr && attr.type && attr.type.text === "number") {
+          args[k] = Number(v);
+        } else {
+          args[k] = v;
+        }
+      });
+  };
+
+  if (tags.length > 0) {
+    setArgsFromAttrs(tags[0].tagName, tags[0].attrStr);
   }
 
   const childTag = tags.find((t) => t.tagName !== tags[0].tagName);
   if (childTag) {
-    const { booleans, strings } = parseTagAttrs(childTag.attrStr, childTag.tagName, allAttributesMap);
-    booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => (args[b] = true));
-    Object.entries(strings)
-      .filter(([k]) => !SKIP_ATTRS.has(k))
-      .forEach(([k, v]) => (args[k] = v));
+    setArgsFromAttrs(childTag.tagName, childTag.attrStr);
   }
 
   return args;
@@ -293,7 +302,11 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
   const renderHtml = `${rootReplacement}${beforeChild}${childReplacement}${afterChild}`;
 
   const argsLines = Object.entries(args)
-    .map(([k, v]) => `${k}: ${typeof v === "boolean" ? v : `"${v}"`},`)
+    .map(([k, v]) => {
+      if (typeof v === "boolean") return `${k}: ${v},`;
+      if (typeof v === "number") return `${k}: ${v},`;
+      return `${k}: "${v}",`;
+    })
     .join("\n");
 
   const argsBlock = argsLines ? `args: {\n${argsLines}\n  },` : `args: {},`;

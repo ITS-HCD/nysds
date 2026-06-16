@@ -32,10 +32,10 @@ const meta: Meta<NysPaginationArgs> = {
 export default meta;
 type Story = StoryObj<NysPaginationArgs>;
 
-export const BasicPagination: Story = {
+export const Basic: Story = {
   args: {
-    currentPage: "1",
-    totalPages: "10",
+    currentPage: 5,
+    totalPages: 10,
   },
   render: (args) => {
     return html`
@@ -52,7 +52,41 @@ export const BasicPagination: Story = {
     docs: {
       source: {
         code: `
+<nys-pagination currentPage="5" totalPages="10"></nys-pagination>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const FirstPage: Story = {
+  render: () => {
+    return html`
+      <nys-pagination currentPage="1" totalPages="10"></nys-pagination>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
 <nys-pagination currentPage="1" totalPages="10"></nys-pagination>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const LastPage: Story = {
+  render: () => {
+    return html`
+      <nys-pagination currentPage="10" totalPages="10"></nys-pagination>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-pagination currentPage="10" totalPages="10"></nys-pagination>`,
         type: "auto",
       },
     },

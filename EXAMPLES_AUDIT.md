@@ -10,7 +10,7 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 | `nys-accordionitem` | ✅ Match    | 2026-06-12   | Example is included in `nys-accordion` stories.                                          |
 | `nys-alert`         | ✅ Match    | 2026-06-12   | Comprehensive coverage of all functional states.                                         |
 | `nys-avatar`        | ✅ Match    | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.                                           |
-| `nys-backtotop`     | ✅ Match    | 2026-06-12   | All JSDoc e xamples have matching stories.                                               |
+| `nys-backtotop`     | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
 | `nys-badge`         | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
 | `nys-breadcrumbs`   | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories.                                                |
 | `nys-button`        | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories. Stories are now granular (one demo per story). |
@@ -467,4 +467,15 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 #### To Add
 
 - None (All properties covered in JSDoc).
-- **Form**: Example for `form` property.
+
+### `nys-pagination`
+
+| JSDoc Example | Storybook Story | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| `Basic pagination` | `Basic` | ✅ Match | |
+| `First Page` | `Basic` (Args) | ✅ Match | |
+| `Last Page` | `Basic` (Args) | ✅ Match | |
+
+#### To Add
+- None (All properties covered).
+- **Granularity**: Need granular example for `SinglePage` (totalPages: 1).

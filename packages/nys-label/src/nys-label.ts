@@ -44,11 +44,6 @@ let labelIdCounter = 0;
  * <nys-tooltip for="label-id" text="Tooltip text in here"></nys-tooltip>
  * ```
  *
- * @example Inverted
- * ```html
- * <nys-label label="Inverted label" inverted></nys-label>
- * ```
- *
  * @slot description - Custom HTML description content below the label.
  */
 export class NysLabel extends LitElement {
