@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-label";
+import "@nysds/nys-tooltip";
 
 // Define the structure of the args used in the stories
 interface NysLabelArgs {
@@ -34,7 +35,7 @@ const meta: Meta<NysLabelArgs> = {
 export default meta;
 type Story = StoryObj<NysLabelArgs>;
 
-export const BasicLabel: Story = {
+export const Basic: Story = {
   args: {
     label: "This is a basic nys-label",
   },
@@ -61,7 +62,7 @@ export const BasicLabel: Story = {
   },
 };
 
-export const RequiredLabel: Story = {
+export const Required: Story = {
   render: () => {
     return html`
       <nys-label label="This form is required" flag="required"></nys-label>
@@ -78,20 +79,80 @@ export const RequiredLabel: Story = {
   },
 };
 
-export const LabelWithTooltip: Story = {
+export const Optional: Story = {
   render: () => {
     return html`
-      <nys-label
-        label="This label has a tooltip"
-        tooltip="Helpful tooltip text"
-      ></nys-label>
+      <nys-label label="This form is required" flag="optional"></nys-label>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-label label="This label has a tooltip" tooltip="Helpful tooltip text"></nys-label>`,
+<nys-label label="This form is required" flag="optional"></nys-label>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Description: Story = {
+  render: () => {
+    return html`
+      <nys-label label="Label Text" description="Description text"></nys-label>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-label label="Label Text" description="Description text"></nys-label>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DescriptionSlot: Story = {
+  render: () => {
+    return html`
+      <nys-label label="Label Text">
+        <p slot="description">
+          Rich text description passed in
+          <strong>HERE</strong>
+        </p>
+      </nys-label>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-label label="Label Text">
+  <p slot="description">
+    Rich text description passed in
+    <strong>HERE</strong>
+  </p>
+</nys-label>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WithTooltip: Story = {
+  render: () => {
+    return html`
+      <nys-label id="label-id" label="This label has a tooltip"></nys-label>
+      <nys-tooltip for="label-id" text="Tooltip text in here"></nys-tooltip>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-label id="label-id" label="This label has a tooltip"></nys-label>
+<nys-tooltip for="label-id" text="Tooltip text in here"></nys-tooltip>`,
         type: "auto",
       },
     },

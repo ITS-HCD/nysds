@@ -291,19 +291,18 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-label`
 
-| JSDoc Example | Storybook Story   | Status     | Notes |
-| :------------ | :---------------- | :--------- | :---- |
-| None          | `Basic`           | ⚠️ Missing |       |
-| None          | `Description`     | ⚠️ Missing |       |
-| None          | `DescriptionSlot` | ⚠️ Missing |       |
-| None          | `Required`        | ⚠️ Missing |       |
-| None          | `Optional`        | ⚠️ Missing |       |
-| None          | `Tooltip`         | ⚠️ Missing |       |
+| JSDoc Example      | Storybook Story   | Status   | Notes |
+| :----------------- | :---------------- | :------- | :---- |
+| `Basic`            | `Basic`           | ✅ Match |       |
+| `Required`         | `Required`        | ✅ Match |       |
+| `Optional`         | `Optional`        | ✅ Match |       |
+| `Description`      | `Description`     | ✅ Match |       |
+| `Description Slot` | `DescriptionSlot` | ✅ Match |       |
+| `With Tooltip`     | `WithTooltip`     | ✅ Match |       |
 
 #### To Add
 
-- Add examples for `Basic`, `Description`, `DescriptionSlot`, `Required`, `Optional`, `Tooltip`.
-- **Inverted**: Example for `inverted` property.
+- **Inverted**: Example for `inverted` property (missing in JSDoc and as a granular story).
 
 ### `nys-modal`
 

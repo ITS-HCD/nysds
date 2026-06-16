@@ -8491,18 +8491,33 @@
           },
           "examples": [
             {
-              "title": "Basic label",
+              "title": "Basic",
               "code": "<nys-label label=\"This is a basic nys-label\"></nys-label>",
               "lang": "html"
             },
             {
-              "title": "Required label",
+              "title": "Required",
               "code": "<nys-label label=\"This form is required\" flag=\"required\"></nys-label>",
               "lang": "html"
             },
             {
-              "title": "Label with tooltip",
-              "code": "<nys-label label=\"This label has a tooltip\" tooltip=\"Helpful tooltip text\"></nys-label>",
+              "title": "Optional",
+              "code": "<nys-label label=\"This form is required\" flag=\"optional\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-label label=\"Label Text\" description=\"Description text\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-label label=\"Label Text\">\n<p slot=\"description\">Rich text description passed in <strong>HERE</strong></p>\n</nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "With Tooltip",
+              "code": "<nys-label id=\"label-id\" label=\"This label has a tooltip\"></nys-label>\n<nys-tooltip for=\"label-id\" text=\"Tooltip text in here\"></nys-tooltip>",
               "lang": "html"
             }
           ],
