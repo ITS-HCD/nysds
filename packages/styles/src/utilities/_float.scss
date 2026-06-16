@@ -6,17 +6,19 @@
 @use "config" as *;
 @use "mixins" as *;
 
-@each $value in $float-values {
-  @include base-class("nys-float-#{$value}") {
-    float: $value;
+@layer nysds.utilities {
+  @each $value in $float-values {
+    @include base-class("nys-float-#{$value}") {
+      float: $value;
+    }
   }
-}
 
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    @each $value in $float-values {
-      @include responsive-variants($bp-name, "nys-float-#{$value}") {
-        float: $value;
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @each $value in $float-values {
+        @include responsive-variants($bp-name, "nys-float-#{$value}") {
+          float: $value;
+        }
       }
     }
   }

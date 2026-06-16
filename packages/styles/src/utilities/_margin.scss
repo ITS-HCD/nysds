@@ -5,19 +5,21 @@
 
 @use "config" as *;
 
-// Uniform margins
-@each $name, $value in $spacing {
-  .nys-margin-#{$name} {
-    margin: $value;
+@layer nysds.utilities {
+  // Uniform margins
+  @each $name, $value in $spacing {
+    .nys-margin-#{$name} {
+      margin: $value;
+    }
   }
-}
 
-// Directional margins
-@each $name, $value in $spacing {
-  @each $dir-name, $props in $directions {
-    .nys-margin-#{$dir-name}-#{$name} {
-      @each $prop in $props {
-        margin-#{$prop}: $value;
+  // Directional margins
+  @each $name, $value in $spacing {
+    @each $dir-name, $props in $directions {
+      .nys-margin-#{$dir-name}-#{$name} {
+        @each $prop in $props {
+          margin-#{$prop}: $value;
+        }
       }
     }
   }

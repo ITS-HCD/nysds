@@ -10,17 +10,17 @@
    * Version: 1.19.0
 */
 
+/* Include Design Tokens (variables for colors, spacing, typography) */
+@use "./core/tokens";
+
 /* 
  * Cascade layer order — later layers have higher priority.
  * Unlayered consumer CSS always wins over all layers. 
  */
-@layer nysds.base, nysds.components, nysds.utilities;
-
-/* Include Design Tokens (variables for colors, spacing, typography) */
-@use "./core/tokens";
+@layer nysds.base, nysds.utilities;
 
 /* Include NYSDS component styles (Light DOM) */
-@use "./components";
+// @use "./components";
 
 /* Hide unstyled components until they are fully loaded */
 nys-breadcrumbs:not(:defined),

@@ -6,159 +6,97 @@
 @use "sass:math";
 @use "config" as *;
 
-// ============================================
-// BASE COLUMN STYLES (attribute selector)
-// ============================================
-[class*="nys-grid-col"] {
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-// ============================================
-// GRID CONTAINERS
-// ============================================
-@each $suffix, $max-width in $grid-containers {
-  .nys-grid-container#{$suffix} {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: $max-width;
-    padding-left: 1rem;
-    padding-right: 1rem;
-
-    @media all and (width >= 64em) {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
-}
-
-// Responsive container variants (with nested media queries for padding)
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    @each $suffix, $max-width in $grid-containers {
-      .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: $max-width;
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-    }
+@layer nysds.utilities {
+  // ============================================
+  // BASE COLUMN STYLES (attribute selector)
+  // ============================================
+  [class*="nys-grid-col"] {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  // Nested media query for desktop+ padding
-  @media all and (min-width: #{$bp-value}) and (width >= 64em) {
-    @each $suffix, $max-width in $grid-containers {
-      .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
+  // ============================================
+  // GRID CONTAINERS
+  // ============================================
+  @each $suffix, $max-width in $grid-containers {
+    .nys-grid-container#{$suffix} {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: $max-width;
+      padding-left: 1rem;
+      padding-right: 1rem;
+
+      @media all and (width >= 64em) {
         padding-left: 2rem;
         padding-right: 2rem;
       }
     }
   }
-}
 
-// ============================================
-// GRID ROW
-// ============================================
-.nys-grid-row {
-  display: flex;
-  flex-wrap: wrap;
-}
+  // Responsive container variants (with nested media queries for padding)
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @each $suffix, $max-width in $grid-containers {
+        .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
+          margin-left: auto;
+          margin-right: auto;
+          max-width: $max-width;
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+      }
+    }
 
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    .nys-#{$bp-name}\:nys-grid-row {
-      display: flex;
-      flex-wrap: wrap;
+    // Nested media query for desktop+ padding
+    @media all and (min-width: #{$bp-value}) and (width >= 64em) {
+      @each $suffix, $max-width in $grid-containers {
+        .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
     }
   }
-}
 
-// ============================================
-// GRID GAPS
-// Both horizontal and vertical gaps use the negative-margin + child-padding pattern.
-// Horizontal: negative left/right margin on row + left/right padding on children.
-// Vertical: negative top margin on row + top padding on children.
-// This avoids native gap properties which interfere with flex column width math.
-// ============================================
-
-// Default gap (responsive: 0.5rem base, 1rem at 64em+)
-
-// Horizontal only
-.nys-grid-row.nys-grid-gap-x {
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-
-  > * {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+  // ============================================
+  // GRID ROW
+  // ============================================
+  .nys-grid-row {
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  @media all and (width >= 64em) {
-    margin-left: -1rem;
-    margin-right: -1rem;
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      .nys-#{$bp-name}\:nys-grid-row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  // ============================================
+  // GRID GAPS
+  // Both horizontal and vertical gaps use the negative-margin + child-padding pattern.
+  // Horizontal: negative left/right margin on row + left/right padding on children.
+  // Vertical: negative top margin on row + top padding on children.
+  // This avoids native gap properties which interfere with flex column width math.
+  // ============================================
+
+  // Default gap (responsive: 0.5rem base, 1rem at 64em+)
+
+  // Horizontal only
+  .nys-grid-row.nys-grid-gap-x {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
 
     > * {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
     }
-  }
-}
 
-// Vertical only
-.nys-grid-row.nys-grid-gap-y {
-  margin-top: -0.5rem;
-  margin-bottom: -0.5rem;
-
-  > * {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-
-  @media all and (width >= 64em) {
-    margin-top: -1rem;
-    margin-bottom: -1rem;
-
-    > * {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-  }
-}
-
-// Both horizontal + vertical
-.nys-grid-row.nys-grid-gap {
-  margin: -0.5rem;
-
-  > * {
-    padding: 0.5rem;
-  }
-
-  @media all and (width >= 64em) {
-    margin: -1rem;
-
-    > * {
-      padding: 1rem;
-    }
-  }
-}
-
-// Sized gaps (compound selectors)
-// Horizontal gap values are halved: negative margin on row + padding on children.
-// Gaps 400+ exceed small-viewport container padding (1rem), so horizontal is capped below 64em.
-// Vertical gaps are also capped at 2rem on small screens for consistent sizing.
-$responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
-
-@each $suffix, $value in $spacing {
-  $half: if(sass($value == 0): 0; else: math.div($value, 2));
-  $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
-
-  @if $needs-responsive {
-    // On small screens: cap horizontal at -1rem (matches container padding, prevents overflow).
-    // On small screens: cap vertical at 2rem for proportional sizing.
-    // On large screens (64em+): use full values.
-    .nys-grid-row.nys-grid-gap-x-#{$suffix} {
+    @media all and (width >= 64em) {
       margin-left: -1rem;
       margin-right: -1rem;
 
@@ -166,19 +104,20 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
         padding-left: 1rem;
         padding-right: 1rem;
       }
+    }
+  }
 
-      @media all and (width >= 64em) {
-        margin-left: -$half;
-        margin-right: -$half;
+  // Vertical only
+  .nys-grid-row.nys-grid-gap-y {
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
 
-        > * {
-          padding-left: $half;
-          padding-right: $half;
-        }
-      }
+    > * {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
     }
 
-    .nys-grid-row.nys-grid-gap-y-#{$suffix} {
+    @media all and (width >= 64em) {
       margin-top: -1rem;
       margin-bottom: -1rem;
 
@@ -186,129 +125,50 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
         padding-top: 1rem;
         padding-bottom: 1rem;
       }
+    }
+  }
 
-      @media all and (width >= 64em) {
-        margin-top: -$half;
-        margin-bottom: -$half;
+  // Both horizontal + vertical
+  .nys-grid-row.nys-grid-gap {
+    margin: -0.5rem;
 
-        > * {
-          padding-top: $half;
-          padding-bottom: $half;
-        }
-      }
+    > * {
+      padding: 0.5rem;
     }
 
-    .nys-grid-row.nys-grid-gap-#{$suffix} {
+    @media all and (width >= 64em) {
       margin: -1rem;
 
       > * {
         padding: 1rem;
       }
-
-      @media all and (width >= 64em) {
-        margin: -$half;
-
-        > * {
-          padding: $half;
-        }
-      }
-    }
-  } @else {
-    .nys-grid-row.nys-grid-gap-x-#{$suffix} {
-      margin-left: -$half;
-      margin-right: -$half;
-
-      > * {
-        padding-left: $half;
-        padding-right: $half;
-      }
-    }
-
-    .nys-grid-row.nys-grid-gap-y-#{$suffix} {
-      margin-top: -$half;
-      margin-bottom: -$half;
-
-      > * {
-        padding-top: $half;
-        padding-bottom: $half;
-      }
-    }
-
-    .nys-grid-row.nys-grid-gap-#{$suffix} {
-      margin: -$half;
-
-      > * {
-        padding: $half;
-      }
     }
   }
-}
 
-// Responsive gap variants
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    @each $suffix, $value in $spacing {
-      $half: if(sass($value == 0): 0; else: math.div($value, 2));
-      $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
+  // Sized gaps (compound selectors)
+  // Horizontal gap values are halved: negative margin on row + padding on children.
+  // Gaps 400+ exceed small-viewport container padding (1rem), so horizontal is capped below 64em.
+  // Vertical gaps are also capped at 2rem on small screens for consistent sizing.
+  $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
 
-      @if $needs-responsive {
-        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
-          margin-left: -1rem;
-          margin-right: -1rem;
+  @each $suffix, $value in $spacing {
+    $half: if(sass($value == 0): 0; else: math.div($value, 2));
+    $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
 
-          > * {
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
+    @if $needs-responsive {
+      // On small screens: cap horizontal at -1rem (matches container padding, prevents overflow).
+      // On small screens: cap vertical at 2rem for proportional sizing.
+      // On large screens (64em+): use full values.
+      .nys-grid-row.nys-grid-gap-x-#{$suffix} {
+        margin-left: -1rem;
+        margin-right: -1rem;
 
-          @media all and (width >= 64em) {
-            margin-left: -$half;
-            margin-right: -$half;
-
-            > * {
-              padding-left: $half;
-              padding-right: $half;
-            }
-          }
+        > * {
+          padding-left: 1rem;
+          padding-right: 1rem;
         }
 
-        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
-          margin-top: -1rem;
-          margin-bottom: -1rem;
-
-          > * {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-          }
-
-          @media all and (width >= 64em) {
-            margin-top: -$half;
-            margin-bottom: -$half;
-
-            > * {
-              padding-top: $half;
-              padding-bottom: $half;
-            }
-          }
-        }
-
-        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
-          margin: -1rem;
-
-          > * {
-            padding: 1rem;
-          }
-
-          @media all and (width >= 64em) {
-            margin: -$half;
-
-            > * {
-              padding: $half;
-            }
-          }
-        }
-      } @else {
-        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
+        @media all and (width >= 64em) {
           margin-left: -$half;
           margin-right: -$half;
 
@@ -317,8 +177,18 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
             padding-right: $half;
           }
         }
+      }
 
-        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
+      .nys-grid-row.nys-grid-gap-y-#{$suffix} {
+        margin-top: -1rem;
+        margin-bottom: -1rem;
+
+        > * {
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+        }
+
+        @media all and (width >= 64em) {
           margin-top: -$half;
           margin-bottom: -$half;
 
@@ -327,8 +197,16 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
             padding-bottom: $half;
           }
         }
+      }
 
-        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
+      .nys-grid-row.nys-grid-gap-#{$suffix} {
+        margin: -1rem;
+
+        > * {
+          padding: 1rem;
+        }
+
+        @media all and (width >= 64em) {
           margin: -$half;
 
           > * {
@@ -336,98 +214,222 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
           }
         }
       }
-    }
-  }
-}
+    } @else {
+      .nys-grid-row.nys-grid-gap-x-#{$suffix} {
+        margin-left: -$half;
+        margin-right: -$half;
 
-// ============================================
-// GRID COLUMNS
-// ============================================
+        > * {
+          padding-left: $half;
+          padding-right: $half;
+        }
+      }
 
-// Numbered columns (1-12) - use math.percentage for exact parity
-@for $i from 1 through 12 {
-  .nys-grid-col-#{$i} {
-    flex: 0 1 auto;
-    width: math.percentage(math.div($i, 12));
-  }
-}
+      .nys-grid-row.nys-grid-gap-y-#{$suffix} {
+        margin-top: -$half;
+        margin-bottom: -$half;
 
-.nys-grid-col {
-  flex: 1 1 0%;
-  width: auto;
-  max-width: 100%;
-  min-width: 1px;
-}
+        > * {
+          padding-top: $half;
+          padding-bottom: $half;
+        }
+      }
 
-.nys-grid-col-auto {
-  flex: 0 1 auto;
-  width: auto;
-  max-width: 100%;
-}
+      .nys-grid-row.nys-grid-gap-#{$suffix} {
+        margin: -$half;
 
-.nys-grid-col-fill {
-  flex: 1 1 0%;
-  width: auto;
-  max-width: 100%;
-  min-width: 1px;
-}
-
-// Responsive column variants
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    @for $i from 1 through 12 {
-      .nys-#{$bp-name}\:nys-grid-col-#{$i} {
-        flex: 0 1 auto;
-        width: math.percentage(math.div($i, 12));
+        > * {
+          padding: $half;
+        }
       }
     }
+  }
 
-    .nys-#{$bp-name}\:nys-grid-col {
-      flex: 1 1 0%;
-      width: auto;
-      max-width: 100%;
-      min-width: 1px;
+  // Responsive gap variants
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @each $suffix, $value in $spacing {
+        $half: if(sass($value == 0): 0; else: math.div($value, 2));
+        $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
+
+        @if $needs-responsive {
+          .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
+            margin-left: -1rem;
+            margin-right: -1rem;
+
+            > * {
+              padding-left: 1rem;
+              padding-right: 1rem;
+            }
+
+            @media all and (width >= 64em) {
+              margin-left: -$half;
+              margin-right: -$half;
+
+              > * {
+                padding-left: $half;
+                padding-right: $half;
+              }
+            }
+          }
+
+          .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
+            margin-top: -1rem;
+            margin-bottom: -1rem;
+
+            > * {
+              padding-top: 1rem;
+              padding-bottom: 1rem;
+            }
+
+            @media all and (width >= 64em) {
+              margin-top: -$half;
+              margin-bottom: -$half;
+
+              > * {
+                padding-top: $half;
+                padding-bottom: $half;
+              }
+            }
+          }
+
+          .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
+            margin: -1rem;
+
+            > * {
+              padding: 1rem;
+            }
+
+            @media all and (width >= 64em) {
+              margin: -$half;
+
+              > * {
+                padding: $half;
+              }
+            }
+          }
+        } @else {
+          .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
+            margin-left: -$half;
+            margin-right: -$half;
+
+            > * {
+              padding-left: $half;
+              padding-right: $half;
+            }
+          }
+
+          .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
+            margin-top: -$half;
+            margin-bottom: -$half;
+
+            > * {
+              padding-top: $half;
+              padding-bottom: $half;
+            }
+          }
+
+          .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
+            margin: -$half;
+
+            > * {
+              padding: $half;
+            }
+          }
+        }
+      }
     }
+  }
 
-    .nys-#{$bp-name}\:nys-grid-col-auto {
+  // ============================================
+  // GRID COLUMNS
+  // ============================================
+
+  // Numbered columns (1-12) - use math.percentage for exact parity
+  @for $i from 1 through 12 {
+    .nys-grid-col-#{$i} {
       flex: 0 1 auto;
-      width: auto;
-      max-width: 100%;
-    }
-
-    .nys-#{$bp-name}\:nys-grid-col-fill {
-      flex: 1 1 0%;
-      width: auto;
-      max-width: 100%;
-      min-width: 1px;
+      width: math.percentage(math.div($i, 12));
     }
   }
-}
 
-// ============================================
-// GRID OFFSETS
-// ============================================
-@for $i from 1 through 12 {
-  .nys-grid-offset-#{$i} {
-    margin-left: math.percentage(math.div($i, 12));
+  .nys-grid-col {
+    flex: 1 1 0%;
+    width: auto;
+    max-width: 100%;
+    min-width: 1px;
   }
-}
 
-.nys-grid-offset-none {
-  margin-left: 0;
-}
+  .nys-grid-col-auto {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: 100%;
+  }
 
-// Responsive offset variants
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    @for $i from 1 through 12 {
-      .nys-#{$bp-name}\:nys-grid-offset-#{$i} {
-        margin-left: math.percentage(math.div($i, 12));
+  .nys-grid-col-fill {
+    flex: 1 1 0%;
+    width: auto;
+    max-width: 100%;
+    min-width: 1px;
+  }
+
+  // Responsive column variants
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @for $i from 1 through 12 {
+        .nys-#{$bp-name}\:nys-grid-col-#{$i} {
+          flex: 0 1 auto;
+          width: math.percentage(math.div($i, 12));
+        }
+      }
+
+      .nys-#{$bp-name}\:nys-grid-col {
+        flex: 1 1 0%;
+        width: auto;
+        max-width: 100%;
+        min-width: 1px;
+      }
+
+      .nys-#{$bp-name}\:nys-grid-col-auto {
+        flex: 0 1 auto;
+        width: auto;
+        max-width: 100%;
+      }
+
+      .nys-#{$bp-name}\:nys-grid-col-fill {
+        flex: 1 1 0%;
+        width: auto;
+        max-width: 100%;
+        min-width: 1px;
       }
     }
+  }
 
-    .nys-#{$bp-name}\:nys-grid-offset-none {
-      margin-left: 0;
+  // ============================================
+  // GRID OFFSETS
+  // ============================================
+  @for $i from 1 through 12 {
+    .nys-grid-offset-#{$i} {
+      margin-left: math.percentage(math.div($i, 12));
+    }
+  }
+
+  .nys-grid-offset-none {
+    margin-left: 0;
+  }
+
+  // Responsive offset variants
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @for $i from 1 through 12 {
+        .nys-#{$bp-name}\:nys-grid-offset-#{$i} {
+          margin-left: math.percentage(math.div($i, 12));
+        }
+      }
+
+      .nys-#{$bp-name}\:nys-grid-offset-none {
+        margin-left: 0;
+      }
     }
   }
 }

@@ -6,17 +6,19 @@
 @use "config" as *;
 @use "mixins" as *;
 
-@each $name, $value in $order-values {
-  @include base-class("nys-order-#{$name}") {
-    order: $value;
+@layer nysds.utilities {
+  @each $name, $value in $order-values {
+    @include base-class("nys-order-#{$name}") {
+      order: $value;
+    }
   }
-}
 
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    @each $name, $value in $order-values {
-      @include responsive-variants($bp-name, "nys-order-#{$name}") {
-        order: $value;
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @each $name, $value in $order-values {
+        @include responsive-variants($bp-name, "nys-order-#{$name}") {
+          order: $value;
+        }
       }
     }
   }

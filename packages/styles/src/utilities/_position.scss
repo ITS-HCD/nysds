@@ -6,17 +6,19 @@
 @use "config" as *;
 @use "mixins" as *;
 
-@each $value in $position-values {
-  @include base-class("nys-position-#{$value}") {
-    position: $value;
+@layer nysds.utilities {
+  @each $value in $position-values {
+    @include base-class("nys-position-#{$value}") {
+      position: $value;
+    }
   }
-}
 
-@each $bp-name, $bp-value in $breakpoints {
-  @media all and (min-width: #{$bp-value}) {
-    @each $value in $position-values {
-      @include responsive-variants($bp-name, "nys-position-#{$value}") {
-        position: $value;
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @each $value in $position-values {
+        @include responsive-variants($bp-name, "nys-position-#{$value}") {
+          position: $value;
+        }
       }
     }
   }
