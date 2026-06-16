@@ -1,27 +1,26 @@
-@layer nysds.components {
-  nys-verticalnav {
+nys-verticalnav {
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-space-100, 8px);
+
+    @media (width >= 1024px) {
+      gap: 0;
+    }
+
+    // Nested ul (inside nys-verticalnavgroup or subheader sections)
     ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       flex-direction: column;
-      gap: var(--nys-space-100, 8px);
-
-      @media (width >= 1024px) {
-        gap: 0;
-      }
-
-      // Nested ul (inside nys-verticalnavgroup or subheader sections)
-      ul {
-        display: flex;
-        flex-direction: column;
-      }
     }
 
     li {
       display: flex;
       flex-direction: column;
+      margin: 0;
     }
 
     a {
@@ -32,6 +31,7 @@
       text-decoration: none;
 
       &:hover {
+        color: var(--nys-color-text, #1b1b1b);
         background-color: var(--nys-color-neutral-10, #f6f6f6);
       }
       &:active {
@@ -45,6 +45,7 @@
       &[aria-disabled="true"] {
         color: var(--nys-color-text-disabled, #bec0c1);
         pointer-events: none;
+        cursor: not-allowed;
       }
       &[aria-current="page"] {
         background-color: var(--nys-color-theme-faint, #f7fafd);
@@ -61,12 +62,7 @@
     }
 
     // Subheader headings inside li items
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    li :is(h1, h2, h3, h4, h5, h6) {
       font-size: var(--nys-font-size-ui-sm, 14px);
       padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px)
         var(--nys-space-50, 4px) var(--nys-space-150, 12px);
@@ -74,6 +70,20 @@
       text-transform: uppercase;
       font-weight: 700;
       color: var(--nys-color-text, #1b1b1b);
+    }
+  }
+}
+
+nys-verticalnavgroup {
+  ul {
+    gap: 0;
+    li {
+      margin-bottom: 0;
+      a {
+        color: var(--nys-color-text, #1b1b1b);
+        padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
+          var(--nys-space-100, 8px) var(--nys-space-300, 24px);
+      }
     }
   }
 }

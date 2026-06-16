@@ -98,6 +98,25 @@ export const WithHeaderSlot: Story = {
     headerLevel: "h2",
   },
   render: (args) => html`
+    <style>
+      [slot="header"] p {
+        margin: 0;
+        font-size: var(--nys-font-size-xs, 0.75rem);
+        color: var(--nys-color-text-weak, #4a4d4f);
+        letter-spacing: 0.08em;
+        font-weight: 600;
+      }
+      [slot="header"] h2 {
+        margin: 0;
+        font-size: var(--nys-font-size-h4, 1.25rem);
+        color: var(--nys-color-theme, #154973);
+      }
+      [slot="header"] p:last-child {
+        font-size: var(--nys-font-size-xs, 0.75rem);
+        color: var(--nys-color-success, #2e7d32);
+        font-weight: 500;
+      }
+    </style>
     <nys-verticalnav
       id=${args.id}
       header=${args.header}
@@ -105,8 +124,8 @@ export const WithHeaderSlot: Story = {
       headerLevel=${args.headerLevel}
     >
       <div slot="header">
-        <h2 style="margin:0">🎣 Freshwater Fishing</h2>
-        <p style="margin:0;font-size:0.875rem;color:#555">2024 Season Guide</p>
+        <h2>Freshwater Fishing</h2>
+        <p>2026 Season Open</p>
       </div>
       <ul>
         <li><a href="/">Home</a></li>
@@ -157,6 +176,23 @@ export const WithFooterSlot: Story = {
     headerLevel: "h2",
   },
   render: (args) => html`
+    <style>
+      [slot="footer"] {
+        display: flex;
+        flex-direction: column;
+        gap: var(--nys-space-100, 8px);
+      }
+      [slot="footer"] p {
+        margin: 0;
+        font-size: var(--nys-font-size-xs, 0.75rem);
+        color: var(--nys-color-text-weak, #4a4d4f);
+      }
+      [slot="footer"] a {
+        font-size: var(--nys-font-size-sm, 0.875rem);
+        color: var(--nys-color-theme, #154973);
+      }
+    </style>
+
     <nys-verticalnav
       id=${args.id}
       header=${args.header}
@@ -180,7 +216,8 @@ export const WithFooterSlot: Story = {
         style="font-size:0.875rem;color:#555;padding-top:0.5rem"
       >
         <nys-divider></nys-divider>
-        <p style="margin:0.5rem 0 0">Last updated: January 2024</p>
+        <p>Regulations last updated: January 2024</p>
+        <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
       </div>
     </nys-verticalnav>
   `,
@@ -319,6 +356,88 @@ export const WithDropdownGroup: Story = {
   `,
 };
 
+export const WithActiveStates: Story = {
+  args: {
+    id: "verticalnav5",
+    header: "NYS Design System",
+    hideHeader: false,
+    headerLevel: "h2",
+  },
+  render: (args) => html`
+    <nys-verticalnav
+      id=${args.id}
+      header=${args.header}
+      ?hideHeader=${args.hideHeader}
+      headerLevel=${args.headerLevel}
+    >
+      <ul>
+        <li><a href="/">Foundations</a></li>
+        <li><a href="/components">Components</a></li>
+        <li>
+          <nys-verticalnavgroup label="Accessibility">
+            <ul>
+              <li><a aria-current="page" href="">WCAG Guidelines</a></li>
+              <li><a href="">Screen Readers</a></li>
+              <li><a href="">Color Contrast</a></li>
+            </ul>
+          </nys-verticalnavgroup>
+        </li>
+        <li>
+          <h3>Resources</h3>
+          <ul>
+            <li><a aria-current="page" href="">Design Tokens</a></li>
+            <li><a href="">Utilities</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nys-verticalnav>
+  `,
+};
+
+export const WithDisabledStates: Story = {
+  args: {
+    id: "verticalnav5",
+    header: "NYS Design System",
+    hideHeader: false,
+    headerLevel: "h2",
+  },
+  render: (args) => html`
+    <nys-verticalnav
+      id=${args.id}
+      header=${args.header}
+      ?hideHeader=${args.hideHeader}
+      headerLevel=${args.headerLevel}
+    >
+      <ul>
+        <li><a href="/">Foundations</a></li>
+        <li><a href="/components">Components</a></li>
+        <li>
+          <nys-verticalnavgroup disabled label="Accessibility">
+            <ul>
+              <li>
+                <a aria-disabled="true" tabindex="-1" href=""
+                  >WCAG Guidelines</a
+                >
+              </li>
+              <li><a href="">Screen Readers</a></li>
+              <li><a href="">Color Contrast</a></li>
+            </ul>
+          </nys-verticalnavgroup>
+        </li>
+        <li>
+          <h3>Resources</h3>
+          <ul>
+            <li>
+              <a aria-disabled="true" tabindex="-1" href="">Design Tokens</a>
+            </li>
+            <li><a href="">Utilities</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nys-verticalnav>
+  `,
+};
+
 export const PageLayout: Story = {
   args: {
     id: "verticalnav-layout",
@@ -386,12 +505,10 @@ export const PageLayout: Story = {
                 <ul>
                   <li><a href="">WCAG Guidelines</a></li>
                   <li>
-                    <a href="" aria-current="page">Screen Readers</a>
+                    <a href="">Screen Readers</a>
                   </li>
                   <li>
-                    <a aria-disabled="true" tabindex="-1" href=""
-                      >Color Contrast</a
-                    >
+                    <a href="">Color Contrast</a>
                   </li>
                 </ul>
               </nys-verticalnavgroup>
