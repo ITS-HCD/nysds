@@ -118,6 +118,58 @@
 
 /* VARIANTS */
 
+/* Filled */
+:host([variant="filled"]) {
+  /* Filled - Default */
+  --_nys-button-background-color: var(
+    --nys-button-background-color,
+    var(--nys-color-theme, #154973)
+  );
+  --_nys-button-color: var(
+    --nys-button-color,
+    var(--nys-color-text-reverse, #ffffff)
+  );
+  --_nys-button-border-color: var(
+    --nys-button-border-color,
+    var(--nys-color-transparent, #ffffff00)
+  );
+
+  /* Filled - Hover */
+  --_nys-button-background-color--hover: var(
+    --nys-button-background-color--hover,
+    var(--nys-color-theme-strong, #0e324f)
+  );
+  --_nys-button-color--hover: var(
+    --nys-button-color--hover,
+    var(--nys-color-text-reverse, #ffffff)
+  );
+  --_nys-button-border-color--hover: var(
+    --nys-button-border-color,
+    var(--nys-color-transparent, #ffffff00)
+  );
+
+  /* Filled - Pressed/Active */
+  --_nys-button-background-color--active: var(
+    --nys-button-background-color--active,
+    var(--nys-color-theme-stronger, #081b2b)
+  );
+  --_nys-button-color--active: var(
+    --nys-button-color--active,
+    var(--nys-color-text-reverse, #ffffff)
+  );
+  --_nys-button-border-color--active: var(
+    --nys-button-border-color,
+    var(--nys-color-transparent, #ffffff00)
+  );
+
+  /* Filled - Disabled */
+  --_nys-button-background-color--disabled: var(
+    --nys-color-neutral-10,
+    #f6f6f6
+  );
+  --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
+}
+
 /* Outline */
 :host([variant="outline"]) {
   /* Outline - Default */
@@ -173,6 +225,18 @@
   --_nys-button-padding--x: 0;
   --_nys-button-border-width: 0px;
   --_nys-button-text-decoration: underline;
+  --_nys-button-text-decoration-thickness: var(
+    --nys-font-decoration-thickness-regular,
+    7%
+  );
+  --_nys-button-text-decoration-thickness--hover: var(
+    --nys-font-decoration-thickness-strong,
+    14%
+  );
+  --_nys-button-text-decoration-thickness--active: var(
+    --nys-font-decoration-thickness-strong,
+    14%
+  );
   --_nys-button-gap: var(--nys-space-50, 4px);
 
   /* Text - Default */
@@ -522,6 +586,10 @@
   background-color: var(--_nys-button-background-color--hover);
   color: var(--_nys-button-color--hover);
   border-color: var(--_nys-button-border-color--hover);
+  text-decoration-thickness: var(
+    --_nys-button-text-decoration-thickness--hover,
+    auto
+  );
 }
 
 .nys-button:active,
@@ -529,6 +597,10 @@
   background-color: var(--_nys-button-background-color--active);
   color: var(--_nys-button-color--active);
   border-color: var(--_nys-button-border-color--active);
+  text-decoration-thickness: var(
+    --_nys-button-text-decoration-thickness--active,
+    auto
+  );
 }
 
 .nys-button:disabled,
