@@ -14605,23 +14605,10 @@
               "default": "null"
             },
             {
-              "kind": "method",
-              "name": "_handleSlotChange",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ],
-              "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
               "kind": "field",
               "name": "_handleResize",
-              "privacy": "private"
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -14642,41 +14629,17 @@
             {
               "kind": "method",
               "name": "_injectDividers",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "container",
-                  "type": {
-                    "text": "Element"
-                  }
-                }
-              ]
+              "privacy": "private"
             },
             {
               "kind": "method",
               "name": "_injectSubheaderDividers",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "container",
-                  "type": {
-                    "text": "Element"
-                  }
-                }
-              ]
+              "privacy": "private"
             },
             {
               "kind": "method",
               "name": "_applyActiveState",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "container",
-                  "type": {
-                    "text": "Element"
-                  }
-                }
-              ]
+              "privacy": "private"
             }
           ],
           "attributes": [

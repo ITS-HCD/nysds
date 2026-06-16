@@ -4,7 +4,6 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
 import "./nys-verticalnavgroup";
-import globalStyles from "./nys-verticalnav.global.scss?inline";
 
 let componentIdCounter = 0;
 
@@ -82,8 +81,7 @@ export class NysVerticalnav extends LitElement {
 
   constructor() {
     super();
-  }private static _globalStylesInjected = false;
-
+  }
 
   // Generate a unique ID if one is not provided
   connectedCallback() {
@@ -95,16 +93,6 @@ export class NysVerticalnav extends LitElement {
     this._mediaQuery = window.matchMedia("(max-width: 1023px)"); // Tablet size and below
     this._isMobile = this._mediaQuery.matches;
     this._mediaQuery.addEventListener("change", this._handleResize);
-
-      // Inject global styles once into document head
-  if (!NysVerticalnav._globalStylesInjected) {
-    const styleEl = document.createElement("style");
-    styleEl.setAttribute("data-nys-verticalnav-global", "");
-    styleEl.textContent = globalStyles;
-    document.head.appendChild(styleEl);
-    NysVerticalnav._globalStylesInjected = true;
-  }
-
   }
 
   disconnectedCallback() {
