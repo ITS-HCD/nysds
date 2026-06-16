@@ -5778,8 +5778,19 @@
           "summary": "Horizontal divider for visual separation of content sections.",
           "examples": [
             {
-              "title": "Basic divider",
+              "title": "Basic",
               "code": "<p>Section one content</p>\n<nys-divider></nys-divider>\n<p>Section two content</p>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<p>Section one content</p>\n<nys-divider inverted></nys-divider>\n<p>Section two content</p>",
+              "lang": "html",
+              "render": "<div style=\"display: flex; flex-direction: column; background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);\">\n<p>Section one content</p>\n<nys-divider inverted></nys-divider>\n<p>Section two content</p>\n</div>"
+            },
+            {
+              "title": "Subtle",
+              "code": "<p>Section one content</p>\n<nys-divider subtle></nys-divider>\n<p>Section two content</p>",
               "lang": "html"
             }
           ]
