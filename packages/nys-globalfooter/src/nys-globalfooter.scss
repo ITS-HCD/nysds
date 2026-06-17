@@ -9,6 +9,7 @@
     var(--nys-color-state-blue-50, #eff6fb)
   );
   --_nys-globalfooter-gap: var(--nys-space-300, 24px);
+  --_nys-globalfooter-gap--heading-container: var(--nys-space-150, 12px);
   --_nys-globalfooter-padding--y: var(--nys-space-400, 32px);
   --_nys-globalfooter-padding--gutter: var(--nys-gutter-sm, 20px);
   --_nys-globalfooter-font-size--agency: var(
@@ -80,6 +81,10 @@
     max-width: var(--_nys-globalfooter-max-width);
 
     .nys-globalfooter__heading-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--_nys-globalfooter-gap--heading-container);
+
       /* The Agency Name */
       .nys-globalfooter__name {
         text-align: left;
