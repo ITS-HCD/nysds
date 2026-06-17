@@ -68,7 +68,7 @@ export const Basic: Story = {
     id: "my-datepicker",
     name: "my-datepicker",
     value: undefined,
-    width: "md",
+    width: "full",
     disabled: false,
     required: false,
     optional: false,
