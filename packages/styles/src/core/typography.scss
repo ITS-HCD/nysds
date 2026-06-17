@@ -43,6 +43,43 @@ $ui-sizes: (xs, sm, md, lg, xl);
   }
 }
 
+/* --- UI Underline (Regular, 7%) and Underline Strong (14%) --- */
+
+$ui-underline-styles: (
+  (sm, semibold),
+  (md, semibold),
+  (md, regular),
+  (lg, semibold)
+);
+
+@each $size, $weight in $ui-underline-styles {
+  .nys-font-ui-#{$size}-#{$weight}-underline {
+    font: var(--nys-font-weight-#{$weight})
+      var(--nys-font-size-ui-#{$size}) /
+      var(--nys-font-lineheight-ui-#{$size})
+      var(--nys-font-family-ui);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: var(--nys-font-decoration-thickness-regular, 7%);
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+
+  .nys-font-ui-#{$size}-#{$weight}-underline-strong {
+    font: var(--nys-font-weight-#{$weight})
+      var(--nys-font-size-ui-#{$size}) /
+      var(--nys-font-lineheight-ui-#{$size})
+      var(--nys-font-family-ui);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: var(--nys-font-decoration-thickness-strong, 14%);
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+}
+
 /* --- Display --- */
 
 $display-sizes: (sm, md, lg, xl);
