@@ -216,7 +216,7 @@ export const WithFooterSlot: Story = {
         style="font-size:0.875rem;color:#555;padding-top:0.5rem"
       >
         <nys-divider></nys-divider>
-        <p>Regulations last updated: January 2024</p>
+        <p>Regulations last updated: January 2026</p>
         <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
       </div>
     </nys-verticalnav>
@@ -239,7 +239,7 @@ export const WithFooterSlot: Story = {
   </ul>
   <div slot="footer">
     <nys-divider></nys-divider>
-    <p>Regulations last updated: January 2024</p>
+    <p>Regulations last updated: January 2026</p>
     <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
   </div>
 </nys-verticalnav>`,
@@ -315,7 +315,7 @@ export const WithHeaderAndFooterSlot: Story = {
       </ul>
       <div slot="footer">
         <nys-divider></nys-divider>
-        <p>Regulations last updated: January 2024</p>
+        <p>Regulations last updated: January 2026</p>
         <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
       </div>
     </nys-verticalnav>
@@ -342,7 +342,7 @@ export const WithHeaderAndFooterSlot: Story = {
   </ul>
   <div slot="footer">
     <nys-divider></nys-divider>
-    <p>Regulations last updated: January 2024</p>
+    <p>Regulations last updated: January 2026</p>
     <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
   </div>
 </nys-verticalnav>`,

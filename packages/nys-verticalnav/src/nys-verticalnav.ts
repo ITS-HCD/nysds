@@ -78,7 +78,7 @@ type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *   </ul>
  *   <div slot="footer">
  *     <nys-divider></nys-divider>
- *     <p>Regulations last updated: January 2024</p>
+ *     <p>Regulations last updated: January 2026</p>
  *     <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
  *   </div>
  * </nys-verticalnav>
