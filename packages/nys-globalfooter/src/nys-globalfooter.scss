@@ -70,28 +70,35 @@
   color: var(--_nys-globalfooter-color);
   width: 100%;
   box-sizing: border-box;
-}
 
-/** Main Container **/
-.nys-globalfooter__main-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--_nys-globalfooter-gap);
-  width: 100%;
-  max-width: var(--_nys-globalfooter-max-width);
-}
+  /** Main Container **/
+  .nys-globalfooter__main-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--_nys-globalfooter-gap);
+    width: 100%;
+    max-width: var(--_nys-globalfooter-max-width);
 
-/* The Agency Name */
-.nys-globalfooter__name {
-  text-align: left;
-  margin: 0;
-  color: var(--_nys-globalfooter-color);
-  font-family: var(--_nys-globalfooter-font-family--agency);
-  font-size: var(--_nys-globalfooter-font-size--agency);
-  font-style: normal;
-  font-weight: var(--_nys-globalfooter-font-weight--semibold);
-  line-height: var(--_nys-globalfooter-line-height--agency);
-  letter-spacing: normal;
+    .nys-globalfooter__heading-container {
+      /* The Agency Name */
+      .nys-globalfooter__name {
+        text-align: left;
+        margin: 0;
+        color: var(--_nys-globalfooter-color);
+        font-family: var(--_nys-globalfooter-font-family--agency);
+        font-size: var(--_nys-globalfooter-font-size--agency);
+        font-style: normal;
+        font-weight: var(--_nys-globalfooter-font-weight--semibold);
+        line-height: var(--_nys-globalfooter-line-height--agency);
+        letter-spacing: normal;
+      }
+
+      /* The Agency Subheading */
+      .nys-globalfooter__subheading {
+        margin: 0;
+      }
+    }
+  }
 }
 
 /** Slotted content resets (menu links - cloned into shadowDOM from lightDOM) **/

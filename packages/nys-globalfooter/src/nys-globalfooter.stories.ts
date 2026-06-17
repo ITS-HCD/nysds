@@ -6,6 +6,7 @@ import "@nysds/nys-divider";
 // Define the structure of the args used in the stories
 interface NysGlobalFooterArgs {
   agencyName: string;
+  agencySubheading: string;
   homepageLink: string;
 }
 
@@ -14,6 +15,7 @@ const meta: Meta<NysGlobalFooterArgs> = {
   component: "nys-globalfooter",
   argTypes: {
     agencyName: { control: "text" },
+    agencySubheading: { control: "text" },
     homepageLink: { control: "text" },
   },
   parameters: {
@@ -38,6 +40,7 @@ export const Basic: Story = {
   render: (args) => html`
     <nys-globalfooter
       .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
       .homepageLink=${args.homepageLink}
     >
       <ul>
@@ -72,6 +75,7 @@ export const WithoutMenuLinks: Story = {
   render: (args) => html`
     <nys-globalfooter
       .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
       .homepageLink=${args.homepageLink}
     ></nys-globalfooter>
   `,
@@ -96,6 +100,7 @@ export const WithMenuLinks: Story = {
   render: (args) => html`
     <nys-globalfooter
       .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
       .homepageLink=${args.homepageLink}
     >
       <ul>
@@ -129,6 +134,7 @@ export const WithColumnLinks: Story = {
   render: (args) => html`
     <nys-globalfooter
       .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
       .homepageLink=${args.homepageLink}
     >
       <ul>
@@ -175,6 +181,46 @@ export const WithColumnLinks: Story = {
         <li><a href="https://its.ny.gov/privacy">Privacy</a></li>
       </ul>
     </li>
+  </ul>
+</nys-globalfooter>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: With Subheading
+export const WithSubheading: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+    agencySubheading: "Innovating Technology for a Better New York",
+    homepageLink: "https://its.ny.gov",
+  },
+  render: (args) => html`
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
+      .homepageLink=${args.homepageLink}
+    >
+      <ul>
+        <li><a href="https://its.ny.gov">ITS Home</a></li>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+      </ul>
+    </nys-globalfooter>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalfooter
+  agencyName="Office of Information Technology Services"
+  agencySubheading="Innovating Technology for a Better New York"
+  homepageLink="https://its.ny.gov"
+>
+  <ul>
+    <li><a href="https://its.ny.gov">ITS Home</a></li>
+    <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
   </ul>
 </nys-globalfooter>
 `.trim(),

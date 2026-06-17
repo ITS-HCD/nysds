@@ -74,7 +74,8 @@ const watchers = window.__nysIconWatchers;
 function resolveDefaultIconBaseUrl(): string {
   // Matches the served bundle filenames: nysds.js, nysds.es.js, nysds.min.js,
   // or the standalone nys-icon.js.
-  const bundlePattern = /(?:^|\/)(?:nysds(?:\.es|\.min)?|nys-icon)\.js(?:[?#]|$)/;
+  const bundlePattern =
+    /(?:^|\/)(?:nysds(?:\.es|\.min)?|nys-icon)\.js(?:[?#]|$)/;
 
   if (typeof document !== "undefined") {
     const current = document.currentScript as HTMLScriptElement | null;
