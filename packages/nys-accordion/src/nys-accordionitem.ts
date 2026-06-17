@@ -120,10 +120,8 @@ export class NysAccordionItem extends LitElement {
 
     if (this.expanded) {
       // Slide down the content by setting a calculated max-height, depending on the panel's height on different screen sizes
-      requestAnimationFrame(() => {
-        const slotHeight = this._contentContainer.scrollHeight;
-        this._contentContainer.style.height = `${slotHeight}px`;
-      });
+      const slotHeight = this._contentContainer.scrollHeight;
+      this._contentContainer.style.height = `${slotHeight}px`;
     } else {
       // Collapse
       this._contentContainer.style.height = "0";

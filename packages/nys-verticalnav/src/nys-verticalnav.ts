@@ -190,8 +190,8 @@ export class NysVerticalnav extends LitElement {
       this.id = `nys-verticalnav-${Date.now()}-${componentIdCounter++}`;
     }
 
-    this._mediaQuery = window.matchMedia("(max-width: 1023px)"); // Tablet size and below
-    this._isMobile = this._mediaQuery.matches;
+    this._mediaQuery = window.matchMedia("(max-width: 1023px)") ?? null; // Tablet size and below
+    this._isMobile = this._mediaQuery.matches ?? false;
     this._mediaQuery.addEventListener("change", this._handleResize);
   }
 
@@ -226,21 +226,27 @@ export class NysVerticalnav extends LitElement {
   };
 
   private _removeDividers() {
-    this.querySelectorAll(
-      "nys-divider.nys-verticalnav__divider--injected",
-    ).forEach((divider) => divider.remove());
+    this.querySelectorAll("li.nys-verticalnav__divider--injected").forEach(
+      (li) => li.remove(),
+    );
   }
 
   private _injectDividers() {
-    this.querySelectorAll("ul > li").forEach((li) => {
+    this.querySelectorAll(
+      "ul > li:not(.nys-verticalnav__divider--injected)",
+    ).forEach((li) => {
       if (li.parentElement?.closest("nys-verticalnavgroup")) return;
       if (li.nextElementSibling?.tagName.toLowerCase() === "nys-divider")
         return;
       if (li.nextElementSibling) {
+        const wrapper = document.createElement("li");
+        wrapper.classList.add("nys-verticalnav__divider--injected");
+        wrapper.setAttribute("role", "presentation");
+        wrapper.setAttribute("aria-hidden", "true");
         const divider = document.createElement("nys-divider");
         divider.setAttribute("subtle", "");
-        divider.classList.add("nys-verticalnav__divider--injected");
-        li.insertAdjacentElement("afterend", divider);
+        wrapper.appendChild(divider);
+        li.insertAdjacentElement("afterend", wrapper);
       }
     });
   }
@@ -264,10 +270,14 @@ export class NysVerticalnav extends LitElement {
         prev.children[0].tagName.toLowerCase() === "nys-divider";
       if (prevIsDivider || prevIsDividerLi) return;
 
+      const wrapper = document.createElement("li");
+      wrapper.classList.add("nys-verticalnav__divider--injected");
+      wrapper.setAttribute("role", "presentation");
+      wrapper.setAttribute("aria-hidden", "true");
       const divider = document.createElement("nys-divider");
       divider.setAttribute("subtle", "");
-      divider.classList.add("nys-verticalnav__divider--injected");
-      li.insertAdjacentElement("beforebegin", divider);
+      wrapper.appendChild(divider);
+      li.insertAdjacentElement("beforebegin", wrapper);
     });
   }
 

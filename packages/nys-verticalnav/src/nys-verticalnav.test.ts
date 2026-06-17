@@ -12,6 +12,7 @@ describe("nys-verticalnav", () => {
     const el = await fixture<NysVerticalnav>(
       html`<nys-verticalnav></nys-verticalnav>`,
     );
+    (el as any)._isMobile = false;
     await el.updateComplete;
     const nav = el.shadowRoot?.querySelector(".nys-verticalnav--desktop");
     expect(nav).to.exist;
@@ -81,6 +82,7 @@ describe("nys-verticalnav", () => {
     const el = await fixture<NysVerticalnav>(html`
       <nys-verticalnav header="Freshwater Fishing"></nys-verticalnav>
     `);
+    (el as any)._isMobile = false;
     await el.updateComplete;
     const header = el.shadowRoot?.querySelector(".nys-verticalnav__header");
     expect(header?.textContent?.trim()).to.equal("Freshwater Fishing");
@@ -93,6 +95,7 @@ describe("nys-verticalnav", () => {
         headerLevel="h3"
       ></nys-verticalnav>
     `);
+    (el as any)._isMobile = false;
     await el.updateComplete;
     const heading = el.shadowRoot?.querySelector("h3.nys-verticalnav__header");
     expect(heading).to.exist;
@@ -111,6 +114,7 @@ describe("nys-verticalnav", () => {
     const el = await fixture<NysVerticalnav>(html`
       <nys-verticalnav header="Freshwater Fishing" hideHeader></nys-verticalnav>
     `);
+    (el as any)._isMobile = false;
     await el.updateComplete;
     const nav = el.shadowRoot?.querySelector("nav");
     expect(nav?.getAttribute("aria-label")).to.equal("Page navigation");
@@ -120,6 +124,7 @@ describe("nys-verticalnav", () => {
     const el = await fixture<NysVerticalnav>(html`
       <nys-verticalnav id="nav1" header="Freshwater Fishing"></nys-verticalnav>
     `);
+    (el as any)._isMobile = false;
     await el.updateComplete;
     const nav = el.shadowRoot?.querySelector("nav");
     expect(nav?.getAttribute("aria-labelledby")).to.equal("nav1-heading");
@@ -181,13 +186,12 @@ describe("nys-verticalnav", () => {
     `);
     await el.updateComplete;
 
-    // Simulate mobile
     (el as any)._isMobile = true;
     (el as any)._removeDividers();
     (el as any)._injectDividers();
 
     const dividers = el.querySelectorAll(
-      "nys-divider.nys-verticalnav__divider--injected",
+      "li.nys-verticalnav__divider--injected",
     );
     expect(dividers.length).to.be.greaterThan(0);
   });
@@ -207,12 +211,11 @@ describe("nys-verticalnav", () => {
     `);
     await el.updateComplete;
 
-    // Inject then remove
     (el as any)._injectDividers();
     (el as any)._removeDividers();
 
     const injected = el.querySelectorAll(
-      "nys-divider.nys-verticalnav__divider--injected",
+      "li.nys-verticalnav__divider--injected",
     );
     const userDividers = el.querySelectorAll('[slot="footer"] nys-divider');
     expect(injected.length).to.equal(0);
@@ -237,7 +240,7 @@ describe("nys-verticalnav", () => {
     (el as any)._injectSubheaderDividers();
 
     const dividers = el.querySelectorAll(
-      "nys-divider.nys-verticalnav__divider--injected",
+      "li.nys-verticalnav__divider--injected",
     );
     expect(dividers.length).to.be.greaterThan(0);
   });
