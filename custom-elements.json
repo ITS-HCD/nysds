@@ -14705,7 +14705,7 @@
             },
             {
               "title": "With footer slot",
-              "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2024</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>",
+              "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>",
               "lang": "html"
             },
             {

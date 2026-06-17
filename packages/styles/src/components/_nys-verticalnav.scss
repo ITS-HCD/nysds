@@ -42,6 +42,9 @@ nys-verticalnav {
           var(--nys-color-focus, #004dd1);
         outline-offset: -2px;
       }
+      &:focus {
+        color: var(--nys-color-text, #1b1b1b);
+      }
       &[aria-disabled="true"] {
         color: var(--nys-color-text-disabled, #bec0c1);
         cursor: not-allowed;
