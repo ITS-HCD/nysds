@@ -83,7 +83,7 @@ export class NysModal extends LitElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.addEventListener("keydown", this._handleKeydown);
+    window.addEventListener("keydown", (e) => this._handleKeydown(e));
   }
 
   disconnectedCallback() {
@@ -93,7 +93,7 @@ export class NysModal extends LitElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.removeEventListener("keydown", this._handleKeydown);
+    window.removeEventListener("keydown", (e) => this._handleKeydown(e));
   }
 
   async updated(changeProps: Map<string, any>) {
@@ -254,9 +254,7 @@ export class NysModal extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  // Arrow-function field so the reference is stable and bound to `this`,
-  // allowing add/removeEventListener to match and preventing listener leaks.
-  private _handleKeydown = async (e: KeyboardEvent) => {
+  private async _handleKeydown(e: KeyboardEvent) {
     if (!this.open) return;
 
     // Exit the modal for "escape" key
