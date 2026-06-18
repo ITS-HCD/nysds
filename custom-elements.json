@@ -5426,6 +5426,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "attribute": "subtle",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_generateUniqueId",
               "privacy": "private",
@@ -5442,6 +5453,16 @@
               "description": "Adjusts colors for dark backgrounds.",
               "fieldName": "inverted",
               "propName": "inverted"
+            },
+            {
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "fieldName": "subtle",
+              "propName": "subtle"
             }
           ],
           "superclass": {
@@ -7800,6 +7821,25 @@
               "privacy": "private",
               "default": "0",
               "description": "Monotonically increasing token so stale async fetches are discarded."
+            },
+            {
+              "kind": "field",
+              "name": "_loadPromise",
+              "type": {
+                "text": "Promise<void> | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Promise for the in-flight icon load."
+            },
+            {
+              "kind": "field",
+              "name": "updateComplete",
+              "type": {
+                "text": "Promise<boolean>"
+              },
+              "description": "Resolves when the current icon load (if any) is complete.",
+              "readonly": true
             },
             {
               "kind": "method",

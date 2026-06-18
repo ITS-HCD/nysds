@@ -407,51 +407,29 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 ```
 
 <h2 id="gutters"><a id="gutters-2"></a>Gutters</h2>
-<h3 id="default-gutter"><a id="default-gutter-2"></a>Default gutter</h3>
-<p>Add <code>grid-gap</code> to a grid row to add a gap (or gutter) between each column in the row. The default gap width is 2 units and 4 units at <code>desktop</code> and higher.</p>
+<p>Gap classes are applied to <code>nys-grid-row</code> and come in three axis variants:</p>
+<ul>
+  <li><code>nys-grid-gap</code> — applies gaps both horizontally (between columns) and vertically (between wrapped rows)</li>
+  <li><code>nys-grid-gap-x</code> — horizontal gaps only (between columns)</li>
+  <li><code>nys-grid-gap-y</code> — vertical gaps only (between wrapped rows)</li>
+</ul>
+<p>Each variant also accepts a size suffix from the NYS spacing ramp (e.g. <code>nys-grid-gap-x-200</code>, <code>nys-grid-gap-y-400</code>). Without a suffix, the default gap is <code>0.5rem</code> (1rem at <code>desktop</code> and wider).</p>
 
-<div className="nys-grid-row border-left">
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">1</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">2</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">3</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">4</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">5</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">6</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">7</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">8</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">9</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">10</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">11</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">12</div>
-  </div>
-</div>
+<h3 id="default-gutter"><a id="default-gutter-2"></a>Default gap — both axes</h3>
+<p>Add <code>nys-grid-gap</code> to apply a horizontal and vertical gutter in one class. The default gap is <code>0.5rem</code> and increases to <code>1rem</code> at <code>desktop</code> and wider.</p>
+
 <div className="docs-grid-example margin-top-2">
 
-
 <div className="nys-grid-row nys-grid-gap">
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
   <div className="nys-grid-col-4">
     <div>.nys-grid-col-4</div>
   </div>
@@ -467,76 +445,129 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 
 ```html
 <div class="nys-grid-row nys-grid-gap">
-  <div class="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
-  <div class="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
-  <div class="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
 </div>
 ```
 
-<h3><a id="large-gutter"></a>Gap sizes</h3>
-<p>Use a sized gap modifier on <code>nys-grid-row</code> to set a fixed gutter. Values follow the NYS size ramp:</p>
-<ul>
-  <li><code>nys-grid-gap-1px</code> — 1px</li>
-  <li><code>nys-grid-gap-2px</code> — 2px</li>
-  <li><code>nys-grid-gap-50</code> — 4px</li>
-  <li><code>nys-grid-gap-100</code> — 8px</li>
-  <li><code>nys-grid-gap-150</code> — 12px</li>
-  <li><code>nys-grid-gap-200</code> — 16px</li>
-  <li><code>nys-grid-gap-250</code> — 20px</li>
-  <li><code>nys-grid-gap-300</code> — 24px</li>
-  <li><code>nys-grid-gap-400</code> — 32px</li>
-  <li><code>nys-grid-gap-500</code> — 40px</li>
-  <li><code>nys-grid-gap-600</code> — 48px</li>
-  <li><code>nys-grid-gap-700</code> — 56px</li>
-  <li><code>nys-grid-gap-800</code> — 64px</li>
-  <li><code>nys-grid-gap-1200</code> — 96px</li>
-</ul>
-<div className="nys-grid-row border-left">
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">1</div>
+<h3 id="horizontal-gap"><a id="horizontal-gap-2"></a>Horizontal gap only</h3>
+<p>Use <code>nys-grid-gap-x</code> to add space only between columns, with no vertical gap between wrapped rows.</p>
+
+<div className="docs-grid-example margin-top-2">
+
+<div className="nys-grid-row nys-grid-gap-x">
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
   </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">2</div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
   </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">3</div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
   </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">4</div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
   </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">5</div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
   </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">6</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">7</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">8</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">9</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">10</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">11</div>
-  </div>
-  <div className="nys-grid-col-1 border-right">
-    <div className="text-center">12</div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
   </div>
 </div>
-<div className="docs-grid-example">
 
+</div>
+
+```html
+<div class="nys-grid-row nys-grid-gap-x">
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+</div>
+```
+
+<h3 id="vertical-gap"><a id="vertical-gap-2"></a>Vertical gap only</h3>
+<p>Use <code>nys-grid-gap-y</code> to add space only between wrapped rows, with no horizontal gap between columns.</p>
+
+<div className="docs-grid-example margin-top-2">
+
+<div className="nys-grid-row nys-grid-gap-y">
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+  <div className="nys-grid-col-4">
+    <div>.nys-grid-col-4</div>
+  </div>
+</div>
+
+</div>
+
+```html
+<div class="nys-grid-row nys-grid-gap-y">
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+</div>
+```
+
+<h3><a id="gap-sizes"></a>Gap sizes</h3>
+<p>Append a size token to any gap variant. The full ramp, and the class pattern for each axis:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Size</th>
+      <th>Value</th>
+      <th>Both axes</th>
+      <th>Horizontal only</th>
+      <th>Vertical only</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1px</td><td>1px</td><td><code>nys-grid-gap-1px</code></td><td><code>nys-grid-gap-x-1px</code></td><td><code>nys-grid-gap-y-1px</code></td></tr>
+    <tr><td>2px</td><td>2px</td><td><code>nys-grid-gap-2px</code></td><td><code>nys-grid-gap-x-2px</code></td><td><code>nys-grid-gap-y-2px</code></td></tr>
+    <tr><td>50</td><td>4px</td><td><code>nys-grid-gap-50</code></td><td><code>nys-grid-gap-x-50</code></td><td><code>nys-grid-gap-y-50</code></td></tr>
+    <tr><td>100</td><td>8px</td><td><code>nys-grid-gap-100</code></td><td><code>nys-grid-gap-x-100</code></td><td><code>nys-grid-gap-y-100</code></td></tr>
+    <tr><td>150</td><td>12px</td><td><code>nys-grid-gap-150</code></td><td><code>nys-grid-gap-x-150</code></td><td><code>nys-grid-gap-y-150</code></td></tr>
+    <tr><td>200</td><td>16px</td><td><code>nys-grid-gap-200</code></td><td><code>nys-grid-gap-x-200</code></td><td><code>nys-grid-gap-y-200</code></td></tr>
+    <tr><td>250</td><td>20px</td><td><code>nys-grid-gap-250</code></td><td><code>nys-grid-gap-x-250</code></td><td><code>nys-grid-gap-y-250</code></td></tr>
+    <tr><td>300</td><td>24px</td><td><code>nys-grid-gap-300</code></td><td><code>nys-grid-gap-x-300</code></td><td><code>nys-grid-gap-y-300</code></td></tr>
+    <tr><td>400</td><td>32px *</td><td><code>nys-grid-gap-400</code></td><td><code>nys-grid-gap-x-400</code></td><td><code>nys-grid-gap-y-400</code></td></tr>
+    <tr><td>500</td><td>40px *</td><td><code>nys-grid-gap-500</code></td><td><code>nys-grid-gap-x-500</code></td><td><code>nys-grid-gap-y-500</code></td></tr>
+    <tr><td>600</td><td>48px *</td><td><code>nys-grid-gap-600</code></td><td><code>nys-grid-gap-x-600</code></td><td><code>nys-grid-gap-y-600</code></td></tr>
+    <tr><td>700</td><td>56px *</td><td><code>nys-grid-gap-700</code></td><td><code>nys-grid-gap-x-700</code></td><td><code>nys-grid-gap-y-700</code></td></tr>
+    <tr><td>800</td><td>64px *</td><td><code>nys-grid-gap-800</code></td><td><code>nys-grid-gap-x-800</code></td><td><code>nys-grid-gap-y-800</code></td></tr>
+    <tr><td>1200</td><td>96px *</td><td><code>nys-grid-gap-1200</code></td><td><code>nys-grid-gap-x-1200</code></td><td><code>nys-grid-gap-y-1200</code></td></tr>
+  </tbody>
+</table>
+
+<p>* Sizes 400 and above are capped on small screens to prevent overflow: horizontal gaps cap at <code>1rem</code> and vertical gaps cap at <code>2rem</code> below the <code>desktop</code> breakpoint (64em), then expand to their full values at <code>desktop</code> and wider.</p>
+
+<p>Responsive breakpoint prefixes also work with all three axis variants (e.g. <code>nys-tablet:nys-grid-gap-x-200</code>).</p>
+
+<div className="docs-grid-example">
 
 <div className="nys-grid-row nys-grid-gap-400">
   <div className="nys-grid-col-4">
@@ -562,24 +593,23 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 </div>
 
 ```html
+<!-- Both horizontal and vertical gap at size 400 -->
 <div class="nys-grid-row nys-grid-gap-400">
-  <div class="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
-  <div class="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
-  <div class="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
-  <div className="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
-  <div className="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
-  <div className="nys-grid-col-4">
-    <div>.nys-grid-col-4</div>
-  </div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+  <div class="nys-grid-col-4"><div>.nys-grid-col-4</div></div>
+</div>
+
+<!-- Horizontal gap only -->
+<div class="nys-grid-row nys-grid-gap-x-400">
+  ...
+</div>
+
+<!-- Vertical gap only -->
+<div class="nys-grid-row nys-grid-gap-y-400">
+  ...
 </div>
 ```

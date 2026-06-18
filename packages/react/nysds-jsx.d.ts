@@ -419,6 +419,8 @@ export type NysDatepickerProps = {
 export type NysDividerProps = {
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
+  /** If true, the divider will use a lighter color. */
+  subtle?: boolean;
 };
 
 export type NysDropdownMenuProps = {
@@ -562,6 +564,8 @@ export type NysIconProps = {
     | "32"
     | "40"
     | "50";
+  /** Resolves when the current icon load (if any) is complete. */
+  updateComplete?: Promise<boolean>;
 };
 
 export type NysLabelProps = {
