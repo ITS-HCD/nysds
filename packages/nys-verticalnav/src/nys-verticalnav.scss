@@ -3,16 +3,13 @@
 
   /* Global Verticalnav Styles */
   --_nys-verticalnav-color: var(--nys-color-text-weak, #4a4d4f);
-  --_nys-verticalnav-color--subheader: var(--nys-color-text, #1b1b1b);
   --_nys-verticalnav-background-color: var(--nys-color-surface, #fff);
   --_nys-verticalnav-border-color: var(--nys-color-neutral-200, #bec0c1);
 
   /* Typography */
   --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
-  --_nys-verticalnav-font-size--subheader: var(--nys-font-size-ui-sm, 14px);
-  --_nys-verticalnav-font-weight: var(--nys-font-weight-regular, 400);
-  --_nys-verticalnav-font-weight--subheader: var(
+  --_nys-verticalnav-font-weight--header: var(
     --nys-font-weight-semibold,
     600
   );
@@ -68,10 +65,10 @@ nys-accordion {
   }
 
   .nys-verticalnav__header {
-    color: var(--_nys-verticalnav-color--subheader);
+    color: var(--_nys-verticalnav-color);
     border-top: none;
     font-size: var(--_nys-verticalnav-font-size--header);
-    font-weight: 700;
+    font-weight: var(--_nys-verticalnav-font-weight--header);
     text-transform: none;
     margin: 0;
     margin-left: var(--nys-space-100, 8px);
@@ -92,7 +89,7 @@ nys-accordion {
     color: var(--_nys-verticalnav-color);
     font-family: var(--_nys-verticalnav-font-family);
     font-size: var(--_nys-verticalnav-font-size);
-    font-weight: var(--_nys-verticalnav-font-weight--subheader);
+    font-weight: var(--_nys-verticalnav-font-weight--header);
     line-height: var(--_nys-verticalnav-line-height);
     &:hover {
       background-color: var(--_nys-verticalnav-trigger-hover);

@@ -102,19 +102,15 @@ export const WithHeaderSlot: Story = {
       [slot="header"] p {
         margin: 0;
         font-size: var(--nys-font-size-xs, 0.75rem);
-        color: var(--nys-color-text-weak, #4a4d4f);
+        font-weight: 500;
         letter-spacing: 0.08em;
-        font-weight: 600;
+        font-weight: 500;
+        color: var(--nys-color-success, #2e7d32);
       }
       [slot="header"] h2 {
         margin: 0;
         font-size: var(--nys-font-size-h4, 1.25rem);
         color: var(--nys-color-theme, #154973);
-      }
-      [slot="header"] p:last-child {
-        font-size: var(--nys-font-size-xs, 0.75rem);
-        color: var(--nys-color-success, #2e7d32);
-        font-weight: 500;
       }
     </style>
     <nys-verticalnav
@@ -261,19 +257,14 @@ export const WithHeaderAndFooterSlot: Story = {
       [slot="header"] p {
         margin: 0;
         font-size: var(--nys-font-size-xs, 0.75rem);
-        color: var(--nys-color-text-weak, #4a4d4f);
         letter-spacing: 0.08em;
-        font-weight: 600;
+        color: var(--nys-color-success, #2e7d32);
+        font-weight: 500;
       }
       [slot="header"] h2 {
         margin: 0;
         font-size: var(--nys-font-size-h4, 1.25rem);
         color: var(--nys-color-theme, #154973);
-      }
-      [slot="header"] p:last-child {
-        font-size: var(--nys-font-size-xs, 0.75rem);
-        color: var(--nys-color-success, #2e7d32);
-        font-weight: 500;
       }
       [slot="footer"] {
         display: flex;

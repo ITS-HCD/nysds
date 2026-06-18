@@ -1,4 +1,27 @@
 nys-verticalnav {
+  /* Typography */
+  --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
+  --_nys-verticalnav-font-size--subheader: var(--nys-font-size-ui-sm, 14px);
+  --_nys-verticalnav-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-verticalnav-font-weight--group-links: var(
+    --nys-font-weight-regular,
+    400
+  );
+  --_nys-verticalnav-font-weight--subheader: var(--nys-font-weight-bold, 700);
+  --_nys-verticalnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-verticalnav-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+
   ul {
     list-style-type: none;
     padding: 0;
@@ -29,6 +52,10 @@ nys-verticalnav {
       padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
         var(--nys-space-100, 8px) var(--nys-space-150, 12px);
       text-decoration: none;
+      font-family: var(--_nys-verticalnav-font-family);
+      font-size: var(--_nys-verticalnav-font-size);
+      font-weight: var(--_nys-verticalnav-font-weight);
+      line-height: var(--_nys-verticalnav-line-height);
 
       &:hover {
         color: var(--nys-color-text, #1b1b1b);
@@ -67,12 +94,14 @@ nys-verticalnav {
 
     // Subheader headings inside li items
     li :is(h1, h2, h3, h4, h5, h6) {
-      font-size: var(--nys-font-size-ui-sm, 14px);
+      font-family: var(--_nys-verticalnav-font-family);
+      font-size: var(--_nys-verticalnav-font-size--subheader);
+      font-weight: var(--_nys-verticalnav-font-weight--subheader);
+      line-height: var(--_nys-verticalnav-line-height);
       padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px)
         var(--nys-space-50, 4px) var(--nys-space-150, 12px);
       margin: 0;
       text-transform: uppercase;
-      font-weight: 700;
       color: var(--nys-color-text, #1b1b1b);
     }
   }
@@ -87,6 +116,10 @@ nys-verticalnavgroup {
         color: var(--nys-color-text, #1b1b1b);
         padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
           var(--nys-space-100, 8px) var(--nys-space-300, 24px);
+        font-family: var(--_nys-verticalnav-font-family);
+        font-size: var(--_nys-verticalnav-font-size);
+        font-weight: var(--_nys-verticalnav-font-weight--group-links);
+        line-height: var(--_nys-verticalnav-line-height);
       }
     }
   }
