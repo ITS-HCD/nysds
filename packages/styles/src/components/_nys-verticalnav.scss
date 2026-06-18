@@ -33,6 +33,7 @@ nys-verticalnav {
       &:hover {
         color: var(--nys-color-text, #1b1b1b);
         background-color: var(--nys-color-neutral-10, #f6f6f6);
+        text-decoration: none; // nysds-full.min.scss overrides early text-decoration: none so this is needed again here
       }
       &:active {
         background-color: var(--nys-color-neutral-50, #ededed);
@@ -44,6 +45,7 @@ nys-verticalnav {
       }
       &:focus {
         color: var(--nys-color-text, #1b1b1b);
+        text-decoration: none;
       }
       &[aria-disabled="true"] {
         color: var(--nys-color-text-disabled, #bec0c1);
