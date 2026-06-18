@@ -3,16 +3,13 @@
 
   /* Global Verticalnav Styles */
   --_nys-verticalnav-color: var(--nys-color-text-weak, #4a4d4f);
-  --_nys-verticalnav-background-color: var(--nys-color-surface, #fff);
+  --_nys-verticalnav-background-color: var(--nys-color-surface, #ffffff);
   --_nys-verticalnav-border-color: var(--nys-color-neutral-200, #bec0c1);
 
   /* Typography */
   --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
-  --_nys-verticalnav-font-weight--header: var(
-    --nys-font-weight-semibold,
-    600
-  );
+  --_nys-verticalnav-font-weight--header: var(--nys-font-weight-semibold, 600);
   --_nys-verticalnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-verticalnav-font-family: var(
     --nys-font-family-ui,
@@ -34,8 +31,14 @@
 
   /* Active navgroup trigger states */
   --_nys-verticalnav-trigger-current: var(--nys-color-theme-faint, #f7fafd);
-  --_nys-verticalnav-trigger-current-hover: var(--nys-color-theme-weaker, #eff6fb);
-  --_nys-verticalnav-trigger-current-active: var(--nys-color-theme-weak, #cddde9);
+  --_nys-verticalnav-trigger-current-hover: var(
+    --nys-color-theme-weaker,
+    #eff6fb
+  );
+  --_nys-verticalnav-trigger-current-active: var(
+    --nys-color-theme-weak,
+    #cddde9
+  );
 }
 
 nys-accordion {
@@ -91,17 +94,21 @@ nys-accordion {
     font-size: var(--_nys-verticalnav-font-size);
     font-weight: var(--_nys-verticalnav-font-weight--header);
     line-height: var(--_nys-verticalnav-line-height);
+
     &:hover {
       background-color: var(--_nys-verticalnav-trigger-hover);
     }
+
     &:active {
       background-color: var(--_nys-verticalnav-trigger-active);
     }
+
     &:focus-visible {
       outline: var(--nys-border-width-md, 2px) solid
         var(--_nys-verticalnav-trigger-focus);
       outline-offset: -2px;
     }
+
     &:disabled {
       color: var(--_nys-verticalnav-trigger-disabled);
     }
@@ -113,6 +120,7 @@ nys-accordion {
 
   &__items {
     display: none;
+
     --_nys-verticalnav-link-indent: var(--nys-space-300, 24px);
   }
 }
@@ -142,9 +150,11 @@ nys-accordion {
   .nys-verticalnavgroup {
     &__trigger {
       background-color: var(--_nys-verticalnav-trigger-current);
+
       &:hover {
         background-color: var(--_nys-verticalnav-trigger-current-hover);
       }
+
       &:active {
         background-color: var(--_nys-verticalnav-trigger-current-active);
       }

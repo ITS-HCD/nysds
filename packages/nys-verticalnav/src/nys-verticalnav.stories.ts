@@ -593,7 +593,7 @@ export const PageLayout: Story = {
         </nys-verticalnav>
 
         <main class="story-page__main">
-          <p>Main content area</p>
+          <p>Place content here.</p>
         </main>
       </div>
 

@@ -62,22 +62,27 @@ nys-verticalnav {
         background-color: var(--nys-color-neutral-10, #f6f6f6);
         text-decoration: none; // nysds-full.min.scss overrides early text-decoration: none so this is needed again here
       }
+
       &:active {
         background-color: var(--nys-color-neutral-50, #ededed);
       }
+
       &:focus-visible {
         outline: var(--nys-border-width-md, 2px) solid
           var(--nys-color-focus, #004dd1);
         outline-offset: -2px;
       }
+
       &:focus {
         color: var(--nys-color-text, #1b1b1b);
         text-decoration: none;
       }
+
       &[aria-disabled="true"] {
         color: var(--nys-color-text-disabled, #bec0c1);
         cursor: not-allowed;
       }
+
       &[aria-current="page"] {
         background-color: var(--nys-color-theme-faint, #f7fafd);
         border-left: var(--nys-border-width-md, 2px) solid
@@ -86,6 +91,7 @@ nys-verticalnav {
         &:hover {
           background-color: var(--nys-color-theme-weaker, #eff6fb);
         }
+
         &:active {
           background-color: var(--nys-color-theme-weak, #cddde9);
         }
@@ -110,8 +116,10 @@ nys-verticalnav {
 nys-verticalnavgroup {
   ul {
     gap: 0;
+
     li {
       margin-bottom: 0;
+
       a {
         color: var(--nys-color-text, #1b1b1b);
         padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
