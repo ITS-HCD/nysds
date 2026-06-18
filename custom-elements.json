@@ -2163,11 +2163,12 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "\"submit\" | \"reset\" | \"button\""
+                "text": "| \"submit\"\n    | \"reset\"\n    | \"button\""
               },
               "default": "\"button\"",
               "description": "Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.",
-              "attribute": "type"
+              "attribute": "type",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2196,21 +2197,14 @@
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon=\"open_in_new\"`), `_parent`, `_top`, or frame name.",
-              "attribute": "target"
+              "attribute": "target",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "_internals",
               "type": {
                 "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_activeClassTimeout",
-              "type": {
-                "text": "ReturnType<typeof setTimeout> | undefined"
               },
               "privacy": "private"
             },
@@ -2247,24 +2241,6 @@
               "name": "_generateUniqueId",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "field",
-              "name": "_prefixSlotScheduled",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "_suffixSlotScheduled",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
             },
             {
               "kind": "method",
@@ -2565,7 +2541,7 @@
             {
               "name": "type",
               "type": {
-                "text": "\"submit\" | \"reset\" | \"button\""
+                "text": "| \"submit\"\n    | \"reset\"\n    | \"button\""
               },
               "default": "\"button\"",
               "description": "Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.",
@@ -8397,9 +8373,17 @@
               "description": "This exist to prevent the VO for dismiss button from announcing itself between the heading & subheading/slot content.\nWe add the \"Close this window\" ariaLabel after the initial VO is done"
             },
             {
-              "kind": "field",
+              "kind": "method",
               "name": "_handleKeydown",
               "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ],
               "description": "Event Handlers\n--------------------------------------------------------------------------"
             },
             {

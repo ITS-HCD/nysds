@@ -13,11 +13,14 @@ const shouldAnalyze = process.env.ANALYZE === "true";
 const buildFormat = process.env.BUILD_FORMAT || "es";
 const isUmd = buildFormat === "umd";
 
+const __rootDir = dirname(fileURLToPath(import.meta.url));
+const packagesDir = path.resolve(__rootDir, "packages");
+
 // Build a named entry map from every nys-* package that has a src/index.ts
 const componentEntries = Object.fromEntries(
-  fs.readdirSync("./packages")
-    .filter((name) => name.startsWith("nys-") && fs.existsSync(`./packages/${name}/src/index.ts`))
-    .map((name) => [name, `./packages/${name}/src/index.ts`])
+  fs.readdirSync(packagesDir)
+    .filter((name) => name.startsWith("nys-") && fs.existsSync(path.join(packagesDir, name, "src/index.ts")))
+    .map((name) => [name, path.join(packagesDir, name, "src/index.ts")])
 );
 
 const banner = `
@@ -121,7 +124,7 @@ export const defaultConfig = {
   },
   build: {
     lib: {
-      entry: componentEntries,
+      entry: "./src/index.ts",
       formats: ["es"],
     },
     minify: 'esbuild',
@@ -142,7 +145,6 @@ export const defaultConfig = {
         compact: true,
         banner,
         dir: "dist",
-        entryFileNames: "[name].js",
         chunkFileNames: "[name].js",
         globals: {
           lit: "Lit",
@@ -207,7 +209,13 @@ export default isUmd
     })
   : mergeConfig(defaultConfig, {
       build: {
+        lib: {
+          entry: componentEntries,
+        },
         rollupOptions: {
+          output: {
+            entryFileNames: "[name].js",
+          },
           plugins: [copyIconAssets()],
         },
       },
