@@ -353,13 +353,6 @@ export class NysVerticalnav extends LitElement {
     </nav>`;
   }
 
-  /**
-   * Event Handlers
-   * --------------------------------------------------------------------------
-   */
-
-  // Placeholder for event handlers if needed
-
   render() {
     return this._isMobile
       ? this.renderContentMobile()

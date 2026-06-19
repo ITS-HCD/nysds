@@ -78,13 +78,6 @@ export class NysVerticalnavGroup extends LitElement {
     if (this.disabled) return;
 
     this.expanded = !this.expanded;
-
-    this.dispatchEvent(
-      new CustomEvent("nys-child-resize", {
-        bubbles: true,
-        composed: true,
-      }),
-    );
   }
 
   render() {
