@@ -15,5 +15,9 @@ import figma, { html } from "@figma/code-connect/html";
 // });
 
 figma.connect("<FIGMA_TAB>", {
-  example: () => html` <nys-tab label="Tab label" selected></nys-tab> `,
+  example: () => html`
+    <nys-tab label="Overview" selected></nys-tab>
+    <nys-tab label="Details"></nys-tab>
+    <nys-tab label="Settings" disabled></nys-tab>
+  `,
 });
