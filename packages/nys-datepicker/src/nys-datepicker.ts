@@ -73,9 +73,10 @@ export class NysDatepicker extends LitElement {
 
   /**
    * Input width: `md` (200px), `lg` (384px), `full` (100%).
-   * @default "md"
+   * @default "full"
    */
-  @property({ type: String, reflect: true }) width: "md" | "lg" | "full" = "md";
+  @property({ type: String, reflect: true }) width: "md" | "lg" | "full" =
+    "full";
 
   /** Hide the "Today" button in calendar popup. */
   @property({ type: Boolean }) hideTodayButton = false;
