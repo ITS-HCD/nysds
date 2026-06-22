@@ -18,6 +18,22 @@ describe("nys-globalfooter", () => {
     );
   });
 
+  it("should render with agencySubheading when provided", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Office of Information Technology Services"
+        agencySubheading="NYS Design System"
+      ></nys-globalfooter>`,
+    );
+    expect(el).to.exist;
+
+    const agencyName = el.shadowRoot?.querySelector(
+      ".nys-globalfooter__subheading",
+    );
+
+    expect(agencyName?.textContent?.trim()).to.equal("NYS Design System");
+  });
+
   it("renders a link wrapper when homepageLink is set", async () => {
     const el = await fixture<NysGlobalFooter>(
       html`<nys-globalfooter
