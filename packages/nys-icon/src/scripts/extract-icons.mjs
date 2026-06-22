@@ -16,6 +16,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const srcFile = resolve(__dirname, "../nys-icon.library.ts");
 const outDir = resolve(__dirname, "../../dist/icons");
+const manifestDir = resolve(__dirname, "../../");
 
 const source = readFileSync(srcFile, "utf8");
 
@@ -40,7 +41,7 @@ while ((match = iconRegex.exec(source)) !== null) {
 
 // Write manifest with sorted icon names
 writeFileSync(
-  resolve(outDir, "manifest.json"),
+  resolve(manifestDir, "manifest.json"),
   JSON.stringify({ icons: names.sort() }, null, 2),
   "utf8",
 );
