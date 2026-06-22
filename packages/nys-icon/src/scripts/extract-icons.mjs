@@ -46,4 +46,11 @@ writeFileSync(
   "utf8",
 );
 
+// Write second manifest in the dist folder so it comes with the icon dist
+writeFileSync(
+  resolve(outDir, "manifest.json"),
+  JSON.stringify({ icons: names.sort() }, null, 2),
+  "utf8",
+);
+
 console.log(`Extracted ${names.length} icons to dist/icons/`);
