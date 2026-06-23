@@ -40,5 +40,6 @@
     "label"
   ],
   "author": "New York State Design System Team",
-  "license": "MIT"
+  "license": "MIT",
+  "sideEffects": true
 }

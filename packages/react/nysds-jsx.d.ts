@@ -428,6 +428,8 @@ export type NysDropdownMenuProps = {
   for?: string;
   /**  */
   showDropdown?: boolean;
+  /** Accessible label for the menu. Used as `aria-label` on the `<ul role="menu">` element. */
+  label?: string;
   /** Preferred position relative to trigger. */
   position?: Position | null;
 };

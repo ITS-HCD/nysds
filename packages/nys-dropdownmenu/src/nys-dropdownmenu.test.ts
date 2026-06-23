@@ -193,6 +193,23 @@ describe("nys-dropdownmenu", () => {
     expect(result).to.equal("top-end");
   });
 
+  it("has aria-label on the menu element by default", async () => {
+    const { menu } = await fixtureWithTrigger();
+
+    const ul = menu.shadowRoot!.querySelector("ul[role='menu']")!;
+    expect(ul.getAttribute("aria-label")).to.not.be.empty;
+  });
+
+  it("sets aria-label to the provided label value", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu label="User actions"></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+
+    const ul = el.shadowRoot!.querySelector("ul[role='menu']")!;
+    expect(ul.getAttribute("aria-label")).to.equal("User actions");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-dropdownmenu label="My Label"></nys-dropdownmenu>`,

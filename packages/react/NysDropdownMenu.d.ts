@@ -24,6 +24,9 @@ export interface NysDropdownMenuProps extends Pick<
   /** undefined */
   for?: NysDropdownMenuElement["for"];
 
+  /** Accessible label for the menu. Used as `aria-label` on the `<ul role="menu">` element. */
+  label?: NysDropdownMenuElement["label"];
+
   /** Preferred position relative to trigger. */
   position?: NysDropdownMenuElement["position"];
 
