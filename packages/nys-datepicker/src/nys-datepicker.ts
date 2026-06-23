@@ -215,13 +215,14 @@ export class NysDatepicker extends LitElement {
   private static _ensureWcDatepickerDefined(): Promise<void> {
     if (customElements.get("wc-datepicker")) return Promise.resolve();
     if (!NysDatepicker._wcDatepickerLoader) {
-      NysDatepicker._wcDatepickerLoader = import(
-        "wc-datepicker/dist/components/wc-datepicker"
-      ).then(({ WcDatepicker }) => {
-        if (!customElements.get("wc-datepicker")) {
-          customElements.define("wc-datepicker", WcDatepicker);
-        }
-      });
+      NysDatepicker._wcDatepickerLoader =
+        import("wc-datepicker/dist/components/wc-datepicker").then(
+          ({ WcDatepicker }) => {
+            if (!customElements.get("wc-datepicker")) {
+              customElements.define("wc-datepicker", WcDatepicker);
+            }
+          },
+        );
     }
     return NysDatepicker._wcDatepickerLoader;
   }
