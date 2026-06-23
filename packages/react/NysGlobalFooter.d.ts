@@ -21,6 +21,9 @@ export interface NysGlobalFooterProps extends Pick<
   /** Agency name displayed as the footer heading. */
   agencyName?: NysGlobalFooterElement["agencyName"];
 
+  /** Optional subheading displayed below the agency name. */
+  agencySubheading?: NysGlobalFooterElement["agencySubheading"];
+
   /** URL for the agency name link. If empty, name is not clickable. */
   homepageLink?: NysGlobalFooterElement["homepageLink"];
 
