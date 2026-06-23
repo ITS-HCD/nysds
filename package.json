@@ -16,6 +16,7 @@
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
+      "import": "./dist/nysds.js",
       "require": "./dist/nysds.js"
     },
     "./nys-accordion": { "types": "./dist/packages/nys-accordion/src/index.d.ts", "import": "./dist/nys-accordion.js" },

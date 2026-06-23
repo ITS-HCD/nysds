@@ -7,13 +7,28 @@ const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
   outdir: "./packages/react",
   // ssrSafe: true, // Commented out but kept here in case we run into any issues with SSR
+  // exclude: ["NysAccordionItem"],
   /**
    * Path to the compiled bundle, relative to the output wrapper files.
-   * packages/react/ is two levels below the root, so ../../dist/nysds.es.js
-   * points at the built ES module. Using dist/ (not raw src/) means the import
-   * path stays stable even if files inside src/ are moved around.
+   * Sub-components (accordion-item, breadcrumb-item, etc.) are bundled inside
+   * their parent's dist file, so we map them explicitly. Everything else maps
+   * to its own dist/<tagName>.js.
    */
-  modulePath: () => "../../dist/nysds.es.js",
+  modulePath: (_className, tagName) => {
+    const parentBundle = {
+      "nys-accordionitem": "nys-accordion",
+      "nys-breadcrumbitem": "nys-breadcrumbs",
+      "nys-checkboxgroup": "nys-checkbox",
+      "nys-dropdownmenuitem": "nys-dropdownmenu",
+      "nys-fileitem": "nys-fileinput",
+      "nys-option": "nys-select",
+      "nys-radiogroup": "nys-radiobutton",
+      "nys-step": "nys-stepper",
+      "nys-tabgroup": "nys-tab",
+      "nys-tabpanel": "nys-tab",
+    };
+    return `../../dist/${parentBundle[tagName] ?? tagName}.js`;
+  },
 };
 
 const vscodeOpts = {
@@ -39,7 +54,7 @@ export default {
     "**/packages/**/*library.ts",
     "**/packages/styles/**",
     "**/packages/mcp-server/**",
-    "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
+    "**/packages/react/nysds-jsx.d.ts", // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],
   /** Directory to output CEM to */
   outdir: "./",
@@ -54,29 +69,29 @@ export default {
       packageLinkPhase({ customElementsManifest }) {
         // Sort top-level modules
         customElementsManifest.modules.sort((a, b) =>
-          a.path.localeCompare(b.path)
+          a.path.localeCompare(b.path),
         );
 
         for (const mod of customElementsManifest.modules) {
           if (mod.declarations) {
             mod.declarations.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
 
           if (mod.exports) {
             mod.exports.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
         }
-      }
+      },
     },
     cemExamplesPlugin(),
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
     customElementJsxPlugin(jsxOpts),
-],
+  ],
   /**
    * Resolution options when using `dependencies: true`
    * For detailed information about each option, please refer to the [oxc-resolver documentation](https://github.com/oxc-project/oxc-resolver?tab=readme-ov-file#options).

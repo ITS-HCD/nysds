@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysAccordionItem as NysAccordionItemElement,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-accordion.js";
 
 export type { NysAccordionItemElement, CustomEvent };
 

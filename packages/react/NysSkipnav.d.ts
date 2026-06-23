@@ -1,5 +1,5 @@
 import React from "react";
-import { NysSkipnav as NysSkipnavElement } from "../../dist/nysds.es.js";
+import { NysSkipnav as NysSkipnavElement } from "../../dist/nys-skipnav.js";
 
 export type { NysSkipnavElement };
 

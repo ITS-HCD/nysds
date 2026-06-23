@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysDropdownMenuItem as NysDropdownMenuItemElement,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-dropdownmenu.js";
 
 export type { NysDropdownMenuItemElement, CustomEvent };
 

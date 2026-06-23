@@ -1,5 +1,5 @@
 import React from "react";
-import { NysDropdownMenu as NysDropdownMenuElement } from "../../dist/nysds.es.js";
+import { NysDropdownMenu as NysDropdownMenuElement } from "../../dist/nys-dropdownmenu.js";
 
 export type { NysDropdownMenuElement };
 

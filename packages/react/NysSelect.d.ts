@@ -3,7 +3,7 @@ import {
   NysSelect as NysSelectElement,
   CustomEvent,
   Event,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-select.js";
 
 export type { NysSelectElement, CustomEvent, Event };
 

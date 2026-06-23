@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-checkbox.js";
 import { useEventListener } from "./react-utils.js";
 
 export const NysCheckbox = forwardRef((props, forwardedRef) => {

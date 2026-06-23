@@ -1,5 +1,5 @@
 import React from "react";
-import { NysVideo as NysVideoElement } from "../../dist/nysds.es.js";
+import { NysVideo as NysVideoElement } from "../../dist/nys-video.js";
 
 export type { NysVideoElement };
 

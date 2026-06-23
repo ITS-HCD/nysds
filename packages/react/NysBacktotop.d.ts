@@ -1,5 +1,5 @@
 import React from "react";
-import { NysBacktotop as NysBacktotopElement } from "../../dist/nysds.es.js";
+import { NysBacktotop as NysBacktotopElement } from "../../dist/nys-backtotop.js";
 
 export type { NysBacktotopElement };
 

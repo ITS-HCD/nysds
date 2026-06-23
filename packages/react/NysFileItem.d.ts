@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysFileItem as NysFileItemElement,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-fileinput.js";
 
 export type { NysFileItemElement, CustomEvent };
 

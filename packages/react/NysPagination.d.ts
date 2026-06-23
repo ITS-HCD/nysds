@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysPagination as NysPaginationElement,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-pagination.js";
 
 export type { NysPaginationElement, CustomEvent };
 

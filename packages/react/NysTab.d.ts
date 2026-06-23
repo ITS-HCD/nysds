@@ -1,5 +1,5 @@
 import React from "react";
-import { NysTab as NysTabElement, CustomEvent } from "../../dist/nysds.es.js";
+import { NysTab as NysTabElement, CustomEvent } from "../../dist/nys-tab.js";
 
 export type { NysTabElement, CustomEvent };
 

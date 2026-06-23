@@ -1,5 +1,5 @@
 import React from "react";
-import { NysGlobalHeader as NysGlobalHeaderElement } from "../../dist/nysds.es.js";
+import { NysGlobalHeader as NysGlobalHeaderElement } from "../../dist/nys-globalheader.js";
 
 export type { NysGlobalHeaderElement };
 

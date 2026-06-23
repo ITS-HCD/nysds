@@ -1,5 +1,5 @@
 import React from "react";
-import { NysErrorMessage as NysErrorMessageElement } from "../../dist/nysds.es.js";
+import { NysErrorMessage as NysErrorMessageElement } from "../../dist/nys-errormessage.js";
 
 export type { NysErrorMessageElement };
 

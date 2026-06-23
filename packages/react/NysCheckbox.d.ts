@@ -3,7 +3,7 @@ import {
   NysCheckbox as NysCheckboxElement,
   CustomEvent,
   Event,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-checkbox.js";
 
 export type { NysCheckboxElement, CustomEvent, Event };
 

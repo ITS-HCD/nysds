@@ -1,5 +1,5 @@
 import React from "react";
-import { NysTooltip as NysTooltipElement } from "../../dist/nysds.es.js";
+import { NysTooltip as NysTooltipElement } from "../../dist/nys-tooltip.js";
 
 export type { NysTooltipElement };
 

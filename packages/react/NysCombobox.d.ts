@@ -3,7 +3,7 @@ import {
   NysCombobox as NysComboboxElement,
   CustomEvent,
   Event,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-combobox.js";
 
 export type { NysComboboxElement, CustomEvent, Event };
 

@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-checkbox.js";
 
 export const NysCheckboxgroup = forwardRef((props, forwardedRef) => {
   const {

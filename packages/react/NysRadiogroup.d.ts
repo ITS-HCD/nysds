@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysRadiogroup as NysRadiogroupElement,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-radiobutton.js";
 
 export type { NysRadiogroupElement, CustomEvent };
 

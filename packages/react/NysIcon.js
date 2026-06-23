@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-icon.js";
 import { useProperties } from "./react-utils.js";
 
 export const NysIcon = forwardRef((props, forwardedRef) => {

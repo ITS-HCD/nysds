@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-skipnav.js";
 
 export const NysSkipnav = forwardRef((props, forwardedRef) => {
   const { id, href, ...filteredProps } = props;

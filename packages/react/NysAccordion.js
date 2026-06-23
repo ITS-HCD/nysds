@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-accordion.js";
 
 export const NysAccordion = forwardRef((props, forwardedRef) => {
   const { singleSelect, bordered, id, ...filteredProps } = props;
