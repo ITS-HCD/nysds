@@ -1,10 +1,7 @@
 import React from "react";
-import {
-  NysVerticalnavGroup as NysVerticalnavGroupElement,
-  CustomEvent,
-} from "../../dist/nysds.es.js";
+import { NysVerticalnavGroup as NysVerticalnavGroupElement } from "../../dist/nysds.es.js";
 
-export type { NysVerticalnavGroupElement, CustomEvent };
+export type { NysVerticalnavGroupElement };
 
 export interface NysVerticalnavGroupProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -56,17 +53,11 @@ export interface NysVerticalnavGroupProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
-
-  /** undefined */
-  onNysChildResize?: (event: CustomEvent) => void;
 }
 
 /**
  * Collapsible link group for use within `<nys-verticalnav>`.
  * ---
  *
- *
- * ### **Events:**
- *  - **nys-child-resize**
  */
 export const NysVerticalnavGroup: React.ForwardRefExoticComponent<NysVerticalnavGroupProps>;

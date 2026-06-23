@@ -1,25 +1,17 @@
-import React, { forwardRef, useRef, useEffect } from "react";
+import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
-import { useEventListener } from "./react-utils.js";
 
 export const NysVerticalnavGroup = forwardRef((props, forwardedRef) => {
+<<<<<<< HEAD
   const ref = useRef(null);
   const { expanded, disabled, active, id, label, ...filteredProps } = props;
-
-  /** Event listeners - run once */
-  useEventListener(ref, "nys-child-resize", props.onNysChildResize);
+=======
+  const { expanded, disabled, active, label, ...filteredProps } = props;
+>>>>>>> 317e64b8f150634941aaac4ef6a4ea9063a4fff7
 
   return React.createElement(
     "nys-verticalnavgroup",
     {
-      ref: (node) => {
-        ref.current = node;
-        if (typeof forwardedRef === "function") {
-          forwardedRef(node);
-        } else if (forwardedRef) {
-          forwardedRef.current = node;
-        }
-      },
       ...filteredProps,
       id: props.id,
       label: props.label,

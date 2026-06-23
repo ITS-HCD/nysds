@@ -7091,6 +7091,16 @@
             },
             {
               "kind": "field",
+              "name": "agencySubheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional subheading displayed below the agency name.",
+              "attribute": "agencySubheading"
+            },
+            {
+              "kind": "field",
               "name": "homepageLink",
               "type": {
                 "text": "string"
@@ -7127,6 +7137,16 @@
               "propName": "agencyname"
             },
             {
+              "name": "agencySubheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional subheading displayed below the agency name.",
+              "fieldName": "agencySubheading",
+              "propName": "agencysubheading"
+            },
+            {
               "name": "homepageLink",
               "type": {
                 "text": "string"
@@ -7147,7 +7167,7 @@
           "examples": [
             {
               "title": "Simple footer",
-              "code": "<nys-globalfooter agencyName=\"Department of Health\" homepageLink=\"/\">\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>",
+              "code": "<nys-globalfooter\nagencyName=\"Department of Health\"\nhomepageLink=\"/\"\nagencySubheading=\"Protecting and Promoting the Health of New Yorkers\"\n>\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>",
               "lang": "html"
             }
           ]
@@ -14797,14 +14817,6 @@
               "kind": "method",
               "name": "_toggle",
               "privacy": "private"
-            }
-          ],
-          "events": [
-            {
-              "name": "nys-child-resize",
-              "type": {
-                "text": "CustomEvent"
-              }
             }
           ],
           "attributes": [

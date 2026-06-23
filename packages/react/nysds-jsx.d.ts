@@ -516,6 +516,8 @@ export type NysFileItemProps = {
 export type NysGlobalFooterProps = {
   /** Agency name displayed as the footer heading. */
   agencyName?: string;
+  /** Optional subheading displayed below the agency name. */
+  agencySubheading?: string;
   /** URL for the agency name link. If empty, name is not clickable. */
   homepageLink?: string;
 };
@@ -1039,9 +1041,6 @@ export type NysVerticalnavGroupProps = {
   disabled?: boolean;
   /**  */
   active?: boolean;
-
-  /**  */
-  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
 export type NysVideoProps = {
@@ -1636,9 +1635,6 @@ export type CustomElements = {
    * Collapsible link group for use within `<nys-verticalnav>`.
    * ---
    *
-   *
-   * ### **Events:**
-   *  - **nys-child-resize**
    */
   "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
