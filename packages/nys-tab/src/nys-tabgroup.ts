@@ -1,10 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tab.scss?inline";
-
-/** @internal Monotonically increasing counter used to generate unique element IDs. */
-let componentIdCounter = 0;
 
 /**
  * `<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`
@@ -52,7 +50,7 @@ let componentIdCounter = 0;
  * </nys-tabgroup>
  * ```
  */
-export class NysTabgroup extends LitElement {
+export class NysTabgroup extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -109,10 +107,11 @@ export class NysTabgroup extends LitElement {
    * Auto-generates a unique `id` if one was not provided.
    */
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id
+    // (prefix = localName "nys-tabgroup") when one is not provided. The
+    // role="tablist" landmark stays on the inner .nys-tabgroup__tabs element,
+    // so this host keeps defaultRole = null and does not reflect any role.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-tabgroup-${Date.now()}-${componentIdCounter++}`;
-    }
   }
 
   /**
@@ -364,12 +363,19 @@ export class NysTabgroup extends LitElement {
   }
 
   /**
-   * Implements the ARIA radio-button keyboard pattern:
+   * Implements the
+   * {@link https://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern}
+   * keyboard interaction for a horizontal tablist:
    * - `ArrowRight` — moves focus to the next enabled tab (wraps).
    * - `ArrowLeft` — moves focus to the previous enabled tab (wraps).
+   * - `Home` — moves focus to the first enabled tab.
+   * - `End` — moves focus to the last enabled tab.
+   *
+   * Handled keys call `preventDefault()` so they don't trigger the browser's
+   * default behavior (e.g. Home/End scrolling the page) — WCAG 2.1.1 Keyboard.
    *
    * Focus is moved without changing selection; Enter / Space on the newly
-   * focused tab (handled by `<nys-tab>._handleKeydown`) confirm selection.
+   * focused tab (handled by `<nys-tab>._onKeydown`) confirm selection.
    *
    * The currently focused tab is resolved via `composedPath()` because focus
    * may sit on a shadow-DOM descendant of `<nys-tab>` rather than the host
@@ -392,21 +398,28 @@ export class NysTabgroup extends LitElement {
 
     if (currentIndex === -1) return;
 
-    const prevKey = "ArrowLeft";
-    const nextKey = "ArrowRight";
-
     let newIndex = currentIndex;
 
     switch (e.key) {
-      case prevKey:
+      case "ArrowLeft":
         newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
         break;
-      case nextKey:
+      case "ArrowRight":
         newIndex = (currentIndex + 1) % tabs.length;
+        break;
+      case "Home":
+        newIndex = 0;
+        break;
+      case "End":
+        newIndex = tabs.length - 1;
         break;
       default:
         return;
     }
+
+    // A navigation key was handled — suppress default browser behavior
+    // (page scroll on Home/End, etc.).
+    e.preventDefault();
 
     if (newIndex === currentIndex) return;
 
@@ -436,6 +449,7 @@ export class NysTabgroup extends LitElement {
           <div
             class="nys-tabgroup__tabs"
             role="tablist"
+            aria-orientation="horizontal"
             aria-label=${this.name}
             @keydown=${this._handleKeydown}
           ></div>

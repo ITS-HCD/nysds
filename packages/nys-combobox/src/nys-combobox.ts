@@ -1,10 +1,15 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-combobox is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-combobox.scss?inline";
-
-let comboboxIdCounter = 0;
 
 interface ComboboxOption {
   value: string;
@@ -35,7 +40,7 @@ interface ComboboxOption {
  * @fires nys-blur - Fired when combobox loses focus.
  */
 
-export class NysCombobox extends LitElement {
+export class NysCombobox extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -71,27 +76,19 @@ export class NysCombobox extends LitElement {
 
   private _originalErrorMessage = "";
   private _hasUserInteracted = false;
-  private _internals: ElementInternals;
   private _selectedLabel = "";
   private _defaultValue = "";
 
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
-  static formAssociated = true;
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-combobox-${Date.now()}-${comboboxIdCounter++}`;
-    }
-
     this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
     document.addEventListener("click", this._handleDocumentClick);
@@ -211,7 +208,7 @@ export class NysCombobox extends LitElement {
    * --------------------------------------------------------------------------
    */
   private _setValue() {
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this._manageRequire();
   }
 
@@ -221,11 +218,9 @@ export class NysCombobox extends LitElement {
       this.required && (!this.value || this.value?.trim() === "");
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true";
-      this._internals.setValidity({ valueMissing: true }, message, this._input);
+      this.setValidityFromState({ valueMissing: true }, message, this._input);
     } else {
-      this._internals.ariaInvalid = "false";
-      this._internals.setValidity({});
+      this.clearValidity();
       this._hasUserInteracted = false;
     }
   }
@@ -239,8 +234,15 @@ export class NysCombobox extends LitElement {
       this.errorMessage = message;
     }
 
-    const validityState = message ? { customError: true } : {};
-    this._internals.setValidity(validityState, this.errorMessage, this._input);
+    if (message) {
+      this.setValidityFromState(
+        { customError: true },
+        this.errorMessage,
+        this._input,
+      );
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -273,12 +275,12 @@ export class NysCombobox extends LitElement {
       this._input.value = this._filterText;
     }
 
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
 
     // Reset validation UI
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
+    this.clearValidity();
 
     this.requestUpdate();
   }
@@ -292,7 +294,7 @@ export class NysCombobox extends LitElement {
     this._validate();
 
     if (this._input) {
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -529,7 +531,7 @@ export class NysCombobox extends LitElement {
     this._filterText = "";
     this._selectedLabel = "";
     this._filterOptions("");
-    this._internals.setFormValue("");
+    this.setFormValue("");
     this._closeDropdown();
     this._input.focus();
 
@@ -549,7 +551,7 @@ export class NysCombobox extends LitElement {
     this.value = option.value;
     this._selectedLabel = option.label;
     this._filterText = option.label;
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this._input.focus();
     this._closeDropdown();
     this._filterOptions("");
@@ -641,6 +643,7 @@ export class NysCombobox extends LitElement {
     return html`
       <div class="nys-combobox">
         <nys-label
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -671,9 +674,13 @@ export class NysCombobox extends LitElement {
               ?required=${this.required}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
-              aria-label="${[this.label, this.description]
-                .filter(Boolean)
-                .join(" ")}"
+              aria-labelledby=${ifDefined(
+                this.label ? this.id + "--label" : undefined,
+              )}
+              aria-label=${ifDefined(
+                !this.label && this.description ? this.description : undefined,
+              )}
+              aria-errormessage=${this.id + "--error"}
               .value=${this._filterText}
               form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
@@ -738,6 +745,7 @@ export class NysCombobox extends LitElement {
           @slotchange=${this._handleSlotChange}
         ></slot>
         <nys-errormessage
+          id=${this.id + "--error"}
           ?showError=${this.showError}
           errorMessage=${this.errorMessage}
         ></nys-errormessage>

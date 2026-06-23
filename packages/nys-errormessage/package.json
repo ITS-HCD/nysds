@@ -39,6 +39,5 @@
     "errormessage"
   ],
   "author": "New York State Design System Team",
-  "license": "MIT",
-  "sideEffects": true
+  "license": "MIT"
 }

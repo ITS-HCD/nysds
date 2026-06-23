@@ -147,6 +147,75 @@ describe("nys-icon accessibility", () => {
     await waitForIcon(el);
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  // Regression: host-level semantics are mirrored from the icon so AT that does
+  // not surface inner shadow-DOM SVG role/label still behaves correctly.
+  // WCAG 1.1.1 / 4.1.2.
+  it("reflects role='img' + aria-label onto the host when labeled", async () => {
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="download" ariaLabel="download icon"></nys-icon>`,
+    );
+    await waitForIcon(el);
+    expect(el.getAttribute("role")).to.equal("img");
+    expect(el.getAttribute("aria-label")).to.equal("download icon");
+    expect(el.hasAttribute("aria-hidden")).to.be.false;
+  });
+
+  it("marks the host aria-hidden when no ariaLabel is provided", async () => {
+    const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
+    await waitForIcon(el);
+    expect(el.getAttribute("aria-hidden")).to.equal("true");
+    expect(el.hasAttribute("role")).to.be.false;
+    expect(el.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("keeps the host hidden when an invalid name renders no SVG", async () => {
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="unknown_icon_xyz"></nys-icon>`,
+    );
+    await waitForIcon(el);
+    expect(el.shadowRoot?.querySelector("svg")).to.be.null;
+    expect(el.getAttribute("aria-hidden")).to.equal("true");
+  });
+
+  it("updates host semantics when ariaLabel is toggled", async () => {
+    const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
+    await waitForIcon(el);
+    expect(el.getAttribute("aria-hidden")).to.equal("true");
+
+    el.ariaLabel = "now labeled";
+    await waitForIcon(el);
+    expect(el.getAttribute("role")).to.equal("img");
+    expect(el.getAttribute("aria-label")).to.equal("now labeled");
+    expect(el.hasAttribute("aria-hidden")).to.be.false;
+
+    el.ariaLabel = "";
+    await waitForIcon(el);
+    expect(el.getAttribute("aria-hidden")).to.equal("true");
+    expect(el.hasAttribute("role")).to.be.false;
+    expect(el.hasAttribute("aria-label")).to.be.false;
+  });
+});
+
+// Regression: id auto-generation via NysReflectsAriaElement.
+describe("nys-icon — id auto-generation", () => {
+  afterEach(() => {
+    clearIconCache();
+  });
+
+  it("auto-generates a host id matching /^nys-icon-\\d+-\\d+$/ when none provided", async () => {
+    const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
+    await waitForIcon(el);
+    expect(el.id).to.match(/^nys-icon-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysIcon>(
+      html`<nys-icon id="my-icon" name="check"></nys-icon>`,
+    );
+    await waitForIcon(el);
+    expect(el.id).to.equal("my-icon");
+  });
 });
 
 // Icon Library Tests

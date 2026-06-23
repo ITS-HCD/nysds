@@ -5,6 +5,10 @@
 		"outDir": "./dist",
 		"rootDir": "./src"
 	},
+	"references": [
+		{ "path": "../internals" },
+		{ "path": "../nys-label" }
+	],
 	"include": [
 		"src/**/*"
 	],

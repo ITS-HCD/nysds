@@ -1,6 +1,8 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-select.js";
 import { NysSelect } from "./nys-select";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 describe("nys-select", () => {
   it("renders the component", async () => {
@@ -111,7 +113,10 @@ describe("nys-select", () => {
     `);
     await expect(el).shadowDom.to.be.accessible();
     const select = el.shadowRoot?.querySelector("select")!;
-    expect(select?.getAttribute("aria-label")).to.equal("Select Something");
+    // Accessible name now comes via aria-labelledby to the visible <nys-label>,
+    // not a synthetic aria-label string.
+    expect(select?.getAttribute("aria-labelledby")).to.equal(`${el.id}--label`);
+    expect(select?.hasAttribute("aria-label")).to.be.false;
   });
 
   it("supports disabled attribute", async () => {
@@ -296,7 +301,7 @@ describe("nys-select", () => {
     (el as any)._manageRequire();
     await el.updateComplete;
 
-    expect((el as any)._internals.validity.valid).to.be.true;
+    expect((el as any).internals.validity.valid).to.be.true;
     expect((el as any)._hasUserInteracted).to.be.false;
   });
 
@@ -489,7 +494,7 @@ describe("nys-select", () => {
     expect(el.description).to.equal("Helper text");
   });
 
-  it("aria-label combines label and description", async () => {
+  it("associates the select with the visible label via aria-labelledby when a label is set", async () => {
     const el = await fixture<NysSelect>(
       html`<nys-select
         label="Borough"
@@ -498,18 +503,19 @@ describe("nys-select", () => {
     );
     await el.updateComplete;
     const select = el.shadowRoot!.querySelector("select")!;
-    expect(select.getAttribute("aria-label")).to.equal(
-      "Borough Choose your borough",
-    );
+    // Name is taken from the real visible <nys-label>, not a synthetic string.
+    expect(select.getAttribute("aria-labelledby")).to.equal(`${el.id}--label`);
+    expect(select.hasAttribute("aria-label")).to.be.false;
   });
 
-  it("aria-label omits description when description is empty", async () => {
+  it("uses aria-labelledby even when description is empty", async () => {
     const el = await fixture<NysSelect>(
       html`<nys-select label="Borough"></nys-select>`,
     );
     await el.updateComplete;
     const select = el.shadowRoot!.querySelector("select")!;
-    expect(select.getAttribute("aria-label")).to.equal("Borough");
+    expect(select.getAttribute("aria-labelledby")).to.equal(`${el.id}--label`);
+    expect(select.hasAttribute("aria-label")).to.be.false;
   });
 
   // -------------------------------------------------------------------------
@@ -882,7 +888,7 @@ describe("nys-select", () => {
     (el as any)._manageRequire();
     await el.updateComplete;
 
-    expect((el as any)._internals.validity.valueMissing).to.be.true;
+    expect((el as any).internals.validity.valueMissing).to.be.true;
   });
 
   // -------------------------------------------------------------------------
@@ -896,5 +902,69 @@ describe("nys-select", () => {
     await el.updateComplete;
     expect(el.name).to.equal("my-field");
     expect(el.getAttribute("name")).to.equal("my-field");
+  });
+
+  // -------------------------------------------------------------------------
+  // @nysds/internals migration — accessible name, self-registration, form
+  // -------------------------------------------------------------------------
+
+  it("associates the select with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select label="Borough" id="bor"></nys-select>`,
+    );
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    // Name comes from the real visible <nys-label>, not a duplicated string.
+    expect(select.getAttribute("aria-labelledby")).to.equal("bor--label");
+    expect(select.hasAttribute("aria-label")).to.be.false;
+    const label = el.shadowRoot!.getElementById("bor--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("falls back to aria-label only when no visible label is provided", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select .ariaLabel=${"Pick a borough"}></nys-select>`,
+    );
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.getAttribute("aria-label")).to.equal("Pick a borough");
+    expect(select.hasAttribute("aria-labelledby")).to.be.false;
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("associates the error message with the select via aria-errormessage", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select
+        label="Borough"
+        id="em"
+        showError
+        errorMessage="Required"
+      ></nys-select>`,
+    );
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.getAttribute("aria-errormessage")).to.equal("em--error");
+    expect(el.shadowRoot!.getElementById("em--error")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-select name="field" label="Borough">
+          <option value="manhattan">Manhattan</option>
+        </nys-select>
+      </form>
+    `);
+    const el = form.querySelector<NysSelect>("nys-select")!;
+    el.value = "manhattan";
+    await el.updateComplete;
+    expect(new FormData(form).get("field")).to.equal("manhattan");
+    expect(Array.from(form.elements)).to.include(el);
   });
 });

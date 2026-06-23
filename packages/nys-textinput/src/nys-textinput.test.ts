@@ -295,7 +295,7 @@ describe("nys-textinput", () => {
     expect(el.showError).to.be.false;
     expect(el.errorMessage).to.equal("");
     expect((el as any).showPassword).to.be.false;
-    expect((el as any)._internals.validity.valid).to.be.true;
+    expect((el as any).internals.validity.valid).to.be.true;
   });
 
   it("resets telephone mask to initial state when form is reset", async () => {
@@ -584,5 +584,60 @@ describe("nys-textinput", () => {
       html`<nys-textinput label="First Name"></nys-textinput>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("associates the input with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput label="First Name" id="fn"></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Name comes from the real visible <nys-label>, not a duplicated string.
+    expect(input.getAttribute("aria-labelledby")).to.equal("fn--label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot!.getElementById("fn--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("falls back to aria-label only when no visible label is provided", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput ariaLabel="Search"></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-label")).to.equal("Search");
+    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("associates the error message with the input via aria-errormessage", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput
+        label="Email"
+        id="em"
+        showError
+        errorMessage="Required"
+      ></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-errormessage")).to.equal("em--error");
+    expect(el.shadowRoot!.getElementById("em--error")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form>
+        <nys-textinput name="field" label="Name"></nys-textinput>
+      </form>`,
+    );
+    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    el.value = "Ada";
+    await el.updateComplete;
+    expect(new FormData(form).get("field")).to.equal("Ada");
+    expect(Array.from(form.elements)).to.include(el);
   });
 });

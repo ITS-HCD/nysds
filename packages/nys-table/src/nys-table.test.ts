@@ -17,6 +17,96 @@ describe("nys-table", () => {
     expect(el.id).to.match(/^nys-table-\d+-\d+$/);
   });
 
+  it("auto-generates an id in the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysTable>(html`<nys-table></nys-table>`);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-table-\d+-\d+$/);
+  });
+
+  it("adds scope='col' to normalized column header cells (WCAG 1.3.1)", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <caption>
+            Scope Table
+          </caption>
+          <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+          </tr>
+          <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+    await el.updateComplete;
+
+    const headerCells = el.shadowRoot?.querySelectorAll("thead th");
+    expect(headerCells?.length).to.equal(2);
+    headerCells?.forEach((th) => {
+      expect(th.getAttribute("scope")).to.equal("col");
+    });
+  });
+
+  it("adds scope='col' to pre-structured thead header cells (WCAG 1.3.1)", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <caption>
+            Structured Table
+          </caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alice</td>
+              <td>30</td>
+            </tr>
+          </tbody>
+        </table>
+      </nys-table>
+    `);
+    await el.updateComplete;
+
+    const headerCells = el.shadowRoot?.querySelectorAll("thead th");
+    expect(headerCells?.length).to.equal(2);
+    headerCells?.forEach((th) => {
+      expect(th.getAttribute("scope")).to.equal("col");
+    });
+  });
+
+  it("preserves an author-provided scope on header cells (WCAG 1.3.1)", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <thead>
+            <tr>
+              <th scope="colgroup">Group</th>
+              <th>Age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alice</td>
+              <td>30</td>
+            </tr>
+          </tbody>
+        </table>
+      </nys-table>
+    `);
+    await el.updateComplete;
+
+    const headerCells = el.shadowRoot?.querySelectorAll("thead th");
+    expect(headerCells?.[0].getAttribute("scope")).to.equal("colgroup");
+    expect(headerCells?.[1].getAttribute("scope")).to.equal("col");
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysTable>(html`
       <nys-table

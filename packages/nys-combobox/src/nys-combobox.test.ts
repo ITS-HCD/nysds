@@ -539,7 +539,7 @@ describe("nys-combobox", () => {
     expect(input.value).to.equal("");
     expect(el.showError).to.be.false;
     expect(el.errorMessage).to.equal("");
-    expect((el as any)._internals.validity.valid).to.be.true;
+    expect((el as any).internals.validity.valid).to.be.true;
   });
 
   it("resets to default value when form is reset", async () => {
@@ -614,12 +614,18 @@ describe("nys-combobox", () => {
     await expect(el).shadowDom.to.be.accessible();
   });
 
-  it("maps label to aria-label on input", async () => {
+  it("associates label text to the input via the visible nys-label", async () => {
     const el = await fixture<NysCombobox>(
-      html`<nys-combobox label="Favorite Fruit"></nys-combobox>`,
+      html`<nys-combobox label="Favorite Fruit" id="fav"></nys-combobox>`,
     );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-    expect(input?.getAttribute("aria-label")).to.equal("Favorite Fruit");
+    // Accessible name now comes from the real visible <nys-label> via
+    // aria-labelledby rather than a duplicated synthetic aria-label.
+    expect(input?.getAttribute("aria-labelledby")).to.equal("fav--label");
+    expect(input?.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot?.getElementById("fav--label");
+    expect(label).to.exist;
+    expect(label?.getAttribute("label")).to.equal("Favorite Fruit");
   });
 
   it("sets aria-required when required", async () => {
@@ -1260,5 +1266,55 @@ describe("nys-combobox", () => {
     (el as any).value = null;
     await el.updateComplete;
     expect(new FormData(form).get("test-field")).to.not.equal("banana");
+  });
+
+  // Shared accessibility-layer (@nysds/internals) regression tests
+  it("associates the input with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Favorite Fruit" id="ff"></nys-combobox>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Name comes from the real visible <nys-label>, not a duplicated string.
+    expect(input.getAttribute("aria-labelledby")).to.equal("ff--label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot!.getElementById("ff--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("associates the error message with the input via aria-errormessage", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox
+        label="Email"
+        id="em"
+        showError
+        errorMessage="Required"
+      ></nys-combobox>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-errormessage")).to.equal("em--error");
+    expect(el.shadowRoot!.getElementById("em--error")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-combobox name="field" label="Fruit">
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      </form>
+    `);
+    const el = form.querySelector<NysCombobox>("nys-combobox")!;
+    el.value = "apple";
+    await el.updateComplete;
+    expect(new FormData(form).get("field")).to.equal("apple");
+    expect(Array.from(form.elements)).to.include(el);
   });
 });

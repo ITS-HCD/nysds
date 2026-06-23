@@ -1403,7 +1403,7 @@ describe("nys-datepicker", () => {
   });
 
   /*** A11y Test ***/
-  it("adds aria-describedby to input pointing to error element when showError is true", async () => {
+  it("sets aria-invalid and aria-errormessage on the input when showError is true", async () => {
     const el = await fixture<NysDatepicker>(
       html`<nys-datepicker id="test-dp" required></nys-datepicker>`,
     );
@@ -1413,17 +1413,18 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-describedby")).to.equal("test-dp-error");
+    expect(input.getAttribute("aria-invalid")).to.equal("true");
+    expect(input.getAttribute("aria-errormessage")).to.equal("test-dp--error");
   });
 
-  it("removes aria-describedby from input when showError is false", async () => {
+  it("sets aria-invalid to false on the input when showError is false", async () => {
     const el = await fixture<NysDatepicker>(
       html`<nys-datepicker id="test-dp"></nys-datepicker>`,
     );
     await el.updateComplete;
 
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-describedby")).to.be.null;
+    expect(input.getAttribute("aria-invalid")).to.equal("false");
   });
 
   it("error message element has id matching the expected error ID", async () => {
@@ -1433,7 +1434,7 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
-    expect(errorEl.getAttribute("id")).to.equal("test-dp-error");
+    expect(errorEl.getAttribute("id")).to.equal("test-dp--error");
   });
 
   it("passes the a11y audit", async () => {
@@ -1441,5 +1442,65 @@ describe("nys-datepicker", () => {
       html`<nys-datepicker label="My Label"></nys-datepicker>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  /*** Shared form-control mixin / association regression tests ***/
+
+  it("associates the input with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker label="Birth Date" id="bd"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Name comes from the real visible <nys-label>, not a duplicated string.
+    expect(input.getAttribute("aria-labelledby")).to.equal("bd--label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot!.getElementById("bd--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("falls back to aria-label only when no visible label is provided", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker aria-label="Pick a date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-label")).to.equal("Pick a date");
+    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("associates the error message with the input via aria-errormessage", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker
+        label="Start Date"
+        id="sd"
+        showError
+        errorMessage="Required"
+      ></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-errormessage")).to.equal("sd--error");
+    expect(el.shadowRoot!.getElementById("sd--error")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form>
+        <nys-datepicker name="field" label="Date"></nys-datepicker>
+      </form>`,
+    );
+    const el = form.querySelector<NysDatepicker>("nys-datepicker")!;
+    el.value = "2026-06-15";
+    await el.updateComplete;
+    expect(new FormData(form).get("field")).to.equal("2026-06-15");
+    expect(Array.from(form.elements)).to.include(el);
   });
 });

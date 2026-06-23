@@ -21,6 +21,9 @@ export interface NysGlobalHeaderProps extends Pick<
   /** Toggles the NYS brand mark */
   nysLogo?: boolean;
 
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysGlobalHeaderElement["id"];
+
   /** Application name displayed prominently. */
   appName?: NysGlobalHeaderElement["appName"];
 

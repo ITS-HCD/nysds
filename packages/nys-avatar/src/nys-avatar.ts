@@ -1,10 +1,9 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-avatar.scss?inline";
-
-let avatarIdCounter = 0;
 
 /**
  * Displays a user representation as image, initials, or icon with automatic fallback chain.
@@ -28,7 +27,7 @@ let avatarIdCounter = 0;
  * ```
  */
 
-export class NysAvatar extends LitElement {
+export class NysAvatar extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -65,10 +64,12 @@ export class NysAvatar extends LitElement {
    */
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto-generated
+    // id (prefixed with the element's localName) when one is not provided. The
+    // semantic role (img / button) intentionally lives on the inner
+    // .nys-avatar__component element, so defaultRole stays null and no role is
+    // moved onto the host.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-avatar-${Date.now()}-${avatarIdCounter++}`;
-    }
   }
 
   private async _handleSlotChange() {
@@ -174,18 +175,24 @@ export class NysAvatar extends LitElement {
               <slot @slotchange=${this._handleSlotChange}></slot>
               ${!this._slotHasContent
                 ? html`<nys-icon
-                    label="nys-avatar__icon"
+                    aria-hidden="true"
                     name=${this.icon?.length > 0 ? this.icon : "account_circle"}
                   ></nys-icon>`
                 : null}
             </div>`;
+
+    // An interactive avatar is a <button>, which must always have an accessible
+    // name (WCAG 4.1.2 Name, Role, Value). The image alt / decorative icon do not
+    // provide one, so fall back to a sensible default ("Avatar") when the consumer
+    // did not supply an ariaLabel.
+    const interactiveLabel = label || "Avatar";
 
     const container = this.interactive
       ? html`<button
           part="nys-avatar"
           class="nys-avatar__component"
           style=${ifDefined(colorStyle || undefined)}
-          aria-label=${ifDefined(label || undefined)}
+          aria-label=${interactiveLabel}
           ?disabled=${this.disabled}
         >
           ${avatarContent}

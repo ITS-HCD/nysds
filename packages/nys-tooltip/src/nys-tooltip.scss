@@ -68,6 +68,13 @@
   transition: opacity 0.2s ease-out;
 }
 
+/* Respect users who prefer reduced motion: drop the fade transition. */
+@media (prefers-reduced-motion: reduce) {
+  .fade-out {
+    transition: none;
+  }
+}
+
 /* ===================== POSITIONING ===================== */
 
 /* Top */

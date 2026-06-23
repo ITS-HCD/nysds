@@ -8,6 +8,9 @@
   --_nys-skipnav-border-width: var(--nys-border-width-md, 2px);
   --_nys-skipnav-border-color: var(--nys-color-link, #004dd1);
   --_nys-skipnav-border-radius: var(--nys-radius-sm, 2px);
+  --_nys-skipnav-outline-width: var(--nys-border-width-md, 2px);
+  --_nys-skipnav-outline-offset: var(--nys-space-2px, 2px);
+  --_nys-skipnav-outline-color: var(--nys-color-focus, #004dd1);
 
   /* Typography */
   --_nys-skipnav-font-size: var(--nys-font-size-ui-md, 16px);
@@ -64,5 +67,12 @@
 .nys-skipnav__link.show {
   top: 0;
   left: auto;
-  outline: none;
+}
+
+/* Visible focus indicator for the skip link — the single most important
+   keyboard element on the page. WCAG 2.4.7 Focus Visible / 2.4.11. */
+.nys-skipnav__link:focus-visible {
+  outline: solid var(--_nys-skipnav-outline-width)
+    var(--_nys-skipnav-outline-color);
+  outline-offset: var(--_nys-skipnav-outline-offset);
 }

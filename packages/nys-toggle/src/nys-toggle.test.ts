@@ -186,7 +186,7 @@ describe("nys-toggle", () => {
     // Confirm reset
     expect(toggle.checked).to.be.false;
     expect(input.checked).to.be.false;
-    expect((toggle as any)._internals.formValue).to.be.undefined;
+    expect((toggle as any).internals.formValue).to.be.undefined;
   });
 
   it("passes the a11y audit", async () => {
@@ -371,14 +371,19 @@ describe("nys-toggle", () => {
     expect(input.getAttribute("aria-disabled")).to.equal("true");
   });
 
-  it("sets aria-label to label text when label is provided", async () => {
+  it("associates the input with the visible label via aria-labelledby (not a synthetic aria-label) when a label is provided", async () => {
     const el = await fixture<NysToggle>(
-      html`<nys-toggle label="Notifications"></nys-toggle>`,
+      html`<nys-toggle id="nt" label="Notifications"></nys-toggle>`,
     );
     await el.updateComplete;
 
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-label")).to.equal("Notifications");
+    expect(input.getAttribute("aria-labelledby")).to.equal("nt--label");
+    expect(input.hasAttribute("aria-label")).to.be.false;
+
+    const label = el.shadowRoot!.getElementById("nt--label");
+    expect(label).to.exist;
+    expect(label!.getAttribute("label")).to.equal("Notifications");
   });
 
   it("falls back aria-label to 'Toggle switch' when label is empty", async () => {
@@ -387,6 +392,7 @@ describe("nys-toggle", () => {
 
     const input = el.shadowRoot!.querySelector("input")!;
     expect(input.getAttribute("aria-label")).to.equal("Toggle switch");
+    expect(input.hasAttribute("aria-labelledby")).to.be.false;
   });
 
   // --- disabled state ---
@@ -666,5 +672,58 @@ describe("nys-toggle", () => {
 
     expect(el.checked).to.be.false;
     expect(fired).to.be.false;
+  });
+
+  // --- @nysds/internals migration regression tests ---
+
+  it("derives its accessible name from the visible label via aria-labelledby", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle id="acc" label="Enable Wi-Fi"></nys-toggle>`,
+    );
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Association points at the visible label, and there is no synthetic aria-label.
+    expect(input.getAttribute("aria-labelledby")).to.equal("acc--label");
+    expect(input.hasAttribute("aria-label")).to.be.false;
+
+    const label = el.shadowRoot!.getElementById("acc--label");
+    expect(label).to.exist;
+    expect(label!.getAttribute("label")).to.equal("Enable Wi-Fi");
+  });
+
+  it("registers the internal nys-label custom element", async () => {
+    expect(customElements.get("nys-label")).to.exist;
+  });
+
+  it("preserves role=switch and aria-checked after migration", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle label="Test"></nys-toggle>`,
+    );
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("role")).to.equal("switch");
+    expect(input.getAttribute("aria-checked")).to.equal("false");
+
+    el.checked = true;
+    await el.updateComplete;
+    expect(input.getAttribute("aria-checked")).to.equal("true");
+  });
+
+  it("participates in a <form> (FormData round-trip)", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-toggle name="darkmode" value="on" checked></nys-toggle>
+      </form>
+    `);
+    const el = form.querySelector<NysToggle>("nys-toggle")!;
+    await el.updateComplete;
+
+    expect(new FormData(form).get("darkmode")).to.equal("on");
+
+    el.checked = false;
+    await el.updateComplete;
+    expect(new FormData(form).get("darkmode")).to.be.null;
   });
 });

@@ -74,6 +74,9 @@ export type NysAccordionItemProps = {
   id?: string;
   /** Heading text displayed in the clickable toggle button. */
   heading?: string;
+  /** ARIA heading level (1-6) applied to the wrapper around the toggle button,
+per the WAI-ARIA Accordion pattern. Defaults to 3. */
+  headingLevel?: number;
   /** Whether the content panel is visible. Toggle via click or keyboard. */
   expanded?: boolean;
   /** Adds border styling. Set by parent `nys-accordion`, not directly. */
@@ -144,6 +147,8 @@ export type NysAvatarProps = {
 };
 
 export type NysBacktotopProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Horizontal position: `left` or `right`. */
   position?: string;
   /** Force button visibility. Overrides auto-show scroll behavior. */
@@ -176,7 +181,7 @@ export type NysBadgeProps = {
 export type NysBreadcrumbsProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /** Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+  /** Accessible label for the `<nav>` landmark. Defaults to "Breadcrumb" if not set.
 Override when multiple crumbs exist on the same page. */
   ariaLabel?: string;
   /** Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use. */
@@ -428,7 +433,9 @@ export type NysDropdownMenuProps = {
   for?: string;
   /**  */
   showDropdown?: boolean;
-  /** Accessible label for the menu. Used as `aria-label` on the `<ul role="menu">` element. */
+  /** Accessible label for the menu (`role="menu"`) container. Used as `aria-label`
+on the `<ul role="menu">` element. When empty, falls back to "Menu" so the
+menu always has an accessible name for screen readers. */
   label?: string;
   /** Preferred position relative to trigger. */
   position?: Position | null;
@@ -516,13 +523,19 @@ export type NysFileItemProps = {
 };
 
 export type NysGlobalFooterProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Agency name displayed as the footer heading. */
   agencyName?: string;
+  /** Optional subheading displayed below the agency name. */
+  agencySubheading?: string;
   /** URL for the agency name link. If empty, name is not clickable. */
   homepageLink?: string;
 };
 
 export type NysGlobalHeaderProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Application name displayed prominently. */
   appName?: string;
   /** Agency name displayed below app name (or as main title if no appName). */
@@ -718,6 +731,8 @@ export type NysSelectProps = {
   label?: string;
   /** Helper text below label. Use slot for custom HTML. */
   description?: string;
+  /** Accessible label. Used as a fallback when `label` is not provided. */
+  ariaLabel?: string;
   /** Currently selected option value. */
   value?: string;
   /** Prevents interaction. */
@@ -774,7 +789,7 @@ Omit for SPA/framework routing and handle navigation in the event listener inste
 };
 
 export type NysStepperProps = {
-  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{timestamp}-{n}` if not provided. */
   id?: string;
   /** Name attribute for form association. */
   name?: string;
@@ -884,6 +899,8 @@ export type NysTextareaProps = {
   showError?: boolean;
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: string;
+  /** Accessible label used only when no visible `label` is provided. */
+  ariaLabel?: string;
 
   /** Fired on input change. Detail: `{id, value}`. */
   "onnys-input"?: (e: CustomEvent<CustomEvent>) => void;

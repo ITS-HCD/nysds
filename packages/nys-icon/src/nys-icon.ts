@@ -1,5 +1,6 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 import {
   getIconLibrary,
   watchIconLibrary,
@@ -38,7 +39,7 @@ import styles from "./nys-icon.scss?inline";
  * <nys-icon name="warning" ariaLabel="Warning" color="var(--nys-color-warning)"></nys-icon>
  * ```
  */
-export class NysIcon extends LitElement implements NysIconWatcher {
+export class NysIcon extends NysElement implements NysIconWatcher {
   static styles = unsafeCSS(styles);
 
   /** Icon name to resolve from the selected library. Required. */
@@ -101,7 +102,14 @@ export class NysIcon extends LitElement implements NysIconWatcher {
   }
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id when
+    // one is not provided (prefix = localName -> "nys-icon-<ts>-<n>"). The host
+    // role/label/aria-hidden are reflected dynamically in _reflectHostSemantics
+    // (they depend on ariaLabel), so defaultRole stays null. Seed the host as
+    // decorative (aria-hidden) so an unlabeled icon — including one whose name is
+    // invalid and renders no SVG — is removed from the accessibility tree.
     super.connectedCallback();
+    this._reflectHostSemantics();
     watchIconLibrary(this.library, this);
   }
 
@@ -153,6 +161,10 @@ export class NysIcon extends LitElement implements NysIconWatcher {
         changedProps.has("size"))
     ) {
       this._applyAttributes(this._svg);
+    } else if (changedProps.has("ariaLabel")) {
+      // Keep host semantics in sync even when no SVG is currently rendered
+      // (e.g. invalid/empty name) so toggling ariaLabel still updates the host.
+      this._reflectHostSemantics();
     }
   }
 
@@ -204,6 +216,37 @@ export class NysIcon extends LitElement implements NysIconWatcher {
 
     if (this.flip) {
       svg.classList.add(`nys-icon--flip-${this.flip}`);
+    }
+
+    // Mirror the icon's accessible semantics onto the host element. The SVG
+    // lives in shadow DOM, where some AT/browser combinations do not reliably
+    // surface inner role="img"/aria-label. Reflecting on the host guarantees a
+    // labeled icon is announced as an image (and that a decorative icon is
+    // fully removed from the accessibility tree). WCAG 1.1.1 / 4.1.2.
+    this._reflectHostSemantics();
+  }
+
+  /**
+   * Reflects the icon's accessible state onto the host:
+   * - Labeled icon  -> role="img" + aria-label, no aria-hidden.
+   * - Decorative    -> aria-hidden="true", no role/label.
+   *
+   * These are reflected as host *attributes* (rather than via
+   * ElementInternals) on purpose: aria-hidden / role / aria-label in
+   * attribute form have universal, consistent assistive-technology support,
+   * whereas AT support for these states set through ElementInternals is still
+   * uneven across browser/screen-reader combinations. The host role/label
+   * therefore depend on runtime state (ariaLabel), so defaultRole stays null.
+   */
+  private _reflectHostSemantics() {
+    if (this.ariaLabel) {
+      this.setAttribute("role", "img");
+      this.setAttribute("aria-label", this.ariaLabel);
+      this.removeAttribute("aria-hidden");
+    } else {
+      this.removeAttribute("role");
+      this.removeAttribute("aria-label");
+      this.setAttribute("aria-hidden", "true");
     }
   }
 

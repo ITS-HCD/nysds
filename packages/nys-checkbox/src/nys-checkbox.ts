@@ -1,11 +1,16 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
 import "./nys-checkboxgroup";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-checkbox is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
-
-let checkboxIdCounter = 0;
 
 /**
  * A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.
@@ -38,7 +43,7 @@ let checkboxIdCounter = 0;
  * ```
  */
 
-export class NysCheckbox extends LitElement {
+export class NysCheckbox extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -105,26 +110,17 @@ export class NysCheckbox extends LitElement {
     return this.shadowRoot?.querySelector("input") || null;
   }
 
-  private _internals: ElementInternals;
-
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
 
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
-    }
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("blur", this._handleBlur);
     this._mobileQuery.addEventListener("change", this._handleMobileQuery);
@@ -151,7 +147,7 @@ export class NysCheckbox extends LitElement {
 
   private _setValue() {
     if (!this.groupExist) {
-      this._internals.setFormValue(this.checked ? this.value : null);
+      this.setFormValue(this.checked ? this.value : null);
     }
   }
 
@@ -161,11 +157,9 @@ export class NysCheckbox extends LitElement {
     if (!input) return;
 
     if (this.required && !this.checked) {
-      this._internals.ariaInvalid = "true";
-      this._internals.setValidity({ valueMissing: true }, message, input);
+      this.setValidityFromState({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaInvalid = "false";
-      this._internals.setValidity({});
+      this.clearValidity();
     }
   }
 
@@ -180,11 +174,11 @@ export class NysCheckbox extends LitElement {
       message = this.errorMessage;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
+    if (message) {
+      this.setValidityFromState({ customError: true }, message, input);
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -206,7 +200,7 @@ export class NysCheckbox extends LitElement {
   public formResetCallback() {
     this.checked = false;
 
-    this._internals.setFormValue(null);
+    this.setFormValue(null);
 
     const input = this.shadowRoot?.querySelector("input");
     if (input) {
@@ -216,7 +210,7 @@ export class NysCheckbox extends LitElement {
     // Reset validation UI
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
+    this.clearValidity();
 
     // Re-render UI
     this.requestUpdate();
@@ -248,7 +242,7 @@ export class NysCheckbox extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (input) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -342,7 +336,7 @@ export class NysCheckbox extends LitElement {
     this.checked = checked;
 
     if (!this.groupExist) {
-      this._internals.setFormValue(this.checked ? this.value : null);
+      this.setFormValue(this.checked ? this.value : null);
     }
 
     // If unchecking "other", clear error state
@@ -379,7 +373,7 @@ export class NysCheckbox extends LitElement {
       e.preventDefault();
       if (!this.disabled) {
         this.checked = !this.checked;
-        this._internals.setFormValue(this.checked ? this.value : null);
+        this.setFormValue(this.checked ? this.value : null);
 
         // Wait for DOM updates before validating. This is necessary to ensure the native input validation state is updated before this.validate().
         await this.updateComplete;
@@ -469,11 +463,13 @@ export class NysCheckbox extends LitElement {
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-required="${this.required}"
               aria-describedby="group-info"
+              aria-errormessage=${this.id + "--error"}
               @change="${this._handleChange}"
               @focus="${this._handleFocus}"
               @keydown="${this._handleKeydown}"
-              aria-label=${this.label ||
-              ifDefined(this.other ? "Other" : undefined)}
+              aria-labelledby=${ifDefined(
+                this.label || this.other ? this.id + "--label" : undefined,
+              )}
             />
             ${this.checked
               ? html`<nys-icon
@@ -490,7 +486,7 @@ export class NysCheckbox extends LitElement {
           ${(this.label || this.other) &&
           html`
             <nys-label
-              aria-hidden="true"
+              id="${this.id}--label"
               tooltip=${this.tooltip}
               label="${this.label || (this.other ? "Other" : "")}"
               description=${ifDefined(this.description || undefined)}
@@ -521,9 +517,10 @@ export class NysCheckbox extends LitElement {
       </div>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage
-            id="single-error-message"
+            id=${this.id + "--error"}
+            class="single-error-message"
             ?showError=${this.showError}
-            errorMessage=${this._internals.validationMessage ||
+            errorMessage=${this.internals?.validationMessage ||
             this.errorMessage}
             .showDivider=${!this.tile}
           ></nys-errormessage>`

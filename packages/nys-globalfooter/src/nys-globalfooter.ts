@@ -1,5 +1,7 @@
-import { LitElement, html, unsafeCSS, nothing } from "lit";
+import { html, unsafeCSS, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalfooter.scss?inline";
 
@@ -27,8 +29,11 @@ import styles from "./nys-globalfooter.scss?inline";
  * ```
  */
 
-export class NysGlobalFooter extends LitElement {
+export class NysGlobalFooter extends NysElement {
   static styles = unsafeCSS(styles);
+
+  /** Unique identifier. Auto-generated if not provided. */
+  @property({ type: String, reflect: true }) id = "";
 
   /** Agency name displayed as the footer heading. */
   @property({ type: String }) agencyName = "";
@@ -44,6 +49,12 @@ export class NysGlobalFooter extends LitElement {
    * Lifecycle Methods
    * --------------------------------------------------------------------------
    */
+
+  // super.connectedCallback() (NysElement) assigns an id when one is
+  // not provided. The contentinfo landmark intentionally stays on the inner
+  // <footer> element (and is given an accessible name from the agency name so
+  // multiple footers on a page are distinguishable), so this component keeps
+  // defaultRole = null and does not move a role onto the host.
 
   firstUpdated() {
     // Check for slot content after rendering
@@ -113,7 +124,12 @@ export class NysGlobalFooter extends LitElement {
 
   render() {
     return html`
-      <footer class="nys-globalfooter">
+      <footer
+        class="nys-globalfooter"
+        aria-label=${ifDefined(
+          this.agencyName?.trim() ? this.agencyName.trim() : undefined,
+        )}
+      >
         <div class="nys-globalfooter__main-container">
           <div class="nys-globalfooter__heading-container">
             ${!this.homepageLink?.trim()

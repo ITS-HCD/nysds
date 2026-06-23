@@ -201,6 +201,97 @@ describe("nys-globalheader", () => {
 
 // Accessibility Tests
 describe("nys-globalheader", () => {
+  it("auto-generates an id when none is provided", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader appName="Test"></nys-globalheader>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-globalheader-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader id="my-header" appName="Test"></nys-globalheader>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("my-header");
+  });
+
+  it("renders nav landmarks for navigation content", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/one">One</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const desktopNav = el.shadowRoot?.querySelector(
+      "nav.nys-globalheader__content",
+    );
+    const mobileNav = el.shadowRoot?.querySelector(
+      "nav.nys-globalheader__content-mobile",
+    );
+    expect(desktopNav).to.exist;
+    expect(mobileNav).to.exist;
+    expect(desktopNav?.getAttribute("aria-label")).to.exist;
+    expect(mobileNav?.getAttribute("aria-label")).to.exist;
+  });
+
+  it("sets aria-current=page on the active link (WCAG 1.4.1)", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const active = el.shadowRoot?.querySelector(
+      ".nys-globalheader__content li.active a",
+    );
+    const inactive = el.shadowRoot?.querySelector(
+      '.nys-globalheader__content li:not(.active) a[href="/about"]',
+    );
+    expect(active?.getAttribute("aria-current")).to.equal("page");
+    expect(inactive?.getAttribute("aria-current")).to.be.null;
+  });
+
+  it("exposes aria-expanded and aria-controls on the mobile menu button (WCAG 4.1.2)", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/one">One</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const button = el.shadowRoot?.querySelector(
+      ".nys-globalheader__mobile-menu-button",
+    ) as HTMLButtonElement;
+
+    expect(button.getAttribute("aria-expanded")).to.equal("false");
+
+    const controls = button.getAttribute("aria-controls");
+    expect(controls).to.equal(`${el.id}-mobile-nav`);
+    const mobileNav = el.shadowRoot?.querySelector(`#${controls}`);
+    expect(mobileNav).to.exist;
+
+    button.click();
+    await el.updateComplete;
+    expect(button.getAttribute("aria-expanded")).to.equal("true");
+
+    button.click();
+    await el.updateComplete;
+    expect(button.getAttribute("aria-expanded")).to.equal("false");
+  });
+
   it("should handle mobile responsiveness", async () => {
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader

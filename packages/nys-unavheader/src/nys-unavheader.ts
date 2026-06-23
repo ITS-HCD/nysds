@@ -1,5 +1,6 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavheader.scss?inline";
@@ -32,7 +33,7 @@ interface Language {
   url?: string;
 }
 
-export class NysUnavHeader extends LitElement {
+export class NysUnavHeader extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Internal: Whether trust bar panel is expanded. */
@@ -78,15 +79,11 @@ export class NysUnavHeader extends LitElement {
   /**
    * Lifecycle Methods
    * --------------------------------------------------------------------------
+   * connectedCallback is inherited from NysElement, which assigns an
+   * auto-generated host id (prefix "nys-unavheader") when none is provided. The
+   * banner landmark intentionally lives on the inner <header> element, so this
+   * component keeps defaultRole = null and does not move a role onto the host.
    */
-
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-  }
 
   /**
    * Functions
@@ -236,14 +233,16 @@ export class NysUnavHeader extends LitElement {
           }}"
         >
           <div class="content">
-            <label id="nys-unavheader__official"
-              >An official website of New York State</label
+            <span class="nys-unavheader__official"
+              >An official website of New York State</span
             >
             <nys-button
               id="nys-unavheader__know"
               label="Here's how you know"
               variant="ghost"
               size="sm"
+              aria-controls="nys-unavheader__trustpanel"
+              aria-expanded="${this.trustbarVisible}"
               @nys-click="${(e: CustomEvent) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -259,6 +258,7 @@ export class NysUnavHeader extends LitElement {
           </div>
         </div>
         <div
+          id="nys-unavheader__trustpanel"
           class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
             ? "show"
             : "hide"}"
@@ -282,10 +282,10 @@ export class NysUnavHeader extends LitElement {
                 id="trust_official"
               >
                 <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
-                <label><b>Official websites use ny.gov</b></label>
-                <label
+                <span><b>Official websites use ny.gov</b></span>
+                <span
                   >A <b>ny.gov</b> website belongs to an official New York State
-                  government organization.</label
+                  government organization.</span
                 >
               </div>
               <div
@@ -293,11 +293,11 @@ export class NysUnavHeader extends LitElement {
                 id="trust_secure"
               >
                 <nys-icon size="3xl" name="lock_filled"></nys-icon>
-                <label><b>Secure ny.gov websites use HTTPS</b></label>
-                <label
+                <span><b>Secure ny.gov websites use HTTPS</b></span>
+                <span
                   >A <b>lock icon</b> or <b>https://</b> means you've safely
                   connected to the ny.gov website. Share sensitive information
-                  only on official, secure websites.</label
+                  only on official, secure websites.</span
                 >
               </div>
             </div>
@@ -313,13 +313,13 @@ export class NysUnavHeader extends LitElement {
               <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
             >
             <div class="nys-unavheader__trustbar inline">
-              <label id="nys-unavheader__official"
-                >An official website of New York State</label
+              <span id="nys-unavheader__official"
+                >An official website of New York State</span
               >
               <nys-button
                 id="nys-unavheader__know--inline"
                 label="Here's how you know"
-                aria-controls="nys-unavheader__closetrustbar"
+                aria-controls="nys-unavheader__trustpanel"
                 aria-expanded="${this.trustbarVisible}"
                 variant="ghost"
                 size="sm"

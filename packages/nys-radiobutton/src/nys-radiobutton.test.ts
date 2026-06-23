@@ -278,7 +278,7 @@ describe("nys-radiobutton", () => {
     expect((group as any).selectedValue).to.be.null;
     expect(group.showError).to.be.false;
     expect(group.errorMessage).to.equal("");
-    expect((group as any)._internals.validity.valid).to.be.true;
+    expect((group as any).internals.validity.valid).to.be.true;
   });
 
   it("resets radios when native form reset is triggered", async () => {
@@ -1035,5 +1035,87 @@ describe("nys-radiobutton", () => {
       </nys-radiogroup>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  // -------------------------------------------------------------------------
+  // Accessibility / internals migration regression tests
+  // -------------------------------------------------------------------------
+
+  it("names each native radio via aria-labelledby to its visible label (no synthetic aria-label)", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Pick one" id="grp">
+        <nys-radiobutton
+          id="opt-a"
+          name="choices"
+          value="a"
+          label="Option A"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          id="opt-b"
+          name="choices"
+          value="b"
+          label="Option B"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    const input =
+      group.shadowRoot!.querySelector<HTMLInputElement>(`#input-opt-a`)!;
+    // Accessible name comes from the real visible <nys-label>, not a duplicated string.
+    expect(input.getAttribute("aria-labelledby")).to.equal("opt-a-label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+
+    const label = group.shadowRoot!.getElementById("opt-a-label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+    // The visible label is exposed (not hidden) so it can serve as the name source.
+    expect(label!.hasAttribute("aria-hidden")).to.equal(false);
+  });
+
+  it("associates each native radio with the group error message via aria-errormessage", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Pick one" id="grp2">
+        <nys-radiobutton
+          id="opt-c"
+          name="c"
+          value="c"
+          label="Option C"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    const input =
+      group.shadowRoot!.querySelector<HTMLInputElement>(`#input-opt-c`)!;
+    expect(input.getAttribute("aria-errormessage")).to.equal("grp2--error");
+    expect(group.shadowRoot!.getElementById("grp2--error")).to.exist;
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-radiogroup name="choices">
+          <nys-radiobutton name="choices" value="a" label="A"></nys-radiobutton>
+          <nys-radiobutton
+            name="choices"
+            value="b"
+            label="B"
+            checked
+          ></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+    const group = form.querySelector<NysRadiogroup>("nys-radiogroup")!;
+    await group.updateComplete;
+
+    expect(new FormData(form).get("choices")).to.equal("b");
+    expect(Array.from(form.elements)).to.include(group);
   });
 });

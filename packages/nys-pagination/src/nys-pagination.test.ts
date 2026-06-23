@@ -101,6 +101,51 @@ describe("nys-pagination", () => {
     expect(eventDetail.page).to.equal(5);
   });
 
+  it("wraps controls in a nav landmark with an accessible name", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="1" totalPages="5"></nys-pagination>`,
+    );
+    const nav = el.shadowRoot!.querySelector("nav");
+    expect(nav).to.exist;
+    expect(nav).to.have.attribute("aria-label", "Pagination");
+  });
+
+  it("marks the current page with aria-current=page", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="3" totalPages="5"></nys-pagination>`,
+    );
+    const current = el.shadowRoot!.querySelector("#current-page");
+    expect(current).to.have.attribute("aria-current", "page");
+
+    // Only the current page button should carry aria-current.
+    const marked = el.shadowRoot!.querySelectorAll('[aria-current="page"]');
+    expect(marked.length).to.equal(1);
+  });
+
+  it("applies aria-current=page to the first page when it is current", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="1" totalPages="5"></nys-pagination>`,
+    );
+    const marked = el.shadowRoot!.querySelectorAll('[aria-current="page"]');
+    expect(marked.length).to.equal(1);
+    // The single aria-current element is the first page button (label "1").
+    expect(marked[0].getAttribute("label")).to.equal("1");
+  });
+
+  it("auto-generates an id when none is provided", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination totalPages="5"></nys-pagination>`,
+    );
+    expect(el.id).to.match(/^nys-pagination-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination id="my-pager" totalPages="5"></nys-pagination>`,
+    );
+    expect(el.id).to.equal("my-pager");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-pagination></nys-pagination>`);
     await expect(el).shadowDom.to.be.accessible();

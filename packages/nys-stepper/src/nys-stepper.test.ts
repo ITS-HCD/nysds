@@ -151,4 +151,124 @@ describe("nys-stepper", () => {
     );
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  it("wraps the steps in a named navigation landmark", async () => {
+    const el = await fixture<NysStepper>(html`
+      <nys-stepper label="Application">
+        <nys-step label="Step 1" current selected></nys-step>
+        <nys-step label="Step 2"></nys-step>
+      </nys-stepper>
+    `);
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector("nav");
+    expect(nav).to.exist;
+    expect(nav?.getAttribute("aria-label")).to.equal("Application progress");
+  });
+
+  it("falls back to a generic nav label when no label is set", async () => {
+    const el = await fixture<NysStepper>(html`
+      <nys-stepper>
+        <nys-step label="Step 1" current selected></nys-step>
+      </nys-stepper>
+    `);
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector("nav");
+    expect(nav?.getAttribute("aria-label")).to.equal("Progress");
+  });
+});
+
+describe("nys-step accessibility", () => {
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysStep>(html`<nys-step label="Step"></nys-step>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-step-\d+-\d+$/);
+  });
+
+  it("marks the current step with aria-current='step'", async () => {
+    const el = await fixture<NysStep>(
+      html`<nys-step label="Personal Info" current></nys-step>`,
+    );
+    await el.updateComplete;
+
+    const wrapper = el.shadowRoot?.querySelector(
+      ".nys-step__contentwrapper",
+    ) as HTMLElement;
+    expect(wrapper.getAttribute("aria-current")).to.equal("step");
+  });
+
+  it("does not set aria-current on non-current steps", async () => {
+    const el = await fixture<NysStep>(
+      html`<nys-step label="Contact" selected></nys-step>`,
+    );
+    await el.updateComplete;
+
+    const wrapper = el.shadowRoot?.querySelector(
+      ".nys-step__contentwrapper",
+    ) as HTMLElement;
+    expect(wrapper.hasAttribute("aria-current")).to.be.false;
+  });
+
+  it("exposes the interactive step row to assistive tech (not aria-hidden)", async () => {
+    const el = await fixture<NysStep>(
+      html`<nys-step label="Personal Info" current></nys-step>`,
+    );
+    await el.updateComplete;
+
+    const wrapper = el.shadowRoot?.querySelector(
+      ".nys-step__contentwrapper",
+    ) as HTMLElement;
+    // The interactive element must be the row and must NOT be hidden.
+    expect(wrapper.getAttribute("role")).to.equal("button");
+    expect(wrapper.hasAttribute("aria-hidden")).to.be.false;
+    // The label is no longer hidden or a redundant nested button.
+    const label = el.shadowRoot?.querySelector(
+      ".nys-step__label",
+    ) as HTMLElement;
+    expect(label.hasAttribute("aria-hidden")).to.be.false;
+    expect(label.hasAttribute("role")).to.be.false;
+  });
+
+  it("makes navigable steps focusable and future steps inert", async () => {
+    const current = await fixture<NysStep>(
+      html`<nys-step label="Step 1" current></nys-step>`,
+    );
+    await current.updateComplete;
+    const currentWrapper = current.shadowRoot?.querySelector(
+      ".nys-step__contentwrapper",
+    ) as HTMLElement;
+    expect(currentWrapper.getAttribute("tabindex")).to.equal("0");
+    expect(currentWrapper.getAttribute("aria-disabled")).to.equal("false");
+
+    const future = await fixture<NysStep>(
+      html`<nys-step label="Step 2"></nys-step>`,
+    );
+    await future.updateComplete;
+    const futureWrapper = future.shadowRoot?.querySelector(
+      ".nys-step__contentwrapper",
+    ) as HTMLElement;
+    expect(futureWrapper.getAttribute("tabindex")).to.equal("-1");
+    expect(futureWrapper.getAttribute("aria-disabled")).to.equal("true");
+  });
+
+  it("includes the step number in the accessible name when assigned", async () => {
+    const el = await fixture<NysStep>(
+      html`<nys-stepper>
+        <nys-step label="Personal Info" current></nys-step>
+      </nys-stepper>`,
+    );
+    await (el as any).updateComplete;
+    const step = el.querySelector("nys-step") as NysStep;
+    await step.updateComplete;
+
+    const wrapper = step.shadowRoot?.querySelector(
+      ".nys-step__contentwrapper",
+    ) as HTMLElement;
+    expect(wrapper.getAttribute("aria-label")).to.equal(
+      "Personal Info, step 1",
+    );
+  });
 });

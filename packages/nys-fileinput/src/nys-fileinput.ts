@@ -1,12 +1,17 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
 import { validateFileHeader } from "./validateFileHeader";
 import "./nys-fileitem";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-fileinput is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileinput.scss?inline";
-
-let fileinputIdCounter = 0;
 
 interface FileWithProgress {
   file: File;
@@ -39,7 +44,7 @@ interface FileWithProgress {
  * ```
  */
 
-export class NysFileinput extends LitElement {
+export class NysFileinput extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -145,27 +150,16 @@ export class NysFileinput extends LitElement {
     return innerButton;
   }
 
-  private _internals: ElementInternals;
-
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
-
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-fileinput-${Date.now()}-${fileinputIdCounter++}`;
-    }
-
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -193,13 +187,13 @@ export class NysFileinput extends LitElement {
         files.forEach((file) => {
           formData.append(this.name, file);
         });
-        this._internals.setFormValue(formData);
+        this.setFormValue(formData);
       } else {
-        this._internals.setFormValue(null);
+        this.setFormValue(null);
       }
     } else {
       const singleFile = this._selectedFiles[0]?.file || null;
-      this._internals.setFormValue(singleFile);
+      this.setFormValue(singleFile);
     }
 
     this._manageRequire(); // Check validation when value is set
@@ -214,11 +208,9 @@ export class NysFileinput extends LitElement {
     const isInvalid = this.required && this._selectedFiles.length == 0;
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true"; // Screen readers should announce error
-      this._internals.setValidity({ valueMissing: true }, message, input);
+      this.setValidityFromState({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaInvalid = "false"; // Reset when valid
-      this._internals.setValidity({}, "", input);
+      this.clearValidity();
     }
   }
 
@@ -234,11 +226,11 @@ export class NysFileinput extends LitElement {
       message = this.errorMessage;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
+    if (message) {
+      this.setValidityFromState({ customError: true }, message, input);
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -274,12 +266,12 @@ export class NysFileinput extends LitElement {
       input.value = "";
     }
 
-    this._internals.setFormValue(null);
+    this.setFormValue(null);
 
     // Reset validation UI
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
+    this.clearValidity();
 
     // Re-render UI
     this.requestUpdate();
@@ -292,7 +284,7 @@ export class NysFileinput extends LitElement {
     const innerButton = this._innerNysButton;
     if (innerButton) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -531,6 +523,7 @@ export class NysFileinput extends LitElement {
       @nys-fileRemove=${this._handleFileRemove}
     >
       <nys-label
+        id="${this.id}--label"
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -542,7 +535,7 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
-        id=${this.id}
+        id=${this.id + "--native"}
         class="hidden-file-input"
         tabindex="-1"
         type="file"
@@ -553,7 +546,15 @@ export class NysFileinput extends LitElement {
         ?required=${this.required}
         ?disabled=${this.disabled ||
         (!this.multiple && this._selectedFiles.length > 0)}
+        aria-labelledby=${ifDefined(
+          this.label ? this.id + "--label" : undefined,
+        )}
+        aria-label=${ifDefined(
+          !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+        )}
         aria-disabled="${this.disabled}"
+        aria-invalid=${this.showError ? "true" : "false"}
+        aria-errormessage=${this.id + "--error"}
         aria-hidden="true"
         @change=${this._handleFileChange}
         hidden
@@ -613,8 +614,9 @@ export class NysFileinput extends LitElement {
       ${this.showError
         ? html`
             <nys-errormessage
+              id=${this.id + "--error"}
               ?showError=${this.showError}
-              errorMessage=${this._internals.validationMessage ||
+              errorMessage=${this.internals?.validationMessage ||
               this.errorMessage}
             ></nys-errormessage>
           `

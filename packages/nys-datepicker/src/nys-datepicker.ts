@@ -1,6 +1,13 @@
-import { LitElement, html, nothing, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-datepicker is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-datepicker.scss?inline";
@@ -11,8 +18,6 @@ import { WcDatepicker } from "wc-datepicker/dist/components/wc-datepicker";
 if (!customElements.get("wc-datepicker")) {
   customElements.define("wc-datepicker", WcDatepicker);
 }
-
-let componentIdCounter = 0;
 
 /**
  * Date picker with calendar popup and form validation. Falls back to native date input
@@ -58,7 +63,7 @@ let componentIdCounter = 0;
  * ```
  */
 
-export class NysDatepicker extends LitElement {
+export class NysDatepicker extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -144,26 +149,18 @@ export class NysDatepicker extends LitElement {
   @state() private datepickerIsOpen = false;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  private _internals: ElementInternals;
 
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
 
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-datepicker-${Date.now()}-${componentIdCounter++}`;
-    }
 
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("focusout", this._handleBlur);
@@ -201,7 +198,7 @@ export class NysDatepicker extends LitElement {
       const current = this.value;
 
       if (!current && prev !== current) {
-        this._internals.setFormValue("");
+        this.setFormValue("");
         this._manageRequire();
       } else if (current) {
         this._setValue(current); // handles both Date and string
@@ -246,7 +243,7 @@ export class NysDatepicker extends LitElement {
   private _setValue(value: Date | string | undefined) {
     if (!value) {
       this.value = undefined;
-      this._internals.setFormValue("");
+      this.setFormValue("");
       this._manageRequire();
       return;
     }
@@ -260,7 +257,7 @@ export class NysDatepicker extends LitElement {
     ].join("-");
 
     this.value = date;
-    this._internals.setFormValue(yyyyMmDd);
+    this.setFormValue(yyyyMmDd);
 
     const input = this.shadowRoot?.querySelector("input");
     if (input) {
@@ -284,11 +281,9 @@ export class NysDatepicker extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true";
-      this._internals.setValidity({ valueMissing: true }, message, input);
+      this.setValidityFromState({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaInvalid = "false";
-      this._internals.setValidity({});
+      this.clearValidity();
     }
   }
 
@@ -326,7 +321,6 @@ export class NysDatepicker extends LitElement {
 
   // Sets custom validity message
   private _setValidityMessage(message: string = "") {
-    if (!this._internals) return;
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
@@ -339,11 +333,11 @@ export class NysDatepicker extends LitElement {
       message = this.errorMessage;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
+    if (message) {
+      this.setValidityFromState({ customError: true }, message, input);
+    } else {
+      this.clearValidity();
+    }
   }
 
   // Handles native 'invalid' events
@@ -355,7 +349,7 @@ export class NysDatepicker extends LitElement {
     const innerInput = this.shadowRoot?.querySelector("input");
     if (innerInput) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -663,7 +657,7 @@ export class NysDatepicker extends LitElement {
     if (this.disabled) return;
 
     this.value = undefined;
-    this._internals.setFormValue("");
+    this.setFormValue("");
     const input = this.shadowRoot?.querySelector("input");
     if (input) {
       input.value = "";
@@ -684,7 +678,7 @@ export class NysDatepicker extends LitElement {
       // If input is completely empty, clear value
       if (!input.value) {
         this.value = undefined;
-        this._internals.setFormValue("");
+        this.setFormValue("");
         if (this._hasUserInteracted) {
           this._validate();
         }
@@ -798,6 +792,7 @@ export class NysDatepicker extends LitElement {
 
     return html` <div class="nys-datepicker--container">
         <nys-label
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -820,10 +815,16 @@ export class NysDatepicker extends LitElement {
               ? this.value.toISOString().split("T")[0]
               : this.value || ""}
             ?disabled=${this.disabled}
-            aria-label=${ifDefined(this.label || undefined)}
+            aria-labelledby=${ifDefined(
+              this.label ? this.id + "--label" : undefined,
+            )}
+            aria-label=${ifDefined(
+              !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+            )}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
             aria-required=${ifDefined(this.required ? "true" : undefined)}
-            aria-describedby=${this.showError ? `${this.id}-error` : nothing}
+            aria-invalid=${this.showError ? "true" : "false"}
+            aria-errormessage=${this.id + "--error"}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
@@ -897,9 +898,9 @@ export class NysDatepicker extends LitElement {
         </div>
       </div>
       <nys-errormessage
-        id=${`${this.id}-error`}
+        id=${this.id + "--error"}
         ?showError=${this.showError}
-        errorMessage=${this._internals.validationMessage || this.errorMessage}
+        errorMessage=${this.internals!.validationMessage || this.errorMessage}
       ></nys-errormessage>`;
   }
 }

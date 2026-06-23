@@ -1,4 +1,5 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
+import { NysElement } from "@nysds/internals";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavfooter.scss?inline";
@@ -19,8 +20,22 @@ import styles from "./nys-unavfooter.scss?inline";
  * ```
  */
 
-export class NysUnavFooter extends LitElement {
+export class NysUnavFooter extends NysElement {
   static styles = unsafeCSS(styles);
+
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
+  connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto-
+    // generated id when one is not provided. The contentinfo/navigation
+    // landmarks stay on the inner <footer>/<nav> elements, so this component
+    // intentionally keeps defaultRole = null and does not move a role to the
+    // host.
+    super.connectedCallback();
+  }
 
   /**
    * Functions
@@ -35,6 +50,11 @@ export class NysUnavFooter extends LitElement {
     const svgDoc = parser.parseFromString(nysLogo, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
 
+    // The logo is decorative; the surrounding link already carries an
+    // accessible name, so hide the SVG from the accessibility tree.
+    svgElement.setAttribute("aria-hidden", "true");
+    svgElement.setAttribute("focusable", "false");
+
     return svgElement;
   }
 
@@ -47,12 +67,13 @@ export class NysUnavFooter extends LitElement {
               <a
                 href="https://www.ny.gov"
                 target="_blank"
+                rel="noopener noreferrer"
                 id="nys-unavheader__logolink"
-                aria-label="logo of New York State"
+                aria-label="New York State home page (opens in a new tab)"
                 >${this._getNysLogo()}</a
               >
             </div>
-            <div class="nys-unavfooter__content">
+            <nav class="nys-unavfooter__content" aria-label="New York State">
               <ul>
                 <li><a href="https://www.ny.gov/agencies">Agencies</a></li>
                 <li>
@@ -63,7 +84,7 @@ export class NysUnavFooter extends LitElement {
                 <li><a href="https://www.ny.gov/programs">Programs</a></li>
                 <li><a href="https://www.ny.gov/services">Services</a></li>
               </ul>
-            </div>
+            </nav>
           </div>
         </div>
       </footer>

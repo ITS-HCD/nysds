@@ -258,7 +258,7 @@ describe("nys-breadcrumbs", () => {
   });
 
   /** ariaLabel **/
-  it("uses 'path to this page' as default aria-label on <nav>", async () => {
+  it("uses 'Breadcrumb' as default aria-label on <nav>", async () => {
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
         <ol>
@@ -270,7 +270,7 @@ describe("nys-breadcrumbs", () => {
     await el.updateComplete;
 
     const nav = el.shadowRoot!.querySelector("nav")!;
-    expect(nav.getAttribute("aria-label")).to.equal("path to this page");
+    expect(nav.getAttribute("aria-label")).to.equal("Breadcrumb");
   });
 
   it("uses a custom ariaLabel on <nav> when provided", async () => {
@@ -609,6 +609,73 @@ describe("nys-breadcrumbs", () => {
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
     expect(items.length).to.equal(1);
     expect(items[0].querySelector("nys-icon[name='arrow_back']")).to.exist;
+  });
+
+  /** WCAG: current page identified with aria-current="page" **/
+  it('marks the current page item with aria-current="page"', async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    await el.updateComplete;
+
+    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+    const lastItem = items[items.length - 1];
+
+    expect(lastItem.getAttribute("aria-current")).to.equal("page");
+    expect(lastItem.textContent?.trim()).to.equal("Current Page");
+  });
+
+  it("does not set aria-current on linked (non-current) crumb items", async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    await el.updateComplete;
+
+    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+
+    expect(items[0].hasAttribute("aria-current")).to.be.false;
+    expect(items[1].hasAttribute("aria-current")).to.be.false;
+  });
+
+  /** id auto-generation format (mixin: <tag>-<ts>-<n>) **/
+  it("auto-generates an id in the form /^nys-breadcrumbs-\\d+-\\d+$/", async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.match(/^nys-breadcrumbs-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id (does not auto-generate)", async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs id="my-trail">
+        <ol>
+          <li><a href="/">Home</a></li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.equal("my-trail");
   });
 
   /** Accessibility **/

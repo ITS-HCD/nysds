@@ -1,5 +1,6 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-video.scss?inline";
 
@@ -9,8 +10,6 @@ declare global {
     onYouTubeIframeAPIReady: () => void;
   }
 }
-
-let videoIdCounter = 0;
 
 /**
  * A YouTube video player with a thumbnail preview and play button.
@@ -34,7 +33,7 @@ let videoIdCounter = 0;
  * ```
  */
 
-export class NysVideo extends LitElement {
+export class NysVideo extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Full YouTube URL — required. Component will not render if invalid. */
@@ -87,24 +86,17 @@ export class NysVideo extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  constructor() {
-    super();
-  }
-
-  // Generate a unique ID if one is not provided
+  // super.connectedCallback() (NysElement) assigns an auto-generated
+  // id (prefix = localName) when one is not provided. The assertive live region
+  // stays on the inner .nys-video__announcer element so only playback/ad state is
+  // announced; the host carries no role (defaultRole stays null) — the <iframe>
+  // and the play <button> carry their own semantics.
   connectedCallback() {
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-video-${Date.now()}-${videoIdCounter++}`;
-    }
 
     if (this.autoplay) {
       this._announceVideoVO();
     }
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
   }
 
   /**
@@ -295,17 +287,17 @@ export class NysVideo extends LitElement {
         >
           ${this._renderAnnouncer()}
           <div class="nys-video__ratio-box">
-            <div
-              class="nys-video__thumbnail"
-              @click=${this._handleThumbnailClick}
-            >
+            <div class="nys-video__thumbnail">
               <img src=${this._getThumbnailUrl()} alt="" />
               <button
                 class="nys-video__play-icon"
                 aria-label="Play ${this.titleText}"
                 ?disabled=${this.disabled}
+                @click=${this._handleThumbnailClick}
               >
-                ${this._renderPlayIcon()}
+                <span class="nys-video__play-badge">
+                  ${this._renderPlayIcon()}
+                </span>
               </button>
             </div>
           </div>

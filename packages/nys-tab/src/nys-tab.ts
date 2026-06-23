@@ -1,10 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tab.scss?inline";
-
-/** @internal Monotonically increasing counter used to generate unique element IDs. */
-let componentIdCounter = 0;
 
 /**
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
@@ -40,7 +38,7 @@ let componentIdCounter = 0;
  * </nys-tabgroup>
  * ```
  */
-export class NysTab extends LitElement {
+export class NysTab extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -92,12 +90,20 @@ export class NysTab extends LitElement {
    * `<nys-tabgroup>` overrides `tabindex` to `"0"` on the selected tab.
    */
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id
+    // (prefix = localName "nys-tab") when one is not provided. role="tab" stays
+    // on the host as a reflected attribute (defaultRole intentionally null) so
+    // existing getAttribute("role") consumers/tests keep working and so
+    // <nys-tabgroup> can wire aria-controls/aria-selected via attributes.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-tab-${Date.now()}-${componentIdCounter++}`;
-    }
     this.setAttribute("role", "tab");
     this.setAttribute("tabindex", "-1");
+    // A tab must expose its selected state; <nys-tabgroup> overrides this once
+    // it wires the group, but a standalone <nys-tab> still presents valid
+    // tab semantics to assistive tech (WAI-ARIA Tabs Pattern, WCAG 4.1.2).
+    if (!this.hasAttribute("aria-selected")) {
+      this.setAttribute("aria-selected", this.selected ? "true" : "false");
+    }
     this.addEventListener("keydown", this._onKeydown);
     this.addEventListener("focus", this._onFocus);
     this.addEventListener("blur", this._onBlur);
