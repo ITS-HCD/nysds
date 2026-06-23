@@ -433,8 +433,9 @@ export type NysDropdownMenuProps = {
   for?: string;
   /**  */
   showDropdown?: boolean;
-  /** Accessible name for the menu (`role="menu"`) container. Screen readers use
-this to announce the purpose of the menu. Defaults to "Menu". */
+  /** Accessible label for the menu (`role="menu"`) container. Used as `aria-label`
+on the `<ul role="menu">` element. When empty, falls back to "Menu" so the
+menu always has an accessible name for screen readers. */
   label?: string;
   /** Preferred position relative to trigger. */
   position?: Position | null;
@@ -526,6 +527,8 @@ export type NysGlobalFooterProps = {
   id?: string;
   /** Agency name displayed as the footer heading. */
   agencyName?: string;
+  /** Optional subheading displayed below the agency name. */
+  agencySubheading?: string;
   /** URL for the agency name link. If empty, name is not clickable. */
   homepageLink?: string;
 };

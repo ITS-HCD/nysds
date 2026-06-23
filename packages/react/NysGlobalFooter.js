@@ -2,7 +2,8 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysGlobalFooter = forwardRef((props, forwardedRef) => {
-  const { id, agencyName, homepageLink, ...filteredProps } = props;
+  const { id, agencyName, agencySubheading, homepageLink, ...filteredProps } =
+    props;
 
   return React.createElement(
     "nys-globalfooter",
@@ -10,6 +11,7 @@ export const NysGlobalFooter = forwardRef((props, forwardedRef) => {
       ...filteredProps,
       id: props.id,
       agencyName: props.agencyName,
+      agencySubheading: props.agencySubheading,
       homepageLink: props.homepageLink,
       class: props.className,
       exportparts: props.exportparts,

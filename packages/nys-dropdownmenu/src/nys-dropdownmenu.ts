@@ -52,10 +52,12 @@ export class NysDropdownMenu extends NysElement {
   @property({ type: Boolean }) showDropdown = false;
 
   /**
-   * Accessible name for the menu (`role="menu"`) container. Screen readers use
-   * this to announce the purpose of the menu. Defaults to "Menu".
+   * Accessible label for the menu (`role="menu"`) container. Used as `aria-label`
+   * on the `<ul role="menu">` element. When empty, falls back to "Menu" so the
+   * menu always has an accessible name for screen readers.
+   * @default ""
    */
-  @property({ type: String }) label = "Menu";
+  @property({ type: String }) label = "";
 
   /**
    * Preferred position relative to trigger.
@@ -498,7 +500,7 @@ export class NysDropdownMenu extends NysElement {
       for=${this.for}
       ?hidden=${!this.showDropdown}
     >
-      <ul role="menu" aria-label=${this.label}>
+      <ul role="menu" aria-label=${this.label || "Menu"}>
         <slot></slot>
       </ul>
     </div>`;

@@ -1,4 +1,4 @@
-import { html, unsafeCSS } from "lit";
+import { html, unsafeCSS, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
@@ -18,7 +18,11 @@ import styles from "./nys-globalfooter.scss?inline";
  *
  * @example Simple footer
  * ```html
- * <nys-globalfooter agencyName="Department of Health" homepageLink="/">
+ * <nys-globalfooter
+ *    agencyName="Department of Health"
+ *    homepageLink="/"
+ *    agencySubheading="Protecting and Promoting the Health of New Yorkers"
+ * >
  *   <span>123 Main St, Albany NY</span>
  *   <span>info@health.ny.gov</span>
  * </nys-globalfooter>
@@ -33,6 +37,9 @@ export class NysGlobalFooter extends NysElement {
 
   /** Agency name displayed as the footer heading. */
   @property({ type: String }) agencyName = "";
+
+  /** Optional subheading displayed below the agency name. */
+  @property({ type: String }) agencySubheading = "";
 
   /** URL for the agency name link. If empty, name is not clickable. */
   @property({ type: String }) homepageLink = "";
@@ -124,11 +131,18 @@ export class NysGlobalFooter extends NysElement {
         )}
       >
         <div class="nys-globalfooter__main-container">
-          ${!this.homepageLink?.trim()
-            ? html`<h2 class="nys-globalfooter__name">${this.agencyName}</h2>`
-            : html`<a href=${this.homepageLink?.trim()}>
-                <h2 class="nys-globalfooter__name">${this.agencyName}</h2>
-              </a>`}
+          <div class="nys-globalfooter__heading-container">
+            ${!this.homepageLink?.trim()
+              ? html`<h2 class="nys-globalfooter__name">${this.agencyName}</h2>`
+              : html`<a href=${this.homepageLink?.trim()}>
+                  <h2 class="nys-globalfooter__name">${this.agencyName}</h2>
+                </a>`}
+            ${this.agencySubheading
+              ? html`<p class="nys-globalfooter__subheading">
+                  ${this.agencySubheading}
+                </p>`
+              : nothing}
+          </div>
           ${this.slotHasContent
             ? html`<div class="nys-globalfooter__content">
                 <slot

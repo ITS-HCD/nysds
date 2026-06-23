@@ -19,7 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.19.0", //update this to the latest version when new release is made
+        default: "1.19.1", //update this to the latest version when new release is made
       },
       {
         type: "confirm",
@@ -103,6 +103,17 @@ export default function (plop) {
         transform: (content, data) => {
           const insertLine = `\nexport * from "../packages/nys-${data.componentName}/src/index";\n`;
           return content.trimEnd() + insertLine;
+        },
+      },
+      {
+        type: "modify",
+        path: "tsconfig.build.json",
+        transform: (content, data) => {
+          const tsconfig = JSON.parse(content);
+          const newRef = { path: `packages/nys-${data.componentName}` };
+          tsconfig.references.push(newRef);
+          tsconfig.references.sort((a, b) => a.path.localeCompare(b.path));
+          return JSON.stringify(tsconfig, null, 2) + "\n";
         },
       },
     ],

@@ -24,8 +24,9 @@ export interface NysDropdownMenuProps extends Pick<
   /** undefined */
   for?: NysDropdownMenuElement["for"];
 
-  /** Accessible name for the menu (`role="menu"`) container. Screen readers use
-this to announce the purpose of the menu. Defaults to "Menu". */
+  /** Accessible label for the menu (`role="menu"`) container. Used as `aria-label`
+on the `<ul role="menu">` element. When empty, falls back to "Menu" so the
+menu always has an accessible name for screen readers. */
   label?: NysDropdownMenuElement["label"];
 
   /** Preferred position relative to trigger. */
