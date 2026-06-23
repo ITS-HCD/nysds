@@ -158,7 +158,8 @@
     ]
   },
   "overrides": {
-    "storybook": "$storybook"
+    "storybook": "$storybook",
+    "playwright": "^1.61.0"
   },
   "dependencies": {
     "dompurify": "^3.4.7",
