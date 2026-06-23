@@ -1030,6 +1030,8 @@ export type NysVerticalnavProps = {
 
 export type NysVerticalnavGroupProps = {
   /**  */
+  id?: string;
+  /**  */
   label?: string;
   /**  */
   expanded?: boolean;

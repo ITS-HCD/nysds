@@ -3,6 +3,8 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
 
+let verticalNavGroupIdCounter = 0;
+
 /**
  * Collapsible dropdown group for use inside `<nys-verticalnav>`.
  *
@@ -69,22 +71,41 @@ import styles from "./nys-verticalnav.scss?inline";
 export class NysVerticalnavGroup extends LitElement {
   static styles = unsafeCSS(styles);
 
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) label = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) active = false;
 
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-verticalnav-${Date.now()}-${verticalNavGroupIdCounter++}`;
+    }
+  }
+
   private _toggle() {
     if (this.disabled) return;
 
     this.expanded = !this.expanded;
+
+    // The `nys-accordionitem` listens for this event to resize the height
+    this.dispatchEvent(
+      new CustomEvent("nys-child-resize", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
+    const contentId = `${this.id}-content`;
+
     return html`
       <button
         class="nys-verticalnavgroup__trigger"
         @click=${this._toggle}
+        aria-controls=${contentId}
         aria-expanded=${this.expanded}
         ?disabled=${this.disabled}
       >
@@ -95,7 +116,7 @@ export class NysVerticalnavGroup extends LitElement {
           size="16"
         ></nys-icon>
       </button>
-      <div class="nys-verticalnavgroup__items">
+      <div class="nys-verticalnavgroup__items" id=${contentId}>
         <slot></slot>
       </div>
     `;

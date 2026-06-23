@@ -5,7 +5,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-verticalnav.scss?inline";
 import "./nys-verticalnavgroup";
 
-let componentIdCounter = 0;
+let verticalNavIdCounter = 0;
 
 type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -187,7 +187,7 @@ export class NysVerticalnav extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-verticalnav-${Date.now()}-${componentIdCounter++}`;
+      this.id = `nys-verticalnav-${Date.now()}-${verticalNavIdCounter++}`;
     }
 
     this._mediaQuery = window.matchMedia("(max-width: 1023px)") ?? null; // Tablet size and below
@@ -206,10 +206,7 @@ export class NysVerticalnav extends LitElement {
     ) as HTMLSlotElement;
 
     slot?.addEventListener("slotchange", () => {
-      this._removeDividers();
       this._applyActiveState();
-      if (this._isMobile) this._injectDividers();
-      else this._injectSubheaderDividers();
     });
   }
 
@@ -220,66 +217,7 @@ export class NysVerticalnav extends LitElement {
 
   private _handleResize = (e: MediaQueryListEvent) => {
     this._isMobile = e.matches;
-    this._removeDividers();
-    if (this._isMobile) this._injectDividers();
-    else this._injectSubheaderDividers();
   };
-
-  private _removeDividers() {
-    this.querySelectorAll("li.nys-verticalnav__divider--injected").forEach(
-      (li) => li.remove(),
-    );
-  }
-
-  private _injectDividers() {
-    this.querySelectorAll(
-      "ul > li:not(.nys-verticalnav__divider--injected)",
-    ).forEach((li) => {
-      if (li.parentElement?.closest("nys-verticalnavgroup")) return;
-      if (li.nextElementSibling?.tagName.toLowerCase() === "nys-divider")
-        return;
-      if (li.nextElementSibling) {
-        const wrapper = document.createElement("li");
-        wrapper.classList.add("nys-verticalnav__divider--injected");
-        wrapper.setAttribute("role", "presentation");
-        wrapper.setAttribute("aria-hidden", "true");
-        const divider = document.createElement("nys-divider");
-        divider.setAttribute("subtle", "");
-        wrapper.appendChild(divider);
-        li.insertAdjacentElement("afterend", wrapper);
-      }
-    });
-  }
-
-  private _injectSubheaderDividers() {
-    this.querySelectorAll("ul > li").forEach((li) => {
-      const hasSubheader = li.querySelector(
-        ":scope > :is(h1, h2, h3, h4, h5, h6)",
-      );
-
-      if (!hasSubheader) return;
-
-      // Prevent double-up if previous sibling is already a divider
-      const prev = li.previousElementSibling;
-      if (!prev) return;
-
-      const prevIsDivider = prev.tagName.toLowerCase() === "nys-divider";
-      const prevIsDividerLi =
-        prev.tagName === "LI" &&
-        prev.children.length === 1 &&
-        prev.children[0].tagName.toLowerCase() === "nys-divider";
-      if (prevIsDivider || prevIsDividerLi) return;
-
-      const wrapper = document.createElement("li");
-      wrapper.classList.add("nys-verticalnav__divider--injected");
-      wrapper.setAttribute("role", "presentation");
-      wrapper.setAttribute("aria-hidden", "true");
-      const divider = document.createElement("nys-divider");
-      divider.setAttribute("subtle", "");
-      wrapper.appendChild(divider);
-      li.insertAdjacentElement("beforebegin", wrapper);
-    });
-  }
 
   private _applyActiveState() {
     this.querySelectorAll('a[aria-current="page"]').forEach((a) => {

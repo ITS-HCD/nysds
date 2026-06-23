@@ -14612,21 +14612,6 @@
             },
             {
               "kind": "method",
-              "name": "_removeDividers",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_injectDividers",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_injectSubheaderDividers",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "_applyActiveState",
               "privacy": "private"
             },
@@ -14761,6 +14746,16 @@
           "members": [
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "label",
               "type": {
                 "text": "string"
@@ -14813,6 +14808,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
             {
               "name": "label",
               "type": {

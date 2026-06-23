@@ -104,8 +104,8 @@ nys-verticalnav {
       font-size: var(--_nys-verticalnav-font-size--subheader);
       font-weight: var(--_nys-verticalnav-font-weight--subheader);
       line-height: var(--_nys-verticalnav-line-height);
-      padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px)
-        var(--nys-space-50, 4px) var(--nys-space-150, 12px);
+      padding: var(--nys-space-250, 20px) var(--nys-space-100, 8px)
+        var(--nys-space-100, 8px) var(--nys-space-150, 12px);
       margin: 0;
       text-transform: uppercase;
       color: var(--nys-color-text, #1b1b1b);
@@ -130,5 +130,16 @@ nys-verticalnavgroup {
         line-height: var(--_nys-verticalnav-line-height);
       }
     }
+  }
+}
+
+@media (max-width: 1023px) {
+  nys-verticalnav ul > li:not(:last-child) {
+    border-bottom: var(--nys-size-1px, 1px) solid
+      var(--nys-color-neutral-100, #e4e5e6);
+  }
+
+  nys-verticalnav nys-verticalnavgroup ul > li:not(:last-child) {
+    border-bottom: none;
   }
 }
