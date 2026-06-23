@@ -612,6 +612,45 @@ describe("nys-breadcrumbs", () => {
   });
 
   /** Accessibility **/
+  it("sets aria-current='page' on the current page item", async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    await el.updateComplete;
+
+    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+    const lastItem = items[items.length - 1];
+
+    expect(lastItem.getAttribute("aria-current")).to.equal("page");
+  });
+
+  it("does not set aria-current on non-current breadcrumb items", async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    await el.updateComplete;
+
+    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+
+    for (let i = 0; i < items.length - 1; i++) {
+      expect(items[i].getAttribute("aria-current")).to.be.null;
+    }
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-breadcrumbs>

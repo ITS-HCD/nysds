@@ -190,7 +190,7 @@ export class NysBreadcrumbs extends LitElement {
   private _createBackToParentElement(li: HTMLLIElement) {
     const anchor = this._getAnchor(li);
     const link = anchor?.getAttribute("href") ?? "";
-    const label = anchor?.textContent?.trim() ?? li.textContent?.trim();
+    const label = anchor?.textContent?.trim() ?? li.textContent?.trim() ?? "";
 
     const liEL = document.createElement("li");
     liEL.className = "nys-breadcrumbitem";
@@ -224,6 +224,7 @@ export class NysBreadcrumbs extends LitElement {
 
     if (isCurrentPage) {
       liEl.textContent = label;
+      liEl.setAttribute("aria-current", "page");
       return liEl;
     }
 

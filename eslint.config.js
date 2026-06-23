@@ -38,6 +38,7 @@ export default [
           endOfLine: "auto",
         },
       ],
+      "no-new-func": "error",
       "lit/no-invalid-html": "error",
     },
   },
