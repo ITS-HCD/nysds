@@ -4575,7 +4575,7 @@
               "type": {
                 "text": "\"md\" | \"lg\" | \"full\""
               },
-              "default": "\"md\"",
+              "default": "\"full\"",
               "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
               "attribute": "width",
               "reflects": true
@@ -5112,7 +5112,7 @@
               "type": {
                 "text": "\"md\" | \"lg\" | \"full\""
               },
-              "default": "\"md\"",
+              "default": "\"full\"",
               "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
               "fieldName": "width",
               "propName": "width"
@@ -14817,6 +14817,14 @@
               "kind": "method",
               "name": "_toggle",
               "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-child-resize",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [

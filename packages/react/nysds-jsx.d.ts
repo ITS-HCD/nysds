@@ -1041,6 +1041,9 @@ export type NysVerticalnavGroupProps = {
   disabled?: boolean;
   /**  */
   active?: boolean;
+
+  /**  */
+  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
 export type NysVideoProps = {
@@ -1635,6 +1638,9 @@ export type CustomElements = {
    * Collapsible link group for use within `<nys-verticalnav>`.
    * ---
    *
+   *
+   * ### **Events:**
+   *  - **nys-child-resize**
    */
   "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
