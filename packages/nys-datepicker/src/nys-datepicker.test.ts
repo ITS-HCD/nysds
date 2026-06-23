@@ -1403,7 +1403,7 @@ describe("nys-datepicker", () => {
   });
 
   /*** A11y Test ***/
-  it("adds aria-describedby to input pointing to error element when showError is true", async () => {
+  it("sets aria-invalid and aria-errormessage on the input when showError is true", async () => {
     const el = await fixture<NysDatepicker>(
       html`<nys-datepicker id="test-dp" required></nys-datepicker>`,
     );
@@ -1413,17 +1413,18 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-describedby")).to.equal("test-dp-error");
+    expect(input.getAttribute("aria-invalid")).to.equal("true");
+    expect(input.getAttribute("aria-errormessage")).to.equal("test-dp--error");
   });
 
-  it("removes aria-describedby from input when showError is false", async () => {
+  it("sets aria-invalid to false on the input when showError is false", async () => {
     const el = await fixture<NysDatepicker>(
       html`<nys-datepicker id="test-dp"></nys-datepicker>`,
     );
     await el.updateComplete;
 
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-describedby")).to.be.null;
+    expect(input.getAttribute("aria-invalid")).to.equal("false");
   });
 
   it("error message element has id matching the expected error ID", async () => {
@@ -1433,7 +1434,7 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
-    expect(errorEl.getAttribute("id")).to.equal("test-dp-error");
+    expect(errorEl.getAttribute("id")).to.equal("test-dp--error");
   });
 
   it("passes the a11y audit", async () => {
