@@ -33,11 +33,65 @@ let videoIdCounter = 0;
  *
  * @fires nys-video-play - Fired when the user clicks the thumbnail to load the player.
  *
- * @example Basic usage
+ * @example Basic
  * ```html
  * <nys-video
- *   videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
- *   titleText="Video Title"
+ *   videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
+ *   titleText="IT'S a Tech Podcast, Episode 3: Human-Centered Design"
+ * ></nys-video>
+ * ```
+ *
+ * @example Thumbnail
+ * ```html
+ * <nys-video
+ *  videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
+ *  titleText="IT'S a Tech Podcast, Episode 3: Human-Centered Design"
+ *  thumbnail="https://designsystem.ny.gov/assets/img/homepage-grid-3.svg"
+ * ></nys-video>
+ * ```
+ *
+ * @example Autoplay
+ * ```html
+ * <nys-video
+ *   videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
+ *   titleText="IT'S a Tech Podcast, Episode 3: Human-Centered Design"
+ *   autoplay
+ * ></nys-video>
+ * ```
+ *
+ * @example Start Time
+ * ```html
+ * <nys-video
+ *   videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
+ *   titleText="IT'S a Tech Podcast, Episode 3: Human-Centered Design"
+ *   starttime="43"
+ * ></nys-video>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-video
+ *   videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
+ *   titleText="IT'S a Tech Podcast, Episode 3: Human-Centered Design"
+ *   disabled
+ * ></nys-video>
+ * ```
+ *
+ * @example Size full
+ * ```html
+ * <nys-video
+ *   size="full"
+ *   videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
+ *   titleText="Small (width: 320-439px)"
+ * ></nys-video>
+ * ```
+ *
+ * @example Size small
+ * ```html
+ * <nys-video
+ *   size="sm"
+ *   videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
+ *   titleText="Small (width: 320-439px)"
  * ></nys-video>
  * ```
  */

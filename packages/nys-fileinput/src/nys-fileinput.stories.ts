@@ -1,8 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-fileinput";
+import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysFileinputArgs {
@@ -10,18 +12,17 @@ interface NysFileinputArgs {
   name: string;
   label: string;
   description: string;
-  form: string | null;
-  tooltip: string;
-  accept: string;
-  errorMessage: string;
   width: "lg" | "full";
   multiple: boolean;
-  disabled: boolean;
+  accept: string;
   required: boolean;
   optional: boolean;
+  disabled: boolean;
+  errorMessage: string;
   showError: boolean;
   dropzone: boolean;
   inverted: boolean;
+  form: string;
 }
 
 const meta: Meta<NysFileinputArgs> = {
@@ -32,23 +33,26 @@ const meta: Meta<NysFileinputArgs> = {
     name: { control: "text" },
     label: { control: "text" },
     description: { control: "text" },
-    form: { control: "text" },
-    tooltip: { control: "text" },
+    width: {
+      control: "select",
+      options: ["lg", "full"],
+      defaultValue: { summary: "full" },
+    },
+    multiple: { control: "boolean" },
     accept: { control: "text" },
+    required: { control: "boolean" },
+    optional: { control: "boolean" },
+    disabled: { control: "boolean" },
     errorMessage: { control: "text" },
-    width: { control: "select", options: ["lg", "full"] },
-    multiple: { control: "boolean", default: false },
-    disabled: { control: "boolean", default: false },
-    required: { control: "boolean", default: false },
-    optional: { control: "boolean", default: false },
-    showError: { control: "boolean", default: false },
-    dropzone: { control: "boolean", default: false },
-    inverted: { control: "boolean", default: false },
+    showError: { control: "boolean" },
+    dropzone: { control: "boolean" },
+    inverted: { control: "boolean" },
+    form: { control: "text" },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" },
-      inlineStories: true,
+      source: { type: "dynamic" }, // Enables live Source code tab
+      inlineStories: true, // Ensures stories are rendered within the docs tab
     },
   },
 };
@@ -56,61 +60,340 @@ const meta: Meta<NysFileinputArgs> = {
 export default meta;
 type Story = StoryObj<NysFileinputArgs>;
 
-export const SingleFileUpload: Story = {
+// Define stories without using args
+
+export const Basic: Story = {
   args: {
-    required: true,
-    label: "Upload document",
-    accept: ".pdf,.doc",
+    id: "fileinput1",
+    name: "fileinput1",
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    width: "full",
+    multiple: false,
+    accept: "image/png, image/jpeg, .pdf",
+    required: false,
+    disabled: false,
+    errorMessage: "",
+    showError: false,
+    dropzone: false,
+    inverted: false,
   },
-  render: (args) => {
-    return html`
-      <nys-fileinput
-        .id=${args.id}
-        ?multiple=${args["multiple"]}
-        ?disabled=${args["disabled"]}
-        ?required=${args["required"]}
-        ?optional=${args["optional"]}
-        ?showError=${args["showError"]}
-        ?dropzone=${args["dropzone"]}
-        ?inverted=${args["inverted"]}
-        .name=${args["name"]}
-        .label=${args["label"]}
-        .description=${args["description"]}
-        .form=${args["form"]}
-        .tooltip=${args["tooltip"]}
-        .accept=${args["accept"]}
-        .errorMessage=${args["errorMessage"]}
-        .width=${args["width"]}
-      ></nys-fileinput>
-    `;
-  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+    ></nys-fileinput>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-fileinput label="Upload document" accept=".pdf,.doc" required></nys-fileinput>`,
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+></nys-fileinput>`,
         type: "auto",
       },
     },
   },
 };
 
-export const MultipleFilesWithDropzone: Story = {
-  render: () => {
-    return html`
-      <nys-fileinput
-        label="Upload images"
-        accept="image/*"
-        multiple
-        dropzone
-      ></nys-fileinput>
-    `;
+export const Dropzone: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    accept: "image/png, image/jpeg, .pdf",
+    dropzone: true,
   },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+    ></nys-fileinput>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-fileinput label="Upload images" accept="image/*" multiple dropzone></nys-fileinput>`,
+<nys-fileinput
+  label="Upload a file"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+  dropzone
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Width: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    width: "lg",
+    accept: "image/png, image/jpeg, .pdf",
+    dropzone: true,
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Multiple: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    multiple: true,
+    accept: "image/png, image/jpeg, .pdf",
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+  multiple
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    width: "full",
+    multiple: false,
+    accept: "image/png, image/jpeg, .pdf",
+    disabled: true,
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+  disabled
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DescriptionSlot: Story = {
+  args: {
+    id: "fileinput-slot",
+    name: "fileinput-slot",
+    label: "Upload a file",
+    width: "full",
+    inverted: false,
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+    >
+      <span slot="description">
+        Learn more at
+        <a href="https://www.ny.gov" target="_blank" rel="noopener">ny.gov</a>
+      </span>
+    </nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput-slot"
+  name="fileinput-slot"
+  label="Upload a file"
+  width="full"
+>
+  <span slot="description">
+    Learn more at
+    <a href="https://www.ny.gov" target="_blank" rel="noopener">ny.gov</a>
+  </span>
+</nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  args: {
+    id: "fileinput1",
+    name: "fileinput1",
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    width: "full",
+    multiple: false,
+    accept: "image/png, image/jpeg, .pdf",
+    required: false,
+    disabled: false,
+    errorMessage: "",
+    showError: false,
+    dropzone: false,
+    inverted: true,
+  },
+  render: (args) => html`
+    <div
+      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
+    >
+      <nys-fileinput
+        .id=${args.id}
+        .name=${args.name}
+        .label=${args.label}
+        .description=${args.description}
+        .width=${args.width}
+        ?multiple=${args.multiple}
+        .accept=${args.accept}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        ?disabled=${args.disabled}
+        .errorMessage=${args.errorMessage}
+        ?showError=${args.showError}
+        ?dropzone=${args.dropzone}
+        ?inverted=${args.inverted}
+        .form=${args.form}
+      ></nys-fileinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+  inverted
+></nys-fileinput>`,
         type: "auto",
       },
     },

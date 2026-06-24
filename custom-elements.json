@@ -15330,8 +15330,38 @@
           "summary": "YouTube video player with thumbnail preview and accessibility announcements.",
           "examples": [
             {
-              "title": "Basic usage",
-              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"\ntitleText=\"Video Title\"\n></nys-video>",
+              "title": "Basic",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Thumbnail",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\nthumbnail=\"https://designsystem.ny.gov/assets/img/homepage-grid-3.svg\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Autoplay",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\nautoplay\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Start Time",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\nstarttime=\"43\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\ndisabled\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Size full",
+              "code": "<nys-video\nsize=\"full\"\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"Small (width: 320-439px)\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Size small",
+              "code": "<nys-video\nsize=\"sm\"\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"Small (width: 320-439px)\"\n></nys-video>",
               "lang": "html"
             }
           ]

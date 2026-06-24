@@ -6,10 +6,10 @@ import "./nys-table";
 interface NysTableArgs {
   id: string;
   name: string;
-  download: string;
   striped: boolean;
-  sortable: boolean;
   bordered: boolean;
+  sortable: boolean;
+  download: string;
 }
 
 const meta: Meta<NysTableArgs> = {
@@ -18,15 +18,15 @@ const meta: Meta<NysTableArgs> = {
   argTypes: {
     id: { control: "text" },
     name: { control: "text" },
+    striped: { control: "boolean" },
+    bordered: { control: "boolean" },
+    sortable: { control: "boolean" },
     download: { control: "text" },
-    striped: { control: "boolean", default: false },
-    sortable: { control: "boolean", default: false },
-    bordered: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" },
-      inlineStories: true,
+      source: { type: "dynamic" }, // Enables live Source code tab
+      inlineStories: true, // Ensures stories are rendered within the docs tab
     },
   },
 };
@@ -34,249 +34,347 @@ const meta: Meta<NysTableArgs> = {
 export default meta;
 type Story = StoryObj<NysTableArgs>;
 
-export const BasicTable: Story = {
+// Define stories without using args
+
+export const Basic: Story = {
   args: {
+    id: "table1",
     name: "table1",
   },
-  render: (args) => {
-    return html`
-      <nys-table
-        .id=${args.id}
-        ?striped=${args["striped"]}
-        ?sortable=${args["sortable"]}
-        ?bordered=${args["bordered"]}
-        .name=${args["name"]}
-        .download=${args["download"]}
-      >
-        <table>
-          <caption>
-            New York State High Peaks and Popular Hikes
-          </caption>
-          <tr>
-            <th>Mountain</th>
-            <th>Peak Height (ft)</th>
-            <th>Hike Name</th>
-          </tr>
-          <tr>
-            <td>Marcy</td>
-            <td>5,344</td>
-            <td>Van Hoevenberg Trail</td>
-          </tr>
-        </table>
-      </nys-table>
-    `;
-  },
+  render: (args) => html`
+    <nys-table
+      .id=${args.id}
+      .name=${args.name}
+      .striped=${args.striped}
+      .bordered=${args.bordered}
+      .sortable=${args.sortable}
+      .download=${args.download}
+    >
+      <table>
+        <caption>
+          New York State High Peaks and Popular Hikes
+        </caption>
+        <tr>
+          <th>Mountain</th>
+          <th>Peak Height (ft)</th>
+          <th>Hike Name</th>
+        </tr>
+        <tr>
+          <td>Marcy</td>
+          <td>5,344</td>
+          <td>Van Hoevenberg Trail</td>
+        </tr>
+        <tr>
+          <td>Algonquin</td>
+          <td>5,114</td>
+          <td>Northeast Trail</td>
+        </tr>
+        <tr>
+          <td>Haystack</td>
+          <td>4,960</td>
+          <td>Johns Brook Trail</td>
+        </tr>
+        <tr>
+          <td>Skylight</td>
+          <td>4,926</td>
+          <td>Lake Tear Trail</td>
+        </tr>
+        <tr>
+          <td>Whiteface</td>
+          <td>4,867</td>
+          <td>Whiteface Mountain Trail</td>
+        </tr>
+      </table>
+    </nys-table>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-table id="table1" name="table1">
-  <table>
-    <caption>New York State High Peaks and Popular Hikes</caption>
-    <tr>
-      <th>Mountain</th>
-      <th>Peak Height (ft)</th>
-      <th>Hike Name</th>
-    </tr>
-    <tr>
-      <td>Marcy</td>
-      <td>5,344</td>
-      <td>Van Hoevenberg Trail</td>
-    </tr>
-  </table>
-</nys-table>`,
+<nys-table
+  id="table1"
+  name="table1"
+></nys-table>`,
         type: "auto",
       },
     },
   },
 };
 
-export const StripedTable: Story = {
-  render: () => {
-    return html`
-      <nys-table id="table2" name="table2" striped>
-        <table>
-          <caption>
-            New York State High Peaks and Popular Hikes
-          </caption>
-          <tr>
-            <th>Mountain</th>
-            <th>Peak Height (ft)</th>
-            <th>Hike Name</th>
-          </tr>
-          <tr>
-            <td>Marcy</td>
-            <td>5,344</td>
-            <td>Van Hoevenberg Trail</td>
-          </tr>
-        </table>
-      </nys-table>
-    `;
+export const Striped: Story = {
+  args: {
+    id: "table2",
+    name: "table2",
+    striped: true,
   },
+
+  render: (args) => html`
+    <nys-table
+      .id=${args.id}
+      .name=${args.name}
+      .striped=${args.striped}
+      .bordered=${args.bordered}
+      .sortable=${args.sortable}
+      .download=${args.download}
+    >
+      <table>
+        <caption>
+          New York State High Peaks and Popular Hikes
+        </caption>
+        <tr>
+          <th>Mountain</th>
+          <th>Peak Height (ft)</th>
+          <th>Hike Name</th>
+        </tr>
+        <tr>
+          <td>Marcy</td>
+          <td>5,344</td>
+          <td>Van Hoevenberg Trail</td>
+        </tr>
+        <tr>
+          <td>Algonquin</td>
+          <td>5,114</td>
+          <td>Northeast Trail</td>
+        </tr>
+        <tr>
+          <td>Haystack</td>
+          <td>4,960</td>
+          <td>Johns Brook Trail</td>
+        </tr>
+        <tr>
+          <td>Skylight</td>
+          <td>4,926</td>
+          <td>Lake Tear Trail</td>
+        </tr>
+        <tr>
+          <td>Whiteface</td>
+          <td>4,867</td>
+          <td>Whiteface Mountain Trail</td>
+        </tr>
+      </table>
+    </nys-table>
+  `,
+
   parameters: {
     docs: {
       source: {
         code: `
-<nys-table id="table2" name="table2" striped>
-  <table>
-    <caption>New York State High Peaks and Popular Hikes</caption>
-    <tr>
-      <th>Mountain</th>
-      <th>Peak Height (ft)</th>
-      <th>Hike Name</th>
-    </tr>
-    <tr>
-      <td>Marcy</td>
-      <td>5,344</td>
-      <td>Van Hoevenberg Trail</td>
-    </tr>
-  </table>
-</nys-table>`,
+<nys-table
+  id="table2"
+  name="table2"
+  striped
+></nys-table>`,
+
         type: "auto",
       },
     },
   },
 };
 
-export const BorderedTable: Story = {
-  render: () => {
-    return html`
-      <nys-table id="table3" name="table3" bordered>
-        <table>
-          <caption>
-            New York State High Peaks and Popular Hikes
-          </caption>
-          <tr>
-            <th>Mountain</th>
-            <th>Peak Height (ft)</th>
-            <th>Hike Name</th>
-          </tr>
-          <tr>
-            <td>Marcy</td>
-            <td>5,344</td>
-            <td>Van Hoevenberg Trail</td>
-          </tr>
-        </table>
-      </nys-table>
-    `;
+export const Bordered: Story = {
+  args: {
+    id: "table3",
+    name: "table3",
+    bordered: true,
   },
+
+  render: (args) => html`
+    <nys-table
+      .id=${args.id}
+      .name=${args.name}
+      .striped=${args.striped}
+      .bordered=${args.bordered}
+      .sortable=${args.sortable}
+      .download=${args.download}
+    >
+      <table>
+        <caption>
+          New York State High Peaks and Popular Hikes
+        </caption>
+        <tr>
+          <th>Mountain</th>
+          <th>Peak Height (ft)</th>
+          <th>Hike Name</th>
+        </tr>
+        <tr>
+          <td>Marcy</td>
+          <td>5,344</td>
+          <td>Van Hoevenberg Trail</td>
+        </tr>
+        <tr>
+          <td>Algonquin</td>
+          <td>5,114</td>
+          <td>Northeast Trail</td>
+        </tr>
+        <tr>
+          <td>Haystack</td>
+          <td>4,960</td>
+          <td>Johns Brook Trail</td>
+        </tr>
+        <tr>
+          <td>Skylight</td>
+          <td>4,926</td>
+          <td>Lake Tear Trail</td>
+        </tr>
+        <tr>
+          <td>Whiteface</td>
+          <td>4,867</td>
+          <td>Whiteface Mountain Trail</td>
+        </tr>
+      </table>
+    </nys-table>
+  `,
+
   parameters: {
     docs: {
       source: {
         code: `
-<nys-table id="table3" name="table3" bordered>
-  <table>
-    <caption>New York State High Peaks and Popular Hikes</caption>
-    <tr>
-      <th>Mountain</th>
-      <th>Peak Height (ft)</th>
-      <th>Hike Name</th>
-    </tr>
-    <tr>
-      <td>Marcy</td>
-      <td>5,344</td>
-      <td>Van Hoevenberg Trail</td>
-    </tr>
-  </table>
-</nys-table>`,
+<nys-table
+  id="table3"
+  name="table3"
+  bordered
+></nys-table>`,
+
         type: "auto",
       },
     },
   },
 };
 
-export const SortableTable: Story = {
-  render: () => {
-    return html`
-      <nys-table id="table4" name="table4" sortable>
-        <table>
-          <caption>
-            New York State High Peaks and Popular Hikes
-          </caption>
-          <tr>
-            <th>Mountain</th>
-            <th>Peak Height (ft)</th>
-            <th>Hike Name</th>
-          </tr>
-          <tr>
-            <td>Marcy</td>
-            <td>5,344</td>
-            <td>Van Hoevenberg Trail</td>
-          </tr>
-        </table>
-      </nys-table>
-    `;
+export const Sortable: Story = {
+  args: {
+    id: "table4",
+    name: "table4",
+    sortable: true,
   },
+
+  render: (args) => html`
+    <nys-table
+      .id=${args.id}
+      .name=${args.name}
+      .striped=${args.striped}
+      .bordered=${args.bordered}
+      .sortable=${args.sortable}
+      .download=${args.download}
+    >
+      <table>
+        <caption>
+          New York State High Peaks and Popular Hikes
+        </caption>
+        <tr>
+          <th>Mountain</th>
+          <th>Peak Height (ft)</th>
+          <th>Hike Name</th>
+        </tr>
+        <tr>
+          <td>Marcy</td>
+          <td>5,344</td>
+          <td>Van Hoevenberg Trail</td>
+        </tr>
+        <tr>
+          <td>Algonquin</td>
+          <td>5,114</td>
+          <td>Northeast Trail</td>
+        </tr>
+        <tr>
+          <td>Haystack</td>
+          <td>4,960</td>
+          <td>Johns Brook Trail</td>
+        </tr>
+        <tr>
+          <td>Skylight</td>
+          <td>4,926</td>
+          <td>Lake Tear Trail</td>
+        </tr>
+        <tr>
+          <td>Whiteface</td>
+          <td>4,867</td>
+          <td>Whiteface Mountain Trail</td>
+        </tr>
+      </table>
+    </nys-table>
+  `,
+
   parameters: {
     docs: {
       source: {
         code: `
-<nys-table id="table4" name="table4" sortable>
-  <table>
-    <caption>New York State High Peaks and Popular Hikes</caption>
-    <tr>
-      <th>Mountain</th>
-      <th>Peak Height (ft)</th>
-      <th>Hike Name</th>
-    </tr>
-    <tr>
-      <td>Marcy</td>
-      <td>5,344</td>
-      <td>Van Hoevenberg Trail</td>
-    </tr>
-  </table>
-</nys-table>`,
+<nys-table
+  id="table4"
+  name="table4"
+  sortable
+></nys-table>`,
+
         type: "auto",
       },
     },
   },
 };
 
-export const DownloadableTable: Story = {
-  render: () => {
-    return html`
-      <nys-table
-        id="table5"
-        name="table5"
-        download="path/to/downloadable/version/of/table.filetype"
-      >
-        <table>
-          <caption>
-            New York State High Peaks and Popular Hikes
-          </caption>
-          <tr>
-            <th>Mountain</th>
-            <th>Peak Height (ft)</th>
-            <th>Hike Name</th>
-          </tr>
-          <tr>
-            <td>Marcy</td>
-            <td>5,344</td>
-            <td>Van Hoevenberg Trail</td>
-          </tr>
-        </table>
-      </nys-table>
-    `;
+export const Downloadable: Story = {
+  args: {
+    id: "table5",
+    name: "table5",
+    download: "path/to/downloadable/version/of/table.filetype",
   },
+
+  render: (args) => html`
+    <nys-table
+      .id=${args.id}
+      .name=${args.name}
+      .striped=${args.striped}
+      .bordered=${args.bordered}
+      .sortable=${args.sortable}
+      .download=${args.download}
+    >
+      <table>
+        <caption>
+          New York State High Peaks and Popular Hikes
+        </caption>
+        <tr>
+          <th>Mountain</th>
+          <th>Peak Height (ft)</th>
+          <th>Hike Name</th>
+        </tr>
+        <tr>
+          <td>Marcy</td>
+          <td>5,344</td>
+          <td>Van Hoevenberg Trail</td>
+        </tr>
+        <tr>
+          <td>Algonquin</td>
+          <td>5,114</td>
+          <td>Northeast Trail</td>
+        </tr>
+        <tr>
+          <td>Haystack</td>
+          <td>4,960</td>
+          <td>Johns Brook Trail</td>
+        </tr>
+        <tr>
+          <td>Skylight</td>
+          <td>4,926</td>
+          <td>Lake Tear Trail</td>
+        </tr>
+        <tr>
+          <td>Whiteface</td>
+          <td>4,867</td>
+          <td>Whiteface Mountain Trail</td>
+        </tr>
+      </table>
+    </nys-table>
+  `,
+
   parameters: {
     docs: {
       source: {
         code: `
-<nys-table id="table5" name="table5" download="path/to/downloadable/version/of/table.filetype">
-  <table>
-    <caption>New York State High Peaks and Popular Hikes</caption>
-    <tr>
-      <th>Mountain</th>
-      <th>Peak Height (ft)</th>
-      <th>Hike Name</th>
-    </tr>
-    <tr>
-      <td>Marcy</td>
-      <td>5,344</td>
-      <td>Van Hoevenberg Trail</td>
-    </tr>
-  </table>
-</nys-table>`,
+<nys-table
+  id="table5"
+  name="table5"
+  download="path/to/downloadable/version/of/table.filetype"
+></nys-table>`,
+
         type: "auto",
       },
     },

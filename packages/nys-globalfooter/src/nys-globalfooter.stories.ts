@@ -1,66 +1,229 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalfooter";
+import "@nysds/nys-divider";
 
 // Define the structure of the args used in the stories
-interface NysGlobalfooterArgs {
-  id: string;
+interface NysGlobalFooterArgs {
   agencyName: string;
   agencySubheading: string;
   homepageLink: string;
 }
 
-const meta: Meta<NysGlobalfooterArgs> = {
-  title: "Components/Globalfooter",
+const meta: Meta<NysGlobalFooterArgs> = {
+  title: "Components/GlobalFooter",
   component: "nys-globalfooter",
   argTypes: {
-    id: { control: "text" },
     agencyName: { control: "text" },
     agencySubheading: { control: "text" },
     homepageLink: { control: "text" },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" },
-      inlineStories: true,
+      source: { type: "dynamic" }, // Enables live Source code tab
+      inlineStories: true, // Ensures stories are rendered within the docs tab
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<NysGlobalfooterArgs>;
+type Story = StoryObj<NysGlobalFooterArgs>;
 
-export const SimpleFooter: Story = {
+// Stories
+// Define stories without using args
+
+// Story: Basic
+export const Basic: Story = {
   args: {
-    agencyName: "Department of Health",
-    homepageLink: "/",
-    agencySubheading: "Protecting and Promoting the Health of New Yorkers",
+    agencyName: "Office of Information Technology Services",
   },
-  render: (args) => {
-    return html`
-      <nys-globalfooter
-        .id=${args.id}
-        .agencyName=${args["agencyName"]}
-        .agencySubheading=${args["agencySubheading"]}
-        .homepageLink=${args["homepageLink"]}
-      >
-        <span>123 Main St, Albany NY</span>
-        <span>info@health.ny.gov</span>
-      </nys-globalfooter>
-    `;
+  render: (args) => html`
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
+      .homepageLink=${args.homepageLink}
+    >
+      <ul>
+        <li><a href="https://its.ny.gov">ITS Home</a></li>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+      </ul>
+    </nys-globalfooter>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalfooter agencyName="Office of Information Technology Services">
+ <ul>
+    <li><a href="https://its.ny.gov">ITS Home</a></li>
+    <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+  </ul>
+</nys-globalfooter>
+        `,
+        type: "auto",
+      },
+    },
   },
+};
+
+// Story: Without Links
+export const WithoutMenuLinks: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+    homepageLink: "https://its.ny.gov",
+  },
+  render: (args) => html`
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
+      .homepageLink=${args.homepageLink}
+    ></nys-globalfooter>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalfooter agencyName="Office of Information Technology Services" homepageLink="https://its.ny.gov">
+</nys-globalfooter>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: With Links
+export const WithMenuLinks: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+  },
+  render: (args) => html`
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
+      .homepageLink=${args.homepageLink}
+    >
+      <ul>
+        <li><a href="https://its.ny.gov">ITS Home</a></li>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+      </ul>
+    </nys-globalfooter>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalfooter agencyName="Office of Information Technology Services">
+  <ul>
+    <li><a href="https://its.ny.gov">ITS Home</a></li>
+    <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+  </ul>
+</nys-globalfooter>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: With Column Links
+export const WithColumnLinks: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+  },
+  render: (args) => html`
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
+      .homepageLink=${args.homepageLink}
+    >
+      <ul>
+        <li>
+          <span>About</span>
+          <ul>
+            <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+            <li><a href="https://its.ny.gov/contact-us">Contact</a></li>
+            <li><a href="https://its.ny.gov/policies">Policies</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Resources</span>
+          <ul>
+            <li><a href="https://its.ny.gov/resources">Developer Tools</a></li>
+            <li>
+              <a href="https://its.ny.gov/accessibility">Accessibility</a>
+            </li>
+            <li><a href="https://its.ny.gov/privacy">Privacy</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nys-globalfooter>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalfooter agencyName="Office of Information Technology Services">
+  <ul>
+    <li>
+      <span>About</span>
+      <ul>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+        <li><a href="https://its.ny.gov/contact-us">Contact</a></li>
+        <li><a href="https://its.ny.gov/policies">Policies</a></li>
+      </ul>
+    </li>
+    <li>
+      <span>Resources</span>
+      <ul>
+        <li><a href="https://its.ny.gov/resources">Developer Tools</a></li>
+        <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+        <li><a href="https://its.ny.gov/privacy">Privacy</a></li>
+      </ul>
+    </li>
+  </ul>
+</nys-globalfooter>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: With Subheading
+export const WithSubheading: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+    agencySubheading: "Innovating Technology for a Better New York",
+    homepageLink: "https://its.ny.gov",
+  },
+  render: (args) => html`
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .agencySubheading=${args.agencySubheading}
+      .homepageLink=${args.homepageLink}
+    >
+      <ul>
+        <li><a href="https://its.ny.gov">ITS Home</a></li>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+      </ul>
+    </nys-globalfooter>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
 <nys-globalfooter
-  agencyName="Department of Health"
-  homepageLink="/"
-  agencySubheading="Protecting and Promoting the Health of New Yorkers"
+  agencyName="Office of Information Technology Services"
+  agencySubheading="Innovating Technology for a Better New York"
+  homepageLink="https://its.ny.gov"
 >
-  <span>123 Main St, Albany NY</span>
-  <span>info@health.ny.gov</span>
-</nys-globalfooter>`,
+  <ul>
+    <li><a href="https://its.ny.gov">ITS Home</a></li>
+    <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+  </ul>
+</nys-globalfooter>
+`.trim(),
         type: "auto",
       },
     },
