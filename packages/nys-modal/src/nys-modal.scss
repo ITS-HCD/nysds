@@ -53,6 +53,11 @@
   box-sizing: border-box;
 }
 
+::slotted(*) {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 ::slotted(p) {
   margin: 0 !important;
 }
