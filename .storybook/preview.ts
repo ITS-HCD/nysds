@@ -6,9 +6,15 @@ import "./preview.css"; // Custom Storybook styles
 
 // Override the default icon library resolver for Storybook.
 // The built-in resolver uses import.meta.url which doesn't resolve correctly
-// in Storybook's bundled environment. Point to the staticDirs-served path instead.
+// in Storybook's bundled environment. Point to the staticDirs-served path,
+// resolved against the preview iframe's base URL (not the domain root) so it
+// works both locally (/) and when hosted under a subpath (e.g. GitHub Pages
+// at /nysds/).
 registerIconLibrary("default", {
-  resolver: (name) => (name ? `/assets/icons/${name}.svg` : undefined),
+  resolver: (name) =>
+    name
+      ? new URL(`assets/icons/${name}.svg`, document.baseURI).href
+      : undefined,
 });
 
 const loadTheme = (() => {

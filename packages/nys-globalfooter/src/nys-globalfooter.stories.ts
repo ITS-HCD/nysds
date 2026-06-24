@@ -6,6 +6,7 @@ import "./nys-globalfooter";
 interface NysGlobalfooterArgs {
   id: string;
   agencyName: string;
+  agencySubheading: string;
   homepageLink: string;
 }
 
@@ -15,6 +16,7 @@ const meta: Meta<NysGlobalfooterArgs> = {
   argTypes: {
     id: { control: "text" },
     agencyName: { control: "text" },
+    agencySubheading: { control: "text" },
     homepageLink: { control: "text" },
   },
   parameters: {
@@ -32,12 +34,14 @@ export const SimpleFooter: Story = {
   args: {
     agencyName: "Department of Health",
     homepageLink: "/",
+    agencySubheading: "Protecting and Promoting the Health of New Yorkers",
   },
   render: (args) => {
     return html`
       <nys-globalfooter
         .id=${args.id}
         .agencyName=${args["agencyName"]}
+        .agencySubheading=${args["agencySubheading"]}
         .homepageLink=${args["homepageLink"]}
       >
         <span>123 Main St, Albany NY</span>
@@ -49,7 +53,11 @@ export const SimpleFooter: Story = {
     docs: {
       source: {
         code: `
-<nys-globalfooter agencyName="Department of Health" homepageLink="/">
+<nys-globalfooter
+  agencyName="Department of Health"
+  homepageLink="/"
+  agencySubheading="Protecting and Promoting the Health of New Yorkers"
+>
   <span>123 Main St, Albany NY</span>
   <span>info@health.ny.gov</span>
 </nys-globalfooter>`,

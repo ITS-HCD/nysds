@@ -574,14 +574,13 @@ describe("NysButton keyboard support", () => {
   });
 
   /** More event testing **/
-  it("executes onClick string attribute via keyboard Enter", async () => {
-    // Use a side-effect we can observe without eval risks in test env
-    (window as any)._nysButtonAttrTest = false;
+  it("executes onclick attribute via keyboard Enter", async () => {
+    (window as any).__testClicked = false;
 
     const el = await fixture<NysButton>(html`
       <nys-button
         label="Attr Test"
-        onClick="window._nysButtonAttrTest = true;"
+        onclick="window.__testClicked = true"
       ></nys-button>
     `);
     await el.updateComplete;
@@ -599,8 +598,37 @@ describe("NysButton keyboard support", () => {
 
     await el.updateComplete;
 
-    expect((window as any)._nysButtonAttrTest).to.be.true;
+    expect((window as any).__testClicked).to.be.true;
 
-    delete (window as any)._nysButtonAttrTest;
+    delete (window as any).__testClicked;
+  });
+
+  it("executes onclick attribute via keyboard Space", async () => {
+    (window as any).__testClicked = false;
+
+    const el = await fixture<NysButton>(html`
+      <nys-button
+        label="Attr Test"
+        onclick="window.__testClicked = true"
+      ></nys-button>
+    `);
+    await el.updateComplete;
+
+    const button = el.shadowRoot!.querySelector("button")!;
+
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
+        code: "Space",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect((window as any).__testClicked).to.be.true;
+
+    delete (window as any).__testClicked;
   });
 });

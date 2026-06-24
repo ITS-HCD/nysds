@@ -7,8 +7,8 @@ import "./nys-dropdownmenuitem";
 interface NysDropdownmenuArgs {
   id: string;
   for: string;
-  position: Position | null;
   label: string;
+  position: Position | null;
   link: string;
   showDropdown: boolean;
   disabled: boolean;
@@ -20,8 +20,8 @@ const meta: Meta<NysDropdownmenuArgs> = {
   argTypes: {
     id: { control: "text" },
     for: { control: "text" },
-    position: { control: "text" },
     label: { control: "text" },
+    position: { control: "text" },
     link: { control: "text" },
     showDropdown: { control: "boolean", default: false },
     disabled: { control: "boolean", default: false },
@@ -49,8 +49,8 @@ export const BasicItem: Story = {
         ?showDropdown=${args["showDropdown"]}
         ?disabled=${args["disabled"]}
         .for=${args["for"]}
-        .position=${args["position"]}
         .label=${args["label"]}
+        .position=${args["position"]}
         .link=${args["link"]}
       ></nys-dropdownmenuitem>
     `;

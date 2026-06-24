@@ -428,6 +428,8 @@ export type NysDropdownMenuProps = {
   for?: string;
   /**  */
   showDropdown?: boolean;
+  /** Accessible label for the menu. Used as `aria-label` on the `<ul role="menu">` element. */
+  label?: string;
   /** Preferred position relative to trigger. */
   position?: Position | null;
 };
@@ -516,6 +518,8 @@ export type NysFileItemProps = {
 export type NysGlobalFooterProps = {
   /** Agency name displayed as the footer heading. */
   agencyName?: string;
+  /** Optional subheading displayed below the agency name. */
+  agencySubheading?: string;
   /** URL for the agency name link. If empty, name is not clickable. */
   homepageLink?: string;
 };

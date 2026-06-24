@@ -1211,9 +1211,10 @@
               "kind": "field",
               "name": "mediaQuery",
               "type": {
-                "text": "MediaQueryList"
+                "text": "MediaQueryList | null"
               },
-              "privacy": "private"
+              "privacy": "private",
+              "default": "null"
             },
             {
               "kind": "method",
@@ -2491,7 +2492,7 @@
               "kind": "method",
               "name": "_handleAnyAttributeFunction",
               "privacy": "private",
-              "description": "A Solution to the Vanilla JS & Native HTML keydown:\n\nHandles inline onClick attributes set as strings in vanilla HTML\n(e.g. <nys-button onClick=\"doSomething()\">).\n\nWhen onClick is set this way, it is a DOM attribute (not a property)\nso this.onClick remains null. Native clicks execute the attribute\nautomatically, but keydown events do not, so we invoke it manually here."
+              "description": "Handles inline onclick attributes for keyboard activation.\n\nNative clicks execute inline onclick attributes automatically, but\nkeyboard activation of the custom element does not trigger that native\nbehavior. Dispatching a synthetic click lets the browser's own inline\nevent handler mechanism execute any onclick attribute safely without\neval() or new Function()."
             },
             {
               "kind": "method",
@@ -4887,7 +4888,7 @@
               "type": {
                 "text": "\"md\" | \"lg\" | \"full\""
               },
-              "default": "\"md\"",
+              "default": "\"full\"",
               "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
               "attribute": "width",
               "reflects": true
@@ -5424,7 +5425,7 @@
               "type": {
                 "text": "\"md\" | \"lg\" | \"full\""
               },
-              "default": "\"md\"",
+              "default": "\"full\"",
               "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
               "fieldName": "width",
               "propName": "width"
@@ -5868,6 +5869,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the menu. Used as `aria-label` on the `<ul role=\"menu\">` element.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
               "name": "position",
               "type": {
                 "text": "Position | null"
@@ -6184,6 +6195,16 @@
               "default": "false",
               "fieldName": "showDropdown",
               "propName": "showdropdown"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the menu. Used as `aria-label` on the `<ul role=\"menu\">` element.",
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "position",
@@ -7462,6 +7483,16 @@
             },
             {
               "kind": "field",
+              "name": "agencySubheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional subheading displayed below the agency name.",
+              "attribute": "agencySubheading"
+            },
+            {
+              "kind": "field",
               "name": "homepageLink",
               "type": {
                 "text": "string"
@@ -7498,6 +7529,16 @@
               "propName": "agencyname"
             },
             {
+              "name": "agencySubheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional subheading displayed below the agency name.",
+              "fieldName": "agencySubheading",
+              "propName": "agencysubheading"
+            },
+            {
               "name": "homepageLink",
               "type": {
                 "text": "string"
@@ -7518,7 +7559,7 @@
           "examples": [
             {
               "title": "Simple footer",
-              "code": "<nys-globalfooter agencyName=\"Department of Health\" homepageLink=\"/\">\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>",
+              "code": "<nys-globalfooter\nagencyName=\"Department of Health\"\nhomepageLink=\"/\"\nagencySubheading=\"Protecting and Promoting the Health of New Yorkers\"\n>\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>",
               "lang": "html"
             }
           ]
