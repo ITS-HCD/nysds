@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-errormessage.js";
 
 export const NysErrorMessage = forwardRef((props, forwardedRef) => {
   const { showError, showDivider, id, errorMessage, ...filteredProps } = props;

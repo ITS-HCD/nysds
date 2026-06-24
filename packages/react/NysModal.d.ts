@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysModal as NysModalElement,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-modal.js";
 
 export type { NysModalElement, CustomEvent };
 

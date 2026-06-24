@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-unavfooter.js";
 
 export const NysUnavFooter = forwardRef((props, forwardedRef) => {
   return React.createElement(

@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-radiobutton.js";
 import { useEventListener } from "./react-utils.js";
 
 export const NysRadiogroup = forwardRef((props, forwardedRef) => {

@@ -8,7 +8,19 @@
 
 const cache = new Map<string, Promise<SVGElement>>();
 
-import DOMPurify from "dompurify";
+// DOMPurify (~30KB) is only needed when sanitizing a fetched remote SVG.
+// Consumers that use only the built-in icon library never call _doFetch, so
+// we load it lazily and memoize the promise to keep that weight out of the
+// initial bundle for static icon consumers.
+type DOMPurifyModule = typeof import("dompurify").default;
+let _domPurifyLoader: Promise<DOMPurifyModule> | undefined;
+
+function _loadDOMPurify(): Promise<DOMPurifyModule> {
+  if (!_domPurifyLoader) {
+    _domPurifyLoader = import("dompurify").then((m) => m.default);
+  }
+  return _domPurifyLoader;
+}
 
 async function _doFetch(url: string): Promise<SVGElement> {
   const resp = await fetch(url);
@@ -16,6 +28,7 @@ async function _doFetch(url: string): Promise<SVGElement> {
     throw new Error(`Failed to load icon: ${resp.status}`);
   }
   const text = await resp.text();
+  const DOMPurify = await _loadDOMPurify();
   // Sanitize before parsing — strips <script>, event handlers, javascript: hrefs
   const clean = DOMPurify.sanitize(text, {
     USE_PROFILES: { svg: true, svgFilters: true },

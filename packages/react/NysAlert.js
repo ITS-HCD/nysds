@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-alert.js";
 import { useEventListener, useProperties } from "./react-utils.js";
 
 export const NysAlert = forwardRef((props, forwardedRef) => {

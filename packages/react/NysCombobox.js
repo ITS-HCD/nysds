@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-combobox.js";
 import { useEventListener } from "./react-utils.js";
 
 export const NysCombobox = forwardRef((props, forwardedRef) => {

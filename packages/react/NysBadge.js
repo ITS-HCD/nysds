@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-badge.js";
 
 export const NysBadge = forwardRef((props, forwardedRef) => {
   const {

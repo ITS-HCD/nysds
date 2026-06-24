@@ -3,7 +3,7 @@ import {
   NysDatepicker as NysDatepickerElement,
   CustomEvent,
   Event,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-datepicker.js";
 
 export type { NysDatepickerElement, CustomEvent, Event };
 

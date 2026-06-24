@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-backtotop.js";
 
 export const NysBacktotop = forwardRef((props, forwardedRef) => {
   const { visible, position, ...filteredProps } = props;

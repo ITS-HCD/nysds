@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-toggle.js";
 import { useEventListener } from "./react-utils.js";
 
 export const NysToggle = forwardRef((props, forwardedRef) => {

@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-tab.js";
 
 export const NysTabgroup = forwardRef((props, forwardedRef) => {
   const { id, name, ...filteredProps } = props;

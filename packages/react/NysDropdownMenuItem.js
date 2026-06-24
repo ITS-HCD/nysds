@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-dropdownmenu.js";
 import { useEventListener } from "./react-utils.js";
 
 export const NysDropdownMenuItem = forwardRef((props, forwardedRef) => {

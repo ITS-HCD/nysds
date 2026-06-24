@@ -1,5 +1,5 @@
 import React from "react";
-import { NysCheckboxgroup as NysCheckboxgroupElement } from "../../dist/nysds.es.js";
+import { NysCheckboxgroup as NysCheckboxgroupElement } from "../../dist/nys-checkbox.js";
 
 export type { NysCheckboxgroupElement };
 

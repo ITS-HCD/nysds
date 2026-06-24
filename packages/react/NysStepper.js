@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-stepper.js";
 
 export const NysStepper = forwardRef((props, forwardedRef) => {
   const { isCompactExpanded, id, name, label, counterText, ...filteredProps } =

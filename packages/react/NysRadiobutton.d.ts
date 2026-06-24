@@ -1,5 +1,5 @@
 import React from "react";
-import { NysRadiobutton as NysRadiobuttonElement } from "../../dist/nysds.es.js";
+import { NysRadiobutton as NysRadiobuttonElement } from "../../dist/nys-radiobutton.js";
 
 export type { NysRadiobuttonElement };
 

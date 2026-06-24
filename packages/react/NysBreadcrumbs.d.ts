@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysBreadcrumbs as NysBreadcrumbsElement,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "../../dist/nys-breadcrumbs.js";
 
 export type { NysBreadcrumbsElement, CustomEvent };
 

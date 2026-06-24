@@ -1,5 +1,5 @@
 import React from "react";
-import { NysAvatar as NysAvatarElement } from "../../dist/nysds.es.js";
+import { NysAvatar as NysAvatarElement } from "../../dist/nys-avatar.js";
 
 export type { NysAvatarElement };
 

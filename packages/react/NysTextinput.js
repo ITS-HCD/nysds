@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "../../dist/nys-textinput.js";
 import { useEventListener } from "./react-utils.js";
 
 export const NysTextinput = forwardRef((props, forwardedRef) => {
