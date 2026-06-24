@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-icon",
-  "version": "1.19.1",
+  "version": "1.19.2",
   "description": "The Icon component from the NYS Design System.",
   "module": "dist/nys-icon.js",
   "types": "dist/index.d.ts",
@@ -36,5 +36,6 @@
     "icon"
   ],
   "author": "New York State Design System Team",
-  "license": "MIT"
+  "license": "MIT",
+  "sideEffects": true
 }

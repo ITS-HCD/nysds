@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import sinon from "sinon";
 import "../dist/nys-tab.js";
 import { NysTab } from "./nys-tab.js";
 import { NysTabgroup } from "./nys-tabgroup.js";
@@ -281,6 +282,53 @@ describe("nys-tab keyboard navigation", () => {
     selectFired = false;
     (tabs[0] as any)._onKeydown(new KeyboardEvent("keydown", { key: " " }));
     expect(selectFired).to.be.true;
+  });
+});
+
+describe("nys-tabgroup disconnect cleanup", () => {
+  it("removes scroll and wheel listeners from the tab strip on disconnect", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabsEl = el.shadowRoot!.querySelector(".nys-tabgroup__tabs")!;
+    const spy = sinon.spy(tabsEl, "removeEventListener");
+
+    el.remove();
+
+    const removedScroll = (spy.args as [string, EventListener][]).some(
+      ([event]) => event === "scroll",
+    );
+    const removedWheel = (spy.args as [string, EventListener][]).some(
+      ([event]) => event === "wheel",
+    );
+
+    expect(removedScroll).to.be.true;
+    expect(removedWheel).to.be.true;
+
+    spy.restore();
+  });
+
+  it("disconnects the ResizeObserver on disconnect", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const observer = (el as any)._resizeObserver as ResizeObserver | undefined;
+    expect(observer).to.exist;
+
+    const spy = sinon.spy(observer!, "disconnect");
+    el.remove();
+
+    expect(spy.calledOnce).to.be.true;
   });
 });
 

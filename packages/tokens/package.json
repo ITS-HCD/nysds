@@ -1,6 +1,6 @@
 {
   "name": "@nysds/tokens",
-  "version": "1.19.1",
+  "version": "1.19.2",
   "description": "Design tokens for the New York State Design System in DTCG 2025.10 format",
   "type": "module",
   "main": "src/tokens.json",
@@ -36,5 +36,6 @@
     "type": "git",
     "url": "git+https://github.com/ITS-HCD/nysds.git",
     "directory": "packages/tokens"
-  }
+  },
+  "sideEffects": false
 }
