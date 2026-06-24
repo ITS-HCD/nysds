@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  NysTextinput as NysTextinputElement,
+  NysTextInput as NysTextInputElement,
   CustomEvent,
   Event,
 } from "../../dist/nysds.es.js";
 
-export type { NysTextinputElement, CustomEvent, Event };
+export type { NysTextInputElement, CustomEvent, Event };
 
-export interface NysTextinputProps extends Pick<
+export interface NysTextInputProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
   | "children"
   | "dir"
@@ -41,55 +41,55 @@ export interface NysTextinputProps extends Pick<
   showError?: boolean;
 
   /** Unique identifier. Auto-generated if not provided. */
-  id?: NysTextinputElement["id"];
+  id?: NysTextInputElement["id"];
 
   /** Name for form submission. */
-  name?: NysTextinputElement["name"];
+  name?: NysTextInputElement["name"];
 
   /** Input type: `text` (default), `email`, `number`, `password`, `search`, `tel` (auto-masked), `url`. */
-  type?: NysTextinputElement["type"];
+  type?: NysTextInputElement["type"];
 
   /** Visible label text. Required for accessibility. */
-  label?: NysTextinputElement["label"];
+  label?: NysTextInputElement["label"];
 
   /** Helper text below label. Use slot for custom HTML. */
-  description?: NysTextinputElement["description"];
+  description?: NysTextInputElement["description"];
 
   /** Placeholder text. Don't use as label replacement. */
-  placeholder?: NysTextinputElement["placeholder"];
+  placeholder?: NysTextInputElement["placeholder"];
 
   /** Current input value. */
-  value?: NysTextinputElement["value"];
+  value?: NysTextInputElement["value"];
 
   /** Tooltip text shown on hover/focus of info icon. */
-  tooltip?: NysTextinputElement["tooltip"];
+  tooltip?: NysTextInputElement["tooltip"];
 
   /** Form `id` to associate with when input is outside form element. */
-  form?: NysTextinputElement["form"];
+  form?: NysTextInputElement["form"];
 
   /** Regex pattern for validation. Shows error on mismatch. */
-  pattern?: NysTextinputElement["pattern"];
+  pattern?: NysTextInputElement["pattern"];
 
   /** Maximum character length. */
-  maxlength?: NysTextinputElement["maxlength"];
+  maxlength?: NysTextInputElement["maxlength"];
 
   /** Accessible label. When set, assuming "label" isn't provided for private special cases (i.e., <checkbox other>). */
-  ariaLabel?: NysTextinputElement["ariaLabel"];
+  ariaLabel?: NysTextInputElement["ariaLabel"];
 
   /** Input width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default). */
-  width?: NysTextinputElement["width"];
+  width?: NysTextInputElement["width"];
 
   /** Step increment for `type="number"`. */
-  step?: NysTextinputElement["step"];
+  step?: NysTextInputElement["step"];
 
   /** Minimum value for `type="number"`. */
-  min?: NysTextinputElement["min"];
+  min?: NysTextInputElement["min"];
 
   /** Maximum value for `type="number"`. */
-  max?: NysTextinputElement["max"];
+  max?: NysTextInputElement["max"];
 
   /** Error message text. Shown only when `showError` is true. */
-  errorMessage?: NysTextinputElement["errorMessage"];
+  errorMessage?: NysTextInputElement["errorMessage"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -141,4 +141,4 @@ export interface NysTextinputProps extends Pick<
  * - **startButton** - Button at input start. Use single `nys-button` only.
  * - **endButton** - Button at input end. Use single `nys-button` only.
  */
-export const NysTextinput: React.ForwardRefExoticComponent<NysTextinputProps>;
+export const NysTextInput: React.ForwardRefExoticComponent<NysTextInputProps>;

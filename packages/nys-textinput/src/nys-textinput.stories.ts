@@ -7,7 +7,7 @@ import "@nysds/nys-button";
 import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
-interface NysTextinputArgs {
+interface NysTextInputArgs {
   id: string;
   name: string;
   type: "number" | "text" | "email" | "password" | "search" | "tel" | "url";
@@ -31,7 +31,7 @@ interface NysTextinputArgs {
   errorMessage: string;
 }
 
-const meta: Meta<NysTextinputArgs> = {
+const meta: Meta<NysTextInputArgs> = {
   title: "Components/Textinput",
   component: "nys-textinput",
   argTypes: {
@@ -74,7 +74,7 @@ const meta: Meta<NysTextinputArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysTextinputArgs>;
+type Story = StoryObj<NysTextInputArgs>;
 
 // Define stories without using args
 

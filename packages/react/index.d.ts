@@ -34,7 +34,7 @@ export * from "./NysTabgroup.js";
 export * from "./NysTabpanel.js";
 export * from "./NysTable.js";
 export * from "./NysTextarea.js";
-export * from "./NysTextinput.js";
+export * from "./NysTextInput.js";
 export * from "./NysToggle.js";
 export * from "./NysTooltip.js";
 export * from "./NysUnavFooter.js";

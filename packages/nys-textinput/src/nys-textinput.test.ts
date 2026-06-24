@@ -1,5 +1,5 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
-import { NysTextinput } from "./nys-textinput";
+import { NysTextInput } from "./nys-textinput";
 import "../dist/nys-textinput.js";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
@@ -18,7 +18,7 @@ describe("nys-textinput", () => {
   });
 
   it("generates an id if not provided", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -66,7 +66,7 @@ describe("nys-textinput", () => {
   });
 
   it("displays a toggle password icon that changes visibility when property type is password", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput type="password"></nys-textinput>`,
     );
     const input = el.shadowRoot?.querySelector("input");
@@ -85,7 +85,7 @@ describe("nys-textinput", () => {
   });
 
   it("displays an error message when required field is empty", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput required></nys-textinput>`,
     );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
@@ -100,7 +100,7 @@ describe("nys-textinput", () => {
   });
 
   it("validates pattern mismatch", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput pattern="\\d+"></nys-textinput>`,
     );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
@@ -116,7 +116,7 @@ describe("nys-textinput", () => {
   });
 
   it("falls back to type text type is unset", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     expect(el.type).to.equal("text");
@@ -125,7 +125,7 @@ describe("nys-textinput", () => {
   });
 
   it("falls back to width full if width is unset", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -133,7 +133,7 @@ describe("nys-textinput", () => {
   });
 
   it("runs native checkValidity", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     expect(el.checkValidity()).to.be.true;
@@ -144,7 +144,7 @@ describe("nys-textinput", () => {
     const originalWarn = console.warn;
     console.warn = () => {}; // no-op
 
-    const el = await fixture<NysTextinput>(html`
+    const el = await fixture<NysTextInput>(html`
       <nys-textinput>
         <div slot="startButton">invalid</div>
         <nys-button slot="startButton" label="MyBtn"></nys-button>
@@ -166,7 +166,7 @@ describe("nys-textinput", () => {
   });
 
   it("sets custom validity message and showError flag", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     (el as any)._setValidityMessage("Something is wrong");
@@ -196,7 +196,7 @@ describe("nys-textinput", () => {
   });
 
   it("should not leave trailing dash or formatting characters when backspacing in masked input", async () => {
-    const el = await fixture<NysTextinput>(html`
+    const el = await fixture<NysTextInput>(html`
       <nys-textinput type="tel"></nys-textinput>
     `);
 
@@ -220,7 +220,7 @@ describe("nys-textinput", () => {
   });
 
   it("should dispatch focus and blur events", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput label="FocusMe"></nys-textinput>`,
     );
     const textinput = el.shadowRoot?.querySelector("input")!;
@@ -246,7 +246,7 @@ describe("nys-textinput", () => {
   });
 
   it("should focus on the internal textinput via the delegatesFocus", async () => {
-    const el = await fixture<NysTextinput>(html`
+    const el = await fixture<NysTextInput>(html`
       <nys-textinput label="Test Input"></nys-textinput>
     `);
 
@@ -274,7 +274,7 @@ describe("nys-textinput", () => {
       </form>
     `);
 
-    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    const el = form.querySelector<NysTextInput>("nys-textinput")!;
     const input = el.shadowRoot?.querySelector<HTMLInputElement>("input")!;
 
     (el as any).showPassword = true; // this is private on the textinput, so need to set it directly here
@@ -306,7 +306,7 @@ describe("nys-textinput", () => {
       </form>
     `);
 
-    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    const el = form.querySelector<NysTextInput>("nys-textinput")!;
     const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
     const overlay = el.shadowRoot!.querySelector<HTMLElement>(
       ".nys-textinput__mask-overlay",
@@ -341,7 +341,7 @@ describe("nys-textinput", () => {
   // -------------------------------------------------------------------------
 
   it("_handleInvalid prevents default", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput required></nys-textinput>`,
     );
     await el.updateComplete;
@@ -353,7 +353,7 @@ describe("nys-textinput", () => {
   });
 
   it("_handleInvalid sets showError via _validate()", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput required></nys-textinput>`,
     );
     await el.updateComplete;
@@ -366,7 +366,7 @@ describe("nys-textinput", () => {
   });
 
   it("_handleInvalid enables eager validation on subsequent input", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput required></nys-textinput>`,
     );
     await el.updateComplete;
@@ -382,7 +382,7 @@ describe("nys-textinput", () => {
   });
 
   it("_handleInvalid focuses the input when not inside a form", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput required></nys-textinput>`,
     );
     await el.updateComplete;
@@ -405,7 +405,7 @@ describe("nys-textinput", () => {
         <nys-textinput id="only" required></nys-textinput>
       </form>
     `);
-    const el = container.querySelector<NysTextinput>("#only")!;
+    const el = container.querySelector<NysTextInput>("#only")!;
     await el.updateComplete;
 
     const input = el.shadowRoot!.querySelector("input")!;
@@ -427,7 +427,7 @@ describe("nys-textinput", () => {
         <nys-textinput id="second" required></nys-textinput>
       </form>
     `);
-    const second = container.querySelector<NysTextinput>("#second")!;
+    const second = container.querySelector<NysTextInput>("#second")!;
     await second.updateComplete;
 
     const input = second.shadowRoot!.querySelector("input")!;
@@ -443,7 +443,7 @@ describe("nys-textinput", () => {
   });
 
   it("_applyMask generic loop fills digit placeholders with input digits", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -457,7 +457,7 @@ describe("nys-textinput", () => {
   });
 
   it("_applyMask generic loop stops when digits run out", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -467,7 +467,7 @@ describe("nys-textinput", () => {
   });
 
   it("_applyMask generic loop treats 'd' as a digit placeholder", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -477,7 +477,7 @@ describe("nys-textinput", () => {
   });
 
   it("_applyMask generic loop treats '9' as a digit placeholder", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -487,7 +487,7 @@ describe("nys-textinput", () => {
   });
 
   it("_applyMask generic loop passes through literal formatting characters", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -501,7 +501,7 @@ describe("nys-textinput", () => {
   // More Event Tests
   // -------------------------------------------------------------------------
   it("fires nys-input with correct detail on input", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
@@ -521,7 +521,7 @@ describe("nys-textinput", () => {
   });
 
   it("fires nys-focus when input gains focus", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     let focused = false;
@@ -535,7 +535,7 @@ describe("nys-textinput", () => {
   });
 
   it("fires nys-blur when input loses focus", async () => {
-    const el = await fixture<NysTextinput>(
+    const el = await fixture<NysTextInput>(
       html`<nys-textinput></nys-textinput>`,
     );
     let blurred = false;
@@ -559,7 +559,7 @@ describe("nys-textinput", () => {
       </form>
     `);
 
-    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    const el = form.querySelector<NysTextInput>("nys-textinput")!;
     await el.updateComplete;
 
     expect(new FormData(form).get("test-field")).to.equal("stale-value");

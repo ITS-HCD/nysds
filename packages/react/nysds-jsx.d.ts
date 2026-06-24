@@ -899,7 +899,7 @@ export type NysTextareaProps = {
   "onnys-selectionchange"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
-export type NysTextinputProps = {
+export type NysTextInputProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
   /** Name for form submission. */
@@ -1564,7 +1564,7 @@ export type CustomElements = {
    * - **startButton** - Button at input start. Use single `nys-button` only.
    * - **endButton** - Button at input end. Use single `nys-button` only.
    */
-  "nys-textinput": Partial<NysTextinputProps & BaseProps & BaseEvents>;
+  "nys-textinput": Partial<NysTextInputProps & BaseProps & BaseEvents>;
 
   /**
    * Toggle switch for binary settings with immediate effect.

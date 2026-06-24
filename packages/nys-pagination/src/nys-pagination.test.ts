@@ -4,7 +4,7 @@ import { NysPagination } from "./nys-pagination.js";
 
 // You may need to import other dependencies such as the component's tag name
 // For example:
-// import { NysTextinput } from "./nys-textinput";
+// import { NysTextInput } from "./nys-textinput";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-pagination", () => {

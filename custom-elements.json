@@ -12584,7 +12584,7 @@
         {
           "kind": "class",
           "description": "A text input for collecting short, single-line data. Supports validation, input masking (tel),\npassword visibility toggle, and live error messaging. Form-associated via ElementInternals.\n\nUse for names, emails, passwords, phone numbers. For multi-line input, use `nys-textarea` instead.\nFor predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.",
-          "name": "NysTextinput",
+          "name": "NysTextInput",
           "slots": [
             {
               "description": "Custom HTML description content below the label.",
@@ -13347,15 +13347,15 @@
           "kind": "custom-element-definition",
           "name": "nys-textinput",
           "declaration": {
-            "name": "NysTextinput",
+            "name": "NysTextInput",
             "module": "packages/nys-textinput/src/nys-textinput.ts"
           }
         },
         {
           "kind": "js",
-          "name": "NysTextinput",
+          "name": "NysTextInput",
           "declaration": {
-            "name": "NysTextinput",
+            "name": "NysTextInput",
             "module": "packages/nys-textinput/src/nys-textinput.ts"
           }
         }

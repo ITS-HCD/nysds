@@ -495,7 +495,7 @@
         { "name": "name", "values": [] },
         {
           "name": "type",
-          "values": [{ "name": "(typeof NysTextinput.VALID_TYPES)[number]" }]
+          "values": [{ "name": "(typeof NysTextInput.VALID_TYPES)[number]" }]
         },
         { "name": "label", "values": [] },
         { "name": "description", "values": [] },
@@ -511,7 +511,7 @@
         { "name": "maxlength", "values": [] },
         {
           "name": "width",
-          "values": [{ "name": "(typeof NysTextinput.VALID_WIDTHS)[number]" }]
+          "values": [{ "name": "(typeof NysTextInput.VALID_WIDTHS)[number]" }]
         },
         { "name": "step", "values": [] },
         { "name": "min", "values": [] },

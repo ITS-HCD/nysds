@@ -27,12 +27,12 @@ The `./react` subpath export is declared in the root `package.json`, pointing at
 ## Usage
 
 ```tsx
-import { NysButton, NysTextinput } from "@nysds/components/react";
+import { NysButton, NysTextInput } from "@nysds/components/react";
 
 function MyForm() {
   return (
     <>
-      <NysTextinput
+      <NysTextInput
         label="First name"
         onNysInput={(e) => console.log(e.detail)}
       />

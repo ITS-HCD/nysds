@@ -47,7 +47,7 @@ let textinputIdCounter = 0;
  * ```
  */
 
-export class NysTextinput extends LitElement {
+export class NysTextInput extends LitElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -625,5 +625,5 @@ export class NysTextinput extends LitElement {
 }
 
 if (!customElements.get("nys-textinput")) {
-  customElements.define("nys-textinput", NysTextinput);
+  customElements.define("nys-textinput", NysTextInput);
 }
