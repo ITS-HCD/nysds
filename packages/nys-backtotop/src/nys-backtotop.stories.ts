@@ -6,21 +6,9 @@ import "@nysds/nys-globalheader";
 import "@nysds/nys-unavfooter";
 import "@nysds/nys-button";
 
-// Define the structure of the args used in the stories
-interface NysBacktotopArgs {
-  id: string;
-  position: string;
-  visible: boolean;
-}
-
-const meta: Meta<NysBacktotopArgs> = {
+const meta: Meta = {
   title: "Components/Backtotop",
   component: "nys-backtotop",
-  argTypes: {
-    id: { control: "text" },
-    position: { control: "text" },
-    visible: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -30,11 +18,10 @@ const meta: Meta<NysBacktotopArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysBacktotopArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {},
-  render: (args) => {
+  render: () => {
     return html`
       <style>
         code {

@@ -3,54 +3,9 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-button";
 import "@nysds/nys-icon";
 
-// Define the structure of the args used in the stories
-interface NysButtonArgs {
-  id: string;
-  name: string;
-  size: "sm" | "md" | "lg";
-  variant: "filled" | "outline" | "ghost" | "text";
-  label: string;
-  ariaLabel: string;
-  ariaControls: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  icon: string;
-  form: string | null;
-  value: string;
-  ariaDescription: string;
-  type: "submit" | "reset" | "button";
-  fullWidth: boolean;
-  inverted: boolean;
-  circle: boolean;
-  disabled: boolean;
-}
-
-const meta: Meta<NysButtonArgs> = {
+const meta: Meta = {
   title: "Components/Button",
   component: "nys-button",
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    size: { control: "select", options: ["sm", "md", "lg"] },
-    variant: {
-      control: "select",
-      options: ["filled", "outline", "ghost", "text"],
-    },
-    label: { control: "text" },
-    ariaLabel: { control: "text" },
-    ariaControls: { control: "text" },
-    prefixIcon: { control: "text" },
-    suffixIcon: { control: "text" },
-    icon: { control: "text" },
-    form: { control: "text" },
-    value: { control: "text" },
-    ariaDescription: { control: "text" },
-    type: { control: "select", options: ["submit", "reset", "button"] },
-    fullWidth: { control: "boolean", default: false },
-    inverted: { control: "boolean", default: false },
-    circle: { control: "boolean", default: false },
-    disabled: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -60,36 +15,11 @@ const meta: Meta<NysButtonArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysButtonArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    label: "Button",
-    variant: "filled",
-  },
-  render: (args) => {
-    return html`
-      <nys-button
-        .id=${args.id}
-        ?fullWidth=${args["fullWidth"]}
-        ?inverted=${args["inverted"]}
-        ?circle=${args["circle"]}
-        ?disabled=${args["disabled"]}
-        .name=${args["name"]}
-        .size=${args["size"]}
-        .variant=${args["variant"]}
-        .label=${args["label"]}
-        .ariaLabel=${args["ariaLabel"]}
-        .ariaControls=${args["ariaControls"]}
-        .prefixIcon=${args["prefixIcon"]}
-        .suffixIcon=${args["suffixIcon"]}
-        .icon=${args["icon"]}
-        .form=${args["form"]}
-        .value=${args["value"]}
-        .ariaDescription=${args["ariaDescription"]}
-        .type=${args["type"]}
-      ></nys-button>
-    `;
+  render: () => {
+    return html` <nys-button label="Button" variant="filled"></nys-button> `;
   },
   parameters: {
     docs: {

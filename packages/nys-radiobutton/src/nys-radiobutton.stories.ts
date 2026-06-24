@@ -6,47 +6,9 @@ import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-textinput";
 
-// Define the structure of the args used in the stories
-interface NysRadiobuttonArgs {
-  id: string;
-  label: string;
-  description: string;
-  name: string;
-  value: string;
-  form: string | null;
-  size: "sm" | "md";
-  errorMessage: string;
-  checked: boolean;
-  disabled: boolean;
-  required: boolean;
-  tile: boolean;
-  other: boolean;
-  showOtherError: boolean;
-  optional: boolean;
-  showError: boolean;
-}
-
-const meta: Meta<NysRadiobuttonArgs> = {
+const meta: Meta = {
   title: "Components/Radiobutton",
   component: "nys-radiobutton",
-  argTypes: {
-    id: { control: "text" },
-    label: { control: "text" },
-    description: { control: "text" },
-    name: { control: "text" },
-    value: { control: "text" },
-    form: { control: "text" },
-    size: { control: "select", options: ["sm", "md"] },
-    errorMessage: { control: "text" },
-    checked: { control: "boolean", default: false },
-    disabled: { control: "boolean", default: false },
-    required: { control: "boolean", default: false },
-    tile: { control: "boolean", default: false },
-    other: { control: "boolean", default: false },
-    showOtherError: { control: "boolean", default: false },
-    optional: { control: "boolean", default: false },
-    showError: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -56,35 +18,12 @@ const meta: Meta<NysRadiobuttonArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysRadiobuttonArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    required: true,
-    label: "The Bronx",
-    name: "borough",
-    value: "bronx",
-  },
-  render: (args) => {
+  render: () => {
     return html`
-      <nys-radiogroup
-        .id=${args.id}
-        ?checked=${args["checked"]}
-        ?disabled=${args["disabled"]}
-        ?required=${args["required"]}
-        ?tile=${args["tile"]}
-        ?other=${args["other"]}
-        ?showOtherError=${args["showOtherError"]}
-        ?optional=${args["optional"]}
-        ?showError=${args["showError"]}
-        .label=${args["label"]}
-        .description=${args["description"]}
-        .name=${args["name"]}
-        .value=${args["value"]}
-        .form=${args["form"]}
-        .size=${args["size"]}
-        .errorMessage=${args["errorMessage"]}
-      >
+      <nys-radiogroup label="Select borough" required>
         <nys-radiobutton
           name="borough"
           value="bronx"

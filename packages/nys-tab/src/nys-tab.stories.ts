@@ -4,27 +4,9 @@ import "./nys-tab";
 import "./nys-tabgroup";
 import "./nys-tabpanel";
 
-// Define the structure of the args used in the stories
-interface NysTabArgs {
-  id: string;
-  label: string;
-  "aria-labelledby": string;
-  name: string;
-  selected: boolean;
-  disabled: boolean;
-}
-
-const meta: Meta<NysTabArgs> = {
+const meta: Meta = {
   title: "Components/Tab",
   component: "nys-tab",
-  argTypes: {
-    id: { control: "text" },
-    label: { control: "text" },
-    "aria-labelledby": { control: "text" },
-    name: { control: "text" },
-    selected: { control: "boolean", default: false },
-    disabled: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -34,22 +16,12 @@ const meta: Meta<NysTabArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysTabArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    label: "Marcy",
-  },
-  render: (args) => {
+  render: () => {
     return html`
-      <nys-tabgroup
-        .id=${args.id}
-        ?selected=${args["selected"]}
-        ?disabled=${args["disabled"]}
-        .label=${args["label"]}
-        .aria-labelledby=${args["aria-labelledby"]}
-        .name=${args["name"]}
-      >
+      <nys-tabgroup>
         <nys-tab label="Marcy"></nys-tab>
         <nys-tab label="Algonquin"></nys-tab>
         <nys-tab label="Haystack"></nys-tab>

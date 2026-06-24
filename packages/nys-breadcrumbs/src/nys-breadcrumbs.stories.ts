@@ -2,29 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-breadcrumbs";
 
-// Define the structure of the args used in the stories
-interface NysBreadcrumbsArgs {
-  id: string;
-  ariaLabel: string;
-  size: "sm" | "md";
-  backToParent: boolean;
-  collapsed: boolean;
-  backgroundBar: boolean;
-  disabled: boolean;
-}
-
-const meta: Meta<NysBreadcrumbsArgs> = {
+const meta: Meta = {
   title: "Components/Breadcrumbs",
   component: "nys-breadcrumbs",
-  argTypes: {
-    id: { control: "text" },
-    ariaLabel: { control: "text" },
-    size: { control: "select", options: ["sm", "md"] },
-    backToParent: { control: "boolean", default: false },
-    collapsed: { control: "boolean", default: false },
-    backgroundBar: { control: "boolean", default: false },
-    disabled: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -34,21 +14,12 @@ const meta: Meta<NysBreadcrumbsArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysBreadcrumbsArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {},
-  render: (args) => {
+  render: () => {
     return html`
-      <nys-breadcrumbs
-        .id=${args.id}
-        ?backToParent=${args["backToParent"]}
-        ?collapsed=${args["collapsed"]}
-        ?backgroundBar=${args["backgroundBar"]}
-        ?disabled=${args["disabled"]}
-        .ariaLabel=${args["ariaLabel"]}
-        .size=${args["size"]}
-      >
+      <nys-breadcrumbs>
         <ol>
           <li><a href="/">Home</a></li>
           <li><a href="/services">Services</a></li>

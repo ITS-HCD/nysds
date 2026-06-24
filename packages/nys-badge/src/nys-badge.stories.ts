@@ -2,42 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-badge";
 
-// Define the structure of the args used in the stories
-interface NysBadgeArgs {
-  id: string;
-  name: string;
-  size: "sm" | "md";
-  intent: "neutral" | "error" | "success" | "warning";
-  prefixLabel: string;
-  label: string;
-  srText: string;
-  variant: "strong" | "";
-  prefixicon: string | boolean;
-  suffixicon: string | boolean;
-  prefixIcon: string;
-  suffixIcon: string;
-}
-
-const meta: Meta<NysBadgeArgs> = {
+const meta: Meta = {
   title: "Components/Badge",
   component: "nys-badge",
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    size: { control: "select", options: ["sm", "md"] },
-    intent: {
-      control: "select",
-      options: ["neutral", "error", "success", "warning"],
-    },
-    prefixLabel: { control: "text" },
-    label: { control: "text" },
-    srText: { control: "text" },
-    variant: { control: "select", options: ["strong"] },
-    prefixicon: { control: "text" },
-    suffixicon: { control: "text" },
-    prefixIcon: { control: "text" },
-    suffixIcon: { control: "text" },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -47,29 +14,11 @@ const meta: Meta<NysBadgeArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysBadgeArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    label: "Basic badge",
-  },
-  render: (args) => {
-    return html`
-      <nys-badge
-        .id=${args.id}
-        .name=${args["name"]}
-        .size=${args["size"]}
-        .intent=${args["intent"]}
-        .prefixLabel=${args["prefixLabel"]}
-        .label=${args["label"]}
-        .srText=${args["srText"]}
-        .variant=${args["variant"]}
-        .prefixicon=${args["prefixicon"]}
-        .suffixicon=${args["suffixicon"]}
-        .prefixIcon=${args["prefixIcon"]}
-        .suffixIcon=${args["suffixIcon"]}
-      ></nys-badge>
-    `;
+  render: () => {
+    return html` <nys-badge label="Basic badge"></nys-badge> `;
   },
   parameters: {
     docs: {

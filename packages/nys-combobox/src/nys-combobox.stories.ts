@@ -4,43 +4,9 @@ import "./nys-combobox";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 
-// Define the structure of the args used in the stories
-interface NysComboboxArgs {
-  id: string;
-  name: string;
-  label: string;
-  description: string;
-  value: string;
-  tooltip: string;
-  form: string | null;
-  width: "md" | "lg" | "full";
-  errorMessage: string;
-  disabled: boolean;
-  required: boolean;
-  optional: boolean;
-  inverted: boolean;
-  showError: boolean;
-}
-
-const meta: Meta<NysComboboxArgs> = {
+const meta: Meta = {
   title: "Components/Combobox",
   component: "nys-combobox",
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    label: { control: "text" },
-    description: { control: "text" },
-    value: { control: "text" },
-    tooltip: { control: "text" },
-    form: { control: "text" },
-    width: { control: "select", options: ["md", "lg", "full"] },
-    errorMessage: { control: "text" },
-    disabled: { control: "boolean", default: false },
-    required: { control: "boolean", default: false },
-    optional: { control: "boolean", default: false },
-    inverted: { control: "boolean", default: false },
-    showError: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -50,31 +16,12 @@ const meta: Meta<NysComboboxArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysComboboxArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    value: "apple",
-  },
-  render: (args) => {
+  render: () => {
     return html`
-      <nys-combobox
-        .id=${args.id}
-        ?disabled=${args["disabled"]}
-        ?required=${args["required"]}
-        ?optional=${args["optional"]}
-        ?inverted=${args["inverted"]}
-        ?showError=${args["showError"]}
-        .name=${args["name"]}
-        .label=${args["label"]}
-        .description=${args["description"]}
-        .value=${args["value"]}
-        .tooltip=${args["tooltip"]}
-        .form=${args["form"]}
-        .width=${args["width"]}
-        .errorMessage=${args["errorMessage"]}
-      >
+      <nys-combobox label="Select your favorite fruit">
         <option value="apple">Apple</option>
         <option value="banana">Banana</option>
         <option value="cherry">Cherry</option>

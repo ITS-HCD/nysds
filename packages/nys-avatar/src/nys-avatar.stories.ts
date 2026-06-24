@@ -2,33 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-avatar";
 
-// Define the structure of the args used in the stories
-interface NysAvatarArgs {
-  id: string;
-  ariaLabel: string;
-  image: string;
-  initials: string;
-  icon: string;
-  color: string;
-  interactive: boolean;
-  disabled: boolean;
-  lazy: boolean;
-}
-
-const meta: Meta<NysAvatarArgs> = {
+const meta: Meta = {
   title: "Components/Avatar",
   component: "nys-avatar",
-  argTypes: {
-    id: { control: "text" },
-    ariaLabel: { control: "text" },
-    image: { control: "text" },
-    initials: { control: "text" },
-    icon: { control: "text" },
-    color: { control: "text" },
-    interactive: { control: "boolean", default: false },
-    disabled: { control: "boolean", default: false },
-    lazy: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -38,26 +14,11 @@ const meta: Meta<NysAvatarArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysAvatarArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    ariaLabel: "User avatar",
-  },
-  render: (args) => {
-    return html`
-      <nys-avatar
-        .id=${args.id}
-        ?interactive=${args["interactive"]}
-        ?disabled=${args["disabled"]}
-        ?lazy=${args["lazy"]}
-        .ariaLabel=${args["ariaLabel"]}
-        .image=${args["image"]}
-        .initials=${args["initials"]}
-        .icon=${args["icon"]}
-        .color=${args["color"]}
-      ></nys-avatar>
-    `;
+  render: () => {
+    return html` <nys-avatar ariaLabel="User avatar"></nys-avatar> `;
   },
   parameters: {
     docs: {

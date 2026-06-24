@@ -3,40 +3,9 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-alert";
 import "@nysds/nys-button";
 
-// Define the structure of the args used in the stories
-interface NysAlertArgs {
-  id: string;
-  heading: string;
-  icon: string;
-  duration: number;
-  text: string;
-  primaryAction: string;
-  secondaryAction: string;
-  primaryLabel: string;
-  secondaryLabel: string;
-  type: "base" | "info" | "success" | "warning" | "danger" | "emergency";
-  dismissible: boolean;
-}
-
-const meta: Meta<NysAlertArgs> = {
+const meta: Meta = {
   title: "Components/Alert",
   component: "nys-alert",
-  argTypes: {
-    id: { control: "text" },
-    heading: { control: "text" },
-    icon: { control: "text" },
-    duration: { control: "number" },
-    text: { control: "text" },
-    primaryAction: { control: "text" },
-    secondaryAction: { control: "text" },
-    primaryLabel: { control: "text" },
-    secondaryLabel: { control: "text" },
-    type: {
-      control: "select",
-      options: ["base", "info", "success", "warning", "danger", "emergency"],
-    },
-    dismissible: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -46,28 +15,11 @@ const meta: Meta<NysAlertArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysAlertArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    heading: "This is a heading",
-  },
-  render: (args) => {
-    return html`
-      <nys-alert
-        .id=${args.id}
-        ?dismissible=${args["dismissible"]}
-        .heading=${args["heading"]}
-        .icon=${args["icon"]}
-        .duration=${args["duration"]}
-        .text=${args["text"]}
-        .primaryAction=${args["primaryAction"]}
-        .secondaryAction=${args["secondaryAction"]}
-        .primaryLabel=${args["primaryLabel"]}
-        .secondaryLabel=${args["secondaryLabel"]}
-        .type=${args["type"]}
-      ></nys-alert>
-    `;
+  render: () => {
+    return html` <nys-alert heading="This is a heading"></nys-alert> `;
   },
   parameters: {
     docs: {

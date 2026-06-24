@@ -3,25 +3,9 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-accordion";
 import "./nys-accordionitem";
 
-// Define the structure of the args used in the stories
-interface NysAccordionArgs {
-  id: string;
-  heading: string;
-  singleSelect: boolean;
-  bordered: boolean;
-  expanded: boolean;
-}
-
-const meta: Meta<NysAccordionArgs> = {
+const meta: Meta = {
   title: "Components/Accordion",
   component: "nys-accordion",
-  argTypes: {
-    id: { control: "text" },
-    heading: { control: "text" },
-    singleSelect: { control: "boolean", default: false },
-    bordered: { control: "boolean", default: false },
-    expanded: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -31,22 +15,16 @@ const meta: Meta<NysAccordionArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysAccordionArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    heading: "How do I renew my passport or apply for a new one?",
-  },
-  render: (args) => {
+  render: () => {
     return html`
-      <nys-accordion
-        .id=${args.id}
-        ?singleSelect=${args["singleSelect"]}
-        ?bordered=${args["bordered"]}
-        ?expanded=${args["expanded"]}
-        .heading=${args["heading"]}
-      >
-        <nys-accordionitem .id=${args.id} .heading=${args["heading"]}>
+      <nys-accordion>
+        <nys-accordionitem
+          id="accordionId1"
+          heading="How do I renew my passport or apply for a new one?"
+        >
           <p>
             You can apply for or renew a U.S. passport through the U.S.
             Department of State. Some renewals can be done by mail.

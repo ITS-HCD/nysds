@@ -2,23 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-errormessage";
 
-// Define the structure of the args used in the stories
-interface NysErrormessageArgs {
-  id: string;
-  errorMessage: string;
-  showError: boolean;
-  showDivider: boolean;
-}
-
-const meta: Meta<NysErrormessageArgs> = {
+const meta: Meta = {
   title: "Components/Errormessage",
   component: "nys-errormessage",
-  argTypes: {
-    id: { control: "text" },
-    errorMessage: { control: "text" },
-    showError: { control: "boolean", default: false },
-    showDivider: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -28,20 +14,14 @@ const meta: Meta<NysErrormessageArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysErrormessageArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    showError: true,
-    errorMessage: "This is an error message",
-  },
-  render: (args) => {
+  render: () => {
     return html`
       <nys-errormessage
-        .id=${args.id}
-        ?showError=${args["showError"]}
-        ?showDivider=${args["showDivider"]}
-        .errorMessage=${args["errorMessage"]}
+        showError
+        errorMessage="This is an error message"
       ></nys-errormessage>
     `;
   },

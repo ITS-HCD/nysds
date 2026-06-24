@@ -5,29 +5,9 @@ import "./nys-step";
 import "@nysds/nys-textinput";
 import "@nysds/nys-button";
 
-// Define the structure of the args used in the stories
-interface NysStepperArgs {
-  id: string;
-  name: string;
-  label: string;
-  counterText: string;
-  class: string;
-  isCompactExpanded: boolean;
-  current: boolean;
-}
-
-const meta: Meta<NysStepperArgs> = {
+const meta: Meta = {
   title: "Components/Stepper",
   component: "nys-stepper",
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    label: { control: "text" },
-    counterText: { control: "text" },
-    class: { control: "text" },
-    isCompactExpanded: { control: "boolean", default: false },
-    current: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -37,24 +17,11 @@ const meta: Meta<NysStepperArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysStepperArgs>;
+type Story = StoryObj;
 
 export const StepWithPageNavigation: Story = {
-  args: {
-    label: "Personal Info",
-  },
-  render: (args) => {
-    return html`
-      <nys-step
-        .id=${args.id}
-        ?isCompactExpanded=${args["isCompactExpanded"]}
-        ?current=${args["current"]}
-        .name=${args["name"]}
-        .label=${args["label"]}
-        .counterText=${args["counterText"]}
-        .class=${args["class"]}
-      ></nys-step>
-    `;
+  render: () => {
+    return html` <nys-step label="Personal Info" href="/step-1"></nys-step> `;
   },
   parameters: {
     docs: {
