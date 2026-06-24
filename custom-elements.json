@@ -10334,14 +10334,7 @@
           },
           "tagName": "nys-option",
           "customElement": true,
-          "summary": "Option item for nys-select dropdown.",
-          "examples": [
-            {
-              "title": "Basic options",
-              "code": "<nys-select>\n<nys-option value=\"ny\">New York</nys-option>\n<nys-option value=\"ca\" disabled>California</nys-option>\n</nys-select>",
-              "lang": "html"
-            }
-          ]
+          "summary": "Option item for nys-select dropdown."
         }
       ],
       "exports": [
@@ -10838,19 +10831,63 @@
           "summary": "Dropdown select for choosing one option from a list.",
           "examples": [
             {
-              "title": "Basic select",
-              "code": "<nys-select label=\"Select borough\">\n<option value=\"bronx\">The Bronx</option>\n<option value=\"brooklyn\">Brooklyn</option>\n<option value=\"manhattan\">Manhattan</option>\n</nys-select>",
+              "title": "Basic",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
               "lang": "html"
             },
             {
-              "title": "With option groups",
-              "code": "<nys-select label=\"Select service\">\n<optgroup label=\"Transportation\">\n<option value=\"mta\">MTA</option>\n<option value=\"dmv\">DMV</option>\n</optgroup>\n</nys-select>",
+              "title": "Default value",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\" selected></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
               "lang": "html"
             },
             {
-              "title": "Required select",
-              "code": "<nys-select label=\"Select borough\" required>\n<option value=\"bronx\">The Bronx</option>\n<option value=\"brooklyn\">Brooklyn</option>\n</nys-select>",
+              "title": "Option Group",
+              "code": "<nys-select\nlabel=\"Which New York State service are you contacting us about?\"\ndescription=\"This is for demo purposes and the list might not be exhaustive.\"\n>\n<optgroup label=\"Transportation Services\">\n<option value=\"mta\">MTA / Public Transit</option>\n<option value=\"dmv\">Department of Motor Vehicles (DMV)</option>\n<option value=\"highway\">Highway Maintenance</option>\n</optgroup>\n<optgroup label=\"Health & Human Services\">\n<option value=\"medicaid\">Medicaid / Health Insurance</option>\n<option value=\"mental-health\">Mental Health Support</option>\n<option value=\"child-family\">Child and Family Services</option>\n</optgroup>\n<optgroup label=\"Public Safety\">\n<option value=\"state-police\">State Police</option>\n<option value=\"emergency-management\">Emergency Management</option>\n<option value=\"fire-safety\">Fire Safety</option>\n</optgroup>\n<optgroup label=\"Environment & Energy\">\n<option value=\"environmental-conservation\">\nEnvironmental Conservation\n</option>\n<option value=\"clean-energy\">Clean Energy Programs</option>\n<option value=\"waste-management\">Waste Management</option>\n</optgroup>\n</nys-select>",
               "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" disabled>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled Option",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\" disabled></option>\n<option value=\"queens\" label=\"Queens\" disabled></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" required>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" optional>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Width small",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" width=\"sm\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Width medium",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" width=\"md\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Width large",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" width=\"lg\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Slotted Description",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<label slot=\"description\">This is a slotted description</label>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" errorMessage=\"You did not select a borough\" showError>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>"
             }
           ]
         }
