@@ -14241,13 +14241,38 @@
           "summary": "Toggle switch for binary settings with immediate effect.",
           "examples": [
             {
-              "title": "Basic toggle",
-              "code": "<nys-toggle label=\"Enable notifications\" name=\"notifications\"></nys-toggle>",
+              "title": "Basic",
+              "code": "<nys-toggle label=\"Enable notifications\" name=\"notifications\" value=\"enabled-notifications\"></nys-toggle>",
               "lang": "html"
             },
             {
-              "title": "Dark mode toggle",
-              "code": "<nys-toggle label=\"Dark mode\" description=\"Adjust display for low light\" checked></nys-toggle>",
+              "title": "Checked",
+              "code": "<nys-toggle label=\"Dark Mode\" name=\"theme\" value=\"dark\" checked></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-toggle label=\"Opt Out of emails\" name=\"toggle-switch\" value=\"emails\" disabled></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide Icon",
+              "code": "<nys-toggle label=\"No icon on the toggle knob\" name=\"icon\" value=\"no-icon\" noIcon></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Size small",
+              "code": "<nys-toggle label=\"Tiny but mighty\" name=\"sm-size\" value=\"sm-size\" size=\"sm\"></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-toggle\nlabel=\"Opt Out of emails\"\ndescription=\"An email address is recommended to be on file for contact information.\"\nname=\"toggle-switch\"\nvalue=\"emails\"\n></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Rich Description",
+              "code": "<nys-toggle\nlabel=\"Opt Out of emails\"\nname=\"toggle-switch\"\nvalue=\"emails\"\n>\n<p slot=\"description\">We <strong>REALLY</strong> encourage you to keep emails enabled for contact purposes.</p>\n</nys-toggle>",
               "lang": "html"
             }
           ]
