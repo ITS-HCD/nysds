@@ -339,6 +339,7 @@ export class NysUnavHeader extends LitElement {
                   <nys-button
                     variant="ghost"
                     circle
+                    icon="translate"
                     ariaLabel="Translate"
                     aria-expanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
