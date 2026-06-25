@@ -339,7 +339,6 @@ export class NysUnavHeader extends LitElement {
                   <nys-button
                     variant="ghost"
                     circle
-                    icon="language"
                     ariaLabel="Translate"
                     aria-expanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
@@ -391,7 +390,6 @@ export class NysUnavHeader extends LitElement {
                   <nys-button
                     variant="ghost"
                     circle
-                    icon="search"
                     ariaLabel="Search"
                     aria-expanded="${this.searchDropdownVisible}"
                     id="nys-unavheader__searchbutton"
