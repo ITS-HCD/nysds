@@ -7,11 +7,12 @@ import prettier from "prettier";
 // Helpers (kept mostly the same, adapted for CEM structure)
 // ---------------------------------------------------------------------------
 
+// formatCode — add early return for script-containing HTML
 async function formatCode(code) {
   if (!code) return "";
   try {
-    // Basic heuristic: if it contains '<' and '>', try HTML
     if (code.includes("<") && code.includes(">")) {
+      if (code.includes("</script>")) return code.trim(); // skip Prettier
       return (
         await prettier.format(code, {
           parser: "html",
@@ -20,7 +21,6 @@ async function formatCode(code) {
         })
       ).trim();
     }
-    // Otherwise try typescript
     return (
       await prettier.format(code, {
         parser: "typescript",
@@ -71,7 +71,9 @@ function buildStaticStory(example, nameOverride) {
   const code = example.renderCode;
 
   // Heuristic: check if it contains JS imperative code
-  const isImperative = code.includes("const ") || code.includes("function ") || code.includes("=> ");
+  const isImperative = !code.trim().startsWith("<") && (
+    code.includes("const ") || code.includes("function ") || code.includes("=> ")
+  );
 
   let renderTemplate;
   if (isImperative) {

@@ -1599,7 +1599,7 @@ export type CustomElements = {
   "nys-unavfooter": Partial<NysUnavFooterProps & BaseProps & BaseEvents>;
 
   /**
-   *
+   * Universal NYS header with trust bar, search, and translation. Required site-wide.
    * ---
    *
    */

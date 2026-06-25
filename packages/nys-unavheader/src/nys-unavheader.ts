@@ -4,6 +4,12 @@ import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavheader.scss?inline";
 
+interface Language {
+  code: string;
+  label: string;
+  url?: string;
+}
+
 /**
  * Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.
  *
@@ -24,23 +30,50 @@ import styles from "./nys-unavheader.scss?inline";
  * @summary Universal NYS header with trust bar, search, and translation. Required site-wide.
  * @element nys-unavheader
  *
- * @example Standard usage
+ * @example Basic
  * ```html
  * <nys-unavheader></nys-unavheader>
- * <nys-globalheader>...</nys-globalheader>
  * ```
  *
- * @example Without search
+ * @example Hide search
  * ```html
  * <nys-unavheader hideSearch></nys-unavheader>
  * ```
+ *
+ *  @example Hide translate
+ * ```html
+ * <nys-unavheader hideTranslate></nys-unavheader>
+ * ```
+ *
+ * @example Custom Search URL
+ * ```html
+ * <nys-unavheader searchUrl="https://designsystem.ny.gov/search/?q="></nys-unavheader>
+ * ```
+ *
+ * @example Custom Language List
+ * ```html
+ * <nys-unavheader id="my-header"></nys-unavheader>
+ * <script>
+ *   const header = document.querySelector('#my-header');
+ *   header.languages = [
+ *   { code: 'en', label: 'English' },
+ *   { code: 'es', label: 'Español' , url: '"https://ny.gov/?lang=es"'},
+ *   { code: 'fr', label: 'Français', url: '"https://ny.gov/?lang=fr"'},
+ *   ];
+ * </script>
+ * ```
+ *
+ * @example Custom Language List JS
+ * ```html
+ * <nys-unavheader id="my-header2"></nys-unavheader>
+ * <script>
+ *   document.querySelector('#my-header2').addEventListener('nys-language-select', (event) => {
+ *   event.preventDefault();
+ *   const selectedLanguage = event.detail.language.label;
+ *   });
+ * </script>
+ * ```
  */
-
-interface Language {
-  code: string;
-  label: string;
-  url?: string;
-}
 
 export class NysUnavHeader extends LitElement {
   static styles = unsafeCSS(styles);

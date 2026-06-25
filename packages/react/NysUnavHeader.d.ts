@@ -65,7 +65,7 @@ export interface NysUnavHeaderProps extends Pick<
 }
 
 /**
- *
+ * Universal NYS header with trust bar, search, and translation. Required site-wide.
  * ---
  *
  */

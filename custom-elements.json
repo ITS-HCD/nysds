@@ -14732,8 +14732,8 @@
           "summary": "Universal NYS footer with logo and statewide links. Required site-wide.",
           "examples": [
             {
-              "title": "Standard usage",
-              "code": "<nys-globalfooter>...</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>",
+              "title": "Basic",
+              "code": "<nys-unavfooter></nys-unavfooter>",
               "lang": "html"
             }
           ]
@@ -14779,7 +14779,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
           "members": [
             {
@@ -15042,7 +15042,40 @@
             "package": "lit"
           },
           "tagName": "nys-unavheader",
-          "customElement": true
+          "customElement": true,
+          "summary": "Universal NYS header with trust bar, search, and translation. Required site-wide.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-unavheader></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide search",
+              "code": "<nys-unavheader hideSearch></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide translate",
+              "code": "<nys-unavheader hideTranslate></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Search URL",
+              "code": "<nys-unavheader searchUrl=\"https://designsystem.ny.gov/search/?q=\"></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Language List",
+              "code": "<nys-unavheader id=\"my-header\"></nys-unavheader>\n<script>\nconst header = document.querySelector('#my-header');\nheader.languages = [\n{ code: 'en', label: 'English' },\n{ code: 'es', label: 'Español' , url: '\"https://ny.gov/?lang=es\"'},\n{ code: 'fr', label: 'Français', url: '\"https://ny.gov/?lang=fr\"'},\n];\n</script>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Language List JS",
+              "code": "<nys-unavheader id=\"my-header2\"></nys-unavheader>\n<script>\ndocument.querySelector('#my-header2').addEventListener('nys-language-select', (event) => {\nevent.preventDefault();\nconst selectedLanguage = event.detail.language.label;\n});\n</script>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [

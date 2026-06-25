@@ -21,9 +21,8 @@ import styles from "./nys-unavfooter.scss?inline";
  * @summary Universal NYS footer with logo and statewide links. Required site-wide.
  * @element nys-unavfooter
  *
- * @example Standard usage
+ * @example Basic
  * ```html
- * <nys-globalfooter>...</nys-globalfooter>
  * <nys-unavfooter></nys-unavfooter>
  * ```
  */
