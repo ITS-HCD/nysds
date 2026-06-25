@@ -1,9 +1,10 @@
 // ============================================
 // NYSDS Margin Utilities
-// Uniform and directional margin classes
+// Uniform and directional margin classes with responsive variants
 // ============================================
 
 @use "config" as *;
+@use "mixins" as *;
 
 // Uniform margins
 @each $name, $value in $spacing {
@@ -18,6 +19,32 @@
     .nys-margin-#{$dir-name}-#{$name} {
       @each $prop in $props {
         margin-#{$prop}: $value;
+      }
+    }
+  }
+}
+
+// Responsive uniform margins
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $name, $value in $spacing {
+      @include responsive-variants($bp-name, "nys-margin-#{$name}") {
+        margin: $value;
+      }
+    }
+  }
+}
+
+// Responsive directional margins
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $name, $value in $spacing {
+      @each $dir-name, $props in $directions {
+        @include responsive-variants($bp-name, "nys-margin-#{$dir-name}-#{$name}") {
+          @each $prop in $props {
+            margin-#{$prop}: $value;
+          }
+        }
       }
     }
   }
