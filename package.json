@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.19.1",
+  "version": "1.19.2",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -129,7 +129,8 @@
     ]
   },
   "overrides": {
-    "storybook": "$storybook"
+    "storybook": "$storybook",
+    "playwright": "1.61.0"
   },
   "dependencies": {
     "dompurify": "^3.4.7",
