@@ -11079,13 +11079,13 @@
           "summary": "Skip navigation link for keyboard accessibility. Hidden until focused.",
           "examples": [
             {
-              "title": "Default skip link",
-              "code": "<nys-skipnav></nys-skipnav>\n<main id=\"main-content\">...</main>",
+              "title": "Basic",
+              "code": "<nys-skipnav></nys-skipnav>",
               "lang": "html"
             },
             {
               "title": "Custom target",
-              "code": "<nys-skipnav href=\"#content-area\"></nys-skipnav>",
+              "code": "<nys-skipnav href=\"#content-area\"></nys-skipnav>\n<p id=\"content-area\">...</p>",
               "lang": "html"
             }
           ]
