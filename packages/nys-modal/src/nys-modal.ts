@@ -20,15 +20,103 @@ let componentIdCounter = 0;
  * @fires nys-open - Fired when modal opens. Detail: `{id}`.
  * @fires nys-close - Fired when modal closes. Detail: `{id}`.
  *
- * @example Basic modal
+ * @example Basic
  * ```html
- * <nys-modal id="confirm-modal" heading="Confirm action" open>
- *   <p>Are you sure you want to proceed?</p>
+ * <nys-modal
+ *   id="modal1"
+ *   heading="Update Available"
+ * >
+ *   <p>
+ *     Would you like to install the latest version? Albany ipsum dolor sit
+ *     Empire, Hudson consectetur Adirondack elit, sed do MetroCard tempor
+ *     incididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie
+ *     veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea
+ *     Cuomo consequat.
+ *   </p>
+ * </nys-modal>
+ * ```
+ *
+ * @render Basic
+ * ```html
+ * <div id="modal-wrapper1">
+ *   <nys-button label="Open Modal" onclick="document.querySelector('.modal1').open = true; document.getElementById('modal-wrapper1').style.padding = '100px 0'"></nys-button>
+ *   <nys-modal
+ *     class="modal1"
+ *     id="modal1"
+ *     heading="Update Available"
+ *   >
+ *     <p>
+ *       Would you like to install the latest version? Albany ipsum dolor sit
+ *       Empire, Hudson consectetur Adirondack elit, sed do MetroCard tempor
+ *       incididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie
+ *       veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea
+ *       Cuomo consequat.
+ *     </p>
+ *   </nys-modal>
+ * </div>
+ * ```
+ *
+ * @example Actions Slot
+ * ```html
+ * <nys-modal id="modal3" heading="Update password?">
+ *   <nys-textinput label="Username" name="username" type="text" width="full"></nys-textinput>
+ *   <nys-textinput label="Password" name="password" type="password" width="full"></nys-textinput>
  *   <div slot="actions">
- *     <nys-button label="Cancel" variant="outline"></nys-button>
- *     <nys-button label="Confirm" variant="filled"></nys-button>
+ *     <nys-button label="Not now" variant="outline"></nys-button>
+ *     <nys-button label="Update"></nys-button>
  *   </div>
  * </nys-modal>
+ * ```
+ *
+ * @render Actions Slot
+ * ```html
+ * <div id="modal-wrapper3">
+ *   <nys-button label="Open Modal" onclick="document.querySelector('.modal3').open = true; document.getElementById('modal-wrapper3').style.padding = '100px 0'"></nys-button>
+ *   <nys-modal
+ *     class="modal3"
+ *     id="modal3"
+ *     heading="Update password?"
+ *   >
+ *     <nys-textinput label="Username" name="username" type="text" width="full"></nys-textinput>
+ *     <nys-textinput label="Password" name="password" type="password" width="full"></nys-textinput>
+ *     <div slot="actions">
+ *       <nys-button label="Not now" variant="outline" onclick="document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'"></nys-button>
+ *       <nys-button label="Update" onclick="alert('Mock Alert: Changes saved!'); document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'"></nys-button>
+ *     </div>
+ *   </nys-modal>
+ * </div>
+ * ```
+ *
+ * @example Mandatory Action
+ * ```html
+ * <nys-modal
+ *   id="modal4"
+ *   heading="There is no way to X out of here"
+ *   subheading="Don't use this prop unless you add in the actions slot so the user does not get stuck in here."
+ *   mandatory
+ * >
+ *   <div slot="actions">
+ *     <nys-button label="Get me out"></nys-button>
+ *   </div>
+ * </nys-modal>
+ * ```
+ *
+ * @render Mandatory Action
+ * ```html
+ * <div id="modal-wrapper4">
+ *   <nys-button label="Open Modal" onclick="document.querySelector('.modal4').open = true; document.getElementById('modal-wrapper4').style.padding = '100px 0'"></nys-button>
+ *   <nys-modal
+ *     class="modal4"
+ *     id="modal4"
+ *     heading="There is no way to X out of here"
+ *     subheading="Don't use this prop unless you add in the actions slot so the user does not get stuck in here."
+ *     mandatory
+ *   >
+ *     <div slot="actions">
+ *       <nys-button label="Get me out" onclick="alert('Ok, ok. You can go now.'); document.querySelector('.modal4').open = false; document.getElementById('modal-wrapper4').style.padding = '0'"></nys-button>
+ *     </div>
+ *   </nys-modal>
+ * </div>
  * ```
  */
 
