@@ -4,6 +4,7 @@
 // ============================================
 
 @use "config" as *;
+@use "mixins" as *;
 
 // Uniform padding
 @each $name, $value in $spacing {
