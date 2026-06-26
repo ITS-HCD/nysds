@@ -270,21 +270,32 @@ async function main() {
       if (content.includes("<nys-textinput")) usedTags.add("nys-textinput");
     }
 
+    // Before building siblingImports, derive a tagToPackage map from CEM module paths.
+    // e.g. "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
+    //   → package is "nys-dropdownmenu", not "nys-dropdownmenuitem"
+    const tagToPackage = {};
+    for (const [tag, modPath] of Object.entries(tagToModule)) {
+      // modPath looks like "packages/nys-foo/src/nys-bar.ts"
+      const packageDir = path.dirname(path.dirname(modPath)); // → "packages/nys-foo"
+      tagToPackage[tag] = path.basename(packageDir);          // → "nys-foo"
+    }
+
     const siblingImports = [...usedTags]
       .filter((t) => t !== componentName)
       .map((t) => {
         const modPath = tagToModule[t];
         if (modPath) {
-          // If in the same directory, import locally
           if (path.dirname(modPath) === dir) {
             return `import "./${t}";`;
           }
-          // Otherwise use the package path
-          return `import "@nysds/${t}";`;
+          // Use the owning package, not the tag name — handles sub-components
+          const pkg = tagToPackage[t] ?? t;
+          return `import "@nysds/${pkg}";`;
         }
-        // Fallback if not found in CEM
         return `import "@nysds/${t}";`;
       })
+      // Deduplicate — multiple tags may belong to the same package
+      .filter((imp, i, arr) => arr.indexOf(imp) === i)
       .join("\n");
 
     // Detect if any render code uses registerIconLibrary — if so, hoist the
@@ -313,14 +324,14 @@ async function main() {
     const moduleScopeBlock =
       moduleScopeRegistrations.length > 0
         ? [
-            "",
-            "// Register external icon libraries at module scope so they are available",
-            "// before any <nys-icon> elements connect. Registering inside render() is",
-            "// too late on the first visit because the elements' connectedCallback and",
-            "// _loadIcon fire before the render body executes, returning null from",
-            "// getIconLibrary().",
-            ...moduleScopeRegistrations,
-          ].join("\n")
+          "",
+          "// Register external icon libraries at module scope so they are available",
+          "// before any <nys-icon> elements connect. Registering inside render() is",
+          "// too late on the first visit because the elements' connectedCallback and",
+          "// _loadIcon fire before the render body executes, returning null from",
+          "// getIconLibrary().",
+          ...moduleScopeRegistrations,
+        ].join("\n")
         : "";
 
     const importsBlock = [

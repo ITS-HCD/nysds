@@ -7793,8 +7793,33 @@
           "summary": "Agency header with navigation, mobile menu, and active link highlighting.",
           "examples": [
             {
-              "title": "Basic header",
-              "code": "<nys-globalheader appName=\"My App\" agencyName=\"Department of Health\" homepageLink=\"/\">\n<ul><li><a href=\"/about\">About</a></li><li><a href=\"/contact\">Contact</a></li></ul>\n</nys-globalheader>",
+              "title": "Basic",
+              "code": "<nys-globalheader appName=\"User Registration Form\" agencyName=\"Office of Information Technology Services\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Only Agency Name",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Only App Name",
+              "code": "<nys-globalheader appName=\"User Registration Form\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "With Links",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov/services\">Services</a></li>\n<li><a href=\"https://its.ny.gov/get-help\">Help Center</a></li>\n<li><a href=\"https://its.ny.gov/cybersecurity\">Cybersecurity</a></li>\n<li><a href=\"https://its.ny.gov/policies\">Policies and Laws</a></li>\n<li><a href=\"https://its.ny.gov/procurement\">Procurement</a></li>\n<li><a href=\"https://its.ny.gov/about-us\">About Us</a></li>\n</ul>\n</nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "User Actions",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
+              "lang": "html"
+            },
+            {
+              "title": "With NYS Logo",
+              "code": "<nys-globalheader nysLogo appName=\"Admin Dashboard\"></nys-globalheader>",
               "lang": "html"
             }
           ]
