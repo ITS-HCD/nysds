@@ -82,9 +82,12 @@ function extractRegisterIconLibraryCalls(code) {
     const scriptBody = match[1].trim();
     if (scriptBody.includes("registerIconLibrary(")) {
       scriptCalls.push(scriptBody);
+      // Only remove <script> blocks that are registerIconLibrary calls — those
+      // are hoisted to module scope. All other <script> blocks (e.g. property
+      // assignments like header.languages = [...]) must stay in the render code
+      // so they execute alongside the HTML they configure.
+      strippedCode = strippedCode.replace(match[0], "").trim();
     }
-    // Remove the entire <script>...</script> block from the render code
-    strippedCode = strippedCode.replace(match[0], "").trim();
   }
 
   return { scriptCalls, strippedCode };
@@ -99,6 +102,17 @@ function buildSourceCode(exampleCode, scriptCalls) {
     return escapeCode(exampleCode.trim());
   }
 
+  // Strip any registerIconLibrary <script> blocks from the source example code
+  // so they don't appear twice alongside the hoisted module-scope snippet.
+  let cleanedCode = exampleCode;
+  const scriptRe = /<script>([\s\S]*?)<\/script>/g;
+  let match;
+  while ((match = scriptRe.exec(exampleCode)) !== null) {
+    if (match[1].includes("registerIconLibrary(")) {
+      cleanedCode = cleanedCode.replace(match[0], "").trim();
+    }
+  }
+
   const jsSnippet = [
     "// Register the icon library before using <nys-icon>",
     `import { registerIconLibrary } from '@nysds/nys-icon';`,
@@ -106,7 +120,7 @@ function buildSourceCode(exampleCode, scriptCalls) {
     ...scriptCalls,
   ].join("\n");
 
-  return escapeCode([jsSnippet, "", exampleCode.trim()].join("\n"));
+  return escapeCode([jsSnippet, "", cleanedCode.trim()].join("\n"));
 }
 
 function buildStaticStory(example, nameOverride) {
@@ -180,6 +194,15 @@ async function main() {
     }
   }
 
+  // Map each tag to its owning package name (the directory two levels up from
+  // the source file). Sub-components like nys-dropdownmenuitem live inside the
+  // nys-dropdownmenu package, so this resolves to "nys-dropdownmenu" for both.
+  const tagToPackage = {};
+  for (const [tag, modPath] of Object.entries(tagToModule)) {
+    const packageDir = path.dirname(path.dirname(modPath));
+    tagToPackage[tag] = path.basename(packageDir);
+  }
+
   // Group declarations by module path to maintain bundling
   const modulesByPath = {};
   for (const mod of cem.modules) {
@@ -247,14 +270,11 @@ async function main() {
     const title = inferTitle(componentName);
 
     const usedTags = new Set();
-    allExamples.forEach(({ code, renderCode }) => {
+    allExamples.forEach(({ renderCode }) => {
+      if (!renderCode) return;
       const tagRe = /<(nys-[\w-]+)/g;
       let m;
-      while ((m = tagRe.exec(code)) !== null) usedTags.add(m[1]);
-      if (renderCode) {
-        tagRe.lastIndex = 0;
-        while ((m = tagRe.exec(renderCode)) !== null) usedTags.add(m[1]);
-      }
+      while ((m = tagRe.exec(renderCode)) !== null) usedTags.add(m[1]);
     });
 
     // Also scan source files for internal usage of common components
@@ -270,16 +290,6 @@ async function main() {
       if (content.includes("<nys-textinput")) usedTags.add("nys-textinput");
     }
 
-    // Before building siblingImports, derive a tagToPackage map from CEM module paths.
-    // e.g. "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
-    //   → package is "nys-dropdownmenu", not "nys-dropdownmenuitem"
-    const tagToPackage = {};
-    for (const [tag, modPath] of Object.entries(tagToModule)) {
-      // modPath looks like "packages/nys-foo/src/nys-bar.ts"
-      const packageDir = path.dirname(path.dirname(modPath)); // → "packages/nys-foo"
-      tagToPackage[tag] = path.basename(packageDir);          // → "nys-foo"
-    }
-
     const siblingImports = [...usedTags]
       .filter((t) => t !== componentName)
       .map((t) => {
@@ -288,14 +298,12 @@ async function main() {
           if (path.dirname(modPath) === dir) {
             return `import "./${t}";`;
           }
-          // Use the owning package, not the tag name — handles sub-components
           const pkg = tagToPackage[t] ?? t;
           return `import "@nysds/${pkg}";`;
         }
         return `import "@nysds/${t}";`;
       })
-      // Deduplicate — multiple tags may belong to the same package
-      .filter((imp, i, arr) => arr.indexOf(imp) === i)
+      .filter((imp, i, arr) => arr.indexOf(imp) === i)  // dedupe same-package tags
       .join("\n");
 
     // Detect if any render code uses registerIconLibrary — if so, hoist the
