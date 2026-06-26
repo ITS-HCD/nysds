@@ -56,11 +56,43 @@ let componentIdCounter = 0;
  * </div>
  * ```
  *
+
+ * @example Subheading
+ * ```html
+ * <nys-modal
+ *   id="modal-subheading"
+ *   heading="Before you continue"
+ *   subheading="Your progress has been saved automatically."
+ * >
+ *   <p>You can safely leave this page and return later to pick up where you left off.</p>
+ * </nys-modal>
+ * ```
+ *
+ * @render Subheading
+ * ```html
+ * <div id="modal-wrapper-subheading">
+ *   <nys-button label="Open Modal" onclick="document.querySelector('.modal-subheading').open = true; document.getElementById('modal-wrapper-subheading').style.padding = '100px 0'"></nys-button>
+ *   <nys-modal
+ *     class="modal-subheading"
+ *     id="modal-subheading"
+ *     heading="Before you continue"
+ *     subheading="Your progress has been saved automatically."
+ *   >
+ *     <p>You can safely leave this page and return later to pick up where you left off.</p>
+ *   </nys-modal>
+ * </div>
+ * ```
+ *
  * @example Actions Slot
  * ```html
  * <nys-modal id="modal3" heading="Update password?">
- *   <nys-textinput label="Username" name="username" type="text" width="full"></nys-textinput>
- *   <nys-textinput label="Password" name="password" type="password" width="full"></nys-textinput>
+ *   <p>
+ *     Would you like to install the latest version? Albany ipsum dolor sit
+ *     Empire, Hudson consectetur Adirondack elit, sed do MetroCard tempor
+ *     incididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie
+ *     veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea
+ *     Cuomo consequat.
+ *   </p>
  *   <div slot="actions">
  *     <nys-button label="Not now" variant="outline"></nys-button>
  *     <nys-button label="Update"></nys-button>
@@ -77,8 +109,13 @@ let componentIdCounter = 0;
  *     id="modal3"
  *     heading="Update password?"
  *   >
- *     <nys-textinput label="Username" name="username" type="text" width="full"></nys-textinput>
- *     <nys-textinput label="Password" name="password" type="password" width="full"></nys-textinput>
+ *   <p>
+ *     Would you like to install the latest version? Albany ipsum dolor sit
+ *     Empire, Hudson consectetur Adirondack elit, sed do MetroCard tempor
+ *     incididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie
+ *     veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea
+ *     Cuomo consequat.
+ *   </p>
  *     <div slot="actions">
  *       <nys-button label="Not now" variant="outline" onclick="document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'"></nys-button>
  *       <nys-button label="Update" onclick="alert('Mock Alert: Changes saved!'); document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'"></nys-button>
