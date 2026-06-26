@@ -7924,14 +7924,7 @@
               }
             }
           ],
-          "description": "Register or replace a named icon library. All watching icons using this library will redraw.",
-          "examples": [
-            {
-              "title": "Register a Font Awesome library with a custom resolver:",
-              "code": "registerIconLibrary(\"fa\", {\nresolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});",
-              "lang": "ts"
-            }
-          ]
+          "description": "Register or replace a named icon library. All watching icons using this library will redraw.\nRegister a Font Awesome library with a custom resolver:\n```ts\nregisterIconLibrary(\"fa\", {\n resolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});\n```"
         },
         {
           "kind": "function",
@@ -8321,19 +8314,51 @@
           "summary": "SVG icon with swappable library support, size, rotation, and color options.",
           "examples": [
             {
-              "title": "Basic icon (default NYSDS library)",
-              "code": "<nys-icon name=\"check_circle\" size=\"lg\"></nys-icon>",
+              "title": "Basic",
+              "code": "<nys-icon name=\"check_circle\"></nys-icon>",
               "lang": "html"
             },
             {
-              "title": "Font Awesome icon",
-              "code": "<nys-icon name=\"house\" library=\"fa\" size=\"lg\"></nys-icon>",
+              "title": "ARIA Label",
+              "code": "<nys-icon\nname=\"edit_square\"\nariaLabel=\"Edit content\"\n></nys-icon>",
               "lang": "html"
             },
             {
-              "title": "Accessible icon with label",
-              "code": "<nys-icon name=\"warning\" ariaLabel=\"Warning\" color=\"var(--nys-color-warning)\"></nys-icon>",
+              "title": "Size relative",
+              "code": "<nys-icon\nname=\"edit_square\"\nsize=\"4xl\"\n></nys-icon>",
               "lang": "html"
+            },
+            {
+              "title": "Size literal",
+              "code": "<nys-icon\nname=\"edit_square\"\nsize=\"24\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Color",
+              "code": "<nys-icon\nname=\"edit_square\"\ncolor=\"#db117d\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Rotate",
+              "code": "<nys-icon\nname=\"edit_square\"\nrotate=\"20\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Flip",
+              "code": "<nys-icon\nname=\"edit_square\"\nflip=\"vertical\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "External Library - Font Awesome",
+              "code": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>",
+              "lang": "html",
+              "render": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>\n<script>\nregisterIconLibrary(\"fa\", {\nresolver: (name) =>\n`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
+            },
+            {
+              "title": "External Library - Material",
+              "code": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>",
+              "lang": "html",
+              "render": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>\n<script>\nregisterIconLibrary(\"material\", {\nresolver: (name) =>\n`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             }
           ]
         }

@@ -66,9 +66,56 @@ function isHtml(code) {
   return code.trim().startsWith("<");
 }
 
+/**
+ * Extracts all registerIconLibrary(...) call blocks from a render code string.
+ * Returns { scriptCalls: string[], strippedCode: string }
+ * where scriptCalls are the raw JS call strings and strippedCode has the
+ * <script>...</script> block removed.
+ */
+function extractRegisterIconLibraryCalls(code) {
+  const scriptRe = /<script>([\s\S]*?)<\/script>/g;
+  const scriptCalls = [];
+  let strippedCode = code;
+
+  let match;
+  while ((match = scriptRe.exec(code)) !== null) {
+    const scriptBody = match[1].trim();
+    if (scriptBody.includes("registerIconLibrary(")) {
+      scriptCalls.push(scriptBody);
+    }
+    // Remove the entire <script>...</script> block from the render code
+    strippedCode = strippedCode.replace(match[0], "").trim();
+  }
+
+  return { scriptCalls, strippedCode };
+}
+
+/**
+ * Builds a source.code string that prepends a JS registration snippet
+ * (matching the manual file style) before the HTML, when applicable.
+ */
+function buildSourceCode(exampleCode, scriptCalls) {
+  if (!scriptCalls || scriptCalls.length === 0) {
+    return escapeCode(exampleCode.trim());
+  }
+
+  const jsSnippet = [
+    "// Register the icon library before using <nys-icon>",
+    `import { registerIconLibrary } from '@nysds/nys-icon';`,
+    "",
+    ...scriptCalls,
+  ].join("\n");
+
+  return escapeCode([jsSnippet, "", exampleCode.trim()].join("\n"));
+}
+
 function buildStaticStory(example, nameOverride) {
   const storyName = nameOverride || toStoryName(example.title);
-  const code = example.renderCode;
+  const rawRenderCode = example.renderCode;
+
+  // Extract any registerIconLibrary calls from <script> blocks in the render code
+  const { scriptCalls, strippedCode } = extractRegisterIconLibraryCalls(rawRenderCode);
+  const code = strippedCode;
 
   // Heuristic: check if it contains JS imperative code
   const isImperative = !code.trim().startsWith("<") && (
@@ -100,13 +147,15 @@ ${indent(escapeCode(code), 6)}
   }`;
   }
 
+  const sourceCode = buildSourceCode(example.code, scriptCalls);
+
   return `export const ${storyName}: Story = {
   render: ${renderTemplate},
   parameters: {
     docs: {
       source: {
         code: \`
-${escapeCode(example.code.trim())}\`,
+${sourceCode}\`,
         type: "auto",
       },
     },
@@ -238,11 +287,48 @@ async function main() {
       })
       .join("\n");
 
+    // Detect if any render code uses registerIconLibrary — if so, hoist the
+    // import and all unique registration calls to module scope. This is
+    // necessary because registering inside render() is too late: the element's
+    // connectedCallback fires before the render body executes on first visit.
+    const moduleScopeRegistrations = [];
+    let needsIconLibraryImport = false;
+
+    for (const example of allExamples) {
+      if (example.renderCode && example.renderCode.includes("registerIconLibrary(")) {
+        needsIconLibraryImport = true;
+        const { scriptCalls } = extractRegisterIconLibraryCalls(example.renderCode);
+        for (const call of scriptCalls) {
+          if (!moduleScopeRegistrations.includes(call)) {
+            moduleScopeRegistrations.push(call);
+          }
+        }
+      }
+    }
+
+    const iconLibraryImport = needsIconLibraryImport
+      ? `import { registerIconLibrary } from "./icon-library-registry";`
+      : "";
+
+    const moduleScopeBlock =
+      moduleScopeRegistrations.length > 0
+        ? [
+            "",
+            "// Register external icon libraries at module scope so they are available",
+            "// before any <nys-icon> elements connect. Registering inside render() is",
+            "// too late on the first visit because the elements' connectedCallback and",
+            "// _loadIcon fire before the render body executes, returning null from",
+            "// getIconLibrary().",
+            ...moduleScopeRegistrations,
+          ].join("\n")
+        : "";
+
     const importsBlock = [
       `import { html } from "lit";`,
       `import { Meta, StoryObj } from "@storybook/web-components-vite";`,
       `import "./${componentName}";`,
       siblingImports,
+      iconLibraryImport,
     ]
       .filter(Boolean)
       .join("\n");
@@ -271,7 +357,15 @@ type Story = StoryObj;`;
       return buildStaticStory(example, name);
     });
 
-    const output = [importsBlock, "", metaBlock, "", storyBlocks.join("\n\n"), ""].join("\n");
+    const output = [
+      importsBlock,
+      moduleScopeBlock,
+      "",
+      metaBlock,
+      "",
+      storyBlocks.join("\n\n"),
+      "",
+    ].join("\n");
 
     const outputPath = path.join(dir, `${componentName}.stories.ts`);
 

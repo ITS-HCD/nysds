@@ -107,7 +107,7 @@ if (!registry.has("default")) {
 }
 
 /** Register or replace a named icon library. All watching icons using this library will redraw.
- * @example Register a Font Awesome library with a custom resolver:
+ * Register a Font Awesome library with a custom resolver:
  * ```ts
  * registerIconLibrary("fa", {
  *   resolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`

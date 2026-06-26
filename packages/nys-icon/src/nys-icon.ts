@@ -23,19 +23,96 @@ import styles from "./nys-icon.scss?inline";
  * @summary SVG icon with swappable library support, size, rotation, and color options.
  * @element nys-icon
  *
- * @example Basic icon (default NYSDS library)
+ * @example Basic
  * ```html
- * <nys-icon name="check_circle" size="lg"></nys-icon>
+ * <nys-icon name="check_circle"></nys-icon>
  * ```
  *
- * @example Font Awesome icon
+ * @example ARIA Label
  * ```html
- * <nys-icon name="house" library="fa" size="lg"></nys-icon>
+ * <nys-icon
+ *   name="edit_square"
+ *   ariaLabel="Edit content"
+ * ></nys-icon>
  * ```
  *
- * @example Accessible icon with label
+ * @example Size relative
  * ```html
- * <nys-icon name="warning" ariaLabel="Warning" color="var(--nys-color-warning)"></nys-icon>
+ * <nys-icon
+ *   name="edit_square"
+ *   size="4xl"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Size literal
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   size="24"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Color
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   color="#db117d"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Rotate
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   rotate="20"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Flip
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   flip="vertical"
+ * ></nys-icon>
+ * ```
+ *
+ * @example External Library - Font Awesome
+ * ```html
+ * <nys-icon name="heart" library="fa"></nys-icon>
+ * ```
+ *
+ * @render External Library - Font Awesome
+ * ```html
+ * <nys-icon name="heart" library="fa"></nys-icon>
+ * <script>
+ * registerIconLibrary("fa", {
+ *   resolver: (name) =>
+ *     `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
+ *   mutator: (svg) => {
+ *     svg.setAttribute("fill", "currentColor");
+ *   },
+ * });
+ * </script>
+ * ```
+ *
+ *  @example External Library - Material
+ * ```html
+ * <nys-icon name="favorite" library="material"></nys-icon>
+ * ```
+ *
+ *
+ *  @render External Library - Material
+ * ```html
+ * <nys-icon name="favorite" library="material"></nys-icon>
+ * <script>
+ * registerIconLibrary("material", {
+ *   resolver: (name) =>
+ *     `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
+ *   mutator: (svg) => {
+ *     svg.setAttribute("fill", "currentColor");
+ *   },
+ * });
+ * </script>
  * ```
  */
 export class NysIcon extends LitElement implements NysIconWatcher {
