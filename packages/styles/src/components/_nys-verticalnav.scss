@@ -133,7 +133,7 @@ nys-verticalnavgroup {
   }
 }
 
-@media (max-width: 1023px) {
+@media (width <= 1023px) {
   nys-verticalnav ul > li:not(:last-child) {
     border-bottom: var(--nys-size-1px, 1px) solid
       var(--nys-color-neutral-100, #e4e5e6);
