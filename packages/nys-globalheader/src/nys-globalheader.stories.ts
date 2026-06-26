@@ -42,6 +42,29 @@ export const Basic: Story = {
   },
 };
 
+export const HomepageLink: Story = {
+  render: () => {
+    return html`
+      <nys-globalheader
+        agencyName="Office of Information Technology Services"
+        homepageLink="https://its.ny.gov"
+      ></nys-globalheader>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader
+  agencyName="Office of Information Technology Services"
+  homepageLink="https://its.ny.gov"
+></nys-globalheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const OnlyAgencyName: Story = {
   render: () => {
     return html`

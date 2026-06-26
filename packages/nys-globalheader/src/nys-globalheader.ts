@@ -21,6 +21,14 @@ import styles from "./nys-globalheader.scss?inline";
  * <nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services"></nys-globalheader>
  * ```
  *
+ * @example Homepage Link
+ * ```html
+ * <nys-globalheader
+ *   agencyName="Office of Information Technology Services"
+ *   homepageLink="https://its.ny.gov"
+ * ></nys-globalheader>
+ * ```
+ *
  * @example Only Agency Name
  * ```html
  * <nys-globalheader agencyName="Office of Information Technology Services"></nys-globalheader>

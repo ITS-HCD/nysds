@@ -7558,8 +7558,28 @@
           "summary": "Agency footer with auto-layout for contact info and link sections.",
           "examples": [
             {
-              "title": "Simple footer",
-              "code": "<nys-globalfooter\nagencyName=\"Department of Health\"\nhomepageLink=\"/\"\nagencySubheading=\"Protecting and Promoting the Health of New Yorkers\"\n>\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>",
+              "title": "Basic",
+              "code": "<nys-globalfooter agencyName=\"Office of Information Technology Services\"></nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Homepage Link",
+              "code": "<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nhomepageLink=\"https://its.ny.gov\"\n></nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Menu Links",
+              "code": "<nys-globalfooter agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov\">ITS Home</a></li>\n<li><a href=\"https://its.ny.gov/about-us\">About ITS</a></li>\n</ul>\n</nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Column Links",
+              "code": "<nys-globalfooter agencyName=\"Office of Information Technology Services\">\n<ul>\n<li>\n<span>About</span>\n<ul>\n<li><a href=\"https://its.ny.gov/about-us\">About ITS</a></li>\n<li><a href=\"https://its.ny.gov/contact-us\">Contact</a></li>\n<li><a href=\"https://its.ny.gov/policies\">Policies</a></li>\n</ul>\n</li>\n<li>\n<span>Resources</span>\n<ul>\n<li><a href=\"https://its.ny.gov/resources\">Developer Tools</a></li>\n<li><a href=\"https://its.ny.gov/accessibility\">Accessibility</a></li>\n<li><a href=\"https://its.ny.gov/privacy\">Privacy</a></li>\n</ul>\n</li>\n</ul>\n</nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Subheading",
+              "code": "<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nagencySubheading=\"Innovating Technology for a Better New York\"\n></nys-globalfooter>",
               "lang": "html"
             }
           ]
@@ -7795,6 +7815,11 @@
             {
               "title": "Basic",
               "code": "<nys-globalheader appName=\"User Registration Form\" agencyName=\"Office of Information Technology Services\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Homepage Link",
+              "code": "<nys-globalheader\nagencyName=\"Office of Information Technology Services\"\nhomepageLink=\"https://its.ny.gov\"\n></nys-globalheader>",
               "lang": "html"
             },
             {
