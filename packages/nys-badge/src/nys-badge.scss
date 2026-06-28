@@ -8,6 +8,10 @@
   --_nys-badge-padding: var(--nys-space-2-px, 2px) var(--nys-space-100, 8px);
   --_nys-badge-gap: var(--nys-space-50, 4px);
   --_nys-badge-color: var(--nys-color-ink, #000000);
+  /* Foreground (text + icon) when the intent fill is painted (strong variant).
+     Keyed to the fill via the --<intent>-on companion: light on dark fills,
+     always-dark on the light warning fill — correct in both light and dark. */
+  --_nys-badge-color-on: var(--nys-color-text-reverse, #ffffff);
   --_nys-badge-background-color: var(--nys-color-base-weak, #f6f6f6);
   --_nys-badge-border-color: var(--nys-color-base, #62666a);
   --_nys-badge-border-width: var(--nys-border-width-sm, 1px);
@@ -42,30 +46,34 @@
 :host([intent="neutral"]) {
   --_nys-badge-background-color: var(--nys-color-base-weak, #f6f6f6);
   --_nys-badge-border-color: var(--nys-color-base, #62666a);
+  --_nys-badge-color-on: var(--nys-color-text-reverse, #ffffff);
 }
 
 :host([intent="error"]) {
   --_nys-badge-background-color: var(--nys-color-error-weak, #f7eaea);
   --_nys-badge-border-color: var(--nys-color-error-strong, #721c1c);
+  --_nys-badge-color-on: var(--nys-color-danger-on, #ffffff);
 }
 
 :host([intent="success"]) {
   --_nys-badge-background-color: var(--nys-color-success-weak, #e8f1ea);
   --_nys-badge-border-color: var(--nys-color-success-strong, #0f3d18);
+  --_nys-badge-color-on: var(--nys-color-success-on, #ffffff);
 }
 
 :host([intent="warning"]) {
   --_nys-badge-background-color: var(--nys-color-warning-weak, #fefae5);
   --_nys-badge-border-color: var(--nys-color-warning-strong, #6a5700);
+  --_nys-badge-color-on: var(--nys-color-warning-on, #000000);
 }
 
 /* Variant */
 :host([variant="strong"]) {
   --_nys-badge-background-color: var(--_nys-badge-border-color);
-  --_nys-badge-color: var(--nys-color-white, #ffffff);
+  --_nys-badge-color: var(--_nys-badge-color-on);
 
   .nys-badge {
-    --nys-icon-color: var(--nys-color-white, #ffffff);
+    --nys-icon-color: var(--_nys-badge-color-on);
   }
 }
 
@@ -74,12 +82,10 @@
 }
 
 :host([variant="strong"][intent="warning"]) {
+  /* Fill switches to the light main warning; the always-dark foreground comes
+     from --_nys-badge-color-on (= --nys-color-warning-on), so the previous
+     per-component dark-ink carve-out is no longer needed. */
   --_nys-badge-border-color: var(--nys-color-warning, #face00);
-  --_nys-badge-color: var(--nys-color-ink, #000000);
-
-  .nys-badge {
-    --nys-icon-color: var(--nys-color-ink, #000000);
-  }
 }
 
 .nys-badge {

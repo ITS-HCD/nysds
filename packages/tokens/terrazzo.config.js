@@ -44,6 +44,16 @@ export default defineConfig({
         { mode: "local", selectors: ['[data-theme="local"]', ".nys-theme-local"] },
         { mode: "safety", selectors: ['[data-theme="safety"]', ".nys-theme-safety"] },
         { mode: "transportation", selectors: ['[data-theme="transportation"]', ".nys-theme-transportation"] },
+        // Dark mode (appearance axis) — re-points the applied set under [data-mode="dark"].
+        { mode: "dark", selectors: ['[data-mode="dark"]'] },
+        // Dark × agency theme — each agency's theme-* ramp in dark, composing the two axes.
+        { mode: "admin-dark", selectors: ['[data-mode="dark"][data-theme="admin"]'] },
+        { mode: "business-dark", selectors: ['[data-mode="dark"][data-theme="business"]'] },
+        { mode: "environment-dark", selectors: ['[data-mode="dark"][data-theme="environment"]'] },
+        { mode: "health-dark", selectors: ['[data-mode="dark"][data-theme="health"]'] },
+        { mode: "local-dark", selectors: ['[data-mode="dark"][data-theme="local"]'] },
+        { mode: "safety-dark", selectors: ['[data-mode="dark"][data-theme="safety"]'] },
+        { mode: "transportation-dark", selectors: ['[data-mode="dark"][data-theme="transportation"]'] },
       ],
     }),
     // Per-theme files — only the CSS vars that change for that theme
