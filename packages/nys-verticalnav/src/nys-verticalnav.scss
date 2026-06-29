@@ -57,6 +57,8 @@ nys-accordion {
   line-height: var(--_nys-verticalnav-line-height);
   padding: 0;
   width: auto;
+  height: 100%;
+  box-sizing: border-box;
 
   @media (width >= 1024px) {
     padding: var(--nys-space-300, 24px) 0 var(--nys-space-300, 24px)
