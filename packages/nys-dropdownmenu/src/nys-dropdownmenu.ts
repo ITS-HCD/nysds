@@ -6,32 +6,6 @@ import styles from "./nys-dropdownmenu.scss?inline";
 
 let dropdownMenuIdCounter = 0;
 
-/**
- * Dropdown menus enable users to select an action from a list of options.
- * They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.
- *
- * @summary Action menu with auto-positioning, keyboard support, and screen reader integration.
- * @element nys-dropdownmenu
- *
- * @example Basic dropdown
- * ```html
- * <button id="my-trigger">Actions</button>
- * <nys-dropdownmenu for="my-trigger">
- *   <nys-dropdownmenuitem label="Edit" link="/edit"></nys-dropdownmenuitem>
- *   <nys-dropdownmenuitem label="Delete" link="/delete"></nys-dropdownmenuitem>
- * </nys-dropdownmenu>
- * ```
- *
- * @example Positioned dropdown
- * ```html
- * <button id="settings-btn">Settings</button>
- * <nys-dropdownmenu for="settings-btn" position="top-start">
- *   <nys-dropdownmenuitem label="Profile" link="/profile"></nys-dropdownmenuitem>
- *   <nys-dropdownmenuitem label="Logout" link="/logout"></nys-dropdownmenuitem>
- * </nys-dropdownmenu>
- * ```
- */
-
 type Position = "bottom-start" | "bottom-end" | "top-start" | "top-end";
 
 interface PositionCoordinates {
@@ -45,6 +19,41 @@ interface SpaceAvailable {
   start: number;
   end: number;
 }
+
+/**
+ * Dropdown menus enable users to select an action from a list of options.
+ * They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.
+ *
+ * @summary Action menu with auto-positioning, keyboard support, and screen reader integration.
+ * @element nys-dropdownmenu
+ *
+ * @example Basic
+ * ```html
+ * <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
+ * <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+ *   <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Organizations" href="/organizations"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
+ * </nys-dropdownmenu>
+ * </div>
+ * ```
+ *
+ * @render Basic
+ * ```html
+ * <div style="margin: 200px; display: flex; justify-content: center; align-items: center;">
+ *   <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
+ *   <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+ *     <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Organizations" href="/organizations"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
+ *   </nys-dropdownmenu>
+ * </div>
+ * ```
+ *
+ * 
+ */
 
 export class NysDropdownMenu extends LitElement {
   static styles = unsafeCSS(styles);

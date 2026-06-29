@@ -158,13 +158,18 @@
           "summary": "Container for accordion items with optional single-select and bordered styling.",
           "examples": [
             {
-              "title": "Basic accordion",
-              "code": "<nys-accordion>\n<nys-accordionitem heading=\"Section 1\">Content for section 1</nys-accordionitem>\n<nys-accordionitem heading=\"Section 2\">Content for section 2</nys-accordionitem>\n</nys-accordion>",
+              "title": "Basic",
+              "code": "<nys-accordion>\n<nys-accordionitem id=\"accordionId1\" heading=\"How do I renew my passport or apply for a new one?\">\n<p>\nYou can apply for or renew a U.S. passport through the U.S. Department\nof State. Some renewals can be done by mail.\n</p>\n<div style=\"display: flex; gap: 0.5rem; font-size: 1rem;\">\n<a href=\"https://www.ny.gov\" target=\"_blank\">Check your registration</a>\n<a href=\"https://www.ny.gov\" target=\"_blank\">Fill out application</a>\n</div>\n</nys-accordionitem>\n<nys-accordionitem id=\"accordionId2\" heading=\"How can I find out if I’m registered to vote?\">\n<p>You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             },
             {
-              "title": "Single-select accordion",
-              "code": "<nys-accordion singleSelect bordered>\n<nys-accordionitem heading=\"FAQ 1\" expanded>Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
+              "title": "Single Select",
+              "code": "<nys-accordion singleSelect>\n<nys-accordionitem heading=\"FAQ 1\">Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
+            },
+            {
+              "title": "Bordered",
+              "code": "<nys-accordion bordered>\n<nys-accordionitem heading=\"We are a group of accordions\">\n<p>Stronger together! Learn more at\n<a href=\"https://www.ny.gov\" target=\"_blank\">ny.gov</a>\n</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Liberty Ipsum: Bridges & Boroughs\">\n<p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Hudson Ipsum: Riverfront Stories\">\n<p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
@@ -351,7 +356,7 @@
           "examples": [
             {
               "title": "Expanded item",
-              "code": "<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>",
+              "code": "<nys-accordion>\n<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"What documents do I need?\">\n<p>You will need a valid ID and proof of residency.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
@@ -724,13 +729,64 @@
           "summary": "Alert for contextual feedback with semantic types and live region support.",
           "examples": [
             {
-              "title": "Info alert",
-              "code": "<nys-alert type=\"info\" heading=\"Update available\" text=\"A new version is ready to install.\"></nys-alert>",
+              "title": "Basic",
+              "code": "<nys-alert heading=\"This is a heading\"></nys-alert>",
               "lang": "html"
             },
             {
-              "title": "Dismissible success alert",
-              "code": "<nys-alert type=\"success\" heading=\"Application submitted\" dismissible></nys-alert>",
+              "title": "Text",
+              "code": "<nys-alert\nheading=\"This is a heading\"\ntext=\"This is additional information passed in through the text property\"\n></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Rich Text",
+              "code": "<nys-alert heading=\"Rich Text\">\n<p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>\n<a href=\"https://www.ny.gov/\" target=\"_blank\">Learn more about our accessibility services</a>\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Info Type",
+              "code": "<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Success Type",
+              "code": "<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Warning Type",
+              "code": "<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Danger Type",
+              "code": "<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Emergency Type",
+              "code": "<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Dismissible",
+              "code": "<nys-alert heading=\"This alert is dismisable\" text=\"Close it by clicking on the X in the corner.\" dismissible>\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Duration",
+              "code": "<nys-alert heading=\"Disappearing alert\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
+              "lang": "html",
+              "render": "<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>"
+            },
+            {
+              "title": "Custom Icon",
+              "code": "<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Action Links",
+              "code": "<nys-alert\nheading=\"Alert with links\"\nprimaryLabel=\"{primaryAction}\"\nsecondaryLabel=\"{secondaryAction}\"\nprimaryAction=\"https://www.ny.gov/\"\nsecondaryAction=\"https://www.ny.gov/\"\n></nys-alert>",
               "lang": "html"
             }
           ]
@@ -1026,13 +1082,44 @@
           "summary": "User avatar with image, initials, or icon fallback and contrast-aware colors.",
           "examples": [
             {
-              "title": "Image avatar",
-              "code": "<nys-avatar image=\"/path/to/photo.jpg\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "title": "Basic",
+              "code": "<nys-avatar ariaLabel=\"User avatar\"></nys-avatar>",
               "lang": "html"
             },
             {
-              "title": "Initials avatar with custom color",
-              "code": "<nys-avatar initials=\"JS\" color=\"var(--nys-color-theme)\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "title": "Image",
+              "code": "<nys-avatar\nimage=\"path/to/img.png\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>",
+              "lang": "html",
+              "render": "<nys-avatar\nimage=\"https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>"
+            },
+            {
+              "title": "Initials",
+              "code": "<nys-avatar initials=\"JS\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Icon",
+              "code": "<nys-avatar icon=\"account_circle\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Interactive",
+              "code": "<nys-avatar interactive></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-avatar disabled></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Background Color",
+              "code": "<nys-avatar color=\"var(--nys-color-red-500)\" interactive></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Lazy Loading",
+              "code": "<nys-avatar lazy></nys-avatar>",
               "lang": "html"
             }
           ]
@@ -1182,14 +1269,16 @@
           "summary": "Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.",
           "examples": [
             {
-              "title": "Auto-appearing button in footer",
+              "title": "Basic",
               "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible .position=${args.position}></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             },
             {
-              "title": "Always visible, left position",
-              "code": "<nys-backtotop visible position=\"left\"></nys-backtotop>",
-              "lang": "html"
+              "title": "Left",
+              "code": "<footer>\n<nys-backtotop position=\"left\"></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             }
           ]
         }
@@ -1494,13 +1583,63 @@
           "summary": "Compact label for status, counts, or categorization with semantic styling.",
           "examples": [
             {
-              "title": "Status badge",
-              "code": "<nys-badge intent=\"success\" label=\"Approved\" prefixIcon></nys-badge>",
+              "title": "Basic",
+              "code": "<nys-badge label=\"Basic badge\"></nys-badge>",
               "lang": "html"
             },
             {
-              "title": "Count badge",
-              "code": "<nys-badge prefixLabel=\"Messages\" label=\"12\"></nys-badge>",
+              "title": "Error Intent",
+              "code": "<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Warning Intent",
+              "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Success Intent",
+              "code": "<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Neutral",
+              "code": "<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Error",
+              "code": "<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Warning",
+              "code": "<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Success",
+              "code": "<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Prefix Icon",
+              "code": "<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Suffix Icon",
+              "code": "<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Small",
+              "code": "<nys-badge label=\"Small\" size=\"sm\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Screen reader text",
+              "code": "<nys-badge intent=\"warning\" label=\"Caution\" prefixIcon srText=\"concern\"></nys-badge>",
               "lang": "html"
             }
           ]
@@ -1546,11 +1685,11 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.",
+          "description": "A breadcrumb navigation trail composed of `li` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.",
           "name": "NysBreadcrumbs",
           "slots": [
             {
-              "description": "One or more `nys-breadcrumbitem` elements defining the trail.",
+              "description": "One or more `li` elements defining the trail.",
               "name": ""
             }
           ],
@@ -1580,7 +1719,7 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "\"sm\" | \"md\" | \"\""
+                "text": "\"sm\" | \"md\""
               },
               "default": "\"md\"",
               "description": "Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.",
@@ -1803,7 +1942,7 @@
             {
               "name": "size",
               "type": {
-                "text": "\"sm\" | \"md\" | \"\""
+                "text": "\"sm\" | \"md\""
               },
               "default": "\"md\"",
               "description": "Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.",
@@ -1860,18 +1999,43 @@
           "summary": "Breadcrumb navigation trail with responsive collapse support.",
           "examples": [
             {
-              "title": "Full trail with current page",
-              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>Current Page</li>\n</ol>\n</nys-breadcrumbs>",
-              "lang": "html"
-            },
-            {
-              "title": "Trail without current page",
+              "title": "Basic",
               "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             },
             {
-              "title": "Single item renders as back-to-parent",
+              "title": "Current page",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>Current Page</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Single item list",
               "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Long list",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/government\">Government</a></li>\n<li><a href=\"/government/agencies\">Agencies</a></li>\n<li><a href=\"/government/agencies/parks\">Parks & Recreation</a></li>\n<li><a href=\"/parks/state-parks\">State Parks</a></li>\n<li><a href=\"/parks/state-parks/delaware\">Delaware Region</a></li>\n<li><a href=\"/parks/state-parks/delaware/water-gap\">Delaware Water Gap</a></li>\n<li>Trail Conditions</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Size small",
+              "code": "<nys-breadcrumbs size=\"sm\">\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/government\">Government</a></li>\n<li><a href=\"/government/agencies\">Agencies</a></li>\n<li>Parks & Recreation</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Back to parent (mobile)",
+              "code": "<nys-breadcrumbs backToParent>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/government\">Government</a></li>\n<li><a href=\"/government/agencies\">Agencies</a></li>\n<li><a href=\"/government/agencies/parks\">Parks & Recreation</a></li>\n<li><a href=\"/parks/state-parks\">State Parks</a></li>\n<li><a href=\"/parks/state-parks/delaware\">Delaware Region</a></li>\n<li><a href=\"/parks/state-parks/delaware/water-gap\">Delaware Water Gap</a></li>\n<li>Trail Conditions</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Background bar",
+              "code": "<nys-breadcrumbs backgroundBar>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li><a href=\"/tickets\">Ticket System</a></li>\n<li>Del Water Gap</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-breadcrumbs disabled>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li><a href=\"/tickets\">Ticket System</a></li>\n<li>Del Water Gap</li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             }
           ]
@@ -2579,18 +2743,38 @@
           "summary": "Button for actions and CTAs with variants, sizes, and icon support.",
           "examples": [
             {
-              "title": "Basic filled button",
-              "code": "<nys-button label=\"Submit\" variant=\"filled\"></nys-button>",
+              "title": "Basic",
+              "code": "<nys-button label=\"Button\" variant=\"filled\"></nys-button>",
               "lang": "html"
             },
             {
-              "title": "Secondary outline button",
-              "code": "<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>",
+              "title": "Variant Outline",
+              "code": "<nys-button label=\"Button\" variant=\"outline\"></nys-button>",
               "lang": "html"
             },
             {
-              "title": "Button with icons",
-              "code": "<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>\n<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>",
+              "title": "Variant Ghost",
+              "code": "<nys-button label=\"Button\" variant=\"ghost\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Variant Text",
+              "code": "<nys-button label=\"Button\" variant=\"text\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Prefix Icon",
+              "code": "<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Suffix Icon",
+              "code": "<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Slotted Icons",
+              "code": "<nys-button label=\"Slotted icons\">\n<nys-icon color=\"#db117d\" slot=\"prefix-icon\" name=\"chevron_left\"></nys-icon>\n<nys-icon color=\"#db117d\" slot=\"suffix-icon\" name=\"chevron_right\"></nys-icon>\n</nys-button>",
               "lang": "html"
             },
             {
@@ -2599,12 +2783,38 @@
               "lang": "html"
             },
             {
-              "title": "Link-style button for navigation",
+              "title": "Size Small",
+              "code": "<nys-button label=\"Small\" size=\"sm\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Large",
+              "code": "<nys-button label=\"Large\" size=\"lg\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Full width",
+              "code": "<nys-button label=\"Full width\" fullWidth></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-button label=\"Inverted\" inverted></nys-button>",
+              "lang": "html",
+              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" inverted></nys-button>\n</div>"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-button label=\"Disabled\" disabled></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Href",
               "code": "<nys-button label=\"Visit NY.gov\" href=\"https://www.ny.gov/\" target=\"_blank\" suffixIcon=\"open_in_new\"></nys-button>",
               "lang": "html"
             },
             {
-              "title": "Form submit button",
+              "title": "Type",
               "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
               "lang": "html"
             }
@@ -3272,13 +3482,13 @@
           "summary": "Checkbox for binary choices or multi-select options.",
           "examples": [
             {
-              "title": "Single checkbox",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" required></nys-checkbox>",
+              "title": "Single",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\"></nys-checkbox>",
               "lang": "html"
             },
             {
-              "title": "Checkbox group",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "title": "Preselected",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" checked></nys-checkbox>",
               "lang": "html"
             }
           ]
@@ -3763,8 +3973,48 @@
           "summary": "Container for grouping checkboxes as a single form control.",
           "examples": [
             {
-              "title": "Basic checkbox group",
+              "title": "Basic",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Tile",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" tile>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\" disabled></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\" disabled></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Small",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" size=\"sm\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Other Option",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"\" label=\"Other\" other></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" showError errorMessage=\"Please select at least one landmark\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<div slot=\"description\">Your <strong>ABSOLUTE</strong> favorite one.</div>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
           ]
@@ -4492,6 +4742,68 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-combobox label=\"Select your favorite fruit\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"cherry\">Cherry</option>\n<option value=\"date\">Date</option>\n<option value=\"elderberry\">Elderberry</option>\n<option value=\"fig\">Fig</option>\n<option value=\"grape\">Grape</option>\n<option value=\"honeydew\">Honeydew</option>\n<option value=\"kiwi\">Kiwi</option>\n<option value=\"lemon\">Lemon</option>\n<option value=\"mango\">Mango</option>\n<option value=\"nectarine\">Nectarine</option>\n<option value=\"orange\">Orange</option>\n<option value=\"papaya\">Papaya</option>\n<option value=\"quince\">Quince</option>\n<option value=\"raspberry\">Raspberry</option>\n<option value=\"strawberry\">Strawberry</option>\n<option value=\"tangerine\">Tangerine</option>\n<option value=\"watermelon\">Watermelon</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Default Value",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" value=\"mango\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"mango\" selected>Mango</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Option Group",
+              "code": "<nys-combobox label=\"Select a fruit\" description=\"Fruits organized by category\">\n<optgroup label=\"Citrus\">\n<option value=\"lemon\">Lemon</option>\n<option value=\"lime\">Lime</option>\n<option value=\"orange\">Orange</option>\n<option value=\"grapefruit\">Grapefruit</option>\n<option value=\"tangerine\">Tangerine</option>\n</optgroup>\n<optgroup label=\"Berries\">\n<option value=\"strawberry\">Strawberry</option>\n<option value=\"blueberry\">Blueberry</option>\n<option value=\"raspberry\">Raspberry</option>\n<option value=\"blackberry\">Blackberry</option>\n<option value=\"cranberry\">Cranberry</option>\n</optgroup>\n<optgroup label=\"Tropical\">\n<option value=\"mango\">Mango</option>\n<option value=\"pineapple\">Pineapple</option>\n<option value=\"papaya\">Papaya</option>\n<option value=\"coconut\">Coconut</option>\n<option value=\"passionfruit\">Passionfruit</option>\n</optgroup>\n<optgroup label=\"Stone Fruits\">\n<option value=\"peach\">Peach</option>\n<option value=\"plum\">Plum</option>\n<option value=\"cherry\">Cherry</option>\n<option value=\"apricot\">Apricot</option>\n<option value=\"nectarine\">Nectarine</option>\n</optgroup>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" disabled>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" required>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" optional>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Medium",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" width=\"md\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Large",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" width=\"lg\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-combobox label=\"Select your favorite fruit\">\n<label slot=\"description\">This is a description slot</label>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" showError errorMessage=\"Please select a fruit\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" inverted>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled Options",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" description=\"Some fruits are out of season\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"cherry\" disabled>Cherry (Out of season)</option>\n<option value=\"mango\">Mango</option>\n<option value=\"strawberry\" disabled>Strawberry (Out of season)</option>\n<option value=\"orange\">Orange</option>\n</nys-combobox>",
+              "lang": "html"
+            }
+          ],
           "tagName": "nys-combobox",
           "customElement": true
         }
@@ -5298,23 +5610,59 @@
           "summary": "Date picker with calendar popup and native fallback.",
           "examples": [
             {
-              "title": "Basic date picker",
-              "code": "<nys-datepicker label=\"Birth Date\" required></nys-datepicker>",
+              "title": "Basic",
+              "code": "<nys-datepicker\nid=\"my-datepicker\"\nname=\"my-datepicker\"\nlabel=\"Schedule an appointment\"\ndescription=\"Enter in MM/DD/YYYY format\"\n></nys-datepicker>",
               "lang": "html"
             },
             {
-              "title": "With width and description",
+              "title": "Width Large",
               "code": "<nys-datepicker\nlabel=\"Event Date\"\ndescription=\"Select the date of your event\"\nwidth=\"lg\">\n</nys-datepicker>",
               "lang": "html"
             },
             {
-              "title": "Hide buttons, set start date",
-              "code": "<nys-datepicker\nlabel=\"Appointment\"\nhideTodayButton\nhideClearButton\nstartDate=\"2024-01-01\">\n</nys-datepicker>",
+              "title": "Width Full",
+              "code": "<nys-datepicker\nlabel=\"Event Date\"\ndescription=\"Select the date of your event\"\nwidth=\"full\">\n</nys-datepicker>",
               "lang": "html"
             },
             {
-              "title": "With validation error message",
-              "code": "<nys-datepicker\nlabel=\"Start Date\"\nrequired\nerrorMessage=\"Please select a valid start date\">\n</nys-datepicker>",
+              "title": "Custom Start Date",
+              "code": "<nys-datepicker\nlabel=\"Appointment\"\nstartDate=\"2024-01-01\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Without Buttons",
+              "code": "<nys-datepicker\nlabel=\"Appointment\"\nhideTodayButton\nhideClearButton>\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\nshowError\nerrorMessage=\"Please select a valid start date\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Date Range",
+              "code": "<nys-datepicker\nlabel=\"Select a date\"\ndescription=\"Only dates within April 4/5/2026 - 7/15/2026 are selectable\"\nminDate=\"2026-04-05\"\nmaxDate=\"2026-07-15\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-datepicker\nlabel=\"Disabled datepicker\"\ndisabled\nvalue=\"2025-01-15\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\ninverted>\n</nys-datepicker>",
+              "lang": "html",
+              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-datepicker\nlabel=\"Start Date\"\ninverted>\n</nys-datepicker>\n</div>"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\nrequired>\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\noptional>\n</nys-datepicker>",
               "lang": "html"
             }
           ]
@@ -5431,8 +5779,19 @@
           "summary": "Horizontal divider for visual separation of content sections.",
           "examples": [
             {
-              "title": "Basic divider",
+              "title": "Basic",
               "code": "<p>Section one content</p>\n<nys-divider></nys-divider>\n<p>Section two content</p>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<p>Section one content</p>\n<nys-divider inverted></nys-divider>\n<p>Section two content</p>",
+              "lang": "html",
+              "render": "<div style=\"display: flex; flex-direction: column; background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);\">\n<p>Section one content</p>\n<nys-divider inverted></nys-divider>\n<p>Section two content</p>\n</div>"
+            },
+            {
+              "title": "Subtle",
+              "code": "<p>Section one content</p>\n<nys-divider subtle></nys-divider>\n<p>Section two content</p>",
               "lang": "html"
             }
           ]
@@ -5486,7 +5845,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Dropdown menus enable users to select an action from a list of options.\nThey’re commonly used to save space by grouping related actions, or to provide actions in a confined space.",
           "name": "NysDropdownMenu",
           "members": [
             {
@@ -5863,7 +6222,16 @@
             "package": "lit"
           },
           "tagName": "nys-dropdownmenu",
-          "customElement": true
+          "customElement": true,
+          "summary": "Action menu with auto-positioning, keyboard support, and screen reader integration.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>",
+              "lang": "html",
+              "render": "<div style=\"margin: 200px; display: flex; justify-content: center; align-items: center;\">\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>"
+            }
+          ]
         }
       ],
       "exports": [
@@ -6042,19 +6410,7 @@
           },
           "tagName": "nys-dropdownmenuitem",
           "customElement": true,
-          "summary": "Dropdown item to display label and provide href link.",
-          "examples": [
-            {
-              "title": "Basic item",
-              "code": "<nys-dropdownmenuitem label=\"Edit\" link=\"/edit\"></nys-dropdownmenuitem>",
-              "lang": "html"
-            },
-            {
-              "title": "Disabled item",
-              "code": "<nys-dropdownmenuitem label=\"Delete\" link=\"/delete\" disabled></nys-dropdownmenuitem>",
-              "lang": "html"
-            }
-          ]
+          "summary": "Dropdown item to display label and provide href link."
         }
       ],
       "exports": [
@@ -6191,7 +6547,19 @@
           },
           "tagName": "nys-errormessage",
           "customElement": true,
-          "summary": "Internal error message display with icon and ARIA alert support."
+          "summary": "Internal error message display with icon and ARIA alert support.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-errormessage showError errorMessage=\"This is an error message\"></nys-errormessage>",
+              "lang": "html"
+            },
+            {
+              "title": "Divider",
+              "code": "<nys-errormessage showError errorMessage=\"This is an error message\" showDivider></nys-errormessage>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -7187,8 +7555,28 @@
           "summary": "Agency footer with auto-layout for contact info and link sections.",
           "examples": [
             {
-              "title": "Simple footer",
-              "code": "<nys-globalfooter\nagencyName=\"Department of Health\"\nhomepageLink=\"/\"\nagencySubheading=\"Protecting and Promoting the Health of New Yorkers\"\n>\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>",
+              "title": "Basic",
+              "code": "<nys-globalfooter agencyName=\"Office of Information Technology Services\"></nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Homepage Link",
+              "code": "<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nhomepageLink=\"https://its.ny.gov\"\n></nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Menu Links",
+              "code": "<nys-globalfooter agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov\">ITS Home</a></li>\n<li><a href=\"https://its.ny.gov/about-us\">About ITS</a></li>\n</ul>\n</nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Column Links",
+              "code": "<nys-globalfooter agencyName=\"Office of Information Technology Services\">\n<ul>\n<li>\n<span>About</span>\n<ul>\n<li><a href=\"https://its.ny.gov/about-us\">About ITS</a></li>\n<li><a href=\"https://its.ny.gov/contact-us\">Contact</a></li>\n<li><a href=\"https://its.ny.gov/policies\">Policies</a></li>\n</ul>\n</li>\n<li>\n<span>Resources</span>\n<ul>\n<li><a href=\"https://its.ny.gov/resources\">Developer Tools</a></li>\n<li><a href=\"https://its.ny.gov/accessibility\">Accessibility</a></li>\n<li><a href=\"https://its.ny.gov/privacy\">Privacy</a></li>\n</ul>\n</li>\n</ul>\n</nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Subheading",
+              "code": "<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nagencySubheading=\"Innovating Technology for a Better New York\"\n></nys-globalfooter>",
               "lang": "html"
             }
           ]
@@ -7422,8 +7810,38 @@
           "summary": "Agency header with navigation, mobile menu, and active link highlighting.",
           "examples": [
             {
-              "title": "Basic header",
-              "code": "<nys-globalheader appName=\"My App\" agencyName=\"Department of Health\" homepageLink=\"/\">\n<ul><li><a href=\"/about\">About</a></li><li><a href=\"/contact\">Contact</a></li></ul>\n</nys-globalheader>",
+              "title": "Basic",
+              "code": "<nys-globalheader appName=\"User Registration Form\" agencyName=\"Office of Information Technology Services\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Homepage Link",
+              "code": "<nys-globalheader\nagencyName=\"Office of Information Technology Services\"\nhomepageLink=\"https://its.ny.gov\"\n></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Only Agency Name",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Only App Name",
+              "code": "<nys-globalheader appName=\"User Registration Form\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "With Links",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov/services\">Services</a></li>\n<li><a href=\"https://its.ny.gov/get-help\">Help Center</a></li>\n<li><a href=\"https://its.ny.gov/cybersecurity\">Cybersecurity</a></li>\n<li><a href=\"https://its.ny.gov/policies\">Policies and Laws</a></li>\n<li><a href=\"https://its.ny.gov/procurement\">Procurement</a></li>\n<li><a href=\"https://its.ny.gov/about-us\">About Us</a></li>\n</ul>\n</nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "User Actions",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
+              "lang": "html"
+            },
+            {
+              "title": "With NYS Logo",
+              "code": "<nys-globalheader nysLogo appName=\"Admin Dashboard\"></nys-globalheader>",
               "lang": "html"
             }
           ]
@@ -7553,14 +7971,7 @@
               }
             }
           ],
-          "description": "Register or replace a named icon library. All watching icons using this library will redraw.",
-          "examples": [
-            {
-              "title": "Register a Font Awesome library with a custom resolver:",
-              "code": "registerIconLibrary(\"fa\", {\nresolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});",
-              "lang": "ts"
-            }
-          ]
+          "description": "Register or replace a named icon library. All watching icons using this library will redraw.\nRegister a Font Awesome library with a custom resolver:\n```ts\nregisterIconLibrary(\"fa\", {\n resolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});\n```"
         },
         {
           "kind": "function",
@@ -7950,19 +8361,51 @@
           "summary": "SVG icon with swappable library support, size, rotation, and color options.",
           "examples": [
             {
-              "title": "Basic icon (default NYSDS library)",
-              "code": "<nys-icon name=\"check_circle\" size=\"lg\"></nys-icon>",
+              "title": "Basic",
+              "code": "<nys-icon name=\"check_circle\"></nys-icon>",
               "lang": "html"
             },
             {
-              "title": "Font Awesome icon",
-              "code": "<nys-icon name=\"house\" library=\"fa\" size=\"lg\"></nys-icon>",
+              "title": "ARIA Label",
+              "code": "<nys-icon\nname=\"edit_square\"\nariaLabel=\"Edit content\"\n></nys-icon>",
               "lang": "html"
             },
             {
-              "title": "Accessible icon with label",
-              "code": "<nys-icon name=\"warning\" ariaLabel=\"Warning\" color=\"var(--nys-color-warning)\"></nys-icon>",
+              "title": "Size relative",
+              "code": "<nys-icon\nname=\"edit_square\"\nsize=\"4xl\"\n></nys-icon>",
               "lang": "html"
+            },
+            {
+              "title": "Size literal",
+              "code": "<nys-icon\nname=\"edit_square\"\nsize=\"24\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Color",
+              "code": "<nys-icon\nname=\"edit_square\"\ncolor=\"#db117d\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Rotate",
+              "code": "<nys-icon\nname=\"edit_square\"\nrotate=\"20\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Flip",
+              "code": "<nys-icon\nname=\"edit_square\"\nflip=\"vertical\"\n></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "External Library - Font Awesome",
+              "code": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>",
+              "lang": "html",
+              "render": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>\n<script>\nregisterIconLibrary(\"fa\", {\nresolver: (name) =>\n`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
+            },
+            {
+              "title": "External Library - Material",
+              "code": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>",
+              "lang": "html",
+              "render": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>\n<script>\nregisterIconLibrary(\"material\", {\nresolver: (name) =>\n`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             }
           ]
         }
@@ -8159,9 +8602,40 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-label label=\"This is a basic nys-label\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-label label=\"This form is required\" flag=\"required\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-label label=\"This form is required\" flag=\"optional\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-label label=\"Label Text\" description=\"Description text\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-label label=\"Label Text\">\n<p slot=\"description\">Rich text description passed in <strong>HERE</strong></p>\n</nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "With Tooltip",
+              "code": "<nys-label id=\"label-id\" label=\"This label has a tooltip\"></nys-label>\n<nys-tooltip for=\"label-id\" text=\"Tooltip text in here\"></nys-tooltip>",
+              "lang": "html"
+            }
+          ],
           "tagName": "nys-label",
-          "customElement": true,
-          "summary": "Internal label component for form fields with flag and tooltip support."
+          "customElement": true
         }
       ],
       "exports": [
@@ -8500,9 +8974,28 @@
           "summary": "Accessible modal dialog with focus trap, keyboard support, and action slots.",
           "examples": [
             {
-              "title": "Basic modal",
-              "code": "<nys-modal id=\"confirm-modal\" heading=\"Confirm action\" open>\n<p>Are you sure you want to proceed?</p>\n<div slot=\"actions\">\n<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>\n<nys-button label=\"Confirm\" variant=\"filled\"></nys-button>\n</div>\n</nys-modal>",
-              "lang": "html"
+              "title": "Basic",
+              "code": "<nys-modal\nid=\"modal1\"\nheading=\"Update Available\"\n>\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n</nys-modal>",
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper1\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal1').open = true; document.getElementById('modal-wrapper1').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal1\"\nid=\"modal1\"\nheading=\"Update Available\"\n>\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n</nys-modal>\n</div>"
+            },
+            {
+              "title": "Subheading",
+              "code": "<nys-modal\nid=\"modal-subheading\"\nheading=\"Before you continue\"\nsubheading=\"Your progress has been saved automatically.\"\n>\n<p>You can safely leave this page and return later to pick up where you left off.</p>\n</nys-modal>",
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper-subheading\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal-subheading').open = true; document.getElementById('modal-wrapper-subheading').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal-subheading\"\nid=\"modal-subheading\"\nheading=\"Before you continue\"\nsubheading=\"Your progress has been saved automatically.\"\n>\n<p>You can safely leave this page and return later to pick up where you left off.</p>\n</nys-modal>\n</div>"
+            },
+            {
+              "title": "Actions Slot",
+              "code": "<nys-modal id=\"modal3\" heading=\"Update password?\">\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n<div slot=\"actions\">\n<nys-button label=\"Not now\" variant=\"outline\"></nys-button>\n<nys-button label=\"Update\"></nys-button>\n</div>\n</nys-modal>",
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper3\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal3').open = true; document.getElementById('modal-wrapper3').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal3\"\nid=\"modal3\"\nheading=\"Update password?\"\n>\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n<div slot=\"actions\">\n<nys-button label=\"Not now\" variant=\"outline\" onclick=\"document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'\"></nys-button>\n<nys-button label=\"Update\" onclick=\"alert('Mock Alert: Changes saved!'); document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'\"></nys-button>\n</div>\n</nys-modal>\n</div>"
+            },
+            {
+              "title": "Mandatory Action",
+              "code": "<nys-modal\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\"></nys-button>\n</div>\n</nys-modal>",
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper4\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal4').open = true; document.getElementById('modal-wrapper4').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal4\"\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\" onclick=\"alert('Ok, ok. You can go now.'); document.querySelector('.modal4').open = false; document.getElementById('modal-wrapper4').style.padding = '0'\"></nys-button>\n</div>\n</nys-modal>\n</div>"
             }
           ]
         }
@@ -8714,8 +9207,18 @@
           "summary": "Page navigation with numbered links, prev/next buttons, and responsive layout.",
           "examples": [
             {
-              "title": "Basic pagination",
+              "title": "Basic",
+              "code": "<nys-pagination currentPage=\"5\" totalPages=\"10\"></nys-pagination>",
+              "lang": "html"
+            },
+            {
+              "title": "First Page",
               "code": "<nys-pagination currentPage=\"1\" totalPages=\"10\"></nys-pagination>",
+              "lang": "html"
+            },
+            {
+              "title": "Last Page",
+              "code": "<nys-pagination currentPage=\"10\" totalPages=\"10\"></nys-pagination>",
               "lang": "html"
             }
           ]
@@ -9073,8 +9576,8 @@
           "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
           "examples": [
             {
-              "title": "Radio group",
-              "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "title": "Pre-selected",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]
@@ -9706,8 +10209,48 @@
           "summary": "Container for grouping radio buttons as a single form control.",
           "examples": [
             {
-              "title": "Basic radio group",
+              "title": "Basic",
               "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Tile",
+              "code": "<nys-radiogroup label=\"Select borough\" tile>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-radiogroup label=\"Select borough\" optional>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" disabled></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\" disabled></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Small",
+              "code": "<nys-radiogroup label=\"Select borough\" size=\"sm\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Other Option",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"\" label=\"Other\" other></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-radiogroup label=\"Select borough\" showError errorMessage=\"Please select a borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]
@@ -9882,14 +10425,7 @@
           },
           "tagName": "nys-option",
           "customElement": true,
-          "summary": "Option item for nys-select dropdown.",
-          "examples": [
-            {
-              "title": "Basic options",
-              "code": "<nys-select>\n<nys-option value=\"ny\">New York</nys-option>\n<nys-option value=\"ca\" disabled>California</nys-option>\n</nys-select>",
-              "lang": "html"
-            }
-          ]
+          "summary": "Option item for nys-select dropdown."
         }
       ],
       "exports": [
@@ -10386,14 +10922,63 @@
           "summary": "Dropdown select for choosing one option from a list.",
           "examples": [
             {
-              "title": "Basic select",
-              "code": "<nys-select label=\"Select borough\">\n<option value=\"bronx\">The Bronx</option>\n<option value=\"brooklyn\">Brooklyn</option>\n<option value=\"manhattan\">Manhattan</option>\n</nys-select>",
+              "title": "Basic",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
               "lang": "html"
             },
             {
-              "title": "With option groups",
-              "code": "<nys-select label=\"Select service\">\n<optgroup label=\"Transportation\">\n<option value=\"mta\">MTA</option>\n<option value=\"dmv\">DMV</option>\n</optgroup>\n</nys-select>",
+              "title": "Default value",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\" selected></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
               "lang": "html"
+            },
+            {
+              "title": "Option Group",
+              "code": "<nys-select\nlabel=\"Which New York State service are you contacting us about?\"\ndescription=\"This is for demo purposes and the list might not be exhaustive.\"\n>\n<optgroup label=\"Transportation Services\">\n<option value=\"mta\">MTA / Public Transit</option>\n<option value=\"dmv\">Department of Motor Vehicles (DMV)</option>\n<option value=\"highway\">Highway Maintenance</option>\n</optgroup>\n<optgroup label=\"Health & Human Services\">\n<option value=\"medicaid\">Medicaid / Health Insurance</option>\n<option value=\"mental-health\">Mental Health Support</option>\n<option value=\"child-family\">Child and Family Services</option>\n</optgroup>\n<optgroup label=\"Public Safety\">\n<option value=\"state-police\">State Police</option>\n<option value=\"emergency-management\">Emergency Management</option>\n<option value=\"fire-safety\">Fire Safety</option>\n</optgroup>\n<optgroup label=\"Environment & Energy\">\n<option value=\"environmental-conservation\">\nEnvironmental Conservation\n</option>\n<option value=\"clean-energy\">Clean Energy Programs</option>\n<option value=\"waste-management\">Waste Management</option>\n</optgroup>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" disabled>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled Option",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\" disabled></option>\n<option value=\"queens\" label=\"Queens\" disabled></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" required>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" optional>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Width small",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" width=\"sm\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Width medium",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" width=\"md\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Width large",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" width=\"lg\">\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Slotted Description",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\">\n<label slot=\"description\">This is a slotted description</label>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" errorMessage=\"You did not select a borough\" showError>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>"
             }
           ]
         }
@@ -10510,13 +11095,13 @@
           "summary": "Skip navigation link for keyboard accessibility. Hidden until focused.",
           "examples": [
             {
-              "title": "Default skip link",
-              "code": "<nys-skipnav></nys-skipnav>\n<main id=\"main-content\">...</main>",
+              "title": "Basic",
+              "code": "<nys-skipnav></nys-skipnav>",
               "lang": "html"
             },
             {
               "title": "Custom target",
-              "code": "<nys-skipnav href=\"#content-area\"></nys-skipnav>",
+              "code": "<nys-skipnav href=\"#content-area\"></nys-skipnav>\n<p id=\"content-area\">...</p>",
               "lang": "html"
             }
           ]
@@ -10710,11 +11295,6 @@
               "title": "Step with page navigation",
               "code": "<nys-step label=\"Personal Info\" href=\"/step-1\"></nys-step>",
               "lang": "html"
-            },
-            {
-              "title": "Step with SPA navigation (no href)",
-              "code": "step.addEventListener('nys-step-click', (e) => {\ne.preventDefault(); // no href set, but good practice\nshowStepContent(e.detail.label);\n});",
-              "lang": "js"
             }
           ]
         }
@@ -10938,13 +11518,7 @@
             },
             {
               "title": "Navigation buttons in actions slot",
-              "code": "<nys-stepper label=\"Application\">\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n<nys-step label=\"Step 3\"></nys-step>\n<div slot=\"actions\">\n<nys-button label=\"Save and Exit\" variant=\"outline\" size=\"sm\" fullWidth></nys-button>\n</div>\n</nys-stepper>",
-              "lang": "html"
-            },
-            {
-              "title": "SPA / programmatic navigation",
-              "code": "let currentStep = 0; // furthest reached\nlet viewingStep = 0; // currently displayed\n\nfunction updateStepper(steps) {\nsteps.forEach((step, i) => {\nstep.toggleAttribute('current', i === currentStep);\nstep.toggleAttribute('selected', i === viewingStep);\n});\n}\n\ndocument.querySelector('nys-stepper').addEventListener('nys-step-click', (e) => {\ne.preventDefault();\nconst steps = Array.from(document.querySelectorAll('nys-step'));\nconst clicked = e.composedPath().find(el => el.tagName?.toLowerCase() === 'nys-step');\nconst index = steps.indexOf(clicked);\nif (index !== -1) { viewingStep = index; updateStepper(steps); }\n});\n\n// Advance to next step (call on form submit / \"Continue\" click)\nfunction advance(steps) {\nif (currentStep < steps.length - 1) {\ncurrentStep++;\nviewingStep = currentStep;\nupdateStepper(steps);\n}\n}",
-              "lang": "js"
+              "code": "Add Previous/Next buttons using the actions slot. Wrap buttons in a `<div>`.\n```html\n<nys-stepper label=\"Application\">\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n<nys-step label=\"Step 3\"></nys-step>\n<div slot=\"actions\">\n<nys-button label=\"Save and Exit\" variant=\"outline\" size=\"sm\" fullWidth></nys-button>\n</div>\n</nys-stepper>\n```x"
             }
           ]
         }
@@ -11184,8 +11758,13 @@
           "customElement": true,
           "examples": [
             {
-              "title": "`<nys-tab>` and `<nys-tabpanel>` should always be wrapped by `<nys-tabgroup>`",
-              "code": "<!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->\n<nys-tabgroup name=\"My Tabs\">\n<nys-tab label=\"Overview\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tab label=\"Archived\" disabled></nys-tab>\n<nys-tabpanel><p>Overview content</p></nys-tabpanel>\n<nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>\n<nys-tabpanel><p>Archived content</p></nys-tabpanel>\n</nys-tabgroup>",
+              "title": "Disabled",
+              "code": "<nys-tabgroup name=\"Account Settings\">\n<nys-tab label=\"Profile\"></nys-tab>\n<nys-tab label=\"Security\"></nys-tab>\n<nys-tab label=\"Notifications\" disabled></nys-tab>\n<nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n<nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n<nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Preselected",
+              "code": "<nys-tabgroup name=\"Reports\">\n<nys-tab label=\"Summary\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tabpanel><p>Summary view</p></nys-tabpanel>\n<nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             }
           ]
@@ -11447,13 +12026,14 @@
           "customElement": true,
           "examples": [
             {
-              "title": "Disable a tab using the `disabled` attribute on `<nys-tab>`.",
-              "code": "<nys-tabgroup name=\"Account Settings\">\n<nys-tab label=\"Profile\"></nys-tab>\n<nys-tab label=\"Security\"></nys-tab>\n<nys-tab label=\"Notifications\" disabled></nys-tab>\n<nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n<nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n<nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>",
-              "lang": "html"
+              "title": "Basic",
+              "code": "<nys-tabgroup>\n<nys-tab label=\"Marcy\"></nys-tab>\n<nys-tab label=\"Algonquin\"></nys-tab>\n<nys-tab label=\"Haystack\"></nys-tab>\n// rest of tabs\n<nys-tabpanel\n>Mount Marcy is the tallest peak in the Adirondacks. It has an elevation\nof 5344 feet with 3166 feet of elevation gain. The roundtrip hike to the\ntop is 14.8 miles and is an out-and-back route.\n</nys-tabpanel>\n<nys-tabpanel\n>Algonquin Peak is the 2nd tallest peak in the Adirondacks. It has an\nelevation of 5114 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.8 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Haystack is the 3rd tallest peak in the Adirondacks. It has an\nelevation of 4960 feet with 4000 feet of elevation gain. The roundtrip\nhike to the top is 16.4 miles and is an out-and-back\nroute.</nys-tabpanel\n>\n// rest of tab panel content\n</nys-tabgroup>",
+              "lang": "html",
+              "render": "<nys-tabgroup>\n<nys-tab label=\"Marcy\"></nys-tab>\n<nys-tab label=\"Algonquin\"></nys-tab>\n<nys-tab label=\"Haystack\"></nys-tab>\n<nys-tab label=\"Skylight\" id=\"tab4\"></nys-tab>\n<nys-tab label=\"Whiteface\" id=\"tab5\"></nys-tab>\n<nys-tabpanel\n>Mount Marcy is the tallest peak in the Adirondacks. It has an elevation\nof 5344 feet with 3166 feet of elevation gain. The roundtrip hike to the\ntop is 14.8 miles and is an out-and-back route.\n</nys-tabpanel>\n<nys-tabpanel\n>Algonquin Peak is the 2nd tallest peak in the Adirondacks. It has an\nelevation of 5114 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.8 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Haystack is the 3rd tallest peak in the Adirondacks. It has an\nelevation of 4960 feet with 4000 feet of elevation gain. The roundtrip\nhike to the top is 16.4 miles and is an out-and-back\nroute.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Skylight is the 4th tallest peak in the Adirondacks. It has an\nelevation of 4926 feet with 5100 feet of elevation gain. The roundtrip\nhike to the top is 16 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Whiteface is the 5th tallest peak in the Adirondacks. It has an\nelevation of 4867 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.2 miles and is an out-and-back route.</nys-tabpanel\n>\n<p style=\"padding: 1rem;\">\n<strong>Note:</strong> The content in the tab panels was gathered from\n<a href=\"https://www.lakeplacid.com/do/outdoors/summerfall/hiking\"\n>lakeplacid.com</a\n>\nand may not be completely accurate. This is meant to be a demo of how\nthe component works, not a hiking guide.\n</p>\n</nys-tabgroup>"
             },
             {
-              "title": "Pre-select a tab using the `selected` attribute on `<nys-tab>`.",
-              "code": "<nys-tabgroup name=\"Reports\">\n<nys-tab label=\"Summary\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tabpanel><p>Summary view</p></nys-tabpanel>\n<nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>\n</nys-tabgroup>",
+              "title": "Explicit Ordering",
+              "code": "<nys-tabgroup id=\"explicit-ordering\">\n<nys-tab label=\"1st Tab\" id=\"tab1\"></nys-tab>\n<nys-tab label=\"2nd Tab\" id=\"tab2\"></nys-tab>\n<nys-tab label=\"3rd Tab\" id=\"tab3\"></nys-tab>\n<nys-tabpanel aria-labelledby=\"tab2\">Content for tab 2</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab3\">Content for tab 3</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab1\">Content for tab 1</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             }
           ]
@@ -11523,14 +12103,7 @@
             "package": "lit"
           },
           "tagName": "nys-tabpanel",
-          "customElement": true,
-          "examples": [
-            {
-              "title": "Panel content is wrapped by `<nys-tabpanel>`.",
-              "code": "<!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->\n<nys-tabgroup name=\"Steps\">\n<nys-tab label=\"Step 1\"></nys-tab>\n<nys-tab label=\"Step 2\"></nys-tab>\n<nys-tabpanel>\n<h2>Step 1: Enter your information</h2>\n<p>Fill out the form below.</p>\n</nys-tabpanel>\n<nys-tabpanel>\n<h2>Step 2: Review and submit</h2>\n<p>Confirm your details before submitting.</p>\n</nys-tabpanel>\n</nys-tabgroup>",
-              "lang": "html"
-            }
-          ]
+          "customElement": true
         }
       ],
       "exports": [
@@ -11895,6 +12468,33 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "examples": [
+            {
+              "title": "Basic table",
+              "code": "<nys-table id=\"table1\" name=\"table1\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Striped table",
+              "code": "<nys-table id=\"table2\" name=\"table2\" striped>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Bordered table",
+              "code": "<nys-table id=\"table3\" name=\"table3\" bordered>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Sortable table",
+              "code": "<nys-table id=\"table4\" name=\"table4\" sortable>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Downloadable table",
+              "code": "<nys-table id=\"table5\" name=\"table5\" download=\"path/to/downloadable/version/of/table.filetype\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            }
+          ],
           "tagName": "nys-table",
           "customElement": true
         }
@@ -13732,13 +14332,38 @@
           "summary": "Toggle switch for binary settings with immediate effect.",
           "examples": [
             {
-              "title": "Basic toggle",
-              "code": "<nys-toggle label=\"Enable notifications\" name=\"notifications\"></nys-toggle>",
+              "title": "Basic",
+              "code": "<nys-toggle label=\"Enable notifications\" name=\"notifications\" value=\"enabled-notifications\"></nys-toggle>",
               "lang": "html"
             },
             {
-              "title": "Dark mode toggle",
-              "code": "<nys-toggle label=\"Dark mode\" description=\"Adjust display for low light\" checked></nys-toggle>",
+              "title": "Checked",
+              "code": "<nys-toggle label=\"Dark Mode\" name=\"theme\" value=\"dark\" checked></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-toggle label=\"Opt Out of emails\" name=\"toggle-switch\" value=\"emails\" disabled></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide Icon",
+              "code": "<nys-toggle label=\"No icon on the toggle knob\" name=\"icon\" value=\"no-icon\" noIcon></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Size small",
+              "code": "<nys-toggle label=\"Tiny but mighty\" name=\"sm-size\" value=\"sm-size\" size=\"sm\"></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-toggle\nlabel=\"Opt Out of emails\"\ndescription=\"An email address is recommended to be on file for contact information.\"\nname=\"toggle-switch\"\nvalue=\"emails\"\n></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Rich Description",
+              "code": "<nys-toggle\nlabel=\"Opt Out of emails\"\nname=\"toggle-switch\"\nvalue=\"emails\"\n>\n<p slot=\"description\">We <strong>REALLY</strong> encourage you to keep emails enabled for contact purposes.</p>\n</nys-toggle>",
               "lang": "html"
             }
           ]
@@ -14223,8 +14848,8 @@
           "summary": "Universal NYS footer with logo and statewide links. Required site-wide.",
           "examples": [
             {
-              "title": "Standard usage",
-              "code": "<nys-globalfooter>...</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>",
+              "title": "Basic",
+              "code": "<nys-unavfooter></nys-unavfooter>",
               "lang": "html"
             }
           ]
@@ -14270,7 +14895,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
           "members": [
             {
@@ -14533,7 +15158,40 @@
             "package": "lit"
           },
           "tagName": "nys-unavheader",
-          "customElement": true
+          "customElement": true,
+          "summary": "Universal NYS header with trust bar, search, and translation. Required site-wide.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-unavheader></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide search",
+              "code": "<nys-unavheader hideSearch></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide translate",
+              "code": "<nys-unavheader hideTranslate></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Search URL",
+              "code": "<nys-unavheader searchUrl=\"https://designsystem.ny.gov/search/?q=\"></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Language List",
+              "code": "<nys-unavheader id=\"my-header\"></nys-unavheader>\n<script>\nconst header = document.querySelector('#my-header');\nheader.languages = [\n{ code: 'en', label: 'English' },\n{ code: 'es', label: 'Español' , url: '\"https://ny.gov/?lang=es\"'},\n{ code: 'fr', label: 'Français', url: '\"https://ny.gov/?lang=fr\"'},\n];\n</script>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Language List JS",
+              "code": "<nys-unavheader id=\"my-header2\"></nys-unavheader>\n<script>\ndocument.querySelector('#my-header2').addEventListener('nys-language-select', (event) => {\nevent.preventDefault();\nconst selectedLanguage = event.detail.language.label;\n});\n</script>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -14858,8 +15516,38 @@
           "summary": "YouTube video player with thumbnail preview and accessibility announcements.",
           "examples": [
             {
-              "title": "Basic usage",
-              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"\ntitleText=\"Video Title\"\n></nys-video>",
+              "title": "Basic",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Thumbnail",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\nthumbnail=\"https://designsystem.ny.gov/assets/img/homepage-grid-3.svg\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Autoplay",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\nautoplay\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Start Time",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\nstarttime=\"43\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"IT'S a Tech Podcast, Episode 3: Human-Centered Design\"\ndisabled\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Size full",
+              "code": "<nys-video\nsize=\"full\"\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"Small (width: 320-439px)\"\n></nys-video>",
+              "lang": "html"
+            },
+            {
+              "title": "Size small",
+              "code": "<nys-video\nsize=\"sm\"\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"Small (width: 320-439px)\"\n></nys-video>",
               "lang": "html"
             }
           ]

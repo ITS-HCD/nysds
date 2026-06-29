@@ -11,8 +11,38 @@ let labelIdCounter = 0;
  * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
  * Handles label association via `for`, displays asterisk for required fields, and integrates tooltips.
  *
- * @summary Internal label component for form fields with flag and tooltip support.
- * @element nys-label
+ * @example Basic
+ * ```html
+ * <nys-label label="This is a basic nys-label"></nys-label>
+ * ```
+ *
+ * @example Required
+ * ```html
+ * <nys-label label="This form is required" flag="required"></nys-label>
+ * ```
+ *
+ * @example Optional
+ * ```html
+ * <nys-label label="This form is required" flag="optional"></nys-label>
+ * ```
+ *
+ * @example Description
+ * ```html
+ * <nys-label label="Label Text" description="Description text"></nys-label>
+ * ```
+ *
+ * @example Description Slot
+ * ```html
+ * <nys-label label="Label Text">
+ *   <p slot="description">Rich text description passed in <strong>HERE</strong></p>
+ * </nys-label>
+ * ```
+ *
+ * @example With Tooltip
+ * ```html
+ * <nys-label id="label-id" label="This label has a tooltip"></nys-label>
+ * <nys-tooltip for="label-id" text="Tooltip text in here"></nys-tooltip>
+ * ```
  *
  * @slot description - Custom HTML description content below the label.
  */

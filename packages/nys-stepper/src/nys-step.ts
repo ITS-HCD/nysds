@@ -83,14 +83,6 @@ import styles from "./nys-stepper.scss?inline";
  * ```html
  * <nys-step label="Personal Info" href="/step-1"></nys-step>
  * ```
- *
- * @example Step with SPA navigation (no href)
- * ```js
- * step.addEventListener('nys-step-click', (e) => {
- *   e.preventDefault(); // no href set, but good practice
- *   showStepContent(e.detail.label);
- * });
- * ```
  */
 export class NysStep extends LitElement {
   static styles = unsafeCSS(styles);

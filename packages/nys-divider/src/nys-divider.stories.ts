@@ -2,45 +2,35 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-divider";
 
-// Define the structure of the args used in the stories
-interface NysDividerArgs {
-  inverted: boolean;
-  subtle: boolean;
-}
-
-const meta: Meta<NysDividerArgs> = {
+const meta: Meta = {
   title: "Components/Divider",
   component: "nys-divider",
-  argTypes: {
-    inverted: { control: "boolean" },
-    subtle: { control: "boolean" },
-  },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<NysDividerArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {},
-  render: (args) => html`
-    <div>sample content</div>
-    <nys-divider
-      .inverted=${args.inverted}
-      .subtle=${args.subtle}
-    ></nys-divider>
-    <div>sample content</div>
-  `,
+  render: () => {
+    return html`
+      <p>Section one content</p>
+      <nys-divider></nys-divider>
+      <p>Section two content</p>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-divider></nys-divider>`,
+<p>Section one content</p>
+<nys-divider></nys-divider>
+<p>Section two content</p>`,
         type: "auto",
       },
     },
@@ -48,21 +38,30 @@ export const Basic: Story = {
 };
 
 export const Inverted: Story = {
-  args: { inverted: true },
-  render: (args) => html`
-    <div
-      style="display: flex; flex-direction: column; background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);"
-    >
-      <div>sample content</div>
-      <nys-divider .inverted=${args.inverted}></nys-divider>
-      <div>sample content</div>
-    </div>
-  `,
-
+  render: () => {
+    return html`
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          background-color: var(--nys-color-ink, #1b1b1b);
+          color: var(--nys-color-ink-reverse, #fff);
+          padding: var(--nys-space-200, 16px);
+        "
+      >
+        <p>Section one content</p>
+        <nys-divider inverted></nys-divider>
+        <p>Section two content</p>
+      </div>
+    `;
+  },
   parameters: {
     docs: {
       source: {
-        code: `<nys-divider inverted></nys-divider>`,
+        code: `
+<p>Section one content</p>
+<nys-divider inverted></nys-divider>
+<p>Section two content</p>`,
         type: "auto",
       },
     },
@@ -70,16 +69,20 @@ export const Inverted: Story = {
 };
 
 export const Subtle: Story = {
-  args: { subtle: true },
-  render: (args) => html`
-    <div>sample content</div>
-    <nys-divider .subtle=${args.subtle}></nys-divider>
-    <div>sample content</div>
-  `,
+  render: () => {
+    return html`
+      <p>Section one content</p>
+      <nys-divider subtle></nys-divider>
+      <p>Section two content</p>
+    `;
+  },
   parameters: {
     docs: {
       source: {
-        code: `<nys-divider subtle></nys-divider>`,
+        code: `
+<p>Section one content</p>
+<nys-divider subtle></nys-divider>
+<p>Section two content</p>`,
         type: "auto",
       },
     },

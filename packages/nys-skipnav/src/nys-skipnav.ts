@@ -12,15 +12,15 @@ import styles from "./nys-skipnav.scss?inline";
  * @summary Skip navigation link for keyboard accessibility. Hidden until focused.
  * @element nys-skipnav
  *
- * @example Default skip link
+ * @example Basic
  * ```html
  * <nys-skipnav></nys-skipnav>
- * <main id="main-content">...</main>
  * ```
  *
  * @example Custom target
  * ```html
  * <nys-skipnav href="#content-area"></nys-skipnav>
+ * <p id="content-area">...</p>
  * ```
  */
 

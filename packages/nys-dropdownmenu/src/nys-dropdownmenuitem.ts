@@ -13,17 +13,8 @@ let dropdownMenuItemIdCounter = 0;
  *
  * @summary Dropdown item to display label and provide href link.
  * @element nys-dropdownmenuitem
- *
- * @example Basic item
- * ```html
- * <nys-dropdownmenuitem label="Edit" link="/edit"></nys-dropdownmenuitem>
- * ```
- *
- * @example Disabled item
- * ```html
- * <nys-dropdownmenuitem label="Delete" link="/delete" disabled></nys-dropdownmenuitem>
- * ```
  */
+
 export class NysDropdownMenuItem extends LitElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {

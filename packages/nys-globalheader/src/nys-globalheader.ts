@@ -15,11 +15,65 @@ import styles from "./nys-globalheader.scss?inline";
  *
  * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
  *
- * @example Basic header
+ *
+ * @example Basic
  * ```html
- * <nys-globalheader appName="My App" agencyName="Department of Health" homepageLink="/">
- *   <ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
+ * <nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services"></nys-globalheader>
+ * ```
+ *
+ * @example Homepage Link
+ * ```html
+ * <nys-globalheader
+ *   agencyName="Office of Information Technology Services"
+ *   homepageLink="https://its.ny.gov"
+ * ></nys-globalheader>
+ * ```
+ *
+ * @example Only Agency Name
+ * ```html
+ * <nys-globalheader agencyName="Office of Information Technology Services"></nys-globalheader>
+ * ```
+ *
+ * @example Only App Name
+ * ```html
+ * <nys-globalheader appName="User Registration Form"></nys-globalheader>
+ * ```
+ *
+ * @example With Links
+ * ```html
+ * <nys-globalheader agencyName="Office of Information Technology Services">
+ *   <ul>
+ *     <li><a href="https://its.ny.gov/services">Services</a></li>
+ *     <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+ *     <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+ *     <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
+ *     <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+ *     <li><a href="https://its.ny.gov/about-us">About Us</a></li>
+ *   </ul>
  * </nys-globalheader>
+ * ```
+ * @example User Actions
+ * ```html
+ * <nys-globalheader agencyName="Office of Information Technology Services">
+ *   <nys-button slot="user-actions" label="Log out">
+ *     <nys-avatar
+ *       slot="prefix-icon"
+ *       ariaLabel="User avatar"
+ *       initials="NY"
+ *     ></nys-avatar>
+ *   </nys-button>
+ * </nys-globalheader>
+ * <nys-dropdownmenu id="dropdownmenu" for="my-action-slot">
+ *   <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Organizations" href="/organizations" disabled></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
+ * </nys-dropdownmenu>
+ * ```
+ *
+ * @example With NYS Logo
+ * ```html
+ * <nys-globalheader nysLogo appName="Admin Dashboard"></nys-globalheader>
  * ```
  */
 

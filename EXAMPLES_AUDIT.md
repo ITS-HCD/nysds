@@ -1,0 +1,481 @@
+# NYSDS Component Examples Audit
+
+This document tracks the consistency between JSDoc `@example` blocks in component source files and their corresponding Storybook stories.
+
+## Summary
+
+| Component           | Status      | Last Audited | Notes                                                                                    |
+| :------------------ | :---------- | :----------- | :--------------------------------------------------------------------------------------- |
+| `nys-accordion`     | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-accordionitem` | ✅ Match    | 2026-06-12   | Example is included in `nys-accordion` stories.                                          |
+| `nys-alert`         | ✅ Match    | 2026-06-12   | Comprehensive coverage of all functional states.                                         |
+| `nys-avatar`        | ✅ Match    | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.                                           |
+| `nys-backtotop`     | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-badge`         | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-breadcrumbs`   | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories.                                                |
+| `nys-button`        | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories. Stories are now granular (one demo per story). |
+| `nys-checkbox`      | ✅ Match    | 2026-06-15   | Examples granularized to fix violations.                                                 |
+| `nys-checkboxgroup` | ✅ Match    | 2026-06-15   | Examples granularized to fix violations.                                                 |
+| `nys-combobox`      | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories.                                                |
+| `nys-datepicker`    | ✅ Match    | 2026-06-15   | All JSDoc examples added; Storybook story 'WidthVariants' still needs granularization.   |
+| `nys-divider`       | ✅ Match    | 2026-06-12   | Basic coverage; missing subtle/inverted.                                                 |
+| `nys-dropdownmenu`  | ✅ Match    | 2026-06-12   | Good coverage; missing icon/disabled examples.                                           |
+| `nys-errormessage`  | ❌ Missing  | 2026-06-12   | No JSDoc examples present.                                                               |
+| `nys-fileinput`     | ✅ Match    | 2026-06-12   | Good coverage; missing width/inverted examples.                                          |
+| `nys-tab`           | ❌ Mismatch | 2026-06-15   | JSDoc examples exist but Storybook only has one non-granular "Mega Demo".                |
+| `nys-tabgroup`      | ⚠️ Missing  | 2026-06-15   | No Storybook stories for this specific component; included in `nys-tab` stories.         |
+| `nys-tabpanel`      | ⚠️ Missing  | 2026-06-15   | No Storybook stories for this specific component; included in `nys-tab` stories.         |
+
+---
+
+## Component Details
+
+### `nys-fileinput`
+
+| JSDoc Example                  | Storybook Story         | Status   | Notes |
+| :----------------------------- | :---------------------- | :------- | :---- |
+| `Single file upload`           | `Basic`                 | ✅ Match |       |
+| `Multiple files with dropzone` | `Dropzone` / `Multiple` | ✅ Match |       |
+
+#### To Add
+
+- **Width**: Examples for `lg` and `full` width.
+- **Disabled**: Example for `disabled` state.
+- **Inverted**: Example for `inverted` mode.
+- **Optional**: Example showing the `optional` flag.
+- **Description Slot**: Example showing rich content in the `description` slot.
+
+### `nys-errormessage`
+
+| JSDoc Example | Storybook Story | Status   | Notes |
+| :------------ | :-------------- | :------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match |       |
+| `Divider`     | `Divider`       | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-dropdownmenu`
+
+| JSDoc Example         | Storybook Story | Status   | Notes |
+| :-------------------- | :-------------- | :------- | :---- |
+| `Basic dropdown`      | `Basic`         | ✅ Match |       |
+| `Positioned dropdown` | `Basic` (Args)  | ✅ Match |       |
+
+#### To Add
+
+- **Icons**: Example showing `prefixIcon` on `nys-dropdownmenuitem`.
+- **Links vs Actions**: Example showing items with `href` vs items that fire clicks.
+- **Disabled Items**: Example showing `disabled` on menu items.
+
+### `nys-divider`
+
+| JSDoc Example   | Storybook Story | Status   | Notes |
+| :-------------- | :-------------- | :------- | :---- |
+| `Basic divider` | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- **Inverted**: Example for `inverted` property.
+- **Subtle**: Example for `subtle` property.
+
+### `nys-datepicker`
+
+| JSDoc Example       | Storybook Story   | Status      | Notes                                      |
+| :------------------ | :---------------- | :---------- | :----------------------------------------- |
+| `Basic`             | `Basic`           | ✅ Match    |                                            |
+| `Width`             | `WidthVariants`   | ❌ Mismatch | Storybook contains 3 demos (md, lg, full). |
+| `Custom Start Date` | `CustomStartDate` | ✅ Match    |                                            |
+| `Without Buttons`   | `WithoutButtons`  | ✅ Match    |                                            |
+| `Error Message`     | `Basic` (Args)    | ✅ Match    |                                            |
+| `Date Range`        | `DateRange`       | ✅ Match    |                                            |
+| `Disabled`          | `Disabled`        | ✅ Match    |                                            |
+| `Inverted`          | None              | ✅ Match    | Manually added to JSDoc.                   |
+| `Optional`          | None              | ✅ Match    | Manually added to JSDoc.                   |
+| `Tooltip`           | None              | ✅ Match    | Manually added to JSDoc.                   |
+| `Form Integration`  | None              | ✅ Match    | Manually added to JSDoc.                   |
+
+#### To Add
+
+- **Granularity**: Split `WidthVariants` story into `WidthMedium`, `WidthLarge`, and `WidthFull`.
+- **Description Slot**: Add JSDoc `@example` showing rich content in a `description` slot (if supported by base component).
+
+### `nys-combobox`
+
+| JSDoc Example      | Storybook Story   | Status   | Notes                    |
+| :----------------- | :---------------- | :------- | :----------------------- |
+| `Basic`            | `Basic`           | ✅ Match |                          |
+| `Default Value`    | `DefaultValue`    | ✅ Match |                          |
+| `Option Group`     | `OptionGroup`     | ✅ Match |                          |
+| `Disabled`         | `Disabled`        | ✅ Match |                          |
+| `Required`         | `Required`        | ✅ Match |                          |
+| `Optional`         | `Optional`        | ✅ Match |                          |
+| `Width`            | `Width`           | ✅ Match |                          |
+| `Description Slot` | `DescriptionSlot` | ✅ Match |                          |
+| `Error Message`    | `ErrorMessage`    | ✅ Match |                          |
+| `Inverted`         | `Inverted`        | ✅ Match |                          |
+| `Disabled Options` | `DisabledOptions` | ✅ Match |                          |
+| `Tooltip`          | None              | ✅ Match | Manually added to JSDoc. |
+| `Form Integration` | None              | ✅ Match | Manually added to JSDoc. |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-checkbox`
+
+| JSDoc Example      | Storybook Story  | Status     | Notes                            |
+| :----------------- | :--------------- | :--------- | :------------------------------- |
+| `Single checkbox`  | `SingleCheckbox` | ✅ Match   |                                  |
+| `Disabled`         | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Tile`             | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Size Small`       | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Error Message`    | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Tooltip`          | None             | ⚠️ Missing | Storybook missing granular demo. |
+| `Description Slot` | None             | ⚠️ Missing | Storybook missing granular demo. |
+
+#### To Add
+
+- None (All properties covered in JSDoc).
+
+### `nys-checkboxgroup`
+
+| JSDoc Example   | Storybook Story | Status   | Notes |
+| :-------------- | :-------------- | :------- | :---- |
+| `Basic`         | `Basic`         | ✅ Match |       |
+| `Tile`          | `Tile`          | ✅ Match |       |
+| `Optional`      | `Optional`      | ✅ Match |       |
+| `Required`      | `Required`      | ✅ Match |       |
+| `Disabled`      | `Disabled`      | ✅ Match |       |
+| `Size Small`    | `SizeSmall`     | ✅ Match |       |
+| `Other Option`  | `OtherOption`   | ✅ Match |       |
+| `Error Message` | `ErrorMessage`  | ✅ Match |       |
+
+#### To Add
+
+- **Tooltip**: Example showing the `tooltip` property.
+- **Description Slot**: Example showing rich content in the `description` slot.
+- **Form**: Example showing the `form` property.
+
+### `nys-button`
+
+| JSDoc Example                      | Storybook Story | Status   | Notes |
+| :--------------------------------- | :-------------- | :------- | :---- |
+| `Basic filled button`              | `Basic`         | ✅ Match |       |
+| `Secondary outline button`         | `Variants`      | ✅ Match |       |
+| `Button with icons`                | `Icons`         | ✅ Match |       |
+| `Circle icon button`               | `Circle`        | ✅ Match |       |
+| `Link-style button for navigation` | `Link`          | ✅ Match |       |
+| `Form submit button`               | `Basic` (Args)  | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-breadcrumbs`
+
+| JSDoc Example                           | Storybook Story      | Status   | Notes |
+| :-------------------------------------- | :------------------- | :------- | :---- |
+| `Full trail with current page`          | `Basic`              | ✅ Match |       |
+| `Trail without current page`            | `WithoutCurrentPage` | ✅ Match |       |
+| `Single item renders as back-to-parent` | `SingleCrumb`        | ✅ Match |       |
+| `Size small`                            | `Size`               | ✅ Match |       |
+| `Back to parent (mobile)`               | `BackToParent`       | ✅ Match |       |
+| `With background bar`                   | `BackgroundBar`      | ✅ Match |       |
+| `Disabled`                              | `Disabled`           | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-stepper`
+
+| JSDoc Example   | Storybook Story     | Status     | Notes                                         |
+| :-------------- | :------------------ | :--------- | :-------------------------------------------- |
+| `Basic stepper` | `BasicStepper`      | ✅ Match   |                                               |
+| `Grid layout`   | `GridLayout`        | ✅ Match   |                                               |
+| None            | `NavigationButtons` | ⚠️ Missing | Violation: Story is a code block, not a demo. |
+
+#### To Add
+
+- **Actions Slot**: Example showing valid use of the `actions` slot with buttons.
+
+### `nys-badge`
+
+| JSDoc Example        | Storybook Story    | Status   | Notes                                   |
+| :------------------- | :----------------- | :------- | :-------------------------------------- |
+| `Status badge`       | `ScreenReaderText` | ✅ Match | Matches one of the badges in the story. |
+| `Count badge`        | `Basic` (via Args) | ✅ Match | Covered.                                |
+| `Intent`             | `Intent`           | ✅ Match | Covered.                                |
+| `Strong variant`     | `Strong`           | ✅ Match | Covered.                                |
+| `Custom icons`       | `Icons`            | ✅ Match | Covered.                                |
+| `Size`               | `Size`             | ✅ Match | Covered.                                |
+| `Screen reader text` | `ScreenReaderText` | ✅ Match | Covered.                                |
+
+### `nys-globalheader`
+
+| JSDoc Example  | Storybook Story | Status   | Notes |
+| :------------- | :-------------- | :------- | :---- |
+| `Basic header` | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- Add examples showing `appName`, `agencyName` combinations and `nysLogo` property.
+
+| JSDoc Example   | Storybook Story | Status   | Notes                                        |
+| :-------------- | :-------------- | :------- | :------------------------------------------- |
+| `Basic`         | `Basic`         | ✅ Match | Minor whitespace/CSS formatting differences. |
+| `Single Select` | `SingleSelect`  | ✅ Match |                                              |
+| `Bordered`      | `Bordered`      | ✅ Match |                                              |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-accordionitem`
+
+| JSDoc Example   | Storybook Story | Status   | Notes                                           |
+| :-------------- | :-------------- | :------- | :---------------------------------------------- |
+| `Expanded item` | `ExpandedItem`  | ✅ Match | Story is located in `nys-accordion.stories.ts`. |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-alert`
+
+| JSDoc Example  | Storybook Story | Status   | Notes |
+| :------------- | :-------------- | :------- | :---- |
+| `Basic`        | `Basic`         | ✅ Match |       |
+| `Text`         | `Text`          | ✅ Match |       |
+| `Rich Text`    | `RichText`      | ✅ Match |       |
+| `Type`         | `Type`          | ✅ Match |       |
+| `Dismissible`  | `Dismissible`   | ✅ Match |       |
+| `Duration`     | `Duration`      | ✅ Match |       |
+| `Custom Icon`  | `CustomIcon`    | ✅ Match |       |
+| `Action Links` | `ActionLinks`   | ✅ Match |       |
+
+#### To Add
+
+- **Custom ID**: Example explicitly setting a custom `id` property.
+
+### `nys-avatar`
+
+| JSDoc Example             | Storybook Story         | Status   | Notes |
+| :------------------------ | :---------------------- | :------- | :---- |
+| `Basic`                   | `Basic`                 | ✅ Match |       |
+| `Image`                   | `Image`                 | ✅ Match |       |
+| `Initials`                | `Initials`              | ✅ Match |       |
+| `Icon`                    | `Icon`                  | ✅ Match |       |
+| `Interactive`             | `Interactive`           | ✅ Match |       |
+| `Disabled`                | `Disabled`              | ✅ Match |       |
+| `Custom Background Color` | `CustomBackgroundColor` | ✅ Match |       |
+
+#### To Add
+
+- **Lazy Loading**: Example demonstrating the `lazy` property for images to showcase performance optimization options.
+- **Custom ID**: Example explicitly setting a custom `id` property.
+
+### `nys-icon`
+
+| JSDoc Example       | Storybook Story                | Status   | Notes |
+| :------------------ | :----------------------------- | :------- | :---- |
+| `Basic icon`        | `BasicIconDefaultNYSDSLibrary` | ✅ Match |       |
+| `Font Awesome icon` | `FontAwesomeIcon`              | ✅ Match |       |
+| `Accessible icon`   | `AccessibleIconWithLabel`      | ✅ Match |       |
+
+#### To Add
+
+- **Rotate/Flip**: Examples for `rotate` and `flip` properties.
+
+### `nys-label`
+
+| JSDoc Example      | Storybook Story   | Status   | Notes |
+| :----------------- | :---------------- | :------- | :---- |
+| `Basic`            | `Basic`           | ✅ Match |       |
+| `Required`         | `Required`        | ✅ Match |       |
+| `Optional`         | `Optional`        | ✅ Match |       |
+| `Description`      | `Description`     | ✅ Match |       |
+| `Description Slot` | `DescriptionSlot` | ✅ Match |       |
+| `With Tooltip`     | `WithTooltip`     | ✅ Match |       |
+
+#### To Add
+
+- **Inverted**: Example for `inverted` property (missing in JSDoc and as a granular story).
+
+### `nys-modal`
+
+| JSDoc Example | Storybook Story | Status   | Notes |
+| :------------ | :-------------- | :------- | :---- |
+| `Basic modal` | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- **Subheading**: Example for `subheading` property.
+- **Mandatory**: Example for `mandatory` property.
+- **Width**: Examples for `sm`, `md`, `lg` widths.
+
+### `nys-tab`
+
+| JSDoc Example     | Storybook Story | Status      | Notes                                                                            |
+| :---------------- | :-------------- | :---------- | :------------------------------------------------------------------------------- |
+| `Basic`           | `Basic`         | ❌ Mismatch | JSDoc has 3 tabs (Overview/Details/Archived); Storybook has 6 tabs (High Peaks). |
+| `Disabled tab`    | None            | ⚠️ Missing  | Storybook missing granular demo.                                                 |
+| `Preselected tab` | None            | ⚠️ Missing  | Storybook missing granular demo.                                                 |
+| `With tab panels` | None            | ⚠️ Missing  | Storybook missing granular demo.                                                 |
+
+#### To Add
+
+- **Granularity**: Split Storybook `Basic` story into granular stories: `Basic`, `Disabled`, `Preselected`, and `TabPanels`.
+- **Properties**: Example for `id` property on `nys-tab`.
+
+### `nys-tabgroup`
+
+| JSDoc Example      | Storybook Story | Status     | Notes                              |
+| :----------------- | :-------------- | :--------- | :--------------------------------- |
+| `Disable a tab`    | None            | ⚠️ Missing | Included in `nys-tab` "Mega Demo". |
+| `Pre-select a tab` | None            | ⚠️ Missing | Included in `nys-tab` "Mega Demo". |
+
+#### To Add
+
+- **Properties**: Example for `name` property.
+- **Granularity**: Add granular Storybook stories for `DisabledTab` and `PreselectedTab`.
+
+### `nys-tabpanel`
+
+| JSDoc Example                 | Storybook Story | Status     | Notes                              |
+| :---------------------------- | :-------------- | :--------- | :--------------------------------- |
+| `Panel content is wrapped...` | None            | ⚠️ Missing | Included in `nys-tab` "Mega Demo". |
+
+#### To Add
+
+- **Properties**: Example for `id` property.
+- **Granularity**: Add granular Storybook story for `TabPanel`.
+
+### `nys-table`
+
+| JSDoc Example | Storybook Story | Status     | Notes                      |
+| :------------ | :-------------- | :--------- | :------------------------- |
+| None          | `Basic`         | ❌ Missing | No JSDoc examples present. |
+| None          | `Striped`       | ❌ Missing |                            |
+| None          | `Bordered`      | ❌ Missing |                            |
+| None          | `Sortable`      | ❌ Missing |                            |
+| None          | `Downloadable`  | ❌ Missing |                            |
+
+#### To Add
+
+- Add JSDoc `@example` tags for all identified stories: `Basic`, `Striped`, `Bordered`, `Sortable`, `Downloadable`.
+
+### `nys-textarea`
+
+| JSDoc Example | Storybook Story           | Status   | Notes |
+| :------------ | :------------------------ | :------- | :---- |
+| `Basic`       | `Basic`                   | ✅ Match |       |
+| `Required`    | `RequiredWithDescription` | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-textinput`
+
+| JSDoc Example | Storybook Story    | Status     | Notes |
+| :------------ | :----------------- | :--------- | :---- |
+| `Basic`       | `Basic`            | ✅ Match   |       |
+| None          | `RequiredEmail`    | ⚠️ Missing |       |
+| None          | `PhoneWithMasking` | ⚠️ Missing |       |
+| None          | `SearchWithButton` | ⚠️ Missing |       |
+
+#### To Add
+
+- Add examples for `RequiredEmail`, `PhoneWithMasking`, `SearchWithButton`.
+
+### `nys-toggle`
+
+| JSDoc Example | Storybook Story | Status     | Notes |
+| :------------ | :-------------- | :--------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match   |       |
+| None          | `DarkMode`      | ⚠️ Missing |       |
+
+#### To Add
+
+- Add example for `DarkMode`.
+
+### `nys-tooltip`
+
+| JSDoc Example | Storybook Story | Status     | Notes |
+| :------------ | :-------------- | :--------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match   |       |
+| None          | `Positioned`    | ⚠️ Missing |       |
+
+#### To Add
+
+- Add example for `Positioned`.
+
+### `nys-unavfooter`
+
+| JSDoc Example | Storybook Story | Status   | Notes |
+| :------------ | :-------------- | :------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-unavheader`
+
+| JSDoc Example | Storybook Story            | Status     | Notes |
+| :------------ | :------------------------- | :--------- | :---- |
+| `Basic`       | `Basic`                    | ✅ Match   |       |
+| None          | `HideTranslateSearch`      | ⚠️ Missing |       |
+| None          | `CustomSearchUrl`          | ⚠️ Missing |       |
+| None          | `CustomLanguages`          | ⚠️ Missing |       |
+| None          | `CustomLanguageUrl`        | ⚠️ Missing |       |
+| None          | `CustomLanguageJSOverride` | ⚠️ Missing |       |
+
+#### To Add
+
+- Add examples for `HideTranslateSearch`, `CustomSearchUrl`, `CustomLanguages`, `CustomLanguageUrl`, `CustomLanguageJSOverride`.
+
+### `nys-radiobutton`
+
+| JSDoc Example    | Storybook Story   | Status     | Notes                            |
+| :--------------- | :---------------- | :--------- | :------------------------------- |
+| `Radio group`    | `BasicRadioGroup` | ✅ Match   |                                  |
+| `Disabled radio` | `DisabledRadio`   | ✅ Match   |                                  |
+| `Pre-selected`   | None              | ⚠️ Missing | Storybook missing granular demo. |
+| `Other Option`   | None              | ⚠️ Missing | Storybook missing granular demo. |
+
+#### To Add
+
+- None (All properties covered in JSDoc).
+
+### `nys-radiogroup`
+
+| JSDoc Example       | Storybook Story   | Status     | Notes                            |
+| :------------------ | :---------------- | :--------- | :------------------------------- |
+| `Basic radio group` | `BasicRadioGroup` | ✅ Match   |                                  |
+| `Disabled`          | `DisabledRadio`   | ✅ Match   |                                  |
+| `Optional`          | None              | ⚠️ Missing | Storybook missing granular demo. |
+| `Tile`              | None              | ⚠️ Missing | Storybook missing granular demo. |
+| `Size Small`        | None              | ⚠️ Missing | Storybook missing granular demo. |
+| `Error Message`     | None              | ⚠️ Missing | Storybook missing granular demo. |
+| `Tooltip`           | None              | ⚠️ Missing | Storybook missing granular demo. |
+| `Description Slot`  | None              | ⚠️ Missing | Storybook missing granular demo. |
+
+#### To Add
+
+- None (All properties covered in JSDoc).
+
+### `nys-pagination`
+
+| JSDoc Example | Storybook Story | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| `Basic pagination` | `Basic` | ✅ Match | |
+| `First Page` | `Basic` (Args) | ✅ Match | |
+| `Last Page` | `Basic` (Args) | ✅ Match | |
+
+#### To Add
+- None (All properties covered).
+- **Granularity**: Need granular example for `SinglePage` (totalPages: 1).

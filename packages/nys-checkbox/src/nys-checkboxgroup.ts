@@ -19,9 +19,75 @@ let checkboxgroupIdCounter = 0;
  * @slot - Default slot for `nys-checkbox` elements.
  * @slot description - Custom HTML description content.
  *
- * @example Basic checkbox group
+ * @example Basic
  * ```html
  * <nys-checkboxgroup label="Select landmarks" required>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Tile
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" tile>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Required
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" required>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Optional
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" optional>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks" disabled></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls" disabled></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Size Small
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" size="sm">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Other Option
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="" label="Other" other></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Error Message
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" showError errorMessage="Please select at least one landmark">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Description Slot
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks">
+ *   <div slot="description">Your <strong>ABSOLUTE</strong> favorite one.</div>
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
  *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
  * </nys-checkboxgroup>

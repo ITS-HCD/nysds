@@ -1,97 +1,40 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-select";
-import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 
-// Define the structure of the args used in the stories
-interface NysSelectArgs {
-  id: string;
-  name: string;
-  label: string;
-  description: string;
-  value: string;
-  disabled: boolean;
-  required: boolean;
-  optional: boolean;
-  inverted: boolean;
-  width: "sm" | "md" | "lg" | "full";
-  options: string;
-  showError: boolean;
-  errorMessage: string;
-  form: string | null;
-}
-
-const meta: Meta<NysSelectArgs> = {
+const meta: Meta = {
   title: "Components/Select",
   component: "nys-select",
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    label: { control: "text" },
-    description: { control: "text" },
-    value: { control: "text" },
-    disabled: { control: "boolean" },
-    required: { control: "boolean" },
-    optional: { control: "boolean" },
-    form: { control: "text" },
-    inverted: { control: "boolean" },
-    width: { control: "select", options: ["sm", "md", "lg", "full"] },
-    showError: { control: "boolean" },
-    errorMessage: { control: "text" },
-  },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<NysSelectArgs>;
-
-// Define stories without using args
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    label: "Select your favorite borough",
-    value: "",
-    disabled: false,
-    required: false,
-    optional: false,
-    showError: false,
-    inverted: false,
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough">
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
   },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx" label="The Bronx"></option>
-      <option value="brooklyn" label="Brooklyn"></option>
-      <option value="manhattan" label="Manhattan"></option>
-      <option value="staten_island" label="Staten Island"></option>
-      <option value="queens" label="Queens"></option>
-    </nys-select>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough">
+<nys-select label="Select your favorite borough" id="borough">
   <option value="bronx" label="The Bronx"></option>
   <option value="brooklyn" label="Brooklyn"></option>
   <option value="manhattan" label="Manhattan"></option>
@@ -105,43 +48,22 @@ export const Basic: Story = {
 };
 
 export const DefaultValue: Story = {
-  args: {
-    label: "Select your favorite borough",
-    value: "",
-    disabled: false,
-    required: false,
-    optional: false,
-    showError: false,
-    inverted: false,
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough">
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn" selected></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
   },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx" label="The Bronx"></option>
-      <option value="brooklyn" label="Brooklyn" selected></option>
-      <option value="manhattan" label="Manhattan"></option>
-      <option value="staten_island" label="Staten Island"></option>
-      <option value="queens" label="Queens"></option>
-    </nys-select>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough">
+<nys-select label="Select your favorite borough" id="borough">
   <option value="bronx" label="The Bronx"></option>
   <option value="brooklyn" label="Brooklyn" selected></option>
   <option value="manhattan" label="Manhattan"></option>
@@ -155,50 +77,37 @@ export const DefaultValue: Story = {
 };
 
 export const OptionGroup: Story = {
-  args: {
-    label: "Which New York State service are you contacting us about?",
-    description:
-      "This is for demo purposes and the list might not be exhaustive.",
+  render: () => {
+    return html`
+      <nys-select
+        label="Which New York State service are you contacting us about?"
+        description="This is for demo purposes and the list might not be exhaustive."
+      >
+        <optgroup label="Transportation Services">
+          <option value="mta">MTA / Public Transit</option>
+          <option value="dmv">Department of Motor Vehicles (DMV)</option>
+          <option value="highway">Highway Maintenance</option>
+        </optgroup>
+        <optgroup label="Health & Human Services">
+          <option value="medicaid">Medicaid / Health Insurance</option>
+          <option value="mental-health">Mental Health Support</option>
+          <option value="child-family">Child and Family Services</option>
+        </optgroup>
+        <optgroup label="Public Safety">
+          <option value="state-police">State Police</option>
+          <option value="emergency-management">Emergency Management</option>
+          <option value="fire-safety">Fire Safety</option>
+        </optgroup>
+        <optgroup label="Environment & Energy">
+          <option value="environmental-conservation">
+            Environmental Conservation
+          </option>
+          <option value="clean-energy">Clean Energy Programs</option>
+          <option value="waste-management">Waste Management</option>
+        </optgroup>
+      </nys-select>
+    `;
   },
-  render: (args) =>
-    html`<nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <optgroup label="Transportation Services">
-        <option value="mta">MTA / Public Transit</option>
-        <option value="dmv">Department of Motor Vehicles (DMV)</option>
-        <option value="highway">Highway Maintenance</option>
-      </optgroup>
-      <optgroup label="Health & Human Services">
-        <option value="medicaid">Medicaid / Health Insurance</option>
-        <option value="mental-health">Mental Health Support</option>
-        <option value="child-family">Child and Family Services</option>
-      </optgroup>
-      <optgroup label="Public Safety">
-        <option value="state-police">State Police</option>
-        <option value="emergency-management">Emergency Management</option>
-        <option value="fire-safety">Fire Safety</option>
-      </optgroup>
-      <optgroup label="Environment & Energy">
-        <option value="environmental-conservation">
-          Environmental Conservation
-        </option>
-        <option value="clean-energy">Clean Energy Programs</option>
-        <option value="waste-management">Waste Management</option>
-      </optgroup>
-    </nys-select>`,
   parameters: {
     docs: {
       source: {
@@ -223,9 +132,7 @@ export const OptionGroup: Story = {
     <option value="fire-safety">Fire Safety</option>
   </optgroup>
   <optgroup label="Environment & Energy">
-    <option value="environmental-conservation">
-      Environmental Conservation
-    </option>
+    <option value="environmental-conservation">Environmental Conservation</option>
     <option value="clean-energy">Clean Energy Programs</option>
     <option value="waste-management">Waste Management</option>
   </optgroup>
@@ -236,84 +143,23 @@ export const OptionGroup: Story = {
   },
 };
 
-export const OptionsLabelSlot: Story = {
-  args: {
-    label: "Select your favorite borough",
-  },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx">The Bronx</option>
-      <option value="brooklyn">Brooklyn</option>
-      <option value="manhattan">Manhattan</option>
-      <option value="staten_island">Staten Island</option>
-      <option value="queens">Queens</option>
-    </nys-select>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-select label="Select your favorite borough">
-  <option value="bronx">The Bronx</option>
-  <option value="brooklyn">Brooklyn</option>
-  <option value="manhattan">Manhattan</option>
-  <option value="staten_island">Staten Island</option>
-  <option value="queens">Queens</option>
-</nys-select>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const Disabled: Story = {
-  args: {
-    label: "Select your favorite borough",
-    value: "",
-    disabled: true,
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough" disabled>
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
   },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx" label="The Bronx"></option>
-      <option value="brooklyn" label="Brooklyn"></option>
-      <option value="manhattan" label="Manhattan"></option>
-      <option value="staten_island" label="Staten Island"></option>
-      <option value="queens" label="Queens"></option>
-    </nys-select>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough" disabled>
+<nys-select label="Select your favorite borough" id="borough" disabled>
   <option value="bronx" label="The Bronx"></option>
   <option value="brooklyn" label="Brooklyn"></option>
   <option value="manhattan" label="Manhattan"></option>
@@ -326,40 +172,52 @@ export const Disabled: Story = {
   },
 };
 
-export const Required: Story = {
-  args: {
-    label: "Select your favorite borough",
-    value: "",
-    required: true,
+export const DisabledOption: Story = {
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough">
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island" disabled></option>
+        <option value="queens" label="Queens" disabled></option>
+      </nys-select>
+    `;
   },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx" label="The Bronx"></option>
-      <option value="brooklyn" label="Brooklyn"></option>
-      <option value="manhattan" label="Manhattan"></option>
-      <option value="staten_island" label="Staten Island"></option>
-      <option value="queens" label="Queens"></option>
-    </nys-select>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough" required>
+<nys-select label="Select your favorite borough" id="borough">
+  <option value="bronx" label="The Bronx"></option>
+  <option value="brooklyn" label="Brooklyn"></option>
+  <option value="manhattan" label="Manhattan"></option>
+  <option value="staten_island" label="Staten Island" disabled></option>
+  <option value="queens" label="Queens" disabled></option>
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Required: Story = {
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough" required>
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough" id="borough" required>
   <option value="bronx" label="The Bronx"></option>
   <option value="brooklyn" label="Brooklyn"></option>
   <option value="manhattan" label="Manhattan"></option>
@@ -373,93 +231,22 @@ export const Required: Story = {
 };
 
 export const Optional: Story = {
-  args: {
-    label: "Select your favorite borough",
-    value: "",
-    optional: true,
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough" optional>
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
   },
-
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx" label="The Bronx"></option>
-      <option value="brooklyn" label="Brooklyn"></option>
-      <option value="manhattan" label="Manhattan"></option>
-      <option value="staten_island" label="Staten Island"></option>
-      <option value="queens" label="Queens"></option>
-    </nys-select>
-  `,
-
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough" optional>
-  <option value="bronx" label="The Bronx"></option>
-  <option value="brooklyn" label="Brooklyn"></option>
-  <option value="manhattan" label="Manhattan"></option>
-  <option value="staten_island" label="Staten Island"></option>
-  <option value="queens" label="Queens"></option>
-</nys-select>`,
-
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Width: Story = {
-  args: {
-    label: "Select your favorite borough",
-    description: "Valid widths are sm, md, lg, and full",
-    value: "",
-    width: "sm",
-  },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx" label="The Bronx"></option>
-      <option value="brooklyn" label="Brooklyn"></option>
-      <option value="manhattan" label="Manhattan"></option>
-      <option value="staten_island" label="Staten Island"></option>
-      <option value="queens" label="Queens"></option>
-    </nys-select>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-select
-  label="Select your favorite borough"
-  description="Valid widths are sm, md, lg, and full"
-  width="xs"
->
+<nys-select label="Select your favorite borough" id="borough" optional>
   <option value="bronx" label="The Bronx"></option>
   <option value="brooklyn" label="Brooklyn"></option>
   <option value="manhattan" label="Manhattan"></option>
@@ -472,46 +259,117 @@ export const Width: Story = {
   },
 };
 
-export const DescriptionSlot: Story = {
-  args: {
-    label: "Select your favorite borough",
-    description: "This is a slot",
-    value: "",
+export const WidthSmall: Story = {
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough" width="sm">
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
   },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <label slot="description">${args.description}</label>
-      <option value="bronx">The Bronx</option>
-      <option value="brooklyn">Brooklyn</option>
-      <option value="manhattan">Manhattan</option>
-      <option value="staten_island">Staten Island</option>
-      <option value="queens">Queens</option>
-    </nys-select>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough">
-  <label slot="description">This is a slot</label>
-  <option value="bronx">The Bronx</option>
-  <option value="brooklyn">Brooklyn</option>
-  <option value="manhattan">Manhattan</option>
-  <option value="staten_island">Staten Island</option>
-  <option value="queens">Queens</option>
+<nys-select label="Select your favorite borough" id="borough" width="sm">
+  <option value="bronx" label="The Bronx"></option>
+  <option value="brooklyn" label="Brooklyn"></option>
+  <option value="manhattan" label="Manhattan"></option>
+  <option value="staten_island" label="Staten Island"></option>
+  <option value="queens" label="Queens"></option>
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WidthMedium: Story = {
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough" width="md">
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough" id="borough" width="md">
+  <option value="bronx" label="The Bronx"></option>
+  <option value="brooklyn" label="Brooklyn"></option>
+  <option value="manhattan" label="Manhattan"></option>
+  <option value="staten_island" label="Staten Island"></option>
+  <option value="queens" label="Queens"></option>
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WidthLarge: Story = {
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough" width="lg">
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough" id="borough" width="lg">
+  <option value="bronx" label="The Bronx"></option>
+  <option value="brooklyn" label="Brooklyn"></option>
+  <option value="manhattan" label="Manhattan"></option>
+  <option value="staten_island" label="Staten Island"></option>
+  <option value="queens" label="Queens"></option>
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SlottedDescription: Story = {
+  render: () => {
+    return html`
+      <nys-select label="Select your favorite borough" id="borough">
+        <label slot="description">This is a slotted description</label>
+        <option value="bronx" label="The Bronx"></option>
+        <option value="brooklyn" label="Brooklyn"></option>
+        <option value="manhattan" label="Manhattan"></option>
+        <option value="staten_island" label="Staten Island"></option>
+        <option value="queens" label="Queens"></option>
+      </nys-select>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough" id="borough">
+  <label slot="description">This is a slotted description</label>
+  <option value="bronx" label="The Bronx"></option>
+  <option value="brooklyn" label="Brooklyn"></option>
+  <option value="manhattan" label="Manhattan"></option>
+  <option value="staten_island" label="Staten Island"></option>
+  <option value="queens" label="Queens"></option>
 </nys-select>`,
         type: "auto",
       },
@@ -520,80 +378,13 @@ export const DescriptionSlot: Story = {
 };
 
 export const ErrorMessage: Story = {
-  args: {
-    label: "Select your favorite borough",
-    value: "",
-    showError: true,
-    errorMessage: "This is an error message",
-  },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <option value="bronx" label="The Bronx"></option>
-      <option value="brooklyn" label="Brooklyn"></option>
-      <option value="manhattan" label="Manhattan"></option>
-      <option value="staten_island" label="Staten Island"></option>
-      <option value="queens" label="Queens"></option>
-    </nys-select>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-select
-  label="Select your favorite borough"
-  errorMessage="This is an error message"
-  showError
->
-  <option value="bronx" label="The Bronx"></option>
-  <option value="brooklyn" label="Brooklyn"></option>
-  <option value="manhattan" label="Manhattan"></option>
-  <option value="staten_island" label="Staten Island"></option>
-  <option value="queens" label="Queens"></option>
-</nys-select>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Inverted: Story = {
-  args: {
-    label: "Select your favorite borough",
-    value: "",
-    inverted: true,
-  },
-  render: (args) => html`
-    <div
-      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
-    >
+  render: () => {
+    return html`
       <nys-select
-        .id=${args.id}
-        .name=${args.name}
-        .label=${args.label}
-        .description=${args.description}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .required=${args.required}
-        .optional=${args.optional}
-        ?inverted=${args.inverted}
-        .form=${args.form}
-        .width=${args.width}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
+        label="Select your favorite borough"
+        id="borough"
+        errorMessage="You did not select a borough"
+        showError
       >
         <option value="bronx" label="The Bronx"></option>
         <option value="brooklyn" label="Brooklyn"></option>
@@ -601,13 +392,18 @@ export const Inverted: Story = {
         <option value="staten_island" label="Staten Island"></option>
         <option value="queens" label="Queens"></option>
       </nys-select>
-    </div>
-  `,
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough" inverted>
+<nys-select
+  label="Select your favorite borough"
+  id="borough"
+  errorMessage="You did not select a borough"
+  showError
+>
   <option value="bronx" label="The Bronx"></option>
   <option value="brooklyn" label="Brooklyn"></option>
   <option value="manhattan" label="Manhattan"></option>

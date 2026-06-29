@@ -16,6 +16,61 @@ let componentIdCounter = 0;
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
+ *
+ * @example Basic table
+ * ```html
+ * <nys-table id="table1" name="table1">
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Striped table
+ * ```html
+ * <nys-table id="table2" name="table2" striped>
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Bordered table
+ * ```html
+ * <nys-table id="table3" name="table3" bordered>
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Sortable table
+ * ```html
+ * <nys-table id="table4" name="table4" sortable>
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Downloadable table
+ * ```html
+ * <nys-table id="table5" name="table5" download="path/to/downloadable/version/of/table.filetype">
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
  */
 export class NysTable extends LitElement {
   static styles = unsafeCSS(styles);

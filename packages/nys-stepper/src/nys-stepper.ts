@@ -98,44 +98,7 @@ let stepperIdCounter = 0;
  *     <nys-button label="Save and Exit" variant="outline" size="sm" fullWidth></nys-button>
  *   </div>
  * </nys-stepper>
- * ```
- *
- * @example SPA / programmatic navigation
- * Two state variables drive the stepper in any framework or vanilla JS:
- * - `currentStep` (progress boundary) → set `current` on the matching step
- * - `viewingStep` (displayed content) → set `selected` on the matching step
- *
- * Always set both explicitly. Always call `e.preventDefault()` in the
- * `nys-step-click` listener to suppress href navigation. Do NOT nest inside a
- * `<form>` element.
- * ```js
- * let currentStep = 0; // furthest reached
- * let viewingStep = 0; // currently displayed
- *
- * function updateStepper(steps) {
- *   steps.forEach((step, i) => {
- *     step.toggleAttribute('current', i === currentStep);
- *     step.toggleAttribute('selected', i === viewingStep);
- *   });
- * }
- *
- * document.querySelector('nys-stepper').addEventListener('nys-step-click', (e) => {
- *   e.preventDefault();
- *   const steps = Array.from(document.querySelectorAll('nys-step'));
- *   const clicked = e.composedPath().find(el => el.tagName?.toLowerCase() === 'nys-step');
- *   const index = steps.indexOf(clicked);
- *   if (index !== -1) { viewingStep = index; updateStepper(steps); }
- * });
- *
- * // Advance to next step (call on form submit / "Continue" click)
- * function advance(steps) {
- *   if (currentStep < steps.length - 1) {
- *     currentStep++;
- *     viewingStep = currentStep;
- *     updateStepper(steps);
- *   }
- * }
- * ```
+ * ```x
  */
 
 export class NysStepper extends LitElement {

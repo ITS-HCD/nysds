@@ -24,12 +24,17 @@ let componentIdCounter = 0;
  * @fires nys-blur - Fired when input or calendar loses focus. Triggers validation.
  * @fires nys-input - Fired on date selection. Detail: `{id, value}`.
  *
- * @example Basic date picker
+ * @example Basic
  * ```html
- * <nys-datepicker label="Birth Date" required></nys-datepicker>
+ * <nys-datepicker
+ *  id="my-datepicker"
+ *  name="my-datepicker"
+ *  label="Schedule an appointment"
+ *  description="Enter in MM/DD/YYYY format"
+ * ></nys-datepicker>
  * ```
  *
- * @example With width and description
+ * @example Width Large
  * ```html
  * <nys-datepicker
  *   label="Event Date"
@@ -38,22 +43,90 @@ let componentIdCounter = 0;
  * </nys-datepicker>
  * ```
  *
- * @example Hide buttons, set start date
+ * @example Width Full
+ * ```html
+ * <nys-datepicker
+ *   label="Event Date"
+ *   description="Select the date of your event"
+ *   width="full">
+ * </nys-datepicker>
+ * ```
+ *
+ * @example Custom Start Date
  * ```html
  * <nys-datepicker
  *   label="Appointment"
- *   hideTodayButton
- *   hideClearButton
  *   startDate="2024-01-01">
  * </nys-datepicker>
  * ```
  *
- * @example With validation error message
+ * @example Without Buttons
+ * ```html
+ * <nys-datepicker
+ *   label="Appointment"
+ *   hideTodayButton
+ *   hideClearButton>
+ * </nys-datepicker>
+ * ```
+ *
+ * @example Error Message
  * ```html
  * <nys-datepicker
  *   label="Start Date"
- *   required
+ *   showError
  *   errorMessage="Please select a valid start date">
+ * </nys-datepicker>
+ * ```
+ *
+ * @example Date Range
+ * ```html
+ * <nys-datepicker
+ *   label="Select a date"
+ *   description="Only dates within April 4/5/2026 - 7/15/2026 are selectable"
+ *   minDate="2026-04-05"
+ *   maxDate="2026-07-15">
+ * </nys-datepicker>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-datepicker
+ *   label="Disabled datepicker"
+ *   disabled
+ *   value="2025-01-15">
+ * </nys-datepicker>
+ * ```
+ *
+ * @example Inverted
+ * ```html
+ * <nys-datepicker
+ *   label="Start Date"
+ *   inverted>
+ * </nys-datepicker>
+ * ```
+ * @render Inverted
+ * ```html
+ * <div style="background: #1b1b1b; padding: 1rem;">
+ *   <nys-datepicker
+ *     label="Start Date"
+ *     inverted>
+ *   </nys-datepicker>
+ * </div>
+ * ```
+ *
+ * @example Required
+ * ```html
+ * <nys-datepicker
+ *   label="Start Date"
+ *   required>
+ * </nys-datepicker>
+ * ```
+ *
+ * @example Optional
+ * ```html
+ * <nys-datepicker
+ *   label="Start Date"
+ *   optional>
  * </nys-datepicker>
  * ```
  */

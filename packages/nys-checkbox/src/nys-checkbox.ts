@@ -24,17 +24,14 @@ let checkboxIdCounter = 0;
  * @fires nys-blur - Fired when checkbox loses focus.
  * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
- * @example Single checkbox
+ * @example Single
  * ```html
- * <nys-checkbox label="I agree to the terms" name="terms" required></nys-checkbox>
+ * <nys-checkbox label="I agree to the terms" name="terms"></nys-checkbox>
  * ```
  *
- * @example Checkbox group
+ * @example Preselected
  * ```html
- * <nys-checkboxgroup label="Select landmarks">
- *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
- * </nys-checkboxgroup>
+ * <nys-checkbox label="I agree to the terms" name="terms" checked></nys-checkbox>
  * ```
  */
 

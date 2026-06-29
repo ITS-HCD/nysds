@@ -21,14 +21,50 @@ let toggleIdCounter = 0;
  * @fires nys-focus - Fired when toggle gains focus.
  * @fires nys-blur - Fired when toggle loses focus.
  *
- * @example Basic toggle
+ * @example Basic
  * ```html
- * <nys-toggle label="Enable notifications" name="notifications"></nys-toggle>
+ * <nys-toggle label="Enable notifications" name="notifications" value="enabled-notifications"></nys-toggle>
  * ```
  *
- * @example Dark mode toggle
+ * @example Checked
  * ```html
- * <nys-toggle label="Dark mode" description="Adjust display for low light" checked></nys-toggle>
+ * <nys-toggle label="Dark Mode" name="theme" value="dark" checked></nys-toggle>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-toggle label="Opt Out of emails" name="toggle-switch" value="emails" disabled></nys-toggle>
+ * ```
+ *
+ * @example Hide Icon
+ * ```html
+ * <nys-toggle label="No icon on the toggle knob" name="icon" value="no-icon" noIcon></nys-toggle>
+ * ```
+ *
+ * @example Size small
+ * ```html
+ *  <nys-toggle label="Tiny but mighty" name="sm-size" value="sm-size" size="sm"></nys-toggle>
+ * ```
+ *
+ * @example Description
+ * ```html
+ * <nys-toggle
+ *   label="Opt Out of emails"
+ *   description="An email address is recommended to be on file for contact information."
+ *   name="toggle-switch"
+ *   value="emails"
+ * ></nys-toggle>
+ * ```
+ *
+ * @example Rich Description
+ * ```html
+ * <nys-toggle
+ *   label="Opt Out of emails"
+ *   name="toggle-switch"
+ *   value="emails"
+ * >
+ *   <p slot="description">We <strong>REALLY</strong> encourage you to keep emails enabled for contact purposes.</p>
+ * </nys-toggle>
  * ```
  */
 

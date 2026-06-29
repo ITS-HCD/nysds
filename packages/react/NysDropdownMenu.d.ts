@@ -50,7 +50,7 @@ export interface NysDropdownMenuProps extends Pick<
 }
 
 /**
- *
+ * Action menu with auto-positioning, keyboard support, and screen reader integration.
  * ---
  *
  */

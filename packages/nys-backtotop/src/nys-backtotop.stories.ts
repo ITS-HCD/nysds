@@ -5,36 +5,23 @@ import "@nysds/nys-unavheader";
 import "@nysds/nys-globalheader";
 import "@nysds/nys-unavfooter";
 import "@nysds/nys-button";
-import "@nysds/nys-icon";
 
-// Define the structure of the args used in the stories
-interface NysBacktotopArgs {
-  position: string;
-}
-
-const meta: Meta<NysBacktotopArgs> = {
+const meta: Meta = {
   title: "Components/Backtotop",
   component: "nys-backtotop",
-  argTypes: {
-    position: {
-      control: "select",
-      options: ["left", "right"],
-    },
-  },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<NysBacktotopArgs>;
+type Story = StoryObj;
 
-// Define stories without using args
 export const Basic: Story = {
-  render: (args) => {
+  render: () => {
     return html`
       <style>
         code {
@@ -46,7 +33,6 @@ export const Basic: Story = {
           font-size: var(--nys-font-size-sm);
         }
       </style>
-
       <nys-unavheader hideTranslate hideSearch></nys-unavheader>
       <nys-globalheader appName="Back to Top Example"></nys-globalheader>
       <main style="padding: 0 2rem">
@@ -54,12 +40,12 @@ export const Basic: Story = {
         <p>
           This is a sample content area used to demonstrate the functionality of
           the Back to Top button. In an actual application,
-          <code>nys-backtotop</code> would not be visible until the user scrolls
-          down the page.
+          <code>nys-backtotop</code>
+          would not be visible until the user scrolls down the page.
         </p>
       </main>
       <footer>
-        <nys-backtotop visible .position=${args.position}></nys-backtotop>
+        <nys-backtotop visible .position="${args.position}"></nys-backtotop>
         <nys-unavfooter></nys-unavfooter>
       </footer>
     `;
@@ -67,7 +53,8 @@ export const Basic: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<footer>
+        code: `
+<footer>
   <nys-backtotop></nys-backtotop>
   <!-- Other footer content -->
 </footer>`,
@@ -78,10 +65,7 @@ export const Basic: Story = {
 };
 
 export const Left: Story = {
-  args: {
-    position: "left",
-  },
-  render: (args) => {
+  render: () => {
     return html`
       <style>
         code {
@@ -92,16 +76,13 @@ export const Left: Story = {
           background: var(--nys-color-neutral-10);
           font-size: var(--nys-font-size-sm);
         }
-
         nys-button {
           position: fixed;
           bottom: 1rem;
           right: 1rem;
-          /* These props ARE NOT publicly overridable */
           --_nys-button-border-radius: var(--nys-radius-round);
         }
       </style>
-
       <nys-unavheader hideTranslate hideSearch></nys-unavheader>
       <nys-globalheader appName="Back to Top Example"></nys-globalheader>
       <main style="padding: 0 2rem">
@@ -109,12 +90,12 @@ export const Left: Story = {
         <p>
           This is a sample content area used to demonstrate the functionality of
           the Back to Top button. In an actual application,
-          <code>nys-backtotop</code> would not be visible until the user scrolls
-          down the page.
+          <code>nys-backtotop</code>
+          would not be visible until the user scrolls down the page.
         </p>
       </main>
       <footer>
-        <nys-backtotop visible .position=${args.position}></nys-backtotop>
+        <nys-backtotop visible position="left"></nys-backtotop>
         <nys-button
           prefixIcon="sms"
           variant="outline"
@@ -128,7 +109,8 @@ export const Left: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<footer>
+        code: `
+<footer>
   <nys-backtotop position="left"></nys-backtotop>
   <!-- Other footer content -->
 </footer>`,

@@ -21,19 +21,48 @@ let accordionIdCounter = 0;
  * @cssprop [--nys-accordion-background-color--header--hover] - Background hover color of the accordion header.
  * @cssprop [--nys-accordion-content-max-width] - Maximum readable width of accordion content. Defaults to a character-based width (80ch) for readability.
  *
- * @example Basic accordion
+ * @example Basic
  * ```html
  * <nys-accordion>
- *   <nys-accordionitem heading="Section 1">Content for section 1</nys-accordionitem>
- *   <nys-accordionitem heading="Section 2">Content for section 2</nys-accordionitem>
+ *   <nys-accordionitem id="accordionId1" heading="How do I renew my passport or apply for a new one?">
+ *     <p>
+ *       You can apply for or renew a U.S. passport through the U.S. Department
+ *       of State. Some renewals can be done by mail.
+ *     </p>
+ *     <div style="display: flex; gap: 0.5rem; font-size: 1rem;">
+ *      <a href="https://www.ny.gov" target="_blank">Check your registration</a>
+ *      <a href="https://www.ny.gov" target="_blank">Fill out application</a>
+ *    </div>
+ *  </nys-accordionitem>
+ *  <nys-accordionitem id="accordionId2" heading="How can I find out if I’m registered to vote?">
+ *    <p>You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.</p>
+ *   </nys-accordionitem>
  * </nys-accordion>
  * ```
  *
- * @example Single-select accordion
+ * @example Single Select
  * ```html
- * <nys-accordion singleSelect bordered>
- *   <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
+ * <nys-accordion singleSelect>
+ *   <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
  *   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
+ * </nys-accordion>
+ * ```
+ *
+ * @example Bordered
+ * ```html
+ *
+ * <nys-accordion bordered>
+ *  <nys-accordionitem heading="We are a group of accordions">
+ *   <p>Stronger together! Learn more at
+ *      <a href="https://www.ny.gov" target="_blank">ny.gov</a>
+ *    </p>
+ *  </nys-accordionitem>
+ *   <nys-accordionitem heading="Liberty Ipsum: Bridges & Boroughs">
+ *    <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
+ *   </nys-accordionitem>
+ *   <nys-accordionitem heading="Hudson Ipsum: Riverfront Stories">
+ *     <p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+ *   </nys-accordionitem>
  * </nys-accordion>
  * ```
  */

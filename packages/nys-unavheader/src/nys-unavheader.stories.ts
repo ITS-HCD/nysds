@@ -1,210 +1,143 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-unavheader";
-import "@nysds/nys-button";
-import "@nysds/nys-icon";
 import "@nysds/nys-textinput";
 
-interface Language {
-  code: string;
-  label: string;
-  url?: string;
-}
-
-// Define the structure of the args used in the stories
-interface NysUnavHeaderArgs {
-  hideTranslate: boolean;
-  hideSearch: boolean;
-  searchUrl: string;
-  languages: Language[];
-}
-
-const meta: Meta<NysUnavHeaderArgs> = {
-  title: "Components/UnavHeader",
+const meta: Meta = {
+  title: "Components/Unavheader",
   component: "nys-unavheader",
-  argTypes: {
-    hideTranslate: { control: "boolean" },
-    hideSearch: { control: "boolean" },
-    searchUrl: { control: "text" },
-    languages: { control: "text" },
-  },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<NysUnavHeaderArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
-  args: {
-    hideTranslate: false,
-    hideSearch: false,
-    searchUrl: "",
+  render: () => {
+    return html` <nys-unavheader></nys-unavheader> `;
   },
-  render: (args) =>
-    html`<nys-unavheader
-      .hideTranslate=${args.hideTranslate}
-      .hideSearch=${args.hideSearch}
-      .searchUrl=${args.searchUrl}
-    ></nys-unavheader>`,
   parameters: {
     docs: {
       source: {
-        code: `<nys-unavheader></nys-unavheader>`,
+        code: `
+<nys-unavheader></nys-unavheader>`,
         type: "auto",
       },
     },
   },
 };
 
-export const HideTranslateSearch: Story = {
-  args: {
-    hideTranslate: true,
-    hideSearch: true,
-    searchUrl: "",
+export const HideSearch: Story = {
+  render: () => {
+    return html` <nys-unavheader hideSearch></nys-unavheader> `;
   },
-  render: (args) =>
-    html`<nys-unavheader
-      .hideTranslate=${args.hideTranslate}
-      .hideSearch=${args.hideSearch}
-    ></nys-unavheader>`,
   parameters: {
     docs: {
       source: {
-        code: `<nys-unavheader hideTranslate hideSearch></nys-unavheader>`,
+        code: `
+<nys-unavheader hideSearch></nys-unavheader>`,
         type: "auto",
       },
     },
   },
 };
 
-export const CustomSearchUrl: Story = {
-  args: {
-    hideTranslate: true,
-    hideSearch: false,
-    searchUrl: "https://www.google.com/search?q=",
+export const HideTranslate: Story = {
+  render: () => {
+    return html` <nys-unavheader hideTranslate></nys-unavheader> `;
   },
-  render: (args) =>
-    html`<nys-unavheader
-      .hideTranslate=${args.hideTranslate}
-      .hideSearch=${args.hideSearch}
-      .searchUrl=${args.searchUrl}
-    ></nys-unavheader>`,
   parameters: {
     docs: {
       source: {
-        code: `<nys-unavheader hideTranslate searchUrl="https://www.google.com/search?q="></nys-unavheader>`,
+        code: `
+<nys-unavheader hideTranslate></nys-unavheader>`,
         type: "auto",
       },
     },
   },
 };
-export const CustomLanguages: Story = {
-  args: {
-    hideTranslate: false,
-    hideSearch: false,
-    searchUrl: "",
-    languages: [
-      { code: "en", label: "English" },
-      { code: "es", label: "Español" },
-      { code: "fr", label: "Français" },
-    ],
+
+export const CustomSearchURL: Story = {
+  render: () => {
+    return html`
+      <nys-unavheader
+        searchUrl="https://designsystem.ny.gov/search/?q="
+      ></nys-unavheader>
+    `;
   },
-  render: (args) =>
-    html`<nys-unavheader
-      .hideTranslate=${args.hideTranslate}
-      .hideSearch=${args.hideSearch}
-      .searchUrl=${args.searchUrl}
-      .languages=${args.languages}
-    ></nys-unavheader>`,
   parameters: {
     docs: {
       source: {
-        code: `<nys-unavheader id="my-header"></nys-unavheader>
+        code: `
+<nys-unavheader searchUrl="https://designsystem.ny.gov/search/?q="></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomLanguageList: Story = {
+  render: () => {
+    return html`
+      <nys-unavheader id="my-header"></nys-unavheader>
+      <script>
+        const header = document.querySelector("#my-header");
+        header.languages = [
+          { code: "en", label: "English" },
+          { code: "es", label: "Español", url: '"https://ny.gov/?lang=es"' },
+          { code: "fr", label: "Français", url: '"https://ny.gov/?lang=fr"' },
+        ];
+      </script>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-unavheader id="my-header"></nys-unavheader>
 <script>
-  const header = document.querySelector('#my-header');
-  header.languages = [
-    { code: 'en', label: 'English' },
-    { code: 'es', label: 'Español' },
-    { code: 'fr', label: 'Français' },
-  ];
+const header = document.querySelector('#my-header');
+header.languages = [
+{ code: 'en', label: 'English' },
+{ code: 'es', label: 'Español' , url: '"https://ny.gov/?lang=es"'},
+{ code: 'fr', label: 'Français', url: '"https://ny.gov/?lang=fr"'},
+];
 </script>`,
         type: "auto",
       },
     },
   },
 };
-export const CustomLanguageUrl: Story = {
-  args: {
-    hideTranslate: false,
-    hideSearch: true,
-    searchUrl: "",
-    languages: [
-      { code: "en", label: "English" },
-      { code: "es", label: "Español", url: "https://www.google.com" },
-      { code: "fr", label: "Français", url: "https://www.google.com" },
-    ],
+
+export const CustomLanguageListJS: Story = {
+  render: () => {
+    return html`
+      <nys-unavheader id="my-header2"></nys-unavheader>
+      <script>
+        document
+          .querySelector("#my-header2")
+          .addEventListener("nys-language-select", (event) => {
+            event.preventDefault();
+            const selectedLanguage = event.detail.language.label;
+          });
+      </script>
+    `;
   },
-  render: (args) =>
-    html`<nys-unavheader
-      .hideTranslate=${args.hideTranslate}
-      .hideSearch=${args.hideSearch}
-      .searchUrl=${args.searchUrl}
-      .languages=${args.languages}
-    ></nys-unavheader>`,
   parameters: {
     docs: {
       source: {
-        code: `<nys-unavheader id="my-header" hideSearch></nys-unavheader>
+        code: `
+<nys-unavheader id="my-header2"></nys-unavheader>
 <script>
-  const header = document.querySelector('#my-header');
-  header.languages = [
-    { code: 'en', label: 'English' },
-    { code: 'es', label: 'Español', url: 'https://www.google.com' },
-    { code: 'fr', label: 'Français', url: 'https://www.google.com' },
-  ];
-</script>`,
-        type: "auto",
-      },
-    },
-  },
-};
-export const CustomLanguageJSOverride: Story = {
-  args: {
-    hideTranslate: false,
-    hideSearch: true,
-    searchUrl: "",
-    languages: [
-      { code: "en", label: "English" },
-      { code: "es", label: "Español" },
-      { code: "fr", label: "Français" },
-    ],
-  },
-  render: (args) =>
-    html`<nys-unavheader
-      .hideTranslate=${args.hideTranslate}
-      .hideSearch=${args.hideSearch}
-      .searchUrl=${args.searchUrl}
-      .languages=${args.languages}
-      @nys-language-select=${(e: CustomEvent) => {
-        e.preventDefault();
-        alert(`Language changed to: ${e.detail.language.label}`);
-      }}
-    ></nys-unavheader>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `<nys-unavheader id="my-header" hideSearch></nys-unavheader>
-<script>
-  document.querySelector('#my-header').addEventListener('nys-language-select', (event) => {
-    event.preventDefault();
-    const selectedLanguage = event.detail.language.label;
-    alert(\`Language changed to: \${selectedLanguage}\`);
-  });
+document.querySelector('#my-header2').addEventListener('nys-language-select', (event) => {
+event.preventDefault();
+const selectedLanguage = event.detail.language.label;
+});
 </script>`,
         type: "auto",
       },

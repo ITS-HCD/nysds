@@ -27,16 +27,25 @@ let componentIdCounter = 0;
  *
  * @slot - No slots; content is derived from the `label` property.
  *
- * @example `<nys-tab>` and `<nys-tabpanel>` should always be wrapped by `<nys-tabgroup>`
+ * @example Disabled
  * ```html
- * <!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->
- * <nys-tabgroup name="My Tabs">
- *   <nys-tab label="Overview"></nys-tab>
+ * <nys-tabgroup name="Account Settings">
+ *   <nys-tab label="Profile"></nys-tab>
+ *   <nys-tab label="Security"></nys-tab>
+ *   <nys-tab label="Notifications" disabled></nys-tab>
+ *   <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>
+ * </nys-tabgroup>
+ * ```
+ *
+ * @example Preselected
+ * ```html
+ * <nys-tabgroup name="Reports">
+ *   <nys-tab label="Summary"></nys-tab>
  *   <nys-tab label="Details" selected></nys-tab>
- *   <nys-tab label="Archived" disabled></nys-tab>
- *   <nys-tabpanel><p>Overview content</p></nys-tabpanel>
- *   <nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>
- *   <nys-tabpanel><p>Archived content</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Summary view</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>
  * </nys-tabgroup>
  * ```
  */
