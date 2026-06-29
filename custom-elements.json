@@ -2632,6 +2632,98 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-card/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-card/src/nys-card"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-card/src/nys-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-your-component-name>` is ...",
+          "name": "NysCard",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name",
+              "propName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-card",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-card",
+          "declaration": {
+            "name": "NysCard",
+            "module": "packages/nys-card/src/nys-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCard",
+          "declaration": {
+            "name": "NysCard",
+            "module": "packages/nys-card/src/nys-card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-checkbox/src/index.ts",
       "declarations": [],
       "exports": [

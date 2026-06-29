@@ -250,6 +250,13 @@ export type NysButtonProps = {
   "onnys-click"?: (e: CustomEvent<Event>) => void;
 };
 
+export type NysCardProps = {
+  /**  */
+  id?: string;
+  /**  */
+  name?: string;
+};
+
 export type NysCheckboxProps = {
   /** Whether checkbox is checked. */
   checked?: boolean;
@@ -1154,6 +1161,13 @@ export type CustomElements = {
    * - **--nys-button-border-color--active** - Border color when active/pressed. _(default: undefined)_
    */
   "nys-button": Partial<NysButtonProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-your-component-name>` is ...
+   * ---
+   *
+   */
+  "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 
   /**
    * Checkbox for binary choices or multi-select options.
