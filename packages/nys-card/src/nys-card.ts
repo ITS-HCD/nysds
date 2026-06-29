@@ -3,11 +3,10 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-card.scss?inline";
 
-
-let componentIdCounter = 0; 
+let componentIdCounter = 0;
 
 /**
- * `<nys-your-component-name>` is ...
+ * A card component is a reusable, self-contained element that groups related content and actions about a single subject into a distinct, flexible container.
  */
 
 export class NysCard extends LitElement {
@@ -16,12 +15,11 @@ export class NysCard extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
 
-
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
-   
+
   constructor() {
     super();
   }
@@ -33,7 +31,6 @@ export class NysCard extends LitElement {
       this.id = `nys-card-${Date.now()}-${componentIdCounter++}`;
     }
   }
-
 
   /**
    * Functions

@@ -4,7 +4,7 @@
   /* Global Card Styles */
   --_nys-card-width: fit-content;
   --_nys-card-height: var(--nys-size-600, 48px);
-  --_nys-card-radius: var(--nys-radius-xl, 12px);
+  --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-padding: var(--nys-space-100, 8px);
   --_nys-card-gap: var(--nys-space-100, 8px);
 
@@ -28,7 +28,6 @@
 .nys-card {
   width: var(--_nys-card-width);
   height: var(--_nys-card-height);
-  border-radius: var(--_nys-card-radius);
   padding: var(--_nys-card-padding);
   display: flex;
   align-items: center;
@@ -38,4 +37,14 @@
   font-size: var(--_nys-card-font-size);
   font-weight: var(--_nys-card-font-weight);
   line-height: var(--_nys-card-line-height);
+
+  border-radius: var(--_nys-card-border-radius);
+  border: var(--nys-border-width-sm, 1px) solid
+    var(--nys-color-neutral-200, #bec0c1);
+  background-color: var(--nys-color-surface, #fff);
+
+  /* Elevation/Raised --nys-shadow-raised */
+  box-shadow:
+    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
+    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
 }
