@@ -264,7 +264,7 @@
   .nys-step__number {
     border-radius: 0;
     border: none;
-    background-color: var(--nys-color-neutral-200, #bec0c1);
+    background-color: var(--nys-color-surface-sunken-strong, #bec0c1);
     height: var(--nys-size-100, 8px);
     min-height: var(--nys-size-100, 8px);
     max-height: var(--nys-size-100, 8px);
@@ -276,7 +276,7 @@
 
   :host([previous]) .nys-step__number,
   :host([current]) .nys-step__number {
-    background-color: var(--nys-color-neutral-900, #1b1b1b);
+    background-color: var(--nys-color-text, #1b1b1b);
     color: transparent;
   }
 

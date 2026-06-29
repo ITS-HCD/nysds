@@ -15,11 +15,11 @@
   /* Header & Text container */
   --_nys-accordion-background-color--header: var(
     --nys-accordion-background-color--header,
-    var(--nys-color-neutral-50, #ededed)
+    var(--nys-color-surface-sunken, #ededed)
   );
   --_nys-accordion-background-color--header--hover: var(
     --nys-accordion-background-color--header--hover,
-    var(--nys-color-neutral-100, #d0d0ce)
+    var(--nys-color-surface-sunken-strong, #d0d0ce)
   );
   --_nys-accordionitem-gap: var(--nys-space-200, 16px);
   --_nys-accordionitem-background-color: var(--nys-color-surface, #ffffff);

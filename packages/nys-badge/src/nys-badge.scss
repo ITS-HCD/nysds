@@ -50,8 +50,8 @@
 }
 
 :host([intent="error"]) {
-  --_nys-badge-background-color: var(--nys-color-error-weak, #f7eaea);
-  --_nys-badge-border-color: var(--nys-color-error-strong, #721c1c);
+  --_nys-badge-background-color: var(--nys-color-danger-weak, #f7eaea);
+  --_nys-badge-border-color: var(--nys-color-danger-strong, #721c1c);
   --_nys-badge-color-on: var(--nys-color-danger-on, #ffffff);
 }
 

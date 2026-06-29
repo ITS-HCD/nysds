@@ -56,7 +56,7 @@
     var(--nys-color-transparent, #ffffff00)
   );
   --_nys-button-background-color--disabled: var(
-    --nys-color-neutral-10,
+    --nys-color-surface-raised,
     #f6f6f6
   );
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
@@ -164,7 +164,7 @@
 
   /* Filled - Disabled */
   --_nys-button-background-color--disabled: var(
-    --nys-color-neutral-10,
+    --nys-color-surface-raised,
     #f6f6f6
   );
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
