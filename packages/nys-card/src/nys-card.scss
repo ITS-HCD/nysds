@@ -1,0 +1,41 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Card Styles */
+  --_nys-card-width: fit-content;
+  --_nys-card-height: var(--nys-size-600, 48px);
+  --_nys-card-radius: var(--nys-radius-xl, 12px);
+  --_nys-card-padding: var(--nys-space-100, 8px);
+  --_nys-card-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-card-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-card-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-card-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+.nys-card {
+  width: var(--_nys-card-width);
+  height: var(--_nys-card-height);
+  border-radius: var(--_nys-card-radius);
+  padding: var(--_nys-card-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_nys-card-gap);
+  font-family: var(--_nys-card-font-family);
+  font-size: var(--_nys-card-font-size);
+  font-weight: var(--_nys-card-font-weight);
+  line-height: var(--_nys-card-line-height);
+}
