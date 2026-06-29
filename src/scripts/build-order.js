@@ -10,6 +10,7 @@ const packages = [
   { name: "nys-backtotop", path: "packages/nys-backtotop" },
   { name: "nys-badge", path: "packages/nys-badge" },
   { name: "nys-button", path: "packages/nys-button" },
+  { name: "nys-card", path: "packages/nys-card" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-combobox", path: "packages/nys-combobox" },
   { name: "nys-datepicker", path: "packages/nys-datepicker" },
