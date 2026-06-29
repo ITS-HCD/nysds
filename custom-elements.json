@@ -5845,7 +5845,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Dropdown menus enable users to select an action from a list of options.\nThey’re commonly used to save space by grouping related actions, or to provide actions in a confined space.",
           "name": "NysDropdownMenu",
           "members": [
             {
@@ -6222,7 +6222,16 @@
             "package": "lit"
           },
           "tagName": "nys-dropdownmenu",
-          "customElement": true
+          "customElement": true,
+          "summary": "Action menu with auto-positioning, keyboard support, and screen reader integration.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>",
+              "lang": "html",
+              "render": "<div style=\"margin: 200px; display: flex; justify-content: center; align-items: center;\">\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>"
+            }
+          ]
         }
       ],
       "exports": [
@@ -6401,19 +6410,7 @@
           },
           "tagName": "nys-dropdownmenuitem",
           "customElement": true,
-          "summary": "Dropdown item to display label and provide href link.",
-          "examples": [
-            {
-              "title": "Basic item",
-              "code": "<nys-dropdownmenuitem label=\"Edit\" link=\"/edit\"></nys-dropdownmenuitem>",
-              "lang": "html"
-            },
-            {
-              "title": "Disabled item",
-              "code": "<nys-dropdownmenuitem label=\"Delete\" link=\"/delete\" disabled></nys-dropdownmenuitem>",
-              "lang": "html"
-            }
-          ]
+          "summary": "Dropdown item to display label and provide href link."
         }
       ],
       "exports": [
