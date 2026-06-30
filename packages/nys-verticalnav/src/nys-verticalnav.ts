@@ -12,6 +12,8 @@ let verticalNavIdCounter = 0;
 type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 let _lightSheet: CSSStyleSheet | null = null;
+// Injects the lightDOM styling for the scss for
+// styling CSS into the adopted/constructed stylesheet.
 function adoptLightStyles() {
   if (_lightSheet || typeof document === "undefined") return;
   _lightSheet = new CSSStyleSheet();
