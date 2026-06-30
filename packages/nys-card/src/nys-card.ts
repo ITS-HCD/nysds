@@ -97,10 +97,12 @@ export class NysCard extends LitElement {
           </div>`
         : ""}
       <slot name="top-slot" class="nys-card__top-slot"></slot>
-      <p>${this.preheading}</p>
-      <h2 class="nys-card__heading">${this.heading}</h2>
-      <p>${this.subheading}</p>
-      <p>${this.description}</p>
+      <div>
+        <p class="nys-card__preheading">${this.preheading}</p>
+        <h2 class="nys-card__heading">${this.heading}</h2>
+        <p class="nys-card__subheading">${this.subheading}</p>
+      </div>
+      <p class="nys-card__description">${this.description}</p>
       <slot></slot>
       <slot name="footer-slot" class="nys-card__footer-slot"></slot>
     </div>`;

@@ -7,8 +7,8 @@
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-padding--x: var(--nys-space-300, 24px);
   --_nys-card-padding--y: var(--nys-space-250, 20px);
-  --_nys-card-gap: var(--nys-space-100, 8px);
   --_nys-card-background-color: var(--nys-color-surface, #ffffff);
+  --_nys-card-gap: var(--nys-space-150, 12px);
 
   /* Typography */
   --_nys-card-color: var(--nys-color-text-weak, #4a4d4f);
@@ -34,27 +34,77 @@
   width: var(--_nys-card-width);
   height: var(--_nys-card-height);
   padding: var(--_nys-card-padding--y) var(--_nys-card-padding--x);
+  gap: var(--_nys-card-gap);
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
-  gap: var(--_nys-card-gap);
 
   border-radius: var(--_nys-card-border-radius);
   border: var(--nys-border-width-sm, 1px) solid
     var(--nys-color-neutral-200, #bec0c1);
   background-color: var(--_nys-card-background-color);
 
+  &__preheading {
+    padding: 0;
+    margin: 0;
+
+    color: var(--nys-color-text-weak, #4a4d4f);
+
+    /* UI/Medium/Bold */
+    font-family: var(--nys-font-family-ui, "Proxima Nova");
+    font-size: var(--nys-font-size-ui-md, 16px);
+    font-style: normal;
+    font-weight: 700;
+    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+  }
+
   &__heading {
+    padding: 0;
+    margin: 0;
+
     color: var(--nys-color-text);
 
     /* UI/Heading/Heading 2/Bold */
     font-family: var(--nys-font-family-heading, "Proxima Nova");
-    font-size: var(--nys-font-size-heading-h-2, 28px);
+    font-size: var(--nys-font-size-h2, 28px);
     font-style: normal;
     font-weight: 700;
-    line-height: var(--nys-font-lineheight-heading-h-2, 36px); /* 128.571% */
-    letter-spacing: var(--nys-font-letterspacing-heading-h-2, 0.013px);
+    line-height: var(--nys-font-lineheight-h2, 36px); /* 128.571% */
+    letter-spacing: var(--nys-font-letterspacing-h2, 0.013px);
+  }
+
+  &__subheading {
+    padding: 0;
+    margin: 0;
+
+    overflow: hidden;
+    color: var(--nys-color-text-weak, #4a4d4f);
+    text-overflow: ellipsis;
+
+    /* UI/Large/Semibold */
+    font-family: var(--nys-font-family-ui, "Proxima Nova");
+    font-size: var(--nys-font-size-ui-lg, 18px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--nys-font-lineheight-ui-lg, 28px); /* 155.556% */
+    letter-spacing: var(--nys-font-letterspacing-ui-lg, 0.028px);
+  }
+
+  &__description {
+    padding: 0;
+    margin: 0;
+
+    color: var(--nys-color-text-weak, #4a4d4f);
+
+    /* UI/Medium/Regular */
+    font-family: var(--nys-font-family-ui, "Proxima Nova");
+    font-size: var(--nys-font-size-ui-md, 16px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
   }
 }
 
