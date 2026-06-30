@@ -2661,18 +2661,90 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
               "attribute": "id",
               "reflects": true
             },
             {
               "kind": "field",
-              "name": "name",
+              "name": "preheading",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "attribute": "name",
+              "description": "Appears above the heading text.",
+              "attribute": "preheading"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heading text in the card.",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "subheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the heading text.",
+              "attribute": "subheading"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content.",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "media",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visual content for the card. Supported types are images: png, jpg, etc.",
+              "attribute": "media"
+            },
+            {
+              "kind": "field",
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds padding around the media to visually contain it.",
+              "attribute": "inset"
+            },
+            {
+              "kind": "field",
+              "name": "elevated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
+              "attribute": "elevated",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "mediaAccent",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accent appearing on the media. Only supports date in v1",
+              "attribute": "mediaAccent"
             }
           ],
           "attributes": [
@@ -2682,17 +2754,89 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
               "fieldName": "id",
               "propName": "id"
             },
             {
-              "name": "name",
+              "name": "preheading",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "name",
-              "propName": "name"
+              "description": "Appears above the heading text.",
+              "fieldName": "preheading",
+              "propName": "preheading"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heading text in the card.",
+              "fieldName": "heading",
+              "propName": "heading"
+            },
+            {
+              "name": "subheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the heading text.",
+              "fieldName": "subheading",
+              "propName": "subheading"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content.",
+              "fieldName": "description",
+              "propName": "description"
+            },
+            {
+              "name": "media",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visual content for the card. Supported types are images: png, jpg, etc.",
+              "fieldName": "media",
+              "propName": "media"
+            },
+            {
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds padding around the media to visually contain it.",
+              "fieldName": "inset",
+              "propName": "inset"
+            },
+            {
+              "name": "elevated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
+              "fieldName": "elevated",
+              "propName": "elevated"
+            },
+            {
+              "name": "mediaAccent",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accent appearing on the media. Only supports date in v1",
+              "fieldName": "mediaAccent",
+              "propName": "mediaaccent"
             }
           ],
           "superclass": {

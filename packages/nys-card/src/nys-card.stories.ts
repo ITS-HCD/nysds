@@ -5,19 +5,6 @@ import "./nys-card";
 // Define the structure of the args used in the stories
 interface NysCardArgs {
   id: string;
-  name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string | null;
-  value: string;
-  type: string;
-  href: string;
   onClick: () => void;
 }
 
@@ -26,7 +13,6 @@ const meta: Meta<NysCardArgs> = {
   component: "nys-card",
   argTypes: {
     id: { control: "text" },
-    name: { control: "text" },
   },
   parameters: {
     docs: {
@@ -44,14 +30,22 @@ type Story = StoryObj<NysCardArgs>;
 export const Basic: Story = {
   args: {
     id: "card1",
-    name: "card1",
   },
   render: (args) => html`
-    <nys-card .id=${args.id} .name=${args.name}>
-      <div slot="footer-slot">this is my footer</div>
-      <div slot="header-slot">this is my header</div>
-      Test</nys-card
+    <nys-card
+      .id=${args.id}
+      media="testing"
+      mediaAccent="1/1"
+      preheading="preheading"
+      heading="heading"
+      subheading="subheading"
+      description="description"
+      elevated
     >
+      <div slot="footer-slot">this is my footer</div>
+      <div slot="top-slot">this is my top</div>
+      Slotted Content
+    </nys-card>
   `,
   parameters: {
     docs: {
@@ -59,7 +53,6 @@ export const Basic: Story = {
         code: `
 <nys-card
   id="card1"
-  name="card1"
 ></nys-card>`,
         type: "auto",
       },

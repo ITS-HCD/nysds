@@ -43,4 +43,4 @@ describe("nys-card", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

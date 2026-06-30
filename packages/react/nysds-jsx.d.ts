@@ -251,10 +251,24 @@ export type NysButtonProps = {
 };
 
 export type NysCardProps = {
-  /**  */
+  /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /**  */
-  name?: string;
+  /** Appears above the heading text. */
+  preheading?: string;
+  /** Heading text in the card. */
+  heading?: string;
+  /** Appears below the heading text. */
+  subheading?: string;
+  /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
+  description?: string;
+  /** Visual content for the card. Supported types are images: png, jpg, etc. */
+  media?: string;
+  /** When true, adds padding around the media to visually contain it. */
+  inset?: boolean;
+  /** When true, adds a drop shadow to the card, giving it a raised appearance. */
+  elevated?: boolean;
+  /** Accent appearing on the media. Only supports date in v1 */
+  mediaAccent?: string;
 };
 
 export type NysCheckboxProps = {

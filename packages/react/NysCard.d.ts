@@ -18,11 +18,32 @@ export interface NysCardProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** undefined */
+  /** When true, adds padding around the media to visually contain it. */
+  inset?: boolean;
+
+  /** When true, adds a drop shadow to the card, giving it a raised appearance. */
+  elevated?: boolean;
+
+  /** Unique identifier. Auto-generated if not provided. */
   id?: NysCardElement["id"];
 
-  /** undefined */
-  name?: NysCardElement["name"];
+  /** Appears above the heading text. */
+  preheading?: NysCardElement["preheading"];
+
+  /** Heading text in the card. */
+  heading?: NysCardElement["heading"];
+
+  /** Appears below the heading text. */
+  subheading?: NysCardElement["subheading"];
+
+  /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
+  description?: NysCardElement["description"];
+
+  /** Visual content for the card. Supported types are images: png, jpg, etc. */
+  media?: NysCardElement["media"];
+
+  /** Accent appearing on the media. Only supports date in v1 */
+  mediaAccent?: NysCardElement["mediaAccent"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
