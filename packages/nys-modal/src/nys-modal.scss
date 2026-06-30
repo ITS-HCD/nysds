@@ -133,7 +133,6 @@ p {
 .nys-modal_body-inner {
   overflow: auto;
   width: 100%;
-  //max-height: 45vh;
   max-height: 100%;
 }
 
@@ -156,10 +155,6 @@ p {
 
 /* Mobile Large */
 @media (width >= 480px) {
-  // .nys-modal_body-inner {
-  //   //max-height: 25vh;
-  // }
-
   .nys-modal_footer ::slotted(*) {
     flex-direction: row;
     justify-content: flex-end;
