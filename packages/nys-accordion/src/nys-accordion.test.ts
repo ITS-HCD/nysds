@@ -1,4 +1,4 @@
-import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { expect, html, fixture, oneEvent, nextFrame } from "@open-wc/testing";
 import "../dist/nys-accordion.js";
 import { NysAccordionItem } from "./nys-accordionitem";
 import { NysAccordion } from "./nys-accordion.js";
@@ -151,6 +151,7 @@ describe("nys-accordionitem", () => {
       </nys-accordionitem>
     `);
     await el.updateComplete;
+    await nextFrame();
 
     const contentContainer = (el as any)._contentContainer;
 
@@ -159,6 +160,7 @@ describe("nys-accordionitem", () => {
     newContent.textContent = "New content";
     el.appendChild(newContent);
     await el.updateComplete;
+    await nextFrame();
 
     expect(contentContainer.style.height).to.not.equal("0");
     expect(contentContainer.style.height).to.equal(
