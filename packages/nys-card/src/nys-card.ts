@@ -91,20 +91,22 @@ export class NysCard extends LitElement {
   render() {
     return html` <div class="nys-card">
       ${this.media
-        ? html`<div>
-            <p>there is media: ${this.media}</p>
-            <p>there is mediaAccent: ${this.mediaAccent}</p>
+        ? html`<div class="nys-card__media-container">
+            <img class="nys-card__media" src=${this.media} />
+            <div class="nys-card--media-accent"></div>
           </div>`
         : ""}
-      <slot name="top-slot" class="nys-card__top-slot"></slot>
-      <div>
-        <p class="nys-card__preheading">${this.preheading}</p>
-        <h2 class="nys-card__heading">${this.heading}</h2>
-        <p class="nys-card__subheading">${this.subheading}</p>
+      <div class="nys-card__main-content">
+        <slot name="top-slot" class="nys-card__top-slot"></slot>
+        <div>
+          <p class="nys-card__preheading">${this.preheading}</p>
+          <h2 class="nys-card__heading">${this.heading}</h2>
+          <p class="nys-card__subheading">${this.subheading}</p>
+        </div>
+        <p class="nys-card__description">${this.description}</p>
+        <slot></slot>
+        <slot name="footer-slot" class="nys-card__footer-slot"></slot>
       </div>
-      <p class="nys-card__description">${this.description}</p>
-      <slot></slot>
-      <slot name="footer-slot" class="nys-card__footer-slot"></slot>
     </div>`;
   }
 }

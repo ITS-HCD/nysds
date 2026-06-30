@@ -5,8 +5,9 @@
   --_nys-card-width: fit-content;
   --_nys-card-height: fit-content;
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
-  --_nys-card-padding--x: var(--nys-space-300, 24px);
-  --_nys-card-padding--y: var(--nys-space-250, 20px);
+  --_nys-card-border-radius--media: var(--nys-radius-xl, 12px);
+  --_nys-card-padding: var(--nys-space-200, 16px) var(--nys-space-300, 24px)
+    var(--nys-space-250, 20px);
   --_nys-card-background-color: var(--nys-color-surface, #ffffff);
   --_nys-card-gap: var(--nys-space-150, 12px);
 
@@ -22,6 +23,20 @@
   --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 }
 
+:host([inset]) {
+  --_nys-card-border-radius--media: var(4px);
+}
+
+:host([elevated]) {
+  .nys-card {
+    box-shadow:
+      0 4px 6px -1px
+        var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
+      0 4px 6px -1px
+        var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
+  }
+}
+
 .nys-card {
   color: var(--_nys-card-color);
   font-family: var(--_nys-card-font-family);
@@ -32,8 +47,8 @@
   letter-spacing: var(--_nys-card-letter-spacing);
 
   width: var(--_nys-card-width);
+  max-width: 100%;
   height: var(--_nys-card-height);
-  padding: var(--_nys-card-padding--y) var(--_nys-card-padding--x);
   gap: var(--_nys-card-gap);
   display: flex;
   flex-direction: column;
@@ -44,6 +59,37 @@
   border: var(--nys-border-width-sm, 1px) solid
     var(--nys-color-neutral-200, #bec0c1);
   background-color: var(--_nys-card-background-color);
+
+  overflow: hidden;
+
+  &__media-container {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+
+    img {
+      display: block;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      opacity: 40%;
+    }
+
+    .nys-card--media-accent {
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      width: 64px;
+      height: 64px;
+      overflow: hidden;
+      background-color: var(--nys-color-accent, #face00);
+      border-radius: var(--nys-radius-xxl, 16px);
+    }
+  }
+
+  &__main-content {
+    padding: var(--_nys-card-padding);
+  }
 
   &__preheading {
     padding: 0;
@@ -105,15 +151,5 @@
     font-weight: 400;
     line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
-  }
-}
-
-:host([elevated]) {
-  .nys-card {
-    box-shadow:
-      0 4px 6px -1px
-        var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
-      0 4px 6px -1px
-        var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
   }
 }
