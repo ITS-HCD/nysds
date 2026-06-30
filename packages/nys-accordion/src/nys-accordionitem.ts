@@ -76,7 +76,10 @@ export class NysAccordionItem extends LitElement {
   }
 
   updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has("expanded")) {
+    if (
+      changedProperties.has("expanded") ||
+      changedProperties.has("bordered")
+    ) {
       this._updateHeight();
     }
   }
@@ -120,8 +123,10 @@ export class NysAccordionItem extends LitElement {
 
     if (this.expanded) {
       // Slide down the content by setting a calculated max-height, depending on the panel's height on different screen sizes
-      const slotHeight = this._contentContainer.scrollHeight;
-      this._contentContainer.style.height = `${slotHeight}px`;
+      requestAnimationFrame(() => {
+        const slotHeight = this._contentContainer.scrollHeight;
+        this._contentContainer.style.height = `${slotHeight}px`;
+      });
     } else {
       // Collapse
       this._contentContainer.style.height = "0";
@@ -146,7 +151,7 @@ export class NysAccordionItem extends LitElement {
         <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
       </button>
       </div>
-      <div id=${contentId} class="nys-accordionitem__content ${this.expanded ? "expanded" : "collapsed"}" role="region">
+      <div id=${contentId} class="nys-accordionitem__content ${this.expanded ? "expanded" : "collapsed"}" role="region" @nys-child-resize=${this._updateHeight}>
         <div class="nys-accordionitem__content-slot-container">
           <div class="nys-accordionitem__content-slot-container-text">
             <slot></slot>

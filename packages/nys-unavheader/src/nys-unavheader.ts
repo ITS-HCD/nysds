@@ -390,7 +390,6 @@ export class NysUnavHeader extends LitElement {
                   <nys-button
                     variant="ghost"
                     circle
-                    icon="search"
                     ariaLabel="Search"
                     aria-expanded="${this.searchDropdownVisible}"
                     id="nys-unavheader__searchbutton"
