@@ -1,9 +1,10 @@
 // ============================================
 // NYSDS Padding Utilities
-// Uniform and directional padding classes
+// Uniform and directional padding classes and responsive variants
 // ============================================
 
 @use "config" as *;
+@use "mixins" as *;
 
 // Uniform padding
 @each $name, $value in $spacing {
@@ -18,6 +19,35 @@
     .nys-padding-#{$dir-name}-#{$name} {
       @each $prop in $props {
         padding-#{$prop}: $value;
+      }
+    }
+  }
+}
+
+// Responsive uniform padding
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $name, $value in $spacing {
+      @include responsive-variants($bp-name, "nys-padding-#{$name}") {
+        padding: $value;
+      }
+    }
+  }
+}
+
+// Responsive directional padding
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $name, $value in $spacing {
+      @each $dir-name, $props in $directions {
+        @include responsive-variants(
+          $bp-name,
+          "nys-padding-#{$dir-name}-#{$name}"
+        ) {
+          @each $prop in $props {
+            padding-#{$prop}: $value;
+          }
+        }
       }
     }
   }
