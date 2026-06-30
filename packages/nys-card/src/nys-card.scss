@@ -2,7 +2,7 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Card Styles */
-  --_nys-card-width: fit-content;
+  --_nys-card-width: 400px;
   --_nys-card-height: fit-content;
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-border-radius--media: var(--nys-radius-xl, 12px);
@@ -47,8 +47,9 @@
   line-height: var(--_nys-card-line-height);
   letter-spacing: var(--_nys-card-letter-spacing);
 
-  width: var(--_nys-card-width);
-  max-width: 100%;
+  min-width: 300px;
+  width: fit-content;
+  max-width: var(--_nys-card-width);
   height: var(--_nys-card-height);
   display: flex;
   flex-direction: column;
