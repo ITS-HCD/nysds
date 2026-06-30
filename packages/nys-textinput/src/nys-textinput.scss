@@ -18,12 +18,12 @@
   --_nys-textinput-padding: var(--nys-space-100, 8px);
   --_nys-textinput-gap: var(--nys-space-50, 4px);
   --_nys-textinput-background-color: var(
-    --nys-color-ink-reverse,
+    --nys-color-surface,
     var(--nys-color-white, #ffffff)
   );
 
   /* Hovered */
-  --_nys-textinput-outline-color--hover: var(--nys-color-neutral-900, #1b1b1b);
+  --_nys-textinput-outline-color--hover: var(--nys-color-text, #1b1b1b);
   --_nys-textinput-outline-width: var(--nys-border-width-sm, 1px);
 
   /* Focused */
@@ -31,7 +31,7 @@
 
   /* Disabled */
   --_nys-textinput-background-color--disabled: var(
-    --nys-color-neutral-10,
+    --nys-color-base-weak,
     #f6f6f6
   );
   --_nys-textinput-border-color--disabled: var(

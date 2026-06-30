@@ -57,12 +57,33 @@ const preview: Preview = {
         ],
       },
     },
+    mode: {
+      name: "Mode",
+      description: "Light or dark appearance",
+      defaultValue: "light",
+      toolbar: {
+        icon: "contrast",
+        items: [
+          { value: "light", title: "Light" },
+          { value: "dark", title: "Dark" },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   decorators: [
     (Story, context) => {
       // Load the theme based on Storybook's global context
       const theme = context.globals.theme;
       loadTheme(theme);
+      // Light/dark appearance via the [data-mode] token layer. Also mirror the
+      // theme onto [data-theme] so dark×theme composes — themes are otherwise
+      // applied via the loadTheme :root stylesheet, which dark can't compose with.
+      const docEl = document.documentElement;
+      if (context.globals.mode === "dark") docEl.setAttribute("data-mode", "dark");
+      else docEl.removeAttribute("data-mode");
+      if (theme && theme !== "default") docEl.setAttribute("data-theme", theme);
+      else docEl.removeAttribute("data-theme");
       setTimeout(() => {
         const skipnav = document.querySelector("nys-skipnav");
         const link = skipnav?.shadowRoot?.querySelector("a");

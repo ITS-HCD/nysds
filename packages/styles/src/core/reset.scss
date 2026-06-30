@@ -47,6 +47,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Dark mode: opt the document into the dark UA color scheme so native form
+   controls, scrollbars, and the default canvas background render dark. The
+   applied color tokens are re-pointed by the [data-mode="dark"] token layer. */
+html[data-mode="dark"] {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
