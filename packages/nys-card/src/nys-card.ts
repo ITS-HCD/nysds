@@ -47,7 +47,11 @@ export class NysCard extends LitElement {
   // Placeholder for event handlers if needed
 
   render() {
-    return html`<div class="nys-card"></div>`;
+    return html`<div class="nys-card">
+      <slot name="header-slot" class="nys-card__header-slot"></slot>
+      <slot></slot>
+      <slot name="footer-slot" class="nys-card__footer-slot"></slot>
+    </div>`;
   }
 }
 

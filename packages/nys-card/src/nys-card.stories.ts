@@ -47,7 +47,11 @@ export const Basic: Story = {
     name: "card1",
   },
   render: (args) => html`
-    <nys-card .id=${args.id} .name=${args.name}></nys-card>
+    <nys-card .id=${args.id} .name=${args.name}>
+      <div slot="footer-slot">this is my footer</div>
+      <div slot="header-slot">this is my header</div>
+      Test</nys-card
+    >
   `,
   parameters: {
     docs: {

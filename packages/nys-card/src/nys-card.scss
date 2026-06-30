@@ -3,45 +3,47 @@
 
   /* Global Card Styles */
   --_nys-card-width: fit-content;
-  --_nys-card-height: var(--nys-size-600, 48px);
+  --_nys-card-height: fit-content;
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
-  --_nys-card-padding: var(--nys-space-100, 8px);
+  --_nys-card-padding--x: var(--nys-space-300, 24px);
+  --_nys-card-padding--y: var(--nys-space-250, 20px);
   --_nys-card-gap: var(--nys-space-100, 8px);
+  --_nys-card-background-color: var(--nys-color-surface, #ffffff);
 
   /* Typography */
+  --_nys-card-color: var(--nys-color-text-weak, #4a4d4f);
+
+  /* UI/Medium/Regular */
+  --_nys-card-font-family: var(--nys-font-family-ui, "Proxima Nova");
   --_nys-card-font-size: var(--nys-font-size-ui-md, 16px);
-  --_nys-card-font-weight: var(--nys-font-weight-semibold, 600);
-  --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px);
-  --_nys-card-font-family: var(
-    --nys-font-family-ui,
-    var(
-      --nys-font-family-sans,
-      "Proxima Nova",
-      "Helvetica Neue",
-      "Helvetica",
-      "Arial",
-      sans-serif
-    )
-  );
+  --_nys-card-font-style: normal;
+  --_nys-card-font-weight: 400;
+  --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+  --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 }
 
 .nys-card {
+  color: var(--_nys-card-color);
+  font-family: var(--_nys-card-font-family);
+  font-size: var(--_nys-card-font-size);
+  font-style: var(--_nys-card-font-style);
+  font-weight: var(--_nys-card-font-weight);
+  line-height: var(--_nys-card-line-height);
+  letter-spacing: var(--_nys-card-letter-spacing);
+
   width: var(--_nys-card-width);
   height: var(--_nys-card-height);
-  padding: var(--_nys-card-padding);
+  padding: var(--_nys-card-padding--y) var(--_nys-card-padding--x);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--_nys-card-gap);
-  font-family: var(--_nys-card-font-family);
-  font-size: var(--_nys-card-font-size);
-  font-weight: var(--_nys-card-font-weight);
-  line-height: var(--_nys-card-line-height);
 
   border-radius: var(--_nys-card-border-radius);
   border: var(--nys-border-width-sm, 1px) solid
     var(--nys-color-neutral-200, #bec0c1);
-  background-color: var(--nys-color-surface, #fff);
+  background-color: var(--_nys-card-background-color);
 
   /* Elevation/Raised --nys-shadow-raised */
   box-shadow:

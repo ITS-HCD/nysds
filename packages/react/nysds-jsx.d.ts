@@ -1163,7 +1163,7 @@ export type CustomElements = {
   "nys-button": Partial<NysButtonProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-your-component-name>` is ...
+   * A card component is a reusable, self-contained element that groups related content and actions about a single subject into a distinct, flexible container.
    * ---
    *
    */
