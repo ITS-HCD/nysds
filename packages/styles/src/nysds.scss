@@ -14,7 +14,7 @@
 @use "./core/tokens";
 
 /* Include NYSDS component styles (Light DOM) */
-@use "./components";
+// @use "./components";
 
 /* Hide unstyled components until they are fully loaded */
 nys-breadcrumbs:not(:defined),

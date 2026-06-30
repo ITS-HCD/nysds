@@ -3,11 +3,21 @@ import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
+// @ts-ignore: SCSS module imported via bundler as inline
+import lightStyles from "./nys-verticalnav.light.scss?inline";
 import "./nys-verticalnavgroup";
 
 let verticalNavIdCounter = 0;
 
 type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
+let _lightSheet: CSSStyleSheet | null = null;
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
 
 /**
  * Vertical navigation component with responsive desktop/mobile behavior.
@@ -186,6 +196,9 @@ export class NysVerticalnav extends LitElement {
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
+
+    adoptLightStyles();
+
     if (!this.id) {
       this.id = `nys-verticalnav-${Date.now()}-${verticalNavIdCounter++}`;
     }
