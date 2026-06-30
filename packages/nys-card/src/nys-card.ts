@@ -93,7 +93,10 @@ export class NysCard extends LitElement {
       ${this.media
         ? html`<div class="nys-card__media-container">
             <img class="nys-card__media" src=${this.media} />
-            <div class="nys-card--media-accent"></div>
+            <div class="nys-card--media-accent">
+              <p class="nys-card--media-accent-month">Oct</p>
+              <p class="nys-card--media-accent-day">16</p>
+            </div>
           </div>`
         : ""}
       <div class="nys-card__main-content">

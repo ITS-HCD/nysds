@@ -72,7 +72,6 @@
       max-width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
-      opacity: 40%;
     }
 
     .nys-card--media-accent {
@@ -84,6 +83,36 @@
       overflow: hidden;
       background-color: var(--nys-color-accent, #face00);
       border-radius: var(--nys-radius-xxl, 16px);
+
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+
+      //text styles
+      color: var(--nys-color-text);
+      font-family: var(--nys-font-family-ui, "Proxima Nova");
+      font-style: normal;
+      font-weight: 700;
+
+      &-month {
+        padding: 0;
+        margin: 0;
+        /* UI Single Line/Medium/Bold */
+        font-size: var(--nys-font-size-ui-md, 16px);
+        line-height: var(--nys-font-size-ui-md, 16px); /* 100% */
+        letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+      }
+
+      &-day {
+        padding: 0;
+        margin: 0;
+
+        /* UI Single Line/Extra Large/Bold */
+        font-size: var(--nys-font-size-ui-xl, 20px);
+        line-height: var(--nys-font-size-ui-xl, 20px); /* 100% */
+        letter-spacing: var(--nys-font-letterspacing-ui-xl, 0.017px);
+      }
     }
   }
 
