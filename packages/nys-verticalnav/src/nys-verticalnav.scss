@@ -61,9 +61,11 @@ nys-accordion {
   box-sizing: border-box;
 
   @media (width >= 1024px) {
-    padding: var(--nys-space-300, 24px) 0 var(--nys-space-300, 24px)
-      var(--nys-space-400, 32px);
-    width: 249px;
+    // padding: var(--nys-space-300, 24px) 0 var(--nys-space-300, 24px)
+    //   var(--nys-space-400, 32px);
+    // width: 249px;
+    max-width: 249px;
+    width: 100%;
     border-right: 1px solid var(--_nys-verticalnav-border-color);
     gap: 10px;
   }
