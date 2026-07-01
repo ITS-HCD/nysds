@@ -21,6 +21,7 @@ export * from "./NysGlobalHeader.js";
 export * from "./NysIcon.js";
 export * from "./NysLabel.js";
 export * from "./NysModal.js";
+export * from "./NysNygovid.js";
 export * from "./NysPagination.js";
 export * from "./NysRadiobutton.js";
 export * from "./NysRadiogroup.js";

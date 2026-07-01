@@ -14,6 +14,7 @@
 @use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
+nys-nygovid:not(:defined),
 nys-breadcrumbs:not(:defined),
 nys-video:not(:defined),
 nys-accordion:not(:defined),

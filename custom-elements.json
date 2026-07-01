@@ -8550,6 +8550,98 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-nygovid/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-nygovid/src/nys-nygovid"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-nygovid/src/nys-nygovid.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-your-component-name>` is ...",
+          "name": "NysNygovid",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name",
+              "propName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-nygovid",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-nygovid",
+          "declaration": {
+            "name": "NysNygovid",
+            "module": "packages/nys-nygovid/src/nys-nygovid.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysNygovid",
+          "declaration": {
+            "name": "NysNygovid",
+            "module": "packages/nys-nygovid/src/nys-nygovid.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-pagination/src/index.ts",
       "declarations": [],
       "exports": [

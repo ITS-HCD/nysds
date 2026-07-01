@@ -610,6 +610,13 @@ export type NysModalProps = {
   "onnys-close"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
+export type NysNygovidProps = {
+  /**  */
+  id?: string;
+  /**  */
+  name?: string;
+};
+
 export type NysPaginationProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
@@ -1343,6 +1350,13 @@ export type CustomElements = {
    * - **actions** - Action buttons displayed in footer. Buttons auto-resize on mobile.
    */
   "nys-modal": Partial<NysModalProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-your-component-name>` is ...
+   * ---
+   *
+   */
+  "nys-nygovid": Partial<NysNygovidProps & BaseProps & BaseEvents>;
 
   /**
    * Page navigation with numbered links, prev/next buttons, and responsive layout.

@@ -32,3 +32,4 @@ export * from "../packages/nys-globalheader/src/index";
 export * from "../packages/nys-globalfooter/src/index";
 export * from "../packages/nys-unavfooter/src/index";
 export * from "../packages/nys-video/src/index";
+export * from "../packages/nys-nygovid/src/index";

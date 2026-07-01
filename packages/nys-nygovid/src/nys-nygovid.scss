@@ -1,0 +1,41 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Nygovid Styles */
+  --_nys-nygovid-width: fit-content;
+  --_nys-nygovid-height: var(--nys-size-600, 48px);
+  --_nys-nygovid-radius: var(--nys-radius-xl, 12px);
+  --_nys-nygovid-padding: var(--nys-space-100, 8px);
+  --_nys-nygovid-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-nygovid-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-nygovid-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-nygovid-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-nygovid-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+.nys-nygovid {
+  width: var(--_nys-nygovid-width);
+  height: var(--_nys-nygovid-height);
+  border-radius: var(--_nys-nygovid-radius);
+  padding: var(--_nys-nygovid-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_nys-nygovid-gap);
+  font-family: var(--_nys-nygovid-font-family);
+  font-size: var(--_nys-nygovid-font-size);
+  font-weight: var(--_nys-nygovid-font-weight);
+  line-height: var(--_nys-nygovid-line-height);
+}

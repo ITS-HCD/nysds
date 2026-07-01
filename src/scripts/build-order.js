@@ -36,6 +36,7 @@ const packages = [
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
   { name: "nys-video", path: "packages/nys-video" },
   { name: "nys-breadcrumbs", path: "packages/nys-breadcrumbs" },
+  { name: "nys-nygovid", path: "packages/nys-nygovid" },
 ];
 
 packages.forEach((pkg) => {
