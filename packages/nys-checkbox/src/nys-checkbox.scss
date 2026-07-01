@@ -29,6 +29,7 @@
   );
   --_nys-checkbox-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-checkbox-font-weight: var(--nys-font-weight-regular, 400);
+  --_nys-checkbox-font-weight--standalone: var(--nys-font-weight-semibold, 600);
   --_nys-checkbox-line-height: var(--nys-font-lineheight-ui-md, 24px);
 
   /* Global Checkbox Colors */
@@ -372,6 +373,10 @@
 
 :host(:not([tile])) .nys-checkbox__main-container > nys-label {
   --_nys-label-font-weight: var(--_nys-checkbox-font-weight);
+}
+
+:host(:not([tile])) .nys-checkbox__main-container > nys-label.standalone {
+  --_nys-label-font-weight: var(--_nys-checkbox-font-weight--standalone);
 }
 
 :host([tile]) .nys-checkbox__main-container > nys-label {
