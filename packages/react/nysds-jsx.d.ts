@@ -1021,6 +1021,33 @@ export type NysUnavHeaderProps = {
   languages?: Language[];
 };
 
+export type NysVerticalnavProps = {
+  /**  */
+  id?: string;
+  /**  */
+  header?: string;
+  /**  */
+  hideHeader?: boolean;
+  /**  */
+  headerLevel?: HeaderLevel;
+};
+
+export type NysVerticalnavGroupProps = {
+  /**  */
+  id?: string;
+  /**  */
+  label?: string;
+  /**  */
+  expanded?: boolean;
+  /**  */
+  disabled?: boolean;
+  /**  */
+  active?: boolean;
+
+  /**  */
+  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
 export type NysVideoProps = {
   /** Full YouTube URL — required. Component will not render if invalid. */
   id?: string;
@@ -1601,6 +1628,23 @@ export type CustomElements = {
    *
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
+
+  /**
+   * Responsive vertical navigation — nav on desktop, accordion on mobile.
+   * ---
+   *
+   */
+  "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
+
+  /**
+   * Collapsible link group for use within `<nys-verticalnav>`.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-child-resize**
+   */
+  "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
   /**
    * YouTube video player with thumbnail preview and accessibility announcements.

@@ -1,0 +1,145 @@
+nys-verticalnav {
+  /* Typography */
+  --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
+  --_nys-verticalnav-font-size--subheader: var(--nys-font-size-ui-sm, 14px);
+  --_nys-verticalnav-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-verticalnav-font-weight--group-links: var(
+    --nys-font-weight-regular,
+    400
+  );
+  --_nys-verticalnav-font-weight--subheader: var(--nys-font-weight-bold, 700);
+  --_nys-verticalnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-verticalnav-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-space-100, 8px);
+
+    @media (width >= 1024px) {
+      gap: 0;
+    }
+
+    // Nested ul (inside nys-verticalnavgroup or subheader sections)
+    ul {
+      display: flex;
+      flex-direction: column;
+    }
+
+    li {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    a {
+      color: var(--nys-color-text-weak, #4a4d4f);
+      display: flex;
+      padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
+        var(--nys-space-100, 8px) var(--nys-space-150, 12px);
+      text-decoration: none;
+      font-family: var(--_nys-verticalnav-font-family);
+      font-size: var(--_nys-verticalnav-font-size);
+      font-weight: var(--_nys-verticalnav-font-weight);
+      line-height: var(--_nys-verticalnav-line-height);
+
+      &:hover {
+        color: var(--nys-color-text, #1b1b1b);
+        background-color: var(--nys-color-neutral-10, #f6f6f6);
+        text-decoration: none; // nysds-full.min.scss overrides early text-decoration: none so this is needed again here
+      }
+
+      &:active {
+        background-color: var(--nys-color-neutral-50, #ededed);
+      }
+
+      &:focus-visible {
+        outline: var(--nys-border-width-md, 2px) solid
+          var(--nys-color-focus, #004dd1);
+        outline-offset: -2px;
+      }
+
+      &:focus {
+        color: var(--nys-color-text, #1b1b1b);
+        text-decoration: none;
+      }
+
+      &[aria-disabled="true"] {
+        color: var(--nys-color-text-disabled, #bec0c1);
+        cursor: not-allowed;
+      }
+
+      &[aria-current="page"] {
+        background-color: var(--nys-color-theme-faint, #f7fafd);
+        border-left: var(--nys-border-width-md, 2px) solid
+          var(--nys-color-theme, #154973);
+
+        &:hover {
+          background-color: var(--nys-color-theme-weaker, #eff6fb);
+        }
+
+        &:active {
+          background-color: var(--nys-color-theme-weak, #cddde9);
+        }
+      }
+    }
+
+    // Subheader headings inside li items
+    li :is(h1, h2, h3, h4, h5, h6) {
+      font-family: var(--_nys-verticalnav-font-family);
+      font-size: var(--_nys-verticalnav-font-size--subheader);
+      font-weight: var(--_nys-verticalnav-font-weight--subheader);
+      line-height: var(--_nys-verticalnav-line-height);
+      padding: var(--nys-space-250, 20px) var(--nys-space-100, 8px)
+        var(--nys-space-100, 8px) var(--nys-space-150, 12px);
+      margin: 0;
+      text-transform: uppercase;
+      color: var(--nys-color-text, #1b1b1b);
+    }
+  }
+}
+
+nys-verticalnavgroup {
+  ul {
+    gap: 0;
+
+    li {
+      margin-bottom: 0;
+
+      a {
+        color: var(--nys-color-text, #1b1b1b);
+        padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
+          var(--nys-space-100, 8px) var(--nys-space-300, 24px);
+        font-family: var(--_nys-verticalnav-font-family);
+        font-size: var(--_nys-verticalnav-font-size);
+        font-weight: var(--_nys-verticalnav-font-weight--group-links);
+        line-height: var(--_nys-verticalnav-line-height);
+      }
+    }
+  }
+}
+
+@media (width <= 1023px) {
+  nys-verticalnav ul > li:not(:last-child) {
+    border-bottom: var(--nys-size-1px, 1px) solid
+      var(--nys-color-neutral-100, #e4e5e6);
+  }
+
+  nys-verticalnav nys-verticalnavgroup ul > li:not(:last-child) {
+    border-bottom: none;
+  }
+}

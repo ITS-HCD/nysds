@@ -1,0 +1,166 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Verticalnav Styles */
+  --_nys-verticalnav-color: var(--nys-color-text-weak, #4a4d4f);
+  --_nys-verticalnav-background-color: var(--nys-color-surface, #ffffff);
+  --_nys-verticalnav-border-color: var(--nys-color-neutral-200, #bec0c1);
+
+  /* Typography */
+  --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
+  --_nys-verticalnav-font-weight--header: var(--nys-font-weight-semibold, 600);
+  --_nys-verticalnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-verticalnav-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+
+  /* Trigger states */
+  --_nys-verticalnav-trigger-hover: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-verticalnav-trigger-active: var(--nys-color-neutral-50, #ededed);
+  --_nys-verticalnav-trigger-disabled: var(--nys-color-text-disabled, #bec0c1);
+  --_nys-verticalnav-trigger-focus: var(--nys-color-focus, #004dd1);
+
+  /* Active navgroup trigger states */
+  --_nys-verticalnav-trigger-current: var(--nys-color-theme-faint, #f7fafd);
+  --_nys-verticalnav-trigger-current-hover: var(
+    --nys-color-theme-weaker,
+    #eff6fb
+  );
+  --_nys-verticalnav-trigger-current-active: var(
+    --nys-color-theme-weak,
+    #cddde9
+  );
+}
+
+nys-accordion {
+  --nys-accordionitem-padding: var(--nys-space-100, 8px)
+    var(--nys-space-150, 12px);
+  --nys-accordion-content-max-width: 100%;
+}
+
+.nys-verticalnav {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--_nys-verticalnav-background-color);
+  font-family: var(--_nys-verticalnav-font-family);
+  font-size: var(--_nys-verticalnav-font-size);
+  font-weight: var(--_nys-verticalnav-font-weight);
+  line-height: var(--_nys-verticalnav-line-height);
+  padding: 0;
+  width: auto;
+  height: 100%;
+  box-sizing: border-box;
+
+  @media (width >= 1024px) {
+    // padding: var(--nys-space-300, 24px) 0 var(--nys-space-300, 24px)
+    //   var(--nys-space-400, 32px);
+    // width: 249px;
+    max-width: 249px;
+    width: 100%;
+    border-right: 1px solid var(--_nys-verticalnav-border-color);
+    gap: 10px;
+  }
+
+  .nys-verticalnav__header {
+    color: var(--_nys-verticalnav-color);
+    border-top: none;
+    font-size: var(--_nys-verticalnav-font-size--header);
+    font-weight: var(--_nys-verticalnav-font-weight--header);
+    text-transform: none;
+    margin: 0;
+    margin-left: var(--nys-space-100, 8px);
+  }
+}
+
+.nys-verticalnavgroup {
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--nys-space-100, 8px) var(--nys-space-200, 16px)
+      var(--nys-space-100, 8px) var(--nys-space-150, 12px);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--_nys-verticalnav-color);
+    font-family: var(--_nys-verticalnav-font-family);
+    font-size: var(--_nys-verticalnav-font-size);
+    font-weight: var(--_nys-verticalnav-font-weight--header);
+    line-height: var(--_nys-verticalnav-line-height);
+
+    &:hover {
+      background-color: var(--_nys-verticalnav-trigger-hover);
+    }
+
+    &:active {
+      background-color: var(--_nys-verticalnav-trigger-active);
+    }
+
+    &:focus-visible {
+      outline: var(--nys-border-width-md, 2px) solid
+        var(--_nys-verticalnav-trigger-focus);
+      outline-offset: -2px;
+    }
+
+    &:disabled {
+      color: var(--_nys-verticalnav-trigger-disabled);
+    }
+  }
+
+  &__chevron {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+
+  &__items {
+    display: none;
+
+    --_nys-verticalnav-link-indent: var(--nys-space-300, 24px);
+  }
+}
+
+:host([disabled]) {
+  .nys-verticalnavgroup {
+    &__trigger {
+      &:disabled {
+        color: var(--_nys-verticalnav-trigger-disabled);
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+:host([expanded]) {
+  .nys-verticalnavgroup__chevron {
+    transform: rotate(180deg);
+  }
+
+  .nys-verticalnavgroup__items {
+    display: block;
+  }
+}
+
+:host([active]:not([expanded])) {
+  .nys-verticalnavgroup {
+    &__trigger {
+      background-color: var(--_nys-verticalnav-trigger-current);
+
+      &:hover {
+        background-color: var(--_nys-verticalnav-trigger-current-hover);
+      }
+
+      &:active {
+        background-color: var(--_nys-verticalnav-trigger-current-active);
+      }
+    }
+  }
+}
