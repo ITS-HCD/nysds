@@ -103,7 +103,7 @@ export class NysNygovid extends LitElement {
           border: var(--nys-border-width-sm, 1px) solid
             var(--nys-color-base, #797c7f);
           width: 100%;
-          max-width: 400px;
+          max-width: 300px;
           box-sizing: border-box;
           margin: 0 auto;
           border-radius: var(--nys-radius-sm, 4px);
