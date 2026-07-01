@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@terrazzo/cli": "^0.5.0",
-    "@terrazzo/plugin-css": "^0.5.0"
+    "@terrazzo/plugin-css": "^2.4.0"
   },
   "keywords": [
     "design-tokens",
