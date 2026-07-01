@@ -197,7 +197,11 @@ export class NysIcon extends LitElement implements NysIconWatcher {
       svg.removeAttribute("aria-label");
     }
 
-    svg.style.rotate = `${this.rotate}deg`;
+    if (this.rotate && this.rotate !== "0") {
+      svg.style.rotate = `${this.rotate}deg`;
+    } else {
+      svg.style.removeProperty("rotate");
+    }
     svg.style.color = this.color || "currentcolor";
     svg.classList.add(`nys-icon--${this.size}`);
     svg.classList.add(`nys-icon--svg`);

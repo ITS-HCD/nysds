@@ -76,7 +76,10 @@ export class NysAccordionItem extends LitElement {
   }
 
   updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has("expanded")) {
+    if (
+      changedProperties.has("expanded") ||
+      changedProperties.has("bordered")
+    ) {
       this._updateHeight();
     }
   }
