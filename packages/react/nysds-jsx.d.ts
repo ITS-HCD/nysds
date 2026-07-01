@@ -612,9 +612,17 @@ export type NysModalProps = {
 
 export type NysNygovidProps = {
   /**  */
-  id?: string;
+  signin?: string;
   /**  */
-  name?: string;
+  find?: string;
+  /**  */
+  create?: string;
+  /**  */
+  signin?: string;
+  /**  */
+  find?: string;
+  /**  */
+  create?: string;
 };
 
 export type NysPaginationProps = {
@@ -1352,9 +1360,13 @@ export type CustomElements = {
   "nys-modal": Partial<NysModalProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-your-component-name>` is ...
+   * NY.GOV ID login component
    * ---
    *
+   *
+   * ### **Methods:**
+   *  - **_render()** - Event Handlers
+   * --------------------------------------------------------------------------
    */
   "nys-nygovid": Partial<NysNygovidProps & BaseProps & BaseEvents>;
 

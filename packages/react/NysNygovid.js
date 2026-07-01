@@ -2,14 +2,13 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysNygovid = forwardRef((props, forwardedRef) => {
-  const { id, name, ...filteredProps } = props;
-
   return React.createElement(
     "nys-nygovid",
     {
-      ...filteredProps,
-      id: props.id,
-      name: props.name,
+      ...props,
+      signin: props.undefined,
+      find: props.undefined,
+      create: props.undefined,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

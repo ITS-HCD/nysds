@@ -19,10 +19,13 @@ export interface NysNygovidProps extends Pick<
   | "onBlur"
 > {
   /** undefined */
-  id?: NysNygovidElement["id"];
+  undefined?: NysNygovidElement["undefined"];
 
   /** undefined */
-  name?: NysNygovidElement["name"];
+  undefined?: NysNygovidElement["undefined"];
+
+  /** undefined */
+  undefined?: NysNygovidElement["undefined"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -47,8 +50,12 @@ export interface NysNygovidProps extends Pick<
 }
 
 /**
- * `<nys-your-component-name>` is ...
+ * NY.GOV ID login component
  * ---
  *
+ *
+ * ### **Methods:**
+ *  - **_render()** - Event Handlers
+ * --------------------------------------------------------------------------
  */
 export const NysNygovid: React.ForwardRefExoticComponent<NysNygovidProps>;

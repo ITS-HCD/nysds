@@ -1,45 +1,89 @@
-import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { html, LitElement, unsafeCSS } from "lit";
+import { state } from "lit/decorators.js";
+import nygovidLogo from "./nygovid-logo.svg";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-nygovid.scss?inline";
 
 
-let componentIdCounter = 0;
+let nygovidIdCounter = 0;
 
 /**
- * `<nys-your-component-name>` is ...
+ * NY.GOV ID login component
  */
 
-
-
-/**
- * Lifecycle methods
- * --------------------------------------------------------------------------
- */
-
-
-
-/**
- * Functions
- * --------------------------------------------------------------------------
- */
-
-// Placeholder for generic functions (component-specific)
-
-/**
- * Event Handlers
- * --------------------------------------------------------------------------
- */
 
 // Placeholder for event handlers if needed
+export class NysNygovid extends LitElement {
+  static styles = unsafeCSS(styles);
+  static get observedAttributes() {
+    return ['signin', 'find', 'create'];
+  }
 
-_render() {
-  if (!this.shadowRoot) return;
+  @state() private _signin: string = "";
+  @state() private _find: string = "";
+  @state() private _create: string = "";
 
-  this.shadowRoot.innerHTML = `
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+
+    // Default URLs
+    this._signin = 'https://my.ny.gov/LoginV4/login.xhtml?nygovid';
+    this._find = 'https://my.ny.gov/FUIDV3/fuid.xhtml?nygovid';
+    this._create = 'https://my.ny.gov/LoginV4/accountType.html';
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    // Generate a unique ID if not provided
+    if (!this.id) {
+      this.id = this._generateUniqueId();
+    }
+  }
+
+  // Individual Properties
+  get signin() { return this.getAttribute('signin') || this._signin; }
+  set signin(val) { this.setAttribute('signin', val); }
+
+  get find() { return this.getAttribute('find') || this._find; }
+  set find(val) { this.setAttribute('find', val); }
+
+  get create() { return this.getAttribute('create') || this._create; }
+  set create(val) { this.setAttribute('create', val); }
+
+  // attributeChangedCallback(oldVal: string, newVal: string) {
+  // if (oldVal !== newVal) {
+  // this._render();
+  //   }
+  // }
+
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
+
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
+  private _generateUniqueId() {
+    return `nys-nygovid-${Date.now()}-${nygovidIdCounter++}`;
+  }
+
+
+  // Placeholder for generic functions (component-specific)
+
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
+  render() {
+    return html`
         <style>
-          @import url("${NYSDS_CSS}");
-
           :host {
             display: block;
             font-family: var(--nys-font-family-body, 'Public Sans', sans-serif);
@@ -104,7 +148,7 @@ _render() {
 
         <div class="login-card">
           <div class="logo-container">
-            <img src="nygovid-logo.svg" alt="NY.gov ID Logo" width="240" height="60">
+            <img src="/nys-nygovid/src/nygovid-logo.svg" alt="NY.gov ID Logo" width="240" height="60">
           </div>
 
           <nys-button 
@@ -143,6 +187,8 @@ _render() {
           </div>
         </div>
       `;
+  }
+
 }
 
 if (!customElements.get("nys-nygovid")) {

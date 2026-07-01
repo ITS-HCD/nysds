@@ -8569,48 +8569,72 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-your-component-name>` is ...",
+          "description": "NY.GOV ID login component",
           "name": "NysNygovid",
           "members": [
             {
               "kind": "field",
-              "name": "id",
+              "name": "_signin",
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
-              "attribute": "id",
-              "reflects": true
+              "privacy": "private",
+              "default": "'https://my.ny.gov/LoginV4/login.xhtml?nygovid'"
             },
             {
               "kind": "field",
-              "name": "name",
+              "name": "_find",
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
-              "attribute": "name",
-              "reflects": true
+              "privacy": "private",
+              "default": "'https://my.ny.gov/FUIDV3/fuid.xhtml?nygovid'"
+            },
+            {
+              "kind": "field",
+              "name": "_create",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "'https://my.ny.gov/LoginV4/accountType.html'"
+            },
+            {
+              "kind": "field",
+              "name": "signin"
+            },
+            {
+              "kind": "field",
+              "name": "find"
+            },
+            {
+              "kind": "field",
+              "name": "create"
+            },
+            {
+              "kind": "method",
+              "name": "_generateUniqueId",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_render",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
             }
           ],
           "attributes": [
             {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "fieldName": "id",
-              "propName": "id"
+              "name": "signin",
+              "propName": "signin"
             },
             {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "fieldName": "name",
-              "propName": "name"
+              "name": "find",
+              "propName": "find"
+            },
+            {
+              "name": "create",
+              "propName": "create"
             }
           ],
           "superclass": {
