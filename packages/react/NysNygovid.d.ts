@@ -53,9 +53,5 @@ export interface NysNygovidProps extends Pick<
  * NY.GOV ID login component
  * ---
  *
- *
- * ### **Methods:**
- *  - **_render()** - Event Handlers
- * --------------------------------------------------------------------------
  */
 export const NysNygovid: React.ForwardRefExoticComponent<NysNygovidProps>;

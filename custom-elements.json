@@ -8579,7 +8579,7 @@
                 "text": "string"
               },
               "privacy": "private",
-              "default": "'https://my.ny.gov/LoginV4/login.xhtml?nygovid'"
+              "default": "\"https://my.ny.gov/LoginV4/login.xhtml?nygovid\""
             },
             {
               "kind": "field",
@@ -8588,7 +8588,7 @@
                 "text": "string"
               },
               "privacy": "private",
-              "default": "'https://my.ny.gov/FUIDV3/fuid.xhtml?nygovid'"
+              "default": "\"https://my.ny.gov/FUIDV3/fuid.xhtml?nygovid\""
             },
             {
               "kind": "field",
@@ -8597,7 +8597,7 @@
                 "text": "string"
               },
               "privacy": "private",
-              "default": "'https://my.ny.gov/LoginV4/accountType.html'"
+              "default": "\"https://my.ny.gov/LoginV4/accountType.html\""
             },
             {
               "kind": "field",
@@ -8619,8 +8619,8 @@
             },
             {
               "kind": "method",
-              "name": "_render",
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
+              "name": "_getNysLogoSrc",
+              "privacy": "private"
             }
           ],
           "attributes": [

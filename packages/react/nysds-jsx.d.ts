@@ -1363,10 +1363,6 @@ export type CustomElements = {
    * NY.GOV ID login component
    * ---
    *
-   *
-   * ### **Methods:**
-   *  - **_render()** - Event Handlers
-   * --------------------------------------------------------------------------
    */
   "nys-nygovid": Partial<NysNygovidProps & BaseProps & BaseEvents>;
 
