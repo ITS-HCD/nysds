@@ -14,6 +14,10 @@ import styles from "./nys-unavheader.scss?inline";
  * @summary Universal NYS header with trust bar, search, and translation. Required site-wide.
  * @element nys-unavheader
  *
+ * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+ * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
+
+ *
  * @example Standard usage
  * ```html
  * <nys-unavheader></nys-unavheader>
