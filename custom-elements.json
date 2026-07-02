@@ -12530,28 +12530,28 @@
           },
           "examples": [
             {
-              "title": "Basic table",
-              "code": "<nys-table id=\"table1\" name=\"table1\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "title": "Basic",
+              "code": "<nys-table id=\"table1\" name=\"table1\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n<tr><td>Algonquin</td><td>5,114</td><td>Northeast Trail</td></tr>\n<tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>\n<tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>\n<tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             },
             {
-              "title": "Striped table",
-              "code": "<nys-table id=\"table2\" name=\"table2\" striped>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "title": "Striped",
+              "code": "<nys-table id=\"table2\" name=\"table2\" striped>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n<tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>\n<tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>\n<tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             },
             {
-              "title": "Bordered table",
-              "code": "<nys-table id=\"table3\" name=\"table3\" bordered>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "title": "Bordered",
+              "code": "<nys-table id=\"table3\" name=\"table3\" bordered>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n<tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>\n<tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>\n<tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             },
             {
-              "title": "Sortable table",
-              "code": "<nys-table id=\"table4\" name=\"table4\" sortable>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "title": "Sortable",
+              "code": "<nys-table id=\"table4\" name=\"table4\" sortable>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n<tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>\n<tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>\n<tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             },
             {
-              "title": "Downloadable table",
-              "code": "<nys-table id=\"table5\" name=\"table5\" download=\"path/to/downloadable/version/of/table.filetype\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "title": "Downloadable",
+              "code": "<nys-table id=\"table5\" name=\"table5\" download=\"path/to/downloadable/version/of/table.filetype\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n<tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>\n<tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>\n<tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
           ],
