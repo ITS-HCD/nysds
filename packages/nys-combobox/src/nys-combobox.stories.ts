@@ -377,33 +377,6 @@ export const ErrorMessage: Story = {
   },
 };
 
-export const Inverted: Story = {
-  render: () => {
-    return html`
-      <nys-combobox label="Select your favorite fruit" inverted>
-        <option value="apple">Apple</option>
-        <option value="banana">Banana</option>
-        <option value="orange">Orange</option>
-        <option value="strawberry">Strawberry</option>
-      </nys-combobox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox label="Select your favorite fruit" inverted>
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const DisabledOptions: Story = {
   render: () => {
     return html`

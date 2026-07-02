@@ -4816,11 +4816,6 @@
               "lang": "html"
             },
             {
-              "title": "Inverted",
-              "code": "<nys-combobox label=\"Select your favorite fruit\" inverted>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
-              "lang": "html"
-            },
-            {
               "title": "Disabled Options",
               "code": "<nys-combobox label=\"Select your favorite fruit\" description=\"Some fruits are out of season\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"cherry\" disabled>Cherry (Out of season)</option>\n<option value=\"mango\">Mango</option>\n<option value=\"strawberry\" disabled>Strawberry (Out of season)</option>\n<option value=\"orange\">Orange</option>\n</nys-combobox>",
               "lang": "html"
@@ -5670,12 +5665,6 @@
               "title": "Disabled",
               "code": "<nys-datepicker\nlabel=\"Disabled datepicker\"\ndisabled\nvalue=\"2025-01-15\">\n</nys-datepicker>",
               "lang": "html"
-            },
-            {
-              "title": "Inverted",
-              "code": "<nys-datepicker\nlabel=\"Start Date\"\ninverted>\n</nys-datepicker>",
-              "lang": "html",
-              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-datepicker\nlabel=\"Start Date\"\ninverted>\n</nys-datepicker>\n</div>"
             },
             {
               "title": "Required",

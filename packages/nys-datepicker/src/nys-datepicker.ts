@@ -97,23 +97,6 @@ let componentIdCounter = 0;
  * </nys-datepicker>
  * ```
  *
- * @example Inverted
- * ```html
- * <nys-datepicker
- *   label="Start Date"
- *   inverted>
- * </nys-datepicker>
- * ```
- * @render Inverted
- * ```html
- * <div style="background: #1b1b1b; padding: 1rem;">
- *   <nys-datepicker
- *     label="Start Date"
- *     inverted>
- *   </nys-datepicker>
- * </div>
- * ```
- *
  * @example Required
  * ```html
  * <nys-datepicker

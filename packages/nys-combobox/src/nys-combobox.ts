@@ -176,16 +176,6 @@ interface ComboboxOption {
  * </nys-combobox>
  * ```
  *
- * @example Inverted
- * ```html
- * <nys-combobox label="Select your favorite fruit" inverted>
- *   <option value="apple">Apple</option>
- *   <option value="banana">Banana</option>
- *   <option value="orange">Orange</option>
- *   <option value="strawberry">Strawberry</option>
- * </nys-combobox>
- * ```
- *
  * @example Disabled Options
  * ```html
  * <nys-combobox label="Select your favorite fruit" description="Some fruits are out of season">
