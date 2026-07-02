@@ -293,6 +293,10 @@ export class NysCheckbox extends LitElement {
     return !!this.description || !!slot;
   }
 
+  get _isStandalone() {
+    return this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup";
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -492,6 +496,7 @@ export class NysCheckbox extends LitElement {
               label="${this.label || (this.other ? "Other" : "")}"
               description=${ifDefined(this.description || undefined)}
               flag=${ifDefined(this.required ? "required" : undefined)}
+              class=${this._isStandalone ? "standalone" : ""}
             >
               <slot name="description" slot="description"
                 >${this.description}</slot

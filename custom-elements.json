@@ -3720,6 +3720,15 @@
             },
             {
               "kind": "field",
+              "name": "_hasSharedNames",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "_internals",
               "type": {
                 "text": "ElementInternals"
@@ -3862,6 +3871,25 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_checkSharedNames",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "checkboxes",
+                  "type": {
+                    "text": "NysCheckbox[]"
+                  }
+                }
+              ],
+              "description": "Drupal-like naming support *"
             }
           ],
           "attributes": [

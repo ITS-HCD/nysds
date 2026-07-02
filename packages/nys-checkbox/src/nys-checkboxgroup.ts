@@ -151,6 +151,7 @@ export class NysCheckboxgroup extends LitElement {
   @state() private _slottedDescriptionText = "";
   @state() private _hasOtherError = false;
   @state() private _otherErrorCheckbox: NysCheckbox | null = null;
+  @state() private _hasSharedNames = false;
 
   private _internals: ElementInternals;
 
@@ -229,9 +230,14 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   private _setGroupExist() {
-    const checkboxes = this.querySelectorAll("nys-checkbox");
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+
+    this._hasSharedNames = this._checkSharedNames(checkboxes);
+
     checkboxes.forEach((checkbox: any) => {
-      checkbox.groupExist = true;
+      checkbox.groupExist = this._hasSharedNames;
     });
   }
 
@@ -465,20 +471,22 @@ export class NysCheckboxgroup extends LitElement {
 
   // Similar to how native forms handle multiple same-name fields, we group the selected values into a list for FormData.
   private _handleCheckboxChange(event: Event) {
-    const customEvent = event as CustomEvent;
-    const { name } = customEvent.detail;
     const checkboxes = Array.from(
       this.querySelectorAll("nys-checkbox"),
     ) as NysCheckbox[];
 
-    // Filter to only the checked ones and extract their values.
-    const selectedValues = checkboxes
-      .filter((checkbox: any) => checkbox.checked)
-      .map((checkbox: any) => checkbox.value);
+    if (this._hasSharedNames) {
+      const customEvent = event as CustomEvent;
+      const { name } = customEvent.detail;
 
-    this.name = name;
-    this._internals.setFormValue(selectedValues.join(", "));
+      // Filter to only the checked ones and extract their values.
+      const selectedValues = checkboxes
+        .filter((checkbox: any) => checkbox.checked)
+        .map((checkbox: any) => checkbox.value);
 
+      this.name = name;
+      this._internals.setFormValue(selectedValues.join(", "));
+    }
     // Check "other" inputs first (they take priority)
     this._checkOtherInputs(checkboxes);
 
@@ -571,6 +579,14 @@ export class NysCheckboxgroup extends LitElement {
         this.showError = false;
       }
     }
+  }
+
+  /** Drupal-like naming support **/
+
+  private _checkSharedNames(checkboxes: NysCheckbox[]): boolean {
+    if (checkboxes.length === 0) return false;
+    const firstName = checkboxes[0].name;
+    return checkboxes.every((checkbox) => checkbox.name === firstName);
   }
 
   render() {
