@@ -56,7 +56,7 @@ let toggleIdCounter = 0;
  * ></nys-toggle>
  * ```
  *
- * @example Rich Description
+ * @example Description Slot
  * ```html
  * <nys-toggle
  *   label="Opt Out of emails"

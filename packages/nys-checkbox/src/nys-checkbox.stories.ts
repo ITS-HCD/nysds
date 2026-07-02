@@ -285,6 +285,40 @@ export const ErrorMessage: Story = {
   },
 };
 
+export const Description: Story = {
+  render: () => {
+    return html`
+      <nys-checkboxgroup
+        label="Select landmarks"
+        description="Choose wisely, you can only pick one."
+      >
+        <nys-checkbox
+          name="landmarks"
+          value="adirondacks"
+          label="Adirondacks"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup label="Select landmarks" description="Choose wisely, you can only pick one.">
+  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+</nys-checkboxgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const DescriptionSlot: Story = {
   render: () => {
     return html`

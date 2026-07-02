@@ -281,6 +281,40 @@ export const ErrorMessage: Story = {
   },
 };
 
+export const Description: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup
+        label="Select borough"
+        description="Your primary residence in NYC."
+      >
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough" description="Your primary residence in NYC.">
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const DescriptionSlot: Story = {
   render: () => {
     return html`

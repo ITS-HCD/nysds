@@ -4035,6 +4035,11 @@
               "lang": "html"
             },
             {
+              "title": "Description",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" description=\"Choose wisely, you can only pick one.\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
               "title": "Description Slot",
               "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<div slot=\"description\">Your <strong>ABSOLUTE</strong> favorite one.</div>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
@@ -4804,6 +4809,10 @@
               "title": "Width Large",
               "code": "<nys-combobox label=\"Select your favorite fruit\" width=\"lg\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
               "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "```html\n<nys-combobox label=\"Select your favorite fruit\" description=\"Choose from the list of available fruits.\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>\n```d"
             },
             {
               "title": "Description Slot",
@@ -10260,6 +10269,11 @@
               "lang": "html"
             },
             {
+              "title": "Description",
+              "code": "<nys-radiogroup label=\"Select borough\" description=\"Your primary residence in NYC.\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
               "title": "Description Slot",
               "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
@@ -14408,7 +14422,7 @@
               "lang": "html"
             },
             {
-              "title": "Rich Description",
+              "title": "Description Slot",
               "code": "<nys-toggle\nlabel=\"Opt Out of emails\"\nname=\"toggle-switch\"\nvalue=\"emails\"\n>\n<p slot=\"description\">We <strong>REALLY</strong> encourage you to keep emails enabled for contact purposes.</p>\n</nys-toggle>",
               "lang": "html"
             }

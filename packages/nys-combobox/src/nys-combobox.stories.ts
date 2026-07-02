@@ -317,6 +317,33 @@ export const WidthLarge: Story = {
   },
 };
 
+export const Description: Story = {
+  render: () => {
+    return html`<pre
+      style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"
+    ><code>${'```html\n<nys-combobox\n  label="Select your favorite fruit"\n  description="Choose from the list of available fruits."\n>\n  <option value="apple">Apple</option>\n  <option value="banana">Banana</option>\n  <option value="orange">Orange</option>\n  <option value="strawberry">Strawberry</option>\n</nys-combobox>\n```d'}</code></pre>`;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+\`\`\`html
+<nys-combobox
+  label="Select your favorite fruit"
+  description="Choose from the list of available fruits."
+>
+  <option value="apple">Apple</option>
+  <option value="banana">Banana</option>
+  <option value="orange">Orange</option>
+  <option value="strawberry">Strawberry</option>
+</nys-combobox>
+\`\`\`d`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const DescriptionSlot: Story = {
   render: () => {
     return html`

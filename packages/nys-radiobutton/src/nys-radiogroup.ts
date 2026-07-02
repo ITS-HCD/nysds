@@ -85,6 +85,14 @@ let radiogroupIdCounter = 0;
  * </nys-radiogroup>
  * ```
  *
+ * @example Description
+ * ```html
+ * <nys-radiogroup label="Select borough" description="Your primary residence in NYC.">
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
  * @example Description Slot
  * ```html
  * <nys-radiogroup label="Select borough">

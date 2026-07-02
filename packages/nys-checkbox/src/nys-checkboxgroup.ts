@@ -84,6 +84,14 @@ let checkboxgroupIdCounter = 0;
  * </nys-checkboxgroup>
  * ```
  *
+ * @example Description
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" description="Choose wisely, you can only pick one.">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
  * @example Description Slot
  * ```html
  * <nys-checkboxgroup label="Select landmarks">

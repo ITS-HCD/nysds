@@ -155,6 +155,16 @@ interface ComboboxOption {
  * </nys-combobox>
  * ```
  *
+ * @example Description
+ * ```html
+ * <nys-combobox label="Select your favorite fruit" description="Choose from the list of available fruits.">
+ *   <option value="apple">Apple</option>
+ *   <option value="banana">Banana</option>
+ *   <option value="orange">Orange</option>
+ *   <option value="strawberry">Strawberry</option>
+ * </nys-combobox>
+ * ```d
+ *
  * @example Description Slot
  * ```html
  * <nys-combobox label="Select your favorite fruit">

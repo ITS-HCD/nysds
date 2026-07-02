@@ -157,7 +157,7 @@ export const Description: Story = {
   },
 };
 
-export const RichDescription: Story = {
+export const DescriptionSlot: Story = {
   render: () => {
     return html`
       <nys-toggle label="Opt Out of emails" name="toggle-switch" value="emails">
