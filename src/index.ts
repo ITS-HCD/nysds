@@ -15,6 +15,7 @@ export * from "../packages/nys-dropdownmenu/src/index";
 export * from "../packages/nys-errormessage/src/index";
 export * from "../packages/nys-fileinput/src/index";
 export * from "../packages/nys-icon/src/index";
+export * from "../packages/nys-iconlist/src/index";
 export * from "../packages/nys-label/src/index";
 export * from "../packages/nys-modal/src/index";
 export * from "../packages/nys-pagination/src/index";
