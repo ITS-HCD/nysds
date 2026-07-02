@@ -13931,23 +13931,58 @@
           "summary": "Text input for short single-line data with validation and masking support.",
           "examples": [
             {
-              "title": "Basic text input",
-              "code": "<nys-textinput label=\"Full Name\" required></nys-textinput>",
+              "title": "Basic",
+              "code": "<nys-textinput label=\"Full Name\"></nys-textinput>",
               "lang": "html"
             },
             {
-              "title": "Required Email",
-              "code": "<nys-textinput type=\"email\" label=\"Email Address\" required></nys-textinput>",
+              "title": "Disabled",
+              "code": "<nys-textinput label=\"Email Address\" disabled></nys-textinput>",
               "lang": "html"
             },
             {
-              "title": "Phone with masking",
-              "code": "<nys-textinput type=\"tel\" label=\"Phone Number\"></nys-textinput>",
+              "title": "Required",
+              "code": "<nys-textinput label=\"Email Address\" required></nys-textinput>",
               "lang": "html"
             },
             {
-              "title": "Search with button",
-              "code": "<nys-textinput type=\"search\" placeholder=\"Search\">\n<nys-button slot=\"endButton\" label=\"Search\" prefixIcon=\"search\"></nys-button>\n</nys-textinput>",
+              "title": "Optional",
+              "code": "<nys-textinput label=\"Email Address\" optional></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Small",
+              "code": "<nys-textinput label=\"Zip Code\" width=\"sm\"></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Medium",
+              "code": "<nys-textinput label=\"City\" width=\"md\"></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Large",
+              "code": "<nys-textinput label=\"Email Address\" width=\"lg\"></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-textinput label=\"Email Address\" description=\"Only valid ny.gov emails are accepted.\"></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-textinput label=\"Email Address\">\n<div slot=\"description\">Only valid <strong>ny.gov</strong> emails are accepted.</div>\n</nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Masking",
+              "code": "<nys-textinput type=\"tel\" label=\"Phone Number\">\n<div slot=\"description\">Some types, such as <code>tel</code> have automatic masking available.</div>\n</nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Suffix Button",
+              "code": "<nys-textinput id=\"search-demo\" type=\"search\" placeholder=\"Search\">\n<nys-button\nslot=\"endButton\"\nariaLabel=\"Search\"\nprefixIcon=\"search\"\nonclick=\"alert('searching for: ' + document.getElementById('search-demo').value)\"\n></nys-button>\n</nys-textinput>",
               "lang": "html"
             }
           ]

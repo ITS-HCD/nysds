@@ -24,25 +24,69 @@ let textinputIdCounter = 0;
  * @fires nys-focus - Fired when input gains focus.
  * @fires nys-blur - Fired when input loses focus. Triggers validation.
  *
- * @example Basic text input
+ * @example Basic
  * ```html
- * <nys-textinput label="Full Name" required></nys-textinput>
+ * <nys-textinput label="Full Name"></nys-textinput>
  * ```
  *
- * @example Required Email
+ * @example Disabled
  * ```html
- * <nys-textinput type="email" label="Email Address" required></nys-textinput>
+ * <nys-textinput label="Email Address" disabled></nys-textinput>
  * ```
  *
- * @example Phone with masking
+ * @example Required
  * ```html
- * <nys-textinput type="tel" label="Phone Number"></nys-textinput>
+ * <nys-textinput label="Email Address" required></nys-textinput>
  * ```
  *
- * @example Search with button
+ * @example Optional
  * ```html
- * <nys-textinput type="search" placeholder="Search">
- *   <nys-button slot="endButton" label="Search" prefixIcon="search"></nys-button>
+ * <nys-textinput label="Email Address" optional></nys-textinput>
+ * ```
+ *
+ * @example Width Small
+ * ```html
+ * <nys-textinput label="Zip Code" width="sm"></nys-textinput>
+ * ```
+ *
+ * @example Width Medium
+ * ```html
+ * <nys-textinput label="City" width="md"></nys-textinput>
+ * ```
+ *
+ * @example Width Large
+ * ```html
+ * <nys-textinput label="Email Address" width="lg"></nys-textinput>
+ * ```
+ *
+ * @example Description
+ * ```html
+ * <nys-textinput label="Email Address" description="Only valid ny.gov emails are accepted."></nys-textinput>
+ * ```
+ *
+ * @example Description Slot
+ * ```html
+ * <nys-textinput label="Email Address">
+ *  <div slot="description">Only valid <strong>ny.gov</strong> emails are accepted.</div>
+ * </nys-textinput>
+ * ```
+ *
+ * @example Masking
+ * ```html
+ * <nys-textinput type="tel" label="Phone Number">
+ *  <div slot="description">Some types, such as <code>tel</code> have automatic masking available.</div>
+ * </nys-textinput>
+ * ```
+ *
+ * @example Suffix Button
+ * ```html
+ * <nys-textinput id="search-demo" type="search" placeholder="Search">
+ *   <nys-button
+ *     slot="endButton"
+ *     ariaLabel="Search"
+ *     prefixIcon="search"
+ *     onclick="alert('searching for: ' + document.getElementById('search-demo').value)"
+ *   ></nys-button>
  * </nys-textinput>
  * ```
  */
