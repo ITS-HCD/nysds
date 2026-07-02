@@ -4,25 +4,9 @@ import "./nys-tooltip";
 import "@nysds/nys-button";
 import "@nysds/nys-icon";
 
-// Define the structure of the args used in the stories
-interface NysTooltipArgs {
-  id: string;
-  text: string;
-  for: string;
-  position: string;
-  inverted: boolean;
-}
-
-const meta: Meta<NysTooltipArgs> = {
+const meta: Meta = {
   title: "Components/Tooltip",
   component: "nys-tooltip",
-  argTypes: {
-    id: { control: "text" },
-    text: { control: "text" },
-    for: { control: "text" },
-    position: { control: "text" },
-    inverted: { control: "boolean", default: false },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -32,57 +16,89 @@ const meta: Meta<NysTooltipArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysTooltipArgs>;
+type Story = StoryObj;
 
-export const TooltipForButton: Story = {
-  args: {
-    circle: true,
-    label: "Help",
-    icon: "help",
-    for: "help-btn",
-    text: "Click for assistance",
-  },
-  render: (args) => {
+export const Basic: Story = {
+  render: () => {
     return html`
-      <nys-button
-        .id=${args.id}
-        ?inverted=${args["inverted"]}
-        .text=${args["text"]}
-        .for=${args["for"]}
-        .position=${args["position"]}
-      ></nys-button>
-      <nys-tooltip for="help-btn" text="Click for assistance"></nys-tooltip>
+      <div
+        style="display: flex; justify-content: center; gap: 5px; padding: 40px"
+      >
+        <nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+        <nys-button id="my-button" label="Hover Me"></nys-button>
+      </div>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-button id="help-btn" label="Help" circle icon="help"></nys-button>
-<nys-tooltip for="help-btn" text="Click for assistance"></nys-tooltip>`,
+<div style="display: flex; justify-content: center; gap: 5px; padding: 40px">
+  <nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+  <nys-button id="my-button" label="Hover Me"></nys-button>
+</div>`,
         type: "auto",
       },
     },
   },
 };
 
-export const PositionedTooltip: Story = {
+export const Position: Story = {
   render: () => {
     return html`
-      <nys-icon id="info-icon" name="info"></nys-icon>
-      <nys-tooltip
-        for="info-icon"
-        text="Additional details"
-        position="right"
-      ></nys-tooltip>
+      <div
+        style="display: flex; justify-content: center; gap: 5px; padding: 40px"
+      >
+        <p>Hover over the icon</p>
+        <nys-tooltip
+          for="my-icon2"
+          text="I am a tooltip."
+          position="right"
+        ></nys-tooltip>
+        <nys-icon id="my-icon2" name="info" size="3xl"></nys-icon>
+      </div>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-icon id="info-icon" name="info"></nys-icon>
-<nys-tooltip for="info-icon" text="Additional details" position="right"></nys-tooltip>`,
+<div style="display: flex; justify-content: center; gap: 5px; padding: 40px">
+  <p>Hover over the icon</p>
+  <nys-tooltip for="my-icon2" text="I am a tooltip." position="right"></nys-tooltip>
+  <nys-icon id="my-icon2" name="info" size="3xl"></nys-icon>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  render: () => {
+    return html`
+      <div
+        style="background-color: #1b1b1b; color: #ffffff; padding: 40px; display: flex; gap: 5px"
+      >
+        <p>Hover over the icon</p>
+        <nys-tooltip
+          for="my-tooltip3"
+          text="I am a tooltip."
+          inverted
+        ></nys-tooltip>
+        <nys-icon id="my-tooltip3" name="info" size="3xl"></nys-icon>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div style="background-color: #1b1b1b; color: #ffffff; padding: 40px; display: flex; gap: 5px">
+  <p>Hover over the icon</p>
+  <nys-tooltip for="my-tooltip3" text="I am a tooltip." inverted></nys-tooltip>
+  <nys-icon id="my-tooltip3" name="info" size="3xl"></nys-icon>
+</div>`,
         type: "auto",
       },
     },

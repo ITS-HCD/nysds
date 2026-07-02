@@ -22,16 +22,40 @@ let tooltipIdCounter = 0;
  * @summary Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-tooltip
  *
- * @example Tooltip for button
+ * @example  Basic
  * ```html
- * <nys-button id="help-btn" label="Help" circle icon="help"></nys-button>
- * <nys-tooltip for="help-btn" text="Click for assistance"></nys-tooltip>
+ * <div style="display: flex; justify-content: center; gap: 5px; padding: 40px;">
+ *   <nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+ *   <nys-button  id="my-button" label="Hover Me"></nys-button>
+ * </div>
  * ```
  *
- * @example Positioned tooltip
+ * @example Position
  * ```html
- * <nys-icon id="info-icon" name="info"></nys-icon>
- * <nys-tooltip for="info-icon" text="Additional details" position="right"></nys-tooltip>
+ * <div style="display: flex; justify-content: center; gap: 5px; padding: 40px;">
+ *   <p>Hover over the icon</p>
+ *   <nys-tooltip
+ *     for="my-icon2"
+ *     text="I am a tooltip."
+ *     position="right"
+ *   >
+ *   </nys-tooltip>
+ *   <nys-icon id="my-icon2" name="info" size="3xl"></nys-icon>
+ * </div>
+ * ```
+ *
+ * @example Inverted
+ * ```html
+ * <div style="background-color: #1b1b1b; color: #ffffff; padding: 40px; display: flex; gap: 5px">
+ *   <p>Hover over the icon</p>
+ *   <nys-tooltip
+ *     for="my-tooltip3"
+ *     text="I am a tooltip."
+ *     inverted
+ *   >
+ *   </nys-tooltip>
+ *   <nys-icon id="my-tooltip3" name="info" size="3xl"></nys-icon>
+ * </div>
  * ```
  */
 

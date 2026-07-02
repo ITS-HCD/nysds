@@ -14927,13 +14927,18 @@
           "summary": "Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.",
           "examples": [
             {
-              "title": "Tooltip for button",
-              "code": "<nys-button id=\"help-btn\" label=\"Help\" circle icon=\"help\"></nys-button>\n<nys-tooltip for=\"help-btn\" text=\"Click for assistance\"></nys-tooltip>",
+              "title": "Basic",
+              "code": "<div style=\"display: flex; justify-content: center; gap: 5px; padding: 40px;\">\n<nys-tooltip for=\"my-button\" text=\"I am a tooltip.\"></nys-tooltip>\n<nys-button  id=\"my-button\" label=\"Hover Me\"></nys-button>\n</div>",
               "lang": "html"
             },
             {
-              "title": "Positioned tooltip",
-              "code": "<nys-icon id=\"info-icon\" name=\"info\"></nys-icon>\n<nys-tooltip for=\"info-icon\" text=\"Additional details\" position=\"right\"></nys-tooltip>",
+              "title": "Position",
+              "code": "<div style=\"display: flex; justify-content: center; gap: 5px; padding: 40px;\">\n<p>Hover over the icon</p>\n<nys-tooltip\nfor=\"my-icon2\"\ntext=\"I am a tooltip.\"\nposition=\"right\"\n>\n</nys-tooltip>\n<nys-icon id=\"my-icon2\" name=\"info\" size=\"3xl\"></nys-icon>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<div style=\"background-color: #1b1b1b; color: #ffffff; padding: 40px; display: flex; gap: 5px\">\n<p>Hover over the icon</p>\n<nys-tooltip\nfor=\"my-tooltip3\"\ntext=\"I am a tooltip.\"\ninverted\n>\n</nys-tooltip>\n<nys-icon id=\"my-tooltip3\" name=\"info\" size=\"3xl\"></nys-icon>\n</div>",
               "lang": "html"
             }
           ]
