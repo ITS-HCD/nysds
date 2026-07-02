@@ -44,11 +44,11 @@ export default function (plop) {
       //   path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.mdx",
       //   templateFile: "src/templates/mdx.template.hbs",
       // },
-      {
-        type: "add",
-        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.stories.ts",
-        templateFile: "src/templates/stories.template.hbs",
-      },
+      // {
+      //   type: "add",
+      //   path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.stories.ts",
+      //   templateFile: "src/templates/stories.template.hbs",
+      // },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.scss",
