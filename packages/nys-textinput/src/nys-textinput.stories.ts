@@ -51,6 +51,31 @@ export const Disabled: Story = {
   },
 };
 
+export const Readonly: Story = {
+  render: () => {
+    return html`
+      <nys-textinput
+        label="Email Address"
+        readonly
+        value="You can see me but not edit me"
+      ></nys-textinput>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput
+  label="Email Address"
+  readonly
+  value="You can see me but not edit me"
+></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Required: Story = {
   render: () => {
     return html`
@@ -207,6 +232,29 @@ export const Masking: Story = {
     have automatic masking available.
   </div>
 </nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const MaxMinValues: Story = {
+  render: () => {
+    return html`
+      <nys-textinput
+        type="number"
+        label="Age"
+        min="18"
+        max="99"
+        width="sm"
+      ></nys-textinput>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput type="number" label="Age" min="18" max="99" width="sm"></nys-textinput>`,
         type: "auto",
       },
     },

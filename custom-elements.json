@@ -12662,7 +12662,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes textarea read-only but focusable.",
+              "description": "Makes textarea readonly but focusable.",
               "attribute": "readonly",
               "reflects": true
             },
@@ -13032,7 +13032,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Makes textarea read-only but focusable.",
+              "description": "Makes textarea readonly but focusable.",
               "fieldName": "readonly",
               "propName": "readonly"
             },
@@ -13156,13 +13156,58 @@
           "summary": "Multi-line text input for comments, descriptions, and feedback.",
           "examples": [
             {
-              "title": "Basic textarea",
-              "code": "<nys-textarea label=\"Comments\" rows=\"4\"></nys-textarea>",
+              "title": "Basic",
+              "code": "<nys-textarea label=\"Comments\"></nys-textarea>",
               "lang": "html"
             },
             {
-              "title": "Required with description",
-              "code": "<nys-textarea label=\"Describe the incident\" description=\"Please provide details\" required></nys-textarea>",
+              "title": "Disabled",
+              "code": "<nys-textarea label=\"Comments\" disabled></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Readonly",
+              "code": "<nys-textarea label=\"Comments\" readonly value=\"You can see me but not edit me\"></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-textarea label=\"Describe the incident\" required></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-textarea label=\"Comments\" optional></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Max length",
+              "code": "<nys-textarea label=\"Comments\" maxlength=\"100\"></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Small",
+              "code": "<nys-textarea label=\"Comments\" width=\"sm\"></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Medium",
+              "code": "<nys-textarea label=\"Comments\" width=\"md\"></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Large",
+              "code": "<nys-textarea label=\"Comments\" width=\"lg\"></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-textarea label=\"Describe the incident\" description=\"Please provide details\"></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-textarea label=\"Describe the incident\">\n<div slot=\"description\">Please provide details</div>\n</nys-textarea>",
               "lang": "html"
             }
           ]
@@ -13955,6 +14000,11 @@
               "lang": "html"
             },
             {
+              "title": "Readonly",
+              "code": "<nys-textinput label=\"Email Address\" readonly value=\"You can see me but not edit me\"></nys-textinput>",
+              "lang": "html"
+            },
+            {
               "title": "Required",
               "code": "<nys-textinput label=\"Email Address\" required></nys-textinput>",
               "lang": "html"
@@ -13992,6 +14042,11 @@
             {
               "title": "Masking",
               "code": "<nys-textinput type=\"tel\" label=\"Phone Number\">\n<div slot=\"description\">Some types, such as <code>tel</code> have automatic masking available.</div>\n</nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Max Min Values",
+              "code": "<nys-textinput type=\"number\" label=\"Age\" min=\"18\" max=\"99\" width=\"sm\"></nys-textinput>",
               "lang": "html"
             },
             {

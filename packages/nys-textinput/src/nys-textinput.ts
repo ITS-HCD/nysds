@@ -34,6 +34,11 @@ let textinputIdCounter = 0;
  * <nys-textinput label="Email Address" disabled></nys-textinput>
  * ```
  *
+ * @example Readonly
+ * ```html
+ * <nys-textinput label="Email Address" readonly value="You can see me but not edit me"></nys-textinput>
+ * ```
+ *
  * @example Required
  * ```html
  * <nys-textinput label="Email Address" required></nys-textinput>
@@ -76,6 +81,11 @@ let textinputIdCounter = 0;
  * <nys-textinput type="tel" label="Phone Number">
  *  <div slot="description">Some types, such as <code>tel</code> have automatic masking available.</div>
  * </nys-textinput>
+ * ```
+ *
+ * @example Max Min Values
+ * ```html
+ * <nys-textinput type="number" label="Age" min="18" max="99" width="sm"></nys-textinput>
  * ```
  *
  * @example Suffix Button

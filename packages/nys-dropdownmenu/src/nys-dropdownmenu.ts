@@ -51,8 +51,6 @@ interface SpaceAvailable {
  *   </nys-dropdownmenu>
  * </div>
  * ```
- *
- * 
  */
 
 export class NysDropdownMenu extends LitElement {
