@@ -1303,6 +1303,7 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+   * - **user-actions** - Optional slot for user action buttons (e.g., login, profile, etc.).
    */
   "nys-globalheader": Partial<NysGlobalHeaderProps & BaseProps & BaseEvents>;
 
