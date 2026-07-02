@@ -158,16 +158,40 @@ describe("nys-button", () => {
     expect(suffixIcon!.getAttribute("size")).to.equal("16");
   });
 
-  it(" should allow for the icon to be slotted in", async () => {
+  it(" should allow for the prefix icon to be slotted in", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button size="sm">
-        <nys-icon slot="suffix-icon" size="2xl" name="visibility"></nys-icon>
+        <nys-icon slot="prefix-icon" size="2xl" name="visibility"></nys-icon>
       </nys-button>`,
     );
     const prefixIcon = el.querySelector("nys-icon[name='visibility']");
 
     expect(el.prefixIcon).to.exist;
     expect(prefixIcon).to.exist;
+  });
+
+  it(" should allow for the suffix icon to be slotted in", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button size="sm">
+        <nys-icon slot="suffix-icon" size="2xl" name="visibility"></nys-icon>
+      </nys-button>`,
+    );
+    const suffixIcon = el.querySelector("nys-icon[name='visibility']");
+
+    expect(el.suffixIcon).to.exist;
+    expect(suffixIcon).to.exist;
+  });
+
+  it(" should allow for the circle icon to be slotted in", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button size="sm" circle>
+        <nys-icon slot="circle-icon" size="2xl" name="visibility"></nys-icon>
+      </nys-button>`,
+    );
+    const circleIcon = el.querySelector("nys-icon[name='visibility']");
+
+    expect(el.icon).to.exist;
+    expect(circleIcon).to.exist;
   });
 
   it("renders correct icon sizes for regular and circle buttons", async () => {
