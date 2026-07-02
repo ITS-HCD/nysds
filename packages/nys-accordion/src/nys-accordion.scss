@@ -13,6 +13,10 @@
   --_nys-accordion-gap: var(--nys-space-100, 8px);
 
   /* Header & Text container */
+  --_nys-accordion-color--header: var(
+    --nys-accordion-color--header,
+    var(--nys-color-text, #1b1b1b)
+  );
   --_nys-accordion-background-color--header: var(
     --nys-accordion-background-color--header,
     var(--nys-color-neutral-50, #ededed)
@@ -67,6 +71,7 @@ p {
 
 .nys-accordionitem__heading {
   all: unset;
+  color: var(--_nys-accordion-color--header);
   flex: 1;
   gap: var(--_nys-accordionitem-gap);
   display: flex;
