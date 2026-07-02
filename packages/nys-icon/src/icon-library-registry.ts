@@ -6,9 +6,11 @@
  * Custom libraries (Font Awesome, Material Icons, etc.) can be
  * registered at runtime via `registerIconLibrary()`.
  *
- * The registry and watcher maps are stored on `window` so that even
+ * The registry and watcher maps are stored on `globalThis` so that even
  * when bundlers (Storybook Vite, etc.) create duplicate module
- * instances, every copy shares a single source of truth.
+ * instances, every copy shares a single source of truth. `globalThis`
+ * (rather than `window`) keeps module import side-effect-safe in
+ * Node/SSR environments, where `window` does not exist.
  */
 
 export interface IconLibrary {
@@ -25,24 +27,20 @@ export interface NysIconWatcher {
 // ---------------------------------------------------------------------------
 // Global singleton storage – survives module duplication by bundlers
 // ---------------------------------------------------------------------------
-interface NysIconGlobals {
-  __nysIconRegistry: Map<string, IconLibrary>;
-  __nysIconWatchers: Map<string, Set<NysIconWatcher>>;
-}
-
 declare global {
-  interface Window extends NysIconGlobals {}
+  var __nysIconRegistry: Map<string, IconLibrary> | undefined;
+  var __nysIconWatchers: Map<string, Set<NysIconWatcher>> | undefined;
+  var __nysIconDefaultRegistered: boolean | undefined;
 }
 
-if (!window.__nysIconRegistry) {
-  window.__nysIconRegistry = new Map<string, IconLibrary>();
-}
-if (!window.__nysIconWatchers) {
-  window.__nysIconWatchers = new Map<string, Set<NysIconWatcher>>();
-}
-
-const registry = window.__nysIconRegistry;
-const watchers = window.__nysIconWatchers;
+const registry = (globalThis.__nysIconRegistry ??= new Map<
+  string,
+  IconLibrary
+>());
+const watchers = (globalThis.__nysIconWatchers ??= new Map<
+  string,
+  Set<NysIconWatcher>
+>());
 
 /**
  * Resolve the base URL of the colocated `icons/` folder for the default
@@ -54,7 +52,8 @@ const watchers = window.__nysIconWatchers;
  *
  *   1. `document.currentScript` — the executing tag for a classic
  *      `<script src="…/nysds.js">`. Only valid during synchronous module
- *      init, which is why this runs eagerly at load time.
+ *      init, so its `src` is captured eagerly at load time (guarded for
+ *      SSR); everything else is resolved lazily on first use.
  *   2. A matching `<script src>` in the DOM — `currentScript` is `null` for
  *      module scripts (`<script type="module">`), so we locate our own bundle
  *      by filename. This is the case the README documents.
@@ -71,16 +70,23 @@ const watchers = window.__nysIconWatchers;
  * `nysds` script tag present, so they fall through here and must register an
  * explicit `"default"` resolver — see the docs.
  */
-function resolveDefaultIconBaseUrl(): string {
+// `document.currentScript` is only meaningful during synchronous module
+// init, so its `src` is the one signal captured eagerly. Guarded so that
+// importing the bundle stays side-effect-free under SSR.
+const currentScriptSrc =
+  typeof document !== "undefined"
+    ? ((document.currentScript as HTMLScriptElement | null)?.src ?? undefined)
+    : undefined;
+
+function resolveDefaultIconBaseUrl(): string | undefined {
   // Matches the served bundle filenames: nysds.js, nysds.es.js, nysds.min.js,
   // or the standalone nys-icon.js.
   const bundlePattern =
     /(?:^|\/)(?:nysds(?:\.es|\.min)?|nys-icon)\.js(?:[?#]|$)/;
 
-  if (typeof document !== "undefined") {
-    const current = document.currentScript as HTMLScriptElement | null;
-    if (current?.src) return new URL("./icons/", current.src).href;
+  if (currentScriptSrc) return new URL("./icons/", currentScriptSrc).href;
 
+  if (typeof document !== "undefined") {
     const scripts = Array.from(
       document.querySelectorAll<HTMLScriptElement>("script[src]"),
     );
@@ -93,13 +99,32 @@ function resolveDefaultIconBaseUrl(): string {
   const moduleUrl = import.meta.url;
   if (moduleUrl) return new URL("./icons/", moduleUrl).href;
 
-  return new URL("./icons/", document.baseURI).href;
+  if (typeof document !== "undefined") {
+    return new URL("./icons/", document.baseURI).href;
+  }
+
+  // Server/SSR: no meaningful base URL. Resolution happens again in the
+  // browser once a component actually requests the default library.
+  return undefined;
 }
 
 // Default library: resolves NYSDS icons from colocated dist/icons/ folder.
-// Only register once (the first module instance to run wins).
-if (!registry.has("default")) {
+// Registered lazily on first lookup (never at import time, which must stay
+// side-effect-free for SSR) and only once — the first module instance to
+// resolve it wins, and an explicit register/unregister of "default" is
+// never overridden.
+function ensureDefaultLibrary(): void {
+  if (globalThis.__nysIconDefaultRegistered || registry.has("default")) {
+    globalThis.__nysIconDefaultRegistered = true;
+    return;
+  }
+
   const defaultBaseUrl = resolveDefaultIconBaseUrl();
+  // No base URL means no DOM (SSR) — leave unregistered so the browser
+  // retries with real document/script context.
+  if (defaultBaseUrl === undefined) return;
+
+  globalThis.__nysIconDefaultRegistered = true;
   registry.set("default", {
     resolver: (name: string) =>
       name ? `${defaultBaseUrl}${name}.svg` : undefined,
@@ -128,6 +153,7 @@ export function unregisterIconLibrary(name: string): void {
 
 /** Get a registered icon library by name. */
 export function getIconLibrary(name: string): IconLibrary | undefined {
+  ensureDefaultLibrary();
   return registry.get(name);
 }
 

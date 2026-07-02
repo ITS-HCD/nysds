@@ -2994,6 +2994,11 @@
             },
             {
               "kind": "field",
+              "name": "_isStandalone",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "_handleMobileQuery",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
@@ -7741,6 +7746,14 @@
           "declaration": {
             "name": "clearIconCache",
             "module": "./icon-cache"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getIconLibrary",
+          "declaration": {
+            "name": "getIconLibrary",
+            "module": "./icon-library-registry"
           }
         },
         {

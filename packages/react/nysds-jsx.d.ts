@@ -287,6 +287,8 @@ export type NysCheckboxProps = {
   showOtherError?: boolean;
   /**  */
   _hasDescription?: string;
+  /**  */
+  _isStandalone?: string;
   /** Fired when checked state changes. Detail: `{id, checked, name, value}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */

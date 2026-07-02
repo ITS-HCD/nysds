@@ -4,14 +4,13 @@ import "../dist/nys-icon.js";
 import type { NysIcon } from "./nys-icon";
 
 // Dynamic import from dist to get registry/cache functions from the same module instance
-let registerIconLibrary: (
-  name: string,
-  library: {
-    resolver: (name: string) => string | undefined;
-    mutator?: (svg: SVGElement) => void;
-  },
-) => void;
+type TestIconLibrary = {
+  resolver: (name: string) => string | undefined;
+  mutator?: (svg: SVGElement) => void;
+};
+let registerIconLibrary: (name: string, library: TestIconLibrary) => void;
 let unregisterIconLibrary: (name: string) => void;
+let getIconLibrary: (name: string) => TestIconLibrary | undefined;
 let clearIconCache: (url?: string) => void;
 
 // Simple SVG for testing custom libraries
@@ -30,6 +29,7 @@ before(async () => {
   const mod = await import("../dist/nys-icon.js");
   registerIconLibrary = mod.registerIconLibrary;
   unregisterIconLibrary = mod.unregisterIconLibrary;
+  getIconLibrary = mod.getIconLibrary;
   clearIconCache = mod.clearIconCache;
 });
 
@@ -145,6 +145,44 @@ describe("nys-icon accessibility", () => {
     const el = await fixture(html`<nys-icon name="check"></nys-icon>`);
     await waitForIcon(el);
     await expect(el).shadowDom.to.be.accessible();
+  });
+});
+
+// SSR-safe registry tests (issue #1677, PRD Phase 1)
+describe("nys-icon lazy default library registration", () => {
+  it("registers the default library lazily on first lookup", () => {
+    const lib = getIconLibrary("default");
+    expect(lib).to.exist;
+    expect(lib?.resolver("check")).to.match(/icons\/check\.svg$/);
+  });
+
+  it("default resolver returns undefined for an empty name", () => {
+    const lib = getIconLibrary("default");
+    expect(lib?.resolver("")).to.be.undefined;
+  });
+
+  it("does not clobber an explicitly registered 'default' library", () => {
+    const original = getIconLibrary("default")!;
+    try {
+      registerIconLibrary("default", {
+        resolver: () => svgDataUri(testSvg),
+      });
+      expect(getIconLibrary("default")?.resolver("anything")).to.equal(
+        svgDataUri(testSvg),
+      );
+    } finally {
+      registerIconLibrary("default", original);
+    }
+  });
+
+  it("does not resurrect the default library after it is unregistered", () => {
+    const original = getIconLibrary("default")!;
+    try {
+      unregisterIconLibrary("default");
+      expect(getIconLibrary("default")).to.be.undefined;
+    } finally {
+      registerIconLibrary("default", original);
+    }
   });
 });
 
