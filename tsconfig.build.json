@@ -56,6 +56,9 @@
       "path": "packages/nys-icon"
     },
     {
+      "path": "packages/nys-iconlist"
+    },
+    {
       "path": "packages/nys-label"
     },
     {

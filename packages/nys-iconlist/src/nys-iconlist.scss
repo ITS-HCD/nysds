@@ -1,0 +1,41 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Iconlist Styles */
+  --_nys-iconlist-width: fit-content;
+  --_nys-iconlist-height: var(--nys-size-600, 48px);
+  --_nys-iconlist-border-radius: var(--nys-radius-xl, 12px);
+  --_nys-iconlist-padding: var(--nys-space-100, 8px);
+  --_nys-iconlist-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-iconlist-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-iconlist-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-iconlist-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-iconlist-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+.nys-iconlist {
+  width: var(--_nys-iconlist-width);
+  height: var(--_nys-iconlist-height);
+  border-radius: var(--_nys-iconlist-radius);
+  padding: var(--_nys-iconlist-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_nys-iconlist-gap);
+  font-family: var(--_nys-iconlist-font-family);
+  font-size: var(--_nys-iconlist-font-size);
+  font-weight: var(--_nys-iconlist-font-weight);
+  line-height: var(--_nys-iconlist-line-height);
+}
