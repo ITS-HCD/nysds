@@ -7232,13 +7232,48 @@
           "summary": "File input with drag-and-drop, validation, and progress tracking.",
           "examples": [
             {
-              "title": "Single file upload",
-              "code": "<nys-fileinput label=\"Upload document\" accept=\".pdf,.doc\" required></nys-fileinput>",
+              "title": "Basic",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\n></nys-fileinput>",
               "lang": "html"
             },
             {
-              "title": "Multiple files with dropzone",
-              "code": "<nys-fileinput label=\"Upload images\" accept=\"image/*\" multiple dropzone></nys-fileinput>",
+              "title": "Dropzone",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\ndropzone\n></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Multiple",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\nmultiple\n></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Accepted Filetypes",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\ndescription=\"Accepted file types: .jpg, .png, .pdf\"\naccept=\"image/png, image/jpeg, .pdf\"\n></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Large",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\nwidth=\"lg\"\n></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Large Dropzone",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\nwidth=\"lg\"\ndropzone\n></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\ndisabled\n></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-fileinput\nlabel=\"Upload a file\"\ndescription=\"Make sure the file is not blurry and readable\"\n></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-fileinput label=\"Upload a file\">\n<div slot=\"description\">Make sure the file is <strong>legible</strong></div>\n</nys-fileinput>",
               "lang": "html"
             }
           ]
