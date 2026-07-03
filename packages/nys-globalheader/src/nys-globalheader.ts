@@ -14,6 +14,7 @@ import styles from "./nys-globalheader.scss?inline";
  * @element nys-globalheader
  *
  * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ * @slot user-actions - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
  *
  * @example Basic header
  * ```html
