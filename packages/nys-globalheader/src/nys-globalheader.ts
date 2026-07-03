@@ -89,7 +89,13 @@ export class NysGlobalHeader extends LitElement {
   /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
 
-  /** Toggles the NYS brand mark */
+  /**
+   * Displays the NYS brand mark in the header. Off by default.
+   *
+   * Enable only for internal, state-employee (back-office) applications that omit
+   * `nys-unavheader`. Any resident-facing app — even one requiring login — should
+   * keep `nys-unavheader` for trust and leave this off.
+   */
   @property({ type: Boolean }) nysLogo = false;
 
   /** Internal state to track mobile menu open/closed status. */

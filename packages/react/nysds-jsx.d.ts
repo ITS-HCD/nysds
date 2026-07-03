@@ -533,7 +533,11 @@ export type NysGlobalHeaderProps = {
   agencyName?: string;
   /** URL for the header title link. If empty, title is not clickable. */
   homepageLink?: string;
-  /** Toggles the NYS brand mark */
+  /** Displays the NYS brand mark in the header. Off by default.
+
+Enable only for internal, state-employee (back-office) applications that omit
+`nys-unavheader`. Any resident-facing app — even one requiring login — should
+keep `nys-unavheader` for trust and leave this off. */
   nysLogo?: boolean;
 };
 

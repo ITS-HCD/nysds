@@ -7756,7 +7756,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Toggles the NYS brand mark",
+              "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "attribute": "nysLogo"
             },
             {
@@ -7884,7 +7884,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Toggles the NYS brand mark",
+              "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "fieldName": "nysLogo",
               "propName": "nyslogo"
             }
