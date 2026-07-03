@@ -8224,6 +8224,81 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-iconlist/src/nys-iconlist"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/nys-iconlist.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-your-component-name>` is ...",
+          "name": "NysIconlist",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-iconlist",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-iconlist",
+          "declaration": {
+            "name": "NysIconlist",
+            "module": "packages/nys-iconlist/src/nys-iconlist.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconlist",
+          "declaration": {
+            "name": "NysIconlist",
+            "module": "packages/nys-iconlist/src/nys-iconlist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-label/src/index.ts",
       "declarations": [],
       "exports": [

@@ -593,6 +593,11 @@ export type NysIconProps = {
   updateComplete?: Promise<boolean>;
 };
 
+export type NysIconlistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+};
+
 export type NysLabelProps = {
   /** The ID of the label. */
   id?: string;
@@ -1343,6 +1348,13 @@ export type CustomElements = {
    *  - **redraw()** - Called by the icon library registry when the current library changes.
    */
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-your-component-name>` is ...
+   * ---
+   *
+   */
+  "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
 
   /**
    * Internal label component for form fields with flag and tooltip support.
