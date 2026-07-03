@@ -2994,6 +2994,11 @@
             },
             {
               "kind": "field",
+              "name": "_isStandalone",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "_handleMobileQuery",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
