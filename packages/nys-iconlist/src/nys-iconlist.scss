@@ -3,15 +3,15 @@
 
   /* Global Iconlist Styles */
   --_nys-iconlist-width: fit-content;
-  --_nys-iconlist-height: var(--nys-size-600, 48px);
-  --_nys-iconlist-border-radius: var(--nys-radius-xl, 12px);
-  --_nys-iconlist-padding: var(--nys-space-100, 8px);
-  --_nys-iconlist-gap: var(--nys-space-100, 8px);
+  --_nys-iconlist-gap--item: var(--nys-space-150, 12px);
+  --_nys-iconlist-gap--icon: var(--nys-space-100, 8px);
+  --_nys-iconlist-gap--label: var(--nys-space-50, 4px);
 
-  /* Typography */
-  --_nys-iconlist-font-size: var(--nys-font-size-ui-md, 16px);
-  --_nys-iconlist-font-weight: var(--nys-font-weight-semibold, 600);
-  --_nys-iconlist-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  /* Divider */
+  --_nys-iconlist-divider-color: var(--nys-color-base, #62666a);
+  --_nys-iconlist-divider-width: var(--nys-space-1px, 1px);
+
+  /* Typography (also inherited by slotted <li>/<span>/<nys-icon> content) */
   --_nys-iconlist-font-family: var(
     --nys-font-family-ui,
     var(
@@ -23,19 +23,52 @@
       sans-serif
     )
   );
+  --_nys-iconlist-font-size: var(--nys-font-size-ui-sm, 14px);
+  --_nys-iconlist-font-weight: var(--nys-font-weight-regular, 400);
+  --_nys-iconlist-line-height: var(--nys-font-lineheight-ui-sm, 24px);
+  --_nys-iconlist-color: var(--nys-color-text, #1b1b1b);
 }
 
 .nys-iconlist {
   width: var(--_nys-iconlist-width);
-  height: var(--_nys-iconlist-height);
-  border-radius: var(--_nys-iconlist-radius);
-  padding: var(--_nys-iconlist-padding);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--_nys-iconlist-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
   font-family: var(--_nys-iconlist-font-family);
   font-size: var(--_nys-iconlist-font-size);
   font-weight: var(--_nys-iconlist-font-weight);
   line-height: var(--_nys-iconlist-line-height);
+  color: var(--_nys-iconlist-color);
+}
+
+/* Slotted <li> items: icon in column 1, label(s) in column 2 */
+::slotted(li) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--_nys-iconlist-gap--icon);
+  row-gap: var(--_nys-iconlist-gap--label);
+  padding-block: calc(var(--_nys-iconlist-gap--item) / 2);
+  margin: 0;
+  list-style: none;
+}
+
+::slotted(li:first-child) {
+  padding-top: 0;
+}
+
+::slotted(li:last-child) {
+  padding-bottom: 0;
+}
+
+/* A second label renders on its own line below the first; align the icon to
+   the top line instead of centering it against the full text block. */
+::slotted(li:has(span + span)) {
+  align-items: start;
+}
+
+/* Divider */
+:host([divider]) ::slotted(li:not(:last-child)) {
+  border-bottom: var(--_nys-iconlist-divider-width) solid
+    var(--_nys-iconlist-divider-color);
 }

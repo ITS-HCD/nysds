@@ -31,7 +31,9 @@ describe("nys-iconlist", () => {
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-iconlist label="My Label"></nys-iconlist>`);
+    const el = await fixture(
+      html`<nys-iconlist label="My Label"></nys-iconlist>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -43,4 +45,4 @@ describe("nys-iconlist", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

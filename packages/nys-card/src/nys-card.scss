@@ -90,7 +90,7 @@
       flex-direction: column;
       align-items: center;
 
-      //text styles
+      // text styles
       color: var(--nys-color-text);
       font-family: var(--nys-font-family-ui, "Proxima Nova");
       font-style: normal;
@@ -99,6 +99,7 @@
       &-month {
         padding: 0;
         margin: 0;
+
         /* UI Single Line/Medium/Bold */
         font-size: var(--nys-font-size-ui-md, 16px);
         line-height: var(--nys-font-size-ui-md, 16px); /* 100% */
