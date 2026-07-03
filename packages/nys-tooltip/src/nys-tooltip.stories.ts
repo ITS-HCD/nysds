@@ -19,12 +19,21 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    text: "I am a tooltip.",
+    inverted: false,
+    for: "my-button",
+  },
+  render: (args) => {
     return html`
       <div
         style="display: flex; justify-content: center; gap: 5px; padding: 40px"
       >
-        <nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+        <nys-tooltip
+          text=${args.text}
+          ?inverted=${args.inverted}
+          for=${args.for}
+        ></nys-tooltip>
         <nys-button id="my-button" label="Hover Me"></nys-button>
       </div>
     `;

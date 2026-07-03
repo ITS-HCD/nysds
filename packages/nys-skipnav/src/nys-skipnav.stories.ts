@@ -17,8 +17,11 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-skipnav></nys-skipnav> `;
+  args: {
+    href: "",
+  },
+  render: (args) => {
+    return html` <nys-skipnav href=${args.href}></nys-skipnav> `;
   },
   parameters: {
     docs: {

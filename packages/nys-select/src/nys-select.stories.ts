@@ -19,9 +19,34 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "",
+    label: "Select your favorite borough",
+    description: "",
+    value: "",
+    disabled: false,
+    required: false,
+    optional: false,
+    tooltip: "",
+    inverted: false,
+    showError: false,
+    errorMessage: "",
+  },
+  render: (args) => {
     return html`
-      <nys-select label="Select your favorite borough" id="borough">
+      <nys-select
+        name=${args.name}
+        label=${args.label}
+        description=${args.description}
+        value=${args.value}
+        ?disabled=${args.disabled}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        tooltip=${args.tooltip}
+        ?inverted=${args.inverted}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+      >
         <option value="bronx" label="The Bronx"></option>
         <option value="brooklyn" label="Brooklyn"></option>
         <option value="manhattan" label="Manhattan"></option>

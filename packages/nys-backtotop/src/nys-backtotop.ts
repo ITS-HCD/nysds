@@ -52,7 +52,7 @@ import styles from "./nys-backtotop.scss?inline";
  *   </p>
  * </main>
  * <footer>
- *   <nys-backtotop visible .position=${args.position}></nys-backtotop>
+ *   <nys-backtotop visible></nys-backtotop>
  *   <nys-unavfooter></nys-unavfooter>
  * </footer>
  * ```

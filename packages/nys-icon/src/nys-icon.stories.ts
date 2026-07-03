@@ -38,8 +38,25 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-icon name="check_circle"></nys-icon> `;
+  args: {
+    name: "check_circle",
+    library: "default",
+    ariaLabel: "",
+    rotate: "0",
+    flip: "",
+    color: "",
+  },
+  render: (args) => {
+    return html`
+      <nys-icon
+        name=${args.name}
+        library=${args.library}
+        ariaLabel=${args.ariaLabel}
+        rotate=${args.rotate}
+        flip=${args.flip}
+        color=${args.color}
+      ></nys-icon>
+    `;
   },
   parameters: {
     docs: {
@@ -157,7 +174,7 @@ import { registerIconLibrary } from '@nysds/nys-icon';
 
 registerIconLibrary("fa", {
 resolver: (name) =>
-\`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg\`,
+\`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/\${name}.svg\`,
 mutator: (svg) => {
 svg.setAttribute("fill", "currentColor");
 },
@@ -183,7 +200,7 @@ import { registerIconLibrary } from '@nysds/nys-icon';
 
 registerIconLibrary("material", {
 resolver: (name) =>
-\`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg\`,
+\`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/\${name}/default/24px.svg\`,
 mutator: (svg) => {
 svg.setAttribute("fill", "currentColor");
 },

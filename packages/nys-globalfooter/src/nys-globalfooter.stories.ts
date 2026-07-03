@@ -17,10 +17,17 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    agencyName: "Office of Information Technology Services",
+    agencySubheading: "",
+    homepageLink: "",
+  },
+  render: (args) => {
     return html`
       <nys-globalfooter
-        agencyName="Office of Information Technology Services"
+        agencyName=${args.agencyName}
+        agencySubheading=${args.agencySubheading}
+        homepageLink=${args.homepageLink}
       ></nys-globalfooter>
     `;
   },

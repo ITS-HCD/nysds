@@ -17,9 +17,18 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "",
+    currentPage: 5,
+    totalPages: 10,
+  },
+  render: (args) => {
     return html`
-      <nys-pagination currentPage="5" totalPages="10"></nys-pagination>
+      <nys-pagination
+        name=${args.name}
+        currentPage=${args.currentPage}
+        totalPages=${args.totalPages}
+      ></nys-pagination>
     `;
   },
   parameters: {

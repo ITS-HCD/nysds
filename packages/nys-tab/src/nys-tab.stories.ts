@@ -19,10 +19,20 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "",
+    label: "Marcy",
+    selected: false,
+    disabled: false,
+  },
+  render: (args) => {
     return html`
-      <nys-tabgroup>
-        <nys-tab label="Marcy"></nys-tab>
+      <nys-tabgroup name=${args.name}>
+        <nys-tab
+          label=${args.label}
+          ?selected=${args.selected}
+          ?disabled=${args.disabled}
+        ></nys-tab>
         <nys-tab label="Algonquin"></nys-tab>
         <nys-tab label="Haystack"></nys-tab>
         <nys-tab label="Skylight" id="tab4"></nys-tab>

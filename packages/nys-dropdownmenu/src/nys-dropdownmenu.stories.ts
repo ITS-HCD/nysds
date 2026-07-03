@@ -19,16 +19,34 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    for: "my-trigger-id",
+    showDropdown: false,
+    label: "",
+    href: "/profile",
+    disabled: false,
+    target: "_self",
+    prefixIcon: "",
+    divider: "",
+  },
+  render: (args) => {
     return html`
       <div
         style="margin: 200px; display: flex; justify-content: center; align-items: center"
       >
         <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
-        <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+        <nys-dropdownmenu
+          for=${args.for}
+          ?showDropdown=${args.showDropdown}
+          label=${args.label}
+        >
           <nys-dropdownmenuitem
             label="Profile"
-            href="/profile"
+            href=${args.href}
+            ?disabled=${args.disabled}
+            target=${args.target}
+            prefixIcon=${args.prefixIcon}
+            divider=${args.divider}
           ></nys-dropdownmenuitem>
           <nys-dropdownmenuitem
             label="Repositories & Github Pages"

@@ -20,8 +20,43 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-textinput label="Full Name"></nys-textinput> `;
+  args: {
+    name: "",
+    label: "Full Name",
+    description: "",
+    placeholder: "",
+    value: "",
+    disabled: false,
+    readonly: false,
+    required: false,
+    optional: false,
+    tooltip: "",
+    pattern: "",
+    ariaLabel: "",
+    inverted: false,
+    showError: false,
+    errorMessage: "",
+  },
+  render: (args) => {
+    return html`
+      <nys-textinput
+        name=${args.name}
+        label=${args.label}
+        description=${args.description}
+        placeholder=${args.placeholder}
+        value=${args.value}
+        ?disabled=${args.disabled}
+        ?readonly=${args.readonly}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        tooltip=${args.tooltip}
+        pattern=${args.pattern}
+        ariaLabel=${args.ariaLabel}
+        ?inverted=${args.inverted}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+      ></nys-textinput>
+    `;
   },
   parameters: {
     docs: {

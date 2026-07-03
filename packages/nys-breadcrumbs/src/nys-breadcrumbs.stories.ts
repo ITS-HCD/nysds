@@ -17,9 +17,27 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    ariaLabel: "",
+    size: "md",
+    backToParent: false,
+    collapsed: false,
+    backgroundBar: false,
+    disabled: false,
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["sm", "md"] },
+  },
+  render: (args) => {
     return html`
-      <nys-breadcrumbs>
+      <nys-breadcrumbs
+        ariaLabel=${args.ariaLabel}
+        size=${args.size}
+        ?backToParent=${args.backToParent}
+        ?collapsed=${args.collapsed}
+        ?backgroundBar=${args.backgroundBar}
+        ?disabled=${args.disabled}
+      >
         <ol>
           <li><a href="/">Home</a></li>
           <li><a href="/services">Services</a></li>

@@ -19,9 +19,39 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "",
+    label: "Select your favorite fruit",
+    description: "",
+    value: "",
+    disabled: false,
+    required: false,
+    optional: false,
+    tooltip: "",
+    width: "full",
+    inverted: false,
+    showError: false,
+    errorMessage: "",
+  },
+  argTypes: {
+    width: { control: { type: "select" }, options: ["md", "lg", "full"] },
+  },
+  render: (args) => {
     return html`
-      <nys-combobox label="Select your favorite fruit">
+      <nys-combobox
+        name=${args.name}
+        label=${args.label}
+        description=${args.description}
+        value=${args.value}
+        ?disabled=${args.disabled}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        tooltip=${args.tooltip}
+        width=${args.width}
+        ?inverted=${args.inverted}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+      >
         <option value="apple">Apple</option>
         <option value="banana">Banana</option>
         <option value="cherry">Cherry</option>

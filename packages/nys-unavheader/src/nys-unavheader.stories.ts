@@ -18,8 +18,19 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-unavheader></nys-unavheader> `;
+  args: {
+    hideTranslate: false,
+    hideSearch: false,
+    searchUrl: "",
+  },
+  render: (args) => {
+    return html`
+      <nys-unavheader
+        ?hideTranslate=${args.hideTranslate}
+        ?hideSearch=${args.hideSearch}
+        searchUrl=${args.searchUrl}
+      ></nys-unavheader>
+    `;
   },
   parameters: {
     docs: {

@@ -18,8 +18,23 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-label label="This is a basic nys-label"></nys-label> `;
+  args: {
+    label: "This is a basic nys-label",
+    description: "",
+    flag: "",
+    inverted: false,
+    tooltip: "",
+  },
+  render: (args) => {
+    return html`
+      <nys-label
+        label=${args.label}
+        description=${args.description}
+        flag=${args.flag}
+        ?inverted=${args.inverted}
+        tooltip=${args.tooltip}
+      ></nys-label>
+    `;
   },
   parameters: {
     docs: {

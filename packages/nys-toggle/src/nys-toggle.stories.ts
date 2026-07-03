@@ -18,12 +18,32 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "notifications",
+    value: "enabled-notifications",
+    label: "Enable notifications",
+    description: "",
+    checked: false,
+    disabled: false,
+    noIcon: false,
+    inverted: false,
+    size: "md",
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["sm", "md"] },
+  },
+  render: (args) => {
     return html`
       <nys-toggle
-        label="Enable notifications"
-        name="notifications"
-        value="enabled-notifications"
+        name=${args.name}
+        value=${args.value}
+        label=${args.label}
+        description=${args.description}
+        ?checked=${args.checked}
+        ?disabled=${args.disabled}
+        ?noIcon=${args.noIcon}
+        ?inverted=${args.inverted}
+        size=${args.size}
       ></nys-toggle>
     `;
   },

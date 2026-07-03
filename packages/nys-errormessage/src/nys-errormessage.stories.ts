@@ -17,11 +17,17 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    showError: true,
+    errorMessage: "This is an error message",
+    showDivider: false,
+  },
+  render: (args) => {
     return html`
       <nys-errormessage
-        showError
-        errorMessage="This is an error message"
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+        ?showDivider=${args.showDivider}
       ></nys-errormessage>
     `;
   },

@@ -21,13 +21,48 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "",
+    required: true,
+    optional: false,
+    showError: false,
+    errorMessage: "",
+    label: "Select borough",
+    description: "",
+    tile: false,
+    tooltip: "",
+    size: "md",
+    checked: false,
+    disabled: false,
+    value: "bronx",
+    other: false,
+    showOtherError: false,
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["sm", "md"] },
+  },
+  render: (args) => {
     return html`
-      <nys-radiogroup label="Select borough" required>
+      <nys-radiogroup
+        name=${args.name}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+        label=${args.label}
+        description=${args.description}
+        ?tile=${args.tile}
+        tooltip=${args.tooltip}
+        size=${args.size}
+      >
         <nys-radiobutton
           name="borough"
-          value="bronx"
+          value=${args.value}
           label="The Bronx"
+          ?checked=${args.checked}
+          ?disabled=${args.disabled}
+          ?other=${args.other}
+          ?showOtherError=${args.showOtherError}
         ></nys-radiobutton>
         <nys-radiobutton
           name="borough"

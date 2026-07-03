@@ -18,7 +18,17 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    heading: "Update Available",
+    subheading: "",
+    open: false,
+    mandatory: false,
+    width: "md",
+  },
+  argTypes: {
+    width: { control: { type: "select" }, options: ["sm", "md", "lg"] },
+  },
+  render: (args) => {
     return html`
       <div id="modal-wrapper1">
         <nys-button
@@ -28,7 +38,13 @@ export const Basic: Story = {
             document.getElementById('modal-wrapper1').style.padding = '100px 0';
           "
         ></nys-button>
-        <nys-modal class="modal1" id="modal1" heading="Update Available">
+        <nys-modal
+          heading=${args.heading}
+          subheading=${args.subheading}
+          ?open=${args.open}
+          ?mandatory=${args.mandatory}
+          width=${args.width}
+        >
           <p>
             Would you like to install the latest version? Albany ipsum dolor sit
             Empire, Hudson consectetur Adirondack elit, sed do MetroCard tempor

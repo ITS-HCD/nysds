@@ -17,9 +17,22 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "table1",
+    striped: false,
+    sortable: false,
+    bordered: false,
+    download: "",
+  },
+  render: (args) => {
     return html`
-      <nys-table id="table1" name="table1">
+      <nys-table
+        name=${args.name}
+        ?striped=${args.striped}
+        ?sortable=${args.sortable}
+        ?bordered=${args.bordered}
+        download=${args.download}
+      >
         <table>
           <caption>
             New York State High Peaks and Popular Hikes

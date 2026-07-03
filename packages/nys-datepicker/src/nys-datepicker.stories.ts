@@ -19,13 +19,48 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "my-datepicker",
+    width: "full",
+    hideTodayButton: false,
+    hideClearButton: false,
+    disabled: false,
+    required: false,
+    optional: false,
+    showError: false,
+    errorMessage: "",
+    tooltip: "",
+    type: "date",
+    label: "Schedule an appointment",
+    description: "Enter in MM/DD/YYYY format",
+    startDate: "",
+    minDate: "",
+    maxDate: "",
+    inverted: false,
+  },
+  argTypes: {
+    width: { control: { type: "select" }, options: ["md", "lg", "full"] },
+  },
+  render: (args) => {
     return html`
       <nys-datepicker
-        id="my-datepicker"
-        name="my-datepicker"
-        label="Schedule an appointment"
-        description="Enter in MM/DD/YYYY format"
+        name=${args.name}
+        width=${args.width}
+        ?hideTodayButton=${args.hideTodayButton}
+        ?hideClearButton=${args.hideClearButton}
+        ?disabled=${args.disabled}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+        tooltip=${args.tooltip}
+        type=${args.type}
+        label=${args.label}
+        description=${args.description}
+        startDate=${args.startDate}
+        minDate=${args.minDate}
+        maxDate=${args.maxDate}
+        ?inverted=${args.inverted}
       ></nys-datepicker>
     `;
   },

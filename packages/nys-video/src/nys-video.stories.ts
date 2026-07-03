@@ -17,11 +17,29 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    titleText: "IT'S a Tech Podcast, Episode 3: Human-Centered Design",
+    videourl: "https://www.youtube.com/watch?v=TBfFzt0150Q",
+    size: "",
+    loading: "lazy",
+    starttime: 0,
+    autoplay: false,
+    disabled: false,
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["full", "md", "sm", ""] },
+    loading: { control: { type: "select" }, options: ["lazy", "eager"] },
+  },
+  render: (args) => {
     return html`
       <nys-video
-        videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
-        titleText="IT'S a Tech Podcast, Episode 3: Human-Centered Design"
+        titleText=${args.titleText}
+        videourl=${args.videourl}
+        size=${args.size}
+        loading=${args.loading}
+        starttime=${args.starttime}
+        ?autoplay=${args.autoplay}
+        ?disabled=${args.disabled}
       ></nys-video>
     `;
   },

@@ -20,8 +20,21 @@ export default meta;
 type Story = StoryObj;
 
 export const StepWithPageNavigation: Story = {
-  render: () => {
-    return html` <nys-step label="Personal Info" href="/step-1"></nys-step> `;
+  args: {
+    selected: false,
+    current: false,
+    label: "Personal Info",
+    href: "/step-1",
+  },
+  render: (args) => {
+    return html`
+      <nys-step
+        ?selected=${args.selected}
+        ?current=${args.current}
+        label=${args.label}
+        href=${args.href}
+      ></nys-step>
+    `;
   },
   parameters: {
     docs: {

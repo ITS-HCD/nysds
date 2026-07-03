@@ -19,8 +19,44 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-fileinput label="Upload a file"></nys-fileinput> `;
+  args: {
+    name: "",
+    label: "Upload a file",
+    description: "",
+    multiple: false,
+    tooltip: "",
+    accept: "",
+    disabled: false,
+    required: false,
+    optional: false,
+    showError: false,
+    errorMessage: "",
+    dropzone: false,
+    width: "full",
+    inverted: false,
+  },
+  argTypes: {
+    width: { control: { type: "select" }, options: ["lg", "full"] },
+  },
+  render: (args) => {
+    return html`
+      <nys-fileinput
+        name=${args.name}
+        label=${args.label}
+        description=${args.description}
+        ?multiple=${args.multiple}
+        tooltip=${args.tooltip}
+        accept=${args.accept}
+        ?disabled=${args.disabled}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+        ?dropzone=${args.dropzone}
+        width=${args.width}
+        ?inverted=${args.inverted}
+      ></nys-fileinput>
+    `;
   },
   parameters: {
     docs: {

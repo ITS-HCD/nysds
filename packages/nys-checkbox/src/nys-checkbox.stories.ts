@@ -21,13 +21,48 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    name: "",
+    required: true,
+    optional: false,
+    showError: false,
+    errorMessage: "",
+    label: "Select landmarks",
+    description: "",
+    tile: false,
+    tooltip: "",
+    size: "md",
+    checked: false,
+    disabled: false,
+    value: "adirondacks",
+    other: false,
+    showOtherError: false,
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["sm", "md"] },
+  },
+  render: (args) => {
     return html`
-      <nys-checkboxgroup label="Select landmarks" required>
+      <nys-checkboxgroup
+        name=${args.name}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+        label=${args.label}
+        description=${args.description}
+        ?tile=${args.tile}
+        tooltip=${args.tooltip}
+        size=${args.size}
+      >
         <nys-checkbox
           name="landmarks"
-          value="adirondacks"
+          value=${args.value}
           label="Adirondacks"
+          ?checked=${args.checked}
+          ?disabled=${args.disabled}
+          ?other=${args.other}
+          ?showOtherError=${args.showOtherError}
         ></nys-checkbox>
         <nys-checkbox
           name="landmarks"

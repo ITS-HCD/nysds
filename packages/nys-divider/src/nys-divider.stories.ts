@@ -17,10 +17,17 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    inverted: false,
+    subtle: false,
+  },
+  render: (args) => {
     return html`
       <p>Section one content</p>
-      <nys-divider></nys-divider>
+      <nys-divider
+        ?inverted=${args.inverted}
+        ?subtle=${args.subtle}
+      ></nys-divider>
       <p>Section two content</p>
     `;
   },

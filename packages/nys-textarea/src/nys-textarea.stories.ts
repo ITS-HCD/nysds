@@ -19,8 +19,46 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-textarea label="Comments"></nys-textarea> `;
+  args: {
+    name: "",
+    label: "Comments",
+    description: "",
+    placeholder: "",
+    value: "",
+    disabled: false,
+    readonly: false,
+    required: false,
+    optional: false,
+    tooltip: "",
+    inverted: false,
+    rows: 4,
+    resize: "vertical",
+    showError: false,
+    errorMessage: "",
+  },
+  argTypes: {
+    resize: { control: { type: "select" }, options: ["vertical", "none"] },
+  },
+  render: (args) => {
+    return html`
+      <nys-textarea
+        name=${args.name}
+        label=${args.label}
+        description=${args.description}
+        placeholder=${args.placeholder}
+        value=${args.value}
+        ?disabled=${args.disabled}
+        ?readonly=${args.readonly}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        tooltip=${args.tooltip}
+        ?inverted=${args.inverted}
+        rows=${args.rows}
+        resize=${args.resize}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+      ></nys-textarea>
+    `;
   },
   parameters: {
     docs: {

@@ -18,12 +18,22 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    singleSelect: false,
+    bordered: false,
+    heading: "How do I renew my passport or apply for a new one?",
+    expanded: false,
+  },
+  render: (args) => {
     return html`
-      <nys-accordion>
+      <nys-accordion
+        ?singleSelect=${args.singleSelect}
+        ?bordered=${args.bordered}
+      >
         <nys-accordionitem
           id="accordionId1"
-          heading="How do I renew my passport or apply for a new one?"
+          heading=${args.heading}
+          ?expanded=${args.expanded}
         >
           <p>
             You can apply for or renew a U.S. passport through the U.S.

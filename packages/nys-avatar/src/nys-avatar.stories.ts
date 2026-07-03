@@ -17,8 +17,29 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-avatar ariaLabel="User avatar"></nys-avatar> `;
+  args: {
+    ariaLabel: "User avatar",
+    image: "",
+    initials: "",
+    icon: "",
+    color: "",
+    interactive: false,
+    disabled: false,
+    lazy: false,
+  },
+  render: (args) => {
+    return html`
+      <nys-avatar
+        ariaLabel=${args.ariaLabel}
+        image=${args.image}
+        initials=${args.initials}
+        icon=${args.icon}
+        color=${args.color}
+        ?interactive=${args.interactive}
+        ?disabled=${args.disabled}
+        ?lazy=${args.lazy}
+      ></nys-avatar>
+    `;
   },
   parameters: {
     docs: {

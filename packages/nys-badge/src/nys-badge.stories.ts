@@ -17,8 +17,29 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-badge label="Basic badge"></nys-badge> `;
+  args: {
+    name: "",
+    size: "md",
+    prefixLabel: "",
+    label: "Basic badge",
+    srText: "",
+    variant: "",
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["sm", "md"] },
+    variant: { control: { type: "select" }, options: ["strong", ""] },
+  },
+  render: (args) => {
+    return html`
+      <nys-badge
+        name=${args.name}
+        size=${args.size}
+        prefixLabel=${args.prefixLabel}
+        label=${args.label}
+        srText=${args.srText}
+        variant=${args.variant}
+      ></nys-badge>
+    `;
   },
   parameters: {
     docs: {

@@ -18,8 +18,31 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-alert heading="This is a heading"></nys-alert> `;
+  args: {
+    heading: "This is a heading",
+    icon: "",
+    dismissible: false,
+    duration: 0,
+    text: "",
+    primaryAction: "",
+    secondaryAction: "",
+    primaryLabel: "Learn more",
+    secondaryLabel: "Dismiss",
+  },
+  render: (args) => {
+    return html`
+      <nys-alert
+        heading=${args.heading}
+        icon=${args.icon}
+        ?dismissible=${args.dismissible}
+        duration=${args.duration}
+        text=${args.text}
+        primaryAction=${args.primaryAction}
+        secondaryAction=${args.secondaryAction}
+        primaryLabel=${args.primaryLabel}
+        secondaryLabel=${args.secondaryLabel}
+      ></nys-alert>
+    `;
   },
   parameters: {
     docs: {

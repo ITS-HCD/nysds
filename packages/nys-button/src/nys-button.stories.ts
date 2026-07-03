@@ -18,8 +18,46 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-button label="Button" variant="filled"></nys-button> `;
+  args: {
+    name: "",
+    size: "md",
+    fullWidth: false,
+    inverted: false,
+    label: "Button",
+    ariaLabel: "",
+    ariaControls: "",
+    prefixIcon: "",
+    suffixIcon: "",
+    circle: false,
+    icon: "",
+    disabled: false,
+    value: "",
+    ariaDescription: "",
+    href: "",
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["sm", "md", "lg"] },
+  },
+  render: (args) => {
+    return html`
+      <nys-button
+        name=${args.name}
+        size=${args.size}
+        ?fullWidth=${args.fullWidth}
+        ?inverted=${args.inverted}
+        label=${args.label}
+        ariaLabel=${args.ariaLabel}
+        ariaControls=${args.ariaControls}
+        prefixIcon=${args.prefixIcon}
+        suffixIcon=${args.suffixIcon}
+        ?circle=${args.circle}
+        icon=${args.icon}
+        ?disabled=${args.disabled}
+        value=${args.value}
+        ariaDescription=${args.ariaDescription}
+        href=${args.href}
+      ></nys-button>
+    `;
   },
   parameters: {
     docs: {

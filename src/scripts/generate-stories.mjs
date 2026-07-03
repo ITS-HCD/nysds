@@ -59,7 +59,14 @@ function indent(str, n) {
 }
 
 function escapeCode(code) {
-  return code.split("`").join("\\`").split("${").join("${");
+  return code.split("`").join("\\`");
+}
+
+// For static render templates and docs source blocks: also escape ${ so any
+// stray interpolation in a JSDoc example renders literally instead of
+// executing (and crashing on undefined identifiers like `args`).
+function escapeStaticCode(code) {
+  return code.split("`").join("\\`").split("${").join("\\${");
 }
 
 function isHtml(code) {
@@ -99,7 +106,7 @@ function extractRegisterIconLibraryCalls(code) {
  */
 function buildSourceCode(exampleCode, scriptCalls) {
   if (!scriptCalls || scriptCalls.length === 0) {
-    return escapeCode(exampleCode.trim());
+    return escapeStaticCode(exampleCode.trim());
   }
 
   // Strip any registerIconLibrary <script> blocks from the source example code
@@ -120,7 +127,266 @@ function buildSourceCode(exampleCode, scriptCalls) {
     ...scriptCalls,
   ].join("\n");
 
-  return escapeCode([jsSnippet, "", cleanedCode.trim()].join("\n"));
+  return escapeStaticCode([jsSnippet, "", cleanedCode.trim()].join("\n"));
+}
+
+// ---------------------------------------------------------------------------
+// Interactive story helpers (args-driven, for the first/Basic example)
+// ---------------------------------------------------------------------------
+
+function parseOpenTagAttributes(attrString) {
+  const attrs = {};
+  const attrRe = /\s+([\w:-]+)(?:=(?:"([^"]*)"|'([^']*)'|([^\s>/]*)))?/g;
+  let m;
+  while ((m = attrRe.exec(attrString)) !== null) {
+    const name = m[1];
+    const value =
+      m[2] !== undefined
+        ? m[2]
+        : m[3] !== undefined
+          ? m[3]
+          : m[4] !== undefined && m[4] !== ""
+            ? m[4]
+            : true;
+    attrs[name] = value;
+  }
+  return attrs;
+}
+
+function parseCemDefault(defaultStr) {
+  if (defaultStr === undefined || defaultStr === null) return undefined;
+  if (defaultStr === "true") return true;
+  if (defaultStr === "false") return false;
+  if (defaultStr === "null") return null;
+  const strMatch = defaultStr.match(/^"(.*)"$/s);
+  if (strMatch) return strMatch[1];
+  const num = Number(defaultStr);
+  if (!isNaN(num) && defaultStr.trim() !== "") return num;
+  return defaultStr;
+}
+
+function parseStringUnionOptions(typeText) {
+  if (!typeText || !typeText.includes("|")) return null;
+  const parts = typeText.split("|").map((s) => s.trim());
+  const options = [];
+  for (const part of parts) {
+    const m = part.match(/^"(.*)"$/);
+    if (!m) return null;
+    options.push(m[1]);
+  }
+  return options.length > 0 ? options : null;
+}
+
+function isSimpleArgsType(typeText) {
+  if (!typeText) return false;
+  if (typeText === "boolean" || typeText === "string" || typeText === "number") return true;
+  if (parseStringUnionOptions(typeText) !== null) return true;
+  return false;
+}
+
+function buildArgsForProps(props, exampleAttrs, args, argTypes) {
+  for (const prop of props) {
+    const typeText = prop.type?.text ?? "string";
+    const cemDefault = parseCemDefault(prop.default);
+    const exampleAttrValue = exampleAttrs[prop.attribute];
+
+    let argValue;
+    if (exampleAttrValue !== undefined) {
+      if (typeText === "boolean") {
+        argValue = true;
+      } else if (typeText === "number") {
+        argValue = Number(exampleAttrValue) || 0;
+      } else {
+        argValue =
+          typeof exampleAttrValue === "string" ? exampleAttrValue : (cemDefault ?? "");
+      }
+    } else {
+      argValue =
+        cemDefault !== null && cemDefault !== undefined
+          ? cemDefault
+          : typeText === "boolean"
+            ? false
+            : typeText === "number"
+              ? 0
+              : "";
+    }
+
+    args[prop.attribute] = argValue;
+
+    const unionOptions = parseStringUnionOptions(typeText);
+    if (unionOptions) {
+      argTypes[prop.attribute] = { control: { type: "select" }, options: unionOptions };
+    }
+  }
+}
+
+function filterProps(decl, excludeAttrNames = new Set()) {
+  return (decl.members || []).filter(
+    (m) =>
+      m.kind === "field" &&
+      m.attribute &&
+      m.attribute !== "id" &&
+      !m.attribute.startsWith("_") &&
+      !m.static &&
+      m.privacy !== "private" &&
+      m.privacy !== "protected" &&
+      isSimpleArgsType(m.type?.text) &&
+      !m.description?.startsWith("Internal:") &&
+      !excludeAttrNames.has(m.attribute),
+  );
+}
+
+function buildLitBinding(prop) {
+  const typeText = prop.type?.text ?? "string";
+  return typeText === "boolean"
+    ? `?${prop.attribute}=\${args.${prop.attribute}}`
+    : `${prop.attribute}=\${args.${prop.attribute}}`;
+}
+
+function buildInteractiveStory(example, nameOverride, tagToDeclaration, localTags) {
+  const storyName = nameOverride || toStoryName(example.title);
+  const rawRenderCode = example.renderCode;
+
+  if (!rawRenderCode || !isHtml(rawRenderCode)) {
+    return buildStaticStory(example, nameOverride);
+  }
+
+  // Regex with 'g' flag so we can loop to find the first *local* tag.
+  const openTagReG =
+    /<(nys-[\w-]+)((?:\s+[\w:-]+(?:=(?:"[^"]*"|'[^']*'|[^\s>]*))?)*)\s*\/?>/g;
+
+  // --- Root tag: first nys-* whose .ts lives in this package dir ---
+  let rootMatch = null;
+  let tmp;
+  openTagReG.lastIndex = 0;
+  while ((tmp = openTagReG.exec(rawRenderCode)) !== null) {
+    if (localTags.has(tmp[1])) { rootMatch = tmp; break; }
+  }
+  if (!rootMatch) return buildStaticStory(example, nameOverride);
+
+  const rootTagName = rootMatch[1];
+  const rootDecl = tagToDeclaration[rootTagName];
+  if (!rootDecl) return buildStaticStory(example, nameOverride);
+
+  const rootProps = filterProps(rootDecl);
+  if (rootProps.length === 0) return buildStaticStory(example, nameOverride);
+
+  const rootAttrNames = new Set(rootProps.map((p) => p.attribute));
+  const rootExampleAttrs = parseOpenTagAttributes(rootMatch[2] || "");
+
+  const args = {};
+  const argTypes = {};
+  buildArgsForProps(rootProps, rootExampleAttrs, args, argTypes);
+
+  const newRootTag = `<${rootTagName}\n  ${rootProps.map(buildLitBinding).join("\n  ")}\n>`;
+
+  // --- First child nys-* tag: must also be local, different from root ---
+  const afterRootStr = rawRenderCode.slice(rootMatch.index + rootMatch[0].length);
+  let childMatch = null;
+  openTagReG.lastIndex = 0;
+  while ((tmp = openTagReG.exec(afterRootStr)) !== null) {
+    if (localTags.has(tmp[1]) && tmp[1] !== rootTagName) { childMatch = tmp; break; }
+  }
+  let childReplacement = null;
+
+  if (childMatch) {
+    const childTagName = childMatch[1];
+    const childDecl = tagToDeclaration[childTagName];
+
+    if (childDecl) {
+      // Only props that don't overlap with root and aren't set-by-parent
+      const childProps = filterProps(childDecl, rootAttrNames).filter(
+        (m) => !/set by (parent|group)/i.test(m.description || ""),
+      );
+
+      if (childProps.length > 0) {
+        const childExampleAttrs = parseOpenTagAttributes(childMatch[2] || "");
+        buildArgsForProps(childProps, childExampleAttrs, args, argTypes);
+
+        const childPropAttrs = new Set(childProps.map((p) => p.attribute));
+
+        // Rebuild child tag attrs: keep id static, replace matching props with
+        // bindings, pass through static attrs, then append unseen prop bindings.
+        const attrParts = [];
+
+        if ("id" in childExampleAttrs) {
+          const v = childExampleAttrs["id"];
+          attrParts.push(typeof v === "string" ? `id="${v}"` : "id");
+        }
+
+        for (const [attrName, attrValue] of Object.entries(childExampleAttrs)) {
+          if (attrName === "id") continue;
+          if (childPropAttrs.has(attrName)) {
+            const prop = childProps.find((p) => p.attribute === attrName);
+            attrParts.push(buildLitBinding(prop));
+          } else {
+            attrParts.push(attrValue === true ? attrName : `${attrName}="${attrValue}"`);
+          }
+        }
+
+        // Add interactive bindings for child props not present in the example
+        for (const prop of childProps) {
+          if (!(prop.attribute in childExampleAttrs)) {
+            attrParts.push(buildLitBinding(prop));
+          }
+        }
+
+        const newChildTag = `<${childTagName}\n  ${attrParts.join("\n  ")}\n>`;
+        const childAbsStart = rootMatch.index + rootMatch[0].length + childMatch.index;
+        childReplacement = {
+          start: childAbsStart,
+          end: childAbsStart + childMatch[0].length,
+          replacement: newChildTag,
+        };
+      }
+    }
+  }
+
+  // Apply replacements back-to-front to keep indices valid
+  const replacements = [
+    { start: rootMatch.index, end: rootMatch.index + rootMatch[0].length, replacement: newRootTag },
+    ...(childReplacement ? [childReplacement] : []),
+  ].sort((a, b) => b.start - a.start);
+
+  let reconstructedHtml = rawRenderCode;
+  for (const { start, end, replacement } of replacements) {
+    reconstructedHtml = reconstructedHtml.slice(0, start) + replacement + reconstructedHtml.slice(end);
+  }
+
+  const argsEntries = Object.entries(args)
+    .map(([k, v]) => `  ${k}: ${JSON.stringify(v)}`)
+    .join(",\n");
+
+  const argTypesLines = Object.entries(argTypes).map(([k, v]) => {
+    const opts = v.options.map((o) => JSON.stringify(o)).join(", ");
+    return `    ${k}: { control: { type: "select" }, options: [${opts}] }`;
+  });
+  const argTypesStr =
+    argTypesLines.length > 0
+      ? `\n  argTypes: {\n${argTypesLines.join(",\n")}\n  },`
+      : "";
+
+  const sourceCode = buildSourceCode(example.code, []);
+
+  return `export const ${storyName}: Story = {
+  args: {
+${argsEntries}
+  },${argTypesStr}
+  render: (args) => {
+    return html\`
+${indent(escapeCode(reconstructedHtml), 6)}
+    \`;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: \`
+${sourceCode}\`,
+        type: "auto",
+      },
+    },
+  },
+};`;
 }
 
 function buildStaticStory(example, nameOverride) {
@@ -150,7 +416,7 @@ ${indent(jsPart.trim(), 4)}
   } else if (isHtml(code)) {
     renderTemplate = `() => {
     return html\`
-${indent(escapeCode(code), 6)}
+${indent(escapeStaticCode(code), 6)}
     \`;
   }`;
   } else {
@@ -190,6 +456,15 @@ async function main() {
     for (const decl of mod.declarations || []) {
       if (decl.tagName) {
         tagToModule[decl.tagName] = mod.path;
+      }
+    }
+  }
+
+  const tagToDeclaration = {};
+  for (const mod of cem.modules) {
+    for (const decl of mod.declarations || []) {
+      if (decl.tagName) {
+        tagToDeclaration[decl.tagName] = decl;
       }
     }
   }
@@ -366,6 +641,15 @@ async function main() {
 export default meta;
 type Story = StoryObj;`;
 
+    // Tags whose .ts source file lives in this package dir — only these get
+    // interactive args. External components used in demos (e.g. nys-unavheader
+    // inside nys-backtotop) are kept as static HTML.
+    const localTags = new Set(
+      componentSourceFiles
+        .map((f) => path.basename(f, ".ts"))
+        .filter((name) => name.startsWith("nys-") && tagToDeclaration[name]),
+    );
+
     const usedNames = new Set();
     const storyBlocks = allExamples.map((example, i) => {
       let name = toStoryName(example.title || (i === 0 ? "Basic" : "Story"));
@@ -373,6 +657,9 @@ type Story = StoryObj;`;
         name += "Alt";
       }
       usedNames.add(name);
+      if (i === 0) {
+        return buildInteractiveStory(example, name, tagToDeclaration, localTags);
+      }
       return buildStaticStory(example, name);
     });
 

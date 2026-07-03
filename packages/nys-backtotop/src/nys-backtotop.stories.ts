@@ -21,7 +21,11 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    position: "right",
+    visible: true,
+  },
+  render: (args) => {
     return html`
       <style>
         code {
@@ -45,7 +49,10 @@ export const Basic: Story = {
         </p>
       </main>
       <footer>
-        <nys-backtotop visible .position="${args.position}"></nys-backtotop>
+        <nys-backtotop
+          position=${args.position}
+          ?visible=${args.visible}
+        ></nys-backtotop>
         <nys-unavfooter></nys-unavfooter>
       </footer>
     `;

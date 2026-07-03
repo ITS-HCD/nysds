@@ -20,11 +20,19 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    appName: "User Registration Form",
+    agencyName: "Office of Information Technology Services",
+    homepageLink: "",
+    nysLogo: false,
+  },
+  render: (args) => {
     return html`
       <nys-globalheader
-        appName="User Registration Form"
-        agencyName="Office of Information Technology Services"
+        appName=${args.appName}
+        agencyName=${args.agencyName}
+        homepageLink=${args.homepageLink}
+        ?nysLogo=${args.nysLogo}
       ></nys-globalheader>
     `;
   },
