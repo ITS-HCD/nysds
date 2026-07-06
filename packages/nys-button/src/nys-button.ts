@@ -15,6 +15,7 @@ let buttonIdCounter = 0;
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
  *
+ * @slot - Button label text. Use as fallback when `label` prop is not provided.
  * @slot prefix-icon - Icon before label. Not shown for `text` variant.
  * @slot suffix-icon - Icon after label. Not shown for `text` variant.
  * @slot circle-icon - Icon for circle mode. Overrides `icon` prop.
@@ -62,6 +63,11 @@ let buttonIdCounter = 0;
  * @example Form submit button
  * ```html
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
+ * ```
+ *
+ * @example Button with slot content
+ * ```html
+ * <nys-button variant="filled">Save Changes</nys-button>
  * ```
  */
 
@@ -203,6 +209,7 @@ export class NysButton extends LitElement {
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
   @state() private _hasCircleSlot = false;
+  @state() private _hasDefaultSlot = false;
 
   /**
    * Lifecycle methods
@@ -247,6 +254,17 @@ export class NysButton extends LitElement {
   private _onCircleSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
     this._hasCircleSlot = slot.assignedElements({ flatten: true }).length > 0;
+  }
+
+  private _onDefaultSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    const nodes = slot.assignedNodes({ flatten: true });
+    this._hasDefaultSlot = nodes.some(
+      (node) =>
+        node.nodeType === Node.ELEMENT_NODE ||
+        (node.nodeType === Node.TEXT_NODE &&
+          (node.textContent?.trim() ?? "").length > 0),
+    );
   }
 
   private _manageFormAction() {
@@ -406,8 +424,19 @@ export class NysButton extends LitElement {
                       ></nys-icon>`
                     : ""}
                 </slot>
-                ${this.label && !this.circle
-                  ? html`<div class="nys-button__text">${this.label}</div>`
+                ${!this.circle
+                  ? html`
+                      <slot
+                        class="nys-button__default-slot"
+                        @slotchange=${this._onDefaultSlotChange}
+                      >
+                        ${this.label && !this._hasDefaultSlot
+                          ? html`
+                              <div class="nys-button__text">${this.label}</div>
+                            `
+                          : ""}
+                      </slot>
+                    `
                   : ""}
                 <slot
                   name="suffix-icon"
@@ -480,8 +509,19 @@ export class NysButton extends LitElement {
                     ></nys-icon>`
                   : ""}
               </slot>
-              ${this.label && !this.circle
-                ? html`<div class="nys-button__text">${this.label}</div>`
+              ${!this.circle
+                ? html`
+                    <slot
+                      class="nys-button__default-slot"
+                      @slotchange=${this._onDefaultSlotChange}
+                    >
+                      ${this.label && !this._hasDefaultSlot
+                        ? html`
+                            <div class="nys-button__text">${this.label}</div>
+                          `
+                        : ""}
+                    </slot>
+                  `
                 : ""}
               <slot
                 name="suffix-icon"
