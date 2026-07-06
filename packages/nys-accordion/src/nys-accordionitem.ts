@@ -76,7 +76,10 @@ export class NysAccordionItem extends NysElement {
   }
 
   updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has("expanded")) {
+    if (
+      changedProperties.has("expanded") ||
+      changedProperties.has("bordered")
+    ) {
       this._updateHeight();
     }
   }
@@ -116,8 +119,10 @@ export class NysAccordionItem extends NysElement {
 
     if (this.expanded) {
       // Slide down the content by setting a calculated max-height, depending on the panel's height on different screen sizes
-      const slotHeight = this._contentContainer.scrollHeight;
-      this._contentContainer.style.height = `${slotHeight}px`;
+      requestAnimationFrame(() => {
+        const slotHeight = this._contentContainer.scrollHeight;
+        this._contentContainer.style.height = `${slotHeight}px`;
+      });
     } else {
       // Collapse
       this._contentContainer.style.height = "0";
@@ -169,6 +174,7 @@ export class NysAccordionItem extends NysElement {
             : "collapsed"}"
           role="region"
           aria-labelledby=${buttonId}
+          @nys-child-resize=${this._updateHeight}
         >
           <div class="nys-accordionitem__content-slot-container">
             <div class="nys-accordionitem__content-slot-container-text">

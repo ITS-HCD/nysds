@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-select",
-  "version": "1.19.1",
+  "version": "1.19.2",
   "description": "The Select component from the NYS Design System.",
   "module": "dist/nys-select.js",
   "exports": {
@@ -10,7 +10,6 @@
     }
   },
   "type": "module",
-  "sideEffects": true,
   "files": [
     "dist/"
   ],
@@ -23,9 +22,9 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.19.1",
-    "@nysds/nys-label": "^1.19.1",
-    "@nysds/nys-errormessage": "^1.19.1"
+    "@nysds/nys-icon": "^1.19.2",
+    "@nysds/nys-label": "^1.19.2",
+    "@nysds/nys-errormessage": "^1.19.2"
   },
   "devDependencies": {
     "@nysds/internals": "^1.19.1",
@@ -44,5 +43,9 @@
     "forms"
   ],
   "author": "New York State Design System Team",
-  "license": "MIT"
+  "license": "MIT",
+  "sideEffects": true,
+  "peerDependencies": {
+    "lit": "^3.3.1"
+  }
 }

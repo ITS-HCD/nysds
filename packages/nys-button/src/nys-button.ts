@@ -199,6 +199,7 @@ export class NysButton extends NysFormControlElement {
 
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
+  @state() private _hasCircleSlot = false;
 
   /**
    * Functions
@@ -217,6 +218,11 @@ export class NysButton extends NysFormControlElement {
   private _onSuffixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
     this._hasSuffixSlot = slot.assignedElements({ flatten: true }).length > 0;
+  }
+
+  private _onCircleSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    this._hasCircleSlot = slot.assignedElements({ flatten: true }).length > 0;
   }
 
   private _manageFormAction() {
@@ -391,18 +397,23 @@ export class NysButton extends NysFormControlElement {
                       ></nys-icon>`
                     : ""}
                 </slot>
-                ${this.circle && this.icon
-                  ? html`<slot name="circle-icon"
-                      ><nys-icon
+                <slot
+                  name="circle-icon"
+                  @slotchange=${this._onCircleSlotChange}
+                  ?hidden=${!this.circle ||
+                  (!this.icon && !this._hasCircleSlot)}
+                >
+                  ${this.icon
+                    ? html`<nys-icon
                         size=${this.size === "sm"
                           ? "24"
                           : this.size === "lg"
                             ? "40"
                             : "32"}
                         name=${this.icon}
-                      ></nys-icon
-                    ></slot>`
-                  : ""}
+                      ></nys-icon>`
+                    : ""}
+                </slot>
               </a>
             </div>
           `
@@ -458,18 +469,22 @@ export class NysButton extends NysFormControlElement {
                     ></nys-icon>`
                   : ""}
               </slot>
-              ${this.circle && this.icon
-                ? html`<slot name="circle-icon">
-                    <nys-icon
+              <slot
+                name="circle-icon"
+                @slotchange=${this._onCircleSlotChange}
+                ?hidden=${!this.circle || (!this.icon && !this._hasCircleSlot)}
+              >
+                ${this.icon
+                  ? html`<nys-icon
                       size=${this.size === "sm"
                         ? "24"
                         : this.size === "lg"
                           ? "40"
                           : "32"}
                       name=${this.icon}
-                    ></nys-icon>
-                  </slot>`
-                : ""}
+                    ></nys-icon>`
+                  : ""}
+              </slot>
             </button>
           `}
     `;

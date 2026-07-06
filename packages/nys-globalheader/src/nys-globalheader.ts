@@ -15,6 +15,7 @@ import styles from "./nys-globalheader.scss?inline";
  * @element nys-globalheader
  *
  * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ * @slot user-actions - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
  *
  * @example Basic header
  * ```html
@@ -39,7 +40,13 @@ export class NysGlobalHeader extends NysElement {
   /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
 
-  /** Toggles the NYS brand mark */
+  /**
+   * Displays the NYS brand mark in the header. Off by default.
+   *
+   * Enable only for internal, state-employee (back-office) applications that omit
+   * `nys-unavheader`. Any resident-facing app — even one requiring login — should
+   * keep `nys-unavheader` for trust and leave this off.
+   */
   @property({ type: Boolean }) nysLogo = false;
 
   /** Internal state to track mobile menu open/closed status. */

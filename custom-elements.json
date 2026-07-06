@@ -2268,6 +2268,15 @@
               "default": "false"
             },
             {
+              "kind": "field",
+              "name": "_hasCircleSlot",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
               "kind": "method",
               "name": "_onPrefixSlotChange",
               "privacy": "private",
@@ -2284,6 +2293,19 @@
             {
               "kind": "method",
               "name": "_onSuffixSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_onCircleSlotChange",
               "privacy": "private",
               "parameters": [
                 {
@@ -2979,6 +3001,11 @@
             },
             {
               "kind": "field",
+              "name": "_isStandalone",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "_handleMobileQuery",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
@@ -3494,6 +3521,15 @@
               "default": "null"
             },
             {
+              "kind": "field",
+              "name": "_hasSharedNames",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
               "kind": "method",
               "name": "_hasAtLeastOneChecked",
               "privacy": "private",
@@ -3619,6 +3655,25 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_checkSharedNames",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "checkboxes",
+                  "type": {
+                    "text": "NysCheckbox[]"
+                  }
+                }
+              ],
+              "description": "Drupal-like naming support *"
             }
           ],
           "attributes": [
@@ -7200,6 +7255,10 @@
             {
               "description": "Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.",
               "name": ""
+            },
+            {
+              "description": "User-account controls (e.g. profile link, settings, log-out button) shown in the header.",
+              "name": "user-actions"
             }
           ],
           "members": [
@@ -7251,7 +7310,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Toggles the NYS brand mark",
+              "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "attribute": "nysLogo"
             },
             {
@@ -7389,7 +7448,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Toggles the NYS brand mark",
+              "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "fieldName": "nysLogo",
               "propName": "nyslogo"
             }
