@@ -8616,11 +8616,6 @@
               "name": "_generateUniqueId",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_getNysLogoSrc",
-              "privacy": "private"
             }
           ],
           "attributes": [
