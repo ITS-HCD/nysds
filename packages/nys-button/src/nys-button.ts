@@ -261,7 +261,6 @@ export class NysButton extends LitElement {
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
   @state() private _hasCircleSlot = false;
-  @state() private _hasDefaultSlot = false;
 
   /**
    * Lifecycle methods
@@ -306,17 +305,6 @@ export class NysButton extends LitElement {
   private _onCircleSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
     this._hasCircleSlot = slot.assignedElements({ flatten: true }).length > 0;
-  }
-
-  private _onDefaultSlotChange(e: Event) {
-    const slot = e.target as HTMLSlotElement;
-    const nodes = slot.assignedNodes({ flatten: true });
-    this._hasDefaultSlot = nodes.some(
-      (node) =>
-        node.nodeType === Node.ELEMENT_NODE ||
-        (node.nodeType === Node.TEXT_NODE &&
-          (node.textContent?.trim() ?? "").length > 0),
-    );
   }
 
   private _manageFormAction() {
@@ -477,18 +465,9 @@ export class NysButton extends LitElement {
                     : ""}
                 </slot>
                 ${!this.circle
-                  ? html`
-                      <slot
-                        class="nys-button__default-slot"
-                        @slotchange=${this._onDefaultSlotChange}
-                      >
-                        ${this.label && !this._hasDefaultSlot
-                          ? html`
-                              <div class="nys-button__text">${this.label}</div>
-                            `
-                          : ""}
-                      </slot>
-                    `
+                  ? this.label
+                    ? html`<div class="nys-button__text">${this.label}</div>`
+                    : html` <slot class="nys-button__default-slot"></slot> `
                   : ""}
                 <slot
                   name="suffix-icon"
@@ -562,18 +541,9 @@ export class NysButton extends LitElement {
                   : ""}
               </slot>
               ${!this.circle
-                ? html`
-                    <slot
-                      class="nys-button__default-slot"
-                      @slotchange=${this._onDefaultSlotChange}
-                    >
-                      ${this.label && !this._hasDefaultSlot
-                        ? html`
-                            <div class="nys-button__text">${this.label}</div>
-                          `
-                        : ""}
-                    </slot>
-                  `
+                ? this.label
+                  ? html`<div class="nys-button__text">${this.label}</div>`
+                  : html` <slot class="nys-button__default-slot"></slot> `
                 : ""}
               <slot
                 name="suffix-icon"

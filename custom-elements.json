@@ -2242,15 +2242,6 @@
             },
             {
               "kind": "field",
-              "name": "_hasDefaultSlot",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
               "name": "formAssociated",
               "type": {
                 "text": "boolean"
@@ -2294,19 +2285,6 @@
             {
               "kind": "method",
               "name": "_onCircleSlotChange",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_onDefaultSlotChange",
               "privacy": "private",
               "parameters": [
                 {
