@@ -41,5 +41,8 @@
   ],
   "author": "New York State Design System Team",
   "license": "MIT",
-  "sideEffects": true
+  "sideEffects": true,
+  "peerDependencies": {
+    "lit": "^3.3.1"
+  }
 }

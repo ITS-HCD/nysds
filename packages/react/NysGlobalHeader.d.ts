@@ -63,5 +63,6 @@ keep `nys-unavheader` for trust and leave this off. */
  *
  * ### **Slots:**
  *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ * - **user-actions** - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
  */
 export const NysGlobalHeader: React.ForwardRefExoticComponent<NysGlobalHeaderProps>;

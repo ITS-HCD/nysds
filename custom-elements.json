@@ -7716,6 +7716,10 @@
             {
               "description": "Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.",
               "name": ""
+            },
+            {
+              "description": "User-account controls (e.g. profile link, settings, log-out button) shown in the header.",
+              "name": "user-actions"
             }
           ],
           "members": [
