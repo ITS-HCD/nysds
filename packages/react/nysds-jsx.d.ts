@@ -596,6 +596,8 @@ export type NysIconProps = {
 export type NysIconlistProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
+  /** Draws a divider between items. No divider is drawn after the last item. */
+  divider?: boolean;
 };
 
 export type NysLabelProps = {
@@ -1350,9 +1352,12 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-your-component-name>` is ...
+   * A scannable list of icon + text items, with an optional divider between rows.
    * ---
    *
+   *
+   * ### **Slots:**
+   *  - _default_ - One or more `<li>` elements, each containing a `<nys-icon>` and one or two `<span>` labels.
    */
   "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
 

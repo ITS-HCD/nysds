@@ -18,6 +18,9 @@ export interface NysIconlistProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Draws a divider between items. No divider is drawn after the last item. */
+  divider?: boolean;
+
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysIconlistElement["id"];
 
@@ -44,8 +47,11 @@ export interface NysIconlistProps extends Pick<
 }
 
 /**
- * `<nys-your-component-name>` is ...
+ * A scannable list of icon + text items, with an optional divider between rows.
  * ---
  *
+ *
+ * ### **Slots:**
+ *  - _default_ - One or more `<li>` elements, each containing a `<nys-icon>` and one or two `<span>` labels.
  */
 export const NysIconlist: React.ForwardRefExoticComponent<NysIconlistProps>;

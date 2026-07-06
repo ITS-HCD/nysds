@@ -56,7 +56,6 @@ export const Basic: Story = {
         subheading="subheading"
         elevated
       >
-        <div slot="top">This is my top slotted content</div>
       </nys-card>
     </div>
   `,

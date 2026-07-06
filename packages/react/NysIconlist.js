@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysIconlist = forwardRef((props, forwardedRef) => {
-  const { id, ...filteredProps } = props;
+  const { divider, id, ...filteredProps } = props;
 
   return React.createElement(
     "nys-iconlist",
@@ -14,6 +14,7 @@ export const NysIconlist = forwardRef((props, forwardedRef) => {
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
+      divider: props.divider ? true : undefined,
       style: { ...props.style },
     },
     props.children,

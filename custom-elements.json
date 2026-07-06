@@ -8243,8 +8243,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-your-component-name>` is ...",
+          "description": "An icon list is a component that displays a collection of items paired with visual icons, making it easy to create structured, scannable lists across web projects. Commonly used in the card component.\n\nAdd native `<li>` elements as children. Each `<li>` should contain one `<nys-icon>` followed by one or\ntwo `<span>` elements — a single `<span>` renders as one line of text, a second `<span>` renders as a\nsecondary line below the first (e.g. a street address followed by city/state). Set `divider` to draw a\nrule between items; no divider is drawn after the last item.\n\nConsumers must also load `@nysds/nys-icon` since items are authored with `<nys-icon>`.",
           "name": "NysIconlist",
+          "slots": [
+            {
+              "description": "One or more `<li>` elements, each containing a `<nys-icon>` and one or two `<span>` labels.",
+              "name": ""
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -8256,6 +8262,47 @@
               "description": "Unique identifier. Auto-generated if not provided.",
               "attribute": "id",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a divider between items. No divider is drawn after the last item.",
+              "attribute": "divider",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_getSlot",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLSlotElement | null"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_enhanceItem",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
             }
           ],
           "attributes": [
@@ -8268,6 +8315,16 @@
               "description": "Unique identifier. Auto-generated if not provided.",
               "fieldName": "id",
               "propName": "id"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a divider between items. No divider is drawn after the last item.",
+              "fieldName": "divider",
+              "propName": "divider"
             }
           ],
           "superclass": {
@@ -8275,7 +8332,30 @@
             "package": "lit"
           },
           "tagName": "nys-iconlist",
-          "customElement": true
+          "customElement": true,
+          "summary": "A scannable list of icon + text items, with an optional divider between rows.",
+          "examples": [
+            {
+              "title": "Basic list",
+              "code": "<nys-iconlist id=\"event-details\">\n<li>\n<nys-icon name=\"calendar_month\"></nys-icon>\n<span>July 4, 2026</span>\n</li>\n<li>\n<nys-icon name=\"schedule\"></nys-icon>\n<span>5:00</span>\n</li>\n<li>\n<nys-icon name=\"location_on\"></nys-icon>\n<span>Central Park West</span>\n</li>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "With a divider between items",
+              "code": "<nys-iconlist id=\"event-details\" divider>\n<li>\n<nys-icon name=\"calendar_month\"></nys-icon>\n<span>July 4, 2026</span>\n</li>\n<li>\n<nys-icon name=\"schedule\"></nys-icon>\n<span>5:00</span>\n</li>\n<li>\n<nys-icon name=\"location_on\"></nys-icon>\n<span>Central Park West</span>\n</li>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Item with a secondary label",
+              "code": "<nys-iconlist id=\"event-details\" divider>\n<li>\n<nys-icon name=\"calendar_month\"></nys-icon>\n<span>July 4, 2026</span>\n</li>\n<li>\n<nys-icon name=\"schedule\"></nys-icon>\n<span>5:00</span>\n</li>\n<li>\n<nys-icon name=\"location_on\"></nys-icon>\n<span>Central Park West</span>\n<span>New York, NY</span>\n</li>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Checklist without dividers",
+              "code": "<nys-iconlist id=\"requirements\">\n<li>\n<nys-icon name=\"check_circle\"></nys-icon>\n<span>Recent pay stubs</span>\n</li>\n<li>\n<nys-icon name=\"check_circle\"></nys-icon>\n<span>Current rent/mortgage statement</span>\n</li>\n<li>\n<nys-icon name=\"check_circle\"></nys-icon>\n<span>Current property tax bill</span>\n</li>\n<li>\n<nys-icon name=\"check_circle\"></nys-icon>\n<span>Current homeowner's insurance bill</span>\n</li>\n<li>\n<nys-icon name=\"check_circle\"></nys-icon>\n<span>Social Security card</span>\n</li>\n</nys-iconlist>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
