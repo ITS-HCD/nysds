@@ -182,6 +182,7 @@ export class NysVerticalnav extends LitElement {
   @property({ type: String, reflect: true }) header = "Page navigation";
   @property({ type: Boolean, reflect: true }) hideHeader = false;
   @property({ type: String, reflect: true }) headerLevel: HeaderLevel = "h2";
+  @property({ type: Boolean, reflect: true }) expanded = false;
 
   @state() private _isMobile = false;
   private _mediaQuery: MediaQueryList | null = null;
@@ -226,9 +227,35 @@ export class NysVerticalnav extends LitElement {
   }
 
   /**
+   * Public API for controlling the mobile accordion from outside the component
+   * --------------------------------------------------------------------------
+   */
+  public open() {
+    this.expanded = true;
+  }
+
+  public close() {
+    this.expanded = false;
+  }
+
+  public toggle() {
+    this.expanded = !this.expanded;
+  }
+
+  /**
    * Functions
    * --------------------------------------------------------------------------
    */
+  private _handleAccordionToggle = (e: CustomEvent) => {
+    this.expanded = e.detail.expanded;
+    this.dispatchEvent(
+      new CustomEvent("nys-verticalnav-toggle", {
+        detail: { id: this.id, expanded: this.expanded },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  };
 
   private _handleResize = (e: MediaQueryListEvent) => {
     this._isMobile = e.matches;
@@ -298,7 +325,12 @@ export class NysVerticalnav extends LitElement {
   private renderContentMobile() {
     return html` <nav class="nys-verticalnav nys-verticalnav--mobile">
       <nys-accordion bordered>
-        <nys-accordionitem id="${this.id}-accordion" heading="${this.header}">
+        <nys-accordionitem
+          id="${this.id}-accordion"
+          heading="${this.header}"
+          ?expanded=${this.expanded}
+          @nys-accordionitem-toggle=${this._handleAccordionToggle}
+        >
           <slot></slot>
           <slot name="footer"></slot>
         </nys-accordionitem>

@@ -8,6 +8,7 @@ import "@nysds/nys-unavheader";
 import "@nysds/nys-unavfooter";
 import "@nysds/nys-globalheader";
 import "@nysds/nys-globalfooter";
+import "@nysds/nys-button";
 
 interface NysVerticalnavArgs {
   id: string;
@@ -564,7 +565,7 @@ export const PageLayout: Story = {
         >
           <ul>
             <li><a href="/">Foundations</a></li>
-            <li><a href="/components">Components</a></li>
+            <li><a href="/components" aria-current="page">Components</a></li>
             <li>
               <nys-verticalnavgroup label="Accessibility">
                 <ul>
@@ -594,6 +595,13 @@ export const PageLayout: Story = {
 
         <main class="story-page__main">
           <p>Place content here.</p>
+          <nys-button
+            label="Toggle Expand/Collapse for vertical nav (mobile)"
+            @nys-click=${() => {
+              const nav = document.querySelector("nys-verticalnav") as any;
+              nav?.toggle();
+            }}
+          ></nys-button>
         </main>
       </div>
 

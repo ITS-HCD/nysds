@@ -96,6 +96,14 @@ export class NysVerticalnavGroup extends LitElement {
         composed: true,
       }),
     );
+
+    this.dispatchEvent(
+      new CustomEvent("nys-verticalnavgroup-toggle", {
+        detail: { id: this.id, label: this.label, expanded: this.expanded },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {

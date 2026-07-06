@@ -84,6 +84,7 @@ nys-verticalnav {
       }
 
       &[aria-current="page"] {
+        color: var(--nys-color-text, #1b1b1b);
         background-color: var(--nys-color-theme-faint, #f7fafd);
         border-left: var(--nys-border-width-md, 2px) solid
           var(--nys-color-theme, #154973);
