@@ -15,6 +15,7 @@ let buttonIdCounter = 0;
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
  *
+ * @slot - Button label text. Use as fallback when `label` prop is not provided.
  * @slot prefix-icon - Icon before label. Not shown for `text` variant.
  * @slot suffix-icon - Icon after label. Not shown for `text` variant.
  * @slot circle-icon - Icon for circle mode. Overrides `icon` prop.
@@ -33,20 +34,47 @@ let buttonIdCounter = 0;
  * @fires nys-focus - Fired when the button receives focus.
  * @fires nys-blur - Fired when the button loses focus.
  *
- * @example Basic filled button
+ * @example Basic
  * ```html
- * <nys-button label="Submit" variant="filled"></nys-button>
+ * <nys-button label="Button" variant="filled"></nys-button>
  * ```
  *
- * @example Secondary outline button
+ * @example Slotted label
  * ```html
- * <nys-button label="Cancel" variant="outline"></nys-button>
+ * <nys-button variant="filled">This label is slotted</nys-button>
  * ```
  *
- * @example Button with icons
+ * @example Variant Outline
+ * ```html
+ * <nys-button label="Button" variant="outline"></nys-button>
+ * ```
+ *
+ * @example Variant Ghost
+ * ```html
+ * <nys-button label="Button" variant="ghost"></nys-button>
+ * ```
+ *
+ * @example Variant Text
+ * ```html
+ * <nys-button label="Button" variant="text"></nys-button>
+ * ```
+ *
+ * @example Prefix Icon
  * ```html
  * <nys-button label="Previous" prefixIcon="chevron_left"></nys-button>
+ * ```
+ *
+ * @example Suffix Icon
+ * ```html
  * <nys-button label="Next" suffixIcon="chevron_right"></nys-button>
+ * ```
+ *
+ * @example Slotted Icons
+ * ```html
+ * <nys-button label="Slotted icons">
+ *   <nys-icon color="#db117d" slot="prefix-icon" name="chevron_left"></nys-icon>
+ *   <nys-icon color="#db117d" slot="suffix-icon" name="chevron_right"></nys-icon>
+ * </nys-button>
  * ```
  *
  * @example Circle icon button
@@ -54,12 +82,42 @@ let buttonIdCounter = 0;
  * <nys-button circle icon="close" label="Close dialog"></nys-button>
  * ```
  *
- * @example Link-style button for navigation
+ * @example Size Small
+ * ```html
+ * <nys-button label="Small" size="sm"></nys-button>
+ * ```
+ * @example Size Large
+ * ```html
+ * <nys-button label="Large" size="lg"></nys-button>
+ * ```
+ *
+ * @example Full width
+ * ```html
+ * <nys-button label="Full width" fullWidth></nys-button>
+ * ```
+ *
+ * @example Inverted
+ * ```html
+ * <nys-button label="Inverted" inverted></nys-button>
+ * ```
+ * @render Inverted
+ * ```html
+ * <div style="background: #1b1b1b; padding: 1rem;">
+ *   <nys-button label="Inverted" inverted></nys-button>
+ * </div>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-button label="Disabled" disabled></nys-button>
+ * ```
+ *
+ * @example Href
  * ```html
  * <nys-button label="Visit NY.gov" href="https://www.ny.gov/" target="_blank" suffixIcon="open_in_new"></nys-button>
  * ```
  *
- * @example Form submit button
+ * @example Type
  * ```html
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
@@ -406,8 +464,10 @@ export class NysButton extends LitElement {
                       ></nys-icon>`
                     : ""}
                 </slot>
-                ${this.label && !this.circle
-                  ? html`<div class="nys-button__text">${this.label}</div>`
+                ${!this.circle
+                  ? this.label
+                    ? html`<div class="nys-button__text">${this.label}</div>`
+                    : html` <slot class="nys-button__default-slot"></slot> `
                   : ""}
                 <slot
                   name="suffix-icon"
@@ -480,8 +540,10 @@ export class NysButton extends LitElement {
                     ></nys-icon>`
                   : ""}
               </slot>
-              ${this.label && !this.circle
-                ? html`<div class="nys-button__text">${this.label}</div>`
+              ${!this.circle
+                ? this.label
+                  ? html`<div class="nys-button__text">${this.label}</div>`
+                  : html` <slot class="nys-button__default-slot"></slot> `
                 : ""}
               <slot
                 name="suffix-icon"
