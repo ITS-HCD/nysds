@@ -507,6 +507,8 @@ matching native input behavior and avoiding feedback loops in two-way bindings. 
   /** Single-file convenience accessor (parity with `nys-textinput`'s `value`).
 Reads the first selected file (or `null`); setting replaces the selection. */
   value?: File | null;
+  /** Fired when focus leaves the component. Triggers validation. */
+  "onnys-blur"?: (e: CustomEvent<Event>) => void;
   /** Fired when files are added or removed. Detail: `{id, files}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -1283,7 +1285,8 @@ export type CustomElements = {
    *
    *
    * ### **Events:**
-   *  - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
+   *  - **nys-blur** - Fired when focus leaves the component. Triggers validation.
+   * - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
    *
    * ### **Methods:**
    *  - **setFiles(incoming: _File[]_): _Promise<void>_** - Programmatically set the selection and await async validation/processing.

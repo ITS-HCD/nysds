@@ -27,6 +27,7 @@ export const NysFileinput = forwardRef((props, forwardedRef) => {
   } = props;
 
   /** Event listeners - run once */
+  useEventListener(ref, "nys-blur", props.onNysBlur);
   useEventListener(ref, "nys-change", props.onNysChange);
 
   /** Properties - run whenever a property has changed */

@@ -31,6 +31,7 @@ interface FileWithProgress {
  * @slot description - Custom HTML description content.
  *
  * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`.
+ * @fires nys-blur - Fired when focus leaves the component. Triggers validation.
  *
  * @example Single file upload
  * ```html
@@ -464,6 +465,18 @@ export class NysFileinput extends LitElement {
     }
   }
 
+  // Fire nys-blur only when focus leaves the whole component, not when it
+  // moves between internal controls (the button, remove buttons, etc.).
+  // Uses focusout (bubbles) since blur does not.
+  private _handleBlur(e: FocusEvent) {
+    const next = e.relatedTarget as Node | null;
+    if (next && this.renderRoot.contains(next)) return;
+    this._validate();
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
+  }
+
   private _dispatchChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
@@ -607,6 +620,7 @@ export class NysFileinput extends LitElement {
     return html`<div
       class="nys-fileinput"
       @nys-fileRemove=${this._handleFileRemove}
+      @focusout=${this._handleBlur}
     >
       <nys-label
         label=${this.label}

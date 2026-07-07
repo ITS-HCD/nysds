@@ -1,10 +1,11 @@
 import React from "react";
 import {
   NysFileinput as NysFileinputElement,
+  Event,
   CustomEvent,
 } from "../../dist/nysds.es.js";
 
-export type { NysFileinputElement, CustomEvent };
+export type { NysFileinputElement, Event, CustomEvent };
 
 export interface NysFileinputProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -101,6 +102,9 @@ matching native input behavior and avoiding feedback loops in two-way bindings. 
 Reads the first selected file (or `null`); setting replaces the selection. */
   value?: NysFileinputElement["value"];
 
+  /** Fired when focus leaves the component. Triggers validation. */
+  onNysBlur?: (event: CustomEvent) => void;
+
   /** Fired when files are added or removed. Detail: `{id, files}`. */
   onNysChange?: (event: CustomEvent) => void;
 }
@@ -111,7 +115,8 @@ Reads the first selected file (or `null`); setting replaces the selection. */
  *
  *
  * ### **Events:**
- *  - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
+ *  - **nys-blur** - Fired when focus leaves the component. Triggers validation.
+ * - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
  *
  * ### **Methods:**
  *  - **setFiles(incoming: _File[]_): _Promise<void>_** - Programmatically set the selection and await async validation/processing.

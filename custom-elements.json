@@ -6669,6 +6669,19 @@
             },
             {
               "kind": "method",
+              "name": "_handleBlur",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_dispatchChangeEvent",
               "privacy": "private"
             },
@@ -6755,6 +6768,13 @@
             }
           ],
           "events": [
+            {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when focus leaves the component. Triggers validation."
+            },
             {
               "name": "nys-change",
               "type": {
