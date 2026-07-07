@@ -38,6 +38,13 @@ export class NysIconlistitem extends LitElement {
    */
   @property({ type: String }) icon = "";
 
+  /**
+   * Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
+   * set directly.
+   * @default false
+   */
+  @property({ type: Boolean, reflect: true }) divider = false;
+
   connectedCallback() {
     super.connectedCallback();
     if (!this.hasAttribute("role")) {

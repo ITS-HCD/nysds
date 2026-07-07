@@ -4,8 +4,6 @@ import "./nys-iconlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-iconlist.scss?inline";
 
-const DIVIDER_MARKER = "data-nys-iconlist-divider";
-
 let componentIdCounter = 0;
 
 /**
@@ -88,10 +86,7 @@ export class NysIconlist extends LitElement {
     if (!slot) return;
 
     slot.assignedElements({ flatten: true }).forEach((el) => {
-      if (
-        el.tagName.toLowerCase() !== "nys-iconlistitem" &&
-        !el.hasAttribute(DIVIDER_MARKER)
-      ) {
+      if (el.tagName.toLowerCase() !== "nys-iconlistitem") {
         console.warn(
           "nys-iconlist: only <nys-iconlistitem> elements are allowed as direct children. Removing:",
           el,
@@ -110,42 +105,13 @@ export class NysIconlist extends LitElement {
     }
   }
 
-  private _createDividerItem(): HTMLElement {
-    const dividerItem = document.createElement("li");
-    dividerItem.setAttribute(DIVIDER_MARKER, "");
-    dividerItem.setAttribute("role", "separator");
-    dividerItem.className = "nys-iconlist__divider";
-
-    const dividerEl = document.createElement("nys-divider");
-    dividerEl.style.setProperty(
-      "--_nys-divider-color",
-      "var(--_nys-iconlist-divider-color)",
-    );
-    dividerEl.style.setProperty(
-      "--_nys-divider-width",
-      "var(--_nys-iconlist-divider-width)",
-    );
-    dividerItem.append(dividerEl);
-    return dividerItem;
-  }
-
-  // Reconciles divider elements in place rather than clearing and rebuilding,
-  // since a remove/append pair here would itself trigger another slotchange.
   private _syncDividers() {
     const items = Array.from(this.children).filter(
       (el) => el.tagName.toLowerCase() === "nys-iconlistitem",
     );
 
     items.forEach((item, index) => {
-      const wantsDivider = this.divider && index < items.length - 1;
-      const next = item.nextElementSibling;
-      const hasDivider = !!next?.hasAttribute(DIVIDER_MARKER);
-
-      if (wantsDivider && !hasDivider) {
-        item.after(this._createDividerItem());
-      } else if (!wantsDivider && hasDivider) {
-        next!.remove();
-      }
+      item.toggleAttribute("divider", this.divider && index < items.length - 1);
     });
   }
 

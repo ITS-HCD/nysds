@@ -1,10 +1,6 @@
 :host {
   /* Global Iconlist Styles */
   --_nys-iconlist-width: 100%;
-
-  /* Divider */
-  --_nys-iconlist-divider-color: var(--nys-color-base, #62666a);
-  --_nys-iconlist-divider-width: var(--nys-space-1px, 1px);
 }
 
 .nys-iconlist {
@@ -12,9 +8,4 @@
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-::slotted(.nys-iconlist__divider) {
-  list-style: none;
-  padding-block: var(--nys-space-150, 12px);
 }

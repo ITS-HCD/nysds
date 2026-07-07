@@ -17,6 +17,10 @@
     --nys-font-letterspacing-ui-lg,
     0.028px
   );
+
+  --_nys-iconlistitem-divider-color: var(--nys-color-neutral-500, #797c7f);
+  --_nys-iconlistitem-divider-width: var(--nys-size-1px, 1px);
+  --_nys-iconlistitem-divider-spacing: var(--nys-space-150, 12px);
 }
 
 /* When a secondary label is present, align icon to the top */
@@ -28,6 +32,12 @@
   display: flex;
   gap: var(--_nys-iconlistitem-gap);
   align-items: var(--_nys-iconlistitem-align-items);
+}
+
+:host([divider]) .nys-iconlistitem {
+  padding-bottom: var(--_nys-iconlistitem-divider-spacing);
+  border-bottom: var(--_nys-iconlistitem-divider-width) solid
+    var(--_nys-iconlistitem-divider-color);
 }
 
 .nys-iconlistitem__icon {

@@ -33,7 +33,7 @@ describe("nys-iconlist", () => {
     await expect(el).shadowDom.to.be.accessible();
   });
 
-  it("inserts a divider between items when divider is set", async () => {
+  it("sets divider on every item but the last when divider is set", async () => {
     const el = await fixture<NysIconlist>(html`
       <nys-iconlist divider>
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
@@ -43,15 +43,13 @@ describe("nys-iconlist", () => {
     `);
     await el.updateComplete;
 
-    const dividers = el.querySelectorAll("nys-divider");
-    expect(dividers.length).to.equal(2);
-
     const items = el.querySelectorAll("nys-iconlistitem");
-    expect(items[0].nextElementSibling?.tagName.toLowerCase()).to.equal("li");
-    expect(items[2].nextElementSibling).to.be.null;
+    expect(items[0].hasAttribute("divider")).to.be.true;
+    expect(items[1].hasAttribute("divider")).to.be.true;
+    expect(items[2].hasAttribute("divider")).to.be.false;
   });
 
-  it("does not insert dividers when divider is unset", async () => {
+  it("does not set divider on items when divider is unset", async () => {
     const el = await fixture<NysIconlist>(html`
       <nys-iconlist>
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
@@ -60,10 +58,12 @@ describe("nys-iconlist", () => {
     `);
     await el.updateComplete;
 
-    expect(el.querySelectorAll("nys-divider").length).to.equal(0);
+    el.querySelectorAll("nys-iconlistitem").forEach((item) => {
+      expect(item.hasAttribute("divider")).to.be.false;
+    });
   });
 
-  it("removes dividers when divider is toggled off", async () => {
+  it("removes divider from items when toggled off", async () => {
     const el = await fixture<NysIconlist>(html`
       <nys-iconlist divider>
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
@@ -71,11 +71,13 @@ describe("nys-iconlist", () => {
       </nys-iconlist>
     `);
     await el.updateComplete;
-    expect(el.querySelectorAll("nys-divider").length).to.equal(1);
+    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to
+      .be.true;
 
     el.divider = false;
     await el.updateComplete;
-    expect(el.querySelectorAll("nys-divider").length).to.equal(0);
+    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to
+      .be.false;
   });
 });
 
