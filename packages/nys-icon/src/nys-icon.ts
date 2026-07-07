@@ -6,7 +6,7 @@ import {
   unwatchIconLibrary,
   NysIconWatcher,
 } from "./icon-library-registry";
-import { fetchIcon } from "./icon-cache";
+import { fetchIcon, parseIcon } from "./icon-cache";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-icon.scss?inline";
 
@@ -168,15 +168,23 @@ export class NysIcon extends LitElement implements NysIconWatcher {
         return;
       }
 
-      const url = lib.resolver(this.name);
-      if (!url) {
-        this._svg = null;
-        return;
-      }
-
       try {
-        const svg = await fetchIcon(url);
-        // Discard if a newer _loadIcon call was made while we were fetching.
+        // Resolvers may be async (the built-in set loads lazily on first use).
+        const resolution = await lib.resolver(this.name);
+        if (seq !== this._loadSeq) return;
+        if (!resolution) {
+          this._svg = null;
+          return;
+        }
+
+        const svg =
+          typeof resolution === "string"
+            ? await fetchIcon(resolution)
+            : resolution.type === "url"
+              ? await fetchIcon(resolution.href)
+              : parseIcon(resolution.content);
+
+        // Discard if a newer _loadIcon call was made while we were loading.
         if (seq !== this._loadSeq) return;
         lib.mutator?.(svg);
         this._applyAttributes(svg);
