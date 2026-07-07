@@ -18,9 +18,9 @@
     0.028px
   );
 
-  --_nys-iconlistitem-divider-color: var(--nys-color-neutral-500, #797c7f);
-  --_nys-iconlistitem-divider-width: var(--nys-size-1px, 1px);
-  --_nys-iconlistitem-divider-spacing: var(--nys-space-150, 12px);
+  --_nys-iconlistitem-color--divider: var(--nys-color-neutral-100, #d0d0ce);
+  --_nys-iconlistitem-width--divider: var(--nys-size-1px, 1px);
+  --_nys-iconlistitem-spacing--divider: var(--nys-space-150, 12px);
 }
 
 /* When a secondary label is present, align icon to the top */
@@ -32,12 +32,16 @@
   display: flex;
   gap: var(--_nys-iconlistitem-gap);
   align-items: var(--_nys-iconlistitem-align-items);
+
+  // when no divider, add spacing between items
+  padding-bottom: var(--_nys-iconlistitem-spacing--divider);
 }
 
 :host([divider]) .nys-iconlistitem {
-  padding-bottom: var(--_nys-iconlistitem-divider-spacing);
-  border-bottom: var(--_nys-iconlistitem-divider-width) solid
-    var(--_nys-iconlistitem-divider-color);
+  padding-bottom: var(--_nys-iconlistitem-spacing--divider);
+  margin-bottom: var(--_nys-iconlistitem-spacing--divider);
+  border-bottom: var(--_nys-iconlistitem-width--divider) solid
+    var(--_nys-iconlistitem-color--divider);
 }
 
 .nys-iconlistitem__icon {
