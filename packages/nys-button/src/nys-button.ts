@@ -15,6 +15,7 @@ let buttonIdCounter = 0;
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
  *
+ * @slot - Button label text. Use as fallback when `label` prop is not provided.
  * @slot prefix-icon - Icon before label. Not shown for `text` variant.
  * @slot suffix-icon - Icon after label. Not shown for `text` variant.
  * @slot circle-icon - Icon for circle mode. Overrides `icon` prop.
@@ -458,8 +459,10 @@ export class NysButton extends LitElement {
                       ></nys-icon>`
                     : ""}
                 </slot>
-                ${this.label && !this.circle
-                  ? html`<div class="nys-button__text">${this.label}</div>`
+                ${!this.circle
+                  ? this.label
+                    ? html`<div class="nys-button__text">${this.label}</div>`
+                    : html` <slot class="nys-button__default-slot"></slot> `
                   : ""}
                 <slot
                   name="suffix-icon"
@@ -532,8 +535,10 @@ export class NysButton extends LitElement {
                     ></nys-icon>`
                   : ""}
               </slot>
-              ${this.label && !this.circle
-                ? html`<div class="nys-button__text">${this.label}</div>`
+              ${!this.circle
+                ? this.label
+                  ? html`<div class="nys-button__text">${this.label}</div>`
+                  : html` <slot class="nys-button__default-slot"></slot> `
                 : ""}
               <slot
                 name="suffix-icon"

@@ -2123,6 +2123,10 @@
           ],
           "slots": [
             {
+              "description": "Button label text. Use as fallback when `label` prop is not provided.",
+              "name": ""
+            },
+            {
               "description": "Icon before label. Not shown for `text` variant.",
               "name": "prefix-icon"
             },
