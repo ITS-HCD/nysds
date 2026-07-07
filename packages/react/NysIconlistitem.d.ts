@@ -1,9 +1,9 @@
 import React from "react";
-import { NysIconlist as NysIconlistElement } from "../../dist/nysds.es.js";
+import { NysIconlistitem as NysIconlistitemElement } from "../../dist/nysds.es.js";
 
-export type { NysIconlistElement };
+export type { NysIconlistitemElement };
 
-export interface NysIconlistProps extends Pick<
+export interface NysIconlistitemProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
   | "children"
   | "dir"
@@ -18,11 +18,8 @@ export interface NysIconlistProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Draws a divider between items. No divider is drawn after the last item. */
-  divider?: boolean;
-
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysIconlistElement["id"];
+  /** Material Symbols icon name passed to `<nys-icon>`. */
+  icon?: NysIconlistitemElement["icon"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -47,11 +44,12 @@ export interface NysIconlistProps extends Pick<
 }
 
 /**
- * A scannable list of icon + text items, with an optional divider between rows.
+ * An icon-paired list item for use inside `<nys-iconlist>`.
  * ---
  *
  *
  * ### **Slots:**
- *  - _default_ - One or more `<nys-iconlistitem>` elements.
+ *  - _default_ - Primary label text.
+ * - **secondary** - Optional second line of text rendered below the primary label.
  */
-export const NysIconlist: React.ForwardRefExoticComponent<NysIconlistProps>;
+export const NysIconlistitem: React.ForwardRefExoticComponent<NysIconlistitemProps>;

@@ -23,15 +23,13 @@ describe("nys-card", () => {
 
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysCard>(html`
-      <nys-card label="My Label" required optional></nys-card>
+      <nys-card heading="My Label"></nys-card>
     `);
-    expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
+    expect(el.heading).to.equal("My Label");
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-card label="My Label"></nys-card>`);
+    const el = await fixture(html`<nys-card heading="My Label"></nys-card>`);
     await expect(el).shadowDom.to.be.accessible();
   });
 

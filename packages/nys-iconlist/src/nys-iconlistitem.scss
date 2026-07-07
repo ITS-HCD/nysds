@@ -1,0 +1,46 @@
+:host {
+  --_nys-iconlistitem-gap: var(--nys-space-150, 12px);
+  --_nys-iconlistitem-align-items: center;
+
+  color: var(--nys-color-text);
+
+  /* UI/Large/Semibold */
+  --_nys-iconlistitem-font-family: var(--nys-font-family-ui, "Proxima Nova");
+  --_nys-iconlistitem-font-size: var(--nys-font-size-ui-lg, 18px);
+  --_nys-iconlistitem-font-style: normal;
+  --_nys-iconlistitem-font-weight: 600;
+  --_nys-iconlistitem-line-height: var(
+    --nys-font-lineheight-ui-lg,
+    28px
+  ); /* 155.556% */
+  --_nys-iconlistitem-letter-spacing: var(
+    --nys-font-letterspacing-ui-lg,
+    0.028px
+  );
+}
+
+/* When a secondary label is present, align icon to the top */
+:host([data-has-secondary]) {
+  --_nys-iconlistitem-align-items: flex-start;
+}
+
+.nys-iconlistitem {
+  display: flex;
+  gap: var(--_nys-iconlistitem-gap);
+  align-items: var(--_nys-iconlistitem-align-items);
+}
+
+.nys-iconlistitem__icon {
+  padding: var(--nys-space-50, 4px);
+}
+
+.nys-iconlistitem__label {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--_nys-iconlistitem-font-family);
+  font-size: var(--_nys-iconlistitem-font-size);
+  font-style: var(--_nys-iconlistitem-font-style);
+  font-weight: var(--_nys-iconlistitem-font-weight);
+  line-height: var(--_nys-iconlistitem-line-height);
+  letter-spacing: var(--_nys-iconlistitem-letter-spacing);
+}

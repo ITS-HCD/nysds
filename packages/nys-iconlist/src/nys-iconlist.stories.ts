@@ -1,9 +1,8 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-iconlist";
-import "@nysds/nys-icon";
+import "./nys-iconlistitem";
 
-// Define the structure of the args used in the stories
 interface NysIconlistArgs {
   id: string;
   divider: boolean;
@@ -18,8 +17,8 @@ const meta: Meta<NysIconlistArgs> = {
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
@@ -27,7 +26,6 @@ const meta: Meta<NysIconlistArgs> = {
 export default meta;
 type Story = StoryObj<NysIconlistArgs>;
 
-// With a divider between items
 export const Basic: Story = {
   args: {
     id: "iconlist1",
@@ -35,18 +33,9 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-iconlist .id=${args.id} ?divider=${args.divider}>
-      <li>
-        <nys-icon name="calendar_month"></nys-icon>
-        <span>July 4, 2026</span>
-      </li>
-      <li>
-        <nys-icon name="schedule"></nys-icon>
-        <span>5:00</span>
-      </li>
-      <li>
-        <nys-icon name="location_on"></nys-icon>
-        <span>Central Park West</span>
-      </li>
+      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+      <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
     </nys-iconlist>
   `,
   parameters: {
@@ -54,18 +43,9 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-iconlist id="iconlist1" divider>
-  <li>
-    <nys-icon name="calendar_month"></nys-icon>
-    <span>July 4, 2026</span>
-  </li>
-  <li>
-    <nys-icon name="schedule"></nys-icon>
-    <span>5:00</span>
-  </li>
-  <li>
-    <nys-icon name="location_on"></nys-icon>
-    <span>Central Park West</span>
-  </li>
+  <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+  <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+  <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
 </nys-iconlist>`,
         type: "auto",
       },
@@ -73,7 +53,6 @@ export const Basic: Story = {
   },
 };
 
-// An item can carry a second <span>, rendered on its own line below the first
 export const WithSecondaryLabel: Story = {
   args: {
     id: "iconlist2",
@@ -81,19 +60,12 @@ export const WithSecondaryLabel: Story = {
   },
   render: (args) => html`
     <nys-iconlist .id=${args.id} ?divider=${args.divider}>
-      <li>
-        <nys-icon name="calendar_month"></nys-icon>
-        <span>July 4, 2026</span>
-      </li>
-      <li>
-        <nys-icon name="schedule"></nys-icon>
-        <span>5:00</span>
-      </li>
-      <li>
-        <nys-icon name="location_on"></nys-icon>
-        <span>Central Park West</span>
-        <span>New York, NY</span>
-      </li>
+      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+      <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      <nys-iconlistitem icon="location_on">
+        Central Park West
+        <span slot="secondary">New York, NY</span>
+      </nys-iconlistitem>
     </nys-iconlist>
   `,
   parameters: {
@@ -101,19 +73,12 @@ export const WithSecondaryLabel: Story = {
       source: {
         code: `
 <nys-iconlist id="iconlist2" divider>
-  <li>
-    <nys-icon name="calendar_month"></nys-icon>
-    <span>July 4, 2026</span>
-  </li>
-  <li>
-    <nys-icon name="schedule"></nys-icon>
-    <span>5:00</span>
-  </li>
-  <li>
-    <nys-icon name="location_on"></nys-icon>
-    <span>Central Park West</span>
-    <span>New York, NY</span>
-  </li>
+  <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+  <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+  <nys-iconlistitem icon="location_on">
+    Central Park West
+    <span slot="secondary">New York, NY</span>
+  </nys-iconlistitem>
 </nys-iconlist>`,
         type: "auto",
       },
@@ -121,7 +86,6 @@ export const WithSecondaryLabel: Story = {
   },
 };
 
-// The divider is optional and off by default
 export const WithoutDivider: Story = {
   args: {
     id: "iconlist3",
@@ -129,26 +93,19 @@ export const WithoutDivider: Story = {
   },
   render: (args) => html`
     <nys-iconlist .id=${args.id} ?divider=${args.divider}>
-      <li>
-        <nys-icon name="check_circle"></nys-icon>
-        <span>Recent pay stubs</span>
-      </li>
-      <li>
-        <nys-icon name="check_circle"></nys-icon>
-        <span>Current rent/mortgage statement</span>
-      </li>
-      <li>
-        <nys-icon name="check_circle"></nys-icon>
-        <span>Current property tax bill</span>
-      </li>
-      <li>
-        <nys-icon name="check_circle"></nys-icon>
-        <span>Current homeowner's insurance bill</span>
-      </li>
-      <li>
-        <nys-icon name="check_circle"></nys-icon>
-        <span>Social Security card</span>
-      </li>
+      <nys-iconlistitem icon="check_circle">Recent pay stubs</nys-iconlistitem>
+      <nys-iconlistitem icon="check_circle"
+        >Current rent/mortgage statement</nys-iconlistitem
+      >
+      <nys-iconlistitem icon="check_circle"
+        >Current property tax bill</nys-iconlistitem
+      >
+      <nys-iconlistitem icon="check_circle"
+        >Current homeowner's insurance bill</nys-iconlistitem
+      >
+      <nys-iconlistitem icon="check_circle"
+        >Social Security card</nys-iconlistitem
+      >
     </nys-iconlist>
   `,
   parameters: {
@@ -156,26 +113,11 @@ export const WithoutDivider: Story = {
       source: {
         code: `
 <nys-iconlist id="iconlist3">
-  <li>
-    <nys-icon name="check_circle"></nys-icon>
-    <span>Recent pay stubs</span>
-  </li>
-  <li>
-    <nys-icon name="check_circle"></nys-icon>
-    <span>Current rent/mortgage statement</span>
-  </li>
-  <li>
-    <nys-icon name="check_circle"></nys-icon>
-    <span>Current property tax bill</span>
-  </li>
-  <li>
-    <nys-icon name="check_circle"></nys-icon>
-    <span>Current homeowner's insurance bill</span>
-  </li>
-  <li>
-    <nys-icon name="check_circle"></nys-icon>
-    <span>Social Security card</span>
-  </li>
+  <nys-iconlistitem icon="check_circle">Recent pay stubs</nys-iconlistitem>
+  <nys-iconlistitem icon="check_circle">Current rent/mortgage statement</nys-iconlistitem>
+  <nys-iconlistitem icon="check_circle">Current property tax bill</nys-iconlistitem>
+  <nys-iconlistitem icon="check_circle">Current homeowner's insurance bill</nys-iconlistitem>
+  <nys-iconlistitem icon="check_circle">Social Security card</nys-iconlistitem>
 </nys-iconlist>`,
         type: "auto",
       },

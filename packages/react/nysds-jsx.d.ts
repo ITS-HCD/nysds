@@ -600,6 +600,11 @@ export type NysIconlistProps = {
   divider?: boolean;
 };
 
+export type NysIconlistitemProps = {
+  /** Material Symbols icon name passed to `<nys-icon>`. */
+  icon?: string;
+};
+
 export type NysLabelProps = {
   /** The ID of the label. */
   id?: string;
@@ -1357,9 +1362,20 @@ export type CustomElements = {
    *
    *
    * ### **Slots:**
-   *  - _default_ - One or more `<li>` elements, each containing a `<nys-icon>` and one or two `<span>` labels.
+   *  - _default_ - One or more `<nys-iconlistitem>` elements.
    */
   "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
+
+  /**
+   * An icon-paired list item for use inside `<nys-iconlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Primary label text.
+   * - **secondary** - Optional second line of text rendered below the primary label.
+   */
+  "nys-iconlistitem": Partial<NysIconlistitemProps & BaseProps & BaseEvents>;
 
   /**
    * Internal label component for form fields with flag and tooltip support.
