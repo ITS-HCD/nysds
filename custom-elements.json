@@ -6289,7 +6289,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.\nValidates file types via magic bytes (not just extension). Form-associated via ElementInternals.\n\nUse for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.",
+          "description": "A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.\nValidates file types via magic bytes (not just extension). Form-associated via ElementInternals.\n\nUse for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.\n\nRead or write the current selection via the `files` (`File[]`) and `value` (`File | null`)\nproperties — useful for rehydrating state or binding from a framework form model.\nSetting them is silent (does not emit `nys-change`).",
           "name": "NysFileinput",
           "slots": [
             {
@@ -6484,6 +6484,41 @@
               },
               "privacy": "private",
               "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "files",
+              "type": {
+                "text": "File[]"
+              },
+              "description": "The currently selected files. Read to get the current selection; set to\nreplace it (e.g. rehydrating state after navigation, or binding from a\nframework form model). Property-only — a `File[]` cannot round-trip through\nan HTML attribute. Setting this is silent (does not emit `nys-change`),\nmatching native input behavior and avoiding feedback loops in two-way bindings."
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "File | null"
+              },
+              "description": "Single-file convenience accessor (parity with `nys-textinput`'s `value`).\nReads the first selected file (or `null`); setting replaces the selection."
+            },
+            {
+              "kind": "method",
+              "name": "setFiles",
+              "privacy": "public",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "incoming",
+                  "type": {
+                    "text": "File[]"
+                  }
+                }
+              ],
+              "description": "Programmatically set the selection and await async validation/processing.\nSame as assigning `files`, but resolves once every file has finished its\nmagic-byte validation and read — use when you need to read `checkValidity()`\nor the settled selection immediately after."
             },
             {
               "kind": "field",

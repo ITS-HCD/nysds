@@ -116,6 +116,56 @@ The `nys-fileinput` component includes the following accessibility-focused featu
     </tbody>
 </table>
 
+## Properties
+
+In addition to the attributes shown in the Controls table above, `nys-fileinput`
+exposes two JavaScript-only properties for reading and managing the current
+selection. They are property-only (a `File[]` cannot be an HTML attribute) and
+are useful for rehydrating state after navigation or binding the component to a
+framework form model (Angular, React, etc.).
+
+<table>
+    <thead>
+    <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`files`</td>
+        <td>`File[]`</td>
+        <td>The current selection. Read to get the selected files; assign to replace them.</td>
+    </tr>
+    <tr>
+        <td>`value`</td>
+        <td>`File | null`</td>
+        <td>Single-file convenience accessor (parity with `nys-textinput`'s `value`). Reads the first selected file, or `null`; assigning a `File` selects it, `null` clears.</td>
+    </tr>
+    </tbody>
+</table>
+
+**Setting these is silent** — it updates the form value and validation but does
+**not** emit `nys-change` (matching native input behavior, and avoiding feedback
+loops when a framework binds the value two-way). User-driven changes still emit
+`nys-change`. Assignment is synchronous but file validation/reading is async; use
+the `setFiles(files: File[]): Promise<void>` method if you need to await the
+settled state before reading `checkValidity()`.
+
+```js
+const fileinput = document.querySelector("nys-fileinput");
+
+// Read the current selection
+console.log(fileinput.files); // File[]
+
+// Rehydrate a previously captured selection (e.g. returning to a wizard step)
+fileinput.files = savedFiles;
+
+// Clear the selection
+fileinput.files = [];
+```
+
 ## Events
 
 The `nys-fileinput` component emits the following events:
