@@ -1025,6 +1025,11 @@ export type NysUnavHeaderProps = {
   searchUrl?: string;
   /** The list of languages this site can be translated to, default to use Smartling */
   languages?: Language[];
+
+  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect. */
+  "onnys-language-select"?: (e: CustomEvent<never>) => void;
+  /** Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect. */
+  "onnys-search-submit"?: (e: CustomEvent<never>) => void;
 };
 
 export type NysVideoProps = {
@@ -1609,6 +1614,10 @@ export type CustomElements = {
    * Universal NYS header with trust bar, search, and translation. Required site-wide.
    * ---
    *
+   *
+   * ### **Events:**
+   *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+   * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 

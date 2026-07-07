@@ -15263,6 +15263,16 @@
               ]
             }
           ],
+          "events": [
+            {
+              "description": "Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.",
+              "name": "nys-language-select"
+            },
+            {
+              "description": "Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.",
+              "name": "nys-search-submit"
+            }
+          ],
           "attributes": [
             {
               "name": "trustbarVisible",
