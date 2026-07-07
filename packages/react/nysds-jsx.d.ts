@@ -287,6 +287,8 @@ export type NysCheckboxProps = {
   showOtherError?: boolean;
   /**  */
   _hasDescription?: string;
+  /**  */
+  _isStandalone?: string;
   /** Fired when checked state changes. Detail: `{id, checked, name, value}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
@@ -531,7 +533,11 @@ export type NysGlobalHeaderProps = {
   agencyName?: string;
   /** URL for the header title link. If empty, title is not clickable. */
   homepageLink?: string;
-  /** Toggles the NYS brand mark */
+  /** Displays the NYS brand mark in the header. Off by default.
+
+Enable only for internal, state-employee (back-office) applications that omit
+`nys-unavheader`. Any resident-facing app — even one requiring login — should
+keep `nys-unavheader` for trust and leave this off. */
   nysLogo?: boolean;
 };
 
@@ -1138,7 +1144,8 @@ export type CustomElements = {
    * - **nys-click** - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
    *
    * ### **Slots:**
-   *  - **prefix-icon** - Icon before label. Not shown for `text` variant.
+   *  - _default_ - Button label text. Use as fallback when `label` prop is not provided.
+   * - **prefix-icon** - Icon before label. Not shown for `text` variant.
    * - **suffix-icon** - Icon after label. Not shown for `text` variant.
    * - **circle-icon** - Icon for circle mode. Overrides `icon` prop.
    *
@@ -1303,6 +1310,7 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+   * - **user-actions** - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
    */
   "nys-globalheader": Partial<NysGlobalHeaderProps & BaseProps & BaseEvents>;
 

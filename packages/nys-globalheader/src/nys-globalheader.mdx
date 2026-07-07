@@ -60,6 +60,10 @@ The `nys-globalheader` component includes a named slot called `user-actions`. Th
 
 ## NYS Brand Mark
 
+Enable the `nysLogo` prop to show the NYS brand mark. It is **off by default**.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> Use only for internal, state-employee (back-office) applications that omit `nys-unavheader`. Any resident-facing app — even one requiring login — should keep `nys-unavheader` for trust and leave `nysLogo` off.</div>
+
 <Canvas of={NysGlobalHeaderStories.WithBrandMark} />
 
 ## Usage
@@ -77,12 +81,14 @@ The `nys-globalheader` component includes a named slot called `user-actions`. Th
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
       - Use `agencyName` as stand alone if public-facing site and not in the context of a specific application.
       - Use `appName` if an application is for a single agency
+      - Enable `nysLogo` only for internal, state-employee apps that omit `nys-unavheader`
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)"/> Don't
       - Use `appName` if an application is not for a single agency
+      - Enable `nysLogo` on any resident-facing app — keep `nys-unavheader` instead
       - Add unnecessary or unrelated content
     </div>
   </div>

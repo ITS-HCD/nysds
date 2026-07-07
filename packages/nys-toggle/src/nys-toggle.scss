@@ -54,7 +54,7 @@
   gap: var(--_nys-toggle-gap);
 
   nys-label {
-    --_nys-label-font-weight: var(--nys-font-weight-regular, 400);
+    --_nys-label-font-weight: var(--nys-font-weight-semibold, 600);
   }
 
   &:has(input:disabled) {

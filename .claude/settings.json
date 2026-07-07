@@ -1,0 +1,12 @@
+{
+  "extraKnownMarketplaces": {
+    "nys-cdo": {
+      "source": { "source": "github", "repo": "nys-cdo/ops-claude-plugins" },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "nysds-dev@nys-cdo": true,
+    "cdo-common@nys-cdo": true
+  }
+}

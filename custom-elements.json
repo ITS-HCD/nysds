@@ -1959,6 +1959,10 @@
           ],
           "slots": [
             {
+              "description": "Button label text. Use as fallback when `label` prop is not provided.",
+              "name": ""
+            },
+            {
               "description": "Icon before label. Not shown for `text` variant.",
               "name": "prefix-icon"
             },
@@ -2229,6 +2233,15 @@
             },
             {
               "kind": "field",
+              "name": "_hasCircleSlot",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "formAssociated",
               "type": {
                 "text": "boolean"
@@ -2259,6 +2272,19 @@
             {
               "kind": "method",
               "name": "_onSuffixSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_onCircleSlotChange",
               "privacy": "private",
               "parameters": [
                 {
@@ -2579,18 +2605,43 @@
           "summary": "Button for actions and CTAs with variants, sizes, and icon support.",
           "examples": [
             {
-              "title": "Basic filled button",
-              "code": "<nys-button label=\"Submit\" variant=\"filled\"></nys-button>",
+              "title": "Basic",
+              "code": "<nys-button label=\"Button\" variant=\"filled\"></nys-button>",
               "lang": "html"
             },
             {
-              "title": "Secondary outline button",
-              "code": "<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>",
+              "title": "Slotted label",
+              "code": "<nys-button variant=\"filled\">This label is slotted</nys-button>",
               "lang": "html"
             },
             {
-              "title": "Button with icons",
-              "code": "<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>\n<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>",
+              "title": "Variant Outline",
+              "code": "<nys-button label=\"Button\" variant=\"outline\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Variant Ghost",
+              "code": "<nys-button label=\"Button\" variant=\"ghost\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Variant Text",
+              "code": "<nys-button label=\"Button\" variant=\"text\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Prefix Icon",
+              "code": "<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Suffix Icon",
+              "code": "<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Slotted Icons",
+              "code": "<nys-button label=\"Slotted icons\">\n<nys-icon color=\"#db117d\" slot=\"prefix-icon\" name=\"chevron_left\"></nys-icon>\n<nys-icon color=\"#db117d\" slot=\"suffix-icon\" name=\"chevron_right\"></nys-icon>\n</nys-button>",
               "lang": "html"
             },
             {
@@ -2599,12 +2650,38 @@
               "lang": "html"
             },
             {
-              "title": "Link-style button for navigation",
+              "title": "Size Small",
+              "code": "<nys-button label=\"Small\" size=\"sm\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Large",
+              "code": "<nys-button label=\"Large\" size=\"lg\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Full width",
+              "code": "<nys-button label=\"Full width\" fullWidth></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-button label=\"Inverted\" inverted></nys-button>",
+              "lang": "html",
+              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" inverted></nys-button>\n</div>"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-button label=\"Disabled\" disabled></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Href",
               "code": "<nys-button label=\"Visit NY.gov\" href=\"https://www.ny.gov/\" target=\"_blank\" suffixIcon=\"open_in_new\"></nys-button>",
               "lang": "html"
             },
             {
-              "title": "Form submit button",
+              "title": "Type",
               "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
               "lang": "html"
             }
@@ -2968,6 +3045,11 @@
             {
               "kind": "field",
               "name": "_hasDescription",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_isStandalone",
               "readonly": true
             },
             {
@@ -3488,6 +3570,15 @@
             },
             {
               "kind": "field",
+              "name": "_hasSharedNames",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "_internals",
               "type": {
                 "text": "ElementInternals"
@@ -3630,6 +3721,25 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_checkSharedNames",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "checkboxes",
+                  "type": {
+                    "text": "NysCheckbox[]"
+                  }
+                }
+              ],
+              "description": "Drupal-like naming support *"
             }
           ],
           "attributes": [
@@ -7260,6 +7370,10 @@
             {
               "description": "Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.",
               "name": ""
+            },
+            {
+              "description": "User-account controls (e.g. profile link, settings, log-out button) shown in the header.",
+              "name": "user-actions"
             }
           ],
           "members": [
@@ -7300,7 +7414,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Toggles the NYS brand mark",
+              "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "attribute": "nysLogo"
             },
             {
@@ -7428,7 +7542,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Toggles the NYS brand mark",
+              "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "fieldName": "nysLogo",
               "propName": "nyslogo"
             }

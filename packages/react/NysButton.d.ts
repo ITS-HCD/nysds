@@ -123,7 +123,8 @@ export interface NysButtonProps extends Pick<
  * - **nys-click** - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
  *
  * ### **Slots:**
- *  - **prefix-icon** - Icon before label. Not shown for `text` variant.
+ *  - _default_ - Button label text. Use as fallback when `label` prop is not provided.
+ * - **prefix-icon** - Icon before label. Not shown for `text` variant.
  * - **suffix-icon** - Icon after label. Not shown for `text` variant.
  * - **circle-icon** - Icon for circle mode. Overrides `icon` prop.
  *
