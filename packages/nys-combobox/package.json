@@ -22,6 +22,10 @@
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer 'src/**/*.ts'"
   },
+  "dependencies": {
+    "@nysds/nys-label": "^1.19.2",
+    "@nysds/nys-errormessage": "^1.19.2"
+  },
   "devDependencies": {
     "@nysds/internals": "^1.19.1",
     "lit": "^3.3.1",

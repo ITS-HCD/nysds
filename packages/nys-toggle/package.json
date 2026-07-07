@@ -22,7 +22,8 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.19.2"
+    "@nysds/nys-icon": "^1.19.2",
+    "@nysds/nys-label": "^1.19.2"
   },
   "devDependencies": {
     "@nysds/internals": "^1.19.1",
