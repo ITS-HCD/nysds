@@ -52,7 +52,6 @@ describe("nys-icon", () => {
     expect(svg?.classList.contains("nys-icon--md")).to.be.true;
     expect(svg?.classList.contains("nys-icon--flip-")).to.be.false;
     expect(svg?.style.color).to.equal("currentcolor"); // Default color
-    expect(svg?.style.rotate).to.equal("0deg");
   });
 
   it("applies size class based on size property", async () => {

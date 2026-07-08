@@ -17,9 +17,19 @@ let componentIdCounter = 0;
  *
  * @fires nys-change - Fired when page changes. Detail: `{page}`.
  *
- * @example Basic pagination
+ * @example Basic
+ * ```html
+ * <nys-pagination currentPage="5" totalPages="10"></nys-pagination>
+ * ```
+ *
+ * @example First Page
  * ```html
  * <nys-pagination currentPage="1" totalPages="10"></nys-pagination>
+ * ```
+ *
+ * @example Last Page
+ * ```html
+ * <nys-pagination currentPage="10" totalPages="10"></nys-pagination>
  * ```
  */
 

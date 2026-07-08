@@ -17,14 +17,54 @@ let avatarIdCounter = 0;
  *
  * @slot - Custom icon content. Overrides default icon when no image or initials.
  *
- * @example Image avatar
+ * @example Basic
  * ```html
- * <nys-avatar image="/path/to/photo.jpg" ariaLabel="Jane Smith"></nys-avatar>
+ * <nys-avatar ariaLabel="User avatar"></nys-avatar>
  * ```
  *
- * @example Initials avatar with custom color
+ * @example Image
  * ```html
- * <nys-avatar initials="JS" color="var(--nys-color-theme)" ariaLabel="Jane Smith"></nys-avatar>
+ * <nys-avatar
+ *  image="path/to/img.png"
+ *  ariaLabel="Jane Smith"
+ * ></nys-avatar>
+ * ```
+ * @render Image
+ * ```html
+ * <nys-avatar
+ *  image="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+ *  ariaLabel="Jane Smith"
+ * ></nys-avatar>
+ * ```
+ *
+ * @example Initials
+ * ```html
+ * <nys-avatar initials="JS" ariaLabel="Jane Smith"></nys-avatar>
+ * ```
+ *
+ * @example Icon
+ * ```html
+ * <nys-avatar icon="account_circle"></nys-avatar>
+ * ```
+ *
+ * @example Interactive
+ * ```html
+ * <nys-avatar interactive></nys-avatar>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-avatar disabled></nys-avatar>
+ * ```
+ *
+ * @example Custom Background Color
+ * ```html
+ * <nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>
+ * ```
+ *
+ * @example Lazy Loading
+ * ```html
+ * <nys-avatar lazy></nys-avatar>
  * ```
  */
 
