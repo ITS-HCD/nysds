@@ -8,7 +8,7 @@ import "@nysds/nys-icon";
 
 interface NysBreadcrumbsArgs {
   id: string;
-  size: "md" | "sm" | "";
+  size: "md" | "sm";
   // itemsBeforeCollapse: string;
   // itemsAfterCollapse: string;
   // maxItems: string;
@@ -24,7 +24,7 @@ const meta: Meta<NysBreadcrumbsArgs> = {
   component: "nys-breadcrumbs",
   argTypes: {
     id: { control: "text" },
-    size: { control: "select", options: ["", "md", "sm"] },
+    size: { control: "select", options: ["md", "sm"] },
     // itemsBeforeCollapse: { control: "text" },
     // itemsAfterCollapse: { control: "text" },
     // maxItems: { control: "text" },
@@ -47,7 +47,7 @@ type Story = StoryObj<NysBreadcrumbsArgs>;
 
 const defaultArgs: NysBreadcrumbsArgs = {
   id: "",
-  size: "",
+  size: "md",
   ariaLabel: "",
   // itemsBeforeCollapse: "",
   // itemsAfterCollapse: "",
