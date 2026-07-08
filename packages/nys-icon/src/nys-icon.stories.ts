@@ -3,11 +3,11 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-icon";
 import { registerIconLibrary } from "./icon-library-registry";
 
-// Register external icon libraries at module scope so they are available
-// before any <nys-icon> elements connect. Registering inside render() is
-// too late on the first visit because the elements' connectedCallback and
-// _loadIcon fire before the render body executes, returning null from
-// getIconLibrary().
+// Module-scope setup hoisted from <script data-scope="module"> blocks in
+// the component's JSDoc examples. This runs once at import time so setup
+// (e.g. icon library registration) is in place before any story's
+// elements connect — running it inside render() is too late on the first
+// visit because connectedCallback fires before the render body executes.
 registerIconLibrary("fa", {
   resolver: (name) =>
     `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,

@@ -8495,13 +8495,13 @@
               "title": "External Library - Font Awesome",
               "code": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>",
               "lang": "html",
-              "render": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>\n<script>\nregisterIconLibrary(\"fa\", {\nresolver: (name) =>\n`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
+              "render": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>\n<script data-scope=\"module\">\nregisterIconLibrary(\"fa\", {\nresolver: (name) =>\n`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             },
             {
               "title": "External Library - Material",
               "code": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>",
               "lang": "html",
-              "render": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>\n<script>\nregisterIconLibrary(\"material\", {\nresolver: (name) =>\n`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
+              "render": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>\n<script data-scope=\"module\">\nregisterIconLibrary(\"material\", {\nresolver: (name) =>\n`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             }
           ]
         }

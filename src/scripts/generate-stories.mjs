@@ -1,7 +1,51 @@
 #!/usr/bin/env node
+/**
+ * Story generation contract (component JSDoc → Storybook stories):
+ *
+ * @example <Title> — required. The copyable code shown in the docs source
+ *   panel. The first example also becomes the interactive args-driven story.
+ * @render <Title> — optional. Overrides what the story canvas renders when the
+ *   live demo differs from the copyable code (e.g. a button that spawns the
+ *   component). Must match an existing @example title.
+ *
+ * <script> blocks inside @render / @example code:
+ *   - <script data-scope="module">…</script> — hoisted to module scope in the
+ *     generated stories file; runs once at import time, before any element
+ *     connects. Use for one-time setup like registerIconLibrary(). Known
+ *     helpers get their story-file import and docs-source snippet added
+ *     automatically (see SETUP_HELPERS).
+ *   - plain <script>…</script> — kept inline in the story's render template so
+ *     it runs alongside the HTML it configures. Use for per-story DOM wiring
+ *     (event listeners, property assignment).
+ */
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
+
+/**
+ * Known module-scope setup helpers. When a hoisted <script data-scope="module">
+ * block references one of these identifiers, the generator emits the matching
+ * import in the stories file and prepends the docs snippet to the story's
+ * docs source so users can copy a complete working setup.
+ */
+const SETUP_HELPERS = {
+  registerIconLibrary: {
+    /** Package whose stories import the helper via a relative path */
+    localPackage: "nys-icon",
+    localImport: `import { registerIconLibrary } from "./icon-library-registry";`,
+    packageImport: `import { registerIconLibrary } from "@nysds/nys-icon";`,
+    docsImport: [
+      "// Register the icon library before using <nys-icon>",
+      `import { registerIconLibrary } from '@nysds/nys-icon';`,
+    ],
+  },
+};
+
+function referencedSetupHelpers(scriptCalls) {
+  return Object.keys(SETUP_HELPERS).filter((name) =>
+    scriptCalls.some((call) => call.includes(`${name}(`)),
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Helpers (kept mostly the same, adapted for CEM structure)
@@ -73,57 +117,71 @@ function isHtml(code) {
   return code.trim().startsWith("<");
 }
 
+const MODULE_SCRIPT_RE =
+  /<script\s+data-scope=["']module["']\s*>([\s\S]*?)<\/script>/g;
+
 /**
- * Extracts all registerIconLibrary(...) call blocks from a render code string.
- * Returns { scriptCalls: string[], strippedCode: string }
- * where scriptCalls are the raw JS call strings and strippedCode has the
- * <script>...</script> block removed.
+ * Extracts all <script data-scope="module"> blocks from a render code string.
+ * Returns { scriptCalls: string[], strippedCode: string } where scriptCalls
+ * are the raw JS bodies (hoisted to module scope by the caller) and
+ * strippedCode has those <script> blocks removed. Plain <script> blocks
+ * (e.g. property assignments like header.languages = [...]) are left in place
+ * so they execute alongside the HTML they configure.
  */
-function extractRegisterIconLibraryCalls(code) {
-  const scriptRe = /<script>([\s\S]*?)<\/script>/g;
+function extractModuleScopeScripts(code) {
   const scriptCalls = [];
   let strippedCode = code;
 
   let match;
-  while ((match = scriptRe.exec(code)) !== null) {
-    const scriptBody = match[1].trim();
-    if (scriptBody.includes("registerIconLibrary(")) {
-      scriptCalls.push(scriptBody);
-      // Only remove <script> blocks that are registerIconLibrary calls — those
-      // are hoisted to module scope. All other <script> blocks (e.g. property
-      // assignments like header.languages = [...]) must stay in the render code
-      // so they execute alongside the HTML they configure.
-      strippedCode = strippedCode.replace(match[0], "").trim();
-    }
+  MODULE_SCRIPT_RE.lastIndex = 0;
+  while ((match = MODULE_SCRIPT_RE.exec(code)) !== null) {
+    scriptCalls.push(match[1].trim());
+    strippedCode = strippedCode.replace(match[0], "").trim();
   }
 
   return { scriptCalls, strippedCode };
 }
 
 /**
- * Builds a source.code string that prepends a JS registration snippet
- * (matching the manual file style) before the HTML, when applicable.
+ * Warns when a plain <script> block calls a known one-time setup helper —
+ * those run too late inline (after connectedCallback) and should be marked
+ * <script data-scope="module"> in the JSDoc instead.
+ */
+function warnOnUnmarkedSetupScripts(code, exampleTitle, componentName) {
+  const plainScriptRe = /<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g;
+  let match;
+  while ((match = plainScriptRe.exec(code)) !== null) {
+    if (/data-scope=["']module["']/.test(match[0])) continue;
+    for (const helper of referencedSetupHelpers([match[1]])) {
+      console.warn(
+        `[generate-stories] ${componentName} "${exampleTitle}": plain <script> calls ${helper}() — ` +
+          `mark it <script data-scope="module"> so it runs before elements connect.`,
+      );
+    }
+  }
+}
+
+/**
+ * Builds a source.code string that prepends the module-scope setup JS
+ * (imports for known helpers + the script bodies) before the HTML, when
+ * applicable, so the docs panel shows a complete copyable setup.
  */
 function buildSourceCode(exampleCode, scriptCalls) {
   if (!scriptCalls || scriptCalls.length === 0) {
     return escapeStaticCode(exampleCode.trim());
   }
 
-  // Strip any registerIconLibrary <script> blocks from the source example code
-  // so they don't appear twice alongside the hoisted module-scope snippet.
-  let cleanedCode = exampleCode;
-  const scriptRe = /<script>([\s\S]*?)<\/script>/g;
-  let match;
-  while ((match = scriptRe.exec(exampleCode)) !== null) {
-    if (match[1].includes("registerIconLibrary(")) {
-      cleanedCode = cleanedCode.replace(match[0], "").trim();
-    }
-  }
+  // Strip any module-scope <script> blocks from the source example code so
+  // they don't appear twice alongside the prepended JS snippet.
+  const cleanedCode = extractModuleScopeScripts(exampleCode).strippedCode;
+
+  const docsImportLines = referencedSetupHelpers(scriptCalls).flatMap(
+    (name) => SETUP_HELPERS[name].docsImport,
+  );
 
   const jsSnippet = [
-    "// Register the icon library before using <nys-icon>",
-    `import { registerIconLibrary } from '@nysds/nys-icon';`,
-    "",
+    ...docsImportLines,
+    ...(docsImportLines.length > 0 ? [""] : []),
     ...scriptCalls,
   ].join("\n");
 
@@ -245,7 +303,8 @@ function buildLitBinding(prop) {
 
 function buildInteractiveStory(example, nameOverride, tagToDeclaration, localTags) {
   const storyName = nameOverride || toStoryName(example.title);
-  const rawRenderCode = example.renderCode;
+  const { scriptCalls: setupScriptCalls, strippedCode: rawRenderCode } =
+    extractModuleScopeScripts(example.renderCode || "");
 
   if (!rawRenderCode || !isHtml(rawRenderCode)) {
     return buildStaticStory(example, nameOverride);
@@ -366,7 +425,7 @@ function buildInteractiveStory(example, nameOverride, tagToDeclaration, localTag
       ? `\n  argTypes: {\n${argTypesLines.join(",\n")}\n  },`
       : "";
 
-  const sourceCode = buildSourceCode(example.code, []);
+  const sourceCode = buildSourceCode(example.code, setupScriptCalls);
 
   return `export const ${storyName}: Story = {
   args: {
@@ -393,8 +452,9 @@ function buildStaticStory(example, nameOverride) {
   const storyName = nameOverride || toStoryName(example.title);
   const rawRenderCode = example.renderCode;
 
-  // Extract any registerIconLibrary calls from <script> blocks in the render code
-  const { scriptCalls, strippedCode } = extractRegisterIconLibraryCalls(rawRenderCode);
+  // Hoisted module-scope <script> blocks are emitted separately (see main());
+  // strip them from the render body and surface them in the docs source.
+  const { scriptCalls, strippedCode } = extractModuleScopeScripts(rawRenderCode);
   const code = strippedCode;
 
   // Heuristic: check if it contains JS imperative code
@@ -581,39 +641,43 @@ async function main() {
       .filter((imp, i, arr) => arr.indexOf(imp) === i)  // dedupe same-package tags
       .join("\n");
 
-    // Detect if any render code uses registerIconLibrary — if so, hoist the
-    // import and all unique registration calls to module scope. This is
-    // necessary because registering inside render() is too late: the element's
-    // connectedCallback fires before the render body executes on first visit.
-    const moduleScopeRegistrations = [];
-    let needsIconLibraryImport = false;
+    // Hoist all <script data-scope="module"> blocks to module scope, deduped
+    // across examples. These must run before any element connects (e.g. icon
+    // library registration) — inside render() is too late because the
+    // element's connectedCallback fires before the render body executes on
+    // first visit.
+    const moduleScopeScripts = [];
 
     for (const example of allExamples) {
-      if (example.renderCode && example.renderCode.includes("registerIconLibrary(")) {
-        needsIconLibraryImport = true;
-        const { scriptCalls } = extractRegisterIconLibraryCalls(example.renderCode);
-        for (const call of scriptCalls) {
-          if (!moduleScopeRegistrations.includes(call)) {
-            moduleScopeRegistrations.push(call);
-          }
+      if (!example.renderCode) continue;
+      warnOnUnmarkedSetupScripts(example.renderCode, example.title, componentName);
+      const { scriptCalls } = extractModuleScopeScripts(example.renderCode);
+      for (const call of scriptCalls) {
+        if (!moduleScopeScripts.includes(call)) {
+          moduleScopeScripts.push(call);
         }
       }
     }
 
-    const iconLibraryImport = needsIconLibraryImport
-      ? `import { registerIconLibrary } from "./icon-library-registry";`
-      : "";
+    const setupImports = referencedSetupHelpers(moduleScopeScripts)
+      .map((name) => {
+        const helper = SETUP_HELPERS[name];
+        return componentName === helper.localPackage
+          ? helper.localImport
+          : helper.packageImport;
+      })
+      .join("\n");
 
     const moduleScopeBlock =
-      moduleScopeRegistrations.length > 0
+      moduleScopeScripts.length > 0
         ? [
           "",
-          "// Register external icon libraries at module scope so they are available",
-          "// before any <nys-icon> elements connect. Registering inside render() is",
-          "// too late on the first visit because the elements' connectedCallback and",
-          "// _loadIcon fire before the render body executes, returning null from",
-          "// getIconLibrary().",
-          ...moduleScopeRegistrations,
+          '// Module-scope setup hoisted from <script data-scope="module"> blocks in',
+          "// the component's JSDoc examples. This runs once at import time so setup",
+          "// (e.g. icon library registration) is in place before any story's",
+          "// elements connect — running it inside render() is too late on the first",
+          "// visit because connectedCallback fires before the render body executes.",
+          ...moduleScopeScripts,
         ].join("\n")
         : "";
 
@@ -622,7 +686,7 @@ async function main() {
       `import { Meta, StoryObj } from "@storybook/web-components-vite";`,
       `import "./${componentName}";`,
       siblingImports,
-      iconLibraryImport,
+      setupImports,
     ]
       .filter(Boolean)
       .join("\n");

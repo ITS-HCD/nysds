@@ -84,7 +84,7 @@ import styles from "./nys-icon.scss?inline";
  * @render External Library - Font Awesome
  * ```html
  * <nys-icon name="heart" library="fa"></nys-icon>
- * <script>
+ * <script data-scope="module">
  * registerIconLibrary("fa", {
  *   resolver: (name) =>
  *     `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
@@ -104,7 +104,7 @@ import styles from "./nys-icon.scss?inline";
  *  @render External Library - Material
  * ```html
  * <nys-icon name="favorite" library="material"></nys-icon>
- * <script>
+ * <script data-scope="module">
  * registerIconLibrary("material", {
  *   resolver: (name) =>
  *     `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
