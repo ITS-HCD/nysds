@@ -3,12 +3,12 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-unavfooter";
 
 const meta: Meta = {
-  title: "Components/Unavfooter",
+  title: "Components/UnavFooter",
   component: "nys-unavfooter",
   parameters: {
     docs: {
-      source: { type: "dynamic" },
-      inlineStories: true,
+      source: { type: "dynamic" }, // Enables live Source code tab
+      inlineStories: true, // Ensures stories are rendered within the docs tab
     },
   },
 };
@@ -16,15 +16,18 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
+// Stories
+// Define stories without using args
+
+// Story: Basic
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-unavfooter></nys-unavfooter> `;
-  },
+  render: () => html` <nys-unavfooter></nys-unavfooter> `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-unavfooter></nys-unavfooter>`,
+<nys-unavfooter></nys-unavfooter>
+        `,
         type: "auto",
       },
     },

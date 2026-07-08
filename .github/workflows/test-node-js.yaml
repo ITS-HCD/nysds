@@ -27,7 +27,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
-      run: npm i # default is `npm ci` but that causes issues ALL THE TIME, so we're reverting back to `npm i` this should NOT be changed back to npm ci.
+      run: npm ci
     - name: Install Playwright browsers
       run: npx playwright install --with-deps > /dev/null 2>&1
       env:
