@@ -13,6 +13,10 @@
   --_nys-accordion-gap: var(--nys-space-100, 8px);
 
   /* Header & Text container */
+  --_nys-accordion-color--header: var(
+    --nys-accordion-color--header,
+    var(--nys-color-text, #1b1b1b)
+  );
   --_nys-accordion-background-color--header: var(
     --nys-accordion-background-color--header,
     var(--nys-color-neutral-50, #ededed)
@@ -23,8 +27,10 @@
   );
   --_nys-accordionitem-gap: var(--nys-space-200, 16px);
   --_nys-accordionitem-background-color: var(--nys-color-ink-reverse, #ffffff);
-  --_nys-accordionitem-padding: var(--nys-space-200, 16px)
-    var(--local-xx-spacing-205, 20px);
+  --_nys-accordionitem-padding: var(
+    --nys-accordionitem-padding,
+    var(--nys-space-200, 16px) var(--nys-space-250, 20px)
+  );
   --_nys-accordion-content-max-width: var(
     --nys-accordion-content-max-width,
     80ch
@@ -65,6 +71,7 @@ p {
 
 .nys-accordionitem__heading {
   all: unset;
+  color: var(--_nys-accordion-color--header);
   flex: 1;
   gap: var(--_nys-accordionitem-gap);
   display: flex;
@@ -108,7 +115,6 @@ p {
 .nys-accordionitem__content-slot-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: var(--_nys-accordion-gap);
   align-self: stretch;
   padding: var(--_nys-accordionitem-padding);
@@ -137,6 +143,7 @@ p {
 :host([bordered]) .nys-accordionitem__content-slot-container {
   border: var(--_nys-accordion-border-width) solid
     var(--_nys-accordion-border-color);
+  border-top: none;
   border-radius: 0 0 var(--_nys-accordion-border-radius)
     var(--_nys-accordion-border-radius);
 }

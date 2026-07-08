@@ -6,7 +6,7 @@ import {
   unwatchIconLibrary,
   NysIconWatcher,
 } from "./icon-library-registry";
-import { fetchIcon } from "./icon-cache";
+import { fetchIcon, parseIcon } from "./icon-cache";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-icon.scss?inline";
 
@@ -23,19 +23,96 @@ import styles from "./nys-icon.scss?inline";
  * @summary SVG icon with swappable library support, size, rotation, and color options.
  * @element nys-icon
  *
- * @example Basic icon (default NYSDS library)
+ * @example Basic
  * ```html
- * <nys-icon name="check_circle" size="lg"></nys-icon>
+ * <nys-icon name="check_circle"></nys-icon>
  * ```
  *
- * @example Font Awesome icon
+ * @example ARIA Label
  * ```html
- * <nys-icon name="house" library="fa" size="lg"></nys-icon>
+ * <nys-icon
+ *   name="edit_square"
+ *   ariaLabel="Edit content"
+ * ></nys-icon>
  * ```
  *
- * @example Accessible icon with label
+ * @example Size relative
  * ```html
- * <nys-icon name="warning" ariaLabel="Warning" color="var(--nys-color-warning)"></nys-icon>
+ * <nys-icon
+ *   name="edit_square"
+ *   size="4xl"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Size literal
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   size="24"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Color
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   color="#db117d"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Rotate
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   rotate="20"
+ * ></nys-icon>
+ * ```
+ *
+ * @example Flip
+ * ```html
+ * <nys-icon
+ *   name="edit_square"
+ *   flip="vertical"
+ * ></nys-icon>
+ * ```
+ *
+ * @example External Library - Font Awesome
+ * ```html
+ * <nys-icon name="heart" library="fa"></nys-icon>
+ * ```
+ *
+ * @render External Library - Font Awesome
+ * ```html
+ * <nys-icon name="heart" library="fa"></nys-icon>
+ * <script data-scope="module">
+ * registerIconLibrary("fa", {
+ *   resolver: (name) =>
+ *     `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
+ *   mutator: (svg) => {
+ *     svg.setAttribute("fill", "currentColor");
+ *   },
+ * });
+ * </script>
+ * ```
+ *
+ *  @example External Library - Material
+ * ```html
+ * <nys-icon name="favorite" library="material"></nys-icon>
+ * ```
+ *
+ *
+ *  @render External Library - Material
+ * ```html
+ * <nys-icon name="favorite" library="material"></nys-icon>
+ * <script data-scope="module">
+ * registerIconLibrary("material", {
+ *   resolver: (name) =>
+ *     `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
+ *   mutator: (svg) => {
+ *     svg.setAttribute("fill", "currentColor");
+ *   },
+ * });
+ * </script>
  * ```
  */
 export class NysIcon extends LitElement implements NysIconWatcher {
@@ -168,15 +245,23 @@ export class NysIcon extends LitElement implements NysIconWatcher {
         return;
       }
 
-      const url = lib.resolver(this.name);
-      if (!url) {
-        this._svg = null;
-        return;
-      }
-
       try {
-        const svg = await fetchIcon(url);
-        // Discard if a newer _loadIcon call was made while we were fetching.
+        // Resolvers may be async (the built-in set loads lazily on first use).
+        const resolution = await lib.resolver(this.name);
+        if (seq !== this._loadSeq) return;
+        if (!resolution) {
+          this._svg = null;
+          return;
+        }
+
+        const svg =
+          typeof resolution === "string"
+            ? await fetchIcon(resolution)
+            : resolution.type === "url"
+              ? await fetchIcon(resolution.href)
+              : parseIcon(resolution.content);
+
+        // Discard if a newer _loadIcon call was made while we were loading.
         if (seq !== this._loadSeq) return;
         lib.mutator?.(svg);
         this._applyAttributes(svg);
@@ -197,7 +282,11 @@ export class NysIcon extends LitElement implements NysIconWatcher {
       svg.removeAttribute("aria-label");
     }
 
-    svg.style.rotate = `${this.rotate}deg`;
+    if (this.rotate && this.rotate !== "0") {
+      svg.style.rotate = `${this.rotate}deg`;
+    } else {
+      svg.style.removeProperty("rotate");
+    }
     svg.style.color = this.color || "currentcolor";
     svg.classList.add(`nys-icon--${this.size}`);
     svg.classList.add(`nys-icon--svg`);

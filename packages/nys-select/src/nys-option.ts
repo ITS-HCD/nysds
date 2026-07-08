@@ -11,14 +11,6 @@ import { property } from "lit/decorators.js";
  * @element nys-option
  *
  * @slot - Option label text. Auto-populates the `label` prop if provided.
- *
- * @example Basic options
- * ```html
- * <nys-select>
- *   <nys-option value="ny">New York</nys-option>
- *   <nys-option value="ca" disabled>California</nys-option>
- * </nys-select>
- * ```
  */
 export class NysOption extends LitElement {
   /** Prevents selection of this option. */

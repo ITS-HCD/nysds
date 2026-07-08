@@ -13,10 +13,33 @@ let dividerIdCounter = 0;
  * @summary Horizontal divider for visual separation of content sections.
  * @element nys-divider
  *
- * @example Basic divider
+ * @example Basic
  * ```html
  * <p>Section one content</p>
  * <nys-divider></nys-divider>
+ * <p>Section two content</p>
+ * ```
+ *
+ * @example Inverted
+ * ```html
+ * <p>Section one content</p>
+ * <nys-divider inverted></nys-divider>
+ * <p>Section two content</p>
+ * ```
+ *
+ * @render Inverted
+ * ```html
+ * <div style="display: flex; flex-direction: column; background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);">
+ *   <p>Section one content</p>
+ *   <nys-divider inverted></nys-divider>
+ *   <p>Section two content</p>
+ * </div>
+ * ```
+ *
+ * @example Subtle
+ * ```html
+ * <p>Section one content</p>
+ * <nys-divider subtle></nys-divider>
  * <p>Section two content</p>
  * ```
  */

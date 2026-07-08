@@ -19,7 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.19.2", //update this to the latest version when new release is made
+        default: "1.19.3", //update this to the latest version when new release is made
       },
       {
         type: "confirm",
@@ -44,11 +44,11 @@ export default function (plop) {
       //   path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.mdx",
       //   templateFile: "src/templates/mdx.template.hbs",
       // },
-      {
-        type: "add",
-        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.stories.ts",
-        templateFile: "src/templates/stories.template.hbs",
-      },
+      // {
+      //   type: "add",
+      //   path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.stories.ts",
+      //   templateFile: "src/templates/stories.template.hbs",
+      // },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.scss",

@@ -16,7 +16,79 @@ let componentIdCounter = 0;
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
+ *
+ * @example Basic
+ * ```html
+ * <nys-table id="table1" name="table1">
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *     <tr><td>Algonquin</td><td>5,114</td><td>Northeast Trail</td></tr>
+ *     <tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>
+ *     <tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>
+ *     <tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Striped
+ * ```html
+ * <nys-table id="table2" name="table2" striped>
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *     <tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>
+ *     <tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>
+ *     <tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Bordered
+ * ```html
+ * <nys-table id="table3" name="table3" bordered>
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *     <tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>
+ *     <tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>
+ *     <tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Sortable
+ * ```html
+ * <nys-table id="table4" name="table4" sortable>
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *     <tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>
+ *     <tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>
+ *     <tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
+ *
+ * @example Downloadable
+ * ```html
+ * <nys-table id="table5" name="table5" download="path/to/downloadable/version/of/table.filetype">
+ *   <table>
+ *     <caption>New York State High Peaks and Popular Hikes</caption>
+ *     <tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>
+ *     <tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>
+ *     <tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>
+ *     <tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>
+ *     <tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
  */
+
 export class NysTable extends LitElement {
   static styles = unsafeCSS(styles);
 

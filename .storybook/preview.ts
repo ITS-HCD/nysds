@@ -1,21 +1,11 @@
 import type { Preview } from "@storybook/web-components-vite";
 import { MINIMAL_VIEWPORTS } from "storybook/viewport";
-import { registerIconLibrary } from "../packages/nys-icon/src/icon-library-registry";
 
 import "./preview.css"; // Custom Storybook styles
 
-// Override the default icon library resolver for Storybook.
-// The built-in resolver uses import.meta.url which doesn't resolve correctly
-// in Storybook's bundled environment. Point to the staticDirs-served path,
-// resolved against the preview iframe's base URL (not the domain root) so it
-// works both locally (/) and when hosted under a subpath (e.g. GitHub Pages
-// at /nysds/).
-registerIconLibrary("default", {
-  resolver: (name) =>
-    name
-      ? new URL(`assets/icons/${name}.svg`, document.baseURI).href
-      : undefined,
-});
+// No "default" icon-library override needed: since PRD Phase 3 the standard
+// NYSDS set is self-contained JS data (nys-icon.library.ts) — no URL
+// resolution, no per-icon fetch, no staticDirs dependency.
 
 const loadTheme = (() => {
   let themeLink: HTMLLinkElement | null;
