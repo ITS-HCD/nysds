@@ -1,6 +1,8 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-card";
+import "@nysds/nys-button";
+import "@nysds/nys-iconlist";
 
 // Define the structure of the args used in the stories
 interface NysCardArgs {
@@ -56,6 +58,14 @@ export const Basic: Story = {
         subheading="subheading"
         elevated
       >
+      </nys-card>
+      <nys-card class="nys-grid-col-4">
+        <nys-iconlist divider>
+          <nys-iconlistitem icon="check">First</nys-iconlistitem>
+          <nys-iconlistitem icon="check">2nd</nys-iconlistitem>
+          <nys-iconlistitem icon="check">3rd</nys-iconlistitem>
+        </nys-iconlist>
+        <nys-button label="Click me"></nys-button>
       </nys-card>
     </div>
   `,

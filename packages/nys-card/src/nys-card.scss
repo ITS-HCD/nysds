@@ -2,7 +2,7 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Card Styles */
-  --_nys-card-width: 400px;
+  --_nys-card-width: 100%;
   --_nys-card-height: fit-content;
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-border-radius--media: var(--nys-radius-xl, 12px);
@@ -46,10 +46,7 @@
   font-weight: var(--_nys-card-font-weight);
   line-height: var(--_nys-card-line-height);
   letter-spacing: var(--_nys-card-letter-spacing);
-
-  min-width: 300px;
-  width: fit-content;
-  max-width: var(--_nys-card-width);
+  width: var(--_nys-card-width);
   height: var(--_nys-card-height);
   display: flex;
   flex-direction: column;
@@ -119,14 +116,15 @@
   }
 
   &__main-content {
-    padding: var(--_nys-card-padding--t) var(--_nys-card-padding--x)
+    margin: var(--_nys-card-padding--t) var(--_nys-card-padding--x)
       var(--_nys-card-padding--b);
 
     display: flex;
     flex-direction: column;
     gap: var(--_nys-card-gap);
-
-    border: solid red;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
   }
 
   &__preheading {
