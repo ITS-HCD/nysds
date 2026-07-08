@@ -121,6 +121,13 @@ export const Basic: Story = {
   },
 };
 
+export const Label: Story = {
+  args: {
+    label: "Click Me",
+  },
+  render: (args) => html` <nys-button>${args.label}</nys-button> `,
+};
+
 export const Size: Story = {
   args: {},
   render: (args) => html`

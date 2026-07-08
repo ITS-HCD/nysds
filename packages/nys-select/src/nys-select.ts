@@ -24,24 +24,155 @@ let selectIdCounter = 0;
  * @fires nys-focus - Fired when select gains focus.
  * @fires nys-blur - Fired when select loses focus. Triggers validation.
  *
- * @example Basic select
+ * @example Basic
  * ```html
- * <nys-select label="Select borough">
- *   <option value="bronx">The Bronx</option>
- *   <option value="brooklyn">Brooklyn</option>
- *   <option value="manhattan">Manhattan</option>
+ *  <nys-select label="Select your favorite borough" id="borough">
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
  * </nys-select>
  * ```
  *
- * @example With option groups
+ * @example Default value
  * ```html
- * <nys-select label="Select service">
- *   <optgroup label="Transportation">
- *     <option value="mta">MTA</option>
- *     <option value="dmv">DMV</option>
+ * <nys-select label="Select your favorite borough" id="borough">
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn" selected></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Option Group
+ * ```html
+ * <nys-select
+ * label="Which New York State service are you contacting us about?"
+ * description="This is for demo purposes and the list might not be exhaustive."
+ * >
+ *   <optgroup label="Transportation Services">
+ *     <option value="mta">MTA / Public Transit</option>
+ *     <option value="dmv">Department of Motor Vehicles (DMV)</option>
+ *     <option value="highway">Highway Maintenance</option>
+ *   </optgroup>
+ *   <optgroup label="Health & Human Services">
+ *     <option value="medicaid">Medicaid / Health Insurance</option>
+ *     <option value="mental-health">Mental Health Support</option>
+ *     <option value="child-family">Child and Family Services</option>
+ *   </optgroup>
+ *   <optgroup label="Public Safety">
+ *     <option value="state-police">State Police</option>
+ *     <option value="emergency-management">Emergency Management</option>
+ *     <option value="fire-safety">Fire Safety</option>
+ *   </optgroup>
+ *   <optgroup label="Environment & Energy">
+ *     <option value="environmental-conservation">
+ *       Environmental Conservation
+ *     </option>
+ *     <option value="clean-energy">Clean Energy Programs</option>
+ *     <option value="waste-management">Waste Management</option>
  *   </optgroup>
  * </nys-select>
  * ```
+ * @example Disabled
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough" disabled>
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Disabled Option
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough">
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island" disabled></option>
+ *   <option value="queens" label="Queens" disabled></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Required
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough" required>
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Optional
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough" optional>
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Width small
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough" width="sm">
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Width medium
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough" width="md">
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Width large
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough" width="lg">
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Slotted Description
+ * ```html
+ * <nys-select label="Select your favorite borough" id="borough">
+ *   <label slot="description">This is a slotted description</label>
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
+ * ```
+ *
+ * @example Error Message
+ * <nys-select label="Select your favorite borough" id="borough" errorMessage="You did not select a borough" showError>
+ *   <option value="bronx" label="The Bronx"></option>
+ *   <option value="brooklyn" label="Brooklyn"></option>
+ *   <option value="manhattan" label="Manhattan"></option>
+ *   <option value="staten_island" label="Staten Island"></option>
+ *   <option value="queens" label="Queens"></option>
+ * </nys-select>
  */
 
 export class NysSelect extends LitElement {
