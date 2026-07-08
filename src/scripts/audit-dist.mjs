@@ -8,7 +8,7 @@
  * minifier can fold variables back into the fragile pattern — so the audit
  * runs against the built output, not the source.
  *
- * Run after building: node scripts/audit-dist.mjs
+ * Run after building: node src/scripts/audit-dist.mjs
  */
 
 import { readFileSync, readdirSync, existsSync } from "fs";
@@ -16,7 +16,7 @@ import { resolve, dirname, relative, join } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, "..");
+const root = resolve(__dirname, "../..");
 
 function jsFilesIn(dir) {
   if (!existsSync(dir)) return [];
