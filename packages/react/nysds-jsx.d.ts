@@ -498,7 +498,17 @@ export type NysFileinputProps = {
   width?: "lg" | "full";
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
-
+  /** The currently selected files. Read to get the current selection; set to
+replace it (e.g. rehydrating state after navigation, or binding from a
+framework form model). Property-only — a `File[]` cannot round-trip through
+an HTML attribute. Setting this is silent (does not emit `nys-change`),
+matching native input behavior and avoiding feedback loops in two-way bindings. */
+  files?: File[];
+  /** Single-file convenience accessor (parity with `nys-textinput`'s `value`).
+Reads the first selected file (or `null`); setting replaces the selection. */
+  value?: File | null;
+  /** Fired when focus leaves the component. Triggers validation. */
+  "onnys-blur"?: (e: CustomEvent<Event>) => void;
   /** Fired when files are added or removed. Detail: `{id, files}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -1281,7 +1291,14 @@ export type CustomElements = {
    *
    *
    * ### **Events:**
-   *  - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
+   *  - **nys-blur** - Fired when focus leaves the component. Triggers validation.
+   * - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
+   *
+   * ### **Methods:**
+   *  - **setFiles(incoming: _File[]_): _Promise<void>_** - Programmatically set the selection and await async validation/processing.
+   * Same as assigning `files`, but resolves once every file has finished its
+   * magic-byte validation and read — use when you need to read `checkValidity()`
+   * or the settled selection immediately after.
    *
    * ### **Slots:**
    *  - **description** - Custom HTML description content.
