@@ -78,11 +78,6 @@ import styles from "./nys-stepper.scss?inline";
  * @fires nys-step-click - Fired when a navigable (`previous` or `current`) non-selected step is clicked
  *   or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call
  *   `e.preventDefault()` to suppress `window.location.href` navigation.
- *
- * @example Step with page navigation
- * ```html
- * <nys-step label="Personal Info" href="/step-1"></nys-step>
- * ```
  */
 export class NysStep extends LitElement {
   static styles = unsafeCSS(styles);

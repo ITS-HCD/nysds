@@ -54,51 +54,138 @@ let stepperIdCounter = 0;
  * @slot - Default slot for `nys-step` elements. Only `nys-step` children are accepted; others are removed.
  * @slot actions - Persistent navigation buttons. Must contain exactly one `<div>` wrapping only `<nys-button>` elements.
  *
- * @example Basic stepper
+ * @example Basic
  * ```html
- * <nys-stepper label="Application Progress">
- *   <nys-step label="Personal Info" current></nys-step>
- *   <nys-step label="Contact Details"></nys-step>
- *   <nys-step label="Review"></nys-step>
- * </nys-stepper>
- * ```
- *
- * @example Grid layout with sidebar placement
- * Use NYSDS grid utilities to position the stepper as a sidebar alongside form content.
- * **Layout requirements:**
- * - Wrap in `nys-grid-container` > `nys-grid-row`
- * - Use mobile-first classes: `nys-grid-col-12` (stacks on mobile) plus `nys-desktop:nys-grid-col-*`
- * - Columns must total 12 (e.g., 3+9 or 4+8)
- * - Recommended: stepper 3-4 cols, content 8-9 cols
- * ```html
- * <div class="nys-grid-container">
- *   <div class="nys-grid-row">
- *     <nys-stepper label="Application" class="nys-grid-col-12 nys-desktop:nys-grid-col-3">
- *       <nys-step label="Personal Info"></nys-step>
- *       <nys-step label="Contact" current></nys-step>
- *       <nys-step label="Review"></nys-step>
- *     </nys-stepper>
- *     <main class="nys-grid-col-12 nys-desktop:nys-grid-col-9" id="main-content">
- *       <!-- Form content for current step -->
- *       <nys-textinput label="Email" required></nys-textinput>
- *       <nys-textinput label="Phone"></nys-textinput>
- *     </main>
+ * <div class="nys-grid-row">
+ *   <nys-stepper
+ *     id="stepper"
+ *     name="stepper"
+ *     label="Register for Design System Office Hours"
+ *     class="nys-desktop:nys-grid-col-3"
+ *   >
+ *     <nys-step label="Personal Details" href="/nys-stepper/personal.html"></nys-step>
+ *     <nys-step label="Team Info" selected href="/nys-stepper/team.html"></nys-step>
+ *     <nys-step label="Usage Survey" current href="/nys-stepper/survey.html"></nys-step>
+ *     <nys-step label="Newsletter Opt-In" href="/nys-stepper/newsletter.html"></nys-step>
+ *     <div slot="actions">
+ *       <nys-button variant="outline" label="Save & Exit" fullWidth></nys-button>
+ *     </div>
+ *   </nys-stepper>
+ *   <div class="nys-desktop:nys-grid-col-9" id="nys-stepper-content">
+ *     Loading...
  *   </div>
  * </div>
  * ```
- *
- * @example Navigation buttons in actions slot
- * Add Previous/Next buttons using the actions slot. Wrap buttons in a `<div>`.
+ * @render Basic
  * ```html
- * <nys-stepper label="Application">
- *   <nys-step label="Step 1"></nys-step>
- *   <nys-step label="Step 2" current></nys-step>
- *   <nys-step label="Step 3"></nys-step>
- *   <div slot="actions">
- *     <nys-button label="Save and Exit" variant="outline" size="sm" fullWidth></nys-button>
+ * <div class="nys-grid-row">
+ *   <nys-stepper
+ *     id="stepper"
+ *     name="stepper"
+ *     label="Register for Design System Office Hours"
+ *     class="nys-desktop:nys-grid-col-3"
+ *   >
+ *     <nys-step label="Personal Details" href="/nys-stepper/personal.html"></nys-step>
+ *     <nys-step label="Team Info" selected href="/nys-stepper/team.html"></nys-step>
+ *     <nys-step label="Usage Survey" current href="/nys-stepper/survey.html"></nys-step>
+ *     <nys-step label="Newsletter Opt-In" href="/nys-stepper/newsletter.html"></nys-step>
+ *   </nys-stepper>
+ *   <div class="nys-desktop:nys-grid-col-9" id="nys-stepper-content">
+ *     Loading...
  *   </div>
- * </nys-stepper>
- * ```x
+ * </div>
+ * <script>
+ *   document.addEventListener("DOMContentLoaded", async () => {
+ *     const stepper = document.querySelector("nys-stepper");
+ *     if (stepper?.updateComplete) await stepper.updateComplete;
+ *     const selectedStep = document.querySelector("nys-step[selected]");
+ *     const href = selectedStep?.getAttribute("href");
+ *     if (!href) return;
+ *     const res = await fetch(href);
+ *     if (!res.ok) return;
+ *     const container = document.querySelector("#nys-stepper-content");
+ *     if (container) container.innerHTML = await res.text();
+ *   });
+ *
+ *   document.addEventListener("nys-step-click", async (e) => {
+ *     const href = e.detail?.href;
+ *     if (!href) return;
+ *     e.preventDefault();
+ *     const res = await fetch(href);
+ *     if (!res.ok) return;
+ *     const container = document.querySelector("#nys-stepper-content");
+ *     if (container) container.innerHTML = await res.text();
+ *   });
+ * </script>
+ * ```
+ *
+ * @example Actions slot
+ * ```html
+ * <div class="nys-grid-row">
+ *   <nys-stepper
+ *     id="stepper"
+ *     name="stepper"
+ *     label="Register for Design System Office Hours"
+ *     class="nys-desktop:nys-grid-col-3"
+ *   >
+ *     <nys-step label="Personal Details" href="/nys-stepper/personal.html"></nys-step>
+ *     <nys-step label="Team Info" selected href="/nys-stepper/team.html"></nys-step>
+ *     <nys-step label="Usage Survey" current href="/nys-stepper/survey.html"></nys-step>
+ *     <nys-step label="Newsletter Opt-In" href="/nys-stepper/newsletter.html"></nys-step>
+ *     <div slot="actions">
+ *       <nys-button variant="outline" label="Save & Exit" fullWidth></nys-button>
+ *     </div>
+ *   </nys-stepper>
+ *   <div class="nys-desktop:nys-grid-col-9" id="nys-stepper-content">
+ *     Loading...
+ *   </div>
+ * </div>
+ * ```
+ * @render Actions slot
+ * ```html
+ * <div class="nys-grid-row">
+ *   <nys-stepper
+ *     id="stepper"
+ *     name="stepper"
+ *     label="Register for Design System Office Hours"
+ *     class="nys-desktop:nys-grid-col-3"
+ *   >
+ *     <nys-step label="Personal Details" href="/nys-stepper/personal.html"></nys-step>
+ *     <nys-step label="Team Info" selected href="/nys-stepper/team.html"></nys-step>
+ *     <nys-step label="Usage Survey" current href="/nys-stepper/survey.html"></nys-step>
+ *     <nys-step label="Newsletter Opt-In" href="/nys-stepper/newsletter.html"></nys-step>
+ *     <div slot="actions">
+ *       <nys-button variant="outline" label="Save & Exit" fullWidth></nys-button>
+ *     </div>
+ *   </nys-stepper>
+ *   <div class="nys-desktop:nys-grid-col-9" id="nys-stepper-content">
+ *     Loading...
+ *   </div>
+ * </div>
+ * <script>
+ *   document.addEventListener("DOMContentLoaded", async () => {
+ *     const stepper = document.querySelector("nys-stepper");
+ *     if (stepper?.updateComplete) await stepper.updateComplete;
+ *     const selectedStep = document.querySelector("nys-step[selected]");
+ *     const href = selectedStep?.getAttribute("href");
+ *     if (!href) return;
+ *     const res = await fetch(href);
+ *     if (!res.ok) return;
+ *     const container = document.querySelector("#nys-stepper-content");
+ *     if (container) container.innerHTML = await res.text();
+ *   });
+ *
+ *   document.addEventListener("nys-step-click", async (e) => {
+ *     const href = e.detail?.href;
+ *     if (!href) return;
+ *     e.preventDefault();
+ *     const res = await fetch(href);
+ *     if (!res.ok) return;
+ *     const container = document.querySelector("#nys-stepper-content");
+ *     if (container) container.innerHTML = await res.text();
+ *   });
+ * </script>
+ * ```
  */
 
 export class NysStepper extends LitElement {
