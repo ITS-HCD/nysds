@@ -1,7 +1,9 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useRef, useEffect } from "react";
 import "../../dist/nysds.es.js";
+import { useEventListener } from "./react-utils.js";
 
 export const NysUnavHeader = forwardRef((props, forwardedRef) => {
+  const ref = useRef(null);
   const {
     trustbarVisible,
     searchDropdownVisible,
@@ -14,9 +16,21 @@ export const NysUnavHeader = forwardRef((props, forwardedRef) => {
     ...filteredProps
   } = props;
 
+  /** Event listeners - run once */
+  useEventListener(ref, "nys-language-select", props.onNysLanguageSelect);
+  useEventListener(ref, "nys-search-submit", props.onNysSearchSubmit);
+
   return React.createElement(
     "nys-unavheader",
     {
+      ref: (node) => {
+        ref.current = node;
+        if (typeof forwardedRef === "function") {
+          forwardedRef(node);
+        } else if (forwardedRef) {
+          forwardedRef.current = node;
+        }
+      },
       ...filteredProps,
       searchUrl: props.searchUrl,
       languages: props.languages,

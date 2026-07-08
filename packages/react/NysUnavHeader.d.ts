@@ -62,11 +62,21 @@ export interface NysUnavHeaderProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect. */
+  onNysLanguageSelect?: (event: CustomEvent) => void;
+
+  /** Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect. */
+  onNysSearchSubmit?: (event: CustomEvent) => void;
 }
 
 /**
- *
+ * Universal NYS header with trust bar, search, and translation. Required site-wide.
  * ---
  *
+ *
+ * ### **Events:**
+ *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+ * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  */
 export const NysUnavHeader: React.ForwardRefExoticComponent<NysUnavHeaderProps>;
