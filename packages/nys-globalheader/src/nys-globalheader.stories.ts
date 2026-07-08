@@ -1,72 +1,61 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalheader";
-import "@nysds/nys-button";
+import "@nysds/nys-icon";
 import "@nysds/nys-avatar";
+import "@nysds/nys-button";
 import "@nysds/nys-dropdownmenu";
 
-const meta: Meta = {
-  title: "Components/Globalheader",
+// Define the structure of the args used in the stories
+interface NysGlobalHeaderArgs {
+  appName: string;
+  agencyName: string;
+  homepageLink: string;
+  nysLogo: boolean;
+}
+
+const meta: Meta<NysGlobalHeaderArgs> = {
+  title: "Components/GlobalHeader",
   component: "nys-globalheader",
+  argTypes: {
+    appName: { control: "text" },
+    agencyName: { control: "text" },
+    homepageLink: { control: "text" },
+    nysLogo: { control: "boolean" },
+  },
   parameters: {
     docs: {
-      source: { type: "dynamic" },
-      inlineStories: true,
+      source: { type: "dynamic" }, // Enables live Source code tab
+      inlineStories: true, // Ensures stories are rendered within the docs tab
     },
   },
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<NysGlobalHeaderArgs>;
 
 export const Basic: Story = {
   args: {
     appName: "User Registration Form",
     agencyName: "Office of Information Technology Services",
-    homepageLink: "",
     nysLogo: false,
   },
-  render: (args) => {
-    return html`
-      <nys-globalheader
-        appName=${args.appName}
-        agencyName=${args.agencyName}
-        homepageLink=${args.homepageLink}
-        ?nysLogo=${args.nysLogo}
-      ></nys-globalheader>
-    `;
-  },
+  render: (args) => html`
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      ?nysLogo=${args.nysLogo}
+    >
+    </nys-globalheader>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-globalheader
-  appName="User Registration Form"
-  agencyName="Office of Information Technology Services"
-></nys-globalheader>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const HomepageLink: Story = {
-  render: () => {
-    return html`
-      <nys-globalheader
-        agencyName="Office of Information Technology Services"
-        homepageLink="https://its.ny.gov"
-      ></nys-globalheader>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-globalheader
-  agencyName="Office of Information Technology Services"
-  homepageLink="https://its.ny.gov"
-></nys-globalheader>`,
+<nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services">
+</nys-globalheader>
+        `,
         type: "auto",
       },
     },
@@ -74,18 +63,18 @@ export const HomepageLink: Story = {
 };
 
 export const OnlyAgencyName: Story = {
-  render: () => {
-    return html`
-      <nys-globalheader
-        agencyName="Office of Information Technology Services"
-      ></nys-globalheader>
-    `;
+  args: {
+    agencyName: "Office of Information Technology Services",
+    homepageLink: "https://its.ny.gov",
   },
+  render: Basic.render,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-globalheader agencyName="Office of Information Technology Services"></nys-globalheader>`,
+<nys-globalheader agencyName="Office of Information Technology Services" homepageLink="https://its.ny.gov">
+</nys-globalheader>
+`.trim(),
         type: "auto",
       },
     },
@@ -93,16 +82,36 @@ export const OnlyAgencyName: Story = {
 };
 
 export const OnlyAppName: Story = {
-  render: () => {
-    return html`
-      <nys-globalheader appName="User Registration Form"></nys-globalheader>
-    `;
+  args: {
+    appName: "NYS Employee Portal",
   },
+  render: Basic.render,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-globalheader appName="User Registration Form"></nys-globalheader>`,
+<nys-globalheader appName="NYS Employee Portal">
+</nys-globalheader>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WithBothNames: Story = {
+  args: {
+    appName: "Unemployment Insurance Benefits",
+    agencyName: "Department of Labor",
+  },
+  render: Basic.render,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader agencyName="Department of Labor" appName="Unemployment Insurance Benefits">
+</nys-globalheader>
+`.trim(),
         type: "auto",
       },
     },
@@ -110,20 +119,26 @@ export const OnlyAppName: Story = {
 };
 
 export const WithLinks: Story = {
-  render: () => {
-    return html`
-      <nys-globalheader agencyName="Office of Information Technology Services">
-        <ul>
-          <li><a href="https://its.ny.gov/services">Services</a></li>
-          <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
-          <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-          <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
-          <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
-          <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-        </ul>
-      </nys-globalheader>
-    `;
+  args: {
+    agencyName: "Office of Information Technology Services",
   },
+  render: (args) => html`
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      ?nysLogo=${args.nysLogo}
+    >
+      <ul>
+        <li><a href="https://its.ny.gov/services">Services</a></li>
+        <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+        <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+        <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
+        <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+        <li><a href="https://its.ny.gov/about-us">About Us</a></li>
+      </ul>
+    </nys-globalheader>
+  `,
   parameters: {
     docs: {
       source: {
@@ -137,7 +152,8 @@ export const WithLinks: Story = {
     <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
     <li><a href="https://its.ny.gov/about-us">About Us</a></li>
   </ul>
-</nys-globalheader>`,
+</nys-globalheader>
+`.trim(),
         type: "auto",
       },
     },
@@ -145,45 +161,54 @@ export const WithLinks: Story = {
 };
 
 export const UserActions: Story = {
-  render: () => {
-    return html`
-      <nys-globalheader agencyName="Office of Information Technology Services">
-        <nys-button slot="user-actions" label="Log out">
-          <nys-avatar
-            slot="prefix-icon"
-            ariaLabel="User avatar"
-            initials="NY"
-          ></nys-avatar>
-        </nys-button>
-      </nys-globalheader>
-      <nys-dropdownmenu id="dropdownmenu" for="my-action-slot">
-        <nys-dropdownmenuitem
-          label="Profile"
-          href="/profile"
-        ></nys-dropdownmenuitem>
-        <nys-dropdownmenuitem
-          label="Repositories & Github Pages"
-          href="/repos"
-        ></nys-dropdownmenuitem>
-        <nys-dropdownmenuitem
-          label="Organizations"
-          href="/organizations"
-          disabled
-        ></nys-dropdownmenuitem>
-        <nys-dropdownmenuitem
-          label="Sign out"
-          href="/logout"
-        ></nys-dropdownmenuitem>
-      </nys-dropdownmenu>
-    `;
+  args: {
+    agencyName: "Office of Information Technology Services",
   },
+  render: (args) => html`
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+    >
+      <nys-button id="my-action-slot" slot="user-actions" label="Log out">
+        <nys-avatar
+          slot="prefix-icon"
+          ariaLabel="User avatar"
+          initials="NY"
+        ></nys-avatar>
+      </nys-button>
+    </nys-globalheader>
+    <nys-dropdownmenu id="dropdownmenu" for="my-action-slot">
+      <nys-dropdownmenuitem
+        label="Profile"
+        href="/profile"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Repositories & Github Pages"
+        href="/repos"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Organizations"
+        href="/organizations"
+        disabled
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Sign out"
+        href="/logout"
+      ></nys-dropdownmenuitem>
+    </nys-dropdownmenu>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
 <nys-globalheader agencyName="Office of Information Technology Services">
   <nys-button slot="user-actions" label="Log out">
-    <nys-avatar slot="prefix-icon" ariaLabel="User avatar" initials="NY"></nys-avatar>
+    <nys-avatar
+      slot="prefix-icon"
+      ariaLabel="User avatar"
+      initials="NY"
+    ></nys-avatar>
   </nys-button>
 </nys-globalheader>
 <nys-dropdownmenu id="dropdownmenu" for="my-action-slot">
@@ -191,24 +216,29 @@ export const UserActions: Story = {
   <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
   <nys-dropdownmenuitem label="Organizations" href="/organizations" disabled></nys-dropdownmenuitem>
   <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
-</nys-dropdownmenu>`,
+</nys-dropdownmenu>
+`.trim(),
         type: "auto",
       },
     },
   },
 };
 
-export const WithNYSLogo: Story = {
-  render: () => {
-    return html`
-      <nys-globalheader nysLogo appName="Admin Dashboard"></nys-globalheader>
-    `;
+export const WithBrandMark: Story = {
+  args: {
+    ...Basic.args,
+    nysLogo: true,
+    appName: "Admin Dashboard",
+    agencyName: "",
   },
+  render: Basic.render,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-globalheader nysLogo appName="Admin Dashboard"></nys-globalheader>`,
+<nys-globalheader nysLogo appName="Admin Dashboard">
+</nys-globalheader>
+        `,
         type: "auto",
       },
     },
