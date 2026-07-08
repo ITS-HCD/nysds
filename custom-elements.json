@@ -7983,7 +7983,7 @@
               }
             }
           ],
-          "description": "Clear one or all entries from the cache."
+          "description": "Clear one URL entry, or all cached icons (URL and inline) when no URL is given."
         },
         {
           "kind": "function",
@@ -8002,6 +8002,24 @@
             }
           ],
           "description": "Fetch and parse an SVG from a URL. Returns a cloned SVGElement (safe for multiple consumers)."
+        },
+        {
+          "kind": "function",
+          "name": "parseIcon",
+          "return": {
+            "type": {
+              "text": "SVGElement"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Parse an inline SVG source string. Results are cached by source content,\nso repeated renders of the same icon sanitize/parse once. Returns a\ncloned SVGElement (safe for multiple consumers)."
         }
       ],
       "exports": [
@@ -8018,6 +8036,14 @@
           "name": "fetchIcon",
           "declaration": {
             "name": "fetchIcon",
+            "module": "packages/nys-icon/src/icon-cache.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "parseIcon",
+          "declaration": {
+            "name": "parseIcon",
             "module": "packages/nys-icon/src/icon-cache.ts"
           }
         }
@@ -8067,7 +8093,14 @@
               }
             }
           ],
-          "description": "Register or replace a named icon library. All watching icons using this library will redraw.\nRegister a Font Awesome library with a custom resolver:\n```ts\nregisterIconLibrary(\"fa\", {\n resolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});\n```"
+          "description": "Register or replace a named icon library. All watching icons using this library will redraw.\n\nIntended for custom/external libraries — the standard NYSDS set is\nbuilt in and needs no registration. Registering under `\"default\"`\nreplaces the built-in set (escape hatch).",
+          "examples": [
+            {
+              "title": "Register a Font Awesome library with a custom resolver:",
+              "code": "registerIconLibrary(\"fa\", {\nresolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});",
+              "lang": "ts"
+            }
+          ]
         },
         {
           "kind": "function",
@@ -8202,9 +8235,25 @@
         },
         {
           "kind": "js",
+          "name": "getIconLibrary",
+          "declaration": {
+            "name": "getIconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
           "name": "IconLibrary",
           "declaration": {
             "name": "IconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IconResolution",
+          "declaration": {
+            "name": "IconResolution",
             "module": "./icon-library-registry"
           }
         },
