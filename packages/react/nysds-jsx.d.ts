@@ -603,6 +603,9 @@ export type NysIconlistProps = {
 export type NysIconlistitemProps = {
   /** Material Symbols icon name passed to `<nys-icon>`. */
   icon?: string;
+  /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
+set directly. */
+  divider?: boolean;
 };
 
 export type NysLabelProps = {

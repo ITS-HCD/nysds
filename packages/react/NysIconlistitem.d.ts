@@ -18,6 +18,10 @@ export interface NysIconlistitemProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
+set directly. */
+  divider?: boolean;
+
   /** Material Symbols icon name passed to `<nys-icon>`. */
   icon?: NysIconlistitemElement["icon"];
 

@@ -8289,16 +8289,6 @@
             },
             {
               "kind": "method",
-              "name": "_createDividerItem",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "HTMLElement"
-                }
-              }
-            },
-            {
-              "kind": "method",
               "name": "_syncDividers",
               "privacy": "private"
             }
@@ -8334,24 +8324,23 @@
           "summary": "A scannable list of icon + text items, with an optional divider between rows.",
           "examples": [
             {
-              "title": "Basic list",
+              "title": "Basic",
               "code": "<nys-iconlist id=\"event-details\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
-              "title": "With a divider between items",
+              "title": "Divider",
               "code": "<nys-iconlist id=\"event-details\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
-              "title": "Item with a secondary label",
-              "code": "<nys-iconlist id=\"event-details\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "title": "Secondary label",
+              "code": "<nys-iconlist id=\"event-details\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
-              "title": "Checklist without dividers",
-              "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>",
-              "lang": "html"
+              "title": "Checklist",
+              "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>\n```"
             }
           ]
         }
@@ -8405,6 +8394,17 @@
               "attribute": "icon"
             },
             {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
+              "attribute": "divider",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_handleSecondarySlotChange",
               "privacy": "private",
@@ -8428,6 +8428,16 @@
               "description": "Material Symbols icon name passed to `<nys-icon>`.",
               "fieldName": "icon",
               "propName": "icon"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
+              "fieldName": "divider",
+              "propName": "divider"
             }
           ],
           "superclass": {
