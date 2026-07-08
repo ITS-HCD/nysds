@@ -18,7 +18,11 @@ export interface NysGlobalHeaderProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Toggles the NYS brand mark */
+  /** Displays the NYS brand mark in the header. Off by default.
+
+Enable only for internal, state-employee (back-office) applications that omit
+`nys-unavheader`. Any resident-facing app — even one requiring login — should
+keep `nys-unavheader` for trust and leave this off. */
   nysLogo?: boolean;
 
   /** Application name displayed prominently. */
@@ -59,5 +63,6 @@ export interface NysGlobalHeaderProps extends Pick<
  *
  * ### **Slots:**
  *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ * - **user-actions** - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
  */
 export const NysGlobalHeader: React.ForwardRefExoticComponent<NysGlobalHeaderProps>;

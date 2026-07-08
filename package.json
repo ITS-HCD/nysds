@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.19.3-alpha-1",
+  "version": "1.19.2",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -137,5 +137,8 @@
     "dompurify": "^3.4.7",
     "wc-datepicker": "^0.10.0"
   },
-  "sideEffects": true
+  "sideEffects": true,
+  "peerDependencies": {
+    "lit": "^3.3.1"
+  }
 }
