@@ -776,7 +776,8 @@
             {
               "title": "Duration",
               "code": "<nys-alert heading=\"Disappearing alert\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>"
             },
             {
               "title": "Custom Icon",
@@ -1088,7 +1089,8 @@
             {
               "title": "Image",
               "code": "<nys-avatar\nimage=\"path/to/img.png\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<nys-avatar\nimage=\"https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>"
             },
             {
               "title": "Initials",
@@ -1269,12 +1271,14 @@
             {
               "title": "Basic",
               "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             },
             {
               "title": "Left",
               "code": "<footer>\n<nys-backtotop position=\"left\"></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             }
           ]
         }
@@ -2822,7 +2826,8 @@
             {
               "title": "Inverted",
               "code": "<nys-button label=\"Inverted\" inverted></nys-button>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" inverted></nys-button>\n</div>"
             },
             {
               "title": "Disabled",
@@ -5838,7 +5843,8 @@
             {
               "title": "Inverted",
               "code": "<p>Section one content</p>\n<nys-divider inverted></nys-divider>\n<p>Section two content</p>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div style=\"display: flex; flex-direction: column; background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);\">\n<p>Section one content</p>\n<nys-divider inverted></nys-divider>\n<p>Section two content</p>\n</div>"
             },
             {
               "title": "Subtle",
@@ -6279,7 +6285,8 @@
             {
               "title": "Basic",
               "code": "<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div style=\"margin: 200px; display: flex; justify-content: center; align-items: center;\">\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>"
             }
           ]
         }
@@ -8031,7 +8038,7 @@
               }
             }
           ],
-          "description": "Clear one or all entries from the cache."
+          "description": "Clear one URL entry, or all cached icons (URL and inline) when no URL is given."
         },
         {
           "kind": "function",
@@ -8050,6 +8057,24 @@
             }
           ],
           "description": "Fetch and parse an SVG from a URL. Returns a cloned SVGElement (safe for multiple consumers)."
+        },
+        {
+          "kind": "function",
+          "name": "parseIcon",
+          "return": {
+            "type": {
+              "text": "SVGElement"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Parse an inline SVG source string. Results are cached by source content,\nso repeated renders of the same icon sanitize/parse once. Returns a\ncloned SVGElement (safe for multiple consumers)."
         }
       ],
       "exports": [
@@ -8066,6 +8091,14 @@
           "name": "fetchIcon",
           "declaration": {
             "name": "fetchIcon",
+            "module": "packages/nys-icon/src/icon-cache.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "parseIcon",
+          "declaration": {
+            "name": "parseIcon",
             "module": "packages/nys-icon/src/icon-cache.ts"
           }
         }
@@ -8115,7 +8148,14 @@
               }
             }
           ],
-          "description": "Register or replace a named icon library. All watching icons using this library will redraw.\nRegister a Font Awesome library with a custom resolver:\n```ts\nregisterIconLibrary(\"fa\", {\n resolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});\n```"
+          "description": "Register or replace a named icon library. All watching icons using this library will redraw.\n\nIntended for custom/external libraries — the standard NYSDS set is\nbuilt in and needs no registration. Registering under `\"default\"`\nreplaces the built-in set (escape hatch).",
+          "examples": [
+            {
+              "title": "Register a Font Awesome library with a custom resolver:",
+              "code": "registerIconLibrary(\"fa\", {\nresolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});",
+              "lang": "ts"
+            }
+          ]
         },
         {
           "kind": "function",
@@ -8250,9 +8290,25 @@
         },
         {
           "kind": "js",
+          "name": "getIconLibrary",
+          "declaration": {
+            "name": "getIconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
           "name": "IconLibrary",
           "declaration": {
             "name": "IconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IconResolution",
+          "declaration": {
+            "name": "IconResolution",
             "module": "./icon-library-registry"
           }
         },
@@ -8542,12 +8598,14 @@
             {
               "title": "External Library - Font Awesome",
               "code": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<nys-icon name=\"heart\" library=\"fa\"></nys-icon>\n<script data-scope=\"module\">\nregisterIconLibrary(\"fa\", {\nresolver: (name) =>\n`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             },
             {
               "title": "External Library - Material",
               "code": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>\n<script data-scope=\"module\">\nregisterIconLibrary(\"material\", {\nresolver: (name) =>\n`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             }
           ]
         }
@@ -9118,22 +9176,26 @@
             {
               "title": "Basic",
               "code": "<nys-modal\nid=\"modal1\"\nheading=\"Update Available\"\n>\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n</nys-modal>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper1\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal1').open = true; document.getElementById('modal-wrapper1').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal1\"\nid=\"modal1\"\nheading=\"Update Available\"\n>\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n</nys-modal>\n</div>"
             },
             {
               "title": "Subheading",
               "code": "<nys-modal\nid=\"modal-subheading\"\nheading=\"Before you continue\"\nsubheading=\"Your progress has been saved automatically.\"\n>\n<p>You can safely leave this page and return later to pick up where you left off.</p>\n</nys-modal>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper-subheading\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal-subheading').open = true; document.getElementById('modal-wrapper-subheading').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal-subheading\"\nid=\"modal-subheading\"\nheading=\"Before you continue\"\nsubheading=\"Your progress has been saved automatically.\"\n>\n<p>You can safely leave this page and return later to pick up where you left off.</p>\n</nys-modal>\n</div>"
             },
             {
               "title": "Actions Slot",
               "code": "<nys-modal id=\"modal3\" heading=\"Update password?\">\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n<div slot=\"actions\">\n<nys-button label=\"Not now\" variant=\"outline\"></nys-button>\n<nys-button label=\"Update\"></nys-button>\n</div>\n</nys-modal>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper3\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal3').open = true; document.getElementById('modal-wrapper3').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal3\"\nid=\"modal3\"\nheading=\"Update password?\"\n>\n<p>\nWould you like to install the latest version? Albany ipsum dolor sit\nEmpire, Hudson consectetur Adirondack elit, sed do MetroCard tempor\nincididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie\nveniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea\nCuomo consequat.\n</p>\n<div slot=\"actions\">\n<nys-button label=\"Not now\" variant=\"outline\" onclick=\"document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'\"></nys-button>\n<nys-button label=\"Update\" onclick=\"alert('Mock Alert: Changes saved!'); document.querySelector('.modal3').open = false; document.getElementById('modal-wrapper3').style.padding = '0'\"></nys-button>\n</div>\n</nys-modal>\n</div>"
             },
             {
               "title": "Mandatory Action",
               "code": "<nys-modal\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\"></nys-button>\n</div>\n</nys-modal>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div id=\"modal-wrapper4\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal4').open = true; document.getElementById('modal-wrapper4').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal4\"\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\" onclick=\"alert('Ok, ok. You can go now.'); document.querySelector('.modal4').open = false; document.getElementById('modal-wrapper4').style.padding = '0'\"></nys-button>\n</div>\n</nys-modal>\n</div>"
             }
           ]
         }
@@ -11645,12 +11707,14 @@
             {
               "title": "Basic",
               "code": "<div class=\"nys-grid-row\">\n<nys-stepper\nid=\"stepper\"\nname=\"stepper\"\nlabel=\"Register for Design System Office Hours\"\nclass=\"nys-desktop:nys-grid-col-3\"\n>\n<nys-step label=\"Personal Details\" href=\"/nys-stepper/personal.html\"></nys-step>\n<nys-step label=\"Team Info\" selected href=\"/nys-stepper/team.html\"></nys-step>\n<nys-step label=\"Usage Survey\" current href=\"/nys-stepper/survey.html\"></nys-step>\n<nys-step label=\"Newsletter Opt-In\" href=\"/nys-stepper/newsletter.html\"></nys-step>\n<div slot=\"actions\">\n<nys-button variant=\"outline\" label=\"Save & Exit\" fullWidth></nys-button>\n</div>\n</nys-stepper>\n<div class=\"nys-desktop:nys-grid-col-9\" id=\"nys-stepper-content\">\nLoading...\n</div>\n</div>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div class=\"nys-grid-row\">\n<nys-stepper\nid=\"stepper\"\nname=\"stepper\"\nlabel=\"Register for Design System Office Hours\"\nclass=\"nys-desktop:nys-grid-col-3\"\n>\n<nys-step label=\"Personal Details\" href=\"/nys-stepper/personal.html\"></nys-step>\n<nys-step label=\"Team Info\" selected href=\"/nys-stepper/team.html\"></nys-step>\n<nys-step label=\"Usage Survey\" current href=\"/nys-stepper/survey.html\"></nys-step>\n<nys-step label=\"Newsletter Opt-In\" href=\"/nys-stepper/newsletter.html\"></nys-step>\n</nys-stepper>\n<div class=\"nys-desktop:nys-grid-col-9\" id=\"nys-stepper-content\">\nLoading...\n</div>\n</div>\n<script>\ndocument.addEventListener(\"DOMContentLoaded\", async () => {\nconst stepper = document.querySelector(\"nys-stepper\");\nif (stepper?.updateComplete) await stepper.updateComplete;\nconst selectedStep = document.querySelector(\"nys-step[selected]\");\nconst href = selectedStep?.getAttribute(\"href\");\nif (!href) return;\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n\ndocument.addEventListener(\"nys-step-click\", async (e) => {\nconst href = e.detail?.href;\nif (!href) return;\ne.preventDefault();\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n</script>"
             },
             {
               "title": "Actions slot",
               "code": "<div class=\"nys-grid-row\">\n<nys-stepper\nid=\"stepper\"\nname=\"stepper\"\nlabel=\"Register for Design System Office Hours\"\nclass=\"nys-desktop:nys-grid-col-3\"\n>\n<nys-step label=\"Personal Details\" href=\"/nys-stepper/personal.html\"></nys-step>\n<nys-step label=\"Team Info\" selected href=\"/nys-stepper/team.html\"></nys-step>\n<nys-step label=\"Usage Survey\" current href=\"/nys-stepper/survey.html\"></nys-step>\n<nys-step label=\"Newsletter Opt-In\" href=\"/nys-stepper/newsletter.html\"></nys-step>\n<div slot=\"actions\">\n<nys-button variant=\"outline\" label=\"Save & Exit\" fullWidth></nys-button>\n</div>\n</nys-stepper>\n<div class=\"nys-desktop:nys-grid-col-9\" id=\"nys-stepper-content\">\nLoading...\n</div>\n</div>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div class=\"nys-grid-row\">\n<nys-stepper\nid=\"stepper\"\nname=\"stepper\"\nlabel=\"Register for Design System Office Hours\"\nclass=\"nys-desktop:nys-grid-col-3\"\n>\n<nys-step label=\"Personal Details\" href=\"/nys-stepper/personal.html\"></nys-step>\n<nys-step label=\"Team Info\" selected href=\"/nys-stepper/team.html\"></nys-step>\n<nys-step label=\"Usage Survey\" current href=\"/nys-stepper/survey.html\"></nys-step>\n<nys-step label=\"Newsletter Opt-In\" href=\"/nys-stepper/newsletter.html\"></nys-step>\n<div slot=\"actions\">\n<nys-button variant=\"outline\" label=\"Save & Exit\" fullWidth></nys-button>\n</div>\n</nys-stepper>\n<div class=\"nys-desktop:nys-grid-col-9\" id=\"nys-stepper-content\">\nLoading...\n</div>\n</div>\n<script>\ndocument.addEventListener(\"DOMContentLoaded\", async () => {\nconst stepper = document.querySelector(\"nys-stepper\");\nif (stepper?.updateComplete) await stepper.updateComplete;\nconst selectedStep = document.querySelector(\"nys-step[selected]\");\nconst href = selectedStep?.getAttribute(\"href\");\nif (!href) return;\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n\ndocument.addEventListener(\"nys-step-click\", async (e) => {\nconst href = e.detail?.href;\nif (!href) return;\ne.preventDefault();\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n</script>"
             }
           ]
         }
@@ -12160,7 +12224,8 @@
             {
               "title": "Basic",
               "code": "<nys-tabgroup>\n<nys-tab label=\"Marcy\"></nys-tab>\n<nys-tab label=\"Algonquin\"></nys-tab>\n<nys-tab label=\"Haystack\"></nys-tab>\n// rest of tabs\n<nys-tabpanel\n>Mount Marcy is the tallest peak in the Adirondacks. It has an elevation\nof 5344 feet with 3166 feet of elevation gain. The roundtrip hike to the\ntop is 14.8 miles and is an out-and-back route.\n</nys-tabpanel>\n<nys-tabpanel\n>Algonquin Peak is the 2nd tallest peak in the Adirondacks. It has an\nelevation of 5114 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.8 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Haystack is the 3rd tallest peak in the Adirondacks. It has an\nelevation of 4960 feet with 4000 feet of elevation gain. The roundtrip\nhike to the top is 16.4 miles and is an out-and-back\nroute.</nys-tabpanel\n>\n// rest of tab panel content\n</nys-tabgroup>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<nys-tabgroup>\n<nys-tab label=\"Marcy\"></nys-tab>\n<nys-tab label=\"Algonquin\"></nys-tab>\n<nys-tab label=\"Haystack\"></nys-tab>\n<nys-tab label=\"Skylight\" id=\"tab4\"></nys-tab>\n<nys-tab label=\"Whiteface\" id=\"tab5\"></nys-tab>\n<nys-tabpanel\n>Mount Marcy is the tallest peak in the Adirondacks. It has an elevation\nof 5344 feet with 3166 feet of elevation gain. The roundtrip hike to the\ntop is 14.8 miles and is an out-and-back route.\n</nys-tabpanel>\n<nys-tabpanel\n>Algonquin Peak is the 2nd tallest peak in the Adirondacks. It has an\nelevation of 5114 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.8 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Haystack is the 3rd tallest peak in the Adirondacks. It has an\nelevation of 4960 feet with 4000 feet of elevation gain. The roundtrip\nhike to the top is 16.4 miles and is an out-and-back\nroute.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Skylight is the 4th tallest peak in the Adirondacks. It has an\nelevation of 4926 feet with 5100 feet of elevation gain. The roundtrip\nhike to the top is 16 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Whiteface is the 5th tallest peak in the Adirondacks. It has an\nelevation of 4867 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.2 miles and is an out-and-back route.</nys-tabpanel\n>\n<p style=\"padding: 1rem;\">\n<strong>Note:</strong> The content in the tab panels was gathered from\n<a href=\"https://www.lakeplacid.com/do/outdoors/summerfall/hiking\"\n>lakeplacid.com</a\n>\nand may not be completely accurate. This is meant to be a demo of how\nthe component works, not a hiking guide.\n</p>\n</nys-tabgroup>"
             },
             {
               "title": "Explicit Ordering",
