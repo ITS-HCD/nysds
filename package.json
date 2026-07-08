@@ -135,7 +135,6 @@
     "playwright": "1.61.0"
   },
   "dependencies": {
-    "custom-elements-manifest": "^2.1.0",
     "dompurify": "^3.4.7",
     "wc-datepicker": "^0.10.0"
   },
