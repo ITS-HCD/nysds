@@ -28,14 +28,76 @@ interface FileWithProgress {
  *
  * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`.
  *
- * @example Single file upload
+ * @example Basic
  * ```html
- * <nys-fileinput label="Upload document" accept=".pdf,.doc" required></nys-fileinput>
+ * <nys-fileinput
+ *   label="Upload a file"
+ * ></nys-fileinput>
  * ```
  *
- * @example Multiple files with dropzone
+ * @example Dropzone
  * ```html
- * <nys-fileinput label="Upload images" accept="image/*" multiple dropzone></nys-fileinput>
+ * <nys-fileinput
+ *   label="Upload a file"
+ *   dropzone
+ * ></nys-fileinput>
+ * ```
+ *
+ * @example Multiple
+ * ```html
+ * <nys-fileinput
+ *   label="Upload a file"
+ *   multiple
+ * ></nys-fileinput>
+ * ```
+ *
+ * @example Accepted Filetypes
+ * ```html
+ * <nys-fileinput
+ *   label="Upload a file"
+ *   description="Accepted file types: .jpg, .png, .pdf"
+ *   accept="image/png, image/jpeg, .pdf"
+ * ></nys-fileinput>
+ * ```
+ *
+ * @example Width Large
+ * ```html
+ * <nys-fileinput
+ *   label="Upload a file"
+ *   width="lg"
+ * ></nys-fileinput>
+ * ```
+ *
+ * @example Width Large Dropzone
+ * ```html
+ * <nys-fileinput
+ *   label="Upload a file"
+ *   width="lg"
+ *   dropzone
+ * ></nys-fileinput>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-fileinput
+ *   label="Upload a file"
+ *   disabled
+ * ></nys-fileinput>
+ * ```
+ *
+ * @example Description
+ * ```html
+ * <nys-fileinput
+ *   label="Upload a file"
+ *   description="Make sure the file is not blurry and readable"
+ * ></nys-fileinput>
+ * ```
+ *
+ * @example Description Slot
+ * ```html
+ * <nys-fileinput label="Upload a file">
+ *   <div slot="description">Make sure the file is <strong>legible</strong></div>
+ * </nys-fileinput>
  * ```
  */
 

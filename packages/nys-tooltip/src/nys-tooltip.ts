@@ -11,19 +11,51 @@ let tooltipIdCounter = 0;
  * Link to a trigger element via `for` attribute matching the trigger's `id`. Tooltip appears on hover or focus
  * and dismisses on blur, mouse leave, or Escape key. Use for supplementary info only—not critical content.
  *
+ * @accessibility
+ * - Linked to trigger element via `for` attribute (must match trigger's `id`).
+ * - `role="tooltip"` with dynamic `aria-hidden` based on visibility.
+ * - Keyboard accessible: Tab to trigger, Enter/Space shows tooltip, Escape dismisses.
+ * - Screen readers announce tooltip text when visible.
+ * - Visual focus indicators on trigger elements meet WCAG 2.2 AA standards.
+ * - Auto-positioning respects viewport bounds to prevent content loss.
+ *
  * @summary Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-tooltip
  *
- * @example Tooltip for button
+ * @example  Basic
  * ```html
- * <nys-button id="help-btn" label="Help" circle icon="help"></nys-button>
- * <nys-tooltip for="help-btn" text="Click for assistance"></nys-tooltip>
+ * <div style="display: flex; justify-content: center; gap: 5px; padding: 40px;">
+ *   <nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+ *   <nys-button  id="my-button" label="Hover Me"></nys-button>
+ * </div>
  * ```
  *
- * @example Positioned tooltip
+ * @example Position
  * ```html
- * <nys-icon id="info-icon" name="info"></nys-icon>
- * <nys-tooltip for="info-icon" text="Additional details" position="right"></nys-tooltip>
+ * <div style="display: flex; justify-content: center; gap: 5px; padding: 40px;">
+ *   <p>Hover over the icon</p>
+ *   <nys-tooltip
+ *     for="my-icon2"
+ *     text="I am a tooltip."
+ *     position="right"
+ *   >
+ *   </nys-tooltip>
+ *   <nys-icon id="my-icon2" name="info" size="3xl"></nys-icon>
+ * </div>
+ * ```
+ *
+ * @example Inverted
+ * ```html
+ * <div style="background-color: #1b1b1b; color: #ffffff; padding: 40px; display: flex; gap: 5px">
+ *   <p>Hover over the icon</p>
+ *   <nys-tooltip
+ *     for="my-tooltip3"
+ *     text="I am a tooltip."
+ *     inverted
+ *   >
+ *   </nys-tooltip>
+ *   <nys-icon id="my-tooltip3" name="info" size="3xl"></nys-icon>
+ * </div>
  * ```
  */
 

@@ -14,16 +14,59 @@ import styles from "./nys-globalfooter.scss?inline";
  *
  * @slot - Footer content (links, contact info). Use `<h4>` for column headings.
  *
- * @example Simple footer
+ * @example Basic
+ * ```html
+ * <nys-globalfooter agencyName="Office of Information Technology Services"></nys-globalfooter>
+ * ```
+ *
+ * @example Homepage Link
  * ```html
  * <nys-globalfooter
- *    agencyName="Department of Health"
- *    homepageLink="/"
- *    agencySubheading="Protecting and Promoting the Health of New Yorkers"
- * >
- *   <span>123 Main St, Albany NY</span>
- *   <span>info@health.ny.gov</span>
+ *   agencyName="Office of Information Technology Services"
+ *   homepageLink="https://its.ny.gov"
+ * ></nys-globalfooter>
+ * ```
+ *
+ * @example Menu Links
+ * ```html
+ * <nys-globalfooter agencyName="Office of Information Technology Services">
+ *   <ul>
+ *     <li><a href="https://its.ny.gov">ITS Home</a></li>
+ *     <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+ *   </ul>
  * </nys-globalfooter>
+ * ```
+ *
+ * @example Column Links
+ * ```html
+ * <nys-globalfooter agencyName="Office of Information Technology Services">
+ *   <ul>
+ *     <li>
+ *       <span>About</span>
+ *       <ul>
+ *         <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+ *         <li><a href="https://its.ny.gov/contact-us">Contact</a></li>
+ *         <li><a href="https://its.ny.gov/policies">Policies</a></li>
+ *       </ul>
+ *     </li>
+ *     <li>
+ *       <span>Resources</span>
+ *       <ul>
+ *         <li><a href="https://its.ny.gov/resources">Developer Tools</a></li>
+ *         <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+ *         <li><a href="https://its.ny.gov/privacy">Privacy</a></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
+ * </nys-globalfooter>
+ * ```
+ *
+ * @example Subheading
+ * ```html
+ * <nys-globalfooter
+ *   agencyName="Office of Information Technology Services"
+ *   agencySubheading="Innovating Technology for a Better New York"
+ * ></nys-globalfooter>
  * ```
  */
 

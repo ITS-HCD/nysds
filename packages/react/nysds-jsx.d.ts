@@ -180,7 +180,7 @@ export type NysBreadcrumbsProps = {
 Override when multiple crumbs exist on the same page. */
   ariaLabel?: string;
   /** Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use. */
-  size?: "sm" | "md" | "";
+  size?: "sm" | "md";
   /** On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.
 Has no effect on desktop or when only one item is present (which always renders as a back link). */
   backToParent?: boolean;
@@ -868,7 +868,7 @@ export type NysTextareaProps = {
   value?: string;
   /** Prevents interaction. */
   disabled?: boolean;
-  /** Makes textarea read-only but focusable. */
+  /** Makes textarea readonly but focusable. */
   readonly?: boolean;
   /** Marks as required. Shows "Required" flag and validates on blur. */
   required?: boolean;
@@ -1025,6 +1025,11 @@ export type NysUnavHeaderProps = {
   searchUrl?: string;
   /** The list of languages this site can be translated to, default to use Smartling */
   languages?: Language[];
+
+  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect. */
+  "onnys-language-select"?: (e: CustomEvent<never>) => void;
+  /** Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect. */
+  "onnys-search-submit"?: (e: CustomEvent<never>) => void;
 };
 
 export type NysVideoProps = {
@@ -1129,7 +1134,7 @@ export type CustomElements = {
    * - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
    *
    * ### **Slots:**
-   *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.
+   *  - _default_ - One or more `li` elements defining the trail.
    */
   "nys-breadcrumbs": Partial<NysBreadcrumbsProps & BaseProps & BaseEvents>;
 
@@ -1247,7 +1252,7 @@ export type CustomElements = {
   "nys-divider": Partial<NysDividerProps & BaseProps & BaseEvents>;
 
   /**
-   *
+   * Action menu with auto-positioning, keyboard support, and screen reader integration.
    * ---
    *
    */
@@ -1325,7 +1330,10 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
-   * Internal label component for form fields with flag and tooltip support.
+   * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
+   *
+   * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
+   * Handles label association via `for`, displays asterisk for required fields, and integrates tooltips.
    * ---
    *
    *
@@ -1604,9 +1612,13 @@ export type CustomElements = {
   "nys-unavfooter": Partial<NysUnavFooterProps & BaseProps & BaseEvents>;
 
   /**
-   *
+   * Universal NYS header with trust bar, search, and translation. Required site-wide.
    * ---
    *
+   *
+   * ### **Events:**
+   *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+   * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 

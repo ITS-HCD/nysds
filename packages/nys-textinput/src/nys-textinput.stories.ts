@@ -1,331 +1,68 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-textinput";
+import "@nysds/nys-button";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-button";
-import "@nysds/nys-icon";
 
-// Define the structure of the args used in the stories
-interface NysTextinputArgs {
-  id: string;
-  name: string;
-  type: "number" | "text" | "email" | "password" | "search" | "tel" | "url";
-  label: string;
-  description: string;
-  placeholder: string;
-  value: string;
-  disabled: boolean;
-  readonly: boolean;
-  required: boolean;
-  optional: boolean;
-  inverted: boolean;
-  form: string | null;
-  pattern: string;
-  maxlength: number | null;
-  width: "sm" | "md" | "lg" | "full";
-  step: number | null;
-  min: number | null;
-  max: number | null;
-  showError: boolean;
-  errorMessage: string;
-}
-
-const meta: Meta<NysTextinputArgs> = {
+const meta: Meta = {
   title: "Components/Textinput",
   component: "nys-textinput",
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    type: {
-      control: "select",
-      options: ["email", "number", "password", "search", "tel", "text", "url"],
-    },
-    label: { control: "text" },
-    description: { control: "text" },
-    placeholder: { control: "text" },
-    value: { control: "text" },
-    disabled: { control: "boolean" },
-    readonly: { control: "boolean" },
-    required: { control: "boolean" },
-    optional: { control: "boolean" },
-    inverted: { control: "boolean" },
-    form: { control: "text" },
-
-    pattern: { control: "text" },
-    maxlength: { control: "text" },
-    width: {
-      control: "select",
-      options: ["sm", "md", "lg", "full"],
-      defaultValue: { summary: "full" },
-    },
-    step: { control: "text" },
-    min: { control: "text" },
-    max: { control: "text" },
-    showError: { control: "boolean" },
-    errorMessage: { control: "text" },
-  },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<NysTextinputArgs>;
-
-// Define stories without using args
+type Story = StoryObj;
 
 export const Basic: Story = {
   args: {
-    label: "Label",
+    name: "",
+    label: "Full Name",
+    description: "",
+    placeholder: "",
     value: "",
-    name: "myTextInputDemo",
     disabled: false,
     readonly: false,
     required: false,
     optional: false,
-    showError: false,
+    tooltip: "",
+    pattern: "",
+    ariaLabel: "",
     inverted: false,
+    showError: false,
+    errorMessage: "",
   },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `<nys-textinput label="Label" name="myTextInputDemo"></nys-textinput>`,
-        type: "auto",
-      },
-    },
+  render: (args) => {
+    return html`
+      <nys-textinput
+        name=${args.name}
+        label=${args.label}
+        description=${args.description}
+        placeholder=${args.placeholder}
+        value=${args.value}
+        ?disabled=${args.disabled}
+        ?readonly=${args.readonly}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        tooltip=${args.tooltip}
+        pattern=${args.pattern}
+        ariaLabel=${args.ariaLabel}
+        ?inverted=${args.inverted}
+        ?showError=${args.showError}
+        errorMessage=${args.errorMessage}
+      ></nys-textinput>
+    `;
   },
-};
-
-export const Width: Story = {
-  args: {
-    label: "This label is extra small",
-    width: "sm",
-    value: "",
-    name: "myTextInput",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput
-  name="myTextInput"
-  width="sm"
-  label="This label is extra small"
-></nys-textinput>
-        `,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Password: Story = {
-  args: {
-    label: "Password:",
-    type: "password",
-    value: "",
-    name: "myTextInput1",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="myTextInput1"
-  type="password"
-  label="Password:"
->
-</nys-textinput>
-`,
-        type: "auto",
-      },
-    },
-  },
-};
-export const SlottedButton: Story = {
-  args: {
-    type: "search",
-    placeholder: "Search",
-    value: "",
-    name: "searchInput",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <nys-button
-        slot="endButton"
-        type="submit"
-        label="Search"
-        prefixIcon="search"
-      ></nys-button>
-    </nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="searchInput"
-  type="search"
-  placeholder="Search"
->
-  <nys-button
-  slot="endButton"
-  type="submit"
-  label="Search"
-  prefixIcon="search"
-></nys-button>
-</nys-textinput>
-`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const ValueAndPlaceholder: Story = {
-  args: {
-    name: "myTextInput2",
-    label: "Label",
-    value: "initial value",
-    placeholder: "this is a placeholder",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="myTextInput2"
-  label="Label"
-  value="initial value"
-  placeholder="this is a placeholder">
-</nys-textinput>
-        `,
+<nys-textinput label="Full Name"></nys-textinput>`,
         type: "auto",
       },
     },
@@ -333,43 +70,16 @@ export const ValueAndPlaceholder: Story = {
 };
 
 export const Disabled: Story = {
-  args: {
-    name: "myTextInput3",
-    label: "Disabled",
-    disabled: true,
-    value: "",
+  render: () => {
+    return html`
+      <nys-textinput label="Email Address" disabled></nys-textinput>
+    `;
   },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .type=${args.type}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput name="myTextInput3" label="Disabled" disabled></nys-textinput>
-`,
+<nys-textinput label="Email Address" disabled></nys-textinput>`,
         type: "auto",
       },
     },
@@ -377,199 +87,13 @@ export const Disabled: Story = {
 };
 
 export const Readonly: Story = {
-  args: {
-    name: "myTextInput4",
-    label: "Read Only",
-    readonly: true,
-    value: "You cannot edit me",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .type=${args.type}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="myTextInput4"
-  label="Read Only"
-  value="You cannot edit me"
-  readonly
-></nys-textinput>
-`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const MaxMinAndStep: Story = {
-  args: {
-    name: "myTextInput5",
-    label: "Max/Min Example",
-    description: "Must be between 0 and 100",
-    type: "number",
-    min: 0,
-    max: 100,
-    step: 10,
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="myTextInput5"
-  label="Max/Min Example"
-  description="Must be between 0 and 100"
-  type="number"
-  min="0"
-  max="100"
-  step="10">
-</nys-textinput>
-        `,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Maxlength: Story = {
-  args: {
-    name: "myTextInput6",
-    label: "Max Length",
-    description: "You cannot type more than 10 characters in the below field",
-    maxlength: 10,
-    value: "",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="myTextInput6"
-  label="Max Length"
-  description="You cannot type more than 10 characters in the below field"
-  maxlength="10">
-</nys-textinput>
-        `,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Pattern: Story = {
-  args: {
-    name: "emplId",
-    placeholder: "N00000000",
-    label: "Please enter your Employee number",
-    description: "include the N prefix",
-    maxlength: 9,
-    pattern: "N[0-9]{8}",
-    id: "nID",
-    value: "",
-  },
-  render: (args) => {
-    let patternStatus = "Pattern match: false"; // Initial status
+  render: () => {
     return html`
       <nys-textinput
-        .id=${args.id}
-        .name=${args.name}
-        .type=${args.type}
-        .label=${args.label}
-        .description=${args.description}
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .readonly=${args.readonly}
-        .required=${args.required}
-        .optional=${args.optional}
-        ?inverted=${args.inverted}
-        .form=${args.form}
-        .pattern=${args.pattern}
-        .maxlength=${args.maxlength}
-        .width=${args.width}
-        .step=${args.step}
-        .min=${args.min}
-        .max=${args.max}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
+        label="Email Address"
+        readonly
+        value="You can see me but not edit me"
       ></nys-textinput>
-      <div id="pattern-check" style="font-family: Arial; padding-top: 1rem;">
-        ${patternStatus}
-      </div>
     `;
   },
   parameters: {
@@ -577,15 +101,10 @@ export const Pattern: Story = {
       source: {
         code: `
 <nys-textinput
-  name="emplId"
-  placeholder="N00000000"
-  label="Please enter your Employee number"
-  description="include the N prefix"
-  maxlength="9"
-  pattern="N[0-9]{8}"
-  id="nID"
-></nys-textinput>
-`,
+  label="Email Address"
+  readonly
+  value="You can see me but not edit me"
+></nys-textinput>`,
         type: "auto",
       },
     },
@@ -593,159 +112,16 @@ export const Pattern: Story = {
 };
 
 export const Required: Story = {
-  args: { name: "myTextInput7", required: true, label: "label", value: "" },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `<nys-textinput name="myTextInput7" required label="label"></nys-textinput>`,
-        type: "auto",
-      },
-    },
+  render: () => {
+    return html`
+      <nys-textinput label="Email Address" required></nys-textinput>
+    `;
   },
-};
-
-export const DescriptionSlot: Story = {
-  args: {
-    label: "Label",
-    description: "Prop: description",
-    value: "",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      name="descriptionProp"
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-    <br />
-    <nys-textinput
-      .id=${args.id}
-      name="descriptionSlot"
-      .type=${args.type}
-      .label=${args.label}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    >
-      <label slot="description">Slot: description</label>
-    </nys-textinput>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput
-  name="descriptionProp"
-  label="Label"
-  description="Slot: description"
-></nys-textinput>
-<nys-textinput name="descriptionSlot" label="Label">
-  <label slot="description">Slot: description</label>
-</nys-textinput>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const ErrorMessage: Story = {
-  args: {
-    name: "myTextInput8",
-    label: "Label",
-    value: "",
-    showError: true,
-    errorMessage: "Cannot be left blank",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="myTextInput8"
-  label="Label"
-  showError
-  errorMessage="Cannot be left blank"
-></nys-textinput>`,
+<nys-textinput label="Email Address" required></nys-textinput>`,
         type: "auto",
       },
     },
@@ -753,150 +129,198 @@ export const ErrorMessage: Story = {
 };
 
 export const Optional: Story = {
-  args: {
-    name: "myTextInput7",
-    label: "label",
-    value: "",
-    optional: true,
+  render: () => {
+    return html`
+      <nys-textinput label="Email Address" optional></nys-textinput>
+    `;
   },
-
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-
-  parameters: {
-    docs: {
-      source: {
-        code: `<nys-textinput name="myTextInput7" optional label="label"></nys-textinput>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Telephone: Story = {
-  args: {
-    label: "Phone Number",
-    value: "",
-    name: "myTextInputDemo",
-    type: "tel",
-  },
-
-  render: (args) => html`
-    <form>
-      <nys-textinput
-        .id=${args.id}
-        .name=${args.name}
-        .type=${args.type}
-        .label=${args.label}
-        .description=${args.description}
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .readonly=${args.readonly}
-        .required=${args.required}
-        .optional=${args.optional}
-        ?inverted=${args.inverted}
-        .form=${args.form}
-        .pattern=${args.pattern}
-        .maxlength=${args.maxlength}
-        .width=${args.width}
-        .step=${args.step}
-        .min=${args.min}
-        .max=${args.max}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
-      ></nys-textinput>
-      <nys-button type="reset" label="Reset"></nys-button>
-    </form>
-  `,
-
   parameters: {
     docs: {
       source: {
         code: `
-<form>
-  <nys-textinput
-    name="myTextInputDemo"
-    label="Phone Number"
-    type="tel"
-  ></nys-textinput>
-  <nys-button type="reset" label="Reset"></nys-button>
-</form>`,
+<nys-textinput label="Email Address" optional></nys-textinput>`,
         type: "auto",
       },
     },
   },
 };
 
-export const Inverted: Story = {
-  args: {
-    label: "Label",
-    description: "Prop: description",
-    value: "",
-    inverted: true,
+export const WidthSmall: Story = {
+  render: () => {
+    return html` <nys-textinput label="Zip Code" width="sm"></nys-textinput> `;
   },
-  render: (args) => html`
-    <div
-      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
-    >
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput label="Zip Code" width="sm"></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WidthMedium: Story = {
+  render: () => {
+    return html` <nys-textinput label="City" width="md"></nys-textinput> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput label="City" width="md"></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WidthLarge: Story = {
+  render: () => {
+    return html`
+      <nys-textinput label="Email Address" width="lg"></nys-textinput>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput label="Email Address" width="lg"></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Description: Story = {
+  render: () => {
+    return html`
       <nys-textinput
-        .id=${args.id}
-        name="descriptionProp"
-        .type=${args.type}
-        .label=${args.label}
-        .description=${args.description}
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .readonly=${args.readonly}
-        .required=${args.required}
-        .optional=${args.optional}
-        ?inverted=${args.inverted}
-        .form=${args.form}
-        .pattern=${args.pattern}
-        .maxlength=${args.maxlength}
-        .width=${args.width}
-        .step=${args.step}
-        .min=${args.min}
-        .max=${args.max}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
+        label="Email Address"
+        description="Only valid ny.gov emails are accepted."
       ></nys-textinput>
-    </div>
-  `,
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
 <nys-textinput
-  name="descriptionProp"
-  label="Label"
-  description="Slot: description"
-  inverted
+  label="Email Address"
+  description="Only valid ny.gov emails are accepted."
 ></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DescriptionSlot: Story = {
+  render: () => {
+    return html`
+      <nys-textinput label="Email Address">
+        <div slot="description">
+          Only valid
+          <strong>ny.gov</strong>
+          emails are accepted.
+        </div>
+      </nys-textinput>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput label="Email Address">
+  <div slot="description">
+    Only valid
+    <strong>ny.gov</strong>
+    emails are accepted.
+  </div>
+</nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Masking: Story = {
+  render: () => {
+    return html`
+      <nys-textinput type="tel" label="Phone Number">
+        <div slot="description">
+          Some types, such as
+          <code>tel</code>
+          have automatic masking available.
+        </div>
+      </nys-textinput>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput type="tel" label="Phone Number">
+  <div slot="description">
+    Some types, such as
+    <code>tel</code>
+    have automatic masking available.
+  </div>
+</nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const MaxMinValues: Story = {
+  render: () => {
+    return html`
+      <nys-textinput
+        type="number"
+        label="Age"
+        min="18"
+        max="99"
+        width="sm"
+      ></nys-textinput>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput type="number" label="Age" min="18" max="99" width="sm"></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SuffixButton: Story = {
+  render: () => {
+    return html`
+      <nys-textinput id="search-demo" type="search" placeholder="Search">
+        <nys-button
+          slot="endButton"
+          ariaLabel="Search"
+          prefixIcon="search"
+          onclick="alert('searching for: ' + document.getElementById('search-demo').value)"
+        ></nys-button>
+      </nys-textinput>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput id="search-demo" type="search" placeholder="Search">
+  <nys-button
+    slot="endButton"
+    ariaLabel="Search"
+    prefixIcon="search"
+    onclick="alert('searching for: ' + document.getElementById('search-demo').value)"
+  ></nys-button>
+</nys-textinput>`,
         type: "auto",
       },
     },
