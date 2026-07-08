@@ -1,0 +1,179 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysButtonStories from "./nys-button.stories";
+import "@nysds/nys-alert"
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
+
+<Meta of={NysButtonStories} title="Components/Button/Documentation" />
+
+# Button
+
+The **`nys-button`** component is a reusable web component for use in New York State digital products.
+
+If an id is not passed, a unique id will be generated.
+
+<nys-alert type="warning" heading="Usage Guidance">
+When using the `<nys-button>`, use the `onClick` prop (in lit.dev it's `.onClick`) instead of adding your own @click, @keydown, or their equivalents in your framework. This makes sure your button responds to both mouse and keyboard interactions (like Enter or Space), keeping it fully accessible.
+</nys-alert>
+<br/>
+
+<div className="nys-grid-row nys-grid-gap-100">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8292">View in Figma</a>
+  </p>
+</div>
+
+---
+
+<Canvas of={NysButtonStories.Basic} />
+
+<Controls />
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>
+	<nys-icon size="xl" name="info"></nys-icon> The button component takes the property `onClick`, which is a function that is called when the button is clicked.
+</div>
+```html
+<nys-button onClick={() => alert("Button clicked")} label="Click Me"></nys-button>
+```
+
+## Options
+
+### Size
+
+Set the `size` prop of the **`nys-button`** to adjust the height of the button. The width of the button is determined by the label. Our current sizes are:
+
+- `sm`: Set to 40px in height
+- `md`: The default size. Set to 48px in height.
+- `lg`: Set to 56px in height.
+
+Add the `fullWidth` prop to make the button take the width of its container. Default behavior will size the button to fit its label.
+
+<Canvas of={NysButtonStories.Size} />
+
+### Button Type
+
+Set the `type` prop of the `nys-button` to define the button's behavior in a form context. The available types are:
+
+- button (default): A standard button that does not submit a form.
+- submit: Submits the nearest form when clicked.
+- reset: Resets all inputs in the nearest form to their default values.
+
+### Variants
+
+Set the `variant` prop of the **`nys-button`** to adjust the appearance of the button. Our current variants are:
+
+- `filled`: The default variant. Use for primary actions.
+- `outline`: Use for secondary actions.
+- `ghost`: Use for uncommon actions.
+- `text`: Use for inline actions.
+  <Canvas of={NysButtonStories.Variants} />
+
+### Icons
+
+Set the `prefixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear before the label.\
+Set the `suffixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear after the label.
+
+If you wish to create a button with just an icon and no text, you can set the `ariaLabel` prop. This will allow users who rely on screen readers to understand the purpose of the button even though there is no visible label.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The `aria-label` is automatically set to the label prop if provided, or defaults to "button"."</div>
+<Canvas of={NysButtonStories.Icons} />
+### Circle
+Set the `circle` prop to create a circular button. This is useful for icon-only actions that require a more compact design.
+When using the `circle` prop the icon is set with the prop `icon`. If no `label` is provided the `aria-label` will be set to the value of the `icon` prop.
+If `label` is provided, it will not render but will be used to set the `aria-label` for accessibility purposes.
+
+Note: the `prefixIcon` and `suffixIcon` props are not supported when using the `circle` prop.
+<Canvas of={NysButtonStories.Circle} />
+### Disabled
+<Canvas of={NysButtonStories.Disabled} />
+### Link
+Set the `href` prop of the **`nys-button`** when using the button to navigate to a different page. This will render the `<nys-button>` as an `<a>` tag.\
+Set the `target` prop of the **`nys-button`** to specify where to open the linked document. The available targets are:
+- `_self`: Opens the link in the same frame as it was clicked (default).
+- `_blank`: Opens the link in a new tab or window.
+- `_parent`: Opens the link in the parent frame.
+- `_top`: Opens the link in the full body of the window.
+- `framename`: Opens the link in a named iframe.
+<Canvas of={NysButtonStories.Link} />
+### Inverted
+Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the button. Use this prop when the button is on a dark background.
+<Canvas of={NysButtonStories.Inverted} />
+
+## Usage
+
+### When to use this component
+
+- When users need to submit a form.
+- When users need to navigate to a different page.
+- When users need to trigger an action.
+
+### When to consider something else
+
+<div className="nys-grid-row nys-grid-gap-400">
+	<div className="nys-mobile-lg:nys-grid-col">
+		<div className="usage-card usage-card--do">
+			### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+			- When users need to submit a form.
+			- When users need to navigate to a different page.
+			- When users need to trigger an action.
+		</div>
+	</div>
+	<div className="nys-mobile-lg:nys-grid-col">
+		<div className="usage-card usage-card--dont">
+			### <nys-icon name="cancel" color="var(--nys-color-error)" /> Don't
+			- Use inverted buttons on a light background. - Use buttons with icons only.
+		</div>
+	</div>
+</div>
+
+## Accessibility
+
+The `nys-button` component includes the following accessibility-focused features:
+
+- ARIA attributes: Properly set to ensure screen readers interpret the button correctly. The `aria-label` is automatically set to the `ariaLabel` prop if provided, or defaults to "button".
+- Keyboard navigation support, allowing users to use the keyboard to click the button.
+- Visual focus indicators to help users navigate the component.
+
+## Events
+
+The `nys-button` component emits the following events:
+
+1. `nys-click`: Emitted when the button is clicked.
+2. `nys-focus`: Emitted when the button receives focus.
+3. `nys-blur`: Emitted when the button loses focus.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the button component
+const button = document.querySelector("nys-button");
+
+// Listen for the 'nys-click' event
+button.addEventListener("nys-click", () => {
+	console.log("Button clicked");
+});
+
+// Listen for the 'nys-focus' event
+button.addEventListener("nys-focus", () => {
+	console.log("Button is focused");
+});
+
+// Listen for the 'nys-blur' event
+button.addEventListener("nys-blur", () => {
+	console.log("Button lost focus");
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- `<nys-icon>`

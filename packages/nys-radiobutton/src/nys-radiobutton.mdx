@@ -1,0 +1,170 @@
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { html } from 'lit';
+import * as NysRadiobuttonStories from './nys-radiobutton.stories';
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
+
+<Meta of={NysRadiobuttonStories} title="Components/Radiobutton/Documentation" />
+
+# Radiobutton
+
+The **`nys-radiobutton`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
+
+- If an `id` is not passed, a unique `id` will be generated.
+- You must wrap radio buttons with **`nys-radiogroup`** to group multiple radios or radio buttons so they function as a single form control.
+- If `checked=true` is assigned to multiple options in a `radiogroup` only the last option will take the `true` state
+
+<div className="nys-grid-row nys-grid-gap-100">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4136-3487">View in Figma</a></p>
+</div>
+
+***
+
+<Canvas of={NysRadiobuttonStories.Basic} />
+
+<Controls />
+
+## Options
+⚠️ Important: Wrap radio buttons with `nys-radiogroup` to ensure they function as a single form control.
+
+### Partial Editable Options
+<Canvas of={NysRadiobuttonStories.PartialEditableOptions} />
+### Disabled Options
+<Canvas of={NysRadiobuttonStories.DisabledOptions} />
+### Required
+<Canvas of={NysRadiobuttonStories.Required} />
+### Optional
+Adding the `optional` prop will add an optional flag to the input.
+<Canvas of={NysRadiobuttonStories.Optional} />
+### Size
+Set the `size` prop of the **`nys-radiogroup`** to have all **`nys-radiobutton`** be the same size. Our current sizes are:
+- `sm`: Set to 24px in width and height
+- `md`: The default size. Set to 32px in width and height.
+<Canvas of={NysRadiobuttonStories.Size} />
+### Tile
+The `tile` prop will change the styling of the radio button to a tile. This is useful when you want a larger clickable area for the user.\
+
+Note: The `tile` prop is applied  to the `nys-radiogroup` component, not the `nys-radiobutton`. All `nys-radiobutton` in the `nys-radiogroup` will be set to tile.
+<Canvas of={NysRadiobuttonStories.Tile} />
+### Other
+The `other` option lets users enter a custom value when none of the listed choices apply. When selected, a text input appears and the `<nys-radiobutton>`’s `value` is set to the entered text.
+By default, the label will be “Other” if no `label` is provided. You may optionally supply a custom `label` to better match the context, such as “Something else” or “Other (please specify)”. 
+
+Note: Place this option as the last `<nys-radiobutton>` within `<nys-radiogroup>`.
+<Canvas of={NysRadiobuttonStories.Other} />
+### Error Message
+Note: in order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
+<Canvas of={NysRadiobuttonStories.ErrorMessage} />
+### Slots
+When the description requires more complexity than a simple `string` value, use the `slot="description"` to hold the text. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`\
+Note: Both `nys-radiobutton` and `nys-radiogroup` support the description slot.
+<Canvas of={NysRadiobuttonStories.Slot} />
+
+## Usage
+
+### When to use this component
+- When the user needs to select only one option from a list.
+- When there are 7 or fewer options to choose from (for better usability).
+
+### When to consider something else
+- When users need to select multiple options (consider [checkboxes](?path=/docs/components-checkbox--docs) instead).
+- When there are more than 7 options (consider a dropdown for better space utilization).
+
+<div className="nys-grid-row nys-grid-gap-400">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - Group radio buttons vertically for easier scanning, especially when labels are lengthy.
+      - Use a clear default selection if applicable (e.g., the most common or recommended choice).
+      - Provide descriptive and concise labels for each option.
+      - Group related radio buttons with a heading or contextual instructions to clarify the choice.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - Use radio buttons for yes/no questions (consider a toggle or checkbox).
+      - Overload the user with too many radio button options; simplify or use a dropdown if needed.
+      - Leave all radio buttons unselected if a default selection would help guide users.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-radiobutton` component includes the following accessibility-focused features:
+
+- Note: all `<nys-radiobutton>` elements of the same group need to be wrapped in a `<nys-radiogroup>` component in order to work properly.
+- Proper ARIA roles and attributes to ensure screen readers can interpret the radiobutton correctly.
+    - `aria-checked`
+    - `aria-disabled`
+    - `aria-required`
+- Keyboard navigation support, allowing users to toggle the radiobutton using the keyboard.
+- Visual focus indicators to help users navigate the component.
+
+## Slots
+
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for either `nys-radiobutton` or `nys-radiogroup`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
+
+## Events
+
+The `NysRadiobutton` component emits the following events:
+
+1. **`nys-change`** – Fired when the radiobutton state changes (checked/unchecked).
+2. **`nys-focus`** – Fired when the radiobutton gains focus.
+3. **`nys-blur`** – Fired when the radiobutton loses focus.
+
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the radiobutton.
+- checked (boolean): Whether the radiobutton is selected.
+- name (string): The radiobutton group name.
+- value (string): The radiobutton’s value.
+
+You can listen to these events using JavaScript:
+
+```js
+
+  // Select the radiobutton component
+  const radiobutton = document.querySelector('nys-radiobutton');
+
+  // Listen for the 'nys-change' event
+  radiobutton.addEventListener('nys-change', (event) => {
+    const { id, checked, name, value } = event.detail;
+    console.log(
+      `Radiobutton (${id}) in group "${name}" is of ${value}, checked: ${checked}`
+    );
+  });
+
+  // Listen for the 'nys-focus' event
+  radiobutton.addEventListener('nys-focus', () => {
+    console.log('Radiobutton is focused');
+  });
+
+  // Listen for the 'nys-blur' event
+  radiobutton.addEventListener('nys-blur', () => {
+    console.log('Radiobutton lost focus');
+  });
+```
