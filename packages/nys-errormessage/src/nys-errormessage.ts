@@ -29,6 +29,12 @@ export class NysErrorMessage extends LitElement {
   /** Shows a divider line above the error message. */
   @property({ type: Boolean, reflect: true }) showDivider = false;
 
+  // Expose the shadow-encapsulated error text as the host's own accessible name so
+  // aria-errormessage references resolve across engines. Guarded for SSR. The inner
+  // role="alert" live region is unchanged.
+  private _errInternals: ElementInternals | null =
+    typeof this.attachInternals === "function" ? this.attachInternals() : null;
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -37,6 +43,12 @@ export class NysErrorMessage extends LitElement {
     super();
     if (!this.id) {
       this.id = `nys-errormessage-${Date.now()}-${errorMessageIdCounter++}`;
+    }
+  }
+
+  updated() {
+    if (this._errInternals) {
+      this._errInternals.ariaLabel = this.errorMessage || null;
     }
   }
 
