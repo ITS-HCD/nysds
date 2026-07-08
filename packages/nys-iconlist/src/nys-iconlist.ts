@@ -18,7 +18,7 @@ let componentIdCounter = 0;
  *
  * @slot - One or more `<nys-iconlistitem>` elements.
  *
- * @example Basic list
+ * @example Basic
  * ```html
  * <nys-iconlist id="event-details">
  *   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
@@ -27,7 +27,7 @@ let componentIdCounter = 0;
  * </nys-iconlist>
  * ```
  *
- * @example With a divider between items
+ * @example Divider
  * ```html
  * <nys-iconlist id="event-details" divider>
  *   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
@@ -36,11 +36,14 @@ let componentIdCounter = 0;
  * </nys-iconlist>
  * ```
  *
- * @example Item with a secondary label
+ * @example Secondary label
  * ```html
  * <nys-iconlist id="event-details" divider>
  *   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
- *   <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+ *   <nys-iconlistitem icon="schedule">
+ *     5:00 PM
+ *     <span slot="secondary">Eastern Standard Time</span>
+ *   </nys-iconlistitem>
  *   <nys-iconlistitem icon="location_on">
  *     Central Park West
  *     <span slot="secondary">New York, NY</span>
@@ -48,8 +51,7 @@ let componentIdCounter = 0;
  * </nys-iconlist>
  * ```
  *
- * @example Checklist without dividers
- * ```html
+ * @example Checklist
  * <nys-iconlist id="requirements">
  *   <nys-iconlistitem icon="check_circle">Recent pay stubs</nys-iconlistitem>
  *   <nys-iconlistitem icon="check_circle">Current rent/mortgage statement</nys-iconlistitem>

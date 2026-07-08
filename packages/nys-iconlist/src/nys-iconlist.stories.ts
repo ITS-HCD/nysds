@@ -29,7 +29,6 @@ type Story = StoryObj<NysIconlistArgs>;
 export const Basic: Story = {
   args: {
     id: "iconlist1",
-    divider: true,
   },
   render: (args) => html`
     <nys-iconlist .id=${args.id} ?divider=${args.divider}>
@@ -42,7 +41,7 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-<nys-iconlist id="iconlist1" divider>
+<nys-iconlist id="iconlist1">
   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
   <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
   <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
@@ -53,15 +52,48 @@ export const Basic: Story = {
   },
 };
 
-export const WithSecondaryLabel: Story = {
+export const Divider: Story = {
   args: {
-    id: "iconlist2",
+    id: "iconlist1",
     divider: true,
   },
+
   render: (args) => html`
     <nys-iconlist .id=${args.id} ?divider=${args.divider}>
       <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
       <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
+    </nys-iconlist>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-iconlist id="iconlist1" divider>
+  <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+  <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+  <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
+</nys-iconlist>`,
+
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SecondaryLabel: Story = {
+  args: {
+    id: "iconlist2",
+    divider: true,
+  },
+  render: () => html`
+    <nys-iconlist id="event-details" divider>
+      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+      <nys-iconlistitem icon="schedule">
+        5:00 PM
+        <span slot="secondary">Eastern Standard Time</span>
+      </nys-iconlistitem>
       <nys-iconlistitem icon="location_on">
         Central Park West
         <span slot="secondary">New York, NY</span>
@@ -74,7 +106,10 @@ export const WithSecondaryLabel: Story = {
         code: `
 <nys-iconlist id="iconlist2" divider>
   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
-  <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+  <nys-iconlistitem icon="schedule">
+    5:00
+    <span slot="secondary">Eastern Standard Time</span>
+  </nys-iconlistitem>
   <nys-iconlistitem icon="location_on">
     Central Park West
     <span slot="secondary">New York, NY</span>
@@ -86,7 +121,7 @@ export const WithSecondaryLabel: Story = {
   },
 };
 
-export const WithoutDivider: Story = {
+export const Checklist: Story = {
   args: {
     id: "iconlist3",
     divider: false,
