@@ -7,6 +7,93 @@ import { cemExamplesPlugin } from "cem-plugin-examples";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Extracts `@render <Title>` JSDoc tags and attaches them as `render` onto the
+ * matching `@example <Title>` entry produced by cem-plugin-examples.
+ *
+ * Parsing mirrors cem-plugin-examples: it reads the tag comment off the
+ * TypeScript JSDoc AST (which already strips the leading `*` prefixes), takes
+ * the first line as the title, and unwraps a fenced code block if present.
+ */
+const CAPTION_RE = /^<caption>(?<caption>.*)<\/caption>\s*(?<rest>.*)/ms;
+const NEWLINE_RE = /^(?<caption>[^\n]+)\n(?<rest>.*)/ms;
+const CODEBLOCK_RE = /^```(?<lang>\w*)\s*\n(?<code>[\s\S]*?)```\s*$/m;
+
+function parseRenderTag(comment) {
+  const RE = comment.startsWith("<caption>") ? CAPTION_RE : NEWLINE_RE;
+  const match = comment.match(RE);
+  if (!match?.groups) return null;
+
+  const title = match.groups.caption.trim();
+  const body = match.groups.rest.trim();
+
+  const codeMatch = body.match(CODEBLOCK_RE);
+  if (codeMatch?.groups) {
+    return { title, code: codeMatch.groups.code.trim() };
+  }
+  return { title, code: body };
+}
+
+const renderTagsPlugin = () => {
+  /** Map<modulePath, Map<declarationName, Array<{title, code}>>> */
+  const collected = new Map();
+
+  return {
+    name: "nysds-render-tags",
+    analyzePhase({ ts, node, moduleDoc }) {
+      if (!ts.isClassDeclaration(node) || !("jsDoc" in node)) return;
+      const className = node.name?.getText();
+      if (!className) return;
+
+      for (const jsdoc of node.jsDoc ?? []) {
+        if (!Array.isArray(jsdoc.tags)) continue;
+        for (const tag of jsdoc.tags) {
+          let tagName;
+          try {
+            tagName = tag.tagName.getText();
+          } catch {
+            continue;
+          }
+          if (tagName !== "render") continue;
+          if (typeof tag.comment !== "string") continue;
+
+          const parsed = parseRenderTag(tag.comment);
+          if (!parsed) continue;
+
+          if (!collected.has(moduleDoc.path)) {
+            collected.set(moduleDoc.path, new Map());
+          }
+          const byClass = collected.get(moduleDoc.path);
+          if (!byClass.has(className)) byClass.set(className, []);
+          byClass.get(className).push(parsed);
+        }
+      }
+    },
+    packageLinkPhase({ customElementsManifest }) {
+      for (const mod of customElementsManifest.modules) {
+        const byClass = collected.get(mod.path);
+        if (!byClass || !mod.declarations) continue;
+
+        for (const decl of mod.declarations) {
+          const renderBlocks = byClass.get(decl.name);
+          if (!renderBlocks) continue;
+
+          for (const { title, code } of renderBlocks) {
+            const example = decl.examples?.find((ex) => ex.title === title);
+            if (example) {
+              example.render = code;
+            } else {
+              console.warn(
+                `[nysds-render-tags] ${mod.path}: @render "${title}" has no matching @example — skipped.`
+              );
+            }
+          }
+        }
+      }
+    },
+  };
+};
+
 const customJsDocTagsPlugin = () => ({
   name: "nysds-jsdoc-tags",
   packageLinkPhase({ customElementsManifest }) {
@@ -118,40 +205,7 @@ export default {
       }
     },
     cemExamplesPlugin(),
-    {
-      name: "nysds-examples-cleaner",
-      packageLinkPhase({ customElementsManifest }) {
-        for (const mod of customElementsManifest.modules) {
-          if (!mod.declarations) continue;
-
-          // Read content to extract @render blocks
-          const sourceFile = mod.path;
-          if (!fs.existsSync(sourceFile)) continue;
-          const content = fs.readFileSync(sourceFile, "utf-8");
-
-          // Regex to extract @render tags: @render <Name> <Content>
-          const renderBlocks = {};
-          const renderRegex = /@render\s+([^\n]+)\s*([\s\S]*?)(?=\n\s*\*?\s*@render|\n\s*\*?\s*@example|\n\s*\*\/)/g;
-          let match;
-          while ((match = renderRegex.exec(content)) !== null) {
-            // match[1] is the example name, match[2] is the code block
-            // Clean up the markdown code block wrapper
-            const cleanedCode = match[2].trim().replace(/^\s*```html\s*/, "").replace(/\s*```\s*$/, "");
-            renderBlocks[match[1].trim()] = cleanedCode;
-          }
-
-          for (const decl of mod.declarations) {
-            if (decl.examples) {
-              for (const example of decl.examples) {
-                if (renderBlocks[example.name]) {
-                  example.render = renderBlocks[example.name];
-                }
-              }
-            }
-          }
-        }
-      },
-    },
+    renderTagsPlugin(),
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
     customElementJsxPlugin(jsxOpts),
