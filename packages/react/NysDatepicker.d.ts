@@ -106,6 +106,12 @@ export interface NysDatepickerProps extends Pick<
   /** Fired on date selection. Detail: `{id, value}`. */
   onNysInput?: (event: CustomEvent) => void;
 
+  /** undefined */
+  onNysDatepickerToday?: (event: CustomEvent) => void;
+
+  /** undefined */
+  onNysDatepickerClear?: (event: CustomEvent) => void;
+
   /** Fired when input or calendar loses focus. Triggers validation. */
   onNysBlur?: (event: CustomEvent) => void;
 }
@@ -117,6 +123,8 @@ export interface NysDatepickerProps extends Pick<
  *
  * ### **Events:**
  *  - **nys-input** - Fired on date selection. Detail: `{id, value}`.
+ * - **nys-datepicker-today**
+ * - **nys-datepicker-clear**
  * - **nys-blur** - Fired when input or calendar loses focus. Triggers validation.
  *
  * ### **Methods:**

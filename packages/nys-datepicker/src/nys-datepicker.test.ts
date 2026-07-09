@@ -1179,7 +1179,7 @@ describe("nys-datepicker", () => {
     expect(el.showError).to.be.true;
   });
 
-  it("_handleClearClick without _hasUserInteracted does not show error", async () => {
+  it("_handleClearClick on a required field shows error after clearing", async () => {
     const el = await fixture<NysDatepicker>(html`
       <nys-datepicker required value="2026-01-01"></nys-datepicker>
     `);
@@ -1190,7 +1190,7 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     expect(el.value).to.be.undefined;
-    expect(el.showError).to.be.false;
+    expect(el.showError).to.be.true; // clearing is itself an interaction
   });
 
   // -------------------------------------------------------------------------

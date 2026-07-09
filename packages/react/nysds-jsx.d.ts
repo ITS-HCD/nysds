@@ -414,6 +414,10 @@ export type NysDatepickerProps = {
 
   /** Fired on date selection. Detail: `{id, value}`. */
   "onnys-input"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-datepicker-today"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-datepicker-clear"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when input or calendar loses focus. Triggers validation. */
   "onnys-blur"?: (e: CustomEvent<Event>) => void;
 };
@@ -1244,6 +1248,8 @@ export type CustomElements = {
    *
    * ### **Events:**
    *  - **nys-input** - Fired on date selection. Detail: `{id, value}`.
+   * - **nys-datepicker-today**
+   * - **nys-datepicker-clear**
    * - **nys-blur** - Fired when input or calendar loses focus. Triggers validation.
    *
    * ### **Methods:**
