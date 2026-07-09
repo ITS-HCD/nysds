@@ -38,7 +38,9 @@ describe("nys-iconlist", () => {
       <nys-iconlist divider>
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
         <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
-        <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
+        <nys-iconlistitem icon="location_on"
+          >Central Park West</nys-iconlistitem
+        >
       </nys-iconlist>
     `);
     await el.updateComplete;
@@ -71,13 +73,13 @@ describe("nys-iconlist", () => {
       </nys-iconlist>
     `);
     await el.updateComplete;
-    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to
-      .be.true;
+    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to.be
+      .true;
 
     el.divider = false;
     await el.updateComplete;
-    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to
-      .be.false;
+    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to.be
+      .false;
   });
 });
 

@@ -3,18 +3,9 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-iconlist";
 import "./nys-iconlistitem";
 
-interface NysIconlistArgs {
-  id: string;
-  divider: boolean;
-}
-
-const meta: Meta<NysIconlistArgs> = {
+const meta: Meta = {
   title: "Components/Iconlist",
   component: "nys-iconlist",
-  argTypes: {
-    id: { control: "text" },
-    divider: { control: "boolean" },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -24,24 +15,29 @@ const meta: Meta<NysIconlistArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysIconlistArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
   args: {
-    id: "iconlist1",
+    divider: false,
+    icon: "calendar_month",
   },
-  render: (args) => html`
-    <nys-iconlist .id=${args.id} ?divider=${args.divider}>
-      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
-      <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
-      <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
-    </nys-iconlist>
-  `,
+  render: (args) => {
+    return html`
+      <nys-iconlist ?divider=${args.divider}>
+        <nys-iconlistitem icon=${args.icon}>July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+        <nys-iconlistitem icon="location_on"
+          >Central Park West</nys-iconlistitem
+        >
+      </nys-iconlist>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-iconlist id="iconlist1">
+<nys-iconlist id="event-details">
   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
   <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
   <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
@@ -53,29 +49,26 @@ export const Basic: Story = {
 };
 
 export const Divider: Story = {
-  args: {
-    id: "iconlist1",
-    divider: true,
+  render: () => {
+    return html`
+      <nys-iconlist id="event-details" divider>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+        <nys-iconlistitem icon="location_on"
+          >Central Park West</nys-iconlistitem
+        >
+      </nys-iconlist>
+    `;
   },
-
-  render: (args) => html`
-    <nys-iconlist .id=${args.id} ?divider=${args.divider}>
-      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
-      <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
-      <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
-    </nys-iconlist>
-  `,
-
   parameters: {
     docs: {
       source: {
         code: `
-<nys-iconlist id="iconlist1" divider>
+<nys-iconlist id="event-details" divider>
   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
   <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
   <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
 </nys-iconlist>`,
-
         type: "auto",
       },
     },
@@ -83,31 +76,29 @@ export const Divider: Story = {
 };
 
 export const SecondaryLabel: Story = {
-  args: {
-    id: "iconlist2",
-    divider: true,
+  render: () => {
+    return html`
+      <nys-iconlist id="event-details" divider>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">
+          5:00 PM
+          <span slot="secondary">Eastern Standard Time</span>
+        </nys-iconlistitem>
+        <nys-iconlistitem icon="location_on">
+          Central Park West
+          <span slot="secondary">New York, NY</span>
+        </nys-iconlistitem>
+      </nys-iconlist>
+    `;
   },
-  render: () => html`
-    <nys-iconlist id="event-details" divider>
-      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
-      <nys-iconlistitem icon="schedule">
-        5:00 PM
-        <span slot="secondary">Eastern Standard Time</span>
-      </nys-iconlistitem>
-      <nys-iconlistitem icon="location_on">
-        Central Park West
-        <span slot="secondary">New York, NY</span>
-      </nys-iconlistitem>
-    </nys-iconlist>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-iconlist id="iconlist2" divider>
+<nys-iconlist id="event-details" divider>
   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
   <nys-iconlistitem icon="schedule">
-    5:00
+    5:00 PM
     <span slot="secondary">Eastern Standard Time</span>
   </nys-iconlistitem>
   <nys-iconlistitem icon="location_on">
@@ -122,38 +113,80 @@ export const SecondaryLabel: Story = {
 };
 
 export const Checklist: Story = {
-  args: {
-    id: "iconlist3",
-    divider: false,
+  render: () => {
+    return html`
+      <nys-iconlist id="requirements">
+        <nys-iconlistitem icon="check_circle"
+          >Recent pay stubs</nys-iconlistitem
+        >
+        <nys-iconlistitem icon="check_circle"
+          >Current rent/mortgage statement</nys-iconlistitem
+        >
+        <nys-iconlistitem icon="check_circle"
+          >Current property tax bill</nys-iconlistitem
+        >
+        <nys-iconlistitem icon="check_circle"
+          >Current homeowner's insurance bill</nys-iconlistitem
+        >
+        <nys-iconlistitem icon="check_circle"
+          >Social Security card</nys-iconlistitem
+        >
+      </nys-iconlist>
+      \`\`\`
+    `;
   },
-  render: (args) => html`
-    <nys-iconlist .id=${args.id} ?divider=${args.divider}>
-      <nys-iconlistitem icon="check_circle">Recent pay stubs</nys-iconlistitem>
-      <nys-iconlistitem icon="check_circle"
-        >Current rent/mortgage statement</nys-iconlistitem
-      >
-      <nys-iconlistitem icon="check_circle"
-        >Current property tax bill</nys-iconlistitem
-      >
-      <nys-iconlistitem icon="check_circle"
-        >Current homeowner's insurance bill</nys-iconlistitem
-      >
-      <nys-iconlistitem icon="check_circle"
-        >Social Security card</nys-iconlistitem
-      >
-    </nys-iconlist>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-iconlist id="iconlist3">
+<nys-iconlist id="requirements">
   <nys-iconlistitem icon="check_circle">Recent pay stubs</nys-iconlistitem>
   <nys-iconlistitem icon="check_circle">Current rent/mortgage statement</nys-iconlistitem>
   <nys-iconlistitem icon="check_circle">Current property tax bill</nys-iconlistitem>
   <nys-iconlistitem icon="check_circle">Current homeowner's insurance bill</nys-iconlistitem>
   <nys-iconlistitem icon="check_circle">Social Security card</nys-iconlistitem>
-</nys-iconlist>`,
+</nys-iconlist>
+\`\`\``,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const BasicItem: Story = {
+  render: () => {
+    return html`
+      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const ItemWithASecondaryLabel: Story = {
+  render: () => {
+    return html`
+      <nys-iconlistitem icon="location_on">
+        Central Park West
+        <span slot="secondary">New York, NY</span>
+      </nys-iconlistitem>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-iconlistitem icon="location_on">
+  Central Park West
+  <span slot="secondary">New York, NY</span>
+</nys-iconlistitem>`,
         type: "auto",
       },
     },

@@ -1373,6 +1373,27 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
+   * A scannable list of icon + text items, with an optional divider between rows.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - One or more `<nys-iconlistitem>` elements.
+   */
+  "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
+
+  /**
+   * An icon-paired list item for use inside `<nys-iconlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Primary label text.
+   * - **secondary** - Optional second line of text rendered below the primary label.
+   */
+  "nys-iconlistitem": Partial<NysIconlistitemProps & BaseProps & BaseEvents>;
+
+  /**
    * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
    *
    * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
