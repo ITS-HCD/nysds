@@ -710,9 +710,9 @@ export class NysDatepicker extends LitElement {
     if (this.disabled) return;
 
     this._setTodayDate();
-    if (this._hasUserInteracted) {
-      this._validate();
-    }
+    this._hasUserInteracted = true;
+    this._validate();
+    this._dispatchInputEvent();
   }
 
   private _handleClearClick() {
@@ -728,6 +728,10 @@ export class NysDatepicker extends LitElement {
     if (this._hasUserInteracted) {
       this._validate();
     }
+
+    this._hasUserInteracted = true;
+    this._validate();
+    this._dispatchInputEvent();
   }
 
   private _handleInputChange(event: Event) {
