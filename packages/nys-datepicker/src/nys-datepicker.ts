@@ -550,26 +550,6 @@ export class NysDatepicker extends LitElement {
     );
   }
 
-  private _dispatchTodayClickEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-datepicker-today", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
-  private _dispatchClearClickEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-datepicker-clear", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -733,7 +713,6 @@ export class NysDatepicker extends LitElement {
     this._hasUserInteracted = true;
     this._validate();
     this._dispatchInputEvent();
-    this._dispatchTodayClickEvent();
   }
 
   private _handleClearClick() {
@@ -749,7 +728,6 @@ export class NysDatepicker extends LitElement {
     this._hasUserInteracted = true;
     this._validate();
     this._dispatchInputEvent();
-    this._dispatchClearClickEvent();
   }
 
   private _handleInputChange(event: Event) {
