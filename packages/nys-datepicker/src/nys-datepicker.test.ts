@@ -1190,7 +1190,7 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     expect(el.value).to.be.undefined;
-    expect(el.showError).to.be.true; // clearing is itself an interaction
+    expect(el.showError).to.be.true;
   });
 
   // -------------------------------------------------------------------------
