@@ -14651,6 +14651,16 @@
             },
             {
               "kind": "field",
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_isMobile",
               "type": {
                 "text": "boolean"
@@ -14668,10 +14678,31 @@
               "default": "null"
             },
             {
+              "kind": "method",
+              "name": "open",
+              "privacy": "public",
+              "description": "Public API for controlling the mobile accordion from outside the component\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "privacy": "public"
+            },
+            {
               "kind": "field",
-              "name": "_handleResize",
+              "name": "_handleAccordionToggle",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_handleResize",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -14731,6 +14762,15 @@
               "default": "\"h2\"",
               "fieldName": "headerLevel",
               "propName": "headerlevel"
+            },
+            {
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "expanded",
+              "propName": "expanded"
             }
           ],
           "superclass": {
@@ -14865,6 +14905,12 @@
           "events": [
             {
               "name": "nys-child-resize",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-verticalnavgroup-toggle",
               "type": {
                 "text": "CustomEvent"
               }

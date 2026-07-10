@@ -1030,6 +1030,8 @@ export type NysVerticalnavProps = {
   hideHeader?: boolean;
   /**  */
   headerLevel?: HeaderLevel;
+  /**  */
+  expanded?: boolean;
 };
 
 export type NysVerticalnavGroupProps = {
@@ -1046,6 +1048,8 @@ export type NysVerticalnavGroupProps = {
 
   /**  */
   "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-verticalnavgroup-toggle"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
 export type NysVideoProps = {
@@ -1633,6 +1637,10 @@ export type CustomElements = {
    * Responsive vertical navigation — nav on desktop, accordion on mobile.
    * ---
    *
+   *
+   * ### **Methods:**
+   *  - **open()** - Public API for controlling the mobile accordion from outside the component
+   * --------------------------------------------------------------------------
    */
   "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
 
@@ -1643,6 +1651,7 @@ export type CustomElements = {
    *
    * ### **Events:**
    *  - **nys-child-resize**
+   * - **nys-verticalnavgroup-toggle**
    */
   "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 

@@ -8,6 +8,11 @@ export const NysVerticalnavGroup = forwardRef((props, forwardedRef) => {
 
   /** Event listeners - run once */
   useEventListener(ref, "nys-child-resize", props.onNysChildResize);
+  useEventListener(
+    ref,
+    "nys-verticalnavgroup-toggle",
+    props.onNysVerticalnavgroupToggle,
+  );
 
   return React.createElement(
     "nys-verticalnavgroup",

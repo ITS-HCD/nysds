@@ -59,6 +59,9 @@ export interface NysVerticalnavGroupProps extends Pick<
 
   /** undefined */
   onNysChildResize?: (event: CustomEvent) => void;
+
+  /** undefined */
+  onNysVerticalnavgroupToggle?: (event: CustomEvent) => void;
 }
 
 /**
@@ -68,5 +71,6 @@ export interface NysVerticalnavGroupProps extends Pick<
  *
  * ### **Events:**
  *  - **nys-child-resize**
+ * - **nys-verticalnavgroup-toggle**
  */
 export const NysVerticalnavGroup: React.ForwardRefExoticComponent<NysVerticalnavGroupProps>;

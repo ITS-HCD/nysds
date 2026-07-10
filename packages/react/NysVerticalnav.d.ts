@@ -22,6 +22,9 @@ export interface NysVerticalnavProps extends Pick<
   hideHeader?: boolean;
 
   /** undefined */
+  expanded?: boolean;
+
+  /** undefined */
   id?: NysVerticalnavElement["id"];
 
   /** undefined */
@@ -56,5 +59,9 @@ export interface NysVerticalnavProps extends Pick<
  * Responsive vertical navigation — nav on desktop, accordion on mobile.
  * ---
  *
+ *
+ * ### **Methods:**
+ *  - **open()** - Public API for controlling the mobile accordion from outside the component
+ * --------------------------------------------------------------------------
  */
 export const NysVerticalnav: React.ForwardRefExoticComponent<NysVerticalnavProps>;
