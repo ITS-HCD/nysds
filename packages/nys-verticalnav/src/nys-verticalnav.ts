@@ -24,13 +24,14 @@ function adoptLightStyles() {
 /**
  * Vertical navigation component with responsive desktop/mobile behavior.
  *
- * Renders as a side vertical navigation with heading and slotted link list on desktop. On tablet/mobile
- * it collapses into a `<nys-accordion>`. The default slot accepts a
- * `<ul>` of links; subheader `<li>` items (containing `<h2>`-`<h6>`). Use the `header` slot to replace the
- * auto-generated heading, and the `footer` slot for metadata or extra actions
- * below the link list.
+ * Renders as a side navigation on desktop and collapses into a
+ * `<nys-accordion>` on tablet and mobile. The default slot accepts a
+ * `<ul>` of links with optional section headings (`<h2>` to `<h6>`) or
+ * `<nys-verticalnavgroup>` elements. Use the `header` slot to replace the
+ * generated heading and the `footer` slot for additional content below the
+ * navigation.
  *
- * @summary Responsive vertical navigation — nav on desktop, accordion on mobile.
+ * @summary Responsive navigation that becomes an accordion on smaller screens.
  * @element nys-verticalnav
  *
  * @example Basic usage
@@ -96,7 +97,34 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example With dropdown group
+ * @example Header and footer slots
+ * ```html
+ * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
+ *   <div slot="header">
+ *     <h2>Freshwater Fishing</h2>
+ *     <p>2026 Season Open</p>
+ *   </div>
+ *   <ul>
+ *     <li><a href="/">Home</a></li>
+ *     <li><a href="/services">Services</a></li>
+ *     <li>
+ *       <h3>Freshwater Fishing Regulations</h3>
+ *       <ul>
+ *         <li><a href="">Places to Fish</a></li>
+ *         <li><a href="">Learn to Fish</a></li>
+ *         <li><a href="">Ice Fishing</a></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
+ *   <div slot="footer">
+ *     <nys-divider></nys-divider>
+ *     <p>Regulations last updated: January 2026</p>
+ *     <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
+ *   </div>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example Dropdown group
  * ```html
  * <nys-verticalnav header="NYS Design System" headerLevel="h2">
  *   <ul>
@@ -122,7 +150,7 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example With active link (aria-current="page")
+ * @example Active link
  * ```html
  * <nys-verticalnav header="NYS Design System" headerLevel="h2">
  *   <ul>
@@ -141,7 +169,7 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example With disabled links and group
+ * @example Disabled links and group
  * ```html
  * <nys-verticalnav header="NYS Design System" headerLevel="h2">
  *   <ul>
@@ -165,9 +193,9 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example Hidden header (aria-label used instead)
+ * @example Hidden header
  * ```html
- * <nys-verticalnav header="Section nav" hideHeader>
+ * <nys-verticalnav header="Section navigation" hideHeader>
  *   <ul>
  *     <li><a href="/home">Home</a></li>
  *   </ul>
