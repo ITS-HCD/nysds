@@ -259,7 +259,11 @@ export class NysCheckboxgroup extends LitElement {
 
   // Updates the required attribute of each checkbox in the group
   private async _manageRequire() {
-    if (!this.required) return;
+    if (!this.required) {
+      this._internals.setValidity({});
+      this.showError = false;
+      return;
+    }
 
     const message =
       this.errorMessage || "You must make a selection to proceed.";
