@@ -2,14 +2,14 @@
  * SSR smoke test: verifies the NYSDS bundle can be imported in Node.js
  * without crashing on browser-only APIs (window, document, etc.).
  *
- * Run after building: node scripts/test-ssr.mjs
+ * Run after building: node src/scripts/test-ssr.mjs
  */
 
 import { fileURLToPath } from "url";
 import { resolve, dirname } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const bundlePath = resolve(__dirname, "../dist/nysds.es.js");
+const bundlePath = resolve(__dirname, "../../dist/nysds.es.js");
 
 try {
   await import(bundlePath);

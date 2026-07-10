@@ -1,20 +1,36 @@
 /**
  * Icon Library Registry
  *
- * Global registry for icon libraries. The "default" library resolves
- * NYSDS icons from colocated SVG files extracted at build time.
- * Custom libraries (Font Awesome, Material Icons, etc.) can be
- * registered at runtime via `registerIconLibrary()`.
+ * Global registry for icon libraries. The "default" library resolves the
+ * standard NYSDS icon set from an inline SVG map shipped as JavaScript
+ * (`nys-icon.library.ts`), loaded lazily as a separate chunk — no base-URL
+ * discovery, no per-icon fetch, no browser globals. Custom libraries
+ * (Font Awesome, Material Icons, etc.) register at runtime via
+ * `registerIconLibrary()` and typically resolve to URLs.
  *
- * The registry and watcher maps are stored on `window` so that even
+ * The registry and watcher maps are stored on `globalThis` so that even
  * when bundlers (Storybook Vite, etc.) create duplicate module
- * instances, every copy shares a single source of truth.
+ * instances, every copy shares a single source of truth. `globalThis`
+ * (rather than `window`) keeps module import side-effect-safe in
+ * Node/SSR environments, where `window` does not exist.
  */
 
+/**
+ * How a resolver locates an icon: a URL string (legacy shorthand for
+ * `{ type: "url" }`), an explicit URL, or inline SVG source. Resolvers may
+ * return synchronously or via a Promise.
+ */
+export type IconResolution =
+  | string
+  | { type: "url"; href: string }
+  | { type: "svg"; content: string };
+
 export interface IconLibrary {
-  /** Given an icon name, return the URL to its SVG file. Return undefined if not found. */
-  resolver: (name: string) => string | undefined;
-  /** Optional post-fetch transform applied to the parsed SVGElement. */
+  /** Given an icon name, return where/what its SVG is. Return undefined if not found. */
+  resolver: (
+    name: string,
+  ) => IconResolution | undefined | Promise<IconResolution | undefined>;
+  /** Optional post-parse transform applied to the SVGElement. */
   mutator?: (svg: SVGElement) => void;
 }
 
@@ -25,88 +41,71 @@ export interface NysIconWatcher {
 // ---------------------------------------------------------------------------
 // Global singleton storage – survives module duplication by bundlers
 // ---------------------------------------------------------------------------
-interface NysIconGlobals {
-  __nysIconRegistry: Map<string, IconLibrary>;
-  __nysIconWatchers: Map<string, Set<NysIconWatcher>>;
-}
-
 declare global {
-  interface Window extends NysIconGlobals {}
+  var __nysIconRegistry: Map<string, IconLibrary> | undefined;
+  var __nysIconWatchers: Map<string, Set<NysIconWatcher>> | undefined;
+  var __nysIconDefaultRegistered: boolean | undefined;
 }
 
-if (!window.__nysIconRegistry) {
-  window.__nysIconRegistry = new Map<string, IconLibrary>();
-}
-if (!window.__nysIconWatchers) {
-  window.__nysIconWatchers = new Map<string, Set<NysIconWatcher>>();
-}
+const registry = (globalThis.__nysIconRegistry ??= new Map<
+  string,
+  IconLibrary
+>());
+const watchers = (globalThis.__nysIconWatchers ??= new Map<
+  string,
+  Set<NysIconWatcher>
+>());
 
-const registry = window.__nysIconRegistry;
-const watchers = window.__nysIconWatchers;
+// ---------------------------------------------------------------------------
+// Default library — the standard NYSDS icon set, shipped as JS data
+// ---------------------------------------------------------------------------
+
+let defaultSet: Record<string, string> | null = null;
+let defaultSetLoading: Promise<Record<string, string>> | null = null;
 
 /**
- * Resolve the base URL of the colocated `icons/` folder for the default
- * library, working "no matter where it is being served from" for vanilla-JS
- * installs (copy `dist/` somewhere and reference it with a `<script>` tag).
- *
- * The goal is to anchor `icons/` to the *served bundle's* directory, not to the
- * HTML page. We try several signals, most precise first:
- *
- *   1. `document.currentScript` — the executing tag for a classic
- *      `<script src="…/nysds.js">`. Only valid during synchronous module
- *      init, which is why this runs eagerly at load time.
- *   2. A matching `<script src>` in the DOM — `currentScript` is `null` for
- *      module scripts (`<script type="module">`), so we locate our own bundle
- *      by filename. This is the case the README documents.
- *   3. `import.meta.url` — the native module URL for a genuine ESM build.
- *   4. `document.baseURI` — last-resort page-relative fallback.
- *
- * `import.meta.url` alone is not enough: in the UMD bundle it is polyfilled,
- * and when that bundle is loaded as a module it degrades to a page-relative
- * URL. Reading it via a variable (rather than the literal
- * `new URL("./icons/", import.meta.url)` pattern) also stops downstream
- * bundlers from rewriting it into a broken asset reference.
- *
- * React/Angular and other bundler-driven setups inline the source with no
- * `nysds` script tag present, so they fall through here and must register an
- * explicit `"default"` resolver — see the docs.
+ * Load the standard icon set lazily. The specifier is a *literal* so every
+ * bundler code-splits the map into a separate async chunk — fetched once,
+ * only when a default-library icon actually renders — instead of bundling
+ * ~139 KB into the consumer's main chunk. Do NOT turn this into a
+ * template-literal / computed import: dynamic specifiers reintroduce the
+ * bundler static-analysis failures this design eliminates (#1677, #1687).
  */
-function resolveDefaultIconBaseUrl(): string {
-  // Matches the served bundle filenames: nysds.js, nysds.es.js, nysds.min.js,
-  // or the standalone nys-icon.js.
-  const bundlePattern =
-    /(?:^|\/)(?:nysds(?:\.es|\.min)?|nys-icon)\.js(?:[?#]|$)/;
-
-  if (typeof document !== "undefined") {
-    const current = document.currentScript as HTMLScriptElement | null;
-    if (current?.src) return new URL("./icons/", current.src).href;
-
-    const scripts = Array.from(
-      document.querySelectorAll<HTMLScriptElement>("script[src]"),
-    );
-    const self = scripts.find((s) => bundlePattern.test(s.src));
-    if (self?.src) return new URL("./icons/", self.src).href;
-  }
-
-  // Genuine ESM: import.meta.url is the module's own URL. Held in a variable
-  // so bundlers don't statically rewrite the `new URL(literal, …)` pattern.
-  const moduleUrl = import.meta.url;
-  if (moduleUrl) return new URL("./icons/", moduleUrl).href;
-
-  return new URL("./icons/", document.baseURI).href;
+async function loadDefaultSet(): Promise<Record<string, string>> {
+  if (defaultSet) return defaultSet;
+  defaultSetLoading ??= import("./nys-icon.library").then(
+    (m) => (defaultSet = m.default),
+  );
+  return defaultSetLoading;
 }
 
-// Default library: resolves NYSDS icons from colocated dist/icons/ folder.
-// Only register once (the first module instance to run wins).
-if (!registry.has("default")) {
-  const defaultBaseUrl = resolveDefaultIconBaseUrl();
+// Registered lazily on first lookup (never at import time, which must stay
+// side-effect-free for SSR) and only once — the first module instance to
+// resolve it wins, and an explicit register/unregister of "default" is
+// never overridden.
+function ensureDefaultLibrary(): void {
+  if (globalThis.__nysIconDefaultRegistered || registry.has("default")) {
+    globalThis.__nysIconDefaultRegistered = true;
+    return;
+  }
+
+  globalThis.__nysIconDefaultRegistered = true;
   registry.set("default", {
-    resolver: (name: string) =>
-      name ? `${defaultBaseUrl}${name}.svg` : undefined,
+    resolver: async (name) => {
+      if (!name) return undefined;
+      const set = await loadDefaultSet();
+      const content = set[name];
+      return content ? { type: "svg", content } : undefined;
+    },
   });
 }
 
 /** Register or replace a named icon library. All watching icons using this library will redraw.
+ *
+ * Intended for custom/external libraries — the standard NYSDS set is
+ * built in and needs no registration. Registering under `"default"`
+ * replaces the built-in set (escape hatch).
+ *
  * @example Register a Font Awesome library with a custom resolver:
  * ```ts
  * registerIconLibrary("fa", {
@@ -128,6 +127,7 @@ export function unregisterIconLibrary(name: string): void {
 
 /** Get a registered icon library by name. */
 export function getIconLibrary(name: string): IconLibrary | undefined {
+  ensureDefaultLibrary();
   return registry.get(name);
 }
 
