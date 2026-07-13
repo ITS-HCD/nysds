@@ -16,19 +16,6 @@ import styles from "./nys-iconlistitem.scss?inline";
  *
  * @slot - Primary label text.
  * @slot secondary - Optional second line of text rendered below the primary label.
- *
- * @example Basic item
- * ```html
- * <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
- * ```
- *
- * @example Item with a secondary label
- * ```html
- * <nys-iconlistitem icon="location_on">
- *   Central Park West
- *   <span slot="secondary">New York, NY</span>
- * </nys-iconlistitem>
- * ```
  */
 export class NysIconlistitem extends LitElement {
   static styles = unsafeCSS(styles);

@@ -132,7 +132,6 @@ export const Checklist: Story = {
           >Social Security card</nys-iconlistitem
         >
       </nys-iconlist>
-      \`\`\`
     `;
   },
   parameters: {
@@ -145,48 +144,7 @@ export const Checklist: Story = {
   <nys-iconlistitem icon="check_circle">Current property tax bill</nys-iconlistitem>
   <nys-iconlistitem icon="check_circle">Current homeowner's insurance bill</nys-iconlistitem>
   <nys-iconlistitem icon="check_circle">Social Security card</nys-iconlistitem>
-</nys-iconlist>
-\`\`\``,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const BasicItem: Story = {
-  render: () => {
-    return html`
-      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const ItemWithASecondaryLabel: Story = {
-  render: () => {
-    return html`
-      <nys-iconlistitem icon="location_on">
-        Central Park West
-        <span slot="secondary">New York, NY</span>
-      </nys-iconlistitem>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-iconlistitem icon="location_on">
-  Central Park West
-  <span slot="secondary">New York, NY</span>
-</nys-iconlistitem>`,
+</nys-iconlist>`,
         type: "auto",
       },
     },

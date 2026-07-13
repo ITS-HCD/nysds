@@ -8879,7 +8879,8 @@
             },
             {
               "title": "Checklist",
-              "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>\n```"
+              "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
             }
           ]
         }
@@ -8985,19 +8986,7 @@
           },
           "tagName": "nys-iconlistitem",
           "customElement": true,
-          "summary": "An icon-paired list item for use inside `<nys-iconlist>`.",
-          "examples": [
-            {
-              "title": "Basic item",
-              "code": "<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>",
-              "lang": "html"
-            },
-            {
-              "title": "Item with a secondary label",
-              "code": "<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>",
-              "lang": "html"
-            }
-          ]
+          "summary": "An icon-paired list item for use inside `<nys-iconlist>`."
         }
       ],
       "exports": [

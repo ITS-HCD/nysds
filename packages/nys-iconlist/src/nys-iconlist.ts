@@ -52,6 +52,7 @@ let componentIdCounter = 0;
  * ```
  *
  * @example Checklist
+ * ```html
  * <nys-iconlist id="requirements">
  *   <nys-iconlistitem icon="check_circle">Recent pay stubs</nys-iconlistitem>
  *   <nys-iconlistitem icon="check_circle">Current rent/mortgage statement</nys-iconlistitem>
