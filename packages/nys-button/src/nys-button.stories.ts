@@ -41,6 +41,7 @@ export const Basic: Story = {
   render: (args) => {
     return html`
       <nys-button
+        variant="filled"
         name=${args.name}
         size=${args.size}
         ?fullWidth=${args.fullWidth}

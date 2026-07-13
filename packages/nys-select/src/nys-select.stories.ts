@@ -35,6 +35,7 @@ export const Basic: Story = {
   render: (args) => {
     return html`
       <nys-select
+        id="borough"
         name=${args.name}
         label=${args.label}
         description=${args.description}

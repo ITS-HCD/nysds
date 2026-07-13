@@ -337,7 +337,17 @@ function buildInteractiveStory(example, nameOverride, tagToDeclaration, localTag
   const argTypes = {};
   buildArgsForProps(rootProps, rootExampleAttrs, args, argTypes);
 
-  const newRootTag = `<${rootTagName}\n  ${rootProps.map(buildLitBinding).join("\n  ")}\n>`;
+  // Preserve static attributes from the example (e.g. class, id) that aren't
+  // interactive props, so demo wiring like onclick="...querySelector('.modal1')"
+  // still resolves. Prop attributes become interactive bindings instead.
+  const rootPropAttrs = new Set(rootProps.map((p) => p.attribute));
+  const rootStaticAttrs = Object.entries(rootExampleAttrs)
+    .filter(([attrName]) => !rootPropAttrs.has(attrName))
+    .map(([attrName, attrValue]) =>
+      attrValue === true ? attrName : `${attrName}="${attrValue}"`,
+    );
+  const rootAttrParts = [...rootStaticAttrs, ...rootProps.map(buildLitBinding)];
+  const newRootTag = `<${rootTagName}\n  ${rootAttrParts.join("\n  ")}\n>`;
 
   // --- First child nys-* tag: must also be local, different from root ---
   const afterRootStr = rawRenderCode.slice(rootMatch.index + rootMatch[0].length);
