@@ -101,6 +101,23 @@ let radiogroupIdCounter = 0;
  *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
+ * @example TEST
+ * ```html
+ * <nys-radiogroup label="Select borough">
+ *  <div>
+ *   <input type="radio" id="huey" name="drone" value="huey" checked />
+ *   <label for="huey">Huey</label>
+ *  </div>
+ *  <div>
+ *    <input type="radio" id="dewey" name="drone" value="dewey" />
+ *    <label for="dewey">Dewey</label>
+ *  </div>
+ *  <div>
+ *   <input type="radio" id="louie" name="drone" value="louie" />
+ *   <label for="louie">Louie</label>
+ *  </div>
+ * </nys-radiogroup>
+ * ```
  */
 
 export class NysRadiogroup extends LitElement {

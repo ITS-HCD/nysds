@@ -29,6 +29,62 @@ let radiobuttonIdCounter = 0;
  *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
+ *
+ * /**
+ * @example Standalone, one per table row
+ * ```html
+ * <nys-table striped bordered>
+ *   <table>
+ *     <caption>
+ *       Select the highest priority application for review
+ *     </caption>
+ *     <tr>
+ *       <th>Application</th>
+ *       <th>Priority</th>
+ *     </tr>
+ *     <tr>
+ *       <td>SNAP Benefits</td>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="snap"
+ *           label="Select SNAP Benefits"
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td>Child Care Assistance</td>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="child-care"
+ *           label="Select Child Care Assistance"
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td>HEAP</td>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="heap"
+ *           label="Select HEAP"
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td>Medicaid</td>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="medicaid"
+ *           label="Select Medicaid"
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *   </table>
+ * </nys-table>
+ * ```
  */
 
 export class NysRadiobutton extends LitElement {

@@ -9779,6 +9779,11 @@
               "title": "Pre-selected",
               "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
+            },
+            {
+              "title": "Standalone, one per table row",
+              "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th>Application</th>\n<th>Priority</th>\n</tr>\n<tr>\n<td>SNAP Benefits</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n label=\"Select SNAP Benefits\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Child Care Assistance</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"child-care\"\n label=\"Select Child Care Assistance\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>HEAP</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"heap\"\n label=\"Select HEAP\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Medicaid</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"medicaid\"\n label=\"Select Medicaid\"\n></nys-radiobutton>\n</td>\n</tr>\n</table>\n</nys-table>",
+              "lang": "html"
             }
           ]
         }
@@ -10456,6 +10461,11 @@
             {
               "title": "Description Slot",
               "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "TEST",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<div>\n<input type=\"radio\" id=\"huey\" name=\"drone\" value=\"huey\" checked />\n<label for=\"huey\">Huey</label>\n</div>\n\n<div>\n<input type=\"radio\" id=\"dewey\" name=\"drone\" value=\"dewey\" />\n<label for=\"dewey\">Dewey</label>\n</div>\n\n<div>\n<input type=\"radio\" id=\"louie\" name=\"drone\" value=\"louie\" />\n<label for=\"louie\">Louie</label>\n</div>\n\n\n</nys-radiogroup>",
               "lang": "html"
             }
           ]
