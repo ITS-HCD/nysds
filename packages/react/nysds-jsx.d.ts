@@ -1671,7 +1671,7 @@ export type CustomElements = {
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   * Responsive vertical navigation — nav on desktop, accordion on mobile.
+   * Responsive navigation that becomes an accordion on smaller screens.
    * ---
    *
    *

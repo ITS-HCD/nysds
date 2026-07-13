@@ -56,7 +56,7 @@ export interface NysVerticalnavProps extends Pick<
 }
 
 /**
- * Responsive vertical navigation — nav on desktop, accordion on mobile.
+ * Responsive navigation that becomes an accordion on smaller screens.
  * ---
  *
  *

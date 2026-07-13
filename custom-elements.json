@@ -15543,7 +15543,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Vertical navigation component with responsive desktop/mobile behavior.\n\nRenders as a side vertical navigation with heading and slotted link list on desktop. On tablet/mobile\nit collapses into a `<nys-accordion>`. The default slot accepts a\n`<ul>` of links; subheader `<li>` items (containing `<h2>`-`<h6>`). Use the `header` slot to replace the\nauto-generated heading, and the `footer` slot for metadata or extra actions\nbelow the link list.",
+          "description": "Vertical navigation component with responsive desktop/mobile behavior.\n\nRenders as a side navigation on desktop and collapses into a\n`<nys-accordion>` on tablet and mobile. The default slot accepts a\n`<ul>` of links with optional section headings (`<h2>` to `<h6>`) or\n`<nys-verticalnavgroup>` elements. Use the `header` slot to replace the\ngenerated heading and the `footer` slot for additional content below the\nnavigation.",
           "name": "NysVerticalnav",
           "members": [
             {
@@ -15716,41 +15716,55 @@
           },
           "tagName": "nys-verticalnav",
           "customElement": true,
-          "summary": "Responsive vertical navigation — nav on desktop, accordion on mobile.",
+          "summary": "Responsive navigation that becomes an accordion on smaller screens.",
           "examples": [
             {
-              "title": "Basic usage",
+              "title": "Basic",
               "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "With custom header slot",
-              "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "title": "Header slot",
+              "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "With footer slot",
-              "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>",
+              "title": "Footer slot",
+              "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ul>\n\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "With dropdown group",
-              "code": "<nys-verticalnav header=\"NYS Design System\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a href=\"\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "title": "Header and footer",
+              "code": "<nys-verticalnav header=\"Freshwater Fishing\" headerLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ul>\n\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "With active link (aria-current=\"page\")",
-              "code": "<nys-verticalnav header=\"NYS Design System\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a aria-current=\"page\" href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
+              "title": "Dropdown group",
+              "code": "<nys-verticalnav header=\"NYS Design System\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "With disabled links and group",
-              "code": "<nys-verticalnav header=\"NYS Design System\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li><a aria-disabled=\"true\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a aria-disabled=\"true\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "title": "Active state",
+              "code": "<nys-verticalnav header=\"NYS Design System\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li>\n   <a aria-current=\"page\" href=\"\">\n     WCAG Guidelines\n   </a>\n </li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "Hidden header (aria-label used instead)",
-              "code": "<nys-verticalnav header=\"Section nav\" hideHeader>\n<ul>\n<li><a href=\"/home\">Home</a></li>\n</ul>\n</nys-verticalnav>",
+              "title": "Disabled state",
+              "code": "<nys-verticalnav header=\"NYS Design System\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li><a aria-disabled=\"true\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Hidden header",
+              "code": "<nys-verticalnav header=\"Section navigation\" hideHeader>\n<ul>\n<li><a href=\"/home\">Home</a></li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Page layout",
+              "code": "```html\n<style>\n.story-page {\ndisplay: flex;\nflex-direction: column;\nmin-height: 100vh;\nfont-family: var(--nys-font-family-ui, \"Proxima Nova\", sans-serif);\n}\n.story-page__body {\ndisplay: flex;\nflex: 1;\n}\n.story-page__main {\nflex: 1;\npadding: var(--nys-space-400, 32px);\n}"
+            },
+            {
+              "title": "Mobile controls",
+              "code": "<nys-verticalnav id=\"my-nav\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ul>\n</nys-verticalnav>\n\n<nys-button\nlabel=\"Toggle navigation\"\nonclick=\"document.querySelector('#my-nav').toggle()\"\n></nys-button>",
               "lang": "html"
             }
           ]
@@ -15909,23 +15923,18 @@
           "summary": "Collapsible link group for use within `<nys-verticalnav>`.",
           "examples": [
             {
-              "title": "Basic usage",
+              "title": "Basic VerticalNav Group",
               "code": "<nys-verticalnav header=\"NYS Design System\">\n<ul>\n<li><a href=\"/foundations\">Foundations</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "With active link — group auto-expands",
-              "code": "<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n<li><a aria-current=\"page\" href=\"\">WCAG Guidelines</a></li>\n<li><a href=\"\">Screen Readers</a></li>\n<li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>",
+              "title": "Active group",
+              "code": "<nys-verticalnav header=\"NYS Design System\">\n<ul>\n<li><a href=\"/foundations\">Foundations</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li>\n   <a aria-current=\"page\" href=\"\">\n     WCAG Guidelines\n   </a>\n </li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
-              "title": "Expanded by default",
-              "code": "<nys-verticalnavgroup label=\"Resources\" expanded>\n<ul>\n<li><a href=\"\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</nys-verticalnavgroup>",
-              "lang": "html"
-            },
-            {
-              "title": "Disabled group with disabled links",
-              "code": "<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n<li><a aria-disabled=\"true\">WCAG Guidelines</a></li>\n<li><a href=\"\">Screen Readers</a></li>\n<li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>",
+              "title": "Disabled group",
+              "code": "<nys-verticalnav header=\"NYS Design System\">\n<ul>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li>\n   <a aria-disabled=\"true\">\n     WCAG Guidelines\n   </a>\n </li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             }
           ]

@@ -17,7 +17,7 @@ let verticalNavGroupIdCounter = 0;
  * @summary Collapsible link group for use within `<nys-verticalnav>`.
  * @element nys-verticalnavgroup
  *
- * @example Basic usage
+ * @example Basic VerticalNav Group
  * ```html
  * <nys-verticalnav header="NYS Design System">
  *   <ul>
@@ -35,38 +35,49 @@ let verticalNavGroupIdCounter = 0;
  * </nys-verticalnav>
  * ```
  *
- * @example With active link — group auto-expands
+ * @example Active group
  * ```html
- * <nys-verticalnavgroup label="Accessibility">
+ * <nys-verticalnav header="NYS Design System">
  *   <ul>
- *     <li><a aria-current="page" href="">WCAG Guidelines</a></li>
- *     <li><a href="">Screen Readers</a></li>
- *     <li><a href="">Color Contrast</a></li>
+ *     <li><a href="/foundations">Foundations</a></li>
+ *     <li>
+ *       <nys-verticalnavgroup label="Accessibility">
+ *         <ul>
+ *           <li>
+ *             <a aria-current="page" href="">
+ *               WCAG Guidelines
+ *             </a>
+ *           </li>
+ *           <li><a href="">Screen Readers</a></li>
+ *           <li><a href="">Color Contrast</a></li>
+ *         </ul>
+ *       </nys-verticalnavgroup>
+ *     </li>
  *   </ul>
- * </nys-verticalnavgroup>
+ * </nys-verticalnav>
  * ```
  *
- * @example Expanded by default
+ * @example Disabled group
  * ```html
- * <nys-verticalnavgroup label="Resources" expanded>
+ * <nys-verticalnav header="NYS Design System">
  *   <ul>
- *     <li><a href="">Design Tokens</a></li>
- *     <li><a href="">Utilities</a></li>
+ *     <li>
+ *       <nys-verticalnavgroup disabled label="Accessibility">
+ *         <ul>
+ *           <li>
+ *             <a aria-disabled="true">
+ *               WCAG Guidelines
+ *             </a>
+ *           </li>
+ *           <li><a href="">Screen Readers</a></li>
+ *           <li><a href="">Color Contrast</a></li>
+ *         </ul>
+ *       </nys-verticalnavgroup>
+ *     </li>
  *   </ul>
- * </nys-verticalnavgroup>
+ * </nys-verticalnav>
  * ```
- *
- * @example Disabled group with disabled links
- * ```html
- * <nys-verticalnavgroup disabled label="Accessibility">
- *   <ul>
- *     <li><a aria-disabled="true">WCAG Guidelines</a></li>
- *     <li><a href="">Screen Readers</a></li>
- *     <li><a href="">Color Contrast</a></li>
- *   </ul>
- * </nys-verticalnavgroup>
- * ```
- */
+ * */
 
 export class NysVerticalnavGroup extends LitElement {
   static styles = unsafeCSS(styles);

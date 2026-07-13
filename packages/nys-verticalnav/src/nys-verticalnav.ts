@@ -34,7 +34,7 @@ function adoptLightStyles() {
  * @summary Responsive navigation that becomes an accordion on smaller screens.
  * @element nys-verticalnav
  *
- * @example Basic usage
+ * @example Basic
  * ```html
  * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
  *   <ul>
@@ -52,43 +52,29 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example With custom header slot
+ * @example Header slot
  * ```html
  * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
  *   <div slot="header">
  *     <h2>Freshwater Fishing</h2>
  *     <p>2026 Season Open</p>
  *   </div>
+ *
  *   <ul>
  *     <li><a href="/">Home</a></li>
  *     <li><a href="/services">Services</a></li>
- *     <li>
- *       <h3>Freshwater Fishing Regulations</h3>
- *       <ul>
- *         <li><a href="">Places to Fish</a></li>
- *         <li><a href="">Learn to Fish</a></li>
- *         <li><a href="">Ice Fishing</a></li>
- *       </ul>
- *     </li>
  *   </ul>
  * </nys-verticalnav>
  * ```
  *
- * @example With footer slot
+ * @example Footer slot
  * ```html
  * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
  *   <ul>
  *     <li><a href="/">Home</a></li>
  *     <li><a href="/services">Services</a></li>
- *     <li>
- *       <h3>Freshwater Fishing Regulations</h3>
- *       <ul>
- *         <li><a href="">Places to Fish</a></li>
- *         <li><a href="">Learn to Fish</a></li>
- *         <li><a href="">Ice Fishing</a></li>
- *       </ul>
- *     </li>
  *   </ul>
+ *
  *   <div slot="footer">
  *     <nys-divider></nys-divider>
  *     <p>Regulations last updated: January 2026</p>
@@ -97,25 +83,19 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example Header and footer slots
+ * @example Header and footer
  * ```html
  * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
  *   <div slot="header">
  *     <h2>Freshwater Fishing</h2>
  *     <p>2026 Season Open</p>
  *   </div>
+ *
  *   <ul>
  *     <li><a href="/">Home</a></li>
  *     <li><a href="/services">Services</a></li>
- *     <li>
- *       <h3>Freshwater Fishing Regulations</h3>
- *       <ul>
- *         <li><a href="">Places to Fish</a></li>
- *         <li><a href="">Learn to Fish</a></li>
- *         <li><a href="">Ice Fishing</a></li>
- *       </ul>
- *     </li>
  *   </ul>
+ *
  *   <div slot="footer">
  *     <nys-divider></nys-divider>
  *     <p>Regulations last updated: January 2026</p>
@@ -139,27 +119,23 @@ function adoptLightStyles() {
  *         </ul>
  *       </nys-verticalnavgroup>
  *     </li>
- *     <li>
- *       <h3>Resources</h3>
- *       <ul>
- *         <li><a href="">Design Tokens</a></li>
- *         <li><a href="">Utilities</a></li>
- *       </ul>
- *     </li>
  *   </ul>
  * </nys-verticalnav>
  * ```
  *
- * @example Active link
+ * @example Active state
  * ```html
  * <nys-verticalnav header="NYS Design System" headerLevel="h2">
  *   <ul>
  *     <li><a href="/">Foundations</a></li>
- *     <li><a href="/components">Components</a></li>
  *     <li>
  *       <nys-verticalnavgroup label="Accessibility">
  *         <ul>
- *           <li><a aria-current="page" href="">WCAG Guidelines</a></li>
+ *           <li>
+ *             <a aria-current="page" href="">
+ *               WCAG Guidelines
+ *             </a>
+ *           </li>
  *           <li><a href="">Screen Readers</a></li>
  *           <li><a href="">Color Contrast</a></li>
  *         </ul>
@@ -169,7 +145,7 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example Disabled links and group
+ * @example Disabled state
  * ```html
  * <nys-verticalnav header="NYS Design System" headerLevel="h2">
  *   <ul>
@@ -182,13 +158,6 @@ function adoptLightStyles() {
  *         </ul>
  *       </nys-verticalnavgroup>
  *     </li>
- *     <li>
- *       <h3>Resources</h3>
- *       <ul>
- *         <li><a aria-disabled="true">Design Tokens</a></li>
- *         <li><a href="">Utilities</a></li>
- *       </ul>
- *     </li>
  *   </ul>
  * </nys-verticalnav>
  * ```
@@ -198,8 +167,54 @@ function adoptLightStyles() {
  * <nys-verticalnav header="Section navigation" hideHeader>
  *   <ul>
  *     <li><a href="/home">Home</a></li>
+ *     <li><a href="/service">Service</a></li>
  *   </ul>
  * </nys-verticalnav>
+ * ```
+ *
+ * @example Page layout
+ * ```html
+ * <nys-globalheader
+ *   homepageLink="https://ny.gov"
+ *   agencyName="Office of Information Technology Services"
+ * ></nys-globalheader>
+ *
+ * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ *   <ul>
+ *     <li><a href="/">Foundations</a></li>
+ *     <li><a href="/components" aria-current="page">Components</a></li>
+ *     <li>
+ *       <nys-verticalnavgroup label="Accessibility">
+ *         <ul>
+ *           <li><a href="">WCAG Guidelines</a></li>
+ *           <li><a href="">Screen Readers</a></li>
+ *           <li><a href="">Color Contrast</a></li>
+ *         </ul>
+ *       </nys-verticalnavgroup>
+ *     </li>
+ *   </ul>
+ * </nys-verticalnav>
+ *
+ * <main>
+ *   <p>Place content here.</p>
+ * </main>
+ *
+ * <nys-globalfooter></nys-globalfooter>
+ * ```
+ *
+ * @example Mobile controls
+ * ```html
+ * <nys-verticalnav id="my-nav">
+ *   <ul>
+ *     <li><a href="/">Home</a></li>
+ *     <li><a href="/services">Services</a></li>
+ *   </ul>
+ * </nys-verticalnav>
+ *
+ * <nys-button
+ *   label="Toggle navigation"
+ *   onclick="document.querySelector('#my-nav').toggle()"
+ * ></nys-button>
  * ```
  */
 
