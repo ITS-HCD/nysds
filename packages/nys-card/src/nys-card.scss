@@ -5,7 +5,7 @@
   --_nys-card-width: 100%;
   --_nys-card-height: fit-content;
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
-  --_nys-card-border-radius--media: var(--nys-radius-xl, 12px);
+  --_nys-card-border-radius--media: 0;
   --_nys-card-padding--t: var(--nys-space-200, 16px);
   --_nys-card-padding--x: var(--nys-space-300, 24px);
   --_nys-card-padding--b: var(--nys-space-250, 20px);
@@ -25,7 +25,16 @@
 }
 
 :host([inset]) {
-  --_nys-card-border-radius--media: var(4px);
+  --_nys-card-border-radius--media: var(--nys-radius-md, 4px);
+
+  .nys-card__media-container {
+    padding: var(--nys-space-300, 24px) var(--nys-space-300, 24px) 0;
+  }
+
+  /* Keep the accent 24px inside the media, not the padded container */
+  .nys-card--media-accent {
+    right: calc(var(--nys-space-300, 24px) + 24px);
+  }
 }
 
 :host([elevated]) {
@@ -62,6 +71,7 @@
 
   &__media-container {
     position: relative;
+    box-sizing: border-box;
     width: 100%;
     height: fit-content;
 
@@ -70,6 +80,7 @@
       max-width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
+      border-radius: var(--_nys-card-border-radius--media);
     }
 
     .nys-card--media-accent {
