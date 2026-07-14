@@ -406,4 +406,146 @@ describe("nys-fileinput", () => {
       await expect(el).shadowDom.to.be.accessible();
     });
   });
+
+  // files / value accessors (external state management)
+  describe("nys-fileinput files/value accessors", () => {
+    // _saveSelectedFiles -> _processFile -> FileReader is async; flush its
+    // requestUpdate()s before asserting (mirrors the pattern used above).
+    const flush = async (el: NysFileinput) => {
+      await el.updateComplete;
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      await el.updateComplete;
+    };
+
+    it("files getter returns the current selection", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput multiple></nys-fileinput>`,
+      );
+      await el["_saveSelectedFiles"](
+        new File(["a"], "a.txt", { type: "text/plain" }),
+      );
+      await el["_saveSelectedFiles"](
+        new File(["b"], "b.txt", { type: "text/plain" }),
+      );
+      await flush(el);
+
+      expect(el.files.map((f) => f.name)).to.deep.equal(["a.txt", "b.txt"]);
+    });
+
+    it("value getter returns the first file, or null when empty", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput></nys-fileinput>`,
+      );
+      expect(el.value).to.equal(null);
+
+      await el["_saveSelectedFiles"](
+        new File(["a"], "a.txt", { type: "text/plain" }),
+      );
+      await flush(el);
+      expect(el.value?.name).to.equal("a.txt");
+    });
+
+    it("setting files replaces the selection and updates the form value", async () => {
+      const form = await fixture<HTMLFormElement>(
+        html`<form><nys-fileinput name="doc"></nys-fileinput></form>`,
+      );
+      const el = form.querySelector<NysFileinput>("nys-fileinput")!;
+
+      el.files = [new File(["hello"], "hello.txt", { type: "text/plain" })];
+      await flush(el);
+
+      expect(el.files.map((f) => f.name)).to.deep.equal(["hello.txt"]);
+      const submitted = new FormData(form).get("doc");
+      expect(submitted).to.be.instanceOf(File);
+      expect((submitted as File).name).to.equal("hello.txt");
+    });
+
+    it("setting files does NOT emit nys-change (programmatic set is silent)", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput></nys-fileinput>`,
+      );
+      let emitted = false;
+      el.addEventListener("nys-change", () => (emitted = true));
+
+      el.files = [new File(["hello"], "hello.txt", { type: "text/plain" })];
+      await flush(el);
+
+      expect(emitted).to.be.false;
+    });
+
+    it("setting value populates a single file; null clears it", async () => {
+      const form = await fixture<HTMLFormElement>(
+        html`<form><nys-fileinput name="doc"></nys-fileinput></form>`,
+      );
+      const el = form.querySelector<NysFileinput>("nys-fileinput")!;
+
+      el.value = new File(["x"], "x.txt", { type: "text/plain" });
+      await flush(el);
+      expect(el.value?.name).to.equal("x.txt");
+
+      el.value = null;
+      await flush(el);
+      expect(el.value).to.equal(null);
+      expect(el["_selectedFiles"].length).to.equal(0);
+      expect(new FormData(form).get("doc")).to.equal(null);
+    });
+
+    it("setting files to [] clears the selection and form value", async () => {
+      const form = await fixture<HTMLFormElement>(
+        html`<form><nys-fileinput name="doc"></nys-fileinput></form>`,
+      );
+      const el = form.querySelector<NysFileinput>("nys-fileinput")!;
+
+      el.files = [new File(["x"], "x.txt", { type: "text/plain" })];
+      await flush(el);
+      expect(el.files.length).to.equal(1);
+
+      el.files = [];
+      await flush(el);
+      expect(el.files.length).to.equal(0);
+      expect(new FormData(form).get("doc")).to.equal(null);
+    });
+
+    it("respects multiple=false when setting multiple files", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput></nys-fileinput>`,
+      );
+      el.files = [
+        new File(["a"], "a.txt", { type: "text/plain" }),
+        new File(["b"], "b.txt", { type: "text/plain" }),
+      ];
+      await flush(el);
+      expect(el.files.map((f) => f.name)).to.deep.equal(["a.txt"]);
+    });
+
+    it("rehydrates the selection after a form reset", async () => {
+      const form = await fixture<HTMLFormElement>(
+        html`<form><nys-fileinput name="doc"></nys-fileinput></form>`,
+      );
+      const el = form.querySelector<NysFileinput>("nys-fileinput")!;
+
+      el.files = [new File(["hello"], "hello.txt", { type: "text/plain" })];
+      await flush(el);
+      const saved = el.files; // stash the File objects (e.g. in a form model)
+
+      form.reset();
+      await flush(el);
+      expect(el.files.length).to.equal(0);
+
+      el.files = saved; // rehydrate on return
+      await flush(el);
+      expect(el.files.map((f) => f.name)).to.deep.equal(["hello.txt"]);
+    });
+
+    it("setFiles awaits async processing before resolving", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput multiple></nys-fileinput>`,
+      );
+      await el.setFiles([
+        new File(["a"], "a.txt", { type: "text/plain" }),
+        new File(["b"], "b.txt", { type: "text/plain" }),
+      ]);
+      expect(el.files.map((f) => f.name)).to.deep.equal(["a.txt", "b.txt"]);
+    });
+  });
 });

@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useEffect } from "react";
 import "../../dist/nysds.es.js";
-import { useEventListener } from "./react-utils.js";
+import { useEventListener, useProperties } from "./react-utils.js";
 
 export const NysFileinput = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
@@ -21,11 +21,18 @@ export const NysFileinput = forwardRef((props, forwardedRef) => {
     accept,
     errorMessage,
     width,
+    files,
+    value,
     ...filteredProps
   } = props;
 
   /** Event listeners - run once */
+  useEventListener(ref, "nys-blur", props.onNysBlur);
   useEventListener(ref, "nys-change", props.onNysChange);
+
+  /** Properties - run whenever a property has changed */
+  useProperties(ref, "files", props.files);
+  useProperties(ref, "value", props.value);
 
   return React.createElement(
     "nys-fileinput",

@@ -1,10 +1,11 @@
 import React from "react";
 import {
   NysFileinput as NysFileinputElement,
+  Event,
   CustomEvent,
 } from "../../dist/nysds.es.js";
 
-export type { NysFileinputElement, CustomEvent };
+export type { NysFileinputElement, Event, CustomEvent };
 
 export interface NysFileinputProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -90,6 +91,20 @@ export interface NysFileinputProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
+  /** The currently selected files. Read to get the current selection; set to
+replace it (e.g. rehydrating state after navigation, or binding from a
+framework form model). Property-only — a `File[]` cannot round-trip through
+an HTML attribute. Setting this is silent (does not emit `nys-change`),
+matching native input behavior and avoiding feedback loops in two-way bindings. */
+  files?: NysFileinputElement["files"];
+
+  /** Single-file convenience accessor (parity with `nys-textinput`'s `value`).
+Reads the first selected file (or `null`); setting replaces the selection. */
+  value?: NysFileinputElement["value"];
+
+  /** Fired when focus leaves the component. Triggers validation. */
+  onNysBlur?: (event: CustomEvent) => void;
+
   /** Fired when files are added or removed. Detail: `{id, files}`. */
   onNysChange?: (event: CustomEvent) => void;
 }
@@ -100,7 +115,14 @@ export interface NysFileinputProps extends Pick<
  *
  *
  * ### **Events:**
- *  - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
+ *  - **nys-blur** - Fired when focus leaves the component. Triggers validation.
+ * - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
+ *
+ * ### **Methods:**
+ *  - **setFiles(incoming: _File[]_): _Promise<void>_** - Programmatically set the selection and await async validation/processing.
+ * Same as assigning `files`, but resolves once every file has finished its
+ * magic-byte validation and read — use when you need to read `checkValidity()`
+ * or the settled selection immediately after.
  *
  * ### **Slots:**
  *  - **description** - Custom HTML description content.

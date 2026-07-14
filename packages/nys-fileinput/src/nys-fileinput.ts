@@ -21,12 +21,17 @@ interface FileWithProgress {
  *
  * Use for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.
  *
+ * Read or write the current selection via the `files` (`File[]`) and `value` (`File | null`)
+ * properties — useful for rehydrating state or binding from a framework form model.
+ * Setting them is silent (does not emit `nys-change`).
+ *
  * @summary File input with drag-and-drop, validation, and progress tracking.
  * @element nys-fileinput
  *
  * @slot description - Custom HTML description content.
  *
  * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`.
+ * @fires nys-blur - Fired when focus leaves the component. Triggers validation.
  *
  * @example Basic
  * ```html
@@ -159,7 +164,81 @@ export class NysFileinput extends LitElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
+  // Source of truth for the current selection (file + progress + status).
+  // The public `files`/`value` accessors below read from and write to this.
   private _selectedFiles: FileWithProgress[] = [];
+
+  /**
+   * The currently selected files. Read to get the current selection; set to
+   * replace it (e.g. rehydrating state after navigation, or binding from a
+   * framework form model). Property-only — a `File[]` cannot round-trip through
+   * an HTML attribute. Setting this is silent (does not emit `nys-change`),
+   * matching native input behavior and avoiding feedback loops in two-way bindings.
+   */
+  @property({ attribute: false })
+  get files(): File[] {
+    return this._selectedFiles.map((entry) => entry.file);
+  }
+
+  set files(incoming: File[]) {
+    // Replace the current selection with the provided files.
+    this._selectedFiles = [];
+    const input = this.renderRoot?.querySelector(
+      ".hidden-file-input",
+    ) as HTMLInputElement | null;
+    if (input) input.value = "";
+
+    // Reuse the user-driven intake path: dedupes, enforces single-file mode,
+    // validates via magic bytes, and calls _setValue()/_validate() per file.
+    // NOTE: _saveSelectedFiles does NOT dispatch nys-change, so programmatic
+    // sets stay silent — user-driven changes still emit via _handleFileChange/_onDrop.
+    (incoming ?? []).forEach((file) => this._saveSelectedFiles(file));
+
+    // Sync form value + validity now (covers the empty/clear case, where the
+    // loop above never runs); async _processFile re-syncs per file as it settles.
+    this._setValue();
+    this._validate();
+
+    this.requestUpdate();
+  }
+
+  /**
+   * Single-file convenience accessor (parity with `nys-textinput`'s `value`).
+   * Reads the first selected file (or `null`); setting replaces the selection.
+   */
+  @property({ attribute: false })
+  get value(): File | null {
+    return this._selectedFiles[0]?.file ?? null;
+  }
+
+  set value(file: File | null) {
+    this.files = file ? [file] : [];
+  }
+
+  /**
+   * Programmatically set the selection and await async validation/processing.
+   * Same as assigning `files`, but resolves once every file has finished its
+   * magic-byte validation and read — use when you need to read `checkValidity()`
+   * or the settled selection immediately after.
+   */
+  public async setFiles(incoming: File[]): Promise<void> {
+    this._selectedFiles = [];
+    const input = this.renderRoot?.querySelector(
+      ".hidden-file-input",
+    ) as HTMLInputElement | null;
+    if (input) input.value = "";
+
+    for (const file of incoming ?? []) {
+      await this._saveSelectedFiles(file);
+    }
+
+    // Covers the empty/clear case; per-file syncing already happened above.
+    this._setValue();
+    this._validate();
+
+    this.requestUpdate();
+  }
+
   private _dragActive = false;
   private get _isDropDisabled(): boolean {
     return this.disabled || (!this.multiple && this._selectedFiles.length > 0);
@@ -448,6 +527,18 @@ export class NysFileinput extends LitElement {
     }
   }
 
+  // Fire nys-blur only when focus leaves the whole component, not when it
+  // moves between internal controls (the button, remove buttons, etc.).
+  // Uses focusout (bubbles) since blur does not.
+  private _handleBlur(e: FocusEvent) {
+    const next = e.relatedTarget as Node | null;
+    if (next && this.renderRoot.contains(next)) return;
+    this._validate();
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
+  }
+
   private _dispatchChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
@@ -591,6 +682,7 @@ export class NysFileinput extends LitElement {
     return html`<div
       class="nys-fileinput"
       @nys-fileRemove=${this._handleFileRemove}
+      @focusout=${this._handleBlur}
     >
       <nys-label
         label=${this.label}

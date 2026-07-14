@@ -37,26 +37,30 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Basic: Story = {
-  args: {
-    name: "check_circle",
-    library: "default",
-    ariaLabel: "",
-    rotate: "0",
-    flip: "",
-    color: "",
+export const RegisterAFontAwesomeLibraryWithACustomResolver: Story = {
+  render: () => {
+    registerIconLibrary("fa", {
+      resolver: (name) =>
+        `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`,
+    });
+    return html``;
   },
-  render: (args) => {
-    return html`
-      <nys-icon
-        name=${args.name}
-        library=${args.library}
-        ariaLabel=${args.ariaLabel}
-        rotate=${args.rotate}
-        flip=${args.flip}
-        color=${args.color}
-      ></nys-icon>
-    `;
+  parameters: {
+    docs: {
+      source: {
+        code: `
+registerIconLibrary("fa", {
+  resolver: (name) => \`https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/\${name}.svg\`,
+});`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Basic: Story = {
+  render: () => {
+    return html` <nys-icon name="check_circle"></nys-icon> `;
   },
   parameters: {
     docs: {
