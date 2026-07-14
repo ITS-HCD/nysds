@@ -78,7 +78,7 @@ export const Divider: Story = {
 export const SecondaryLabel: Story = {
   render: () => {
     return html`
-      <nys-iconlist id="event-details" divider>
+      <nys-iconlist id="event-details">
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
         <nys-iconlistitem icon="schedule">
           5:00 PM
@@ -95,7 +95,7 @@ export const SecondaryLabel: Story = {
     docs: {
       source: {
         code: `
-<nys-iconlist id="event-details" divider>
+<nys-iconlist id="event-details">
   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
   <nys-iconlistitem icon="schedule">
     5:00 PM

@@ -47,7 +47,7 @@ export class NysIconlistitem extends LitElement {
 
   render() {
     return html`
-      <li class="nys-iconlistitem">
+      <div class="nys-iconlistitem">
         <nys-icon
           name=${this.icon}
           size="20"
@@ -60,7 +60,7 @@ export class NysIconlistitem extends LitElement {
             @slotchange=${this._handleSecondarySlotChange}
           ></slot>
         </div>
-      </li>
+      </div>
     `;
   }
 }
