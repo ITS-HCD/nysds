@@ -118,7 +118,7 @@ export const Media: Story = {
         <nys-card
           media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
           heading="Heading"
-          description="A card with a media image and a date accent."
+          description="A card with a media image."
         ></nys-card>
       </div>
     `;
@@ -130,7 +130,7 @@ export const Media: Story = {
 <nys-card
   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
   heading="Heading"
-  description="A card with a media image and a date accent."
+  description="A card with a media image."
 ></nys-card>`,
         type: "auto",
       },

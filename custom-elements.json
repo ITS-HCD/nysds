@@ -3144,9 +3144,9 @@
             },
             {
               "title": "Media",
-              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n></nys-card>",
               "lang": "html",
-              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>"
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n></nys-card>\n</div>"
             },
             {
               "title": "Inset Media",
