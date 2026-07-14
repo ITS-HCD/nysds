@@ -198,6 +198,26 @@ describe("nys-button", () => {
     expect(circleIcon).to.exist;
   });
 
+  it("should render text content via default slot", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button>Click Me</nys-button>`,
+    );
+    await el.updateComplete;
+
+    const textContent = el.textContent?.trim();
+    expect(textContent).to.include("Click Me");
+  });
+
+  it("should prefer label prop over default slot", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="From Prop">From Slot</nys-button>`,
+    );
+    await el.updateComplete;
+
+    const labelEl = el.shadowRoot?.querySelector(".nys-button__text");
+    expect(labelEl?.textContent).to.equal("From Prop");
+  });
+
   it("renders correct icon sizes for regular and circle buttons", async () => {
     // Regular button with prefix icon
     const regularEl = await fixture<NysButton>(
