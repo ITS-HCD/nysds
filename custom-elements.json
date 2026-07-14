@@ -3099,43 +3099,57 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
-              "lang": "html"
+              "code": "<nys-card\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>"
             },
             {
               "title": "Preheading",
-              "code": "<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\n></nys-card>",
-              "lang": "html"
+              "code": "<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Subheading",
+              "code": "<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>"
             },
             {
               "title": "Media",
-              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A card with a media image at the top.\"\n></nys-card>",
-              "lang": "html"
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image at the top.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image at the top.\"\n></nys-card>\n</div>"
             },
             {
               "title": "Inset Media",
               "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>\n</div>"
             },
             {
               "title": "Elevated",
-              "code": "<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>",
-              "lang": "html"
+              "code": "<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>\n</div>"
             },
             {
               "title": "Footer Slot",
               "code": "<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>"
             },
             {
               "title": "Top Slot",
-              "code": "<nys-card heading=\"Heading\" subheading=\"Subheading\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>",
-              "lang": "html"
+              "code": "<nys-card heading=\"Heading\" description=\"A card with content in the top slot.\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with content in the top slot.\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>\n</div>"
             },
             {
-              "title": "Rich Content",
-              "code": "<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n<nys-button slot=\"footer\" label=\"Get started\"></nys-button>\n</nys-card>",
-              "lang": "html"
+              "title": "Icon List",
+              "code": "<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>\n</div>"
             }
           ]
         }
