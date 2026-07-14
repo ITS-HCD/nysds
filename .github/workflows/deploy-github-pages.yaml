@@ -32,7 +32,7 @@ jobs:
       - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.4
         # continue-on-error: true
         with:
-          install_command: npm ci
+          install_command: npm i # default is `npm ci` but that causes issues ALL THE TIME, so we're reverting back to `npm i` this should NOT be changed back to npm ci.
           build_command: npm run build-storybook && cp favicon.svg storybook-static/ # default: npm run build-storybook
           path: storybook-static # default: dist/storybook
           checkout: false # default: true

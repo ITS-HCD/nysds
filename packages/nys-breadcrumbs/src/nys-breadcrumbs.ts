@@ -5,7 +5,7 @@ import { NysElement } from "@nysds/internals";
 import styles from "./nys-breadcrumbs.scss?inline";
 
 /**
- * A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.
+ * A breadcrumb navigation trail composed of `li` elements.
  * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
  * showing the first, last, and item before the current page, with an ellipsis to expand.
  * A single item renders as a back-to-parent link instead of a trail.
@@ -13,11 +13,21 @@ import styles from "./nys-breadcrumbs.scss?inline";
  * @summary Breadcrumb navigation trail with responsive collapse support.
  * @element nys-breadcrumbs
  *
- * @slot - One or more `nys-breadcrumbitem` elements defining the trail.
+ * @slot - One or more `li` elements defining the trail.
  *
  * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
  *
- * @example Full trail with current page
+ * @example Basic
+ * ```html
+ * <nys-breadcrumbs>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/services">Services</a></li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Current page
  * ```html
  * <nys-breadcrumbs>
  *  <ol>
@@ -28,21 +38,79 @@ import styles from "./nys-breadcrumbs.scss?inline";
  * </nys-breadcrumbs>
  * ```
  *
- * @example Trail without current page
+ * @example Single item list
  * ```html
  * <nys-breadcrumbs>
  *  <ol>
- *   <li><a href="/">Home</a></li>
  *   <li><a href="/services">Services</a></li>
  *  </ol>
  * </nys-breadcrumbs>
  * ```
  *
- * @example Single item renders as back-to-parent
+ * @example Long list
  * ```html
  * <nys-breadcrumbs>
+ *   <ol>
+ *     <li><a href="/">Home</a></li>
+ *     <li><a href="/government">Government</a></li>
+ *     <li><a href="/government/agencies">Agencies</a></li>
+ *     <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+ *     <li><a href="/parks/state-parks">State Parks</a></li>
+ *     <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+ *     <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
+ *     <li>Trail Conditions</li>
+ *   </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Size small
+ * ```html
+ * <nys-breadcrumbs size="sm">
  *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/government">Government</a></li>
+ *   <li><a href="/government/agencies">Agencies</a></li>
+ *   <li>Parks & Recreation</li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Back to parent (mobile)
+ * ```html
+ * <nys-breadcrumbs backToParent>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/government">Government</a></li>
+ *   <li><a href="/government/agencies">Agencies</a></li>
+ *   <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+ *   <li><a href="/parks/state-parks">State Parks</a></li>
+ *   <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+ *   <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
+ *   <li>Trail Conditions</li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Background bar
+ * ```html
+ * <nys-breadcrumbs backgroundBar>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
  *   <li><a href="/services">Services</a></li>
+ *   <li><a href="/tickets">Ticket System</a></li>
+ *   <li>Del Water Gap</li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-breadcrumbs disabled>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/services">Services</a></li>
+ *   <li><a href="/tickets">Ticket System</a></li>
+ *   <li>Del Water Gap</li>
  *  </ol>
  * </nys-breadcrumbs>
  * ```
@@ -66,7 +134,7 @@ export class NysBreadcrumbs extends NysElement {
    * Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.
    * @default "md"
    */
-  @property({ type: String, reflect: true }) size: "sm" | "md" | "" = "md";
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
    * On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.

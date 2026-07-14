@@ -84,6 +84,6 @@ Override when multiple crumbs exist on the same page. */
  * - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
  *
  * ### **Slots:**
- *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.
+ *  - _default_ - One or more `li` elements defining the trail.
  */
 export const NysBreadcrumbs: React.ForwardRefExoticComponent<NysBreadcrumbsProps>;

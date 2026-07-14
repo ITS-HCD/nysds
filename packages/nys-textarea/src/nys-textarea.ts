@@ -28,14 +28,61 @@ import styles from "./nys-textarea.scss?inline";
  * @fires nys-blur - Fired when textarea loses focus. Triggers validation.
  * @fires nys-select - Fired when user selects text. Detail: `{id, value}`.
  *
- * @example Basic textarea
+ * @example Basic
  * ```html
- * <nys-textarea label="Comments" rows="4"></nys-textarea>
+ * <nys-textarea label="Comments"></nys-textarea>
  * ```
  *
- * @example Required with description
+ * @example Disabled
  * ```html
- * <nys-textarea label="Describe the incident" description="Please provide details" required></nys-textarea>
+ * <nys-textarea label="Comments" disabled></nys-textarea>
+ * ```
+ *
+ * @example Readonly
+ * ```html
+ * <nys-textarea label="Comments" readonly value="You can see me but not edit me"></nys-textarea>
+ * ```
+ *
+ * @example Required
+ * ```html
+ * <nys-textarea label="Describe the incident" required></nys-textarea>
+ * ```
+ *
+ * @example Optional
+ * ```html
+ * <nys-textarea label="Comments" optional></nys-textarea>
+ * ```
+ *
+ * @example Max length
+ * ```html
+ * <nys-textarea label="Comments" maxlength="100"></nys-textarea>
+ * ```
+ *
+ * @example Width Small
+ * ```html
+ * <nys-textarea label="Comments" width="sm"></nys-textarea>
+ * ```
+ *
+ * @example Width Medium
+ * ```html
+ * <nys-textarea label="Comments" width="md"></nys-textarea>
+ * ```
+ *
+ * @example Width Large
+ * ```html
+ * <nys-textarea label="Comments" width="lg"></nys-textarea>
+ * ```
+ *
+ * @example Description
+ * ```html
+ * <nys-textarea label="Describe the incident" description="Please provide details"></nys-textarea>
+ * ```
+ *
+ * @example Description Slot
+ * ```html
+ * <nys-textarea label="Describe the incident">
+ *  <div slot="description">Please provide details</div>
+ * </nys-textarea>
  * ```
  */
 
@@ -67,7 +114,7 @@ export class NysTextarea extends NysFormControlElement {
   /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Makes textarea read-only but focusable. */
+  /** Makes textarea readonly but focusable. */
   @property({ type: Boolean, reflect: true }) readonly = false;
 
   /** Marks as required. Shows "Required" flag and validates on blur. */

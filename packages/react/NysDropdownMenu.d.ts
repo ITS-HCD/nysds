@@ -52,7 +52,7 @@ menu always has an accessible name for screen readers. */
 }
 
 /**
- *
+ * Action menu with auto-positioning, keyboard support, and screen reader integration.
  * ---
  *
  */

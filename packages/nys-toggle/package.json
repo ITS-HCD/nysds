@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-toggle",
-  "version": "1.19.2",
+  "version": "1.19.3",
   "description": "The Toggle component from the NYS Design System.",
   "module": "dist/nys-toggle.js",
   "exports": {
@@ -22,8 +22,8 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.19.2",
-    "@nysds/nys-label": "^1.19.2"
+    "@nysds/nys-icon": "^1.19.3",
+    "@nysds/nys-label": "^1.19.3"
   },
   "devDependencies": {
     "@nysds/internals": "^1.19.1",

@@ -25,7 +25,7 @@ export interface NysTextareaProps extends Pick<
   /** Prevents interaction. */
   disabled?: boolean;
 
-  /** Makes textarea read-only but focusable. */
+  /** Makes textarea readonly but focusable. */
   readonly?: boolean;
 
   /** Marks as required. Shows "Required" flag and validates on blur. */

@@ -84,19 +84,6 @@ import styles from "./nys-stepper.scss?inline";
  * @fires nys-step-click - Fired when a navigable (`previous` or `current`) non-selected step is clicked
  *   or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call
  *   `e.preventDefault()` to suppress `window.location.href` navigation.
- *
- * @example Step with page navigation
- * ```html
- * <nys-step label="Personal Info" href="/step-1"></nys-step>
- * ```
- *
- * @example Step with SPA navigation (no href)
- * ```js
- * step.addEventListener('nys-step-click', (e) => {
- *   e.preventDefault(); // no href set, but good practice
- *   showStepContent(e.detail.label);
- * });
- * ```
  */
 export class NysStep extends NysElement {
   static styles = unsafeCSS(styles);

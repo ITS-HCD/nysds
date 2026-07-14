@@ -19,9 +19,14 @@ import styles from "./nys-accordion.scss?inline";
  *
  * @example Expanded item
  * ```html
- * <nys-accordionitem heading="How do I apply?" expanded>
- *   <p>Visit ny.gov and complete the online application.</p>
- * </nys-accordionitem>
+ * <nys-accordion>
+ *   <nys-accordionitem heading="How do I apply?" expanded>
+ *     <p>Visit ny.gov and complete the online application.</p>
+ *   </nys-accordionitem>
+ *   <nys-accordionitem heading="What documents do I need?">
+ *     <p>You will need a valid ID and proof of residency.</p>
+ *   </nys-accordionitem>
+ * </nys-accordion>
  * ```
  */
 

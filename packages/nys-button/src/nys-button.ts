@@ -38,11 +38,6 @@ import styles from "./nys-button.scss?inline";
  * <nys-button label="Button" variant="filled"></nys-button>
  * ```
  *
- * @example Slotted label
- * ```html
- * <nys-button variant="filled">This label is slotted</nys-button>
- * ```
- *
  * @example Variant Outline
  * ```html
  * <nys-button label="Button" variant="outline"></nys-button>

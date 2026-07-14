@@ -4,14 +4,19 @@ import "../dist/nys-icon.js";
 import type { NysIcon } from "./nys-icon";
 
 // Dynamic import from dist to get registry/cache functions from the same module instance
-let registerIconLibrary: (
-  name: string,
-  library: {
-    resolver: (name: string) => string | undefined;
-    mutator?: (svg: SVGElement) => void;
-  },
-) => void;
+type TestIconResolution =
+  | string
+  | { type: "url"; href: string }
+  | { type: "svg"; content: string };
+type TestIconLibrary = {
+  resolver: (
+    name: string,
+  ) => TestIconResolution | undefined | Promise<TestIconResolution | undefined>;
+  mutator?: (svg: SVGElement) => void;
+};
+let registerIconLibrary: (name: string, library: TestIconLibrary) => void;
 let unregisterIconLibrary: (name: string) => void;
+let getIconLibrary: (name: string) => TestIconLibrary | undefined;
 let clearIconCache: (url?: string) => void;
 
 // Simple SVG for testing custom libraries
@@ -30,6 +35,7 @@ before(async () => {
   const mod = await import("../dist/nys-icon.js");
   registerIconLibrary = mod.registerIconLibrary;
   unregisterIconLibrary = mod.unregisterIconLibrary;
+  getIconLibrary = mod.getIconLibrary;
   clearIconCache = mod.clearIconCache;
 });
 
@@ -214,6 +220,143 @@ describe("nys-icon — id auto-generation", () => {
     );
     await waitForIcon(el);
     expect(el.id).to.equal("my-icon");
+  });
+});
+
+// SSR-safe registry tests (issue #1677, PRD Phase 1)
+describe("nys-icon lazy default library registration", () => {
+  it("registers the default library lazily on first lookup", async () => {
+    const lib = getIconLibrary("default");
+    expect(lib).to.exist;
+    const res = await lib?.resolver("check");
+    expect(res).to.be.an("object");
+    expect(res).to.have.property("type", "svg");
+    expect((res as { content: string }).content).to.include("<svg");
+  });
+
+  it("default resolver returns undefined for an empty name", async () => {
+    const lib = getIconLibrary("default");
+    expect(await lib?.resolver("")).to.be.undefined;
+  });
+
+  it("does not clobber an explicitly registered 'default' library", () => {
+    const original = getIconLibrary("default")!;
+    try {
+      registerIconLibrary("default", {
+        resolver: () => svgDataUri(testSvg),
+      });
+      expect(getIconLibrary("default")?.resolver("anything")).to.equal(
+        svgDataUri(testSvg),
+      );
+    } finally {
+      registerIconLibrary("default", original);
+    }
+  });
+
+  it("does not resurrect the default library after it is unregistered", () => {
+    const original = getIconLibrary("default")!;
+    try {
+      unregisterIconLibrary("default");
+      expect(getIconLibrary("default")).to.be.undefined;
+    } finally {
+      registerIconLibrary("default", original);
+    }
+  });
+});
+
+// Self-contained inline default library (issue #1687, PRD Phase 3)
+describe("nys-icon inline default library", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("inline-test");
+    unregisterIconLibrary("race-lib");
+  });
+
+  it("renders a default-library icon without any network fetch", async () => {
+    const originalFetch = window.fetch;
+    const fetchedUrls: string[] = [];
+    window.fetch = ((...args: Parameters<typeof fetch>) => {
+      fetchedUrls.push(String(args[0]));
+      return originalFetch(...args);
+    }) as typeof fetch;
+    try {
+      const el = await fixture<NysIcon>(
+        html`<nys-icon name="check_circle"></nys-icon>`,
+      );
+      await waitForIcon(el);
+      expect(el.shadowRoot?.querySelector("svg")).to.exist;
+      expect(fetchedUrls.filter((u) => u.includes(".svg"))).to.deep.equal([]);
+    } finally {
+      window.fetch = originalFetch;
+    }
+  });
+
+  it("sanitizes inline SVG source (scripts and event handlers stripped)", async () => {
+    const malicious = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><script>window.__nysPwned = true;</script><circle cx="12" cy="12" r="10" onload="window.__nysPwned = true"/></svg>`;
+    registerIconLibrary("inline-test", {
+      resolver: () => ({ type: "svg", content: malicious }),
+    });
+    const el = await fixture<NysIcon>(
+      html`<nys-icon library="inline-test" name="evil"></nys-icon>`,
+    );
+    await waitForIcon(el);
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("script")).to.be.null;
+    expect(svg?.querySelector("circle")?.hasAttribute("onload")).to.be.false;
+    expect((window as unknown as Record<string, unknown>).__nysPwned).to.be
+      .undefined;
+  });
+
+  it("still resolves custom libraries via the URL fetch path", async () => {
+    registerIconLibrary("inline-test", {
+      resolver: () => ({ type: "url", href: svgDataUri(testSvg) }),
+    });
+    const el = await fixture<NysIcon>(
+      html`<nys-icon library="inline-test" name="anything"></nys-icon>`,
+    );
+    await waitForIcon(el);
+    expect(el.shadowRoot?.querySelector("svg circle")).to.exist;
+  });
+
+  it("shares no DOM nodes between two icons of the same name", async () => {
+    const elA = await fixture<NysIcon>(
+      html`<nys-icon name="check"></nys-icon>`,
+    );
+    const elB = await fixture<NysIcon>(
+      html`<nys-icon name="check"></nys-icon>`,
+    );
+    await waitForIcon(elA);
+    await waitForIcon(elB);
+    const svgA = elA.shadowRoot?.querySelector("svg");
+    const svgB = elB.shadowRoot?.querySelector("svg");
+    expect(svgA).to.exist;
+    expect(svgB).to.exist;
+    expect(svgA).to.not.equal(svgB);
+  });
+
+  it("discards stale async resolutions when name changes mid-load", async () => {
+    const slowSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" data-marker="slow"/></svg>`;
+    const fastSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" data-marker="fast"/></svg>`;
+    registerIconLibrary("race-lib", {
+      resolver: (name) =>
+        name === "slow"
+          ? new Promise((resolve) =>
+              setTimeout(() => resolve({ type: "svg", content: slowSvg }), 60),
+            )
+          : { type: "svg", content: fastSvg },
+    });
+    const el = await fixture<NysIcon>(
+      html`<nys-icon library="race-lib" name="slow"></nys-icon>`,
+    );
+    // Switch away while the slow resolution is still in flight.
+    el.name = "fast";
+    await waitForIcon(el);
+    // Let the stale slow resolution land and (correctly) be discarded.
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.querySelector('[data-marker="fast"]')).to.exist;
+    expect(svg?.querySelector('[data-marker="slow"]')).to.be.null;
   });
 });
 
