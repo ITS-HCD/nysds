@@ -799,3 +799,142 @@ describe("nys-checkbox", () => {
     expect(new FormData(form).get("picks")).to.be.a("string");
   });
 });
+
+describe("nys-checkbox external labelling", () => {
+  it("associates the input with a light-DOM element via labelledby", async () => {
+    const wrap = await fixture(html`
+      <div>
+        <span id="colhead">Select row</span>
+        <nys-checkbox labelledby="colhead" hideLabel></nys-checkbox>
+      </div>
+    `);
+    const cb = wrap.querySelector<NysCheckbox>("nys-checkbox")!;
+    await cb.updateComplete;
+    const input = cb.shadowRoot!.querySelector("input")!;
+    const head = wrap.querySelector("#colhead")!;
+    expect(
+      (input as unknown as { ariaLabelledByElements: Element[] })
+        .ariaLabelledByElements,
+    ).to.deep.equal([head]);
+    expect(input.getAttribute("aria-label")).to.equal("Select row");
+  });
+
+  it("hideLabel suppresses the internal nys-label", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="Hidden" hideLabel></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("nys-label")).to.equal(null);
+  });
+
+  it("renders no stray text when the internal label is suppressed", async () => {
+    // A `cond && html` guard renders the literal string "false" when cond is a boolean
+    // false — lit only treats nullish/empty-string as blank. Assert on the rendered text,
+    // not just on nys-label being absent, which is true either way.
+    for (const el of [
+      await fixture<NysCheckbox>(
+        html`<nys-checkbox label="Hidden" hideLabel></nys-checkbox>`,
+      ),
+      await fixture<NysCheckbox>(
+        html`<nys-checkbox labelledby="somewhere" hideLabel></nys-checkbox>`,
+      ),
+      await fixture<NysCheckbox>(html`<nys-checkbox></nys-checkbox>`),
+    ]) {
+      await el.updateComplete;
+      expect(el.shadowRoot!.textContent).to.not.contain("false");
+      expect(el.shadowRoot!.textContent).to.not.contain("true");
+    }
+  });
+
+  it("still uses the internal label when no external labelledby is set", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="Agree"></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("nys-label")).to.not.equal(null);
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-labelledby")).to.equal(el.id + "--label");
+  });
+
+  it("re-resolves when labelledby changes after the first render", async () => {
+    const wrap = await fixture(html`
+      <div>
+        <span id="first">First header</span>
+        <span id="second">Second header</span>
+        <nys-checkbox labelledby="first" hideLabel></nys-checkbox>
+      </div>
+    `);
+    const cb = wrap.querySelector<NysCheckbox>("nys-checkbox")!;
+    await cb.updateComplete;
+    const input = cb.shadowRoot!.querySelector("input")!;
+
+    cb.labelledby = "second";
+    await cb.updateComplete;
+    expect(
+      (input as unknown as { ariaLabelledByElements: Element[] })
+        .ariaLabelledByElements,
+    ).to.deep.equal([wrap.querySelector("#second")!]);
+    expect(input.getAttribute("aria-label")).to.equal("Second header");
+  });
+
+  it("restores the internal label when labelledby is removed", async () => {
+    const wrap = await fixture(html`
+      <div>
+        <span id="head">Select row</span>
+        <nys-checkbox label="Agree" labelledby="head"></nys-checkbox>
+      </div>
+    `);
+    const cb = wrap.querySelector<NysCheckbox>("nys-checkbox")!;
+    await cb.updateComplete;
+    expect(cb.shadowRoot!.querySelector("nys-label")).to.equal(null);
+
+    cb.labelledby = "";
+    await cb.updateComplete;
+
+    // The external element reference and its string fallback are dropped, and the
+    // internal same-root IDREF + visible label come back.
+    const input = cb.shadowRoot!.querySelector("input")!;
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    expect(cb.shadowRoot!.querySelector("nys-label")).to.not.equal(null);
+    expect(input.getAttribute("aria-labelledby")).to.equal(cb.id + "--label");
+  });
+
+  it("clears the association when labelledby points at a missing id", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox labelledby="nope" hideLabel></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+  });
+});
+
+describe("nys-checkbox error association", () => {
+  // The checkbox previously had no aria-invalid at all (only the "other" text field did),
+  // so Blink would not expose an error relation for it under any markup.
+  it("marks the input invalid and describes it with the error when showError is set", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox
+        id="cb"
+        label="Agree"
+        showError
+        errorMessage="You must agree"
+      ></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("true");
+    expect(input.getAttribute("aria-errormessage")).to.equal("cb--error");
+    expect(input.getAttribute("aria-describedby")).to.equal("cb--error");
+  });
+
+  it("does not describe the input when there is no error", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox id="cb" label="Agree"></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("false");
+    expect(input.hasAttribute("aria-describedby")).to.equal(false);
+  });
+});

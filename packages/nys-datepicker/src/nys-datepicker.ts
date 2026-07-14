@@ -825,6 +825,9 @@ export class NysDatepicker extends NysFormControlElement {
             aria-required=${ifDefined(this.required ? "true" : undefined)}
             aria-invalid=${this.showError ? "true" : "false"}
             aria-errormessage=${this.id + "--error"}
+            aria-describedby=${ifDefined(
+              this.showError ? this.id + "--error" : undefined,
+            )}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}

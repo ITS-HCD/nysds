@@ -7,6 +7,7 @@ export type { AriaRelation, AriaTargets, FormValue } from "./types";
 export {
   supportsElementRefs,
   associateControl,
+  associateControlRefs,
   associateHost,
 } from "./aria-associate";
 export {

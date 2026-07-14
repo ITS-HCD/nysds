@@ -574,6 +574,9 @@ export class NysTextinput extends NysFormControlElement {
               aria-disabled="${this.disabled}"
               aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
+              aria-describedby=${ifDefined(
+                this.showError ? this.id + "--error" : undefined,
+              )}
               .value=${this.value}
               placeholder=${ifDefined(
                 this.placeholder ? this.placeholder : undefined,

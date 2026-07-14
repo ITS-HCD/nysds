@@ -36,10 +36,22 @@ export class NysLabel extends LitElement {
   /** Tooltip text shown on hover/focus of info icon next to label. */
   @property({ type: String }) tooltip = "";
 
+  // Expose the (shadow-encapsulated) label text as the host's own accessible name so
+  // references to <nys-label> resolve reliably across engines, instead of relying on
+  // each browser flattening nested-shadow text. Guarded for SSR.
+  private _labelInternals: ElementInternals | null =
+    typeof this.attachInternals === "function" ? this.attachInternals() : null;
+
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
       this.id = `nys-label-${Date.now()}-${labelIdCounter++}`;
+    }
+  }
+
+  updated() {
+    if (this._labelInternals) {
+      this._labelInternals.ariaLabel = this.label || null;
     }
   }
 

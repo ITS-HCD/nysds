@@ -603,7 +603,11 @@ export class NysRadiogroup extends NysFormControlElement {
                         ? `${radiobtn.id}-label`
                         : undefined,
                     )}
+                    aria-invalid=${this.showError ? "true" : "false"}
                     aria-errormessage=${`${this.id}--error`}
+                    aria-describedby=${ifDefined(
+                      this.showError ? `${this.id}--error` : undefined,
+                    )}
                     @change=${() => this._selectRadio(radiobtn)}
                     @focus=${() => this._handleRadiobtnFocus(radiobtn)}
                     @blur=${() => this._handleRadiobtnBlur(radiobtn)}

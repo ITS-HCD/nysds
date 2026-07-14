@@ -4,6 +4,7 @@ import {
   generateId,
   supportsElementRefs,
   associateControl,
+  associateControlRefs,
   associateHost,
   IdentifiedMixin,
   ReflectsAriaMixin,
@@ -121,6 +122,47 @@ describe("associateControl", () => {
     expect(input.getAttribute("aria-errormessage")).to.equal("err-1");
     associateControl(input, "errormessage", []);
     expect(input.hasAttribute("aria-errormessage")).to.equal(false);
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* associateControlRefs (element refs on native control)                      */
+/* -------------------------------------------------------------------------- */
+
+describe("associateControlRefs", () => {
+  it("sets element references on the control when supported", async () => {
+    const wrap = await fixture(
+      html`<div><input /><span id="c1">Column A</span></div>`,
+    );
+    const input = wrap.querySelector("input")!;
+    const target = wrap.querySelector("#c1")!;
+    associateControlRefs(input, "labelledby", [target]);
+    expect(
+      (input as unknown as { ariaLabelledByElements: Element[] })
+        .ariaLabelledByElements,
+    ).to.deep.equal([target]);
+  });
+
+  it("also sets a string aria-label fallback from the target text", async () => {
+    const wrap = await fixture(
+      html`<div><input /><span id="c2">Column B</span></div>`,
+    );
+    const input = wrap.querySelector("input")!;
+    const target = wrap.querySelector("#c2")!;
+    associateControlRefs(input, "labelledby", [target]);
+    expect(input.getAttribute("aria-label")).to.equal("Column B");
+  });
+
+  it("clears the reference and fallback when given no live targets", async () => {
+    const input = await fixture<HTMLInputElement>(
+      html`<input aria-label="stale" />`,
+    );
+    associateControlRefs(input, "labelledby", [null]);
+    expect(
+      (input as unknown as { ariaLabelledByElements: Element[] | null })
+        .ariaLabelledByElements,
+    ).to.equal(null);
+    expect(input.hasAttribute("aria-label")).to.be.false;
   });
 });
 

@@ -680,7 +680,11 @@ export class NysCombobox extends NysFormControlElement {
               aria-label=${ifDefined(
                 !this.label && this.description ? this.description : undefined,
               )}
+              aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
+              aria-describedby=${ifDefined(
+                this.showError ? this.id + "--error" : undefined,
+              )}
               .value=${this._filterText}
               form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
