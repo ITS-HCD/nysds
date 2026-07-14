@@ -2,80 +2,235 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-card";
 import "@nysds/nys-button";
+import "@nysds/nys-badge";
 import "@nysds/nys-iconlist";
 
-// Define the structure of the args used in the stories
-interface NysCardArgs {
-  id: string;
-  onClick: () => void;
-}
-
-const meta: Meta<NysCardArgs> = {
+const meta: Meta = {
   title: "Components/Card",
   component: "nys-card",
-  argTypes: {
-    id: { control: "text" },
-  },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<NysCardArgs>;
-
-// Define stories without using args
+type Story = StoryObj;
 
 export const Basic: Story = {
   args: {
-    id: "card1",
+    preheading: "",
+    heading: "Heading",
+    subheading: "Subheading",
+    description: "A short description of the card's subject.",
+    media: "",
+    inset: false,
+    elevated: false,
+    mediaAccent: "",
   },
-  render: () => html`
-    <div class="nys-grid-row nys-grid-gap-200">
+  render: (args) => {
+    return html`
       <nys-card
-        class="nys-grid-col-4"
-        media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        mediaAccent="1/1"
-        preheading="preheading"
-        heading="heading"
-        subheading="subheading"
-        elevated
-      >
-        <div slot="top">This is my top slotted content</div>
-        <div slot="footer">
-          <nys-button label="Click me"></nys-button>
-        </div>
-      </nys-card>
-      <nys-card
-        class="nys-grid-col-4"
-        media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        mediaAccent="1/1"
-        preheading="preheading"
-        heading="heading"
-        subheading="subheading"
-        elevated
-      >
-      </nys-card>
-      <nys-card class="nys-grid-col-4">
-        <nys-iconlist divider>
-          <nys-iconlistitem icon="check">First</nys-iconlistitem>
-          <nys-iconlistitem icon="check">2nd</nys-iconlistitem>
-          <nys-iconlistitem icon="check">3rd</nys-iconlistitem>
-        </nys-iconlist>
-        <nys-button label="Click me"></nys-button>
-      </nys-card>
-    </div>
-  `,
+        preheading=${args.preheading}
+        heading=${args.heading}
+        subheading=${args.subheading}
+        description=${args.description}
+        media=${args.media}
+        ?inset=${args.inset}
+        ?elevated=${args.elevated}
+        mediaAccent=${args.mediaAccent}
+      ></nys-card>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
 <nys-card
-  id="card1"
+  heading="Heading"
+  subheading="Subheading"
+  description="A short description of the card's subject."
 ></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Preheading: Story = {
+  render: () => {
+    return html`
+      <nys-card
+        preheading="Preheading"
+        heading="Heading"
+        subheading="Subheading"
+      ></nys-card>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card preheading="Preheading" heading="Heading" subheading="Subheading"></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Media: Story = {
+  render: () => {
+    return html`
+      <nys-card
+        media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+        heading="Heading"
+        subheading="Subheading"
+        description="A card with a media image at the top."
+      ></nys-card>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card
+  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+  heading="Heading"
+  subheading="Subheading"
+  description="A card with a media image at the top."
+></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const InsetMedia: Story = {
+  render: () => {
+    return html`
+      <nys-card
+        media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+        heading="Heading"
+        description="Inset adds padding around the media to visually contain it."
+        inset
+      ></nys-card>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card
+  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+  heading="Heading"
+  description="Inset adds padding around the media to visually contain it."
+  inset
+></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Elevated: Story = {
+  render: () => {
+    return html`
+      <nys-card
+        heading="Heading"
+        subheading="Subheading"
+        description="Elevated adds a drop shadow to give the card a raised appearance."
+        elevated
+      ></nys-card>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card
+  heading="Heading"
+  subheading="Subheading"
+  description="Elevated adds a drop shadow to give the card a raised appearance."
+  elevated
+></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const FooterSlot: Story = {
+  render: () => {
+    return html`
+      <nys-card
+        heading="Heading"
+        description="A card with actions in the footer slot."
+      >
+        <nys-button slot="footer" label="Learn more"></nys-button>
+      </nys-card>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card heading="Heading" description="A card with actions in the footer slot.">
+  <nys-button slot="footer" label="Learn more"></nys-button>
+</nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const TopSlot: Story = {
+  render: () => {
+    return html`
+      <nys-card heading="Heading" subheading="Subheading">
+        <nys-badge slot="top" label="New" intent="success"></nys-badge>
+      </nys-card>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card heading="Heading" subheading="Subheading">
+  <nys-badge slot="top" label="New" intent="success"></nys-badge>
+</nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const RichContent: Story = {
+  render: () => {
+    return html`
+      <nys-card heading="What's included">
+        <nys-iconlist divider>
+          <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+          <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+          <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
+        </nys-iconlist>
+        <nys-button slot="footer" label="Get started"></nys-button>
+      </nys-card>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card heading="What's included">
+  <nys-iconlist divider>
+    <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+    <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+    <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
+  </nys-iconlist>
+  <nys-button slot="footer" label="Get started"></nys-button>
+</nys-card>`,
         type: "auto",
       },
     },

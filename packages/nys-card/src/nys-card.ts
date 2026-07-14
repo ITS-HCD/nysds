@@ -6,7 +6,93 @@ import styles from "./nys-card.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * A card component is a reusable, self-contained element that groups related content and actions about a single subject into a distinct, flexible container.
+ * A reusable, self-contained container that groups related content and actions
+ * about a single subject into a distinct, flexible container.
+ *
+ * Text content is supplied through the `preheading`, `heading`, `subheading`, and
+ * `description` properties. For richer content, use the `top`, default, and
+ * `footer` slots to project custom markup such as buttons, lists, or links.
+ *
+ * @summary Flexible container that groups related content and actions about a single subject.
+ * @element nys-card
+ *
+ * @slot top - Content rendered above the heading block (e.g. a badge or label).
+ * @slot - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
+ * @slot footer - Content rendered at the bottom of the card, typically actions like buttons or links.
+ *
+ * @example Basic
+ * ```html
+ * <nys-card
+ *  heading="Heading"
+ *  subheading="Subheading"
+ *  description="A short description of the card's subject."
+ * ></nys-card>
+ * ```
+ *
+ * @example Preheading
+ * ```html
+ * <nys-card
+ *  preheading="Preheading"
+ *  heading="Heading"
+ *  subheading="Subheading"
+ * ></nys-card>
+ * ```
+ *
+ * @example Media
+ * ```html
+ * <nys-card
+ *  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *  heading="Heading"
+ *  subheading="Subheading"
+ *  description="A card with a media image at the top."
+ * ></nys-card>
+ * ```
+ *
+ * @example Inset Media
+ * ```html
+ * <nys-card
+ *  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *  heading="Heading"
+ *  description="Inset adds padding around the media to visually contain it."
+ *  inset
+ * ></nys-card>
+ * ```
+ *
+ * @example Elevated
+ * ```html
+ * <nys-card
+ *  heading="Heading"
+ *  subheading="Subheading"
+ *  description="Elevated adds a drop shadow to give the card a raised appearance."
+ *  elevated
+ * ></nys-card>
+ * ```
+ *
+ * @example Footer Slot
+ * ```html
+ * <nys-card heading="Heading" description="A card with actions in the footer slot.">
+ *  <nys-button slot="footer" label="Learn more"></nys-button>
+ * </nys-card>
+ * ```
+ *
+ * @example Top Slot
+ * ```html
+ * <nys-card heading="Heading" subheading="Subheading">
+ *  <nys-badge slot="top" label="New" intent="success"></nys-badge>
+ * </nys-card>
+ * ```
+ *
+ * @example Rich Content
+ * ```html
+ * <nys-card heading="What's included">
+ *  <nys-iconlist divider>
+ *    <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+ *    <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+ *    <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
+ *  </nys-iconlist>
+ *  <nys-button slot="footer" label="Get started"></nys-button>
+ * </nys-card>
+ * ```
  */
 
 export class NysCard extends LitElement {

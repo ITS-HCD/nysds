@@ -68,8 +68,13 @@ export interface NysCardProps extends Pick<
 }
 
 /**
- * A card component is a reusable, self-contained element that groups related content and actions about a single subject into a distinct, flexible container.
+ * Flexible container that groups related content and actions about a single subject.
  * ---
  *
+ *
+ * ### **Slots:**
+ *  - **top** - Content rendered above the heading block (e.g. a badge or label).
+ * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
+ * - **footer** - Content rendered at the bottom of the card, typically actions like buttons or links.
  */
 export const NysCard: React.ForwardRefExoticComponent<NysCardProps>;
