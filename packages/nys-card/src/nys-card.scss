@@ -12,6 +12,15 @@
   --_nys-card-background-color: var(--nys-color-surface, #ffffff);
   --_nys-card-gap: var(--nys-space-150, 12px);
 
+  /* Media */
+  --_nys-card-padding--media-inset: var(--nys-space-300, 24px);
+
+  /* Media Accent */
+  --_nys-card-size--media-accent: var(--nys-space-800, 64px);
+  --_nys-card-offset--media-accent: var(--nys-space-300, 24px);
+  --_nys-card-border-radius--media-accent: var(--nys-radius-xxl, 16px);
+  --_nys-card-background-color--media-accent: var(--nys-color-accent, #face00);
+
   /* Typography */
   --_nys-card-color: var(--nys-color-text-weak, #4a4d4f);
 
@@ -28,22 +37,22 @@
   --_nys-card-border-radius--media: var(--nys-radius-md, 4px);
 
   .nys-card__media-container {
-    padding: var(--nys-space-300, 24px) var(--nys-space-300, 24px) 0;
+    padding: var(--_nys-card-padding--media-inset)
+      var(--_nys-card-padding--media-inset) 0;
   }
 
-  /* Keep the accent 24px inside the media, not the padded container */
+  /* Keep the accent inset from the media, not the padded container */
   .nys-card--media-accent {
-    right: calc(var(--nys-space-300, 24px) + 24px);
+    right: calc(
+      var(--_nys-card-offset--media-accent) +
+        var(--_nys-card-padding--media-inset)
+    );
   }
 }
 
 :host([elevated]) {
   .nys-card {
-    box-shadow:
-      0 4px 6px -1px
-        var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
-      0 4px 6px -1px
-        var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
+    box-shadow: var(--nys-shadow-raised);
   }
 }
 
@@ -85,13 +94,13 @@
 
     .nys-card--media-accent {
       position: absolute;
-      right: 24px;
-      bottom: 24px;
-      width: 64px;
-      height: 64px;
+      right: var(--_nys-card-offset--media-accent);
+      bottom: var(--_nys-card-offset--media-accent);
+      width: var(--_nys-card-size--media-accent);
+      height: var(--_nys-card-size--media-accent);
       overflow: hidden;
-      background-color: var(--nys-color-accent, #face00);
-      border-radius: var(--nys-radius-xxl, 16px);
+      background-color: var(--_nys-card-background-color--media-accent);
+      border-radius: var(--_nys-card-border-radius--media-accent);
 
       display: flex;
       justify-content: center;
