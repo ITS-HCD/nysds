@@ -38,7 +38,7 @@ let componentIdCounter = 0;
  *
  * @example Secondary label
  * ```html
- * <nys-iconlist id="event-details" divider>
+ * <nys-iconlist id="event-details">
  *   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
  *   <nys-iconlistitem icon="schedule">
  *     5:00 PM
