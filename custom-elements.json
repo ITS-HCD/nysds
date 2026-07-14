@@ -2692,8 +2692,7 @@
             {
               "title": "Inverted",
               "code": "<nys-button label=\"Inverted\" inverted></nys-button>",
-              "lang": "html",
-              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" inverted></nys-button>\n</div>"
+              "lang": "html"
             },
             {
               "title": "Disabled",
@@ -2959,6 +2958,26 @@
             },
             {
               "kind": "field",
+              "name": "labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Id of an element in the host's light-DOM tree to borrow the accessible name\nfrom (e.g. a table column `<th>`). Enables labelling a checkbox that has no\nvisible label of its own.",
+              "attribute": "labelledby"
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells).",
+              "attribute": "hideLabel"
+            },
+            {
+              "kind": "field",
               "name": "_mobileQuery",
               "privacy": "private"
             },
@@ -2985,6 +3004,12 @@
                   "text": "Promise<HTMLInputElement | null>"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "_syncExternalLabel",
+              "privacy": "private",
+              "description": "Point the native <input> at a light-DOM element that IDREF attributes cannot\nreach across the shadow boundary. associateControlRefs sets the control's own\nariaLabelledByElements (honored in Chromium) plus a string aria-label fallback\nfor engines that do not yet resolve element references.\n\nOnly ever called with an external labelledby set: with no external target the\nnative input keeps the internal same-root aria-labelledby IDREF that render()\nemits, and must not be touched."
             },
             {
               "kind": "method",
@@ -3350,6 +3375,26 @@
               "default": "false",
               "fieldName": "showOtherError",
               "propName": "showothererror"
+            },
+            {
+              "name": "labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Id of an element in the host's light-DOM tree to borrow the accessible name\nfrom (e.g. a table column `<th>`). Enables labelling a checkbox that has no\nvisible label of its own.",
+              "fieldName": "labelledby",
+              "propName": "labelledby"
+            },
+            {
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells).",
+              "fieldName": "hideLabel",
+              "propName": "hidelabel"
             }
           ],
           "superclass": {
@@ -6208,6 +6253,14 @@
               "description": "Shows a divider line above the error message.",
               "attribute": "showDivider",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_errInternals",
+              "type": {
+                "text": "ElementInternals | null"
+              },
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -8178,6 +8231,14 @@
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon next to label.",
               "attribute": "tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "_labelInternals",
+              "type": {
+                "text": "ElementInternals | null"
+              },
+              "privacy": "private"
             },
             {
               "kind": "method",

@@ -290,6 +290,13 @@ export type NysCheckboxProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
+  /** Id of an element in the host's light-DOM tree to borrow the accessible name
+from (e.g. a table column `<th>`). Enables labelling a checkbox that has no
+visible label of its own. */
+  labelledby?: string;
+  /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
+table cells). */
+  hideLabel?: boolean;
   /**  */
   _hasDescription?: string;
   /**  */
