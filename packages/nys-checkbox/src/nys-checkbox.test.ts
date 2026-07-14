@@ -827,6 +827,25 @@ describe("nys-checkbox external labelling", () => {
     expect(el.shadowRoot!.querySelector("nys-label")).to.equal(null);
   });
 
+  it("renders no stray text when the internal label is suppressed", async () => {
+    // A `cond && html` guard renders the literal string "false" when cond is a boolean
+    // false — lit only treats nullish/empty-string as blank. Assert on the rendered text,
+    // not just on nys-label being absent, which is true either way.
+    for (const el of [
+      await fixture<NysCheckbox>(
+        html`<nys-checkbox label="Hidden" hideLabel></nys-checkbox>`,
+      ),
+      await fixture<NysCheckbox>(
+        html`<nys-checkbox labelledby="somewhere" hideLabel></nys-checkbox>`,
+      ),
+      await fixture<NysCheckbox>(html`<nys-checkbox></nys-checkbox>`),
+    ]) {
+      await el.updateComplete;
+      expect(el.shadowRoot!.textContent).to.not.contain("false");
+      expect(el.shadowRoot!.textContent).to.not.contain("true");
+    }
+  });
+
   it("still uses the internal label when no external labelledby is set", async () => {
     const el = await fixture<NysCheckbox>(
       html`<nys-checkbox label="Agree"></nys-checkbox>`,

@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import {
@@ -544,23 +544,20 @@ export class NysCheckbox extends NysFormControlElement {
                 ></nys-icon>`
               : ""}
           </div>
-          ${!this.hideLabel &&
-          !this.labelledby &&
-          (this.label || this.other) &&
-          html`
-            <nys-label
-              id="${this.id}--label"
-              tooltip=${this.tooltip}
-              label="${this.label || (this.other ? "Other" : "")}"
-              description=${ifDefined(this.description || undefined)}
-              flag=${ifDefined(this.required ? "required" : undefined)}
-              class=${this._isStandalone ? "standalone" : ""}
-            >
-              <slot name="description" slot="description"
-                >${this.description}</slot
+          ${this.hideLabel || this.labelledby || !(this.label || this.other)
+            ? nothing
+            : html`<nys-label
+                id="${this.id}--label"
+                tooltip=${this.tooltip}
+                label="${this.label || (this.other ? "Other" : "")}"
+                description=${ifDefined(this.description || undefined)}
+                flag=${ifDefined(this.required ? "required" : undefined)}
+                class=${this._isStandalone ? "standalone" : ""}
               >
-            </nys-label>
-          `}
+                <slot name="description" slot="description"
+                  >${this.description}</slot
+                >
+              </nys-label>`}
         </div>
         <div class="nys-checkbox__other-container">
           ${this.other && this.checked
