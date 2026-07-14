@@ -518,8 +518,11 @@ export class NysCheckbox extends NysFormControlElement {
               aria-checked="${this.checked}"
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-required="${this.required}"
-              aria-describedby="group-info"
+              aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
+              aria-describedby=${ifDefined(
+                this.showError ? this.id + "--error" : undefined,
+              )}
               @change="${this._handleChange}"
               @focus="${this._handleFocus}"
               @keydown="${this._handleKeydown}"

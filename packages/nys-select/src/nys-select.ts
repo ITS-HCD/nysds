@@ -439,6 +439,9 @@ export class NysSelect extends NysFormControlElement {
             )}
             aria-invalid=${this.showError ? "true" : "false"}
             aria-errormessage=${this.id + "--error"}
+            aria-describedby=${ifDefined(
+              this.showError ? this.id + "--error" : undefined,
+            )}
             .value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"

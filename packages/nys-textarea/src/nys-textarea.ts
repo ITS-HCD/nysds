@@ -381,6 +381,9 @@ export class NysTextarea extends NysFormControlElement {
           aria-description=${ifDefined(this.description || undefined)}
           aria-invalid=${this.showError ? "true" : "false"}
           aria-errormessage=${this.id + "--error"}
+          aria-describedby=${ifDefined(
+            this.showError ? this.id + "--error" : undefined,
+          )}
           placeholder=${ifDefined(
             this.placeholder ? this.placeholder : undefined,
           )}

@@ -641,3 +641,34 @@ describe("nys-textinput", () => {
     expect(Array.from(form.elements)).to.include(el);
   });
 });
+
+describe("nys-textinput error association", () => {
+  // Chromium never surfaces aria-errormessage for a control inside a shadow root, so the
+  // error must also be reachable via aria-describedby. See scripts/verify-a11y-names.mjs,
+  // which asserts the resulting accessible description in Blink's real AX tree.
+  it("describes the input with the error message when showError is set", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput
+        id="ti"
+        label="Name"
+        showError
+        errorMessage="Required field"
+      ></nys-textinput>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("true");
+    expect(input.getAttribute("aria-errormessage")).to.equal("ti--error");
+    expect(input.getAttribute("aria-describedby")).to.equal("ti--error");
+  });
+
+  it("does not describe the input when there is no error", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput id="ti" label="Name"></nys-textinput>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("false");
+    expect(input.hasAttribute("aria-describedby")).to.equal(false);
+  });
+});

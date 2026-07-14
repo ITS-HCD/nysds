@@ -13,6 +13,15 @@ let errorMessageIdCounter = 0;
  *
  * @summary Internal error message display with icon and ARIA alert support.
  * @element nys-errormessage
+ *
+ * Association contract for form controls:
+ * Chromium never surfaces `aria-errormessage` for a control inside a shadow root —
+ * verified against Blink's AX tree by `scripts/verify-a11y-names.mjs`, and true for the
+ * IDREF attribute and for `ariaErrorMessageElements` reflection alike. `aria-describedby`
+ * DOES resolve there. Form controls therefore reference this element with BOTH
+ * `aria-errormessage` (for engines that honor it) and `aria-describedby` (which is what
+ * actually reaches the AX tree today), alongside `aria-invalid` — which Blink requires
+ * before it will expose an error relation at all.
  */
 export class NysErrorMessage extends LitElement {
   static styles = unsafeCSS(styles);

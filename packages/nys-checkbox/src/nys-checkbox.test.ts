@@ -889,3 +889,33 @@ describe("nys-checkbox external labelling", () => {
     expect(input.hasAttribute("aria-label")).to.equal(false);
   });
 });
+
+describe("nys-checkbox error association", () => {
+  // The checkbox previously had no aria-invalid at all (only the "other" text field did),
+  // so Blink would not expose an error relation for it under any markup.
+  it("marks the input invalid and describes it with the error when showError is set", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox
+        id="cb"
+        label="Agree"
+        showError
+        errorMessage="You must agree"
+      ></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("true");
+    expect(input.getAttribute("aria-errormessage")).to.equal("cb--error");
+    expect(input.getAttribute("aria-describedby")).to.equal("cb--error");
+  });
+
+  it("does not describe the input when there is no error", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox id="cb" label="Agree"></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("false");
+    expect(input.hasAttribute("aria-describedby")).to.equal(false);
+  });
+});
