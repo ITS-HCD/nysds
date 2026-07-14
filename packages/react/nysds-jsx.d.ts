@@ -250,27 +250,6 @@ export type NysButtonProps = {
   "onnys-click"?: (e: CustomEvent<Event>) => void;
 };
 
-export type NysCardProps = {
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: string;
-  /** Appears above the heading text. */
-  preheading?: string;
-  /** Heading text in the card. */
-  heading?: string;
-  /** Appears below the heading text. */
-  subheading?: string;
-  /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
-  description?: string;
-  /** Visual content for the card. Supported types are images: png, jpg, etc. */
-  media?: string;
-  /** When true, adds padding around the media to visually contain it. */
-  inset?: boolean;
-  /** When true, adds a drop shadow to the card, giving it a raised appearance. */
-  elevated?: boolean;
-  /** Accent appearing on the media. Only supports date in v1 */
-  mediaAccent?: string;
-};
-
 export type NysCheckboxProps = {
   /** Whether checkbox is checked. */
   checked?: boolean;
@@ -1212,13 +1191,6 @@ export type CustomElements = {
    * - **--nys-button-border-color--active** - Border color when active/pressed. _(default: undefined)_
    */
   "nys-button": Partial<NysButtonProps & BaseProps & BaseEvents>;
-
-  /**
-   * A card component is a reusable, self-contained element that groups related content and actions about a single subject into a distinct, flexible container.
-   * ---
-   *
-   */
-  "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 
   /**
    * Checkbox for binary choices or multi-select options.
