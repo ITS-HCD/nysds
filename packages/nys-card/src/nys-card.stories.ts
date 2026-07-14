@@ -118,7 +118,7 @@ export const Media: Story = {
         <nys-card
           media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
           heading="Heading"
-          description="A card with a media image at the top."
+          description="A card with a media image and a date accent."
         ></nys-card>
       </div>
     `;
@@ -130,7 +130,7 @@ export const Media: Story = {
 <nys-card
   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
   heading="Heading"
-  description="A card with a media image at the top."
+  description="A card with a media image and a date accent."
 ></nys-card>`,
         type: "auto",
       },
@@ -160,6 +160,66 @@ export const InsetMedia: Story = {
   heading="Heading"
   description="Inset adds padding around the media to visually contain it."
   inset
+></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const MediaAccent: Story = {
+  render: () => {
+    return html`
+      <div class="nys-grid-col-3">
+        <nys-card
+          media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+          mediaaccent="10/16"
+          heading="Heading"
+          description="A card with a media image and a date accent."
+        ></nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card
+  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+  mediaaccent="10/16"
+  heading="Heading"
+  description="A card with a media image and a date accent."
+></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const InsetMediaAccent: Story = {
+  render: () => {
+    return html`
+      <div class="nys-grid-col-3">
+        <nys-card
+          media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+          inset
+          mediaaccent="10/16"
+          heading="Heading"
+          description="A card with a media image and a date accent."
+        ></nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card
+  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+  inset
+  mediaaccent="10/16"
+  heading="Heading"
+  description="A card with a media image and a date accent."
 ></nys-card>`,
         type: "auto",
       },

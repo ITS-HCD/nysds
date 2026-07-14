@@ -267,7 +267,10 @@ export type NysCardProps = {
   inset?: boolean;
   /** When true, adds a drop shadow to the card, giving it a raised appearance. */
   elevated?: boolean;
-  /** Accent appearing on the media. Only supports date in v1 */
+  /** A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
+The month is shown as a three-letter abbreviation and the day as a number
+(e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
+date. Only supports dates in v1. */
   mediaAccent?: string;
 };
 

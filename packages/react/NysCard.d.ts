@@ -42,7 +42,10 @@ export interface NysCardProps extends Pick<
   /** Visual content for the card. Supported types are images: png, jpg, etc. */
   media?: NysCardElement["media"];
 
-  /** Accent appearing on the media. Only supports date in v1 */
+  /** A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
+The month is shown as a three-letter abbreviation and the day as a number
+(e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
+date. Only supports dates in v1. */
   mediaAccent?: NysCardElement["mediaAccent"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */

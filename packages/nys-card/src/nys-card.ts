@@ -83,7 +83,7 @@ let componentIdCounter = 0;
  * <nys-card
  *  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
  *  heading="Heading"
- *  description="A card with a media image at the top."
+ *  description="A card with a media image and a date accent."
  * ></nys-card>
  * ```
  *
@@ -93,7 +93,7 @@ let componentIdCounter = 0;
  *  <nys-card
  *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
  *   heading="Heading"
- *   description="A card with a media image at the top."
+ *   description="A card with a media image and a date accent."
  *  ></nys-card>
  * </div>
  * ```
@@ -117,6 +117,52 @@ let componentIdCounter = 0;
  *   description="Inset adds padding around the media to visually contain it."
  *   inset
  *  ></nys-card>
+ * </div>
+ * ```
+ *
+ * @example Media Accent
+ * ```html
+ * <nys-card
+ *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *   mediaaccent="10/16"
+ *   heading="Heading"
+ *   description="A card with a media image and a date accent."
+ * ></nys-card>
+ * ```
+ *
+ * @render Media Accent
+ * ```html
+ * <div class="nys-grid-col-3">
+ *   <nys-card
+ *     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *     mediaaccent="10/16"
+ *     heading="Heading"
+ *     description="A card with a media image and a date accent."
+ *   ></nys-card>
+ * </div>
+ * ```
+ *
+ * @example Inset Media Accent
+ * ```html
+ * <nys-card
+ *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *   inset
+ *   mediaaccent="10/16"
+ *   heading="Heading"
+ *   description="A card with a media image and a date accent."
+ * ></nys-card>
+ * ```
+ *
+ * @render Inset Media Accent
+ * ```html
+ * <div class="nys-grid-col-3">
+ *   <nys-card
+ *     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *     inset
+ *     mediaaccent="10/16"
+ *     heading="Heading"
+ *     description="A card with a media image and a date accent."
+ *   ></nys-card>
  * </div>
  * ```
  *
@@ -241,7 +287,10 @@ export class NysCard extends LitElement {
   @property({ type: Boolean, reflect: true }) elevated = false;
 
   /**
-   * Accent appearing on the media. Only supports date in v1
+   * A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
+   * The month is shown as a three-letter abbreviation and the day as a number
+   * (e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
+   * date. Only supports dates in v1.
    */
   @property({ type: String }) mediaAccent = "";
 
@@ -267,7 +316,47 @@ export class NysCard extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  // Placeholder for generic functions (component-specific)
+  private static readonly MONTH_ABBREVIATIONS = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Parse the `mediaAccent` "M/D" string into a month abbreviation and day.
+  // Returns null when empty or not a valid date so the accent is not rendered.
+  private parseMediaAccent(): { month: string; day: string } | null {
+    const parts = this.mediaAccent.split("/");
+    if (parts.length !== 2) return null;
+
+    const month = Number(parts[0]);
+    const day = Number(parts[1]);
+    if (!Number.isInteger(month) || month < 1 || month > 12) return null;
+    if (!Number.isInteger(day) || day < 1 || day > 31) return null;
+
+    return {
+      month: NysCard.MONTH_ABBREVIATIONS[month - 1],
+      day: String(day),
+    };
+  }
+
+  private renderMediaAccent() {
+    const accent = this.parseMediaAccent();
+    if (!accent) return "";
+
+    return html`<div class="nys-card--media-accent">
+      <p class="nys-card--media-accent-month">${accent.month}</p>
+      <p class="nys-card--media-accent-day">${accent.day}</p>
+    </div>`;
+  }
 
   /**
    * Event Handlers
@@ -281,10 +370,7 @@ export class NysCard extends LitElement {
       ${this.media
         ? html`<div class="nys-card__media-container">
             <img class="nys-card__media" src=${this.media} />
-            <div class="nys-card--media-accent">
-              <p class="nys-card--media-accent-month">Oct</p>
-              <p class="nys-card--media-accent-day">16</p>
-            </div>
+            ${this.renderMediaAccent()}
           </div>`
         : ""}
       <div class="nys-card__main-content">

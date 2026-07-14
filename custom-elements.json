@@ -2993,8 +2993,35 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accent appearing on the media. Only supports date in v1",
+              "description": "A date accent displayed over the media, in `M/D` format (e.g. `\"10/16\"`).\nThe month is shown as a three-letter abbreviation and the day as a number\n(e.g. \"Oct 16\"). Only renders when `media` is set and the value is a valid\ndate. Only supports dates in v1.",
               "attribute": "mediaAccent"
+            },
+            {
+              "kind": "field",
+              "name": "MONTH_ABBREVIATIONS",
+              "type": {
+                "text": "array"
+              },
+              "privacy": "private",
+              "static": true,
+              "readonly": true,
+              "default": "[ \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\", ]",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "parseMediaAccent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ month: string; day: string } | null"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderMediaAccent",
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -3084,7 +3111,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accent appearing on the media. Only supports date in v1",
+              "description": "A date accent displayed over the media, in `M/D` format (e.g. `\"10/16\"`).\nThe month is shown as a three-letter abbreviation and the day as a number\n(e.g. \"Oct 16\"). Only renders when `media` is set and the value is a valid\ndate. Only supports dates in v1.",
               "fieldName": "mediaAccent",
               "propName": "mediaaccent"
             }
@@ -3117,15 +3144,27 @@
             },
             {
               "title": "Media",
-              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image at the top.\"\n></nys-card>",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>",
               "lang": "html",
-              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image at the top.\"\n></nys-card>\n</div>"
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>"
             },
             {
               "title": "Inset Media",
               "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>",
               "lang": "html",
               "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Media Accent",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Inset Media Accent",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\ninset\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\ninset\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>"
             },
             {
               "title": "Elevated",
