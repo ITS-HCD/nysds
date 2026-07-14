@@ -1,7 +1,10 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  associateControlRefs,
+} from "@nysds/internals";
 import "./nys-checkboxgroup";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-checkbox is used. Importing them here
@@ -100,6 +103,19 @@ export class NysCheckbox extends NysFormControlElement {
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
 
+  /**
+   * Id of an element in the host's light-DOM tree to borrow the accessible name
+   * from (e.g. a table column `<th>`). Enables labelling a checkbox that has no
+   * visible label of its own.
+   */
+  @property({ type: String }) labelledby = "";
+
+  /**
+   * Suppress the internal visible `<nys-label>` (use with `labelledby` for
+   * table cells).
+   */
+  @property({ type: Boolean }) hideLabel = false;
+
   private _mobileQuery = window.matchMedia("(max-width: 479px)");
   @state() private isMobile = this._mobileQuery.matches;
 
@@ -138,6 +154,42 @@ export class NysCheckbox extends NysFormControlElement {
     this._setValue();
     this._manageRequire();
     this._manageLabelClick();
+    if (this.labelledby) this._syncExternalLabel();
+  }
+
+  willUpdate(changed: Map<string, unknown>) {
+    // Dropping an external label must happen BEFORE render. Clearing the control's
+    // element references also removes its aria-labelledby content attribute, so the
+    // clear has to precede the render that restores the internal IDREF — otherwise
+    // it would delete the very attribute that render just wrote.
+    if (changed.has("labelledby") && !this.labelledby) {
+      const input = this.shadowRoot?.querySelector("input");
+      if (input) associateControlRefs(input, "labelledby", []);
+    }
+  }
+
+  updated(changed: Map<string, unknown>) {
+    // Applying an external label must happen AFTER render, once the input exists.
+    if (changed.has("labelledby") && this.labelledby) this._syncExternalLabel();
+  }
+
+  /**
+   * Point the native <input> at a light-DOM element that IDREF attributes cannot
+   * reach across the shadow boundary. associateControlRefs sets the control's own
+   * ariaLabelledByElements (honored in Chromium) plus a string aria-label fallback
+   * for engines that do not yet resolve element references.
+   *
+   * Only ever called with an external labelledby set: with no external target the
+   * native input keeps the internal same-root aria-labelledby IDREF that render()
+   * emits, and must not be touched.
+   */
+  private _syncExternalLabel() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+    const target = (this.getRootNode() as Document | ShadowRoot).getElementById(
+      this.labelledby,
+    );
+    associateControlRefs(input, "labelledby", [target]);
   }
 
   /**
@@ -472,7 +524,9 @@ export class NysCheckbox extends NysFormControlElement {
               @focus="${this._handleFocus}"
               @keydown="${this._handleKeydown}"
               aria-labelledby=${ifDefined(
-                this.label || this.other ? this.id + "--label" : undefined,
+                !this.labelledby && (this.label || this.other)
+                  ? this.id + "--label"
+                  : undefined,
               )}
             />
             ${this.checked
@@ -487,7 +541,9 @@ export class NysCheckbox extends NysFormControlElement {
                 ></nys-icon>`
               : ""}
           </div>
-          ${(this.label || this.other) &&
+          ${!this.hideLabel &&
+          !this.labelledby &&
+          (this.label || this.other) &&
           html`
             <nys-label
               id="${this.id}--label"
