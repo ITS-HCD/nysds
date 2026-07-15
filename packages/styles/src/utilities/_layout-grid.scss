@@ -77,10 +77,16 @@
 
 // ============================================
 // GRID GAPS
-// Both horizontal and vertical gaps use the negative-margin + child-padding pattern.
-// Horizontal: negative left/right margin on row + left/right padding on children.
-// Vertical: negative top margin on row + top padding on children.
-// This avoids native gap properties which interfere with flex column width math.
+// Horizontal gaps use the negative-margin + child-padding pattern: negative
+// left/right margin on the row + left/right padding on children. The row's
+// container absorbs this horizontal bleed via its own left/right padding, so
+// columns stay flush with the container edges. This avoids native column-gap,
+// Vertical gaps use native `row-gap`. A negative top/bottom margin would bleed
+// outside the flex container and collapse into vertical siblings (e.g. pulling
+// the row up over a preceding header). `row-gap` spaces wrapped flex lines
+// without any bleed, and — unlike column-gap — does not affect column widths.
+// The row-gap value equals the full gutter (2 × the horizontal half-gutter) so
+// vertical and horizontal spacing stay visually matched.
 // ============================================
 
 // Default gap (responsive: 0.5rem base, 1rem at 64em+)
@@ -108,38 +114,32 @@
 
 // Vertical only
 .nys-grid-row.nys-grid-gap-y {
-  margin-top: -0.5rem;
-  margin-bottom: -0.5rem;
-
-  > * {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
+  row-gap: 1rem;
 
   @media all and (width >= 64em) {
-    margin-top: -1rem;
-    margin-bottom: -1rem;
-
-    > * {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
+    row-gap: 2rem;
   }
 }
 
 // Both horizontal + vertical
 .nys-grid-row.nys-grid-gap {
-  margin: -0.5rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  row-gap: 1rem;
 
   > * {
-    padding: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   @media all and (width >= 64em) {
-    margin: -1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    row-gap: 2rem;
 
     > * {
-      padding: 1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
   }
 }
@@ -178,38 +178,34 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
       }
     }
 
+    // Vertical: cap at 2rem on small screens (matches horizontal cap for
+    // proportional sizing), full value at 64em+. row-gap never bleeds.
     .nys-grid-row.nys-grid-gap-y-#{$suffix} {
-      margin-top: -1rem;
-      margin-bottom: -1rem;
-
-      > * {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-      }
+      row-gap: 2rem;
 
       @media all and (width >= 64em) {
-        margin-top: -$half;
-        margin-bottom: -$half;
-
-        > * {
-          padding-top: $half;
-          padding-bottom: $half;
-        }
+        row-gap: $value;
       }
     }
 
     .nys-grid-row.nys-grid-gap-#{$suffix} {
-      margin: -1rem;
+      margin-left: -1rem;
+      margin-right: -1rem;
+      row-gap: 2rem;
 
       > * {
-        padding: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       @media all and (width >= 64em) {
-        margin: -$half;
+        margin-left: -$half;
+        margin-right: -$half;
+        row-gap: $value;
 
         > * {
-          padding: $half;
+          padding-left: $half;
+          padding-right: $half;
         }
       }
     }
@@ -224,21 +220,19 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
       }
     }
 
+    // Vertical: full gutter (2 × half = $value) via row-gap, no bleed.
     .nys-grid-row.nys-grid-gap-y-#{$suffix} {
-      margin-top: -$half;
-      margin-bottom: -$half;
-
-      > * {
-        padding-top: $half;
-        padding-bottom: $half;
-      }
+      row-gap: $value;
     }
 
     .nys-grid-row.nys-grid-gap-#{$suffix} {
-      margin: -$half;
+      margin-left: -$half;
+      margin-right: -$half;
+      row-gap: $value;
 
       > * {
-        padding: $half;
+        padding-left: $half;
+        padding-right: $half;
       }
     }
   }
@@ -273,37 +267,31 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
         }
 
         .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
-          margin-top: -1rem;
-          margin-bottom: -1rem;
-
-          > * {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-          }
+          row-gap: 2rem;
 
           @media all and (width >= 64em) {
-            margin-top: -$half;
-            margin-bottom: -$half;
-
-            > * {
-              padding-top: $half;
-              padding-bottom: $half;
-            }
+            row-gap: $value;
           }
         }
 
         .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
-          margin: -1rem;
+          margin-left: -1rem;
+          margin-right: -1rem;
+          row-gap: 2rem;
 
           > * {
-            padding: 1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
           }
 
           @media all and (width >= 64em) {
-            margin: -$half;
+            margin-left: -$half;
+            margin-right: -$half;
+            row-gap: $value;
 
             > * {
-              padding: $half;
+              padding-left: $half;
+              padding-right: $half;
             }
           }
         }
@@ -319,20 +307,17 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
         }
 
         .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
-          margin-top: -$half;
-          margin-bottom: -$half;
-
-          > * {
-            padding-top: $half;
-            padding-bottom: $half;
-          }
+          row-gap: $value;
         }
 
         .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
-          margin: -$half;
+          margin-left: -$half;
+          margin-right: -$half;
+          row-gap: $value;
 
           > * {
-            padding: $half;
+            padding-left: $half;
+            padding-right: $half;
           }
         }
       }
