@@ -12374,7 +12374,7 @@
           "name": "NysTable",
           "slots": [
             {
-              "description": "Accepts a `<table>` element. Only the first table is rendered.",
+              "description": "Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.",
               "name": ""
             }
           ],
@@ -12476,10 +12476,61 @@
               "default": "null"
             },
             {
+              "kind": "field",
+              "name": "_enhancing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "method",
+              "name": "_getSlottedTable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLTableElement | undefined"
+                }
+              },
+              "description": "****************** Functions *******************"
+            },
+            {
+              "kind": "method",
+              "name": "_observeTable",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "table",
+                  "type": {
+                    "text": "HTMLTableElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_withObserverPaused",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "table",
+                  "type": {
+                    "text": "HTMLTableElement"
+                  }
+                },
+                {
+                  "name": "fn",
+                  "type": {
+                    "text": "() => void"
+                  }
+                }
+              ]
+            },
+            {
               "kind": "method",
               "name": "_handleSlotChange",
-              "privacy": "private",
-              "description": "****************** Functions *******************"
+              "privacy": "private"
             },
             {
               "kind": "method",
