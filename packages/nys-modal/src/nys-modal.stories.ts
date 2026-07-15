@@ -39,6 +39,8 @@ export const Basic: Story = {
           "
         ></nys-button>
         <nys-modal
+          class="modal1"
+          id="modal1"
           heading=${args.heading}
           subheading=${args.subheading}
           ?open=${args.open}
