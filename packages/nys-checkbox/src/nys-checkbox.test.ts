@@ -691,6 +691,33 @@ describe("nys-checkbox", () => {
     expect(focused).to.not.include("second");
   });
 
+  it("clears showError when a checkbox is selected (not required)", async () => {
+    const el = await fixture<NysCheckboxgroup>(html`
+      <nys-checkboxgroup
+        showError
+        errorMessage="Please select at least one landmark"
+      >
+        <nys-checkbox name="x" value="a" label="A"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    await el.updateComplete;
+    expect(el.showError).to.be.true;
+
+    const checkbox = el.querySelector("nys-checkbox") as NysCheckbox;
+    (checkbox as any).checked = true;
+    await checkbox.updateComplete;
+    checkbox.dispatchEvent(
+      new CustomEvent("nys-change", {
+        bubbles: true,
+        composed: true,
+        detail: { name: "x" },
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el.showError).to.be.false;
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
