@@ -182,12 +182,12 @@
     &::-webkit-scrollbar {
       display: none;
     }
-  }
-}
 
-.nys-tabgroup__panels {
-  padding: var(--_nys-tabpanel-padding);
-  background-color: var(--_nys-tabpanel-background-color);
-  max-height: var(--_nys-tabpanel-max-height);
-  overflow-y: auto;
+    // The slotted <nys-tab> elements stay in the light DOM and are projected
+    // here via the `tab` slot. `display: contents` removes the slot's own box
+    // so each tab participates directly in this flex row (gap + scroll).
+    slot {
+      display: contents;
+    }
+  }
 }
