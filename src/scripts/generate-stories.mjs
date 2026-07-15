@@ -225,7 +225,9 @@ function parseCemDefault(defaultStr) {
 
 function parseStringUnionOptions(typeText) {
   if (!typeText || !typeText.includes("|")) return null;
-  const parts = typeText.split("|").map((s) => s.trim());
+  // filter(Boolean) drops empty segments from a leading/trailing pipe, so
+  // multi-line union types (e.g. `| "filled"\n | "outline"`) still parse.
+  const parts = typeText.split("|").map((s) => s.trim()).filter(Boolean);
   const options = [];
   for (const part of parts) {
     const m = part.match(/^"(.*)"$/);

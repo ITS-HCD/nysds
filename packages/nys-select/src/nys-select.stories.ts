@@ -31,6 +31,10 @@ export const Basic: Story = {
     inverted: false,
     showError: false,
     errorMessage: "",
+    width: "full",
+  },
+  argTypes: {
+    width: { control: { type: "select" }, options: ["sm", "md", "lg", "full"] },
   },
   render: (args) => {
     return html`
@@ -47,6 +51,7 @@ export const Basic: Story = {
         ?inverted=${args.inverted}
         ?showError=${args.showError}
         errorMessage=${args.errorMessage}
+        width=${args.width}
       >
         <option value="bronx" label="The Bronx"></option>
         <option value="brooklyn" label="Brooklyn"></option>
