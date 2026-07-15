@@ -185,12 +185,12 @@ a#nys-unavheader__logolink {
   gap: var(--nys-space-100, 8px);
 
   /* UI/Small/Bold */
-  font-family: var(--nys-type-family-ui, "Proxima Nova");
-  font-size: var(--nys-type-size-ui-sm, 14px);
+  font-family: var(--nys-font-family-ui, "Proxima Nova");
+  font-size: var(--nys-font-size-ui-sm, 14px);
   font-style: normal;
   font-weight: 400;
-  line-height: var(--nys-typography-font-lineheight-ui-sm, 24px);
-  letter-spacing: var(--nys-typography-font-letterspacing-ui-sm, 0.044px);
+  line-height: var(--nys-font-lineheight-ui-sm, 24px);
+  letter-spacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
 }
 
 .nys-unavheader__searchdropdown.wrapper {

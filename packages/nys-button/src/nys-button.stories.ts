@@ -22,6 +22,7 @@ export const Basic: Story = {
     name: "",
     size: "md",
     fullWidth: false,
+    variant: "filled",
     inverted: false,
     label: "Button",
     ariaLabel: "",
@@ -33,10 +34,24 @@ export const Basic: Story = {
     disabled: false,
     value: "",
     ariaDescription: "",
+    type: "button",
     href: "",
+    target: "_self",
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md", "lg"] },
+    variant: {
+      control: { type: "select" },
+      options: ["filled", "outline", "ghost", "text"],
+    },
+    type: {
+      control: { type: "select" },
+      options: ["submit", "reset", "button"],
+    },
+    target: {
+      control: { type: "select" },
+      options: ["_self", "_blank", "_parent", "_top", "framename"],
+    },
   },
   render: (args) => {
     return html`
@@ -44,6 +59,7 @@ export const Basic: Story = {
         name=${args.name}
         size=${args.size}
         ?fullWidth=${args.fullWidth}
+        variant=${args.variant}
         ?inverted=${args.inverted}
         label=${args.label}
         ariaLabel=${args.ariaLabel}
@@ -55,7 +71,9 @@ export const Basic: Story = {
         ?disabled=${args.disabled}
         value=${args.value}
         ariaDescription=${args.ariaDescription}
+        type=${args.type}
         href=${args.href}
+        target=${args.target}
       ></nys-button>
     `;
   },

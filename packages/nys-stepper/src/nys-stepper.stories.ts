@@ -32,6 +32,8 @@ export const Basic: Story = {
     return html`
       <div class="nys-grid-row">
         <nys-stepper
+          id="stepper"
+          class="nys-desktop:nys-grid-col-3"
           name=${args.name}
           label=${args.label}
           counterText=${args.counterText}

@@ -22,6 +22,7 @@ type Story = StoryObj;
 export const Basic: Story = {
   args: {
     name: "",
+    type: "text",
     label: "Full Name",
     description: "",
     placeholder: "",
@@ -33,14 +34,23 @@ export const Basic: Story = {
     tooltip: "",
     pattern: "",
     ariaLabel: "",
+    width: "full",
     inverted: false,
     showError: false,
     errorMessage: "",
+  },
+  argTypes: {
+    type: {
+      control: { type: "select" },
+      options: ["email", "number", "password", "search", "tel", "text", "url"],
+    },
+    width: { control: { type: "select" }, options: ["sm", "md", "lg", "full"] },
   },
   render: (args) => {
     return html`
       <nys-textinput
         name=${args.name}
+        type=${args.type}
         label=${args.label}
         description=${args.description}
         placeholder=${args.placeholder}
@@ -52,6 +62,7 @@ export const Basic: Story = {
         tooltip=${args.tooltip}
         pattern=${args.pattern}
         ariaLabel=${args.ariaLabel}
+        width=${args.width}
         ?inverted=${args.inverted}
         ?showError=${args.showError}
         errorMessage=${args.errorMessage}

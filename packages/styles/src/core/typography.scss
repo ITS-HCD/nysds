@@ -24,7 +24,7 @@ $body-sizes: (xs, sm, md);
   .nys-font-h#{$i} {
     font: normal
       normal
-      var(--nys-font-weight-h#{$i}, bold)
+      var(--nys-font-weight-bold, bold)
       var(--nys-font-size-h#{$i}) /
       var(--nys-font-lineheight-h#{$i})
       var(--nys-font-family-heading);
