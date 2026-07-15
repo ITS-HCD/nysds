@@ -54,9 +54,10 @@ Used for form submission and accessibility purposes. */
  * elements.
  *
  * Accepts tabs and panels as flat light-DOM children in any order (interleaved
- * or grouped). On slot change, children are sorted into dedicated shadow-DOM
- * containers, ARIA relationships are wired, and the first selected (or first)
- * tab is activated.
+ * or grouped). On slot change, each child is assigned `slot="tab"` or
+ * `slot="panel"` so it is projected into the correct shadow-DOM container
+ * while remaining in the light DOM, ARIA relationships are wired, and the
+ * first selected (or first) tab is activated.
  *
  * Scroll shadows are rendered on either side of the tab list and toggled via
  * `ResizeObserver` and a `scroll` listener so they accurately reflect whether
@@ -70,6 +71,6 @@ Used for form submission and accessibility purposes. */
  *
  *
  * ### **Slots:**
- *  - _default_ - Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are moved into internal shadow-DOM containers on `slotchange`; the slot itself is not rendered visibly.
+ *  - _default_ - Accepts `<nys-tab>` and `<nys-tabpanel>` children. On `slotchange` they are assigned `slot="tab"` / `slot="panel"` and projected into the tablist and panel containers; they stay in the light DOM. Any other children remain in the default slot, rendered below the panels.
  */
 export const NysTabgroup: React.ForwardRefExoticComponent<NysTabgroupProps>;
