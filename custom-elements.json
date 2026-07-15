@@ -9617,12 +9617,175 @@
               },
               "default": "false",
               "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "_isMobile",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_posinset",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "_setsize",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "_inputEl",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_isGrouped",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getGroupMembers",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "NysRadiobutton[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_uncheckOtherRadios",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_updateGroupA11y",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChange",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInputFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInputBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleWrapperClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"radio\""
             }
           ],
           "events": [
             {
-              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`.",
-              "name": "nys-change"
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
             },
             {
               "description": "Fired when radio gains focus.",
@@ -9773,7 +9936,7 @@
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
-          "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
+          "summary": "Radio button for single selection from mutually exclusive options.\nThis is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.\nOtherwise this radiobutton mockup the native grouping of radio buttons via \"name\" attribute.\nSince we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.",
           "examples": [
             {
               "title": "Pre-selected",
@@ -9781,8 +9944,18 @@
               "lang": "html"
             },
             {
+              "title": "No group",
+              "code": "<nys-radiobutton name=\"borough\" value=\"queens\" label=\"Queens\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>",
+              "lang": "html"
+            },
+            {
+              "title": "Pre-selected",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
               "title": "Standalone, one per table row",
-              "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th>Application</th>\n<th>Priority</th>\n</tr>\n<tr>\n<td>SNAP Benefits</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n label=\"Select SNAP Benefits\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Child Care Assistance</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"child-care\"\n label=\"Select Child Care Assistance\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>HEAP</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"heap\"\n label=\"Select HEAP\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Medicaid</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"medicaid\"\n label=\"Select Medicaid\"\n></nys-radiobutton>\n</td>\n</tr>\n</table>\n</nys-table>",
+              "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th>Application</th>\n<th>Priority</th>\n</tr>\n<tr>\n<td>SNAP Benefits</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n label=\"Select SNAP Benefits\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Child Care Assistance</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"child-care\"\n label=\"Select Child Care Assistance\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>HEAP</td>\n<td>\n<label>Brooklyn</label>\n<input type=\"radio\" name=\"group\" value=\"Brooklyn\"></input>\n</td>\n</tr>\n<tr>\n<td>Medicaid</td>\n<td>\n<label>Manhattan</label>\n<input type=\"radio\" name=\"group\" value=\"Manhattan\"></input>\n</td>\n</tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
           ]
@@ -10258,6 +10431,14 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"radiogroup\""
             }
           ],
           "events": [
@@ -10461,11 +10642,6 @@
             {
               "title": "Description Slot",
               "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
-              "lang": "html"
-            },
-            {
-              "title": "TEST",
-              "code": "<nys-radiogroup label=\"Select borough\">\n<div>\n<input type=\"radio\" id=\"huey\" name=\"drone\" value=\"huey\" checked />\n<label for=\"huey\">Huey</label>\n</div>\n\n<div>\n<input type=\"radio\" id=\"dewey\" name=\"drone\" value=\"dewey\" />\n<label for=\"dewey\">Dewey</label>\n</div>\n\n<div>\n<input type=\"radio\" id=\"louie\" name=\"drone\" value=\"louie\" />\n<label for=\"louie\">Louie</label>\n</div>\n\n\n</nys-radiogroup>",
               "lang": "html"
             }
           ]

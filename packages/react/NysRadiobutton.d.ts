@@ -1,7 +1,10 @@
 import React from "react";
-import { NysRadiobutton as NysRadiobuttonElement } from "../../dist/nysds.es.js";
+import {
+  NysRadiobutton as NysRadiobuttonElement,
+  CustomEvent,
+} from "../../dist/nysds.es.js";
 
-export type { NysRadiobuttonElement };
+export type { NysRadiobuttonElement, CustomEvent };
 
 export interface NysRadiobuttonProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -92,7 +95,10 @@ export interface NysRadiobuttonProps extends Pick<
 }
 
 /**
- * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
+ * Radio button for single selection from mutually exclusive options.
+ * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
+ * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
+ * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
  * ---
  *
  *
