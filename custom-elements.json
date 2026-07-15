@@ -15632,6 +15632,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "ID for the navigation. Generated automatically if not provided.",
               "attribute": "id",
               "reflects": true
             },
@@ -15642,6 +15643,7 @@
                 "text": "string"
               },
               "default": "\"Page navigation\"",
+              "description": "Heading text displayed at the top of the navigation. Defaults to \"Page navigation\".",
               "attribute": "header",
               "reflects": true
             },
@@ -15652,6 +15654,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Hides the visible heading while keeping an accessible label for the navigation.",
               "attribute": "hideHeader",
               "reflects": true
             },
@@ -15662,6 +15665,7 @@
                 "text": "HeaderLevel"
               },
               "default": "\"h2\"",
+              "description": "Heading level used for the navigation heading (`h1` through `h6`).",
               "attribute": "headerLevel",
               "reflects": true
             },
@@ -15672,6 +15676,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Expands or collapses the navigation on mobile.",
               "attribute": "expanded",
               "reflects": true
             },
@@ -15749,6 +15754,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "ID for the navigation. Generated automatically if not provided.",
               "fieldName": "id",
               "propName": "id"
             },
@@ -15758,6 +15764,7 @@
                 "text": "string"
               },
               "default": "\"Page navigation\"",
+              "description": "Heading text displayed at the top of the navigation. Defaults to \"Page navigation\".",
               "fieldName": "header",
               "propName": "header"
             },
@@ -15767,6 +15774,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Hides the visible heading while keeping an accessible label for the navigation.",
               "fieldName": "hideHeader",
               "propName": "hideheader"
             },
@@ -15776,6 +15784,7 @@
                 "text": "HeaderLevel"
               },
               "default": "\"h2\"",
+              "description": "Heading level used for the navigation heading (`h1` through `h6`).",
               "fieldName": "headerLevel",
               "propName": "headerlevel"
             },
@@ -15785,6 +15794,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Expands or collapses the navigation on mobile.",
               "fieldName": "expanded",
               "propName": "expanded"
             }

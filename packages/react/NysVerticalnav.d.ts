@@ -18,19 +18,19 @@ export interface NysVerticalnavProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** undefined */
+  /** Hides the visible heading while keeping an accessible label for the navigation. */
   hideHeader?: boolean;
 
-  /** undefined */
+  /** Expands or collapses the navigation on mobile. */
   expanded?: boolean;
 
-  /** undefined */
+  /** ID for the navigation. Generated automatically if not provided. */
   id?: NysVerticalnavElement["id"];
 
-  /** undefined */
+  /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
   header?: NysVerticalnavElement["header"];
 
-  /** undefined */
+  /** Heading level used for the navigation heading (`h1` through `h6`). */
   headerLevel?: NysVerticalnavElement["headerLevel"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */

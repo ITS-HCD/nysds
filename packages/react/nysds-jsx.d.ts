@@ -1043,15 +1043,15 @@ export type NysUnavHeaderProps = {
 };
 
 export type NysVerticalnavProps = {
-  /**  */
+  /** ID for the navigation. Generated automatically if not provided. */
   id?: string;
-  /**  */
+  /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
   header?: string;
-  /**  */
+  /** Hides the visible heading while keeping an accessible label for the navigation. */
   hideHeader?: boolean;
-  /**  */
+  /** Heading level used for the navigation heading (`h1` through `h6`). */
   headerLevel?: HeaderLevel;
-  /**  */
+  /** Expands or collapses the navigation on mobile. */
   expanded?: boolean;
 };
 
