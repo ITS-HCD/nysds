@@ -3,6 +3,8 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-verticalnav";
 import "./nys-verticalnavgroup";
 import "@nysds/nys-divider";
+import "@nysds/nys-globalheader";
+import "@nysds/nys-globalfooter";
 import "@nysds/nys-button";
 
 const meta: Meta = {
@@ -477,6 +479,7 @@ export const HiddenHeader: Story = {
       <nys-verticalnav header="Section navigation" hideHeader>
         <ul>
           <li><a href="/home">Home</a></li>
+          <li><a href="/service">Service</a></li>
         </ul>
       </nys-verticalnav>
     `;
@@ -488,6 +491,7 @@ export const HiddenHeader: Story = {
 <nys-verticalnav header="Section navigation" hideHeader>
   <ul>
     <li><a href="/home">Home</a></li>
+    <li><a href="/service">Service</a></li>
   </ul>
 </nys-verticalnav>`,
         type: "auto",
@@ -498,30 +502,65 @@ export const HiddenHeader: Story = {
 
 export const PageLayout: Story = {
   render: () => {
-    return html`<pre
-      style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"
-    ><code>${'```html\n<style>\n.story-page {\ndisplay: flex;\nflex-direction: column;\nmin-height: 100vh;\nfont-family: var(--nys-font-family-ui, "Proxima Nova", sans-serif);\n}\n.story-page__body {\ndisplay: flex;\nflex: 1;\n}\n.story-page__main {\nflex: 1;\npadding: var(--nys-space-400, 32px);\n}'}</code></pre>`;
+    return html`
+      <nys-globalheader
+        homepageLink="https://ny.gov"
+        agencyName="Office of Information Technology Services"
+      ></nys-globalheader>
+
+      <nys-verticalnav header="NYS Design System" headerLevel="h2">
+        <ul>
+          <li><a href="/">Foundations</a></li>
+          <li><a href="/components" aria-current="page">Components</a></li>
+          <li>
+            <nys-verticalnavgroup label="Accessibility">
+              <ul>
+                <li><a href="">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+          </li>
+        </ul>
+      </nys-verticalnav>
+
+      <main>
+        <p>Place content here.</p>
+      </main>
+
+      <nys-globalfooter></nys-globalfooter>
+    `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-\`\`\`html
-<style>
-.story-page {
-display: flex;
-flex-direction: column;
-min-height: 100vh;
-font-family: var(--nys-font-family-ui, "Proxima Nova", sans-serif);
-}
-.story-page__body {
-display: flex;
-flex: 1;
-}
-.story-page__main {
-flex: 1;
-padding: var(--nys-space-400, 32px);
-}`,
+<nys-globalheader
+  homepageLink="https://ny.gov"
+  agencyName="Office of Information Technology Services"
+></nys-globalheader>
+
+<nys-verticalnav header="NYS Design System" headerLevel="h2">
+  <ul>
+    <li><a href="/">Foundations</a></li>
+    <li><a href="/components" aria-current="page">Components</a></li>
+    <li>
+      <nys-verticalnavgroup label="Accessibility">
+        <ul>
+          <li><a href="">WCAG Guidelines</a></li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+    </li>
+  </ul>
+</nys-verticalnav>
+
+<main>
+  <p>Place content here.</p>
+</main>
+
+<nys-globalfooter></nys-globalfooter>`,
         type: "auto",
       },
     },

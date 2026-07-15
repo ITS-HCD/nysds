@@ -15755,12 +15755,13 @@
             },
             {
               "title": "Hidden header",
-              "code": "<nys-verticalnav header=\"Section navigation\" hideHeader>\n<ul>\n<li><a href=\"/home\">Home</a></li>\n</ul>\n</nys-verticalnav>",
+              "code": "<nys-verticalnav header=\"Section navigation\" hideHeader>\n<ul>\n<li><a href=\"/home\">Home</a></li>\n<li><a href=\"/service\">Service</a></li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
               "title": "Page layout",
-              "code": "```html\n<style>\n.story-page {\ndisplay: flex;\nflex-direction: column;\nmin-height: 100vh;\nfont-family: var(--nys-font-family-ui, \"Proxima Nova\", sans-serif);\n}\n.story-page__body {\ndisplay: flex;\nflex: 1;\n}\n.story-page__main {\nflex: 1;\npadding: var(--nys-space-400, 32px);\n}"
+              "code": "<nys-globalheader\nhomepageLink=\"https://ny.gov\"\nagencyName=\"Office of Information Technology Services\"\n></nys-globalheader>\n\n<nys-verticalnav header=\"NYS Design System\" headerLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\" aria-current=\"page\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>\n\n<main>\n<p>Place content here.</p>\n</main>\n\n<nys-globalfooter></nys-globalfooter>",
+              "lang": "html"
             },
             {
               "title": "Mobile controls",

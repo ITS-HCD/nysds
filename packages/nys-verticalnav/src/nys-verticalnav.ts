@@ -221,11 +221,25 @@ function adoptLightStyles() {
 export class NysVerticalnav extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) header = "Page navigation";
-  @property({ type: Boolean, reflect: true }) hideHeader = false;
-  @property({ type: String, reflect: true }) headerLevel: HeaderLevel = "h2";
-  @property({ type: Boolean, reflect: true }) expanded = false;
+  /** ID for the navigation. Generated automatically if not provided. */
+  @property({ type: String, reflect: true })
+  id = "";
+
+  /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
+  @property({ type: String, reflect: true })
+  header = "Page navigation";
+
+  /** Hides the visible heading while keeping an accessible label for the navigation. */
+  @property({ type: Boolean, reflect: true })
+  hideHeader = false;
+
+  /** Heading level used for the navigation heading (`h1` through `h6`). */
+  @property({ type: String, reflect: true })
+  headerLevel: HeaderLevel = "h2";
+
+  /** Expands or collapses the navigation on mobile. */
+  @property({ type: Boolean, reflect: true })
+  expanded = false;
 
   @state() private _isMobile = false;
   private _mediaQuery: MediaQueryList | null = null;

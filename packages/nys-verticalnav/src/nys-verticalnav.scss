@@ -24,18 +24,18 @@
   );
 
   /* Trigger states */
-  --_nys-verticalnav-trigger-hover: var(--nys-color-neutral-10, #f6f6f6);
-  --_nys-verticalnav-trigger-active: var(--nys-color-neutral-50, #ededed);
-  --_nys-verticalnav-trigger-disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-verticalnav-trigger-focus: var(--nys-color-focus, #004dd1);
+  --_nys-verticalnav-trigger--hover: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-verticalnav-trigger--active: var(--nys-color-neutral-50, #ededed);
+  --_nys-verticalnav-trigger--disabled: var(--nys-color-text-disabled, #bec0c1);
+  --_nys-verticalnav-trigger--focus: var(--nys-color-focus, #004dd1);
 
   /* Active navgroup trigger states */
-  --_nys-verticalnav-trigger-current: var(--nys-color-theme-faint, #f7fafd);
-  --_nys-verticalnav-trigger-current-hover: var(
+  --_nys-verticalnav-trigger--current: var(--nys-color-theme-faint, #f7fafd);
+  --_nys-verticalnav-trigger--current--hover: var(
     --nys-color-theme-weaker,
     #eff6fb
   );
-  --_nys-verticalnav-trigger-current-active: var(
+  --_nys-verticalnav-trigger--current--active: var(
     --nys-color-theme-weak,
     #cddde9
   );
@@ -96,21 +96,21 @@ nys-accordion {
     line-height: var(--_nys-verticalnav-line-height);
 
     &:hover {
-      background-color: var(--_nys-verticalnav-trigger-hover);
+      background-color: var(--_nys-verticalnav-trigger--hover);
     }
 
     &:active {
-      background-color: var(--_nys-verticalnav-trigger-active);
+      background-color: var(--_nys-verticalnav-trigger--active);
     }
 
     &:focus-visible {
       outline: var(--nys-border-width-md, 2px) solid
-        var(--_nys-verticalnav-trigger-focus);
+        var(--_nys-verticalnav-trigger--focus);
       outline-offset: -2px;
     }
 
     &:disabled {
-      color: var(--_nys-verticalnav-trigger-disabled);
+      color: var(--_nys-verticalnav-trigger--disabled);
     }
   }
 
@@ -129,7 +129,7 @@ nys-accordion {
   .nys-verticalnavgroup {
     &__trigger {
       &:disabled {
-        color: var(--_nys-verticalnav-trigger-disabled);
+        color: var(--_nys-verticalnav-trigger--disabled);
         cursor: not-allowed;
       }
     }
@@ -149,14 +149,14 @@ nys-accordion {
 :host([active]:not([expanded])) {
   .nys-verticalnavgroup {
     &__trigger {
-      background-color: var(--_nys-verticalnav-trigger-current);
+      background-color: var(--_nys-verticalnav-trigger--current);
 
       &:hover {
-        background-color: var(--_nys-verticalnav-trigger-current-hover);
+        background-color: var(--_nys-verticalnav-trigger--current--hover);
       }
 
       &:active {
-        background-color: var(--_nys-verticalnav-trigger-current-active);
+        background-color: var(--_nys-verticalnav-trigger--current--active);
       }
     }
   }
