@@ -90,11 +90,6 @@ export class NysIconlist extends LitElement {
 
     slot.assignedElements({ flatten: true }).forEach((el) => {
       if (el.tagName.toLowerCase() !== "nys-iconlistitem") {
-        console.warn(
-          "nys-iconlist: only <nys-iconlistitem> elements are allowed as direct children. Removing:",
-          el,
-        );
-        el.remove();
       }
     });
 

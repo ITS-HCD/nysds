@@ -34,7 +34,12 @@ export class NysIconlistitem extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    if (!this.hasAttribute("role")) {
+    // Only expose the listitem role when actually inside a list, so a
+    // standalone item isn't announced as an orphan listitem.
+    if (
+      !this.hasAttribute("role") &&
+      this.parentElement?.tagName.toLowerCase() === "nys-iconlist"
+    ) {
       this.setAttribute("role", "listitem");
     }
   }

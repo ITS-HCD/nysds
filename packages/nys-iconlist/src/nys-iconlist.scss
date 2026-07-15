@@ -9,3 +9,9 @@
   padding: 0;
   list-style: none;
 }
+
+/* Only <nys-iconlistitem> children are rendered; hide anything else
+   rather than removing it from the light DOM (framework-owned nodes). */
+::slotted(:not(nys-iconlistitem)) {
+  display: none;
+}
