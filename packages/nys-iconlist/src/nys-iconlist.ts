@@ -85,14 +85,8 @@ export class NysIconlist extends LitElement {
   }
 
   private _handleSlotChange() {
-    const slot = this.shadowRoot?.querySelector("slot");
-    if (!slot) return;
-
-    slot.assignedElements({ flatten: true }).forEach((el) => {
-      if (el.tagName.toLowerCase() !== "nys-iconlistitem") {
-      }
-    });
-
+    // Non-<nys-iconlistitem> children are hidden via CSS (::slotted), so we
+    // only need to (re)sync dividers when the assigned items change.
     this._syncDividers();
   }
 

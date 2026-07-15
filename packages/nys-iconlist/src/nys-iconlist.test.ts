@@ -100,12 +100,23 @@ describe("nys-iconlistitem", () => {
     expect(el.icon).to.equal("schedule");
   });
 
-  it("sets role=listitem", async () => {
+  it("sets role=listitem when inside a nys-iconlist", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist>
+        <nys-iconlistitem icon="check_circle">Done</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+    const item = el.querySelector("nys-iconlistitem");
+    expect(item?.getAttribute("role")).to.equal("listitem");
+  });
+
+  it("does not set role=listitem when standalone", async () => {
     const el = await fixture<NysIconlistitem>(
       html`<nys-iconlistitem icon="check_circle">Done</nys-iconlistitem>`,
     );
     await el.updateComplete;
-    expect(el.getAttribute("role")).to.equal("listitem");
+    expect(el.getAttribute("role")).to.be.null;
   });
 
   it("sets data-has-secondary when secondary slot is populated", async () => {
