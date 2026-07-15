@@ -669,8 +669,7 @@ export type NysRadiobuttonProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
-  /**  */
-  role?: string;
+
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when radio gains focus. */

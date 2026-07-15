@@ -9718,6 +9718,19 @@
             },
             {
               "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_handleTextInput",
               "privacy": "private",
               "parameters": [
@@ -9753,30 +9766,9 @@
               ]
             },
             {
-              "kind": "method",
-              "name": "_handleKeydown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ]
-            },
-            {
               "kind": "field",
               "name": "_handleWrapperClick",
               "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"radio\""
             }
           ],
           "events": [

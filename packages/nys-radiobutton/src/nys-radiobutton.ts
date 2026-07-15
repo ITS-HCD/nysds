@@ -157,7 +157,6 @@ export class NysRadiobutton extends LitElement {
   constructor() {
     super();
     this._internals = this.attachInternals();
-    this._internals.role = "radio";
   }
 
   connectedCallback() {
