@@ -1,0 +1,24 @@
+// Light-DOM styles for <nys-tabpanel>.
+
+// Injected once into `document.adoptedStyleSheets` (see nys-tabpanel.ts) so the
+// panel container is styled from the light DOM. This is what lets consumers
+// override the panel (e.g. `nys-tabpanel { padding: 0 }`) and reach its slotted
+// content with page CSS/JS — neither is possible when the container lives
+// behind a shadow-DOM wrapper.
+
+// This only works because <nys-tabgroup> keeps panels in the light DOM (it
+// projects them via a named slot instead of moving them into its shadow root);
+// a document-adopted sheet cannot pierce shadow DOM.
+
+// Every selector is scoped to the `nys-tabpanel` tag name so nothing leaks to
+// the rest of the document. The `--_nys-tabpanel-*` custom properties are
+// declared on the <nys-tabgroup> `:host` and inherit down into the panel.
+// `display` is intentionally left to the shadow sheet so `[hidden]` keeps
+// working (see nys-tabpanel.scss).
+nys-tabpanel {
+  box-sizing: border-box;
+  padding: var(--_nys-tabpanel-padding);
+  background-color: var(--_nys-tabpanel-background-color);
+  max-height: var(--_nys-tabpanel-max-height);
+  overflow-y: auto;
+}
