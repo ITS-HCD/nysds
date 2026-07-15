@@ -44,6 +44,7 @@ export const Basic: Story = {
   render: (args) => {
     return html`
       <nys-datepicker
+        id="my-datepicker"
         name=${args.name}
         width=${args.width}
         ?hideTodayButton=${args.hideTodayButton}

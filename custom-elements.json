@@ -12177,11 +12177,11 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`\nelements.\n\nAccepts tabs and panels as flat light-DOM children in any order (interleaved\nor grouped). On slot change, children are sorted into dedicated shadow-DOM\ncontainers, ARIA relationships are wired, and the first selected (or first)\ntab is activated.\n\nScroll shadows are rendered on either side of the tab list and toggled via\n`ResizeObserver` and a `scroll` listener so they accurately reflect whether\noverflow content exists in each direction.\n\nKeyboard navigation follows the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:\n- Arrow keys move focus without changing selection.\n- Enter / Space confirm selection on the focused tab.",
+          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`\nelements.\n\nAccepts tabs and panels as flat light-DOM children in any order (interleaved\nor grouped). On slot change, each child is assigned `slot=\"tab\"` or\n`slot=\"panel\"` so it is projected into the correct shadow-DOM container\nwhile remaining in the light DOM, ARIA relationships are wired, and the\nfirst selected (or first) tab is activated.\n\nScroll shadows are rendered on either side of the tab list and toggled via\n`ResizeObserver` and a `scroll` listener so they accurately reflect whether\noverflow content exists in each direction.\n\nKeyboard navigation follows the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:\n- Arrow keys move focus without changing selection.\n- Enter / Space confirm selection on the focused tab.",
           "name": "NysTabgroup",
           "slots": [
             {
-              "description": "Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are moved into internal shadow-DOM containers on `slotchange`; the slot itself is not rendered visibly.",
+              "description": "Accepts `<nys-tab>` and `<nys-tabpanel>` children. On `slotchange` they are assigned `slot=\"tab\"` / `slot=\"panel\"` and projected into the tablist and panel containers; they stay in the light DOM. Any other children remain in the default slot, rendered below the panels.",
               "name": ""
             }
           ],
@@ -12263,7 +12263,7 @@
                   "text": ""
                 }
               },
-              "description": "Returns all `<nys-tab>` elements currently residing in the shadow-DOM\ntabs container, in DOM order."
+              "description": "Returns all `<nys-tab>` light-DOM children in DOM order.\n\nTabs are projected into the shadow-DOM tablist via the `tab` slot but\nremain light-DOM children of the group, so they stay reachable by consumer\nCSS and JavaScript."
             },
             {
               "kind": "method",
@@ -12274,7 +12274,34 @@
                   "text": ""
                 }
               },
-              "description": "Returns all `<nys-tabpanel>` elements currently residing in the\nshadow-DOM panels container, in DOM order."
+              "description": "Returns the `<nys-tabpanel>` light-DOM children ordered to align with\n`_getTabs()` — i.e. `panels[i]` is the panel paired with `tabs[i]`.\n\nPairing honors explicit `aria-labelledby` references first, then falls\nback to source order for the remaining panels. See _pairPanels."
+            },
+            {
+              "kind": "method",
+              "name": "_pairPanels",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tabs",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  },
+                  "description": "Ordered `<nys-tab>` elements."
+                },
+                {
+                  "name": "panels",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  },
+                  "description": "`<nys-tabpanel>` elements in source order."
+                }
+              ],
+              "description": "Orders `panels` to align 1:1 with `tabs`.\n\nA panel is paired with a tab when its `aria-labelledby` matches that tab's\n`id`; explicit references win over position. Panels without a reference\nfill the remaining tab slots in source order. Any panels whose reference\ndoes not resolve to a tab are appended at the end.\n\nIdempotent: after `_applySelection` writes `aria-labelledby` onto every\npanel, re-running this yields the same order."
             },
             {
               "kind": "method",
@@ -12311,24 +12338,15 @@
               "description": "Single source of truth for ARIA wiring, `tabindex`, and panel visibility.\n\nFor each index `i`:\n- Sets `selected` / removes `selected` attribute on `tabs[i]`.\n- Sets `aria-controls` on `tabs[i]` to the `id` of `panels[i]`.\n- Sets `aria-labelledby` on `panels[i]` to the `id` of `tabs[i]`.\n- Removes `hidden` from `panels[selectedIndex]`; adds it to all others.\n\nMust be called any time the selected tab changes (initial render and\nsubsequent user interactions)."
             },
             {
-              "kind": "method",
-              "name": "_sortChildren",
+              "kind": "field",
+              "name": "_syncChildren",
               "privacy": "private",
+              "description": "Handles `slotchange` and keeps the tabs/panels wired without ever removing\nthem from the light DOM.\n\nConsumers author `<nys-tab>` / `<nys-tabpanel>` as flat children with no\n`slot` attribute. This assigns `slot=\"tab\"` / `slot=\"panel\"` so each is\nprojected into the correct shadow-DOM container while remaining a\nlight-DOM child of the group (reachable by consumer CSS/JS). Any other\nchildren (e.g. a footnote `<p>`) are left untouched in the default slot.\n\nReads all current light-DOM children on every call (rather than a single\nslot's assigned nodes), so it is robust to dynamic additions/removals and\nidempotent: setting the `slot` attributes triggers further `slotchange`\nevents, but once the attributes are stable no more mutations occur and the\ncascade settles.\n\nAfter (re)assignment, `_applySelection` is called honoring the first tab\nthat already has a `selected` attribute, or index `0` if none is found.",
               "return": {
                 "type": {
                   "text": ""
                 }
-              },
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  },
-                  "description": "The `Event` fired by the `<slot>` element on slot change."
-                }
-              ],
-              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`. If a panel has an `aria-labelledby` attribute,\nit is explicitly paired with the tab it references; otherwise panels are\npaired with tabs by index order. After sorting, calls `_applySelection`\nusing the first element that already has a `selected` attribute, or\nindex `0` if none is found."
+              }
             },
             {
               "kind": "method",
@@ -12417,6 +12435,16 @@
               "title": "Explicit Ordering",
               "code": "<nys-tabgroup id=\"explicit-ordering\">\n<nys-tab label=\"1st Tab\" id=\"tab1\"></nys-tab>\n<nys-tab label=\"2nd Tab\" id=\"tab2\"></nys-tab>\n<nys-tab label=\"3rd Tab\" id=\"tab3\"></nys-tab>\n<nys-tabpanel aria-labelledby=\"tab2\">Content for tab 2</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab3\">Content for tab 3</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab1\">Content for tab 1</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
+            },
+            {
+              "title": "JS in tabpanel",
+              "code": "<nys-tabgroup>\n<nys-tab label=\"Tab 1\"></nys-tab>\n<nys-tab label=\"Tab 2\"></nys-tab>\n<nys-tabpanel>\n<p>Content for tab 1</p>\n</nys-tabpanel>\n<nys-tabpanel>\n<p>Content for tab 2</p>\n</nys-tabpanel>\n</nys-tabgroup>\n<script>\nconst tabgroup = document.querySelector(\"nys-tabgroup\");\nconst panels = tabgroup.querySelectorAll(\"nys-tabpanel\");\npanels[0].innerHTML += \"<p>Added via JS</p>\";\n</script>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Styling",
+              "code": "<style>\nnys-tabpanel {\n--_nys-tabpanel-background-color: var(--nys-color-theme-faint);\nborder: solid 2px var(--nys-color-theme-strong);\n--nys-button-background-color: var(--nys-color-success);\n}\n</style>\n<nys-tabgroup>\n<nys-tab label=\"Tab 1\"></nys-tab>\n<nys-tab label=\"Tab 2\"></nys-tab>\n<nys-tabpanel>\n<p>Content for tab 1</p>\n<nys-button>Click me</nys-button>\n</nys-tabpanel>\n<nys-tabpanel>\n<p>Content for tab 2</p>\n</nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
             }
           ]
         }
@@ -12446,11 +12474,11 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a\n`<nys-tabgroup>`.\n\nPairing is determined by render order: the Nth `<nys-tabpanel>` child of a\n`<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.\n`aria-labelledby` and the `hidden` attribute are managed externally by\n`<nys-tabgroup>` via `_applySelection`; do not set them directly.",
+          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a\n`<nys-tabgroup>`.\n\nPairing is determined by render order: the Nth `<nys-tabpanel>` child of a\n`<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child (or by explicit\n`aria-labelledby`). `aria-labelledby` and the `hidden` attribute are managed\nexternally by `<nys-tabgroup>` via `_applySelection`; do not set them\ndirectly.\n\nThe panel container is styled from the light DOM (`nys-tabpanel.light.scss`,\nadopted on the document) rather than a shadow-DOM wrapper. This keeps the\nslotted panel content in the light DOM — reachable by consumer CSS and\nJavaScript — and lets consumers override the panel's own styling (e.g.\n`nys-tabpanel { padding: 0 }`), which a shadow wrapper would prevent.",
           "name": "NysTabpanel",
           "slots": [
             {
-              "description": "Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.",
+              "description": "Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex=\"0\"`) `role=\"tabpanel\"` region.",
               "name": ""
             }
           ],
@@ -12532,7 +12560,7 @@
           "name": "NysTable",
           "slots": [
             {
-              "description": "Accepts a `<table>` element. Only the first table is rendered.",
+              "description": "Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.",
               "name": ""
             }
           ],
@@ -12634,10 +12662,61 @@
               "default": "null"
             },
             {
+              "kind": "field",
+              "name": "_enhancing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "method",
+              "name": "_getSlottedTable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLTableElement | undefined"
+                }
+              },
+              "description": "****************** Functions *******************"
+            },
+            {
+              "kind": "method",
+              "name": "_observeTable",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "table",
+                  "type": {
+                    "text": "HTMLTableElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_withObserverPaused",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "table",
+                  "type": {
+                    "text": "HTMLTableElement"
+                  }
+                },
+                {
+                  "name": "fn",
+                  "type": {
+                    "text": "() => void"
+                  }
+                }
+              ]
+            },
+            {
               "kind": "method",
               "name": "_handleSlotChange",
-              "privacy": "private",
-              "description": "****************** Functions *******************"
+              "privacy": "private"
             },
             {
               "kind": "method",

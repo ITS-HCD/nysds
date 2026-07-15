@@ -31,12 +31,14 @@ export const Basic: Story = {
     optional: false,
     tooltip: "",
     inverted: false,
+    width: "full",
     rows: 4,
     resize: "vertical",
     showError: false,
     errorMessage: "",
   },
   argTypes: {
+    width: { control: { type: "select" }, options: ["sm", "md", "lg", "full"] },
     resize: { control: { type: "select" }, options: ["vertical", "none"] },
   },
   render: (args) => {
@@ -53,6 +55,7 @@ export const Basic: Story = {
         ?optional=${args.optional}
         tooltip=${args.tooltip}
         ?inverted=${args.inverted}
+        width=${args.width}
         rows=${args.rows}
         resize=${args.resize}
         ?showError=${args.showError}

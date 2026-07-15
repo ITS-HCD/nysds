@@ -51,13 +51,20 @@ Reflected to the DOM attribute so `aria-controls` references on sibling
  * `<nys-tabgroup>`.
  *
  * Pairing is determined by render order: the Nth `<nys-tabpanel>` child of a
- * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.
- * `aria-labelledby` and the `hidden` attribute are managed externally by
- * `<nys-tabgroup>` via `_applySelection`; do not set them directly.
+ * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child (or by explicit
+ * `aria-labelledby`). `aria-labelledby` and the `hidden` attribute are managed
+ * externally by `<nys-tabgroup>` via `_applySelection`; do not set them
+ * directly.
+ *
+ * The panel container is styled from the light DOM (`nys-tabpanel.light.scss`,
+ * adopted on the document) rather than a shadow-DOM wrapper. This keeps the
+ * slotted panel content in the light DOM — reachable by consumer CSS and
+ * JavaScript — and lets consumers override the panel's own styling (e.g.
+ * `nys-tabpanel { padding: 0 }`), which a shadow wrapper would prevent.
  * ---
  *
  *
  * ### **Slots:**
- *  - _default_ - Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.
+ *  - _default_ - Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"` region.
  */
 export const NysTabpanel: React.ForwardRefExoticComponent<NysTabpanelProps>;

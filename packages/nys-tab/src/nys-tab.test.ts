@@ -59,7 +59,7 @@ describe("nys-tab", () => {
     `);
     await el.updateComplete;
 
-    const tabs = el.shadowRoot!.querySelectorAll("nys-tab");
+    const tabs = el.querySelectorAll("nys-tab");
     expect(tabs[0].hasAttribute("selected")).to.be.true;
     expect(tabs[1].hasAttribute("selected")).to.be.false;
     expect(tabs[2].hasAttribute("selected")).to.be.false;
@@ -78,7 +78,7 @@ describe("nys-tab", () => {
     `);
     await el.updateComplete;
 
-    const tabs = el.shadowRoot!.querySelectorAll("nys-tab");
+    const tabs = el.querySelectorAll("nys-tab");
     expect(tabs[0].hasAttribute("selected")).to.be.true;
     expect(tabs[1].hasAttribute("selected")).to.be.false;
     expect(tabs[2].hasAttribute("selected")).to.be.false;
@@ -93,7 +93,7 @@ describe("nys-tab", () => {
     `);
     await el.updateComplete;
 
-    const tab = el.shadowRoot!.querySelector("nys-tab")! as NysTab;
+    const tab = el.querySelector("nys-tab")! as NysTab;
     await (tab as any).updateComplete;
 
     let focusFired = false;
@@ -107,6 +107,123 @@ describe("nys-tab", () => {
   });
 });
 
+describe("nys-tabgroup light-DOM projection", () => {
+  it("keeps tabs and panels in the light DOM (not moved into shadow) and assigns slots", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    // Tabs and panels are still light-DOM children of the group.
+    expect(el.querySelectorAll("nys-tab").length).to.equal(2);
+    expect(el.querySelectorAll("nys-tabpanel").length).to.equal(2);
+
+    // They are projected via named slots, never removed from the light DOM.
+    el.querySelectorAll("nys-tab").forEach((tab) => {
+      expect(tab.getAttribute("slot")).to.equal("tab");
+    });
+    el.querySelectorAll("nys-tabpanel").forEach((panel) => {
+      expect(panel.getAttribute("slot")).to.equal("panel");
+    });
+
+    // Nothing was appended into the group's shadow containers.
+    expect(el.shadowRoot!.querySelector("nys-tab")).to.be.null;
+    expect(el.shadowRoot!.querySelector("nys-tabpanel")).to.be.null;
+  });
+
+  it("exposes slotted panel content to consumer CSS/JS from the light DOM", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tabpanel><a class="deep-link" href="#">Deep link</a></nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    // Slotted content is reachable via a normal light-DOM query — it is not
+    // trapped behind a shadow-DOM wrapper on the panel.
+    const link = el.querySelector<HTMLAnchorElement>("nys-tabpanel .deep-link");
+    expect(link).to.exist;
+    expect(link!.textContent).to.equal("Deep link");
+  });
+
+  it("supports custom JS driving a form inside a panel via document.querySelector (no shadow root access)", async () => {
+    // Mirrors the reported use case: a form inside a tab panel whose fields are
+    // read/mutated by page JS and business-rule logic, reached from the light
+    // DOM without ever touching a shadow root.
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Details"></nys-tab>
+        <nys-tabpanel>
+          <form>
+            <input name="hasPet" type="checkbox" />
+            <input name="petName" type="text" disabled />
+          </form>
+        </nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    // 1. Fields are reachable from the group's light DOM — no shadowRoot needed.
+    const checkbox = el.querySelector<HTMLInputElement>(
+      'input[name="hasPet"]',
+    )!;
+    const petName = el.querySelector<HTMLInputElement>(
+      'input[name="petName"]',
+    )!;
+    expect(checkbox).to.exist;
+    expect(petName).to.exist;
+
+    // 2. The form itself is a real light-DOM ancestor of the fields (form
+    //    association works — the panel is not a shadow boundary between them).
+    const form = el.querySelector("form")!;
+    expect(form.contains(checkbox)).to.be.true;
+    expect(form.elements.namedItem("hasPet")).to.equal(checkbox);
+
+    // 3. Custom business-rule JS: enable petName only when hasPet is checked.
+    checkbox.addEventListener("change", () => {
+      petName.disabled = !checkbox.checked;
+    });
+
+    // 4. Events dispatched on the field fire the consumer's listener and mutate
+    //    a sibling field — the interactivity the shadow wrapper previously blocked.
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event("change"));
+    expect(petName.disabled).to.be.false;
+
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event("change"));
+    expect(petName.disabled).to.be.true;
+
+    // 5. Injecting new markup into the panel via JS lands in the light DOM and
+    //    is queryable from the group.
+    petName.insertAdjacentHTML("afterend", '<span class="js-added">ok</span>');
+    expect(el.querySelector("nys-tabpanel .js-added")?.textContent).to.equal(
+      "ok",
+    );
+  });
+
+  it("leaves non-tab/panel children in the default slot untouched", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <p class="footnote">A footnote</p>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const footnote = el.querySelector(".footnote")!;
+    expect(footnote).to.exist;
+    expect(footnote.hasAttribute("slot")).to.be.false;
+  });
+});
+
 describe("nys-tab event handling", () => {
   it("should dispatch nys-tab-focus, nys-tab-select, and nys-tab-blur events", async () => {
     const el = await fixture<NysTabgroup>(html`
@@ -117,7 +234,7 @@ describe("nys-tab event handling", () => {
     `);
     await el.updateComplete;
 
-    const tab = el.shadowRoot!.querySelector("nys-tab")!;
+    const tab = el.querySelector("nys-tab")!;
     await (tab as any).updateComplete;
 
     let focusFired = false;
@@ -342,8 +459,8 @@ describe("nys-tab a11y", () => {
     `);
     await el.updateComplete;
 
-    const tab = el.shadowRoot!.querySelector("nys-tab")!;
-    const tabPanel = el.shadowRoot!.querySelector("nys-tabpanel")!;
+    const tab = el.querySelector("nys-tab")!;
+    const tabPanel = el.querySelector("nys-tabpanel")!;
     await expect(tab).shadowDom.to.be.accessible();
     await expect(tabPanel).shadowDom.to.be.accessible();
   });
@@ -357,8 +474,8 @@ describe("nys-tab a11y", () => {
     `);
     await el.updateComplete;
 
-    const tab = el.shadowRoot!.querySelector("nys-tab")!;
-    const tabPanel = el.shadowRoot!.querySelector("nys-tabpanel")!;
+    const tab = el.querySelector("nys-tab")!;
+    const tabPanel = el.querySelector("nys-tabpanel")!;
     expect(tab.getAttribute("role")).to.equal("tab");
     expect(tabPanel.getAttribute("role")).to.equal("tabpanel");
   });

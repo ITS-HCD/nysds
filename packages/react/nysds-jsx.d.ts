@@ -1511,9 +1511,10 @@ export type CustomElements = {
    * elements.
    *
    * Accepts tabs and panels as flat light-DOM children in any order (interleaved
-   * or grouped). On slot change, children are sorted into dedicated shadow-DOM
-   * containers, ARIA relationships are wired, and the first selected (or first)
-   * tab is activated.
+   * or grouped). On slot change, each child is assigned `slot="tab"` or
+   * `slot="panel"` so it is projected into the correct shadow-DOM container
+   * while remaining in the light DOM, ARIA relationships are wired, and the
+   * first selected (or first) tab is activated.
    *
    * Scroll shadows are rendered on either side of the tab list and toggled via
    * `ResizeObserver` and a `scroll` listener so they accurately reflect whether
@@ -1527,7 +1528,7 @@ export type CustomElements = {
    *
    *
    * ### **Slots:**
-   *  - _default_ - Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are moved into internal shadow-DOM containers on `slotchange`; the slot itself is not rendered visibly.
+   *  - _default_ - Accepts `<nys-tab>` and `<nys-tabpanel>` children. On `slotchange` they are assigned `slot="tab"` / `slot="panel"` and projected into the tablist and panel containers; they stay in the light DOM. Any other children remain in the default slot, rendered below the panels.
    */
   "nys-tabgroup": Partial<NysTabgroupProps & BaseProps & BaseEvents>;
 
@@ -1536,14 +1537,21 @@ export type CustomElements = {
    * `<nys-tabgroup>`.
    *
    * Pairing is determined by render order: the Nth `<nys-tabpanel>` child of a
-   * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.
-   * `aria-labelledby` and the `hidden` attribute are managed externally by
-   * `<nys-tabgroup>` via `_applySelection`; do not set them directly.
+   * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child (or by explicit
+   * `aria-labelledby`). `aria-labelledby` and the `hidden` attribute are managed
+   * externally by `<nys-tabgroup>` via `_applySelection`; do not set them
+   * directly.
+   *
+   * The panel container is styled from the light DOM (`nys-tabpanel.light.scss`,
+   * adopted on the document) rather than a shadow-DOM wrapper. This keeps the
+   * slotted panel content in the light DOM — reachable by consumer CSS and
+   * JavaScript — and lets consumers override the panel's own styling (e.g.
+   * `nys-tabpanel { padding: 0 }`), which a shadow wrapper would prevent.
    * ---
    *
    *
    * ### **Slots:**
-   *  - _default_ - Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.
+   *  - _default_ - Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"` region.
    */
   "nys-tabpanel": Partial<NysTabpanelProps & BaseProps & BaseEvents>;
 
@@ -1558,7 +1566,7 @@ export type CustomElements = {
    * - **nys-column-sort** - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
    *
    * ### **Slots:**
-   *  - _default_ - Accepts a `<table>` element. Only the first table is rendered.
+   *  - _default_ - Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.
    */
   "nys-table": Partial<NysTableProps & BaseProps & BaseEvents>;
 

@@ -1,3 +1,11 @@
+// Shadow-DOM styles for <nys-table>.
+
+// The <table> is styled from the light DOM (see nys-table.light.scss) so that
+// embedded components stay interactive and consumers can reach the cells. Only
+// the host-level variables, the host display rules, and the shadow wrapper live
+// here. The `--_nys-table-*` custom properties are declared on :host and
+// inherit down (through the <slot>) into the slotted table.
+
 :host {
   --_nys-table-width: 100%;
   --_nys-table-radius: var(--nys-radius-xl, 12px);
@@ -46,108 +54,4 @@
 
 .nys-table {
   width: var(--_nys-table-width);
-  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) /
-    var(--_nys-table-line-height) var(--_nys-table-font-family);
-
-  table {
-    width: var(--_nys-table-width);
-    border-collapse: collapse;
-    background-color: var(--_nys-table-background-color);
-  }
-
-  caption {
-    padding: var(--_nys-table-padding--caption);
-    font-size: var(--_nys-table-font-size--caption);
-    font-weight: var(--_nys-table-font-weight--caption);
-    text-align: start;
-
-    div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
-  td {
-    padding: var(--_nys-table-padding--cell--y)
-      var(--_nys-table-padding--cell--x);
-    border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
-
-    code {
-      color: var(--_nys-table-color--code);
-      background-color: var(--_nys-table-background-color--code);
-      padding: var(--nys-space-1px) var(--nys-space-2px);
-      border-radius: var(--nys-radius-md);
-    }
-  }
-
-  th {
-    border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: var(--_nys-table-padding--cell--y)
-      var(--_nys-table-padding--cell--x);
-    text-align: left;
-
-    &:has(nys-button) {
-      padding: 0;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    nys-button {
-      margin: 0;
-      width: -moz-available;
-      width: -webkit-fill-available;
-      width: fill-available;
-      justify-content: space-between;
-
-      --_nys-button-border-width: 0;
-      --_nys-button-border-radius: 0;
-      --_nys-button-padding--x: var(--_nys-table-padding--cell--x);
-      --_nys-button-justify-content: space-between;
-      --_nys-button-outline-offset: -2px;
-    }
-  }
-
-  th.nys-table__sortedcolumn {
-    background-color: var(--nys-color-theme-weak, #cddde9);
-  }
-
-  td.nys-table__sortedcolumn {
-    position: relative;
-    z-index: 0;
-
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-color: var(--nys-color-theme, #154973);
-      opacity: 0.1;
-      pointer-events: none;
-      z-index: -1;
-    }
-  }
-}
-
-:host([striped]) .nys-table tbody tr:nth-child(odd) {
-  background-color: var(--_nys-table-background-color--striped);
-}
-
-:host([sortable]) .nys-table th {
-  cursor: pointer;
-}
-
-.sr-only {
-  border: 0 !important;
-  clip-path: inset(50%) !important;
-  height: 1px !important;
-  overflow: hidden !important;
-  margin: -1px !important;
-  padding: 0 !important;
-  position: absolute !important;
-  width: 1px !important;
-  white-space: nowrap !important;
 }
