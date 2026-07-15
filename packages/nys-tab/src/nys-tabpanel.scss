@@ -1,0 +1,16 @@
+// Shadow-DOM styles for <nys-tabpanel>.
+
+// The panel is styled from the light DOM (see nys-tabpanel.light.scss) so that
+// consumers can override its appearance and reach its content. The only things
+// that must live in the shadow root are the host `display` rules: `display`
+// must be set here (an author rule in the document would beat the UA
+// `[hidden] { display: none }` and stop <nys-tabgroup> from hiding inactive
+// panels). `:host([hidden])` restores hiding for the panels the group marks
+// inactive.
+:host {
+  display: block;
+}
+
+:host([hidden]) {
+  display: none;
+}
