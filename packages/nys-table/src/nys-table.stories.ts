@@ -27,6 +27,7 @@ export const Basic: Story = {
   render: (args) => {
     return html`
       <nys-table
+        id="table1"
         name=${args.name}
         ?striped=${args.striped}
         ?sortable=${args.sortable}

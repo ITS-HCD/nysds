@@ -28,6 +28,13 @@ export const Basic: Story = {
     secondaryAction: "",
     primaryLabel: "Learn more",
     secondaryLabel: "Dismiss",
+    type: "base",
+  },
+  argTypes: {
+    type: {
+      control: { type: "select" },
+      options: ["base", "info", "success", "warning", "danger", "emergency"],
+    },
   },
   render: (args) => {
     return html`
@@ -41,6 +48,7 @@ export const Basic: Story = {
         secondaryAction=${args.secondaryAction}
         primaryLabel=${args.primaryLabel}
         secondaryLabel=${args.secondaryLabel}
+        type=${args.type}
       ></nys-alert>
     `;
   },

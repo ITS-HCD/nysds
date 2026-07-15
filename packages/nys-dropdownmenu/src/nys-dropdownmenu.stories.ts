@@ -36,6 +36,7 @@ export const Basic: Story = {
       >
         <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
         <nys-dropdownmenu
+          id="my-dropdownmenu"
           for=${args.for}
           ?showDropdown=${args.showDropdown}
           label=${args.label}
