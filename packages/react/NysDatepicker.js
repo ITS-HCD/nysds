@@ -30,8 +30,6 @@ export const NysDatepicker = forwardRef((props, forwardedRef) => {
 
   /** Event listeners - run once */
   useEventListener(ref, "nys-input", props.onNysInput);
-  useEventListener(ref, "nys-datepicker-today", props.onNysDatepickerToday);
-  useEventListener(ref, "nys-datepicker-clear", props.onNysDatepickerClear);
   useEventListener(ref, "nys-blur", props.onNysBlur);
 
   return React.createElement(

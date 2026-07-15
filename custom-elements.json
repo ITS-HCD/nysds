@@ -5310,16 +5310,6 @@
             },
             {
               "kind": "method",
-              "name": "_dispatchTodayClickEvent",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_dispatchClearClickEvent",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "_handleInputKeydown",
               "privacy": "private",
               "parameters": [
@@ -5463,18 +5453,6 @@
                 "text": "CustomEvent"
               },
               "description": "Fired on date selection. Detail: `{id, value}`."
-            },
-            {
-              "name": "nys-datepicker-today",
-              "type": {
-                "text": "CustomEvent"
-              }
-            },
-            {
-              "name": "nys-datepicker-clear",
-              "type": {
-                "text": "CustomEvent"
-              }
             },
             {
               "name": "nys-blur",
