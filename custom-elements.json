@@ -8737,12 +8737,12 @@
             },
             {
               "title": "Divider",
-              "code": "<nys-iconlist id=\"event-details\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
+              "code": "<nys-iconlist id=\"event-details2\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
               "title": "Secondary label",
-              "code": "<nys-iconlist id=\"event-details\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "code": "<nys-iconlist id=\"event-details3\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
