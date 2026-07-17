@@ -71,9 +71,7 @@ describe("nys-globalheader", () => {
 
     await el.updateComplete;
 
-    const active = el.shadowRoot?.querySelector(
-      ".nys-globalheader__content li.active a",
-    );
+    const active = el.querySelector("li.active a");
 
     expect(active?.getAttribute("href")).to.equal("/services");
   });
@@ -94,8 +92,7 @@ describe("nys-globalheader", () => {
     await el.updateComplete;
 
     // Check if the slot has content
-    const content = el.shadowRoot?.querySelector(".nys-globalheader__content");
-    const testSlot = content?.querySelector(".test-slot");
+    const testSlot = el.querySelector(".test-slot");
     expect(testSlot).to.exist;
     expect(testSlot?.textContent).to.include("Services");
   });
@@ -116,15 +113,11 @@ describe("nys-globalheader", () => {
     await new Promise((r) => setTimeout(r, 0));
     await el.updateComplete;
 
-    const desktop = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement;
-    const mobile = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content-mobile",
-    ) as HTMLElement;
-
-    expect(desktop.querySelectorAll("a").length).to.equal(2);
-    expect(mobile.querySelectorAll("a").length).to.equal(2);
+    expect(el.querySelectorAll("a").length).to.equal(2);
+    // And its presence is now reflected in the shadow-rendered button.
+    expect(
+      el.shadowRoot!.querySelector(".nys-globalheader__mobile-menu-button"),
+    ).to.exist;
 
     // --- Remove slot content ---
     el.removeChild(ul);
@@ -132,8 +125,10 @@ describe("nys-globalheader", () => {
     await new Promise((r) => setTimeout(r, 0));
     await el.updateComplete;
 
-    expect(desktop.innerHTML).to.equal("");
-    expect(mobile.innerHTML).to.equal("");
+    expect(el.querySelectorAll("a").length).to.equal(0);
+    expect(
+      el.shadowRoot!.querySelector(".nys-globalheader__mobile-menu-button"),
+    ).to.not.exist;
   });
 
   it("renders content in the user-actions slot", async () => {
@@ -150,7 +145,7 @@ describe("nys-globalheader", () => {
     expect(button).to.exist;
   });
 
-  it("sets active class on clicked nav link (desktop and mobile)", async () => {
+  it("sets active class on clicked nav link", async () => {
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader>
         <ul>
@@ -162,38 +157,12 @@ describe("nys-globalheader", () => {
 
     await el.updateComplete;
 
-    // ---------- Desktop ----------
-    const desktop = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement;
-
-    const desktopLinks = desktop.querySelectorAll("a");
-    clickWithoutNavigation(desktopLinks[1] as HTMLElement);
+    const links = el.querySelectorAll("a");
+    clickWithoutNavigation(links[1] as HTMLElement);
 
     await el.updateComplete;
 
-    let activeLis = desktop.querySelectorAll("li.active");
-    expect(activeLis.length).to.equal(1);
-    expect(activeLis[0].textContent?.trim()).to.equal("Two");
-
-    // ---------- Mobile ----------
-    const mobileButton = el.shadowRoot!.querySelector(
-      ".nys-globalheader__mobile-menu-button",
-    ) as HTMLButtonElement;
-
-    mobileButton.click();
-    await el.updateComplete;
-
-    const mobile = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content-mobile",
-    ) as HTMLElement;
-
-    const mobileLinks = mobile.querySelectorAll("a");
-    clickWithoutNavigation(mobileLinks[1] as HTMLElement);
-
-    await el.updateComplete;
-
-    activeLis = mobile.querySelectorAll("li.active");
+    const activeLis = el.querySelectorAll("li.active");
     expect(activeLis.length).to.equal(1);
     expect(activeLis[0].textContent?.trim()).to.equal("Two");
   });
