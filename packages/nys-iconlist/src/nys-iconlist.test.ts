@@ -48,8 +48,9 @@ describe("nys-iconlist", () => {
   });
 
   it("renders items as direct children of the list role", async () => {
-    // Nothing may sit between the host and its items in the flattened tree,
-    // or list/listitem stops being a parent/child relationship.
+    // The list must not be a shadow host: Chrome >=150 demotes role=listitem
+    // on elements slotted into a shadow-host list, so items have to be direct
+    // DOM children of the element carrying role=list.
     const el = await fixture<NysIconlist>(html`
       <nys-iconlist>
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
@@ -58,11 +59,12 @@ describe("nys-iconlist", () => {
     `);
     await el.updateComplete;
 
-    const slot = el.shadowRoot?.querySelector("slot");
-    expect(slot?.parentElement).to.be.null;
-    expect(el.shadowRoot?.querySelector("ul")).to.be.null;
+    expect(el.shadowRoot).to.be.null;
 
-    slot?.assignedElements().forEach((item) => {
+    const items = el.querySelectorAll("nys-iconlistitem");
+    expect(items.length).to.equal(2);
+    items.forEach((item) => {
+      expect(item.parentElement).to.equal(el);
       expect(item.getAttribute("role")).to.equal("listitem");
     });
   });
@@ -114,6 +116,27 @@ describe("nys-iconlist", () => {
     await el.updateComplete;
     expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to.be
       .false;
+  });
+
+  it("re-syncs dividers when an item is appended after initial render", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist divider>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    const added = document.createElement("nys-iconlistitem");
+    added.textContent = "Central Park West";
+    el.appendChild(added);
+    // MutationObserver callbacks run as microtasks
+    await Promise.resolve();
+
+    const items = el.querySelectorAll("nys-iconlistitem");
+    expect(items[0].hasAttribute("divider")).to.be.true;
+    expect(items[1].hasAttribute("divider")).to.be.true;
+    expect(items[2].hasAttribute("divider")).to.be.false;
   });
 });
 

@@ -50,8 +50,5 @@ export interface NysIconlistProps extends Pick<
  * A scannable list of icon + text items, with an optional divider between rows.
  * ---
  *
- *
- * ### **Slots:**
- *  - _default_ - One or more `<nys-iconlistitem>` elements.
  */
 export const NysIconlist: React.ForwardRefExoticComponent<NysIconlistProps>;

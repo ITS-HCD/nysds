@@ -1,10 +1,16 @@
-import { LitElement, html, unsafeCSS, PropertyValues } from "lit";
+import { LitElement, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import "./nys-iconlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-iconlist.scss?inline";
 
 let componentIdCounter = 0;
+
+// The list renders in light DOM, so its styles are adopted into whichever
+// root (document or containing shadow root) the element lives in — once per root.
+const lightSheet = new CSSStyleSheet();
+lightSheet.replaceSync(styles);
+const styledRoots = new WeakSet<Document | ShadowRoot>();
 
 /**
  * An icon list is a component that displays a collection of items paired with visual icons, making it easy to create structured, scannable lists across web projects. Commonly used in the card component.
@@ -16,7 +22,8 @@ let componentIdCounter = 0;
  * @summary A scannable list of icon + text items, with an optional divider between rows.
  * @element nys-iconlist
  *
- * @slot - One or more `<nys-iconlistitem>` elements.
+ * Children: one or more `<nys-iconlistitem>` elements, kept in light DOM so the
+ * `list`/`listitem` roles stay directly related in the accessibility tree.
  *
  * @example Basic
  * ```html
@@ -64,8 +71,6 @@ let componentIdCounter = 0;
  */
 
 export class NysIconlist extends LitElement {
-  static styles = unsafeCSS(styles);
-
   /**
    * Unique identifier. Auto-generated if not provided.
    */
@@ -77,6 +82,15 @@ export class NysIconlist extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) divider = false;
 
+  private _childObserver = new MutationObserver(() => this._syncDividers());
+
+  // The host must not be a shadow host: Chrome ≥150 demotes role="listitem"
+  // on elements slotted into a shadow-host list, so the items have to be
+  // direct DOM children of the element carrying role="list".
+  createRenderRoot() {
+    return this;
+  }
+
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -85,12 +99,20 @@ export class NysIconlist extends LitElement {
     if (!this.hasAttribute("role")) {
       this.setAttribute("role", "list");
     }
+
+    const root = this.getRootNode() as Document | ShadowRoot;
+    if (!styledRoots.has(root)) {
+      styledRoots.add(root);
+      root.adoptedStyleSheets = [...root.adoptedStyleSheets, lightSheet];
+    }
+
+    this._childObserver.observe(this, { childList: true });
+    this._syncDividers();
   }
 
-  private _handleSlotChange() {
-    // Non-<nys-iconlistitem> children are hidden via CSS (::slotted), so we
-    // only need to (re)sync dividers when the assigned items change.
-    this._syncDividers();
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._childObserver.disconnect();
   }
 
   updated(changedProperties: PropertyValues<this>) {
@@ -108,13 +130,6 @@ export class NysIconlist extends LitElement {
     items.forEach((item, index) => {
       item.toggleAttribute("divider", this.divider && index < items.length - 1);
     });
-  }
-
-  render() {
-    // No wrapper element: any node between the host's list role and the
-    // slotted items would be exposed between list and listitem and break the
-    // relationship for NVDA/Chromium.
-    return html`<slot @slotchange=${this._handleSlotChange}></slot>`;
   }
 }
 
