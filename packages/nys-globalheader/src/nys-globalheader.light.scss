@@ -51,7 +51,7 @@ nys-globalheader > ul li.active a:hover {
   nys-globalheader > ul {
     display: none;
   }
- 
+
   nys-globalheader[mobile-menu-open] > ul {
     display: flex;
     flex-direction: column;
@@ -62,11 +62,11 @@ nys-globalheader > ul li.active a:hover {
     width: fit-content;
     background-color: var(--_nys-globalheader-background-color);
   }
- 
+
   nys-globalheader[mobile-menu-open] > ul li:first-child a {
     border-top: 1px solid var(--_nys-globalheader-color);
   }
- 
+
   nys-globalheader[mobile-menu-open] > ul li a {
     display: flex;
     padding: 24px;
@@ -76,15 +76,15 @@ nys-globalheader > ul li.active a:hover {
     border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
     background-color: var(--_nys-globalheader-background-color);
   }
- 
+
   nys-globalheader[mobile-menu-open] > ul li a:hover {
     background-color: var(--_nys-globalheader-background-color--menu--hover);
   }
- 
+
   nys-globalheader[mobile-menu-open] > ul li a:active {
     background-color: var(--_nys-globalheader-background-color--menu--active);
   }
- 
+
   nys-globalheader[mobile-menu-open] > ul li.active a {
     border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
     border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);

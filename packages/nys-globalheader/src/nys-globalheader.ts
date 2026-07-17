@@ -166,39 +166,6 @@ export class NysGlobalHeader extends LitElement {
       .flatMap((el) => Array.from(el.querySelectorAll<HTMLAnchorElement>("a")));
   }
 
-  // private _highlightActiveLink(container: HTMLElement) {
-  //   const links = Array.from(container.querySelectorAll("a"));
-  //   const currentUrl = window.location.pathname.replace(/\/+$/, "") || "/";
-
-  //   let bestMatch: { li: HTMLElement | null; length: number } = {
-  //     li: null,
-  //     length: 0,
-  //   };
-
-  //   links.forEach((a) => {
-  //     const linkPath = this._normalizePath(a.getAttribute("href"));
-  //     if (!linkPath) return;
-
-  //     if (linkPath === "/" && currentUrl === "/") {
-  //       bestMatch = { li: a.closest("li"), length: 1 };
-  //     } else if (
-  //       currentUrl.startsWith(linkPath) &&
-  //       linkPath.length > bestMatch.length
-  //     ) {
-  //       bestMatch = {
-  //         li: a.closest("li"),
-  //         length: linkPath.length,
-  //       };
-  //     }
-  //   });
-
-  //   // Clear all previous actives
-  //   links.forEach((a) => a.closest("li")?.classList.remove("active"));
-
-  //   // Apply best match
-  //   bestMatch.li?.classList.add("active");
-  // }
-
   private _highlightActiveLink() {
     const links = this._getAssignedLinks();
 
@@ -246,38 +213,6 @@ export class NysGlobalHeader extends LitElement {
 
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private async _handleListSlotChange() {
-    // const slot = this.shadowRoot?.querySelector(
-    //   'slot:not([name="user-actions"])',
-    // ) as HTMLSlotElement | null;
-
-    // if (!slot) return;
-
-    // const assignedNodes = slot
-    //   .assignedNodes({ flatten: true })
-    //   .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
-
-    // // Get the containers to append the slotted elements
-    // const containers = [
-    //   this.shadowRoot?.querySelector(".nys-globalheader__content"),
-    //   this.shadowRoot?.querySelector(".nys-globalheader__content-mobile"),
-    // ] as (HTMLElement | null)[];
-
-    // // If any container is missing, abort
-    // if (containers.some((c) => !c)) return;
-
-    // // Rebuild each container with cloned slotted elements
-    // for (const container of containers) {
-    //   container!.innerHTML = "";
-    //   assignedNodes.forEach((node) => {
-    //     container!.appendChild(node.cloneNode(true));
-    //   });
-    //   this._highlightActiveLink(container!);
-    // }
-
-    // // Update reactive state AFTER the current update cycle has fully completed
-    // await this.updateComplete;
-    // this._hasLinkContent = assignedNodes.length > 0;
-
     const links = this._getAssignedLinks();
     this._highlightActiveLink();
 
@@ -304,34 +239,8 @@ export class NysGlobalHeader extends LitElement {
   }
 
   private _toggleMobileMenu() {
-    // this._isMobileMenuOpen = !this._isMobileMenuOpen;
     this._setMobileMenuOpen(!this._isMobileMenuOpen);
   }
-
-  // Listens for click events on links to mark them active
-  // private _listenLinkClicks() {
-  //   const containers = this.shadowRoot?.querySelectorAll(
-  //     ".nys-globalheader__content, .nys-globalheader__content-mobile",
-  //   );
-
-  //   containers?.forEach((container) => {
-  //     container?.addEventListener("click", (event) => {
-  //       const target = event.target as HTMLElement;
-  //       const ahref = target.closest("a");
-
-  //       if (!ahref) return;
-
-  //       // Clear all existing active <li>
-  //       container
-  //         .querySelectorAll("li.active")
-  //         .forEach((li) => li.classList.remove("active"));
-
-  //       // Set active on the clicked link's <li>
-  //       const li = ahref.closest("li");
-  //       if (li) li.classList.add("active");
-  //     });
-  //   });
-  // }
 
   private _renderBrandMark() {
     return this.nysLogo ? html`${this._getNysLogo()}` : "";
@@ -449,16 +358,10 @@ export class NysGlobalHeader extends LitElement {
                     : ""}
                 </div>
               </a>`}
-          <!-- <div class="nys-globalheader__content"></div> -->
           <slot @slotchange="${this._handleListSlotChange}"></slot>
           <slot name="user-actions"></slot>
         </div>
       </header>
-      <!-- <div
-        class="nys-globalheader__content-mobile ${this._isMobileMenuOpen
-        ? ""
-        : "close"}"
-      ></div> -->
     `;
   }
 }

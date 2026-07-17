@@ -7892,6 +7892,19 @@
             },
             {
               "kind": "method",
+              "name": "_setMobileMenuOpen",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "open",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_toggleMobileMenu",
               "privacy": "private"
             },
