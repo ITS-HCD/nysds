@@ -7,9 +7,9 @@ import styles from "./nys-globalheader.scss?inline";
 import lightStyles from "./nys-globalheader.light.scss?inline";
 
 let _lightSheet: CSSStyleSheet | null = null;
+
 // Injects the lightDOM styling for the scss for
 // styling CSS into the adopted/constructed stylesheet.
-
 function adoptLightStyles() {
   if (_lightSheet || typeof document === "undefined") return;
   _lightSheet = new CSSStyleSheet();
