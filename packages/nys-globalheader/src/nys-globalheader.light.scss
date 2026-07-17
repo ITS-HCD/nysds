@@ -1,18 +1,18 @@
 /* Slotted content (menu links) basic resets */
-ul {
+nys-globalheader > ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-li {
+nys-globalheader > ul li {
   display: block;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-a {
+nys-globalheader > ul a {
   color: var(--_nys-globalheader-color);
   text-decoration: none;
   font-family: var(--_nys-globalheader-font-family--menu);
@@ -22,13 +22,94 @@ a {
   letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
 }
 
-::slotted([slot="user-actions"]) {
-  display: flex;
-  align-items: center;
-  margin-inline-start: auto;
+nys-globalheader > ul a:hover {
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: 7%;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
 
-  --_nys-button-outline-color: var(
-    --nys-color-ink-reverse,
-    var(--nys-color-white, #ffffff)
+nys-globalheader > ul a:active {
+  text-decoration-thickness: var(
+    --_nys-globalheader-text-decoration-thickness--menu
   );
+}
+
+/* Active link */
+nys-globalheader > ul li.active a {
+  font-weight: 700;
+}
+
+nys-globalheader > ul li.active a:hover {
+  text-decoration: none;
+}
+
+/* Mobile (below 1024px) — nav renders as a stacked overlay list */
+@media (width < 1024px) {
+  nys-globalheader > ul {
+    display: none;
+  }
+ 
+  nys-globalheader[mobile-menu-open] > ul {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+    width: fit-content;
+    background-color: var(--_nys-globalheader-background-color);
+  }
+ 
+  nys-globalheader[mobile-menu-open] > ul li:first-child a {
+    border-top: 1px solid var(--_nys-globalheader-color);
+  }
+ 
+  nys-globalheader[mobile-menu-open] > ul li a {
+    display: flex;
+    padding: 24px;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
+    background-color: var(--_nys-globalheader-background-color);
+  }
+ 
+  nys-globalheader[mobile-menu-open] > ul li a:hover {
+    background-color: var(--_nys-globalheader-background-color--menu--hover);
+  }
+ 
+  nys-globalheader[mobile-menu-open] > ul li a:active {
+    background-color: var(--_nys-globalheader-background-color--menu--active);
+  }
+ 
+  nys-globalheader[mobile-menu-open] > ul li.active a {
+    border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
+    border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
+  }
+}
+
+/* Desktop (1024px and up) — nav renders inline */
+@media (width >= 1024px) {
+  nys-globalheader > ul {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+
+  nys-globalheader > ul li {
+    display: flex;
+    align-items: center;
+    padding: var(--_nys-globalheader-link-padding);
+  }
+
+  nys-globalheader > ul li.active {
+    border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
+  }
+
+  nys-globalheader > ul li.active a {
+    margin-bottom: calc(-1 * var(--nys-space-100, 8px));
+  }
 }

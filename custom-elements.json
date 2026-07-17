@@ -7843,18 +7843,29 @@
               "description": "Internal state to track if any navigation links are present in the slot."
             },
             {
+              "kind": "field",
+              "name": "_navSlot",
+              "type": {
+                "text": "HTMLSlotElement | null"
+              },
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_getAssignedLinks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLAnchorElement[]"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "_highlightActiveLink",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "container",
-                  "type": {
-                    "text": "HTMLElement"
-                  }
-                }
-              ],
-              "description": "Functions\n--------------------------------------------------------------------------"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -7886,11 +7897,6 @@
             },
             {
               "kind": "method",
-              "name": "_listenLinkClicks",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "_renderBrandMark",
               "privacy": "private"
             },
@@ -7902,6 +7908,11 @@
             {
               "kind": "field",
               "name": "_boundClickOutside",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundLinkClick",
               "privacy": "private"
             },
             {
@@ -7987,7 +7998,7 @@
             },
             {
               "title": "User Actions",
-              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button id=\"my-action-slot\" slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
               "lang": "html"
             },
             {

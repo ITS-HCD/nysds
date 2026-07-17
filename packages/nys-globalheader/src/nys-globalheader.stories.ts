@@ -148,7 +148,7 @@ export const UserActions: Story = {
   render: () => {
     return html`
       <nys-globalheader agencyName="Office of Information Technology Services">
-        <nys-button slot="user-actions" label="Log out">
+        <nys-button id="my-action-slot" slot="user-actions" label="Log out">
           <nys-avatar
             slot="prefix-icon"
             ariaLabel="User avatar"
@@ -182,7 +182,7 @@ export const UserActions: Story = {
       source: {
         code: `
 <nys-globalheader agencyName="Office of Information Technology Services">
-  <nys-button slot="user-actions" label="Log out">
+  <nys-button id="my-action-slot" slot="user-actions" label="Log out">
     <nys-avatar slot="prefix-icon" ariaLabel="User avatar" initials="NY"></nys-avatar>
   </nys-button>
 </nys-globalheader>

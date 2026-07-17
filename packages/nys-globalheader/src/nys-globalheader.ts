@@ -69,7 +69,7 @@ function adoptLightStyles() {
  * @example User Actions
  * ```html
  * <nys-globalheader agencyName="Office of Information Technology Services">
- *   <nys-button slot="user-actions" label="Log out">
+ *   <nys-button id="my-action-slot" slot="user-actions" label="Log out">
  *     <nys-avatar
  *       slot="prefix-icon"
  *       ariaLabel="User avatar"
@@ -298,8 +298,14 @@ export class NysGlobalHeader extends LitElement {
     }
   }
 
+  private _setMobileMenuOpen(open: boolean) {
+    this._isMobileMenuOpen = open;
+    this.toggleAttribute("mobile-menu-open", open);
+  }
+
   private _toggleMobileMenu() {
-    this._isMobileMenuOpen = !this._isMobileMenuOpen;
+    // this._isMobileMenuOpen = !this._isMobileMenuOpen;
+    this._setMobileMenuOpen(!this._isMobileMenuOpen);
   }
 
   // Listens for click events on links to mark them active
@@ -348,7 +354,7 @@ export class NysGlobalHeader extends LitElement {
 
     const path = event.composedPath();
     if (!path.includes(this)) {
-      this._isMobileMenuOpen = false;
+      this._setMobileMenuOpen(false);
     }
   };
 
@@ -372,7 +378,7 @@ export class NysGlobalHeader extends LitElement {
     if (event.key !== "Escape" || !this._isMobileMenuOpen) return;
     if (window.matchMedia("pointer: coarse").matches) return; // skip touch devices
 
-    this._isMobileMenuOpen = false;
+    this._setMobileMenuOpen(false);
   };
 
   render() {
