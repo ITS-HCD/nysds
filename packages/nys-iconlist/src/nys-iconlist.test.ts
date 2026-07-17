@@ -30,7 +30,41 @@ describe("nys-iconlist", () => {
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
       </nys-iconlist>
     `);
-    await expect(el).shadowDom.to.be.accessible();
+    await expect(el).to.be.accessible();
+  });
+
+  it("exposes role=list on the host", async () => {
+    const el = await fixture<NysIconlist>(html`<nys-iconlist></nys-iconlist>`);
+    await el.updateComplete;
+    expect(el.getAttribute("role")).to.equal("list");
+  });
+
+  it("does not override an author-supplied role", async () => {
+    const el = await fixture<NysIconlist>(
+      html`<nys-iconlist role="presentation"></nys-iconlist>`,
+    );
+    await el.updateComplete;
+    expect(el.getAttribute("role")).to.equal("presentation");
+  });
+
+  it("renders items as direct children of the list role", async () => {
+    // Nothing may sit between the host and its items in the flattened tree,
+    // or list/listitem stops being a parent/child relationship.
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    const slot = el.shadowRoot?.querySelector("slot");
+    expect(slot?.parentElement).to.be.null;
+    expect(el.shadowRoot?.querySelector("ul")).to.be.null;
+
+    slot?.assignedElements().forEach((item) => {
+      expect(item.getAttribute("role")).to.equal("listitem");
+    });
   });
 
   it("sets divider on every item but the last when divider is set", async () => {

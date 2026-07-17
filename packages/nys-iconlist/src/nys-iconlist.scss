@@ -1,13 +1,11 @@
 :host {
   /* Global Iconlist Styles */
   --_nys-iconlist-width: 100%;
-}
 
-.nys-iconlist {
+  /* The host carries role="list" and its items are slotted directly into the
+     shadow root, so nothing may sit between them in the accessibility tree. */
+  display: block;
   width: var(--_nys-iconlist-width);
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 /* Only <nys-iconlistitem> children are rendered; hide anything else

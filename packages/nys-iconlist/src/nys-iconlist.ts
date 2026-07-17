@@ -82,6 +82,9 @@ export class NysIconlist extends LitElement {
     if (!this.id) {
       this.id = `nys-iconlist-${Date.now()}-${componentIdCounter++}`;
     }
+    if (!this.hasAttribute("role")) {
+      this.setAttribute("role", "list");
+    }
   }
 
   private _handleSlotChange() {
@@ -108,11 +111,10 @@ export class NysIconlist extends LitElement {
   }
 
   render() {
-    return html`
-      <ul class="nys-iconlist" role="list">
-        <slot @slotchange=${this._handleSlotChange}></slot>
-      </ul>
-    `;
+    // No wrapper element: any node between the host's list role and the
+    // slotted items would be exposed between list and listitem and break the
+    // relationship for NVDA/Chromium.
+    return html`<slot @slotchange=${this._handleSlotChange}></slot>`;
   }
 }
 

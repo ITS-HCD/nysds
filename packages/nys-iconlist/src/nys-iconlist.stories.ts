@@ -24,7 +24,7 @@ export const Basic: Story = {
   },
   render: (args) => {
     return html`
-      <nys-iconlist ?divider=${args.divider}>
+      <nys-iconlist id="event-details" ?divider=${args.divider}>
         <nys-iconlistitem icon=${args.icon}>July 4, 2026</nys-iconlistitem>
         <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
         <nys-iconlistitem icon="location_on"
