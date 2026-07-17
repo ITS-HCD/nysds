@@ -1,0 +1,34 @@
+/* Slotted content (menu links) basic resets */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: block;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--_nys-globalheader-color);
+  text-decoration: none;
+  font-family: var(--_nys-globalheader-font-family--menu);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--_nys-globalheader-line-height--menu);
+  letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
+}
+
+::slotted([slot="user-actions"]) {
+  display: flex;
+  align-items: center;
+  margin-inline-start: auto;
+
+  --_nys-button-outline-color: var(
+    --nys-color-ink-reverse,
+    var(--nys-color-white, #ffffff)
+  );
+}
