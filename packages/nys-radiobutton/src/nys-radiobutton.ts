@@ -147,8 +147,8 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean }) showOtherError = false;
 
   @state() private _isMobile = window.innerWidth < 480;
-  @state() private _posinset = 1;
-  @state() private _setsize = 1;
+  // @state() private _posinset = 1;
+  // @state() private _setsize = 1;
 
   @query("input") private _inputEl!: HTMLInputElement;
 
@@ -170,16 +170,36 @@ export class NysRadiobutton extends LitElement {
     if (!this.id) {
       this.id = `nys-radiobutton-${Date.now()}-${radiobuttonIdCounter++}`;
     }
+    if (!this._isGrouped()) {
+      this._updateGroupA11y();
+    }
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
+    this._updateGroupA11y();
   }
 
   firstUpdated() {
     if (!this._isGrouped()) {
-      this._updateGroupA11y();
       this._updateGroupValidity();
     }
   }
 
   updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("checked")) {
+      this._internals.ariaChecked = String(this.checked);
+    }
+
+    if (changedProperties.has("disabled")) {
+      this._internals.ariaDisabled = String(this.disabled);
+    }
+
+    if (changedProperties.has("required")) {
+      this._internals.ariaRequired = String(this.required);
+    }
+
     if (
       changedProperties.has("checked") ||
       changedProperties.has("value") ||
@@ -247,6 +267,14 @@ export class NysRadiobutton extends LitElement {
     this._getGroupMembers().forEach((radio) => radio._updateValidity());
   }
 
+  private _handleInvalid = () => {
+    this._inputEl?.classList.add("nys-radiobutton__radio--force-outline");
+  };
+
+  private _handleFocusOut = () => {
+    this._inputEl?.classList.remove("nys-radiobutton__radio--force-outline");
+  };
+
   /**
    * Functions
    * --------------------------------------------------------------------------
@@ -277,9 +305,12 @@ export class NysRadiobutton extends LitElement {
   // Here we keep track of the VO "1 of #" for individual radiobuttons not wrapped in a "nys-radiogroup
   private _updateGroupA11y() {
     const members = this._getGroupMembers();
+    console.log("_updateGroupA11y's members", members);
     members.forEach((radio, index) => {
-      radio._setsize = members.length;
-      radio._posinset = index + 1;
+      radio._internals.ariaSetSize = String(members.length);
+      radio._internals.ariaPosInSet = String(index + 1);
+      // radio._setsize = members.length;
+      // radio._posinset = index + 1;
     });
   }
 
@@ -294,6 +325,7 @@ export class NysRadiobutton extends LitElement {
   private async _handleChange() {
     if (this.checked || this.disabled) return;
 
+    this._inputEl?.classList.remove("nys-radiobutton__radio--force-outline");
     this.checked = true;
 
     if (!this._isGrouped()) {
@@ -401,10 +433,11 @@ export class NysRadiobutton extends LitElement {
             .value=${this.value}
             ?required="${this.required}"
             form=${ifDefined(this.form || undefined)}
-            aria-posinset=${this._posinset}
-            aria-setsize=${this._setsize}
             @change="${this._handleChange}"
             @keydown="${this._handleKeydown}"
+            @blur="${this._handleFocusOut}"
+            aria-label=${this.label ||
+            ifDefined(this.other ? "Other" : undefined)}
           />
           ${(this.label || this.other) &&
           html`<nys-label
