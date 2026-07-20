@@ -103,6 +103,10 @@ let radiobuttonIdCounter = 0;
 
 export class NysRadiobutton extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Whether this radio is selected. Only one per group can be checked. */
   @property({ type: Boolean, reflect: true }) checked = false;
@@ -171,6 +175,7 @@ export class NysRadiobutton extends LitElement {
   firstUpdated() {
     if (!this._isGrouped()) {
       this._updateGroupA11y();
+      this._updateGroupValidity();
     }
   }
 
@@ -186,6 +191,60 @@ export class NysRadiobutton extends LitElement {
         this._internals.setFormValue(null);
       }
     }
+
+    if (
+      changedProperties.has("checked") ||
+      changedProperties.has("required") ||
+      changedProperties.has("disabled")
+    ) {
+      this._updateGroupValidity();
+    }
+  }
+
+  /**
+   * Public validation API (Form Association)
+   * --------------------------------------------------------------------------
+   */
+  get validity() {
+    return this._internals.validity;
+  }
+
+  get validationMessage(): string {
+    return this._internals.validationMessage;
+  }
+
+  checkValidity(): boolean {
+    return this._internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    return this._internals.reportValidity();
+  }
+
+  // Check if any radios in the individual "name" group is checked.
+  private _isGroupChecked(): boolean {
+    return this._getGroupMembers().some((radio) => radio.checked);
+  }
+
+  // Invalid only when required AND no member of the group is checked.
+  // Grouped instances defer to nys-radiogroup.
+  private _updateValidity() {
+    if (this._isGrouped() || !this._inputEl) return;
+
+    if (this.required && !this.disabled && !this._isGroupChecked()) {
+      this._internals.setValidity(
+        { valueMissing: true },
+        "Please select an option.",
+        this._inputEl,
+      );
+    } else {
+      this._internals.setValidity({});
+    }
+  }
+
+  private _updateGroupValidity() {
+    if (this._isGrouped()) return;
+    this._getGroupMembers().forEach((radio) => radio._updateValidity());
   }
 
   /**
