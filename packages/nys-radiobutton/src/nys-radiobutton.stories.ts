@@ -459,85 +459,39 @@ export const NoGroup: Story = {
   },
 };
 
-export const PreselectedAlt: Story = {
-  render: () => {
-    return html`
-      <nys-radiogroup label="Select borough">
-        <nys-radiobutton
-          name="borough"
-          value="bronx"
-          label="The Bronx"
-          checked
-        ></nys-radiobutton>
-        <nys-radiobutton
-          name="borough"
-          value="brooklyn"
-          label="Brooklyn"
-        ></nys-radiobutton>
-      </nys-radiogroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-radiogroup label="Select borough">
-  <nys-radiobutton name="borough" value="bronx" label="The Bronx" checked></nys-radiobutton>
-  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
-</nys-radiogroup>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const StandaloneOnePerTableRow: Story = {
   render: () => {
     return html`
       <nys-table striped bordered>
-      <table>
-      <caption>
-      Select the highest priority application for review
-      </caption>
-      <tr>
-      <th>Application</th>
-      <th>Priority</th>
-      </tr>
-      <tr>
-      <td>SNAP Benefits</td>
-      <td>
-      <nys-radiobutton
-       name="priority-application"
-       value="snap"
-       label="Select SNAP Benefits"
-      ></nys-radiobutton>
-      </td>
-      </tr>
-      <tr>
-      <td>Child Care Assistance</td>
-      <td>
-      <nys-radiobutton
-       name="priority-application"
-       value="child-care"
-       label="Select Child Care Assistance"
-      ></nys-radiobutton>
-      </td>
-      </tr>
-      <tr>
-      <td>HEAP</td>
-      <td>
-      <label>Brooklyn</label>
-      <input type="radio" name="group" value="Brooklyn"></input>
-      </td>
-      </tr>
-      <tr>
-      <td>Medicaid</td>
-      <td>
-      <label>Manhattan</label>
-      <input type="radio" name="group" value="Manhattan"></input>
-      </td>
-      </tr>
-      </table>
+        <table>
+          <caption>
+            Select the highest priority application for review
+          </caption>
+          <tr>
+            <th>Application</th>
+            <th>Priority</th>
+          </tr>
+          <tr>
+            <td>SNAP Benefits</td>
+            <td>
+              <nys-radiobutton
+                name="priority-application"
+                value="snap"
+                label="Select SNAP Benefits"
+              ></nys-radiobutton>
+            </td>
+          </tr>
+          <tr>
+            <td>Child Care Assistance</td>
+            <td>
+              <nys-radiobutton
+                name="priority-application"
+                value="child-care"
+                label="Select Child Care Assistance"
+              ></nys-radiobutton>
+            </td>
+          </tr>
+        </table>
       </nys-table>
     `;
   },
@@ -546,49 +500,33 @@ export const StandaloneOnePerTableRow: Story = {
       source: {
         code: `
 <nys-table striped bordered>
-<table>
-<caption>
-Select the highest priority application for review
-</caption>
-<tr>
-<th>Application</th>
-<th>Priority</th>
-</tr>
-<tr>
-<td>SNAP Benefits</td>
-<td>
-<nys-radiobutton
- name="priority-application"
- value="snap"
- label="Select SNAP Benefits"
-></nys-radiobutton>
-</td>
-</tr>
-<tr>
-<td>Child Care Assistance</td>
-<td>
-<nys-radiobutton
- name="priority-application"
- value="child-care"
- label="Select Child Care Assistance"
-></nys-radiobutton>
-</td>
-</tr>
-<tr>
-<td>HEAP</td>
-<td>
-<label>Brooklyn</label>
-<input type="radio" name="group" value="Brooklyn"></input>
-</td>
-</tr>
-<tr>
-<td>Medicaid</td>
-<td>
-<label>Manhattan</label>
-<input type="radio" name="group" value="Manhattan"></input>
-</td>
-</tr>
-</table>
+  <table>
+    <caption>Select the highest priority application for review</caption>
+    <tr>
+      <th>Application</th>
+      <th>Priority</th>
+    </tr>
+    <tr>
+      <td>SNAP Benefits</td>
+      <td>
+        <nys-radiobutton
+          name="priority-application"
+          value="snap"
+          label="Select SNAP Benefits"
+        ></nys-radiobutton>
+      </td>
+    </tr>
+    <tr>
+      <td>Child Care Assistance</td>
+      <td>
+        <nys-radiobutton
+          name="priority-application"
+          value="child-care"
+          label="Select Child Care Assistance"
+        ></nys-radiobutton>
+      </td>
+    </tr>
+  </table>
 </nys-table>`,
         type: "auto",
       },

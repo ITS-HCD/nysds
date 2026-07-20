@@ -672,12 +672,12 @@ export type NysRadiobuttonProps = {
 
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
+  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
+  "onnys-other-input"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when radio gains focus. */
   "onnys-focus"?: (e: CustomEvent<never>) => void;
   /** Fired when radio loses focus. */
   "onnys-blur"?: (e: CustomEvent<never>) => void;
-  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
-  "onnys-other-input"?: (e: CustomEvent<never>) => void;
 };
 
 export type NysRadiogroupProps = {
@@ -1391,16 +1391,17 @@ export type CustomElements = {
   /**
    * Radio button for single selection from mutually exclusive options.
    * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
-   * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
-   * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
+   * Otherwise this radiobutton mocks the native grouping of radio buttons via the `name` attribute.
+   * Since we can't do that natively across shadow roots, this component keeps track of keyboard
+   * navigation, screen reader set announcements, and single-checked enforcement itself.
    * ---
    *
    *
    * ### **Events:**
    *  - **nys-change** - Fired when selection changes. Detail: `{id, checked, name, value}`.
+   * - **nys-other-input** - Fired when "other" text input value changes. Detail: `{id, name, value}`.
    * - **nys-focus** - Fired when radio gains focus.
    * - **nys-blur** - Fired when radio loses focus.
-   * - **nys-other-input** - Fired when "other" text input value changes. Detail: `{id, name, value}`.
    *
    * ### **Slots:**
    *  - **description** - Custom HTML description content.

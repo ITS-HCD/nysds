@@ -154,6 +154,8 @@ export class NysRadiobutton extends LitElement {
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
+  static formAssociated = true;
+
   constructor() {
     super();
     this._internals = this.attachInternals();
@@ -169,6 +171,20 @@ export class NysRadiobutton extends LitElement {
   firstUpdated() {
     if (!this._isGrouped()) {
       this._updateGroupA11y();
+    }
+  }
+
+  updated(changedProperties: Map<string, unknown>) {
+    if (
+      changedProperties.has("checked") ||
+      changedProperties.has("value") ||
+      changedProperties.has("disabled")
+    ) {
+      if (this.checked && !this.disabled) {
+        this._internals.setFormValue(this.value);
+      } else {
+        this._internals.setFormValue(null);
+      }
     }
   }
 
