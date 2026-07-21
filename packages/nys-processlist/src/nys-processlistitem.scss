@@ -4,3 +4,57 @@
      accessibility node — taking role="listitem" with it. */
   display: block;
 }
+
+.nys-processlistitem {
+  display: flex;
+  gap: var(--nys-space-150);
+}
+
+.nys-processlistitem__stepwrapper {
+  min-height: var(--nys-space-600);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.nys-processlistitem__step {
+  min-width: var(--nys-space-300);
+  width: var(--nys-space-300);
+  max-width: var(--nys-space-300);
+  height: var(--nys-space-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--nys-color-text-reverse, #fff);
+  background-color: var(--nys-color-theme);
+  border-radius: var(--nys-radius-round);
+  text-align: center;
+
+  /* UI/Small/Semibold */
+  font-family: var(--nys-font-family-ui, "Proxima Nova");
+  font-size: var(--nys-font-size-ui-sm, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--nys-font-lineheight-ui-sm, 24px); /* 171.429% */
+  letter-spacing: var(--p-type-unpublished-font-letterspacing-ui-sm, 0.044px);
+}
+
+.nys-processlistitem__connector {
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+  background-color: var(--nys-color-theme-weak);
+  width: var(--nys-size-50);
+}
+
+/* The connector joins a step to the one after it, so the final step has none.
+   :last-of-type matches by tag name, mirroring how the list picks its items. */
+:host(:last-of-type) .nys-processlistitem__connector {
+  display: none;
+}
+
+.nys-processlistitem__label {
+  width: 100%;
+  margin-bottom: var(--nys-space-250);
+}

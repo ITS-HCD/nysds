@@ -57,7 +57,10 @@ export class NysProcesslistitem extends LitElement {
       <div class="nys-processlistitem">
         <!-- Not aria-hidden: role="list" carries no ordering, so the rendered
              number is the only thing conveying sequence to assistive tech. -->
-        <div class="nys-processlistitem__step">${this._step}</div>
+        <div class="nys-processlistitem__stepwrapper">
+          <div class="nys-processlistitem__step">${this._step}</div>
+          <div class="nys-processlistitem__connector"></div>
+        </div>
         <nys-label
           class="nys-processlistitem__label"
           label=${this.label}
