@@ -147,8 +147,8 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean }) showOtherError = false;
 
   @state() private _isMobile = window.innerWidth < 480;
-  // @state() private _posinset = 1;
-  // @state() private _setsize = 1;
+  @state() private _posinset = 1;
+  @state() private _setsize = 1;
 
   @query("input") private _inputEl!: HTMLInputElement;
 
@@ -307,10 +307,10 @@ export class NysRadiobutton extends LitElement {
     const members = this._getGroupMembers();
     console.log("_updateGroupA11y's members", members);
     members.forEach((radio, index) => {
-      radio._internals.ariaSetSize = String(members.length);
-      radio._internals.ariaPosInSet = String(index + 1);
-      // radio._setsize = members.length;
-      // radio._posinset = index + 1;
+      // radio._internals.ariaSetSize = String(members.length);
+      // radio._internals.ariaPosInSet = String(index + 1);
+      radio._setsize = members.length;
+      radio._posinset = index + 1;
     });
   }
 
@@ -419,6 +419,12 @@ export class NysRadiobutton extends LitElement {
     }
   };
 
+  private _computeAccessibleLabel() {
+    const radioLabel = this.label || (this.other ? "Other" : "");
+    if (this._isGrouped()) return radioLabel;
+    return `${radioLabel}, ${this._posinset} of ${this._setsize}`;
+  }
+
   render() {
     return html`
       <div class="nys-radiobutton" @click=${this._handleWrapperClick}>
@@ -436,8 +442,7 @@ export class NysRadiobutton extends LitElement {
             @change="${this._handleChange}"
             @keydown="${this._handleKeydown}"
             @blur="${this._handleFocusOut}"
-            aria-label=${this.label ||
-            ifDefined(this.other ? "Other" : undefined)}
+            aria-label=${this._computeAccessibleLabel()}
           />
           ${(this.label || this.other) &&
           html`<nys-label

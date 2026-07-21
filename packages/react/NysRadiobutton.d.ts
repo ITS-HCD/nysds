@@ -103,14 +103,6 @@ export interface NysRadiobuttonProps extends Pick<
  * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
  * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
  * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
- *
- * ACCESSIBILITY NOTE: `aria-posinset`/`aria-setsize` are unreliable on native
- * `role=radio` inputs across browser/AT combinations (the browser often computes
- * its own posinset/setsize from the native `name`-based grouping algorithm and
- * ignores authored ARIA values), especially when radios live in separate shadow
- * roots (as with ungrouped/table-row usage here). As a fallback, when NOT wrapped
- * in `nys-radiogroup`, we bake "X of Y" directly into the accessible name via
- * `aria-label` so it is announced reliably regardless of posinset/setsize support.
  * ---
  *
  *
