@@ -2937,6 +2937,17 @@
             },
             {
               "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the card heading (`h1` through `h6`).",
+              "attribute": "headingLevel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "subheading",
               "type": {
                 "text": "string"
@@ -3020,6 +3031,11 @@
             },
             {
               "kind": "method",
+              "name": "renderHeading",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "renderMediaAccent",
               "privacy": "private"
             }
@@ -3054,6 +3070,16 @@
               "description": "Heading text in the card.",
               "fieldName": "heading",
               "propName": "heading"
+            },
+            {
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the card heading (`h1` through `h6`).",
+              "fieldName": "headingLevel",
+              "propName": "headinglevel"
             },
             {
               "name": "subheading",
@@ -3135,6 +3161,12 @@
               "code": "<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
               "lang": "html",
               "render": "<div class=\"nys-grid-col-3\">\n<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Heading Level",
+              "code": "<nys-card\nheading=\"Heading\"\nheadingLevel=\"h3\"\ndescription=\"Set the heading level to fit the page's heading hierarchy.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nheadingLevel=\"h3\"\ndescription=\"Set the heading level to fit the page's heading hierarchy.\"\n></nys-card>\n</div>"
             },
             {
               "title": "Subheading",

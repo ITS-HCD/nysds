@@ -84,6 +84,33 @@ export const Preheading: Story = {
   },
 };
 
+export const HeadingLevel: Story = {
+  render: () => {
+    return html`
+      <div class="nys-grid-col-3">
+        <nys-card
+          heading="Heading"
+          headingLevel="h3"
+          description="Set the heading level to fit the page's heading hierarchy."
+        ></nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-card
+  heading="Heading"
+  headingLevel="h3"
+  description="Set the heading level to fit the page's heading hierarchy."
+></nys-card>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Subheading: Story = {
   render: () => {
     return html`

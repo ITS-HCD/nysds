@@ -5,6 +5,8 @@ import styles from "./nys-card.scss?inline";
 
 let componentIdCounter = 0;
 
+type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
 /**
  * A reusable, self-contained container that groups related content and actions
  * about a single subject into a distinct, flexible container.
@@ -54,6 +56,26 @@ let componentIdCounter = 0;
  *   preheading="Preheading"
  *   heading="Heading"
  *   description="A short description of the card's subject."
+ *  ></nys-card>
+ * </div>
+ * ```
+ *
+ * @example Heading Level
+ * ```html
+ * <nys-card
+ *  heading="Heading"
+ *  headingLevel="h3"
+ *  description="Set the heading level to fit the page's heading hierarchy."
+ * ></nys-card>
+ * ```
+ *
+ * @render Heading Level
+ * ```html
+ * <div class="nys-grid-col-3">
+ *  <nys-card
+ *   heading="Heading"
+ *   headingLevel="h3"
+ *   description="Set the heading level to fit the page's heading hierarchy."
  *  ></nys-card>
  * </div>
  * ```
@@ -262,6 +284,12 @@ export class NysCard extends LitElement {
   @property({ type: String }) heading = "";
 
   /**
+   * Heading level used for the card heading (`h1` through `h6`).
+   */
+  @property({ type: String, reflect: true })
+  headingLevel: HeadingLevel = "h2";
+
+  /**
    * Appears below the heading text.
    */
   @property({ type: String }) subheading = "";
@@ -348,6 +376,21 @@ export class NysCard extends LitElement {
     };
   }
 
+  private renderHeading() {
+    if (!this.heading) return "";
+
+    const headingTag = {
+      h1: html`<h1 class="nys-card__heading">${this.heading}</h1>`,
+      h2: html`<h2 class="nys-card__heading">${this.heading}</h2>`,
+      h3: html`<h3 class="nys-card__heading">${this.heading}</h3>`,
+      h4: html`<h4 class="nys-card__heading">${this.heading}</h4>`,
+      h5: html`<h5 class="nys-card__heading">${this.heading}</h5>`,
+      h6: html`<h6 class="nys-card__heading">${this.heading}</h6>`,
+    };
+
+    return headingTag[this.headingLevel];
+  }
+
   private renderMediaAccent() {
     const accent = this.parseMediaAccent();
     if (!accent) return "";
@@ -379,9 +422,7 @@ export class NysCard extends LitElement {
           ${this.preheading
             ? html`<p class="nys-card__preheading">${this.preheading}</p>`
             : ""}
-          ${this.heading
-            ? html`<h2 class="nys-card__heading">${this.heading}</h2>`
-            : ""}
+          ${this.renderHeading()}
           ${this.subheading
             ? html`<p class="nys-card__subheading">${this.subheading}</p>`
             : ""}

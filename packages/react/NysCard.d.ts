@@ -33,6 +33,9 @@ export interface NysCardProps extends Pick<
   /** Heading text in the card. */
   heading?: NysCardElement["heading"];
 
+  /** Heading level used for the card heading (`h1` through `h6`). */
+  headingLevel?: NysCardElement["headingLevel"];
+
   /** Appears below the heading text. */
   subheading?: NysCardElement["subheading"];
 

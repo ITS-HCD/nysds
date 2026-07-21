@@ -257,6 +257,8 @@ export type NysCardProps = {
   preheading?: string;
   /** Heading text in the card. */
   heading?: string;
+  /** Heading level used for the card heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
   /** Appears below the heading text. */
   subheading?: string;
   /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
