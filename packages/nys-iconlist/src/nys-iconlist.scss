@@ -1,11 +1,17 @@
-:host {
+/* nys-iconlist renders in light DOM (no shadow root): the element carries
+   role="list" and its <nys-iconlistitem> children must be its direct DOM
+   children, or Chrome ≥150 drops the listitem roles from the a11y tree.
+   This sheet is adopted into the element's root node at runtime. */
+nys-iconlist {
   /* Global Iconlist Styles */
   --_nys-iconlist-width: 100%;
+
+  display: block;
+  width: var(--_nys-iconlist-width);
 }
 
-.nys-iconlist {
-  width: var(--_nys-iconlist-width);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* Only <nys-iconlistitem> children are rendered; hide anything else
+   rather than removing it from the light DOM (framework-owned nodes). */
+nys-iconlist > :not(nys-iconlistitem) {
+  display: none;
 }

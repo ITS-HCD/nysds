@@ -30,7 +30,43 @@ describe("nys-iconlist", () => {
         <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
       </nys-iconlist>
     `);
-    await expect(el).shadowDom.to.be.accessible();
+    await expect(el).to.be.accessible();
+  });
+
+  it("exposes role=list on the host", async () => {
+    const el = await fixture<NysIconlist>(html`<nys-iconlist></nys-iconlist>`);
+    await el.updateComplete;
+    expect(el.getAttribute("role")).to.equal("list");
+  });
+
+  it("does not override an author-supplied role", async () => {
+    const el = await fixture<NysIconlist>(
+      html`<nys-iconlist role="presentation"></nys-iconlist>`,
+    );
+    await el.updateComplete;
+    expect(el.getAttribute("role")).to.equal("presentation");
+  });
+
+  it("renders items as direct children of the list role", async () => {
+    // The list must not be a shadow host: Chrome >=150 demotes role=listitem
+    // on elements slotted into a shadow-host list, so items have to be direct
+    // DOM children of the element carrying role=list.
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    expect(el.shadowRoot).to.be.null;
+
+    const items = el.querySelectorAll("nys-iconlistitem");
+    expect(items.length).to.equal(2);
+    items.forEach((item) => {
+      expect(item.parentElement).to.equal(el);
+      expect(item.getAttribute("role")).to.equal("listitem");
+    });
   });
 
   it("sets divider on every item but the last when divider is set", async () => {
@@ -81,6 +117,27 @@ describe("nys-iconlist", () => {
     expect(el.querySelector("nys-iconlistitem")?.hasAttribute("divider")).to.be
       .false;
   });
+
+  it("re-syncs dividers when an item is appended after initial render", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist divider>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    const added = document.createElement("nys-iconlistitem");
+    added.textContent = "Central Park West";
+    el.appendChild(added);
+    // MutationObserver callbacks run as microtasks
+    await Promise.resolve();
+
+    const items = el.querySelectorAll("nys-iconlistitem");
+    expect(items[0].hasAttribute("divider")).to.be.true;
+    expect(items[1].hasAttribute("divider")).to.be.true;
+    expect(items[2].hasAttribute("divider")).to.be.false;
+  });
 });
 
 describe("nys-iconlistitem", () => {
@@ -100,12 +157,23 @@ describe("nys-iconlistitem", () => {
     expect(el.icon).to.equal("schedule");
   });
 
-  it("sets role=listitem", async () => {
+  it("sets role=listitem when inside a nys-iconlist", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist>
+        <nys-iconlistitem icon="check_circle">Done</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+    const item = el.querySelector("nys-iconlistitem");
+    expect(item?.getAttribute("role")).to.equal("listitem");
+  });
+
+  it("does not set role=listitem when standalone", async () => {
     const el = await fixture<NysIconlistitem>(
       html`<nys-iconlistitem icon="check_circle">Done</nys-iconlistitem>`,
     );
     await el.updateComplete;
-    expect(el.getAttribute("role")).to.equal("listitem");
+    expect(el.getAttribute("role")).to.be.null;
   });
 
   it("sets data-has-secondary when secondary slot is populated", async () => {

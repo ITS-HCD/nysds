@@ -9006,12 +9006,6 @@
           "kind": "class",
           "description": "An icon list is a component that displays a collection of items paired with visual icons, making it easy to create structured, scannable lists across web projects. Commonly used in the card component.\n\nAdd `<nys-iconlistitem>` elements as children. Each item accepts an `icon` attribute and uses its\ndefault slot for the primary label. A second line can be added with `<span slot=\"secondary\">`.\nSet `divider` to draw a rule between items; no divider is drawn after the last item.",
           "name": "NysIconlist",
-          "slots": [
-            {
-              "description": "One or more `<nys-iconlistitem>` elements.",
-              "name": ""
-            }
-          ],
           "members": [
             {
               "kind": "field",
@@ -9036,9 +9030,10 @@
               "reflects": true
             },
             {
-              "kind": "method",
-              "name": "_handleSlotChange",
-              "privacy": "private"
+              "kind": "field",
+              "name": "_childObserver",
+              "privacy": "private",
+              "default": "new MutationObserver(() => this._syncDividers())"
             },
             {
               "kind": "method",
@@ -9083,12 +9078,12 @@
             },
             {
               "title": "Divider",
-              "code": "<nys-iconlist id=\"event-details\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
+              "code": "<nys-iconlist id=\"event-details2\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
               "title": "Secondary label",
-              "code": "<nys-iconlist id=\"event-details\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "code": "<nys-iconlist id=\"event-details3\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {

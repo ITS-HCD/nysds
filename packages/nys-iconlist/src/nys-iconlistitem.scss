@@ -2,6 +2,11 @@
   --_nys-iconlistitem-gap: var(--nys-space-150, 12px);
   --_nys-iconlistitem-align-items: center;
 
+  /* Without this the host defaults to display:inline while its shadow content
+     is block-level, which splits it into anonymous blocks and drops its
+     accessibility node — taking role="listitem" with it. */
+  display: block;
+
   color: var(--nys-color-text);
 
   /* UI/Large/Semibold */

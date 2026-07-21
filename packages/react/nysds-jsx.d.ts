@@ -1401,9 +1401,6 @@ export type CustomElements = {
    * A scannable list of icon + text items, with an optional divider between rows.
    * ---
    *
-   *
-   * ### **Slots:**
-   *  - _default_ - One or more `<nys-iconlistitem>` elements.
    */
   "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
 
