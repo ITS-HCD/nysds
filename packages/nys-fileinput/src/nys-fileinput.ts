@@ -609,12 +609,7 @@ export class NysFileinput extends LitElement {
     const newFiles = files ? Array.from(files) : []; // changes FileList to array
 
     // Store the uploaded files
-    const results = await Promise.all(
-      newFiles.map((file) => this._saveSelectedFiles(file)),
-    );
-    const changedFiles = results.filter(
-      (entry): entry is FileWithProgress => entry !== undefined,
-    );
+    const changedFiles = await this._addFiles(newFiles);
 
     this.requestUpdate();
     if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
@@ -684,13 +679,19 @@ export class NysFileinput extends LitElement {
     const newFiles = Array.from(files);
     const filesToAdd = this.multiple ? newFiles : [newFiles[0]];
 
-    const results = await Promise.all(
-      filesToAdd.map((file) => this._saveSelectedFiles(file)),
-    );
-    const changedFiles = results.filter((entry) => entry !== undefined);
+    const changedFiles = await this._addFiles(filesToAdd);
 
     this.requestUpdate();
     if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
+  }
+
+  private async _addFiles(files: File[]): Promise<FileWithProgress[]> {
+    const savedEntries = await Promise.all(
+      files.map((file) => this._saveSelectedFiles(file)),
+    );
+    return savedEntries.filter(
+      (entry): entry is FileWithProgress => entry !== undefined,
+    );
   }
 
   render() {
