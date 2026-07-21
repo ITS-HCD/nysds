@@ -9445,6 +9445,223 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-processlist/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-processlist/src/nys-processlist"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-processlist/src/nys-processlistitem"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-processlist/src/nys-processlist.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.\n\nAdd `<nys-processlistitem>` elements as children. Each item uses its default slot for the step\nlabel and `<span slot=\"description\">` for supporting copy. Step numbers are assigned by the list,\nso items never set their own number; use `start` to begin the sequence at a value other than 1.",
+          "name": "NysProcesslist",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "start",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Number the first step starts at, matching `<ol start>`. Subsequent items increment from here.",
+              "attribute": "start",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_childObserver",
+              "privacy": "private",
+              "default": "new MutationObserver(() => this._syncSteps())"
+            },
+            {
+              "kind": "method",
+              "name": "_syncSteps",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "start",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Number the first step starts at, matching `<ol start>`. Subsequent items increment from here.",
+              "fieldName": "start",
+              "propName": "start"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-processlist",
+          "customElement": true,
+          "summary": "An ordered list of numbered process steps.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-processlist id=\"application-steps\">\n<nys-processlistitem>Gather your documents</nys-processlistitem>\n<nys-processlistitem>Complete the application</nys-processlistitem>\n<nys-processlistitem>Submit and await review</nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-processlist id=\"application-steps2\">\n<nys-processlistitem>\nGather your documents\n<span slot=\"description\">Recent pay stubs and a current property tax bill.</span>\n</nys-processlistitem>\n<nys-processlistitem>\nComplete the application\n<span slot=\"description\">Most applicants finish in about 20 minutes.</span>\n</nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom start",
+              "code": "<nys-processlist id=\"application-steps3\" start=\"3\">\n<nys-processlistitem>Submit and await review</nys-processlistitem>\n<nys-processlistitem>Receive your determination</nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-processlist",
+          "declaration": {
+            "name": "NysProcesslist",
+            "module": "packages/nys-processlist/src/nys-processlist.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysProcesslist",
+          "declaration": {
+            "name": "NysProcesslist",
+            "module": "packages/nys-processlist/src/nys-processlist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-processlist/src/nys-processlistitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and one or two lines of text.\n\nThe default slot holds the step label. Use `<span slot=\"description\">` for supporting copy below\nthe label. The step number is assigned by the parent list and should not be set directly.",
+          "name": "NysProcesslistitem",
+          "slots": [
+            {
+              "description": "Step label text.",
+              "name": ""
+            },
+            {
+              "description": "Optional supporting copy rendered below the label.",
+              "name": "description"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to\nbe set directly.",
+              "attribute": "step",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_handleDescriptionSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to\nbe set directly.",
+              "fieldName": "step",
+              "propName": "step"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-processlistitem",
+          "customElement": true,
+          "summary": "A numbered step for use inside `<nys-processlist>`."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-processlistitem",
+          "declaration": {
+            "name": "NysProcesslistitem",
+            "module": "packages/nys-processlist/src/nys-processlistitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysProcesslistitem",
+          "declaration": {
+            "name": "NysProcesslistitem",
+            "module": "packages/nys-processlist/src/nys-processlistitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-radiobutton/src/index.ts",
       "declarations": [],
       "exports": [

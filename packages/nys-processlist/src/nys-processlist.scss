@@ -1,41 +1,13 @@
-:host {
-  /* Anything that can be overridden should be defined here */
-
-  /* Global Processlist Styles */
-  --_nys-processlist-width: fit-content;
-  --_nys-processlist-height: var(--nys-size-600, 48px);
-  --_nys-processlist-radius: var(--nys-radius-xl, 12px);
-  --_nys-processlist-padding: var(--nys-space-100, 8px);
-  --_nys-processlist-gap: var(--nys-space-100, 8px);
-
-  /* Typography */
-  --_nys-processlist-font-size: var(--nys-font-size-ui-md, 16px);
-  --_nys-processlist-font-weight: var(--nys-font-weight-semibold, 600);
-  --_nys-processlist-line-height: var(--nys-font-lineheight-ui-md, 24px);
-  --_nys-processlist-font-family: var(
-    --nys-font-family-ui,
-    var(
-      --nys-font-family-sans,
-      "Proxima Nova",
-      "Helvetica Neue",
-      "Helvetica",
-      "Arial",
-      sans-serif
-    )
-  );
+/* nys-processlist renders in light DOM (no shadow root): the element carries
+   role="list" and its <nys-processlistitem> children must be its direct DOM
+   children, or Chrome ≥150 drops the listitem roles from the a11y tree.
+   This sheet is adopted into the element's root node at runtime. */
+nys-processlist {
+  display: block;
 }
 
-.nys-processlist {
-  width: var(--_nys-processlist-width);
-  height: var(--_nys-processlist-height);
-  border-radius: var(--_nys-processlist-radius);
-  padding: var(--_nys-processlist-padding);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--_nys-processlist-gap);
-  font-family: var(--_nys-processlist-font-family);
-  font-size: var(--_nys-processlist-font-size);
-  font-weight: var(--_nys-processlist-font-weight);
-  line-height: var(--_nys-processlist-line-height);
+/* Only <nys-processlistitem> children are rendered; hide anything else
+   rather than removing it from the light DOM (framework-owned nodes). */
+nys-processlist > :not(nys-processlistitem) {
+  display: none;
 }

@@ -1,0 +1,6 @@
+:host {
+  /* Without this the host defaults to display:inline while its shadow content
+     is block-level, which splits it into anonymous blocks and drops its
+     accessibility node — taking role="listitem" with it. */
+  display: block;
+}

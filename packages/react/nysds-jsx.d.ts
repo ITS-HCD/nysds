@@ -642,6 +642,19 @@ export type NysPaginationProps = {
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
+export type NysProcesslistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Number the first step starts at, matching `<ol start>`. Subsequent items increment from here. */
+  start?: number;
+};
+
+export type NysProcesslistitemProps = {
+  /** Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to
+be set directly. */
+  step?: number;
+};
+
 export type NysRadiobuttonProps = {
   /** Whether this radio is selected. Only one per group can be checked. */
   checked?: boolean;
@@ -1386,6 +1399,24 @@ export type CustomElements = {
    *  - **nys-change** - Fired when page changes. Detail: `{page}`.
    */
   "nys-pagination": Partial<NysPaginationProps & BaseProps & BaseEvents>;
+
+  /**
+   * An ordered list of numbered process steps.
+   * ---
+   *
+   */
+  "nys-processlist": Partial<NysProcesslistProps & BaseProps & BaseEvents>;
+
+  /**
+   * A numbered step for use inside `<nys-processlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Step label text.
+   * - **description** - Optional supporting copy rendered below the label.
+   */
+  "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
 
   /**
    * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
