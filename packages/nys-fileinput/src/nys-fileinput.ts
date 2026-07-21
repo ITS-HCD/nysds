@@ -30,7 +30,7 @@ interface FileWithProgress {
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`.
+ * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`, where `files` is `File[]`.
  * @fires nys-blur - Fired when focus leaves the component. Triggers validation.
  *
  * @example Basic
@@ -542,7 +542,7 @@ export class NysFileinput extends LitElement {
   private _dispatchChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
-        detail: { id: this.id, files: this._selectedFiles },
+        detail: { id: this.id, files: this._selectedFiles.map((entry) => entry.file) },
         bubbles: true,
         composed: true,
       }),
