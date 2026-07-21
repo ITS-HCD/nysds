@@ -105,7 +105,7 @@ Reads the first selected file (or `null`); setting replaces the selection. */
   /** Fired when focus leaves the component. Triggers validation. */
   onNysBlur?: (event: CustomEvent) => void;
 
-  /** Fired once per file added/removed. Detail: `{id, files, changedFile}`. The `files` is the full current selection. The `changedFile` is the single entry file the `nys-change` event added or removed. Both `changedFile` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`. */
+  /** Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`. */
   onNysChange?: (event: CustomEvent) => void;
 }
 
@@ -116,7 +116,7 @@ Reads the first selected file (or `null`); setting replaces the selection. */
  *
  * ### **Events:**
  *  - **nys-blur** - Fired when focus leaves the component. Triggers validation.
- * - **nys-change** - Fired once per file added/removed. Detail: `{id, files, changedFile}`. The `files` is the full current selection. The `changedFile` is the single entry file the `nys-change` event added or removed. Both `changedFile` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
+ * - **nys-change** - Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
  *
  * ### **Methods:**
  *  - **setFiles(incoming: _File[]_): _Promise<void>_** - Programmatically set the selection and await async validation/processing.

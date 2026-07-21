@@ -7056,9 +7056,9 @@
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "changedFile",
+                  "name": "changedFiles",
                   "type": {
-                    "text": "FileWithProgress"
+                    "text": "FileWithProgress[]"
                   }
                 }
               ]
@@ -7158,7 +7158,7 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Fired once per file added/removed. Detail: `{id, files, changedFile}`. The `files` is the full current selection. The `changedFile` is the single entry file the `nys-change` event added or removed. Both `changedFile` and each entry in `files` are `{ file: File, progress: number, status: \"pending\" | \"processing\" | \"done\" | \"error\", errorMsg?: string }`."
+              "description": "Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: \"pending\" | \"processing\" | \"done\" | \"error\", errorMsg?: string }`."
             }
           ],
           "attributes": [

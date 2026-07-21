@@ -30,9 +30,10 @@ interface FileWithProgress {
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired once per file added/removed. Detail: `{id, files, changedFile}`.
- * The `files` is the full current selection. The `changedFile` is the single entry file the `nys-change` event added or removed.
- * Both `changedFile` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
+ * @fires nys-change - Fired once per user action (file selection, drop, or removal).
+ * Detail: `{id, files, changedFiles}`. The `files` is the full current selection
+ * Whereas `changedFiles` is the entries this action added or removed.
+ * Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
  *
  * @fires nys-blur - Fired when focus leaves the component. Triggers validation.
  *
@@ -544,13 +545,13 @@ export class NysFileinput extends LitElement {
     );
   }
 
-  private _dispatchChangeEvent(changedFile: FileWithProgress) {
+  private _dispatchChangeEvent(changedFiles: FileWithProgress[]) {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: {
           id: this.id,
           files: this._selectedFiles,
-          changedFile,
+          changedFiles,
         },
         bubbles: true,
         composed: true,
@@ -608,19 +609,22 @@ export class NysFileinput extends LitElement {
     const newFiles = files ? Array.from(files) : []; // changes FileList to array
 
     // Store the uploaded files
-    for (const file of newFiles) {
-      const added = await this._saveSelectedFiles(file);
-      if (added) this._dispatchChangeEvent(added);
-    }
+    const results = await Promise.all(
+      newFiles.map((file) => this._saveSelectedFiles(file)),
+    );
+    const changedFiles = results.filter(
+      (entry): entry is FileWithProgress => entry !== undefined,
+    );
 
     this.requestUpdate();
+    if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
     this._handlePostFileSelectionFocus();
   }
 
   private _handleFileRemove(e: CustomEvent) {
     const fileNameToRemove = e.detail.filename;
 
-    const targetFileToRemove = this._selectedFiles.find(
+    const removed = this._selectedFiles.find(
       (existingFile) => existingFile.file.name === fileNameToRemove,
     );
 
@@ -640,7 +644,7 @@ export class NysFileinput extends LitElement {
     this._validate();
 
     this.requestUpdate();
-    if (targetFileToRemove) this._dispatchChangeEvent(targetFileToRemove);
+    if (removed) this._dispatchChangeEvent([removed]);
   }
 
   private _onDragOver(e: DragEvent) {
@@ -680,12 +684,13 @@ export class NysFileinput extends LitElement {
     const newFiles = Array.from(files);
     const filesToAdd = this.multiple ? newFiles : [newFiles[0]];
 
-    for (const file of filesToAdd) {
-      const added = await this._saveSelectedFiles(file);
-      if (added) this._dispatchChangeEvent(added);
-    }
+    const results = await Promise.all(
+      filesToAdd.map((file) => this._saveSelectedFiles(file)),
+    );
+    const changedFiles = results.filter((entry) => entry !== undefined);
 
     this.requestUpdate();
+    if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
   }
 
   render() {
