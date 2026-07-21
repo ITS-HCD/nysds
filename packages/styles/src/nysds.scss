@@ -14,13 +14,12 @@
 @use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
-nys-breadcrumbs:not(:defined),
-nys-video:not(:defined),
 nys-accordion:not(:defined),
 nys-alert:not(:defined),
 nys-avatar:not(:defined),
 nys-backtotop:not(:defined),
 nys-badge:not(:defined),
+nys-breadcrumbs:not(:defined),
 nys-button:not(:defined),
 nys-checkbox:not(:defined),
 nys-checkboxgroup:not(:defined),
@@ -35,6 +34,8 @@ nys-globalheader:not(:defined),
 nys-icon:not(:defined),
 nys-label:not(:defined),
 nys-modal:not(:defined),
+nys-pagination:not(:defined),
+nys-processlist:not(:defined),
 nys-radiobutton:not(:defined),
 nys-radiogroup:not(:defined),
 nys-select:not(:defined),
@@ -47,6 +48,7 @@ nys-textinput:not(:defined),
 nys-toggle:not(:defined),
 nys-tooltip:not(:defined),
 nys-unavheader:not(:defined),
-nys-unavfooter:not(:defined) {
+nys-unavfooter:not(:defined),
+nys-video:not(:defined) {
   visibility: hidden;
 }
