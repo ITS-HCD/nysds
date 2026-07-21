@@ -7143,6 +7143,24 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_addFiles",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<FileWithProgress[]>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "files",
+                  "type": {
+                    "text": "File[]"
+                  }
+                }
+              ]
             }
           ],
           "events": [
