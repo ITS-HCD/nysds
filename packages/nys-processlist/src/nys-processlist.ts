@@ -1,5 +1,6 @@
-import { LitElement, PropertyValues } from "lit";
+import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
+import { NysProcesslistitem } from "./nys-processlistitem";
 import "./nys-processlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-processlist.scss?inline";
@@ -15,9 +16,8 @@ const styledRoots = new WeakSet<Document | ShadowRoot>();
 /**
  * A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.
  *
- * Add `<nys-processlistitem>` elements as children. Each item uses its default slot for the step
- * label and `<span slot="description">` for supporting copy. Step numbers are assigned by the list,
- * so items never set their own number; use `start` to begin the sequence at a value other than 1.
+ * Add `<nys-processlistitem>` elements as children. Each item takes a `label` and an optional
+ * `description`. Steps are numbered from 1 by the list, so items never set their own number.
  *
  * @summary An ordered list of numbered process steps.
  * @element nys-processlist
@@ -28,31 +28,23 @@ const styledRoots = new WeakSet<Document | ShadowRoot>();
  * @example Basic
  * ```html
  * <nys-processlist id="application-steps">
- *   <nys-processlistitem>Gather your documents</nys-processlistitem>
- *   <nys-processlistitem>Complete the application</nys-processlistitem>
- *   <nys-processlistitem>Submit and await review</nys-processlistitem>
+ *   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+ *   <nys-processlistitem label="Complete the application"></nys-processlistitem>
+ *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
  * </nys-processlist>
  * ```
  *
  * @example Description
  * ```html
  * <nys-processlist id="application-steps2">
- *   <nys-processlistitem>
- *     Gather your documents
- *     <span slot="description">Recent pay stubs and a current property tax bill.</span>
- *   </nys-processlistitem>
- *   <nys-processlistitem>
- *     Complete the application
- *     <span slot="description">Most applicants finish in about 20 minutes.</span>
- *   </nys-processlistitem>
- * </nys-processlist>
- * ```
- *
- * @example Custom start
- * ```html
- * <nys-processlist id="application-steps3" start="3">
- *   <nys-processlistitem>Submit and await review</nys-processlistitem>
- *   <nys-processlistitem>Receive your determination</nys-processlistitem>
+ *   <nys-processlistitem
+ *     label="Gather your documents"
+ *     description="Recent pay stubs and a current property tax bill."
+ *   ></nys-processlistitem>
+ *   <nys-processlistitem
+ *     label="Complete the application"
+ *     description="Most applicants finish in about 20 minutes."
+ *   ></nys-processlistitem>
  * </nys-processlist>
  * ```
  */
@@ -62,12 +54,6 @@ export class NysProcesslist extends LitElement {
    * Unique identifier. Auto-generated if not provided.
    */
   @property({ type: String, reflect: true }) id = "";
-
-  /**
-   * Number the first step starts at, matching `<ol start>`. Subsequent items increment from here.
-   * @default 1
-   */
-  @property({ type: Number, reflect: true }) start = 1;
 
   private _childObserver = new MutationObserver(() => this._syncSteps());
 
@@ -102,24 +88,16 @@ export class NysProcesslist extends LitElement {
     this._childObserver.disconnect();
   }
 
-  updated(changedProperties: PropertyValues<this>) {
-    super.updated(changedProperties);
-    if (changedProperties.has("start")) {
-      this._syncSteps();
-    }
-  }
-
   // Ordering lives on the list, not the item, so numbers stay correct when
   // items are added, removed, or reordered.
   private _syncSteps() {
     const items = Array.from(this.children).filter(
-      (el) => el.tagName.toLowerCase() === "nys-processlistitem",
+      (el): el is NysProcesslistitem =>
+        el.tagName.toLowerCase() === "nys-processlistitem",
     );
 
-    const start = Number.isFinite(this.start) ? Math.trunc(this.start) : 1;
-
     items.forEach((item, index) => {
-      item.setAttribute("step", String(start + index));
+      item.setStep(index + 1);
     });
   }
 }

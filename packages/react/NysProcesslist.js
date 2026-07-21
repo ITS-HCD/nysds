@@ -2,14 +2,13 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysProcesslist = forwardRef((props, forwardedRef) => {
-  const { id, start, ...filteredProps } = props;
+  const { id, ...filteredProps } = props;
 
   return React.createElement(
     "nys-processlist",
     {
       ...filteredProps,
       id: props.id,
-      start: props.start,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

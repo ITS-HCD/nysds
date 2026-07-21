@@ -9472,7 +9472,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.\n\nAdd `<nys-processlistitem>` elements as children. Each item uses its default slot for the step\nlabel and `<span slot=\"description\">` for supporting copy. Step numbers are assigned by the list,\nso items never set their own number; use `start` to begin the sequence at a value other than 1.",
+          "description": "A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.\n\nAdd `<nys-processlistitem>` elements as children. Each item takes a `label` and an optional\n`description`. Steps are numbered from 1 by the list, so items never set their own number.",
           "name": "NysProcesslist",
           "members": [
             {
@@ -9484,17 +9484,6 @@
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
               "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "start",
-              "type": {
-                "text": "number"
-              },
-              "default": "1",
-              "description": "Number the first step starts at, matching `<ol start>`. Subsequent items increment from here.",
-              "attribute": "start",
               "reflects": true
             },
             {
@@ -9519,16 +9508,6 @@
               "description": "Unique identifier. Auto-generated if not provided.",
               "fieldName": "id",
               "propName": "id"
-            },
-            {
-              "name": "start",
-              "type": {
-                "text": "number"
-              },
-              "default": "1",
-              "description": "Number the first step starts at, matching `<ol start>`. Subsequent items increment from here.",
-              "fieldName": "start",
-              "propName": "start"
             }
           ],
           "superclass": {
@@ -9541,17 +9520,12 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-processlist id=\"application-steps\">\n<nys-processlistitem>Gather your documents</nys-processlistitem>\n<nys-processlistitem>Complete the application</nys-processlistitem>\n<nys-processlistitem>Submit and await review</nys-processlistitem>\n</nys-processlist>",
+              "code": "<nys-processlist id=\"application-steps\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
               "lang": "html"
             },
             {
               "title": "Description",
-              "code": "<nys-processlist id=\"application-steps2\">\n<nys-processlistitem>\nGather your documents\n<span slot=\"description\">Recent pay stubs and a current property tax bill.</span>\n</nys-processlistitem>\n<nys-processlistitem>\nComplete the application\n<span slot=\"description\">Most applicants finish in about 20 minutes.</span>\n</nys-processlistitem>\n</nys-processlist>",
-              "lang": "html"
-            },
-            {
-              "title": "Custom start",
-              "code": "<nys-processlist id=\"application-steps3\" start=\"3\">\n<nys-processlistitem>Submit and await review</nys-processlistitem>\n<nys-processlistitem>Receive your determination</nys-processlistitem>\n</nys-processlist>",
+              "code": "<nys-processlist id=\"application-steps2\">\n<nys-processlistitem\nlabel=\"Gather your documents\"\ndescription=\"Recent pay stubs and a current property tax bill.\"\n></nys-processlistitem>\n<nys-processlistitem\nlabel=\"Complete the application\"\ndescription=\"Most applicants finish in about 20 minutes.\"\n></nys-processlistitem>\n</nys-processlist>",
               "lang": "html"
             }
           ]
@@ -9582,54 +9556,60 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and one or two lines of text.\n\nThe default slot holds the step label. Use `<span slot=\"description\">` for supporting copy below\nthe label. The step number is assigned by the parent list and should not be set directly.",
+          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and a `<nys-label>`.\n\nSet `label` for the step label and `description` for supporting information. The step number is owned\nby the parent list, so items are never numbered individually.",
           "name": "NysProcesslistitem",
-          "slots": [
-            {
-              "description": "Step label text.",
-              "name": ""
-            },
-            {
-              "description": "Optional supporting copy rendered below the label.",
-              "name": "description"
-            }
-          ],
           "members": [
             {
               "kind": "field",
-              "name": "step",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Step heading text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Supporting information displayed below the label.",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "_step",
               "type": {
                 "text": "number"
               },
-              "default": "1",
-              "description": "Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to\nbe set directly.",
-              "attribute": "step",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "_handleDescriptionSlotChange",
               "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ]
+              "default": "1",
+              "description": "Rendered step number. Assigned by the parent `<nys-processlist>` via `setStep()` — numbering is\na property of the list's order, not of the item, so it is deliberately not part of this\ncomponent's public API."
             }
           ],
           "attributes": [
             {
-              "name": "step",
+              "name": "label",
               "type": {
-                "text": "number"
+                "text": "string"
               },
-              "default": "1",
-              "description": "Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to\nbe set directly.",
-              "fieldName": "step",
-              "propName": "step"
+              "default": "\"\"",
+              "description": "Step heading text.",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Supporting information displayed below the label.",
+              "fieldName": "description",
+              "propName": "description"
             }
           ],
           "superclass": {

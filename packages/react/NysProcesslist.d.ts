@@ -21,9 +21,6 @@ export interface NysProcesslistProps extends Pick<
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysProcesslistElement["id"];
 
-  /** Number the first step starts at, matching `<ol start>`. Subsequent items increment from here. */
-  start?: NysProcesslistElement["start"];
-
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

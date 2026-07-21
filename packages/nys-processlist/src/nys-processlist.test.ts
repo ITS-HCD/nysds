@@ -3,6 +3,19 @@ import "../dist/nys-processlist.js";
 import { NysProcesslist } from "./nys-processlist.js";
 import { NysProcesslistitem } from "./nys-processlistitem.js";
 
+// Step numbers are internal to the item — assert on what actually renders.
+async function stepsOf(el: NysProcesslist) {
+  const items = Array.from(
+    el.querySelectorAll<NysProcesslistitem>("nys-processlistitem"),
+  );
+  await Promise.all(items.map((item) => item.updateComplete));
+  return items.map((item) =>
+    item.shadowRoot
+      ?.querySelector(".nys-processlistitem__step")
+      ?.textContent?.trim(),
+  );
+}
+
 describe("nys-processlist", () => {
   it("renders the component", async () => {
     const el = await fixture(html`<nys-processlist></nys-processlist>`);
@@ -19,17 +32,12 @@ describe("nys-processlist", () => {
     expect(el.id).to.match(/^nys-processlist-\d+-\d+$/);
   });
 
-  it("reflects start attribute", async () => {
-    const el = await fixture<NysProcesslist>(
-      html`<nys-processlist start="3"></nys-processlist>`,
-    );
-    expect(el.start).to.equal(3);
-  });
-
   it("passes the a11y audit", async () => {
     const el = await fixture(html`
       <nys-processlist>
-        <nys-processlistitem>Gather your documents</nys-processlistitem>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
       </nys-processlist>
     `);
     await expect(el).to.be.accessible();
@@ -57,8 +65,12 @@ describe("nys-processlist", () => {
     // DOM children of the element carrying role=list.
     const el = await fixture<NysProcesslist>(html`
       <nys-processlist>
-        <nys-processlistitem>Gather your documents</nys-processlistitem>
-        <nys-processlistitem>Complete the application</nys-processlistitem>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
       </nys-processlist>
     `);
     await el.updateComplete;
@@ -73,81 +85,61 @@ describe("nys-processlist", () => {
     });
   });
 
-  it("numbers items sequentially from 1 by default", async () => {
+  it("numbers items sequentially from 1", async () => {
     const el = await fixture<NysProcesslist>(html`
       <nys-processlist>
-        <nys-processlistitem>Gather your documents</nys-processlistitem>
-        <nys-processlistitem>Complete the application</nys-processlistitem>
-        <nys-processlistitem>Submit and await review</nys-processlistitem>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
       </nys-processlist>
     `);
     await el.updateComplete;
 
-    const items = el.querySelectorAll("nys-processlistitem");
-    expect(items[0].getAttribute("step")).to.equal("1");
-    expect(items[1].getAttribute("step")).to.equal("2");
-    expect(items[2].getAttribute("step")).to.equal("3");
-  });
-
-  it("numbers items from the start value", async () => {
-    const el = await fixture<NysProcesslist>(html`
-      <nys-processlist start="3">
-        <nys-processlistitem>Submit and await review</nys-processlistitem>
-        <nys-processlistitem>Receive your determination</nys-processlistitem>
-      </nys-processlist>
-    `);
-    await el.updateComplete;
-
-    const items = el.querySelectorAll("nys-processlistitem");
-    expect(items[0].getAttribute("step")).to.equal("3");
-    expect(items[1].getAttribute("step")).to.equal("4");
-  });
-
-  it("renumbers items when start changes", async () => {
-    const el = await fixture<NysProcesslist>(html`
-      <nys-processlist>
-        <nys-processlistitem>Gather your documents</nys-processlistitem>
-        <nys-processlistitem>Complete the application</nys-processlistitem>
-      </nys-processlist>
-    `);
-    await el.updateComplete;
-    expect(
-      el.querySelector("nys-processlistitem")?.getAttribute("step"),
-    ).to.equal("1");
-
-    el.start = 5;
-    await el.updateComplete;
-
-    const items = el.querySelectorAll("nys-processlistitem");
-    expect(items[0].getAttribute("step")).to.equal("5");
-    expect(items[1].getAttribute("step")).to.equal("6");
+    expect(await stepsOf(el)).to.deep.equal(["1", "2", "3"]);
   });
 
   it("renumbers when an item is appended after initial render", async () => {
     const el = await fixture<NysProcesslist>(html`
       <nys-processlist>
-        <nys-processlistitem>Gather your documents</nys-processlistitem>
-        <nys-processlistitem>Complete the application</nys-processlistitem>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
       </nys-processlist>
     `);
     await el.updateComplete;
 
-    const added = document.createElement("nys-processlistitem");
-    added.textContent = "Submit and await review";
+    const added = document.createElement(
+      "nys-processlistitem",
+    ) as NysProcesslistitem;
+    added.label = "Submit and await review";
     el.appendChild(added);
     // MutationObserver callbacks run as microtasks
     await Promise.resolve();
 
-    const items = el.querySelectorAll("nys-processlistitem");
-    expect(items[2].getAttribute("step")).to.equal("3");
+    expect(await stepsOf(el)).to.deep.equal(["1", "2", "3"]);
   });
 
   it("renumbers when an item is removed after initial render", async () => {
     const el = await fixture<NysProcesslist>(html`
       <nys-processlist>
-        <nys-processlistitem>Gather your documents</nys-processlistitem>
-        <nys-processlistitem>Complete the application</nys-processlistitem>
-        <nys-processlistitem>Submit and await review</nys-processlistitem>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
       </nys-processlist>
     `);
     await el.updateComplete;
@@ -155,45 +147,69 @@ describe("nys-processlist", () => {
     el.querySelector("nys-processlistitem")?.remove();
     await Promise.resolve();
 
-    const items = el.querySelectorAll("nys-processlistitem");
-    expect(items[0].getAttribute("step")).to.equal("1");
-    expect(items[1].getAttribute("step")).to.equal("2");
+    expect(await stepsOf(el)).to.deep.equal(["1", "2"]);
   });
 });
 
 describe("nys-processlistitem", () => {
   it("renders the component", async () => {
     const el = await fixture(
-      html`<nys-processlistitem>Gather your documents</nys-processlistitem>`,
+      html`<nys-processlistitem
+        label="Gather your documents"
+      ></nys-processlistitem>`,
     );
     expect(el).to.exist;
   });
 
-  it("reflects step property", async () => {
-    const el = await fixture<NysProcesslistitem>(
-      html`<nys-processlistitem step="4"
-        >Gather your documents</nys-processlistitem
-      >`,
-    );
-    expect(el.step).to.equal(4);
-  });
-
-  it("renders the step number", async () => {
-    const el = await fixture<NysProcesslistitem>(
-      html`<nys-processlistitem step="2"
-        >Complete the application</nys-processlistitem
-      >`,
-    );
+  it("passes label and description through to nys-label", async () => {
+    const el = await fixture<NysProcesslistitem>(html`
+      <nys-processlistitem
+        label="Gather your documents"
+        description="Recent pay stubs and a tax bill."
+      ></nys-processlistitem>
+    `);
     await el.updateComplete;
 
-    const marker = el.shadowRoot?.querySelector(".nys-processlistitem__step");
-    expect(marker?.textContent?.trim()).to.equal("2");
+    const label = el.shadowRoot?.querySelector("nys-label");
+    expect(label?.getAttribute("label")).to.equal("Gather your documents");
+    expect(label?.getAttribute("description")).to.equal(
+      "Recent pay stubs and a tax bill.",
+    );
+  });
+
+  it("does not expose a step property", async () => {
+    // Numbering is owned by the list, so an item must not be numberable on its own.
+    const el = await fixture<NysProcesslistitem>(
+      html`<nys-processlistitem
+        label="Gather your documents"
+      ></nys-processlistitem>`,
+    );
+    await el.updateComplete;
+    expect("step" in el).to.be.false;
+  });
+
+  it("renders the step number assigned by the list", async () => {
+    const el = await fixture<NysProcesslist>(html`
+      <nys-processlist>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `);
+    await el.updateComplete;
+
+    expect(await stepsOf(el)).to.deep.equal(["1", "2"]);
   });
 
   it("sets role=listitem when inside a nys-processlist", async () => {
     const el = await fixture<NysProcesslist>(html`
       <nys-processlist>
-        <nys-processlistitem>Gather your documents</nys-processlistitem>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
       </nys-processlist>
     `);
     await el.updateComplete;
@@ -203,20 +219,11 @@ describe("nys-processlistitem", () => {
 
   it("does not set role=listitem when standalone", async () => {
     const el = await fixture<NysProcesslistitem>(
-      html`<nys-processlistitem>Gather your documents</nys-processlistitem>`,
+      html`<nys-processlistitem
+        label="Gather your documents"
+      ></nys-processlistitem>`,
     );
     await el.updateComplete;
     expect(el.getAttribute("role")).to.be.null;
-  });
-
-  it("sets data-has-description when description slot is populated", async () => {
-    const el = await fixture<NysProcesslistitem>(html`
-      <nys-processlistitem>
-        Gather your documents
-        <span slot="description">Recent pay stubs and a tax bill.</span>
-      </nys-processlistitem>
-    `);
-    await el.updateComplete;
-    expect(el.hasAttribute("data-has-description")).to.be.true;
   });
 });

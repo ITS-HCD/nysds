@@ -24,6 +24,7 @@
     "lit-analyze": "lit-analyzer 'src/**/*.ts'"
   },
   "dependencies": {
+    "@nysds/nys-label": "^1.19.3"
   },
   "devDependencies": {
     "lit": "^3.3.1",

@@ -1,29 +1,44 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-processlistitem.scss?inline";
 
 /**
- * A single step in a `<nys-processlist>`. Renders as a list item containing a step number and one or two lines of text.
+ * A single step in a `<nys-processlist>`. Renders as a list item containing a step number and a `<nys-label>`.
  *
- * The default slot holds the step label. Use `<span slot="description">` for supporting copy below
- * the label. The step number is assigned by the parent list and should not be set directly.
+ * Set `label` for the step label and `description` for supporting information. The step number is owned
+ * by the parent list, so items are never numbered individually.
  *
  * @summary A numbered step for use inside `<nys-processlist>`.
  * @element nys-processlistitem
- *
- * @slot - Step label text.
- * @slot description - Optional supporting copy rendered below the label.
  */
 export class NysProcesslistitem extends LitElement {
   static styles = unsafeCSS(styles);
 
   /**
-   * Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to
-   * be set directly.
-   * @default 1
+   * Step heading text.
    */
-  @property({ type: Number, reflect: true }) step = 1;
+  @property({ type: String }) label = "";
+
+  /**
+   * Supporting information displayed below the label.
+   */
+  @property({ type: String }) description = "";
+
+  /**
+   * Rendered step number. Assigned by the parent `<nys-processlist>` via `setStep()` — numbering is
+   * a property of the list's order, not of the item, so it is deliberately not part of this
+   * component's public API.
+   */
+  @state() private _step = 1;
+
+  /**
+   * Sets the rendered step number.
+   * @internal Called by `<nys-processlist>`; not intended for direct use.
+   */
+  setStep(step: number) {
+    this._step = step;
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -37,25 +52,17 @@ export class NysProcesslistitem extends LitElement {
     }
   }
 
-  private _handleDescriptionSlotChange(e: Event) {
-    const slot = e.target as HTMLSlotElement;
-    const hasDescription = slot.assignedNodes({ flatten: true }).length > 0;
-    this.toggleAttribute("data-has-description", hasDescription);
-  }
-
   render() {
     return html`
       <div class="nys-processlistitem">
         <!-- Not aria-hidden: role="list" carries no ordering, so the rendered
              number is the only thing conveying sequence to assistive tech. -->
-        <div class="nys-processlistitem__step">${this.step}</div>
-        <div class="nys-processlistitem__label">
-          <slot></slot>
-          <slot
-            name="description"
-            @slotchange=${this._handleDescriptionSlotChange}
-          ></slot>
-        </div>
+        <div class="nys-processlistitem__step">${this._step}</div>
+        <nys-label
+          class="nys-processlistitem__label"
+          label=${this.label}
+          description=${this.description}
+        ></nys-label>
       </div>
     `;
   }

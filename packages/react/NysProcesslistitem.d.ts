@@ -18,9 +18,11 @@ export interface NysProcesslistitemProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to
-be set directly. */
-  step?: NysProcesslistitemElement["step"];
+  /** Step heading text. */
+  label?: NysProcesslistitemElement["label"];
+
+  /** Supporting information displayed below the label. */
+  description?: NysProcesslistitemElement["description"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -48,9 +50,5 @@ be set directly. */
  * A numbered step for use inside `<nys-processlist>`.
  * ---
  *
- *
- * ### **Slots:**
- *  - _default_ - Step label text.
- * - **description** - Optional supporting copy rendered below the label.
  */
 export const NysProcesslistitem: React.ForwardRefExoticComponent<NysProcesslistitemProps>;

@@ -645,14 +645,13 @@ export type NysPaginationProps = {
 export type NysProcesslistProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /** Number the first step starts at, matching `<ol start>`. Subsequent items increment from here. */
-  start?: number;
 };
 
 export type NysProcesslistitemProps = {
-  /** Step number displayed beside the label. Set by the parent `<nys-processlist>`; not intended to
-be set directly. */
-  step?: number;
+  /** Step heading text. */
+  label?: string;
+  /** Supporting information displayed below the label. */
+  description?: string;
 };
 
 export type NysRadiobuttonProps = {
@@ -1411,10 +1410,6 @@ export type CustomElements = {
    * A numbered step for use inside `<nys-processlist>`.
    * ---
    *
-   *
-   * ### **Slots:**
-   *  - _default_ - Step label text.
-   * - **description** - Optional supporting copy rendered below the label.
    */
   "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
 
