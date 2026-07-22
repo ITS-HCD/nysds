@@ -15813,8 +15813,8 @@
               "lang": "html"
             },
             {
-              "title": "Heading slot",
-              "code": "<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<div slot=\"heading\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ul>\n</nys-verticalnav>",
+              "title": "Header slot",
+              "code": "<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {

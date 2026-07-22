@@ -161,7 +161,7 @@ describe("nys-verticalnav", () => {
       </nys-verticalnav>
     `);
     await el.updateComplete;
-    const slotHeading = el.querySelector('[slot="heading"] h2');
+    const slotHeading = el.querySelector('[slot="header"] h2');
     expect(slotHeading?.textContent).to.equal("Custom Heading");
   });
 
