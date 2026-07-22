@@ -3,31 +3,48 @@
      is block-level, which splits it into anonymous blocks and drops its
      accessibility node — taking role="listitem" with it. */
   display: block;
+
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Pagination Styles */
+
+  --_nys-processlist-gap: var(--nys-space-150, 12px);
+
+  // Step and connector
+  --_nys-processlist-color--step: var(--nys-color-theme, #154973);
+  --_nys-processlist-background-color--step: var(--nys-color-surface, #ffffff);
+  --_nys-processlist-border-color--step: var(--nys-color-theme, #154973);
+  --_nys-processlist-color--connector: var(--nys-color-theme-weak, #cddde9);
+  --_nys-processlist-width--connector: var(--nys-size-2px, 2px);
+  --_nys-processlist-size--step: var(--nys-size-300, 24px);
+  --_nys-processlistitem-min-height: var(--nys-space-600, 48px);
+  --_nys-processlistitem-gap: var(--nys-space-250, 20px);
 }
 
 .nys-processlistitem {
   display: flex;
-  gap: var(--nys-space-150);
+  gap: var(--_nys-processlist-gap);
 }
 
 .nys-processlistitem__stepwrapper {
-  min-height: var(--nys-space-600);
+  min-height: var(--_nys-processlistitem-min-height);
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
 .nys-processlistitem__step {
-  min-width: var(--nys-size-300);
-  width: var(--nys-size-300);
-  max-width: var(--nys-size-300);
-  height: var(--nys-size-300);
+  min-width: var(--_nys-processlist-size--step);
+  width: var(--_nys-processlist-size--step);
+  max-width: var(--_nys-processlist-size--step);
+  height: var(--_nys-processlist-size--step);
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: var(--nys-color-text-reverse, #ffffff);
-  background-color: var(--nys-color-theme);
+  color: var(--_nys-processlist-color--step);
+  background-color: var(--_nys-processlist-background-color--step);
+  border: solid var(--nys-size-1px) var(--_nys-processlist-border-color--step);
   border-radius: var(--nys-radius-round);
   text-align: center;
 
@@ -44,8 +61,8 @@
   height: -moz-available;
   height: -webkit-fill-available;
   height: fill-available;
-  background-color: var(--nys-color-theme-weak);
-  width: var(--nys-size-50);
+  background-color: var(--_nys-processlist-color--connector);
+  width: var(--_nys-processlist-width--connector);
 }
 
 /* The connector joins a step to the one after it, so the final step has none.
@@ -56,5 +73,5 @@
 
 .nys-processlistitem__label {
   width: 100%;
-  margin-bottom: var(--nys-space-250);
+  margin-bottom: var(--_nys-processlistitem-gap);
 }

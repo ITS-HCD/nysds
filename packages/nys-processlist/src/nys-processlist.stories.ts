@@ -99,3 +99,96 @@ export const Description: Story = {
     },
   },
 };
+
+export const SizeSmall: Story = {
+  render: () => {
+    return html`
+      <nys-processlist id="application-steps-sm" size="sm">
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-processlist id="application-steps-sm" size="sm">
+  <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+  <nys-processlistitem label="Complete the application"></nys-processlistitem>
+  <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Strong: Story = {
+  render: () => {
+    return html`
+      <nys-processlist id="application-steps-strong" strong>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-processlist id="application-steps-strong" strong>
+  <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+  <nys-processlistitem label="Complete the application"></nys-processlistitem>
+  <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Neutral: Story = {
+  render: () => {
+    return html`
+      <nys-processlist id="application-steps-neutral" neutral>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-processlist id="application-steps-neutral" neutral>
+  <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+  <nys-processlistitem label="Complete the application"></nys-processlistitem>
+  <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
