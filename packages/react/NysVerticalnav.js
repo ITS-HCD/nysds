@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysVerticalnav = forwardRef((props, forwardedRef) => {
-  const { hideHeader, expanded, id, header, headerLevel, ...filteredProps } =
+  const { hideHeading, expanded, id, heading, headingLevel, ...filteredProps } =
     props;
 
   return React.createElement(
@@ -10,14 +10,14 @@ export const NysVerticalnav = forwardRef((props, forwardedRef) => {
     {
       ...filteredProps,
       id: props.id,
-      header: props.header,
-      headerLevel: props.headerLevel,
+      heading: props.heading,
+      headingLevel: props.headingLevel,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
-      hideHeader: props.hideHeader ? true : undefined,
+      hideHeading: props.hideHeading ? true : undefined,
       expanded: props.expanded ? true : undefined,
       style: { ...props.style },
     },

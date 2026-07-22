@@ -9,7 +9,7 @@ import "./nys-verticalnavgroup";
 
 let verticalNavIdCounter = 0;
 
-type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 let _lightSheet: CSSStyleSheet | null = null;
 // Injects the lightDOM styling for the scss for
@@ -27,7 +27,7 @@ function adoptLightStyles() {
  * Renders as a side navigation on desktop and collapses into a
  * `<nys-accordion>` on tablet and mobile. The default slot accepts a
  * `<ul>` of links with optional section headings (`<h2>` to `<h6>`) or
- * `<nys-verticalnavgroup>` elements. Use the `header` slot to replace the
+ * `<nys-verticalnavgroup>` elements. Use the `heading` slot to replace the
  * generated heading and the `footer` slot for additional content below the
  * navigation.
  *
@@ -36,7 +36,7 @@ function adoptLightStyles() {
  *
  * @example Basic
  * ```html
- * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
+ * <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
  *   <ul>
  *     <li><a href="/">Home</a></li>
  *     <li><a href="/services">Services</a></li>
@@ -52,10 +52,10 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example Header slot
+ * @example Heading slot
  * ```html
- * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
- *   <div slot="header">
+ * <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
+ *   <div slot="heading">
  *     <h2>Freshwater Fishing</h2>
  *     <p>2026 Season Open</p>
  *   </div>
@@ -69,7 +69,7 @@ function adoptLightStyles() {
  *
  * @example Footer slot
  * ```html
- * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
+ * <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
  *   <ul>
  *     <li><a href="/">Home</a></li>
  *     <li><a href="/services">Services</a></li>
@@ -83,10 +83,10 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example Header and footer
+ * @example Heading and footer
  * ```html
- * <nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
- *   <div slot="header">
+ * <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
+ *   <div slot="heading">
  *     <h2>Freshwater Fishing</h2>
  *     <p>2026 Season Open</p>
  *   </div>
@@ -106,7 +106,7 @@ function adoptLightStyles() {
  *
  * @example Dropdown group
  * ```html
- * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ * <nys-verticalnav heading="NYS Design System" headingLevel="h2">
  *   <ul>
  *     <li><a href="/">Foundations</a></li>
  *     <li><a href="/components">Components</a></li>
@@ -125,7 +125,7 @@ function adoptLightStyles() {
  *
  * @example Active state
  * ```html
- * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ * <nys-verticalnav heading="NYS Design System" headingLevel="h2">
  *   <ul>
  *     <li><a href="/">Foundations</a></li>
  *     <li>
@@ -147,7 +147,7 @@ function adoptLightStyles() {
  *
  * @example Disabled state
  * ```html
- * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ * <nys-verticalnav heading="NYS Design System" headingLevel="h2">
  *   <ul>
  *     <li><a href="/">Foundations</a></li>
  *     <li>
@@ -162,9 +162,9 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example Hidden header
+ * @example Hidden heading
  * ```html
- * <nys-verticalnav header="Section navigation" hideHeader>
+ * <nys-verticalnav heading="Section navigation" hideHeading>
  *   <ul>
  *     <li><a href="/home">Home</a></li>
  *     <li><a href="/service">Service</a></li>
@@ -174,12 +174,12 @@ function adoptLightStyles() {
  *
  * @example Page layout
  * ```html
- * <nys-globalheader
+ * <nys-globalheading
  *   homepageLink="https://ny.gov"
  *   agencyName="Office of Information Technology Services"
- * ></nys-globalheader>
+ * ></nys-globalheading>
  *
- * <nys-verticalnav header="NYS Design System" headerLevel="h2">
+ * <nys-verticalnav heading="NYS Design System" headingLevel="h2">
  *   <ul>
  *     <li><a href="/">Foundations</a></li>
  *     <li><a href="/components" aria-current="page">Components</a></li>
@@ -227,15 +227,15 @@ export class NysVerticalnav extends LitElement {
 
   /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
   @property({ type: String, reflect: true })
-  header = "Page navigation";
+  heading = "Page navigation";
 
   /** Hides the visible heading while keeping an accessible label for the navigation. */
   @property({ type: Boolean, reflect: true })
-  hideHeader = false;
+  hideHeading = false;
 
   /** Heading level used for the navigation heading (`h1` through `h6`). */
   @property({ type: String, reflect: true })
-  headerLevel: HeaderLevel = "h2";
+  headingLevel: HeadingLevel = "h2";
 
   /** Expands or collapses the navigation on mobile. */
   @property({ type: Boolean, reflect: true })
@@ -336,33 +336,33 @@ export class NysVerticalnav extends LitElement {
    * Helper Render Functions
    * --------------------------------------------------------------------------
    */
-  private _renderHeader() {
-    if (this.hideHeader) return html``;
+  private _renderHeading() {
+    if (this.hideHeading) return html``;
 
     const headingId = `${this.id}-heading`;
 
     const headingTag = {
-      h1: html`<h1 id=${headingId} class="nys-verticalnav__header">
-        ${this.header}
+      h1: html`<h1 id=${headingId} class="nys-verticalnav__heading">
+        ${this.heading}
       </h1>`,
-      h2: html`<h2 id=${headingId} class="nys-verticalnav__header">
-        ${this.header}
+      h2: html`<h2 id=${headingId} class="nys-verticalnav__heading">
+        ${this.heading}
       </h2>`,
-      h3: html`<h3 id=${headingId} class="nys-verticalnav__header">
-        ${this.header}
+      h3: html`<h3 id=${headingId} class="nys-verticalnav__heading">
+        ${this.heading}
       </h3>`,
-      h4: html`<h4 id=${headingId} class="nys-verticalnav__header">
-        ${this.header}
+      h4: html`<h4 id=${headingId} class="nys-verticalnav__heading">
+        ${this.heading}
       </h4>`,
-      h5: html`<h5 id=${headingId} class="nys-verticalnav__header">
-        ${this.header}
+      h5: html`<h5 id=${headingId} class="nys-verticalnav__heading">
+        ${this.heading}
       </h5>`,
-      h6: html`<h6 id=${headingId} class="nys-verticalnav__header">
-        ${this.header}
+      h6: html`<h6 id=${headingId} class="nys-verticalnav__heading">
+        ${this.heading}
       </h6>`,
     };
 
-    return html`<slot name="header">${headingTag[this.headerLevel]}</slot>`;
+    return html`<slot name="heading">${headingTag[this.headingLevel]}</slot>`;
   }
 
   private renderContentDesktop() {
@@ -370,10 +370,10 @@ export class NysVerticalnav extends LitElement {
 
     return html` <nav
       class="nys-verticalnav nys-verticalnav--desktop"
-      aria-labelledby=${ifDefined(!this.hideHeader ? headingId : undefined)}
-      aria-label=${ifDefined(this.hideHeader ? "Page navigation" : undefined)}
+      aria-labelledby=${ifDefined(!this.hideHeading ? headingId : undefined)}
+      aria-label=${ifDefined(this.hideHeading ? "Page navigation" : undefined)}
     >
-      ${this._renderHeader()}
+      ${this._renderHeading()}
       <slot></slot>
       <slot name="footer"></slot>
     </nav>`;
@@ -384,7 +384,7 @@ export class NysVerticalnav extends LitElement {
       <nys-accordion bordered>
         <nys-accordionitem
           id="${this.id}-accordion"
-          heading="${this.header}"
+          heading="${this.heading}"
           ?expanded=${this.expanded}
           @nys-accordionitem-toggle=${this._handleAccordionToggle}
         >

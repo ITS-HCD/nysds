@@ -35,84 +35,90 @@ describe("nys-verticalnav", () => {
     expect(el.id).to.equal("my-nav");
   });
 
-  it("defaults header to 'Page navigation'", async () => {
+  it("defaults heading to 'Page navigation'", async () => {
     const el = await fixture<NysVerticalnav>(
       html`<nys-verticalnav></nys-verticalnav>`,
     );
-    expect(el.header).to.equal("Page navigation");
+    expect(el.heading).to.equal("Page navigation");
   });
 
-  it("reflects header attribute to property", async () => {
+  it("reflects heading attribute to property", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Freshwater Fishing"></nys-verticalnav>
+      <nys-verticalnav heading="Freshwater Fishing"></nys-verticalnav>
     `);
-    expect(el.header).to.equal("Freshwater Fishing");
+    expect(el.heading).to.equal("Freshwater Fishing");
   });
 
-  it("defaults headerLevel to h2", async () => {
+  it("defaults headingLevel to h2", async () => {
     const el = await fixture<NysVerticalnav>(
       html`<nys-verticalnav></nys-verticalnav>`,
     );
-    expect(el.headerLevel).to.equal("h2");
+    expect(el.headingLevel).to.equal("h2");
   });
 
-  it("reflects headerLevel attribute to property", async () => {
+  it("reflects headingLevel attribute to property", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav headerLevel="h3"></nys-verticalnav>
+      <nys-verticalnav headingLevel="h3"></nys-verticalnav>
     `);
-    expect(el.headerLevel).to.equal("h3");
+    expect(el.headingLevel).to.equal("h3");
   });
 
-  it("defaults hideHeader to false", async () => {
+  it("defaults hideHeading to false", async () => {
     const el = await fixture<NysVerticalnav>(
       html`<nys-verticalnav></nys-verticalnav>`,
     );
-    expect(el.hideHeader).to.be.false;
+    expect(el.hideHeading).to.be.false;
   });
 
-  it("reflects hideHeader attribute to property", async () => {
+  it("reflects hideHeading attribute to property", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav hideHeader></nys-verticalnav>
+      <nys-verticalnav hideHeading></nys-verticalnav>
     `);
-    expect(el.hideHeader).to.be.true;
+    expect(el.hideHeading).to.be.true;
   });
 
-  // ── Header Rendering ──────────────────────────────────
-  it("renders the header text in the shadow DOM", async () => {
+  // ── Heading Rendering ──────────────────────────────────
+  it("renders the heading text in the shadow DOM", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Freshwater Fishing"></nys-verticalnav>
+      <nys-verticalnav heading="Freshwater Fishing"></nys-verticalnav>
     `);
     (el as any)._isMobile = false;
     await el.updateComplete;
-    const header = el.shadowRoot?.querySelector(".nys-verticalnav__header");
-    expect(header?.textContent?.trim()).to.equal("Freshwater Fishing");
+    const heading = el.shadowRoot?.querySelector(".nys-verticalnav__heading");
+    expect(heading?.textContent?.trim()).to.equal("Freshwater Fishing");
   });
 
-  it("renders the correct heading tag based on headerLevel", async () => {
+  it("renders the correct heading tag based on headingLevel", async () => {
     const el = await fixture<NysVerticalnav>(html`
       <nys-verticalnav
-        header="Freshwater Fishing"
-        headerLevel="h3"
+        heading="Freshwater Fishing"
+        headingLevel="h3"
       ></nys-verticalnav>
     `);
     (el as any)._isMobile = false;
     await el.updateComplete;
-    const heading = el.shadowRoot?.querySelector("h3.nys-verticalnav__header");
+    const heading = el.shadowRoot?.querySelector("h3.nys-verticalnav__heading");
     expect(heading).to.exist;
   });
 
-  it("does not render header when hideHeader is true", async () => {
+  it("does not render heading when hideHeading is true", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Freshwater Fishing" hideHeader></nys-verticalnav>
+      <nys-verticalnav
+        heading="Freshwater Fishing"
+        hideHeading
+      ></nys-verticalnav>
     `);
     await el.updateComplete;
-    const header = el.shadowRoot?.querySelector(".nys-verticalnav__header");
-    expect(header).to.not.exist;
+    const heading = el.shadowRoot?.querySelector(".nys-verticalnav__heading");
+    expect(heading).to.not.exist;
   });
 
-  it("uses aria-label when hideHeader is true", async () => {
+  it("uses aria-label when hideHeading is true", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Freshwater Fishing" hideHeader></nys-verticalnav>
+      <nys-verticalnav
+        heading="Freshwater Fishing"
+        hideHeading
+      ></nys-verticalnav>
     `);
     (el as any)._isMobile = false;
     await el.updateComplete;
@@ -120,9 +126,9 @@ describe("nys-verticalnav", () => {
     expect(nav?.getAttribute("aria-label")).to.equal("Page navigation");
   });
 
-  it("uses aria-labelledby when hideHeader is false", async () => {
+  it("uses aria-labelledby when hideHeading is false", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav id="nav1" header="Freshwater Fishing"></nys-verticalnav>
+      <nys-verticalnav id="nav1" heading="Freshwater Fishing"></nys-verticalnav>
     `);
     (el as any)._isMobile = false;
     await el.updateComplete;
@@ -133,7 +139,7 @@ describe("nys-verticalnav", () => {
   // ── Slot Content ──────────────────────────────────────
   it("renders slotted ul content", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Fishing">
+      <nys-verticalnav heading="Fishing">
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/licenses">Licenses</a></li>
@@ -145,23 +151,23 @@ describe("nys-verticalnav", () => {
     expect(links.length).to.equal(2);
   });
 
-  it("renders slotted header slot content", async () => {
+  it("renders slotted heading slot content", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Fishing">
-        <div slot="header"><h2>Custom Header</h2></div>
+      <nys-verticalnav heading="Fishing">
+        <div slot="heading"><h2>Custom Heading</h2></div>
         <ul>
           <li><a href="/">Home</a></li>
         </ul>
       </nys-verticalnav>
     `);
     await el.updateComplete;
-    const slotHeader = el.querySelector('[slot="header"] h2');
-    expect(slotHeader?.textContent).to.equal("Custom Header");
+    const slotHeading = el.querySelector('[slot="heading"] h2');
+    expect(slotHeading?.textContent).to.equal("Custom Heading");
   });
 
   it("renders slotted footer slot content", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Fishing">
+      <nys-verticalnav heading="Fishing">
         <ul>
           <li><a href="/">Home</a></li>
         </ul>
@@ -176,7 +182,7 @@ describe("nys-verticalnav", () => {
   // ── Active State ──────────────────────────────────────
   it("applies active class to aria-current page links", async () => {
     const el = await fixture<NysVerticalnav>(html`
-      <nys-verticalnav header="Fishing">
+      <nys-verticalnav heading="Fishing">
         <ul>
           <li><a href="/" aria-current="page">Home</a></li>
           <li><a href="/licenses">Licenses</a></li>
@@ -194,7 +200,7 @@ describe("nys-verticalnav", () => {
   // ── Accessibility ─────────────────────────────────────
   it("passes the a11y audit", async () => {
     const el = await fixture(html`
-      <nys-verticalnav header="Freshwater Fishing">
+      <nys-verticalnav heading="Freshwater Fishing">
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/licenses">Licenses</a></li>
