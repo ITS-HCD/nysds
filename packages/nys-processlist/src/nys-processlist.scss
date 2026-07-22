@@ -16,7 +16,20 @@ nys-processlist > :not(nys-processlistitem) {
    and cascades into each item's shadow DOM via custom properties. */
 nys-processlist[strong] > nys-processlistitem {
   --_nys-processlist-color--step: var(--nys-color-surface, #ffffff);
-  --_nys-processlist-background-color--step: var(--nys-color-theme, #154973);
+  --_nys-processlist-background-color--step: var(
+    --_nys-processlist-theme--step
+  );
 }
 
+/* `neutral` lives on the list, not the item, so the override is applied here
+   and cascades into each item's shadow DOM via custom properties. */
+nys-processlist[neutral] > nys-processlistitem {
+  --_nys-processlist-theme--step: var(--nys-color-neutral-600, #62666a);
+  --_nys-processlist-theme--connector: var(--nys-color-neutral-100, #d0d0ce);
+}
 
+/* When both variants are set, the connector uses a darker neutral so it
+   stays visible against the strong step's higher-contrast fill. */
+nys-processlist[strong][neutral] > nys-processlistitem {
+  --_nys-processlist-theme--connector: var(--nys-color-neutral-200, #bec0c1);
+}

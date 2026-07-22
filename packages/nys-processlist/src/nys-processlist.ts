@@ -74,6 +74,15 @@ const styledRoots = new WeakSet<Document | ShadowRoot>();
  *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
  * </nys-processlist>
  * ```
+ *
+ * @example Strong Neutral
+ * ```html
+ * <nys-processlist id="application-steps-strong-neutral" strong neutral>
+ *   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+ *   <nys-processlistitem label="Complete the application"></nys-processlistitem>
+ *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+ * </nys-processlist>
+ * ```
  */
 
 export class NysProcesslist extends LitElement {

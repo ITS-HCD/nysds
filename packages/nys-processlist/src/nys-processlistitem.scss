@@ -10,11 +10,15 @@
 
   --_nys-processlist-gap: var(--nys-space-150, 12px);
 
+  // General
+  --_nys-processlist-theme--step: var(--nys-color-theme, #154973);
+  --_nys-processlist-theme--connector: var(--nys-color-theme-weak, #cddde9);
+  --_nys-processlist-color--step: var(--_nys-processlist-theme--step);
+
   // Step and connector
-  --_nys-processlist-color--step: var(--nys-color-theme, #154973);
   --_nys-processlist-background-color--step: var(--nys-color-surface, #ffffff);
-  --_nys-processlist-border-color--step: var(--nys-color-theme, #154973);
-  --_nys-processlist-color--connector: var(--nys-color-theme-weak, #cddde9);
+  --_nys-processlist-border-color--step: var(--_nys-processlist-theme--step);
+  --_nys-processlist-color--connector: var(--_nys-processlist-theme--connector);
   --_nys-processlist-width--connector: var(--nys-size-2px, 2px);
   --_nys-processlist-size--step: var(--nys-size-300, 24px);
   --_nys-processlistitem-min-height: var(--nys-space-600, 48px);

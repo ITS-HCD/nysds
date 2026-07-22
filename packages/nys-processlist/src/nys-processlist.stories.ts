@@ -192,3 +192,34 @@ export const Neutral: Story = {
     },
   },
 };
+
+export const StrongNeutral: Story = {
+  render: () => {
+    return html`
+      <nys-processlist id="application-steps-strong-neutral" strong neutral>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-processlist id="application-steps-strong-neutral" strong neutral>
+  <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+  <nys-processlistitem label="Complete the application"></nys-processlistitem>
+  <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
