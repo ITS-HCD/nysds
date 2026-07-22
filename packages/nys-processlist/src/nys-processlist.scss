@@ -11,3 +11,34 @@ nys-processlist {
 nys-processlist > :not(nys-processlistitem) {
   display: none;
 }
+
+/* The `strong`, `neutral`, and `size` props live on <nys-processlist>, not on
+   the items themselves. They're applied here as custom properties, which
+   inherit from this light-DOM element down into each item's shadow DOM. */
+nys-processlist[neutral] > nys-processlistitem {
+  --nys-processlistitem-step-bg: var(
+    --nys-color-base,
+    var(--nys-color-neutral-600)
+  );
+  --nys-processlistitem-connector-bg: var(
+    --nys-color-base-weak,
+    var(--nys-color-neutral-10)
+  );
+}
+
+nys-processlist[strong] > nys-processlistitem {
+  --nys-processlistitem-step-bg: var(--nys-color-theme-strong);
+}
+
+nys-processlist[strong][neutral] > nys-processlistitem {
+  --nys-processlistitem-step-bg: var(--nys-color-neutral-900);
+}
+
+nys-processlist[size="sm"] > nys-processlistitem {
+  --nys-processlistitem-step-size: var(--nys-size-250);
+  --nys-processlistitem-step-font-size: var(--nys-font-size-ui-xs, 12px);
+  --nys-processlistitem-step-line-height: var(
+    --nys-font-lineheight-ui-xs,
+    20px
+  );
+}

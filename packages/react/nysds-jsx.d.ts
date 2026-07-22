@@ -645,6 +645,12 @@ export type NysPaginationProps = {
 export type NysProcesslistProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
+  /** Renders each step number in a bolder, higher-emphasis color. */
+  strong?: boolean;
+  /** Renders each step number using neutral (grayscale) coloring instead of the theme color. */
+  neutral?: boolean;
+  /** Step marker size: `sm` (smaller) or `md` (default). */
+  size?: "md" | "sm";
 };
 
 export type NysProcesslistitemProps = {

@@ -19,11 +19,27 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
+  args: {
+    strong: false,
+    neutral: false,
+    size: "md",
+    label: "Gather your documents",
+    description: "",
+  },
+  argTypes: {
+    size: { control: { type: "select" }, options: ["md", "sm"] },
+  },
+  render: (args) => {
     return html`
-      <nys-processlist id="application-steps">
+      <nys-processlist
+        id="application-steps"
+        ?strong=${args.strong}
+        ?neutral=${args.neutral}
+        size=${args.size}
+      >
         <nys-processlistitem
-          label="Gather your documents"
+          label=${args.label}
+          description=${args.description}
         ></nys-processlistitem>
         <nys-processlistitem
           label="Complete the application"

@@ -9488,6 +9488,39 @@
             },
             {
               "kind": "field",
+              "name": "strong",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number in a bolder, higher-emphasis color.",
+              "attribute": "strong",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "neutral",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number using neutral (grayscale) coloring instead of the theme color.",
+              "attribute": "neutral",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"md\" | \"sm\""
+              },
+              "default": "\"md\"",
+              "description": "Step marker size: `sm` (smaller) or `md` (default).",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_childObserver",
               "privacy": "private",
               "default": "new MutationObserver(() => this._syncSteps())"
@@ -9508,6 +9541,36 @@
               "description": "Unique identifier. Auto-generated if not provided.",
               "fieldName": "id",
               "propName": "id"
+            },
+            {
+              "name": "strong",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number in a bolder, higher-emphasis color.",
+              "fieldName": "strong",
+              "propName": "strong"
+            },
+            {
+              "name": "neutral",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number using neutral (grayscale) coloring instead of the theme color.",
+              "fieldName": "neutral",
+              "propName": "neutral"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"md\" | \"sm\""
+              },
+              "default": "\"md\"",
+              "description": "Step marker size: `sm` (smaller) or `md` (default).",
+              "fieldName": "size",
+              "propName": "size"
             }
           ],
           "superclass": {

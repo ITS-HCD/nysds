@@ -55,6 +55,21 @@ export class NysProcesslist extends LitElement {
    */
   @property({ type: String, reflect: true }) id = "";
 
+  /**
+   * Renders each step number in a bolder, higher-emphasis color.
+   */
+  @property({ type: Boolean, reflect: true }) strong = false;
+
+  /**
+   * Renders each step number using neutral (grayscale) coloring instead of the theme color.
+   */
+  @property({ type: Boolean, reflect: true }) neutral = false;
+
+  /**
+   * Step marker size: `sm` (smaller) or `md` (default).
+   */
+  @property({ type: String, reflect: true }) size: "md" | "sm" = "md";
+
   private _childObserver = new MutationObserver(() => this._syncSteps());
 
   // The host must not be a shadow host: Chrome ≥150 demotes role="listitem"
