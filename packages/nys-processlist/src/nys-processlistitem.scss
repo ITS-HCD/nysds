@@ -65,12 +65,12 @@
   text-align: center;
 
   /* UI/Small/Semibold */
-  font-family: var(--nys-font-family-ui, "Proxima Nova");
-  font-size: var(--nys-font-size-ui-sm, 14px);
+  font-family: var(--_nys-processlistitem-font-family);
+  font-size: var(--_nys-processlistitem-font-size);
   font-style: normal;
-  font-weight: 600;
-  line-height: var(--nys-font-lineheight-ui-sm, 24px); /* 171.429% */
-  letter-spacing: var(--p-type-unpublished-font-letterspacing-ui-sm, 0.044px);
+  font-weight: var(--_nys-processlistitem-font-weight);
+  line-height: var(--_nys-processlistitem-line-height);
+  letter-spacing: var(--_nys-processlistitem-letter-spacing);
 }
 
 .nys-processlistitem__connector {
