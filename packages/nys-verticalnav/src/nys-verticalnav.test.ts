@@ -123,7 +123,7 @@ describe("nys-verticalnav", () => {
     (el as any)._isMobile = false;
     await el.updateComplete;
     const nav = el.shadowRoot?.querySelector("nav");
-    expect(nav?.getAttribute("aria-label")).to.equal("Page navigation");
+    expect(nav?.getAttribute("aria-label")).to.equal("Freshwater Fishing");
   });
 
   it("uses aria-labelledby when hideHeading is false", async () => {
@@ -195,6 +195,138 @@ describe("nys-verticalnav", () => {
     const activeLink = el.querySelector('a[aria-current="page"]');
     expect(activeLink?.classList.contains("nys-verticalnav__link--active")).to
       .be.true;
+  });
+
+  it("auto-expands and marks active a containing nys-verticalnavgroup", async () => {
+    const el = await fixture<NysVerticalnav>(html`
+      <nys-verticalnav heading="Fishing">
+        <ul>
+          <li>
+            <nys-verticalnavgroup label="Accessibility">
+              <ul>
+                <li><a href="/" aria-current="page">WCAG</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+          </li>
+        </ul>
+      </nys-verticalnav>
+    `);
+    await el.updateComplete;
+    (el as any)._applyActiveState();
+
+    const group = el.querySelector("nys-verticalnavgroup")!;
+    expect(group.hasAttribute("expanded")).to.be.true;
+    expect(group.hasAttribute("active")).to.be.true;
+  });
+
+  it("applies active state automatically via slotchange, without manual invocation", async () => {
+    const el = await fixture<NysVerticalnav>(html`
+      <nys-verticalnav heading="Fishing">
+        <ul>
+          <li><a href="/" aria-current="page">Home</a></li>
+        </ul>
+      </nys-verticalnav>
+    `);
+    await el.updateComplete;
+
+    const activeLink = el.querySelector('a[aria-current="page"]');
+    expect(activeLink?.classList.contains("nys-verticalnav__link--active")).to
+      .be.true;
+  });
+
+  // ── Mobile State ──────────────────────────────────────
+  it("renders mobile accordion when _isMobile is true", async () => {
+    const el = await fixture<NysVerticalnav>(html`
+      <nys-verticalnav heading="Freshwater Fishing"></nys-verticalnav>
+    `);
+    (el as any)._isMobile = true;
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector(".nys-verticalnav--mobile");
+    const accordionItem = el.shadowRoot?.querySelector("nys-accordionitem");
+    expect(nav).to.exist;
+    expect(accordionItem?.getAttribute("heading")).to.equal(
+      "Freshwater Fishing",
+    );
+  });
+
+  it("open() sets expanded to true", async () => {
+    const el = await fixture<NysVerticalnav>(
+      html`<nys-verticalnav></nys-verticalnav>`,
+    );
+    el.open();
+    expect(el.expanded).to.be.true;
+  });
+
+  it("close() sets expanded to false", async () => {
+    const el = await fixture<NysVerticalnav>(
+      html`<nys-verticalnav expanded></nys-verticalnav>`,
+    );
+    el.close();
+    expect(el.expanded).to.be.false;
+  });
+
+  it("toggle() flips expanded", async () => {
+    const el = await fixture<NysVerticalnav>(
+      html`<nys-verticalnav></nys-verticalnav>`,
+    );
+    el.toggle();
+    expect(el.expanded).to.be.true;
+    el.toggle();
+    expect(el.expanded).to.be.false;
+  });
+
+  it("dispatches nys-verticalnav-toggle with id and expanded on accordion toggle", async () => {
+    const el = await fixture<NysVerticalnav>(
+      html`<nys-verticalnav id="nav1"></nys-verticalnav>`,
+    );
+    (el as any)._isMobile = true;
+    await el.updateComplete;
+
+    let detail: any;
+    el.addEventListener("nys-verticalnav-toggle", (e: Event) => {
+      detail = (e as CustomEvent).detail;
+    });
+
+    const accordionItem = el.shadowRoot?.querySelector("nys-accordionitem")!;
+    accordionItem.dispatchEvent(
+      new CustomEvent("nys-accordionitem-toggle", {
+        detail: { expanded: true },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(detail).to.deep.equal({ id: "nav1", expanded: true });
+    expect(el.expanded).to.be.true;
+  });
+
+  it("updates _isMobile when the media query changes", async () => {
+    const el = await fixture<NysVerticalnav>(
+      html`<nys-verticalnav></nys-verticalnav>`,
+    );
+    const mq = (el as any)._mediaQuery as MediaQueryList;
+
+    mq.dispatchEvent(Object.assign(new Event("change"), { matches: true }));
+    await el.updateComplete;
+
+    expect((el as any)._isMobile).to.be.true;
+  });
+
+  it("mobile accordion always shows heading text, even when hideHeading is true", async () => {
+    const el = await fixture<NysVerticalnav>(html`
+      <nys-verticalnav
+        heading="Freshwater Fishing"
+        hideHeading
+      ></nys-verticalnav>
+    `);
+    (el as any)._isMobile = true;
+    await el.updateComplete;
+
+    const accordionItem = el.shadowRoot?.querySelector("nys-accordionitem");
+    expect(accordionItem?.getAttribute("heading")).to.equal(
+      "Freshwater Fishing",
+    );
   });
 
   // ── Accessibility ─────────────────────────────────────
