@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-verticalnav";
 import "./nys-verticalnavgroup";
 import "@nysds/nys-divider";
-import "@nysds/nys-globalheading";
+import "@nysds/nys-globalheader";
 import "@nysds/nys-globalfooter";
 import "@nysds/nys-button";
 
@@ -504,10 +504,10 @@ export const HiddenHeading: Story = {
 export const PageLayout: Story = {
   render: () => {
     return html`
-      <nys-globalheading
+      <nys-globalheader
         homepageLink="https://ny.gov"
         agencyName="Office of Information Technology Services"
-      ></nys-globalheading>
+      ></nys-globalheader>
 
       <nys-verticalnav heading="NYS Design System" headingLevel="h2">
         <ul>
@@ -536,10 +536,10 @@ export const PageLayout: Story = {
     docs: {
       source: {
         code: `
-<nys-globalheading
+<nys-globalheader
   homepageLink="https://ny.gov"
   agencyName="Office of Information Technology Services"
-></nys-globalheading>
+></nys-globalheader>
 
 <nys-verticalnav heading="NYS Design System" headingLevel="h2">
   <ul>

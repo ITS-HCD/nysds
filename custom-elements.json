@@ -15849,7 +15849,7 @@
             },
             {
               "title": "Page layout",
-              "code": "<nys-globalheading\nhomepageLink=\"https://ny.gov\"\nagencyName=\"Office of Information Technology Services\"\n></nys-globalheading>\n\n<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\" aria-current=\"page\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>\n\n<main>\n<p>Place content here.</p>\n</main>\n\n<nys-globalfooter></nys-globalfooter>",
+              "code": "<nys-globalheader\nhomepageLink=\"https://ny.gov\"\nagencyName=\"Office of Information Technology Services\"\n></nys-globalheader>\n\n<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\" aria-current=\"page\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>\n\n<main>\n<p>Place content here.</p>\n</main>\n\n<nys-globalfooter></nys-globalfooter>",
               "lang": "html"
             },
             {

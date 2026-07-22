@@ -174,10 +174,10 @@ function adoptLightStyles() {
  *
  * @example Page layout
  * ```html
- * <nys-globalheading
+ * <nys-globalheader
  *   homepageLink="https://ny.gov"
  *   agencyName="Office of Information Technology Services"
- * ></nys-globalheading>
+ * ></nys-globalheader>
  *
  * <nys-verticalnav heading="NYS Design System" headingLevel="h2">
  *   <ul>
