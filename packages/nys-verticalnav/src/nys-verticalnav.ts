@@ -371,7 +371,7 @@ export class NysVerticalnav extends LitElement {
     return html` <nav
       class="nys-verticalnav nys-verticalnav--desktop"
       aria-labelledby=${ifDefined(!this.hideHeading ? headingId : undefined)}
-      aria-label=${ifDefined(this.hideHeading ? "Page navigation" : undefined)}
+      aria-label=${ifDefined(this.hideHeading ? this.heading : undefined)}
     >
       ${this._renderHeading()}
       <slot></slot>
