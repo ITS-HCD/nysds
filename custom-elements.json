@@ -9592,6 +9592,11 @@
               "lang": "html"
             },
             {
+              "title": "Description Slot",
+              "code": "<nys-processlist id=\"application-steps-desc-slot\">\n<nys-processlistitem label=\"Gather your documents\">\n<div slot=\"description\">Recent pay stubs and a <strong>current</strong> property tax bill.</div>\n</nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\">\n<div slot=\"description\">Most applicants finish in about <a href=\"https://www.ny.gov\">20 minutes</a>.</div>\n</nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
               "title": "Size Small",
               "code": "<nys-processlist id=\"application-steps-sm\" size=\"sm\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
               "lang": "html"
@@ -9639,8 +9644,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and a `<nys-label>`.\n\nSet `label` for the step label and `description` for supporting information. The step number is owned\nby the parent list, so items are never numbered individually.",
+          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and a `<nys-label>`.\n\nSet `label` for the step label and `description` for supporting information. For rich text, use the\n`description` slot instead of the property. The step number is owned by the parent list, so items\nare never numbered individually.",
           "name": "NysProcesslistitem",
+          "slots": [
+            {
+              "description": "Custom HTML description content below the label. Overrides the `description` property.",
+              "name": "description"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -9659,7 +9670,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Supporting information displayed below the label.",
+              "description": "Supporting information displayed below the label. Use the `description` slot for rich text.",
               "attribute": "description"
             },
             {
@@ -9690,7 +9701,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Supporting information displayed below the label.",
+              "description": "Supporting information displayed below the label. Use the `description` slot for rich text.",
               "fieldName": "description",
               "propName": "description"
             }

@@ -21,7 +21,7 @@ export interface NysProcesslistitemProps extends Pick<
   /** Step heading text. */
   label?: NysProcesslistitemElement["label"];
 
-  /** Supporting information displayed below the label. */
+  /** Supporting information displayed below the label. Use the `description` slot for rich text. */
   description?: NysProcesslistitemElement["description"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
@@ -50,5 +50,8 @@ export interface NysProcesslistitemProps extends Pick<
  * A numbered step for use inside `<nys-processlist>`.
  * ---
  *
+ *
+ * ### **Slots:**
+ *  - **description** - Custom HTML description content below the label. Overrides the `description` property.
  */
 export const NysProcesslistitem: React.ForwardRefExoticComponent<NysProcesslistitemProps>;

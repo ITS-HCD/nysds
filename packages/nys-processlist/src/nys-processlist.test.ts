@@ -172,9 +172,29 @@ describe("nys-processlistitem", () => {
 
     const label = el.shadowRoot?.querySelector("nys-label");
     expect(label?.getAttribute("label")).to.equal("Gather your documents");
-    expect(label?.getAttribute("description")).to.equal(
-      "Recent pay stubs and a tax bill.",
-    );
+    // The description is forwarded through a slot, so it lands as the slot's
+    // fallback content rather than an attribute on nys-label.
+    const slot = el.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement | null;
+    expect(slot?.getAttribute("slot")).to.equal("description");
+    expect(slot?.textContent).to.equal("Recent pay stubs and a tax bill.");
+  });
+
+  it("forwards slotted rich-text description to nys-label", async () => {
+    const el = await fixture<NysProcesslistitem>(html`
+      <nys-processlistitem label="Gather your documents">
+        <div slot="description">Recent pay stubs and a <b>tax bill</b>.</div>
+      </nys-processlistitem>
+    `);
+    await el.updateComplete;
+
+    const slot = el.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement | null;
+    const assigned = slot?.assignedElements() ?? [];
+    expect(assigned.length).to.equal(1);
+    expect(assigned[0].querySelector("b")?.textContent).to.equal("tax bill");
   });
 
   it("does not expose a step property", async () => {

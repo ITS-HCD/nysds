@@ -656,7 +656,7 @@ export type NysProcesslistProps = {
 export type NysProcesslistitemProps = {
   /** Step heading text. */
   label?: string;
-  /** Supporting information displayed below the label. */
+  /** Supporting information displayed below the label. Use the `description` slot for rich text. */
   description?: string;
 };
 
@@ -1416,6 +1416,9 @@ export type CustomElements = {
    * A numbered step for use inside `<nys-processlist>`.
    * ---
    *
+   *
+   * ### **Slots:**
+   *  - **description** - Custom HTML description content below the label. Overrides the `description` property.
    */
   "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
 

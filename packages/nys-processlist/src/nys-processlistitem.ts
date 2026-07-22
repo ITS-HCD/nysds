@@ -6,11 +6,13 @@ import styles from "./nys-processlistitem.scss?inline";
 /**
  * A single step in a `<nys-processlist>`. Renders as a list item containing a step number and a `<nys-label>`.
  *
- * Set `label` for the step label and `description` for supporting information. The step number is owned
- * by the parent list, so items are never numbered individually.
+ * Set `label` for the step label and `description` for supporting information. For rich text, use the
+ * `description` slot instead of the property. The step number is owned by the parent list, so items
+ * are never numbered individually.
  *
  * @summary A numbered step for use inside `<nys-processlist>`.
  * @element nys-processlistitem
+ * @slot description - Custom HTML description content below the label. Overrides the `description` property.
  */
 export class NysProcesslistitem extends LitElement {
   static styles = unsafeCSS(styles);
@@ -21,7 +23,7 @@ export class NysProcesslistitem extends LitElement {
   @property({ type: String }) label = "";
 
   /**
-   * Supporting information displayed below the label.
+   * Supporting information displayed below the label. Use the `description` slot for rich text.
    */
   @property({ type: String }) description = "";
 
@@ -61,11 +63,9 @@ export class NysProcesslistitem extends LitElement {
           <div class="nys-processlistitem__step">${this._step}</div>
           <div class="nys-processlistitem__connector"></div>
         </div>
-        <nys-label
-          class="nys-processlistitem__label"
-          label=${this.label}
-          description=${this.description}
-        ></nys-label>
+        <nys-label class="nys-processlistitem__label" label=${this.label}>
+          <slot name="description" slot="description">${this.description}</slot>
+        </nys-label>
       </div>
     `;
   }

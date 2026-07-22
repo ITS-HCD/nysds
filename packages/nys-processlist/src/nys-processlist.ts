@@ -48,6 +48,18 @@ const styledRoots = new WeakSet<Document | ShadowRoot>();
  * </nys-processlist>
  * ```
  *
+ * @example Description Slot
+ * ```html
+ * <nys-processlist id="application-steps-desc-slot">
+ *   <nys-processlistitem label="Gather your documents">
+ *     <div slot="description">Recent pay stubs and a <strong>current</strong> property tax bill.</div>
+ *   </nys-processlistitem>
+ *   <nys-processlistitem label="Complete the application">
+ *     <div slot="description">Most applicants finish in about <a href="https://www.ny.gov">20 minutes</a>.</div>
+ *   </nys-processlistitem>
+ * </nys-processlist>
+ * ```
+ *
  * @example Size Small
  * ```html
  * <nys-processlist id="application-steps-sm" size="sm">

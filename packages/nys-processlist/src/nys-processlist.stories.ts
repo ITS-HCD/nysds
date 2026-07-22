@@ -100,6 +100,53 @@ export const Description: Story = {
   },
 };
 
+export const DescriptionSlot: Story = {
+  render: () => {
+    return html`
+      <nys-processlist id="application-steps-desc-slot">
+        <nys-processlistitem label="Gather your documents">
+          <div slot="description">
+            Recent pay stubs and a
+            <strong>current</strong>
+            property tax bill.
+          </div>
+        </nys-processlistitem>
+        <nys-processlistitem label="Complete the application">
+          <div slot="description">
+            Most applicants finish in about
+            <a href="https://www.ny.gov">20 minutes</a>
+            .
+          </div>
+        </nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-processlist id="application-steps-desc-slot">
+  <nys-processlistitem label="Gather your documents">
+    <div slot="description">
+      Recent pay stubs and a
+      <strong>current</strong>
+      property tax bill.
+    </div>
+  </nys-processlistitem>
+  <nys-processlistitem label="Complete the application">
+    <div slot="description">
+      Most applicants finish in about
+      <a href="https://www.ny.gov">20 minutes</a>
+      .
+    </div>
+  </nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const SizeSmall: Story = {
   render: () => {
     return html`
