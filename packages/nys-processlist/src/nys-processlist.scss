@@ -33,3 +33,19 @@ nys-processlist[neutral] > nys-processlistitem {
 nys-processlist[strong][neutral] > nys-processlistitem {
   --_nys-processlist-theme--connector: var(--nys-color-neutral-200, #bec0c1);
 }
+
+/* `size` lives on the list, not the item, so the override is applied here
+   and cascades into each item's shadow DOM via custom properties. */
+nys-processlist[size="sm"] > nys-processlistitem {
+  /* UI/Small/Semibold */
+  --_nys-processlistitem-font-family: var(--nys-font-family-ui, "Proxima Nova");
+  --_nys-processlistitem-font-size: var(--nys-font-size-ui-sm, 14px);
+  --_nys-processlistitem-font-weight: 600;
+  --_nys-processlistitem-line-height: var(--nys-font-lineheight-ui-sm, 24px);
+  --_nys-processlistitem-letter-spacing: var(
+    --p-type-unpublished-font-letterspacing-ui-sm,
+    0.044px
+  );
+
+  --_nys-processlist-size--step: var(--nys-size-300, 24px);
+}

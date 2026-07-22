@@ -23,6 +23,16 @@
   --_nys-processlist-size--step: var(--nys-size-400, 32px);
   --_nys-processlistitem-min-height: var(--nys-space-600, 48px);
   --_nys-processlistitem-gap: var(--nys-space-250, 20px);
+
+  /* UI/Large/Semibold */
+  --_nys-processlistitem-font-family: var(--nys-font-family-ui, "Proxima Nova");
+  --_nys-processlistitem-font-size: var(--nys-font-size-ui-lg, 18px);
+  --_nys-processlistitem-font-weight: 600;
+  --_nys-processlistitem-line-height: var(--nys-font-lineheight-ui-lg, 28px);
+  --_nys-processlistitem-letter-spacing: var(
+    --nys-font-letterspacing-ui-lg,
+    0.028px
+  );
 }
 
 .nys-processlistitem {
@@ -80,4 +90,11 @@
 .nys-processlistitem__label {
   width: 100%;
   margin-bottom: var(--_nys-processlistitem-gap);
+
+  font-family: var(--_nys-processlistitem-font-family);
+  font-size: var(--_nys-processlistitem-font-size);
+  font-style: normal;
+  font-weight: var(--_nys-processlistitem-font-weight);
+  line-height: var(--_nys-processlistitem-line-height); /* 155.556% */
+  letter-spacing: var(--_nys-processlistitem-letter-spacing);
 }
