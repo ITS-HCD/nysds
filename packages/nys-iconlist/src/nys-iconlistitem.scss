@@ -33,6 +33,7 @@
   --_nys-iconlistitem-color--divider: var(--nys-color-neutral-100, #d0d0ce);
   --_nys-iconlistitem-width--divider: var(--nys-size-1px, 1px);
   --_nys-iconlistitem-spacing--divider: var(--nys-space-150, 12px);
+  --_nys-iconlistitem-padding--icon: var(--nys-space-50, 4px);
 }
 
 /* When a secondary label is present, align icon to the top */
@@ -57,7 +58,7 @@
 }
 
 .nys-iconlistitem__icon {
-  padding: var(--nys-space-50, 4px);
+  padding: var(--_nys-iconlistitem-padding--icon);
 }
 
 .nys-iconlistitem__label {
