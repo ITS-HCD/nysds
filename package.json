@@ -36,7 +36,7 @@
     "tsc:packages": "tsc -b tsconfig.build.json",
     "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --log-order=grouped",
     "build:root": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd",
-    "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run gen-stories && npm run build:mcp && npm run lint:fix",
+    "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run build:mcp && npm run lint:fix",
     "build:mcp": "npm run build -w @nysds/mcp-server",
     "build:link": "npm run build:all && npm link && cd packages/styles && npm link",
     "lint": "eslint --cache --cache-strategy=content --cache-location node_modules/.cache/eslint && (stylelint \"**/*.scss\" || true)",

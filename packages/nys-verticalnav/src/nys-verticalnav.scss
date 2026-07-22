@@ -62,6 +62,7 @@ nys-accordion {
 
   @media (width >= 1024px) {
     max-width: 249px;
+    min-width: 204px;
     width: 100%;
     border-right: 1px solid var(--_nys-verticalnav-border-color);
     gap: 10px;
