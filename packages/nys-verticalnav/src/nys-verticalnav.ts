@@ -52,10 +52,10 @@ function adoptLightStyles() {
  * </nys-verticalnav>
  * ```
  *
- * @example Heading slot
+ * @example Header slot
  * ```html
  * <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
- *   <div slot="heading">
+ *   <div slot="header">
  *     <h2>Freshwater Fishing</h2>
  *     <p>2026 Season Open</p>
  *   </div>
@@ -362,7 +362,7 @@ export class NysVerticalnav extends LitElement {
       </h6>`,
     };
 
-    return html`<slot name="heading">${headingTag[this.headingLevel]}</slot>`;
+    return html`<slot name="header">${headingTag[this.headingLevel]}</slot>`;
   }
 
   private renderContentDesktop() {
