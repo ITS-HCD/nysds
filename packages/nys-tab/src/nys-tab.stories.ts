@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-tab";
 import "./nys-tabgroup";
 import "./nys-tabpanel";
+import "@nysds/nys-button";
 
 const meta: Meta = {
   title: "Components/Tab",
@@ -130,6 +131,102 @@ export const ExplicitOrdering: Story = {
   <nys-tabpanel aria-labelledby="tab2">Content for tab 2</nys-tabpanel>
   <nys-tabpanel aria-labelledby="tab3">Content for tab 3</nys-tabpanel>
   <nys-tabpanel aria-labelledby="tab1">Content for tab 1</nys-tabpanel>
+</nys-tabgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const JSInTabpanel: Story = {
+  render: () => {
+    return html`
+      <nys-tabgroup>
+        <nys-tab label="Tab 1"></nys-tab>
+        <nys-tab label="Tab 2"></nys-tab>
+        <nys-tabpanel>
+          <p>Content for tab 1</p>
+        </nys-tabpanel>
+        <nys-tabpanel>
+          <p>Content for tab 2</p>
+        </nys-tabpanel>
+      </nys-tabgroup>
+      <script>
+        const tabgroup = document.querySelector("nys-tabgroup");
+        const panels = tabgroup.querySelectorAll("nys-tabpanel");
+        panels[0].innerHTML += "<p>Added via JS</p>";
+      </script>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-tabgroup>
+<nys-tab label="Tab 1"></nys-tab>
+<nys-tab label="Tab 2"></nys-tab>
+<nys-tabpanel>
+<p>Content for tab 1</p>
+</nys-tabpanel>
+<nys-tabpanel>
+<p>Content for tab 2</p>
+</nys-tabpanel>
+</nys-tabgroup>
+<script>
+const tabgroup = document.querySelector("nys-tabgroup");
+const panels = tabgroup.querySelectorAll("nys-tabpanel");
+panels[0].innerHTML += "<p>Added via JS</p>";
+</script>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomStyling: Story = {
+  render: () => {
+    return html`
+      <style>
+        nys-tabpanel {
+          --_nys-tabpanel-background-color: var(--nys-color-theme-faint);
+          border: solid 2px var(--nys-color-theme-strong);
+          --nys-button-background-color: var(--nys-color-success);
+        }
+      </style>
+      <nys-tabgroup>
+        <nys-tab label="Tab 1"></nys-tab>
+        <nys-tab label="Tab 2"></nys-tab>
+        <nys-tabpanel>
+          <p>Content for tab 1</p>
+          <nys-button>Click me</nys-button>
+        </nys-tabpanel>
+        <nys-tabpanel>
+          <p>Content for tab 2</p>
+        </nys-tabpanel>
+      </nys-tabgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<style>
+  nys-tabpanel {
+    --_nys-tabpanel-background-color: var(--nys-color-theme-faint);
+    border: solid 2px var(--nys-color-theme-strong);
+    --nys-button-background-color: var(--nys-color-success);
+  }
+</style>
+<nys-tabgroup>
+  <nys-tab label="Tab 1"></nys-tab>
+  <nys-tab label="Tab 2"></nys-tab>
+  <nys-tabpanel>
+    <p>Content for tab 1</p>
+    <nys-button>Click me</nys-button>
+  </nys-tabpanel>
+  <nys-tabpanel>
+    <p>Content for tab 2</p>
+  </nys-tabpanel>
 </nys-tabgroup>`,
         type: "auto",
       },

@@ -74,7 +74,7 @@ h6 {
 // Heading configuration map
 $headings: (
   h1: (
-    letterspacing: negative-300,
+    letterspacing: negative-200,
     margin-top: 600,
     margin-bottom: 250,
   ),
@@ -219,7 +219,7 @@ li {
 }
 
 li::marker {
-  color: var(--nys-color-theme-primary, #000000);
+  color: var(--nys-color-theme, #154973);
 }
 
 /* --- Links --- */
