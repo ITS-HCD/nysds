@@ -10,7 +10,14 @@
   color: var(--nys-color-text);
 
   /* UI/Large/Semibold */
-  --_nys-iconlistitem-font-family: var(--nys-font-family-ui, "Proxima Nova");
+  --_nys-iconlistitem-font-family: var(
+    --nys-font-family-ui,
+    "Proxima Nova",
+    "Helvetica Neue",
+    "Helvetica",
+    "Arial",
+    sans-serif
+  );
   --_nys-iconlistitem-font-size: var(--nys-font-size-ui-lg, 18px);
   --_nys-iconlistitem-font-style: normal;
   --_nys-iconlistitem-font-weight: 600;
