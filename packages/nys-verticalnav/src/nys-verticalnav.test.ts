@@ -154,7 +154,7 @@ describe("nys-verticalnav", () => {
   it("renders slotted heading slot content", async () => {
     const el = await fixture<NysVerticalnav>(html`
       <nys-verticalnav heading="Fishing">
-        <div slot="heading"><h2>Custom Heading</h2></div>
+        <div slot="header"><h2>Custom Heading</h2></div>
         <ul>
           <li><a href="/">Home</a></li>
         </ul>
