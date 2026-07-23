@@ -164,7 +164,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) inverted = false;
 
   /**
-   * Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode.
+   * Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.
    */
   @property({ type: String }) label = "";
 
@@ -189,7 +189,7 @@ export class NysButton extends LitElement {
   @property({ type: String }) suffixIcon = "";
 
   /**
-   * Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.
+   * Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.
    * @default false
    */
   @property({ type: Boolean, reflect: true }) circle = false;
@@ -219,6 +219,11 @@ export class NysButton extends LitElement {
    * Additional screen reader description. Sets `aria-description`.
    */
   @property({ type: String }) ariaDescription = "";
+
+  /**
+   * ID(s) of element(s) describing this button. Sets `aria-describedby`.
+   */
+  @property({ type: String }) ariaDescribedBy = "";
 
   /**
    * Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.
@@ -438,13 +443,13 @@ export class NysButton extends LitElement {
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
-                tabindex="${this.disabled ? -1 : 0}"
                 aria-label=${ifDefined(
                   this.ariaLabel ||
                     this.label ||
                     (this.circle ? this.icon : null) ||
                     "button",
                 )}
+                aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
                 aria-description=${ifDefined(this.ariaDescription || undefined)}
               >
                 <slot
@@ -459,11 +464,13 @@ export class NysButton extends LitElement {
                       ></nys-icon>`
                     : ""}
                 </slot>
-                ${!this.circle
-                  ? this.label
+                ${this.circle
+                  ? html`<div class="nys-button__text sr-only">
+                      ${this.label}
+                    </div>`
+                  : this.label
                     ? html`<div class="nys-button__text">${this.label}</div>`
-                    : html` <slot class="nys-button__default-slot"></slot> `
-                  : ""}
+                    : html` <slot class="nys-button__default-slot"></slot> `}
                 <slot
                   name="suffix-icon"
                   @slotchange=${this._onSuffixSlotChange}
@@ -507,11 +514,10 @@ export class NysButton extends LitElement {
               type=${this.type}
               aria-controls=${ifDefined(this.ariaControls || undefined)}
               @click=${this._handleClick}
-              @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
-              @keydown="${this._handleKeydown}"
-              @keyup="${this._handleKeyup}"
-              tabindex="${this.disabled ? -1 : 0}"
+              @focus=${this._handleFocus}
+              @blur=${this._handleBlur}
+              @keydown=${this._handleKeydown}
+              @keyup=${this._handleKeyup}
               aria-label=${ifDefined(
                 this.ariaLabel ||
                   this.label ||
@@ -520,8 +526,8 @@ export class NysButton extends LitElement {
                   this.suffixIcon ||
                   "button",
               )}
+              aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
-              role="button"
             >
               <slot
                 name="prefix-icon"
@@ -535,11 +541,13 @@ export class NysButton extends LitElement {
                     ></nys-icon>`
                   : ""}
               </slot>
-              ${!this.circle
-                ? this.label
+              ${this.circle
+                ? html`<div class="nys-button__text sr-only">
+                    ${this.label}
+                  </div>`
+                : this.label
                   ? html`<div class="nys-button__text">${this.label}</div>`
-                  : html` <slot class="nys-button__default-slot"></slot> `
-                : ""}
+                  : html` <slot class="nys-button__default-slot"></slot> `}
               <slot
                 name="suffix-icon"
                 @slotchange=${this._onSuffixSlotChange}

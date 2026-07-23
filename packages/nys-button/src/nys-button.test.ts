@@ -80,7 +80,6 @@ describe("nys-button", () => {
 
     const button = el.shadowRoot?.querySelector("button")!;
     expect(button.disabled).to.be.true;
-    expect(button.getAttribute("tabindex")).to.equal("-1");
   });
 
   it("calls preventDefault when disabled", async () => {
