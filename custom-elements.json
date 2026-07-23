@@ -13897,6 +13897,11 @@
             },
             {
               "kind": "method",
+              "name": "_clearSearch",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_updateOverlay",
               "privacy": "private",
               "parameters": [
