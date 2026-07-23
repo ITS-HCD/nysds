@@ -14295,6 +14295,11 @@
               "lang": "html"
             },
             {
+              "title": "Password",
+              "code": "<nys-textinput type=\"password\"></nys-textinput>",
+              "lang": "html"
+            },
+            {
               "title": "Max Min Values",
               "code": "<nys-textinput type=\"number\" label=\"Age\" min=\"18\" max=\"99\" width=\"sm\"></nys-textinput>",
               "lang": "html"

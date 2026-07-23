@@ -83,6 +83,11 @@ let textinputIdCounter = 0;
  * </nys-textinput>
  * ```
  *
+ * @example Password
+ * ```html
+ * <nys-textinput type="password"></nys-textinput>
+ * ```
+ *
  * @example Max Min Values
  * ```html
  * <nys-textinput type="number" label="Age" min="18" max="99" width="sm"></nys-textinput>
