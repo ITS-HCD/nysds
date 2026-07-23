@@ -76,6 +76,18 @@ interface Language {
  *   });
  * </script>
  * ```
+ *
+ * @example Alert
+ * ```html
+ * <nys-unavheader>
+ *   <nys-alert
+ *     type="emergency"
+ *     heading="Winter storm warning: Dec 10th, 2024."
+ *     text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+ *     icon="ac_unit">
+ *   </nys-alert>
+ * </nys-unavheader>
+ * ```
  */
 
 export class NysUnavHeader extends LitElement {
