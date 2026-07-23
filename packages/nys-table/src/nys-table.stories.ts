@@ -1,6 +1,8 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-table";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Table",

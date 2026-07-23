@@ -1,9 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalheader";
-import "@nysds/nys-button";
 import "@nysds/nys-avatar";
+import "@nysds/nys-button";
 import "@nysds/nys-dropdownmenu";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Globalheader",
