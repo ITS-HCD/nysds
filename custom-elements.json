@@ -9483,15 +9483,6 @@
           "members": [
             {
               "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "object"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
-            },
-            {
-              "kind": "field",
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -9634,24 +9625,6 @@
             },
             {
               "kind": "field",
-              "name": "_posinset",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private",
-              "default": "1"
-            },
-            {
-              "kind": "field",
-              "name": "_setsize",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private",
-              "default": "1"
-            },
-            {
-              "kind": "field",
               "name": "_inputEl",
               "type": {
                 "text": "HTMLInputElement"
@@ -9790,6 +9763,11 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_forwardDescriptionSlot",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -10023,7 +10001,7 @@
             },
             {
               "title": "No group",
-              "code": "<nys-radiobutton name=\"borough\" value=\"queens\" label=\"Queens\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>",
+              "code": "<nys-radiobutton name=\"borough\" value=\"queens\" label=\"Queens\" checked description=\"Includes Flushing and Astoria\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\" checked>\n<span slot=\"description\">Home to <strong>Central Park</strong></span>\n</nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>",
               "lang": "html"
             },
             {
@@ -10396,6 +10374,11 @@
             },
             {
               "kind": "method",
+              "name": "_forwardRadioDescriptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleInvalid",
               "privacy": "private",
               "parameters": [
@@ -10719,7 +10702,7 @@
             },
             {
               "title": "Description Slot",
-              "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "code": "<nys-radiogroup label=\"What is your primary work location?\">\n<label slot=\"description\">This is the location you use for your <a href=\"https://www.ny.gov/\" target=\"__blank\">in office days.</a></label>\n<nys-radiobutton name=\"office\" label=\"Albany\" value=\"albany\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">Upstate New York</a></label>\n</nys-radiobutton>\n<nys-radiobutton name=\"office\" label=\"Manhattan\" value=\"manhattan\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">New York City</a></label>\n</nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]

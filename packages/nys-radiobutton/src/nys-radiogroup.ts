@@ -95,10 +95,14 @@ let radiogroupIdCounter = 0;
  *
  * @example Description Slot
  * ```html
- * <nys-radiogroup label="Select borough">
- *   <div slot="description">Your primary <strong>residence</strong> in NYC.</div>
- *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
- *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * <nys-radiogroup label="What is your primary work location?">
+ *  <label slot="description">This is the location you use for your <a href="https://www.ny.gov/" target="__blank">in office days.</a></label>
+ *  <nys-radiobutton name="office" label="Albany" value="albany">
+ *    <label slot="description">A part of <a href="https://www.ny.gov/" target="__blank">Upstate New York</a></label>
+ *   </nys-radiobutton>
+ *  <nys-radiobutton name="office" label="Manhattan" value="manhattan">
+ *    <label slot="description">A part of <a href="https://www.ny.gov/" target="__blank">New York City</a></label>
+ *   </nys-radiobutton>
  * </nys-radiogroup>
  * ```
  */
@@ -232,6 +236,7 @@ export class NysRadiogroup extends LitElement {
       this._updateRadioButtonsSize();
     }
     this._updateGroupTabIndex();
+    this._forwardRadioDescriptions();
   }
 
   /**
@@ -475,6 +480,25 @@ export class NysRadiogroup extends LitElement {
       .join(", ");
   }
 
+  private _forwardRadioDescriptions() {
+    // Note to self: future rework to "eat our own dog food"
+    // for the new revamp radiobutton (1.19.4) will render this function useless.
+    this._radios.forEach((radiobtn) => {
+      const slotted = radiobtn.querySelector<HTMLElement>(
+        ':scope > [slot="description"]',
+      );
+      if (!slotted) return;
+
+      const label = this.shadowRoot?.querySelector(`#${radiobtn.id}-label`);
+      if (!label) return;
+
+      // appendChild is a no-op move if it's already there — safe to call every render
+      if (slotted.parentElement !== label) {
+        label.appendChild(slotted);
+      }
+    });
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -690,9 +714,6 @@ export class NysRadiogroup extends LitElement {
                     label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
                     description=${ifDefined(radiobtn.description || undefined)}
                   >
-                    <slot name="description" slot="description"
-                      >${radiobtn.description}</slot
-                    >
                   </nys-label>`}
                 </div>
                 <div class="nys-radiobutton__other-container">

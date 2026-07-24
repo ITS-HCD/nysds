@@ -354,22 +354,23 @@ export const Description: Story = {
 export const DescriptionSlot: Story = {
   render: () => {
     return html`
-      <nys-radiogroup label="Select borough">
-        <div slot="description">
-          Your primary
-          <strong>residence</strong>
-          in NYC.
-        </div>
-        <nys-radiobutton
-          name="borough"
-          value="bronx"
-          label="The Bronx"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          name="borough"
-          value="brooklyn"
-          label="Brooklyn"
-        ></nys-radiobutton>
+      <nys-radiogroup label="What is your primary work location?">
+        <label slot="description">
+          This is the location you use for your
+          <a href="https://www.ny.gov/" target="__blank">in office days.</a>
+        </label>
+        <nys-radiobutton name="office" label="Albany" value="albany">
+          <label slot="description">
+            A part of
+            <a href="https://www.ny.gov/" target="__blank">Upstate New York</a>
+          </label>
+        </nys-radiobutton>
+        <nys-radiobutton name="office" label="Manhattan" value="manhattan">
+          <label slot="description">
+            A part of
+            <a href="https://www.ny.gov/" target="__blank">New York City</a>
+          </label>
+        </nys-radiobutton>
       </nys-radiogroup>
     `;
   },
@@ -377,14 +378,23 @@ export const DescriptionSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup label="Select borough">
-  <div slot="description">
-    Your primary
-    <strong>residence</strong>
-    in NYC.
-  </div>
-  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
-  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+<nys-radiogroup label="What is your primary work location?">
+  <label slot="description">
+    This is the location you use for your
+    <a href="https://www.ny.gov/" target="__blank">in office days.</a>
+  </label>
+  <nys-radiobutton name="office" label="Albany" value="albany">
+    <label slot="description">
+      A part of
+      <a href="https://www.ny.gov/" target="__blank">Upstate New York</a>
+    </label>
+  </nys-radiobutton>
+  <nys-radiobutton name="office" label="Manhattan" value="manhattan">
+    <label slot="description">
+      A part of
+      <a href="https://www.ny.gov/" target="__blank">New York City</a>
+    </label>
+  </nys-radiobutton>
 </nys-radiogroup>`,
         type: "auto",
       },
@@ -432,13 +442,19 @@ export const NoGroup: Story = {
         value="queens"
         label="Queens"
         checked
+        description="Includes Flushing and Astoria"
       ></nys-radiobutton>
       <nys-radiobutton
         name="borough"
         value="manhattan"
         label="Manhattan"
         checked
-      ></nys-radiobutton>
+      >
+        <span slot="description">
+          Home to
+          <strong>Central Park</strong>
+        </span>
+      </nys-radiobutton>
       <nys-radiobutton
         name="borough"
         value="brooklyn"
@@ -450,8 +466,19 @@ export const NoGroup: Story = {
     docs: {
       source: {
         code: `
-<nys-radiobutton name="borough" value="queens" label="Queens" checked></nys-radiobutton>
-<nys-radiobutton name="borough" value="manhattan" label="Manhattan" checked></nys-radiobutton>
+<nys-radiobutton
+  name="borough"
+  value="queens"
+  label="Queens"
+  checked
+  description="Includes Flushing and Astoria"
+></nys-radiobutton>
+<nys-radiobutton name="borough" value="manhattan" label="Manhattan" checked>
+  <span slot="description">
+    Home to
+    <strong>Central Park</strong>
+  </span>
+</nys-radiobutton>
 <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>`,
         type: "auto",
       },

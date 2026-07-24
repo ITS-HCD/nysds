@@ -1,10 +1,20 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from "./nys-radiobutton.scss?inline";
+import lightStyles from "./nys-radiobutton.light.scss?inline";
 
 let radiobuttonIdCounter = 0;
+
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the lightDOM styling for the scss for
+// styling CSS into the adopted/constructed stylesheet.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
 
 /**
  * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.
@@ -37,8 +47,10 @@ let radiobuttonIdCounter = 0;
  *
  * @example No group
  * ```html
- *   <nys-radiobutton name="borough" value="queens" label="Queens" checked></nys-radiobutton>
- *   <nys-radiobutton name="borough" value="manhattan" label="Manhattan" checked></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="queens" label="Queens" checked description="Includes Flushing and Astoria"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="manhattan" label="Manhattan" checked>
+ *     <span slot="description">Home to <strong>Central Park</strong></span>
+ *   </nys-radiobutton>
  *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
  * ```
  *
@@ -102,11 +114,11 @@ let radiobuttonIdCounter = 0;
  */
 
 export class NysRadiobutton extends LitElement {
-  static styles = unsafeCSS(styles);
-  static shadowRootOptions = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
+  // static styles = unsafeCSS(styles);
+  // static shadowRootOptions = {
+  //   ...LitElement.shadowRootOptions,
+  //   delegatesFocus: true,
+  // };
 
   /** Whether this radio is selected. Only one per group can be checked. */
   @property({ type: Boolean, reflect: true }) checked = false;
@@ -147,8 +159,6 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean }) showOtherError = false;
 
   @state() private _isMobile = window.innerWidth < 480;
-  @state() private _posinset = 1;
-  @state() private _setsize = 1;
 
   @query("input") private _inputEl!: HTMLInputElement;
 
@@ -165,8 +175,14 @@ export class NysRadiobutton extends LitElement {
     this._internals = this.attachInternals();
   }
 
+  protected createRenderRoot() {
+    return this; // render() output lands directly in light DOM, no shadow root at all
+  }
+
   connectedCallback() {
     super.connectedCallback();
+    adoptLightStyles();
+
     if (!this.id) {
       this.id = `nys-radiobutton-${Date.now()}-${radiobuttonIdCounter++}`;
     }
@@ -184,6 +200,7 @@ export class NysRadiobutton extends LitElement {
   firstUpdated() {
     if (!this._isGrouped()) {
       this._updateGroupValidity();
+      this._forwardDescriptionSlot();
     }
   }
 
@@ -218,6 +235,9 @@ export class NysRadiobutton extends LitElement {
       changedProperties.has("disabled")
     ) {
       this._updateGroupValidity();
+    }
+    if (changedProperties.has("description")) {
+      if (!this._isGrouped()) this._forwardDescriptionSlot();
     }
   }
 
@@ -309,13 +329,21 @@ export class NysRadiobutton extends LitElement {
     members.forEach((radio, index) => {
       // radio._internals.ariaSetSize = String(members.length);
       // radio._internals.ariaPosInSet = String(index + 1);
-      radio._setsize = members.length;
-      radio._posinset = index + 1;
+      // radio._setsize = members.length;
+      // radio._posinset = index + 1;
     });
   }
 
   public focus(options?: FocusOptions) {
     this._inputEl?.focus(options);
+  }
+
+  private _forwardDescriptionSlot() {
+    const slottedDescription = this.querySelector('[slot="description"]');
+    const label = this.querySelector("nys-label");
+    if (slottedDescription && label) {
+      label.appendChild(slottedDescription);
+    }
   }
 
   /**
@@ -346,23 +374,11 @@ export class NysRadiobutton extends LitElement {
         composed: true,
       }),
     );
-
-    // // Remove active-focus so the focus outline doesn't linger once a choice is made.
-    // this.classList.remove("active-focus");
-    // this.showOtherError = false;
-
-    // if (this.checked || this.disabled) return;
-
-    // this.checked = true; // _claimGroup()/_syncFormValue() run from updated() above
-    // this._validateOtherAndEmitError();
-    // this._emitChangeEvent();
-
-    // if (this.other) {
-    //   await this.updateComplete; // wait for the text input to render
-    //   this._focusOnTextInput();
-    // }
   }
 
+  // Note to self:
+  // Theoretically this function is no longer needed with the new change. But account for future revamp to "eat our own dog food"
+  // within the radiogroup, we may need this function to keep track of navigation into the "other option". So keeping function until then.
   private async _handleKeydown(e: KeyboardEvent) {
     if (this._isGrouped()) return;
     const step = { ArrowUp: -1, ArrowLeft: -1, ArrowDown: 1, ArrowRight: 1 }[
@@ -386,33 +402,6 @@ export class NysRadiobutton extends LitElement {
     target.focus();
   }
 
-  private _handleTextInput(event: Event) {
-    this.value = (event.target as HTMLInputElement).value;
-    // if (this.checked) this._internals.setFormValue(this.value);
-
-    // if (this._hasUserInteracted) {
-    //   this._validateOtherAndEmitError();
-    // }
-
-    // this._emitChangeEvent();
-  }
-
-  private _handleTextInputFocus() {
-    // this._textInputHasFocus = true;
-  }
-
-  private _handleTextInputBlur() {
-    // this._textInputHasFocus = false;
-    // this._hasUserInteracted = true;
-    // this._validateOtherAndEmitError();
-  }
-
-  private _handleOtherKeydown(e: KeyboardEvent) {
-    if (e.key === " ") {
-      e.stopPropagation();
-    }
-  }
-
   private _handleWrapperClick = () => {
     if (!this.disabled) {
       this._inputEl?.click();
@@ -422,7 +411,7 @@ export class NysRadiobutton extends LitElement {
   private _computeAccessibleLabel() {
     const radioLabel = this.label || (this.other ? "Other" : "");
     if (this._isGrouped()) return radioLabel;
-    return `${radioLabel}, ${this._posinset} of ${this._setsize}`;
+    return `${radioLabel}`;
   }
 
   render() {
@@ -451,28 +440,7 @@ export class NysRadiobutton extends LitElement {
             label="${this.label || (this.other ? "Other" : "")}"
             description=${ifDefined(this.description || undefined)}
           >
-            <slot name="description" slot="description"
-              >${this.description}</slot
-            >
           </nys-label>`}
-        </div>
-        <div class="nys-radiobutton__other-container">
-          ${this.other && this.checked
-            ? html`
-                <nys-textinput
-                  .value=${this.value}
-                  id=${"radiobutton-other-" + this.id}
-                  @nys-input=${this._handleTextInput}
-                  @nys-blur=${this._handleTextInputBlur}
-                  @nys-focus=${this._handleTextInputFocus}
-                  @keydown=${this._handleOtherKeydown}
-                  ariaLabel="Other"
-                  aria-invalid=${this.showOtherError ? "true" : "false"}
-                  width=${this._isMobile ? "full" : "md"}
-                  ?disabled=${this.disabled}
-                ></nys-textinput>
-              `
-            : ""}
         </div>
       </div>
     `;

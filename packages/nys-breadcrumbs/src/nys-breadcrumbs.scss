@@ -34,7 +34,7 @@
       sans-serif
     )
   );
-  --_nys-breadcrumbs-max-width: var(--nys-max-content-width, 1280px);
+  --_nys-breadcrumbs-max-width--content: var(--nys-breadcrumbs-max-width--content, 1280px);
 }
 
 .nys-breadcrumbs {
@@ -60,7 +60,7 @@
     flex-wrap: wrap;
     gap: var(--_nys-breadcrumbs-gap);
     list-style: none;
-    max-width: var(--_nys-breadcrumbs-max-width);
+    max-width: var(--_nys-breadcrumbs-max-width--content);
     width: 100%;
   }
 }
