@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property, state, query } from "lit/decorators.js";
+import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-radiobutton.light.scss?inline";
@@ -158,8 +158,6 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
 
-  @state() private _isMobile = window.innerWidth < 480;
-
   @query("input") private _inputEl!: HTMLInputElement;
 
   private _internals: ElementInternals;
@@ -186,15 +184,11 @@ export class NysRadiobutton extends LitElement {
     if (!this.id) {
       this.id = `nys-radiobutton-${Date.now()}-${radiobuttonIdCounter++}`;
     }
-    if (!this._isGrouped()) {
-      this._updateGroupA11y();
-    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
-    this._updateGroupA11y();
   }
 
   firstUpdated() {
@@ -322,18 +316,6 @@ export class NysRadiobutton extends LitElement {
       .forEach((radio) => (radio.checked = false));
   }
 
-  // Here we keep track of the VO "1 of #" for individual radiobuttons not wrapped in a "nys-radiogroup
-  private _updateGroupA11y() {
-    const members = this._getGroupMembers();
-    console.log("_updateGroupA11y's members", members);
-    members.forEach((radio, index) => {
-      // radio._internals.ariaSetSize = String(members.length);
-      // radio._internals.ariaPosInSet = String(index + 1);
-      // radio._setsize = members.length;
-      // radio._posinset = index + 1;
-    });
-  }
-
   public focus(options?: FocusOptions) {
     this._inputEl?.focus(options);
   }
@@ -358,7 +340,6 @@ export class NysRadiobutton extends LitElement {
 
     if (!this._isGrouped()) {
       this._uncheckOtherRadios(this);
-      this._updateGroupA11y();
     }
 
     this._internals.setFormValue(this.value);
@@ -396,7 +377,6 @@ export class NysRadiobutton extends LitElement {
 
     target.checked = true;
     this._uncheckOtherRadios(target);
-    this._updateGroupA11y();
 
     await target.updateComplete;
     target.focus();

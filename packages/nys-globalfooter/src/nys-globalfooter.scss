@@ -26,7 +26,10 @@
     --nys-font-weight-semibold,
     600
   );
-  --_nys-globalfooter-max-width--content: var(--nys-globalfooter-max-width--content, 1280px);
+  --_nys-globalfooter-max-width--content: var(
+    --nys-globalfooter-max-width--content,
+    1280px
+  );
 
   /* Agency Name */
   --_nys-globalfooter-font-family--agency: var(

@@ -4,8 +4,8 @@ import "./nys-radiobutton";
 import "./nys-radiogroup";
 import "@nysds/nys-table";
 import "@nysds/nys-label";
-import "@nysds/nys-textinput";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-textinput";
 
 const meta: Meta = {
   title: "Components/Radiobutton",
