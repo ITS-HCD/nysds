@@ -139,6 +139,7 @@
 }
 
 .nys-datepicker--container {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--_nys-datepicker-space-sm);
@@ -279,6 +280,14 @@ wc-datepicker {
     flex-direction: column-reverse;
     position: absolute;
     z-index: 1;
+  }
+
+  .position-top {
+    box-shadow:
+      0 -4px 6px -1px
+        var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
+      0 -4px 6px -1px
+        var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
   }
 
   *,
