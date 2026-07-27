@@ -1,34 +1,16 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-verticalnav";
-import "@nysds/nys-icon";
-import "@nysds/nys-accordion";
 import "@nysds/nys-divider";
+import "./nys-verticalnavgroup";
 import "@nysds/nys-unavheader";
-import "@nysds/nys-unavfooter";
 import "@nysds/nys-globalheader";
 import "@nysds/nys-globalfooter";
-import "@nysds/nys-button";
+import "@nysds/nys-unavfooter";
 
-interface NysVerticalnavArgs {
-  id: string;
-  hideheading: boolean;
-  headingLevel: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  heading: string;
-}
-
-const meta: Meta<NysVerticalnavArgs> = {
+const meta: Meta = {
   title: "Components/Verticalnav",
   component: "nys-verticalnav",
-  argTypes: {
-    id: { control: "text" },
-    heading: { control: "text" },
-    hideheading: { control: "boolean" },
-    headingLevel: {
-      control: "select",
-      options: ["h1", "h2", "h3", "h4", "h5", "h6"],
-    },
-  },
   parameters: {
     docs: {
       source: { type: "dynamic" },
@@ -38,186 +20,37 @@ const meta: Meta<NysVerticalnavArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysVerticalnavArgs>;
+type Story = StoryObj;
 
 export const Basic: Story = {
   args: {
-    id: "verticalnav1",
     heading: "Freshwater Fishing",
-    hideheading: false,
-    headingLevel: "h2",
+    hideHeading: false,
+    expanded: false,
   },
-  render: (args) => html`
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/services">Services</a></li>
-        <li>
-          <h3>Freshwater Fishing Regulations</h3>
-          <ul>
-            <li><a href="">Places to Fish</a></li>
-            <li><a href="">Learn to Fish</a></li>
-            <li><a href="">Ice Fishing</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nys-verticalnav>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/services"><nys-icon></nys-icon> Services</a></li>
-    <li>
-      <h3>{{Section heading}}</h3>
-      <ul>
-        <li><a href="">{{sublinktext}}</a></li>
-        <li><a href="">{{sublinktext}}</a></li>
-      </ul>
-    </li>
-  </ul>
-</nys-verticalnav>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const WithheadingSlot: Story = {
-  args: {
-    id: "verticalnav2",
-    heading: "Freshwater Fishing",
-    hideheading: false,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <style>
-      [slot="header"] p {
-        margin: 0;
-        font-size: var(--nys-font-size-xs, 0.75rem);
-        font-weight: 500;
-        letter-spacing: 0.08em;
-        font-weight: 500;
-        color: var(--nys-color-success, #2e7d32);
-      }
-      [slot="header"] h2 {
-        margin: 0;
-        font-size: var(--nys-font-size-h4, 1.25rem);
-        color: var(--nys-color-theme, #154973);
-      }
-    </style>
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <div slot="header">
-        <h2>Freshwater Fishing</h2>
-        <p>2026 Season Open</p>
-      </div>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/services">Services</a></li>
-        <li>
-          <h3>Freshwater Fishing Regulations</h3>
-          <ul>
-            <li><a href="">Places to Fish</a></li>
-            <li><a href="">Learn to Fish</a></li>
-            <li><a href="">Ice Fishing</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nys-verticalnav>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
-  <div slot="header">
-    <h2>Freshwater Fishing</h2>
-    <p>2026 Season Open</p>
-  </div>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/services">Services</a></li>
-    <li>
-      <h3>{{Section heading}}</h3>
-      <ul>
-        <li><a href="">{{sublinktext}}</a></li>
-        <li><a href="">{{sublinktext}}</a></li>
-      </ul>
-    </li>
-  </ul>
-</nys-verticalnav>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const WithFooterSlot: Story = {
-  args: {
-    id: "verticalnav3",
-    heading: "Freshwater Fishing",
-    hideheading: false,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <style>
-      [slot="footer"] {
-        display: flex;
-        flex-direction: column;
-        gap: var(--nys-space-100, 8px);
-      }
-      [slot="footer"] p {
-        margin: 0;
-        font-size: var(--nys-font-size-xs, 0.75rem);
-        color: var(--nys-color-text-weak, #4a4d4f);
-      }
-      [slot="footer"] a {
-        font-size: var(--nys-font-size-sm, 0.875rem);
-        color: var(--nys-color-theme, #154973);
-      }
-    </style>
-
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/services">Services</a></li>
-        <li>
-          <h3>Freshwater Fishing Regulations</h3>
-          <ul>
-            <li><a href="">Places to Fish</a></li>
-            <li><a href="">Learn to Fish</a></li>
-            <li><a href="">Ice Fishing</a></li>
-          </ul>
-        </li>
-      </ul>
-      <div
-        slot="footer"
-        style="font-size:0.875rem;color:#555;padding-top:0.5rem"
+  render: (args) => {
+    return html`
+      <nys-verticalnav
+        headingLevel="h2"
+        heading=${args.heading}
+        ?hideHeading=${args.hideHeading}
+        ?expanded=${args.expanded}
       >
-        <nys-divider></nys-divider>
-        <p>Regulations last updated: January 2026</p>
-        <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
-      </div>
-    </nys-verticalnav>
-  `,
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>
+            <h3>Freshwater Fishing Regulations</h3>
+            <ul>
+              <li><a href="">Places to Fish</a></li>
+              <li><a href="">Learn to Fish</a></li>
+              <li><a href="">Ice Fishing</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nys-verticalnav>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -227,18 +60,14 @@ export const WithFooterSlot: Story = {
     <li><a href="/">Home</a></li>
     <li><a href="/services">Services</a></li>
     <li>
-      <h3>{{Section heading}}</h3>
+      <h3>Freshwater Fishing Regulations</h3>
       <ul>
-        <li><a href="">{{sublinktext}}</a></li>
-        <li><a href="">{{sublinktext}}</a></li>
+        <li><a href="">Places to Fish</a></li>
+        <li><a href="">Learn to Fish</a></li>
+        <li><a href="">Ice Fishing</a></li>
       </ul>
     </li>
   </ul>
-  <div slot="footer">
-    <nys-divider></nys-divider>
-    <p>Regulations last updated: January 2026</p>
-    <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
-  </div>
 </nys-verticalnav>`,
         type: "auto",
       },
@@ -246,72 +75,44 @@ export const WithFooterSlot: Story = {
   },
 };
 
-export const WithheadingAndFooterSlot: Story = {
-  args: {
-    id: "verticalnav4",
-    heading: "Freshwater Fishing",
-    hideheading: false,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <style>
-      [slot="header"] p {
-        margin: 0;
-        font-size: var(--nys-font-size-xs, 0.75rem);
-        letter-spacing: 0.08em;
-        color: var(--nys-color-success, #2e7d32);
-        font-weight: 500;
-      }
-      [slot="header"] h2 {
-        margin: 0;
-        font-size: var(--nys-font-size-h4, 1.25rem);
-        color: var(--nys-color-theme, #154973);
-      }
-      [slot="footer"] {
-        display: flex;
-        flex-direction: column;
-        gap: var(--nys-space-100, 8px);
-      }
-      [slot="footer"] p {
-        margin: 0;
-        font-size: var(--nys-font-size-xs, 0.75rem);
-        color: var(--nys-color-text-weak, #4a4d4f);
-      }
-      [slot="footer"] a {
-        font-size: var(--nys-font-size-sm, 0.875rem);
-        color: var(--nys-color-theme, #154973);
-      }
-    </style>
+export const HeaderSlot: Story = {
+  render: () => {
+    return html`
+      <style>
+        [slot="header"] p {
+          margin: 0;
+          font-size: var(--nys-font-size-xs, 0.75rem);
+          font-weight: 500;
+          letter-spacing: 0.08em;
+          color: var(--nys-color-success, #2e7d32);
+        }
+        [slot="header"] h2 {
+          margin: 0;
+          font-size: var(--nys-font-size-h4, 1.25rem);
+          color: var(--nys-color-theme, #154973);
+        }
+      </style>
 
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <div slot="header">
-        <h2>Freshwater Fishing</h2>
-        <p>2026 Season Open</p>
-      </div>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/services">Services</a></li>
-        <li>
-          <h3>Freshwater Fishing Regulations</h3>
-          <ul>
-            <li><a href="">Places to Fish</a></li>
-            <li><a href="">Learn to Fish</a></li>
-            <li><a href="">Ice Fishing</a></li>
-          </ul>
-        </li>
-      </ul>
-      <div slot="footer">
-        <nys-divider></nys-divider>
-        <p>Regulations last updated: January 2026</p>
-        <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
-      </div>
-    </nys-verticalnav>
-  `,
+      <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
+        <div slot="header">
+          <h2>Freshwater Fishing</h2>
+          <p>2026 Season Open</p>
+        </div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>
+            <h3>Freshwater Fishing Regulations</h3>
+            <ul>
+              <li><a href="">Places to Fish</a></li>
+              <li><a href="">Learn to Fish</a></li>
+              <li><a href="">Ice Fishing</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nys-verticalnav>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -325,10 +126,171 @@ export const WithheadingAndFooterSlot: Story = {
     <li><a href="/">Home</a></li>
     <li><a href="/services">Services</a></li>
     <li>
-      <h3>{{Section heading}}</h3>
+      <h3>Freshwater Fishing Regulations</h3>
       <ul>
-        <li><a href="">{{sublinktext}}</a></li>
-        <li><a href="">{{sublinktext}}</a></li>
+        <li><a href="">Places to Fish</a></li>
+        <li><a href="">Learn to Fish</a></li>
+        <li><a href="">Ice Fishing</a></li>
+      </ul>
+    </li>
+  </ul>
+</nys-verticalnav>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const FooterSlot: Story = {
+  render: () => {
+    return html`
+      <style>
+        [slot="footer"] {
+          display: flex;
+          flex-direction: column;
+          gap: var(--nys-space-100, 8px);
+        }
+        [slot="footer"] p {
+          margin: 0;
+          font-size: var(--nys-font-size-xs, 0.75rem);
+          color: var(--nys-color-text-weak, #4a4d4f);
+        }
+        [slot="footer"] a {
+          font-size: var(--nys-font-size-sm, 0.875rem);
+          color: var(--nys-color-theme, #154973);
+        }
+      </style>
+
+      <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>
+            <h3>Freshwater Fishing Regulations</h3>
+            <ul>
+              <li><a href="">Places to Fish</a></li>
+              <li><a href="">Learn to Fish</a></li>
+              <li><a href="">Ice Fishing</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div
+          slot="footer"
+          style="font-size: 0.875rem; color: #555; padding-top: 0.5rem"
+        >
+          <nys-divider></nys-divider>
+          <p>Regulations last updated: January 2026</p>
+          <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
+        </div>
+      </nys-verticalnav>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li>
+      <h3>Freshwater Fishing Regulations</h3>
+      <ul>
+        <li><a href="">Places to Fish</a></li>
+        <li><a href="">Learn to Fish</a></li>
+        <li><a href="">Ice Fishing</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div slot="footer" style="font-size: 0.875rem; color: #555; padding-top: 0.5rem">
+    <nys-divider></nys-divider>
+    <p>Regulations last updated: January 2026</p>
+    <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
+  </div>
+</nys-verticalnav>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const HeaderAndFooterSlot: Story = {
+  render: () => {
+    return html`
+      <style>
+        [slot="header"] p {
+          margin: 0;
+          font-size: var(--nys-font-size-xs, 0.75rem);
+          letter-spacing: 0.08em;
+          color: var(--nys-color-success, #2e7d32);
+          font-weight: 500;
+        }
+        [slot="header"] h2 {
+          margin: 0;
+          font-size: var(--nys-font-size-h4, 1.25rem);
+          color: var(--nys-color-theme, #154973);
+        }
+        [slot="footer"] {
+          display: flex;
+          flex-direction: column;
+          gap: var(--nys-space-100, 8px);
+        }
+        [slot="footer"] p {
+          margin: 0;
+          font-size: var(--nys-font-size-xs, 0.75rem);
+          color: var(--nys-color-text-weak, #4a4d4f);
+        }
+        [slot="footer"] a {
+          font-size: var(--nys-font-size-sm, 0.875rem);
+          color: var(--nys-color-theme, #154973);
+        }
+      </style>
+
+      <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
+        <div slot="header">
+          <h2>Freshwater Fishing</h2>
+          <p>2026 Season Open</p>
+        </div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>
+            <h3>Freshwater Fishing Regulations</h3>
+            <ul>
+              <li><a href="">Places to Fish</a></li>
+              <li><a href="">Learn to Fish</a></li>
+              <li><a href="">Ice Fishing</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div slot="footer">
+          <nys-divider></nys-divider>
+          <p>Regulations last updated: January 2026</p>
+          <a href="/contact-dec">Contact the DEC for fishing inquiries</a>
+        </div>
+      </nys-verticalnav>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
+  <div slot="header">
+    <h2>Freshwater Fishing</h2>
+    <p>2026 Season Open</p>
+  </div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li>
+      <h3>Freshwater Fishing Regulations</h3>
+      <ul>
+        <li><a href="">Places to Fish</a></li>
+        <li><a href="">Learn to Fish</a></li>
+        <li><a href="">Ice Fishing</a></li>
       </ul>
     </li>
   </ul>
@@ -344,291 +306,388 @@ export const WithheadingAndFooterSlot: Story = {
   },
 };
 
-export const WithDropdownGroup: Story = {
-  args: {
-    id: "verticalnav5",
-    heading: "NYS Design System",
-    hideheading: false,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <ul>
-        <li><a href="/">Foundations</a></li>
-        <li><a href="/components">Components</a></li>
-        <li>
-          <nys-verticalnavgroup label="Accessibility">
+export const DropdownGroup: Story = {
+  render: () => {
+    return html`
+      <nys-verticalnav heading="NYS Design System" headingLevel="h2">
+        <ul>
+          <li><a href="/">Foundations</a></li>
+          <li><a href="/components">Components</a></li>
+          <li>
+            <nys-verticalnavgroup label="Accessibility">
+              <ul>
+                <li><a href="">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+          </li>
+          <li>
+            <h3>Resources</h3>
             <ul>
-              <li><a href="">WCAG Guidelines</a></li>
-              <li><a href="">Screen Readers</a></li>
-              <li><a href="">Color Contrast</a></li>
+              <li><a href="">Design Tokens</a></li>
+              <li><a href="">Utilities</a></li>
             </ul>
-          </nys-verticalnavgroup>
-        </li>
-        <li>
-          <h3>Resources</h3>
-          <ul>
-            <li><a href="">Design Tokens</a></li>
-            <li><a href="">Utilities</a></li>
-          </ul>
-        </li>
+          </li>
+        </ul>
+      </nys-verticalnav>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-verticalnav heading="NYS Design System" headingLevel="h2">
+  <ul>
+    <li><a href="/">Foundations</a></li>
+    <li><a href="/components">Components</a></li>
+    <li>
+      <nys-verticalnavgroup label="Accessibility">
+        <ul>
+          <li><a href="">WCAG Guidelines</a></li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+    </li>
+    <li>
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="">Design Tokens</a></li>
+        <li><a href="">Utilities</a></li>
       </ul>
-    </nys-verticalnav>
-  `,
+    </li>
+  </ul>
+</nys-verticalnav>`,
+        type: "auto",
+      },
+    },
+  },
 };
 
-export const WithActiveStates: Story = {
-  args: {
-    id: "verticalnav5",
-    heading: "NYS Design System",
-    hideheading: false,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <ul>
-        <li><a href="/">Foundations</a></li>
-        <li><a href="/components">Components</a></li>
-        <li>
-          <nys-verticalnavgroup label="Accessibility">
+export const ActiveState: Story = {
+  render: () => {
+    return html`
+      <nys-verticalnav heading="NYS Design System" headingLevel="h2">
+        <ul>
+          <li><a href="/">Foundations</a></li>
+          <li><a href="/components">Components</a></li>
+          <li>
+            <nys-verticalnavgroup label="Accessibility">
+              <ul>
+                <li>
+                  <a aria-current="page" href="">WCAG Guidelines</a>
+                </li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+          </li>
+          <li>
+            <h3>Resources</h3>
             <ul>
-              <li><a aria-current="page" href="">WCAG Guidelines</a></li>
-              <li><a href="">Screen Readers</a></li>
-              <li><a href="">Color Contrast</a></li>
+              <li><a href="">Design Tokens</a></li>
+              <li><a href="">Utilities</a></li>
             </ul>
-          </nys-verticalnavgroup>
-        </li>
-        <li>
-          <h3>Resources</h3>
-          <ul>
-            <li><a href="">Design Tokens</a></li>
-            <li><a href="">Utilities</a></li>
-          </ul>
-        </li>
+          </li>
+        </ul>
+      </nys-verticalnav>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-verticalnav heading="NYS Design System" headingLevel="h2">
+  <ul>
+    <li><a href="/">Foundations</a></li>
+    <li><a href="/components">Components</a></li>
+    <li>
+      <nys-verticalnavgroup label="Accessibility">
+        <ul>
+          <li>
+            <a aria-current="page" href="">WCAG Guidelines</a>
+          </li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+    </li>
+    <li>
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="">Design Tokens</a></li>
+        <li><a href="">Utilities</a></li>
       </ul>
-    </nys-verticalnav>
-  `,
+    </li>
+  </ul>
+</nys-verticalnav>`,
+        type: "auto",
+      },
+    },
+  },
 };
 
-export const WithDisabledStates: Story = {
-  args: {
-    id: "verticalnav5",
-    heading: "NYS Design System",
-    hideheading: false,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <ul>
-        <li><a href="/">Foundations</a></li>
-        <li><a href="/components">Components</a></li>
-        <li>
-          <nys-verticalnavgroup disabled label="Accessibility">
+export const DisabledState: Story = {
+  render: () => {
+    return html`
+      <nys-verticalnav heading="NYS Design System" headingLevel="h2">
+        <ul>
+          <li><a href="/">Foundations</a></li>
+          <li><a href="/components">Components</a></li>
+          <li>
+            <nys-verticalnavgroup disabled label="Accessibility">
+              <ul>
+                <li><a aria-disabled="true">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+          </li>
+          <li>
+            <h3>Resources</h3>
             <ul>
-              <li>
-                <a aria-disabled="true">WCAG Guidelines</a>
-              </li>
-              <li><a href="">Screen Readers</a></li>
-              <li><a href="">Color Contrast</a></li>
+              <li><a aria-disabled="true">Design Tokens</a></li>
+              <li><a href="">Utilities</a></li>
             </ul>
-          </nys-verticalnavgroup>
-        </li>
-        <li>
-          <h3>Resources</h3>
-          <ul>
-            <li>
-              <a aria-disabled="true">Design Tokens</a>
-            </li>
-            <li><a href="">Utilities</a></li>
-          </ul>
-        </li>
+          </li>
+        </ul>
+      </nys-verticalnav>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-verticalnav heading="NYS Design System" headingLevel="h2">
+  <ul>
+    <li><a href="/">Foundations</a></li>
+    <li><a href="/components">Components</a></li>
+    <li>
+      <nys-verticalnavgroup disabled label="Accessibility">
+        <ul>
+          <li><a aria-disabled="true">WCAG Guidelines</a></li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+    </li>
+    <li>
+      <h3>Resources</h3>
+      <ul>
+        <li><a aria-disabled="true">Design Tokens</a></li>
+        <li><a href="">Utilities</a></li>
       </ul>
-    </nys-verticalnav>
-  `,
+    </li>
+  </ul>
+</nys-verticalnav>`,
+        type: "auto",
+      },
+    },
+  },
 };
 
-export const WithHiddenheading: Story = {
-  args: {
-    id: "verticalnav5",
-    heading: "NYS Design System",
-    hideheading: true,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <nys-verticalnav
-      id=${args.id}
-      heading=${args.heading}
-      ?hideheading=${args.hideheading}
-      headingLevel=${args.headingLevel}
-    >
-      <ul>
-        <li><a href="/">Foundations</a></li>
-        <li><a href="/components">Components</a></li>
-        <li>
-          <nys-verticalnavgroup disabled label="Accessibility">
+export const HiddenHeading: Story = {
+  render: () => {
+    return html`
+      <nys-verticalnav heading="NYS Design System" hideHeading>
+        <ul>
+          <li><a href="/">Foundations</a></li>
+          <li><a href="/components">Components</a></li>
+          <li>
+            <nys-verticalnavgroup disabled label="Accessibility">
+              <ul>
+                <li><a aria-disabled="true">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+          </li>
+          <li>
+            <h3>Resources</h3>
             <ul>
-              <li>
-                <a aria-disabled="true">WCAG Guidelines</a>
-              </li>
-              <li><a href="">Screen Readers</a></li>
-              <li><a href="">Color Contrast</a></li>
+              <li><a aria-disabled="true">Design Tokens</a></li>
+              <li><a href="">Utilities</a></li>
             </ul>
-          </nys-verticalnavgroup>
-        </li>
-        <li>
-          <h3>Resources</h3>
-          <ul>
-            <li>
-              <a aria-disabled="true">Design Tokens</a>
-            </li>
-            <li><a href="">Utilities</a></li>
-          </ul>
-        </li>
+          </li>
+        </ul>
+      </nys-verticalnav>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-verticalnav heading="NYS Design System" hideHeading>
+  <ul>
+    <li><a href="/">Foundations</a></li>
+    <li><a href="/components">Components</a></li>
+    <li>
+      <nys-verticalnavgroup disabled label="Accessibility">
+        <ul>
+          <li><a aria-disabled="true">WCAG Guidelines</a></li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+    </li>
+    <li>
+      <h3>Resources</h3>
+      <ul>
+        <li><a aria-disabled="true">Design Tokens</a></li>
+        <li><a href="">Utilities</a></li>
       </ul>
-    </nys-verticalnav>
-  `,
+    </li>
+  </ul>
+</nys-verticalnav>`,
+        type: "auto",
+      },
+    },
+  },
 };
 
 export const PageLayout: Story = {
-  args: {
-    id: "verticalnav-layout",
-    heading: "NYS Design System",
-    hideheading: false,
-    headingLevel: "h2",
-  },
-  render: (args) => html`
-    <style>
-      .story-page {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        font-family: var(--nys-font-family-ui, "Proxima Nova", sans-serif);
-      }
-
-      .story-page__body {
-        display: flex;
-        flex: 1;
-      }
-
-      .story-page__body--main {
-        flex: 1;
-        padding: var(--nys-space-400, 32px);
-      }
-
-      .story-page__body--side {
-        padding: var(--nys-space-400, 32px);
-      }
-
-      @media (max-width: 1023px) {
-        .story-page__body {
-          flex-direction: column;
-          padding: var(--nys-size-400, 32px);
+  render: () => {
+    return html`
+      <style>
+        .page-layout__body {
+          background-color: var(--nys-color-white, #ffffff);
         }
-      }
-    </style>
-
-    <div class="story-page">
-      <nys-unavheader></nys-unavheader>
-
-      <nys-globalheader
-        homepageLink="https://ny.gov"
-        agencyName="Office of Information Technology Services"
-      >
-        <ul>
-          <li><a href="https://its.ny.gov/services">Services</a></li>
-          <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
-          <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-          <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
-          <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
-          <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-        </ul>
-      </nys-globalheader>
-
-      <!-- Body: sidebar + main -->
-      <div class="story-page__body">
-        <div class="story-page__body--side">
-          <nys-verticalnav
-            id=${args.id}
-            heading=${args.heading}
-            ?hideheading=${args.hideheading}
-            headingLevel=${args.headingLevel}
-          >
-            <ul>
-              <li><a href="/">Foundations</a></li>
-              <li><a href="/components" aria-current="page">Components</a></li>
-              <li>
-                <nys-verticalnavgroup label="Accessibility">
+        .page-layout__nav {
+          padding: var(--nys-space-300, 24px) var(--nys-space-50, 4px)
+            var(--nys-space-300, 24px) 0;
+        }
+        .page-layout__main {
+          padding: var(--nys-space-400, 32px);
+        }
+      </style>
+      <div>
+        <nys-unavheader></nys-unavheader>
+        <nys-globalheader
+          homepageLink="https://ny.gov"
+          agencyName="Office of Information Technology Services"
+        >
+          <ul>
+            <li><a href="https://its.ny.gov/services">Services</a></li>
+            <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+          </ul>
+        </nys-globalheader>
+        <div class="page-layout__body">
+          <div class="nys-grid-container nys-grid-gap-400">
+            <div class="nys-grid-row">
+              <div class="nys-desktop:nys-grid-col page-layout__nav">
+                <nys-verticalnav heading="NYS Design System" headingLevel="h2">
                   <ul>
-                    <li><a href="">WCAG Guidelines</a></li>
+                    <li><a href="/">Foundations</a></li>
+                    <li><a href="/components">Components</a></li>
                     <li>
-                      <a href="">Screen Readers</a>
+                      <nys-verticalnavgroup label="Accessibility">
+                        <ul>
+                          <li><a href="">WCAG Guidelines</a></li>
+                          <li><a href="">Screen Readers</a></li>
+                          <li><a href="">Color Contrast</a></li>
+                        </ul>
+                      </nys-verticalnavgroup>
                     </li>
                     <li>
-                      <a href="">Color Contrast</a>
+                      <h3>Resources</h3>
+                      <ul>
+                        <li><a href="">Design Tokens</a></li>
+                        <li><a href="">Utilities</a></li>
+                      </ul>
                     </li>
                   </ul>
-                </nys-verticalnavgroup>
-              </li>
-              <li>
-                <h3>Resources</h3>
-                <ul>
-                  <li>
-                    <a href="">Design Tokens</a>
-                  </li>
-                  <li><a href="">Utilities</a></li>
-                  <li><a href="">Learn</a></li>
-                  <li><a href="">What's New</a></li>
-                </ul>
-              </li>
-            </ul>
-          </nys-verticalnav>
+                </nys-verticalnav>
+              </div>
+              <main class="nys-desktop:nys-grid-col page-layout__main">
+                <p>Place content here.</p>
+              </main>
+            </div>
+          </div>
         </div>
-
-        <main class="story-page__body--main">
-          <p>Place content here.</p>
-          <nys-button
-            label="Toggle Expand/Collapse for vertical nav (mobile)"
-            @nys-click=${() => {
-              const nav = document.querySelector("nys-verticalnav") as any;
-              nav?.toggle();
-            }}
-          ></nys-button>
-        </main>
+        <nys-globalfooter
+          agencyName="Agency Name"
+          homepageLink="https://ny.gov"
+        >
+          <ul>
+            <li><a href="https://">Privacy Policy</a></li>
+            <li><a href="https://">Terms of Service</a></li>
+          </ul>
+        </nys-globalfooter>
+        <nys-unavfooter></nys-unavfooter>
       </div>
+      \`\`\`
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="story-page">
+  <nys-unavheader></nys-unavheader>
 
-      <nys-globalfooter agencyName="{agencyName}" homepageLink="https://">
+  <nys-globalheader
+    homepageLink="https://ny.gov"
+    agencyName="Office of Information Technology Services"
+  >
+    <ul>
+      <li><a href="https://its.ny.gov/services">Services</a></li>
+      <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+      <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+      <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
+      <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+      <li><a href="https://its.ny.gov/about-us">About Us</a></li>
+    </ul>
+  </nys-globalheader>
+
+  <div class="story-page__body">
+    <div class="story-page__body--side">
+      <nys-verticalnav heading="NYS Design System" headingLevel="h2">
         <ul>
+          <li><a href="/">Foundations</a></li>
+          <li><a href="/components" aria-current="page">Components</a></li>
           <li>
-            <a href="https://"> Privacy Policy </a>
+            <nys-verticalnavgroup label="Accessibility">
+              <ul>
+                <li><a href="">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
           </li>
           <li>
-            <a href="https://"> Terms of Service </a>
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="">Design Tokens</a></li>
+              <li><a href="">Utilities</a></li>
+              <li><a href="">Learn</a></li>
+              <li><a href="">What's New</a></li>
+            </ul>
           </li>
         </ul>
-      </nys-globalfooter>
-
-      <nys-unavfooter></nys-unavfooter>
+      </nys-verticalnav>
     </div>
-  `,
-  parameters: {
-    layout: "fullscreen",
-    docs: {
-      source: { code: "See render function" },
+
+    <main class="story-page__body--main">
+      <p>Place content here.</p>
+      <nys-button
+        label="Toggle Expand/Collapse for vertical nav (mobile)"
+        onclick="document.querySelector('nys-verticalnav').toggle()"
+      ></nys-button>
+    </main>
+  </div>
+
+  <nys-globalfooter agencyName="{agencyName}" homepageLink="https://">
+    <ul>
+      <li><a href="https://">Privacy Policy</a></li>
+      <li><a href="https://">Terms of Service</a></li>
+    </ul>
+  </nys-globalfooter>
+
+  <nys-unavfooter></nys-unavfooter>
+</div>`,
+        type: "auto",
+      },
     },
   },
 };

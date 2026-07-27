@@ -16,67 +16,6 @@ let verticalNavGroupIdCounter = 0;
  *
  * @summary Collapsible link group for use within `<nys-verticalnav>`.
  * @element nys-verticalnavgroup
- *
- * @example Basic VerticalNav Group
- * ```html
- * <nys-verticalnav header="NYS Design System">
- *   <ul>
- *     <li><a href="/foundations">Foundations</a></li>
- *     <li>
- *       <nys-verticalnavgroup label="Accessibility">
- *         <ul>
- *           <li><a href="">WCAG Guidelines</a></li>
- *           <li><a href="">Screen Readers</a></li>
- *           <li><a href="">Color Contrast</a></li>
- *         </ul>
- *       </nys-verticalnavgroup>
- *     </li>
- *   </ul>
- * </nys-verticalnav>
- * ```
- *
- * @example Active group
- * ```html
- * <nys-verticalnav header="NYS Design System">
- *   <ul>
- *     <li><a href="/foundations">Foundations</a></li>
- *     <li>
- *       <nys-verticalnavgroup label="Accessibility">
- *         <ul>
- *           <li>
- *             <a aria-current="page" href="">
- *               WCAG Guidelines
- *             </a>
- *           </li>
- *           <li><a href="">Screen Readers</a></li>
- *           <li><a href="">Color Contrast</a></li>
- *         </ul>
- *       </nys-verticalnavgroup>
- *     </li>
- *   </ul>
- * </nys-verticalnav>
- * ```
- *
- * @example Disabled group
- * ```html
- * <nys-verticalnav header="NYS Design System">
- *   <ul>
- *     <li>
- *       <nys-verticalnavgroup disabled label="Accessibility">
- *         <ul>
- *           <li>
- *             <a aria-disabled="true">
- *               WCAG Guidelines
- *             </a>
- *           </li>
- *           <li><a href="">Screen Readers</a></li>
- *           <li><a href="">Color Contrast</a></li>
- *         </ul>
- *       </nys-verticalnavgroup>
- *     </li>
- *   </ul>
- * </nys-verticalnav>
- * ```
  * */
 
 export class NysVerticalnavGroup extends LitElement {
