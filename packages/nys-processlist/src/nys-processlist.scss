@@ -47,4 +47,5 @@ nys-processlist[size="sm"] > nys-processlistitem {
     0.044px
   );
   --_nys-processlist-size--step: var(--nys-size-300, 24px);
+  --_nys-processlistitem-padding-top: var(--nys-space-1px, 1px);
 }

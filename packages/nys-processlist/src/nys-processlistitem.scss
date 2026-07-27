@@ -23,6 +23,7 @@
   --_nys-processlist-size--step: var(--nys-size-400, 32px);
   --_nys-processlistitem-min-height: var(--nys-space-600, 48px);
   --_nys-processlistitem-gap: var(--nys-space-250, 20px);
+  --_nys-processlistitem-padding-top: var(--nys-space-50, 4px);
 
   /* UI/Large/Semibold */
   --_nys-processlistitem-font-family: var(--nys-font-family-ui, "Proxima Nova");
@@ -90,6 +91,7 @@
 .nys-processlistitem__label {
   width: 100%;
   margin-bottom: var(--_nys-processlistitem-gap);
+  padding-top: var(--_nys-processlistitem-padding-top);
 
   font-family: var(--_nys-processlistitem-font-family);
   font-size: var(--_nys-processlistitem-font-size);
