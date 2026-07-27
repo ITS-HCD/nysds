@@ -86,7 +86,7 @@ function adoptLightStyles() {
  * @example Heading and footer
  * ```html
  * <nys-verticalnav heading="Freshwater Fishing" headingLevel="h2">
- *   <div slot="heading">
+ *   <div slot="header">
  *     <h2>Freshwater Fishing</h2>
  *     <p>2026 Season Open</p>
  *   </div>
