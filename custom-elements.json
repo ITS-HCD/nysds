@@ -5143,6 +5143,16 @@
             },
             {
               "kind": "field",
+              "name": "DATEPICKER_GAP",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true,
+              "default": "4"
+            },
+            {
+              "kind": "field",
               "name": "_hasUserInteracted",
               "type": {
                 "text": "boolean"
@@ -5444,6 +5454,27 @@
                   "text": "boolean"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "_positionDatepicker",
+              "privacy": "private",
+              "description": "Auto-Positioning\n--------------------------------------------------------------------------\nOpens the calendar below the input by default. If there isn't enough\nroom below (and there's more room above), it opens above instead."
+            },
+            {
+              "kind": "field",
+              "name": "_handleScrollReposition",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_startDatepickerPositioning",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_stopDatepickerPositioning",
+              "privacy": "private"
             }
           ],
           "events": [
@@ -7053,7 +7084,15 @@
             {
               "kind": "method",
               "name": "_dispatchChangeEvent",
-              "privacy": "private"
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "changedFiles",
+                  "type": {
+                    "text": "FileWithProgress[]"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -7135,6 +7174,24 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_addFiles",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<FileWithProgress[]>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "files",
+                  "type": {
+                    "text": "File[]"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -7150,7 +7207,7 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Fired when files are added or removed. Detail: `{id, files}`."
+              "description": "Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: \"pending\" | \"processing\" | \"done\" | \"error\", errorMsg?: string }`."
             }
           ],
           "attributes": [

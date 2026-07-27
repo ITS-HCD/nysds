@@ -2,6 +2,7 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-accordion";
 import "./nys-accordionitem";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Accordion",
