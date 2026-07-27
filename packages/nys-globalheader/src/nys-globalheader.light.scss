@@ -22,7 +22,9 @@ nys-globalheader > ul a {
   letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
 }
 
-nys-globalheader > ul a:hover {
+nys-globalheader > ul a:hover,
+nys-globalheader > ul a:focus-visible {
+  color: var(--_nys-globalheader-color);
   text-decoration: underline;
   text-decoration-style: solid;
   text-decoration-skip-ink: auto;
