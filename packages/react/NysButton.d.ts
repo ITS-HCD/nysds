@@ -24,7 +24,7 @@ export interface NysButtonProps extends Pick<
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
-  /** Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label. */
+  /** Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name. */
   circle?: boolean;
 
   /** Prevents interaction. Avoid disabling without explanation—show validation errors instead. */
@@ -42,7 +42,7 @@ export interface NysButtonProps extends Pick<
   /** Visual style: `filled` for primary (one per section), `outline` for secondary, `ghost` for tertiary, `text` for inline actions. Avoid `text` for navigation. */
   variant?: NysButtonElement["variant"];
 
-  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode. */
+  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: NysButtonElement["label"];
 
   /** Screen reader label. Required for icon-only buttons if `label` is not set. */
@@ -68,6 +68,9 @@ export interface NysButtonProps extends Pick<
 
   /** Additional screen reader description. Sets `aria-description`. */
   ariaDescription?: NysButtonElement["ariaDescription"];
+
+  /** ID(s) of element(s) describing this button. Sets `aria-describedby`. */
+  ariaDescribedBy?: NysButtonElement["ariaDescribedBy"];
 
   /** Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions. */
   type?: NysButtonElement["type"];

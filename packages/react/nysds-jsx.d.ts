@@ -212,7 +212,7 @@ export type NysButtonProps = {
   variant?: "filled" | "outline" | "ghost" | "text";
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
-  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode. */
+  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: string;
   /** Screen reader label. Required for icon-only buttons if `label` is not set. */
   ariaLabel?: string;
@@ -222,7 +222,7 @@ export type NysButtonProps = {
   prefixIcon?: string;
   /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode. */
   suffixIcon?: string;
-  /** Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label. */
+  /** Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name. */
   circle?: boolean;
   /** Icon for circle mode. Required when `circle` is true. Scales with size (sm=24px, md=32px, lg=40px). */
   icon?: string;
@@ -234,6 +234,8 @@ export type NysButtonProps = {
   value?: string;
   /** Additional screen reader description. Sets `aria-description`. */
   ariaDescription?: string;
+  /** ID(s) of element(s) describing this button. Sets `aria-describedby`. */
+  ariaDescribedBy?: string;
   /** Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions. */
   type?: "submit" | "reset" | "button";
   /** URL to navigate to. Renders as `<a>` tag. Omit for action buttons. */

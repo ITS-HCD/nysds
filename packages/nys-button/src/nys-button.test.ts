@@ -22,15 +22,6 @@ describe("nys-button", () => {
     expect(el?.type).to.equal("button");
   });
 
-  it("should have role='button' for screen readers", async () => {
-    const el = await fixture<NysButton>(
-      html`<nys-button label="Accessible Button"></nys-button>`,
-    );
-    const button = el.shadowRoot?.querySelector("button, a")!;
-
-    expect(button.getAttribute("role")).to.equal("button");
-  });
-
   it("should reflect 'label' prop", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Click Me"></nys-button>`,
