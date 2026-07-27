@@ -6,11 +6,16 @@ import styles from "./nys-iconlist.scss?inline";
 
 let componentIdCounter = 0;
 
-// The list renders in light DOM, so its styles are adopted into whichever
-// root (document or containing shadow root) the element lives in — once per root.
-const lightSheet = new CSSStyleSheet();
-lightSheet.replaceSync(styles);
-const styledRoots = new WeakSet<Document | ShadowRoot>();
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the light-DOM styling for <nys-iconlist> into a single constructed
+// stylesheet adopted on the document. Guarded so it runs once regardless of how
+// many lists mount, and skipped during SSR where `document` is undefined.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(styles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
 
 /**
  * An icon list is a component that displays a collection of items paired with visual icons, making it easy to create structured, scannable lists across web projects. Commonly used in the card component.
@@ -23,7 +28,10 @@ const styledRoots = new WeakSet<Document | ShadowRoot>();
  * @element nys-iconlist
  *
  * Children: one or more `<nys-iconlistitem>` elements, kept in light DOM so the
- * `list`/`listitem` roles stay directly related in the accessibility tree.
+ * `list`/`listitem` roles stay directly related in the accessibility tree. The
+ * host itself is the `role="list"` container and renders in the light DOM, so
+ * its styling comes from `nys-iconlist.scss` adopted once onto
+ * `document.adoptedStyleSheets` rather than from a shadow-DOM stylesheet.
  *
  * @example Basic
  * ```html
@@ -100,11 +108,7 @@ export class NysIconlist extends LitElement {
       this.setAttribute("role", "list");
     }
 
-    const root = this.getRootNode() as Document | ShadowRoot;
-    if (!styledRoots.has(root)) {
-      styledRoots.add(root);
-      root.adoptedStyleSheets = [...root.adoptedStyleSheets, lightSheet];
-    }
+    adoptLightStyles();
 
     this._childObserver.observe(this, { childList: true });
     this._syncDividers();
