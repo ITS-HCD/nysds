@@ -53,28 +53,34 @@
    alert's own :host, so it never inherits up to this wrapper. */
 .nys-unavheader__alert.wrapper {
   order: 3;
+
+  /* Slotted alerts sit flush against the header, so square off their corners.
+     Slotted content lives in the light DOM, so the shared `.content` rule below
+     can't reach it — it needs its own ::slotted selector. */
+  ::slotted(nys-alert) {
+    // reset styling for cohesion
+    --_nys-alert-border-radius: 0;
+    --_nys-alert-border-width: 0;
+    --_nys-alert-padding: var(--nys-space-250, 20px) 0;
+  }
+
+  ::slotted(nys-alert.content) {
+    /* nys-alert's :host is inline by default; blockify so max-width/auto margins apply */
+    display: block;
+    max-width: var(--_nys-unavheader-max-width--content);
+    margin: 0 auto;
+  }
+
+  ::slotted(nys-alert[type="info"]) {
+    --_nys-alert-background-color: var(--nys-color-info, #004dd1);
+  }
+
+  
 }
 
 /* Alerts only pass through here on their way to a numbered slot */
 .nys-unavheader__alert-collector {
   display: none;
-}
-
-/* Slotted alerts sit flush against the header, so square off their corners.
-   Slotted content lives in the light DOM, so the shared `.content` rule below
-   can't reach it — it needs its own ::slotted selector. */
-::slotted(nys-alert.content) {
-  /* nys-alert's :host is inline by default; blockify so max-width/auto margins apply */
-  display: block;
-  max-width: var(--_nys-unavheader-max-width--content);
-  margin: 0 auto;
-}
-
-::slotted(nys-alert) {
-  // reset styling for cohesion
-  --_nys-alert-border-radius: 0;
-  --_nys-alert-border-width: 0;
-  --_nys-alert-padding: var(--nys-space-250, 20px) 0;
 }
 
 .nys-unavheader__main.wrapper {
