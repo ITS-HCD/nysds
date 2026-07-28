@@ -1,12 +1,15 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-verticalnav";
-import "@nysds/nys-divider";
 import "./nys-verticalnavgroup";
-import "@nysds/nys-unavheader";
-import "@nysds/nys-globalheader";
+import "@nysds/nys-accordion";
+import "@nysds/nys-button";
+import "@nysds/nys-divider";
 import "@nysds/nys-globalfooter";
+import "@nysds/nys-globalheader";
+import "@nysds/nys-icon";
 import "@nysds/nys-unavfooter";
+import "@nysds/nys-unavheader";
 
 const meta: Meta = {
   title: "Components/Verticalnav",
