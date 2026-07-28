@@ -30,6 +30,9 @@ interface Language {
  * @summary Universal NYS header with trust bar, search, and translation. Required site-wide.
  * @element nys-unavheader
  *
+ * @slot - Default slot for `nys-alert` elements displayed below the header. Only `nys-alert`
+ * children are accepted; others are removed.
+ *
  * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
  * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  *
@@ -278,6 +281,27 @@ export class NysUnavHeader extends LitElement {
     }
   }
 
+  /** Removes anything slotted into the default slot that isn't a `<nys-alert>`. */
+  private _validateAlertSlot(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+
+    slot.assignedNodes({ flatten: false }).forEach((node) => {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const el = node as HTMLElement;
+        if (el.tagName.toLowerCase() === "nys-alert") return;
+
+        console.warn(
+          "<nys-unavheader> only accepts <nys-alert> elements. Removing invalid node:",
+          el,
+        );
+        el.remove();
+      } else if (node.textContent?.trim()) {
+        // Strip stray text so only alerts render below the header
+        node.parentNode?.removeChild(node);
+      }
+    });
+  }
+
   render() {
     return html`
       <header class="nys-unavheader">
@@ -513,7 +537,7 @@ export class NysUnavHeader extends LitElement {
             ></nys-textinput>
           </div>
         </div>
-        <slot></slot>
+        <slot @slotchange=${this._validateAlertSlot}></slot>
       </header>
     `;
   }

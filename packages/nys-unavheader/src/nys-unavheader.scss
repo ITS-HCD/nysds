@@ -46,6 +46,14 @@
   padding: 0 var(--_nys-unavheader-padding--gutter);
 }
 
+/* Slotted alerts sit flush against the header, so square off their corners */
+::slotted(nys-alert) {
+  --_nys-alert-border-radius: 0;
+  max-width: var(--_nys-unavheader-max-width--content);
+  margin: 0 auto;
+  padding: 0 var(--_nys-unavheader-padding--gutter);
+}
+
 .nys-unavheader__main.wrapper {
   background-color: var(--_nys-unavheader-background-color);
 }
