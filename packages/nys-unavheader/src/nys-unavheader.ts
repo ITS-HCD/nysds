@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
@@ -9,6 +9,97 @@ interface Language {
   label: string;
   url?: string;
 }
+
+/**
+ * Statewide alert endpoint, read once per page load. Sites don't opt in or out and
+ * never author the content, so an alert reads identically everywhere it appears.
+ *
+ * TODO: currently pointed at dev. Production is
+ * https://alerts-cta.static-assets.ny.gov/alerts.json.
+ */
+export const NYS_ALERT_URL =
+  "https://alerts-cta-dev.static-assets.ny.gov/alerts.json";
+
+/** An `alert` entry in the feed. */
+interface FeedAlert {
+  /** "on" publishes the alert; any other value (or absence) hides it. */
+  status?: string;
+  /** "high" | "medium" | "low" — maps to a `nys-alert` type. */
+  severity?: string;
+  /** Alert heading. */
+  headline?: string;
+  /** Alert body copy. */
+  description?: string;
+  /** Accessible name for the link, when the visible label isn't descriptive enough. */
+  linkAriaLabel?: string;
+  /** Destination of the alert's link. */
+  link?: string;
+  /** Visible label for the link. */
+  linkTitle?: string;
+  /** Feed-side icon name (e.g. "Virus"), mapped to a `nys-icon` name. */
+  icon?: string;
+}
+
+/** `alerts.json` — one alert, or several once the feed starts sending them. */
+interface AlertFeed {
+  alert?: FeedAlert | FeedAlert[];
+}
+
+type AlertType =
+  | "base"
+  | "info"
+  | "success"
+  | "warning"
+  | "danger"
+  | "emergency";
+
+/** Feed severity → `nys-alert` type. Unrecognized severities fall back to `info`. */
+const SEVERITY_TYPES: Record<string, AlertType> = {
+  high: "emergency",
+  medium: "warning",
+  low: "info",
+  // Feed authors may also use the design system's own vocabulary
+  emergency: "emergency",
+  danger: "danger",
+  warning: "warning",
+  success: "success",
+  info: "info",
+  base: "base",
+};
+
+/**
+ * Feed icon name → `nys-icon` name. Deliberately a closed list: an icon the library
+ * doesn't have would render as a blank square, so anything unrecognized falls back
+ * to the alert type's own default icon.
+ */
+const FEED_ICONS: Record<string, string> = {
+  virus: "coronavirus",
+  coronavirus: "coronavirus",
+  snow: "ac_unit",
+  snowflake: "ac_unit",
+  winter: "ac_unit",
+  ac_unit: "ac_unit",
+  wind: "air",
+  air: "air",
+  sun: "clear_day",
+  heat: "clear_day",
+  clear_day: "clear_day",
+  rain: "rainy",
+  flood: "rainy",
+  rainy: "rainy",
+  alert: "warning",
+  warning: "warning",
+  emergency: "emergency_home",
+  emergency_home: "emergency_home",
+  error: "error",
+  info: "info",
+  notifications: "notifications",
+  schedule: "schedule",
+  location_on: "location_on",
+};
+
+/** `true` only for the feed's explicit "on" switch. */
+const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
 
 /**
  * Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.
@@ -30,8 +121,10 @@ interface Language {
  * @summary Universal NYS header with trust bar, search, and translation. Required site-wide.
  * @element nys-unavheader
  *
- * @slot - Default slot for `nys-alert` elements displayed below the header. Only `nys-alert`
- * children are accepted; others are removed.
+ * @remarks Statewide alerts are not configurable. On load the header reads the statewide
+ * alert endpoint and renders whatever is currently published, so an emergency message
+ * reaches every NYS site with no per-site work. If the endpoint is unreachable or nothing
+ * is published, the header renders normally. It takes no children.
  *
  * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
  * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
@@ -78,49 +171,6 @@ interface Language {
  *   const selectedLanguage = event.detail.language.label;
  *   });
  * </script>
- * ```
- *
- * @example Alert
- * ```html
- * <nys-unavheader>
- *   <nys-alert
- *     type="emergency"
- *     heading="Winter storm warning: Dec 10th, 2024."
- *     text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
- *     icon="ac_unit">
- *   </nys-alert>
- * </nys-unavheader>
- * <nys-globalheader appName="Testing"></nys-globalheader>
- * ```
- *
- * @example Multiple Alerts
- * ```html
- * <nys-unavheader>
- *   <nys-alert
- *     type="emergency"
- *     heading="Emergency Example">
- *   </nys-alert>
- *   <nys-alert
- *     type="info"
- *     heading="Info Example">
- *   </nys-alert>
- *   <nys-alert
- *     type="success"
- *     heading="Success Example">
- *   </nys-alert>
- *   <nys-alert
- *     type="warning"
- *     heading="Warning Example">
- *   </nys-alert>
- *   <nys-alert
- *     type="danger"
- *     heading="Danger Example">
- *   </nys-alert>
- *   <nys-alert
- *     heading="Neutral Example">
- *   </nys-alert>
- * </nys-unavheader>
- * <nys-globalheader appName="Testing"></nys-globalheader>
  * ```
  */
 
@@ -174,11 +224,15 @@ export class NysUnavHeader extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    // Also covers re-attachment, where the pending request was aborted on the way out
+    this._loadAlerts();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this._alertTypeObserver.disconnect();
+    // Don't leave a pending request pointed at a detached element
+    this._alertRequest?.abort();
+    this._alertRequest = null;
   }
 
   /**
@@ -314,96 +368,121 @@ export class NysUnavHeader extends LitElement {
   }
 
   /**
-   * One resolved background color per slotted alert, in document order. The length
-   * drives how many bands render, so each alert gets its own full-bleed background
-   * instead of sharing (and nesting inside) a single wrapper.
+   * Statewide alerts
+   * --------------------------------------------------------------------------
+   * Content comes from the alert feed, never from the consuming page, so the same
+   * message renders identically everywhere it is shown. A missing, malformed, or
+   * unreachable feed leaves the header untouched — an alert failing to load must
+   * never take a site's navigation down with it.
    */
-  @state() private _alertBackgrounds: string[] = [];
 
-  /** Watches slotted alerts for `type` changes so the full-bleed band stays in sync. */
-  private _alertTypeObserver = new MutationObserver((mutations) =>
-    mutations.forEach((m) =>
-      this._syncAlertBackground(m.target as HTMLElement),
-    ),
-  );
+  /** The published alerts, in feed order. Empty when nothing is published. */
+  @state() private _alerts: FeedAlert[] = [];
 
-  /** The slotted alerts, in document order. Index here matches band index. */
-  private get _alerts() {
-    return Array.from(
-      this.querySelectorAll(":scope > nys-alert"),
-    ) as HTMLElement[];
+  /** In-flight feed request, aborted if the header leaves the page first. */
+  private _alertRequest: AbortController | null = null;
+
+  private async _loadAlerts() {
+    if (typeof fetch !== "function") return;
+
+    this._alertRequest?.abort();
+    const request = new AbortController();
+    this._alertRequest = request;
+
+    const feed = await this._readFeed(request);
+    if (!feed) return;
+
+    const alerts = Array.isArray(feed.alert)
+      ? feed.alert
+      : feed.alert
+        ? [feed.alert]
+        : [];
+    this._alerts = alerts.filter((alert) => isPublished(alert?.status));
   }
 
-  /**
-   * `--_nys-alert-background-color` lives on the alert's `:host`, so it only inherits
-   * downward — the header's own shadow tree can't read it. Copy the resolved value
-   * onto that alert's own band so the full-bleed background behind it matches.
-   */
-  private async _syncAlertBackground(alert: HTMLElement) {
-    await customElements.whenDefined("nys-alert");
-    // Let the alert render so its :host custom properties are applied
-    await (alert as HTMLElement & { updateComplete?: Promise<unknown> })
-      .updateComplete;
-
-    const index = this._alerts.indexOf(alert);
-    if (index < 0) return;
-
-    const background = getComputedStyle(alert)
-      .getPropertyValue("--_nys-alert-background-color")
-      .trim();
-
-    const backgrounds = [...this._alertBackgrounds];
-    backgrounds[index] = background;
-    this._alertBackgrounds = backgrounds;
-
-    this._alertTypeObserver.observe(alert, {
-      attributes: true,
-      attributeFilter: ["type"],
-    });
-  }
-
-  /** Removes anything slotted into the default slot that isn't a `<nys-alert>`. */
-  private _validateAlertSlot(e: Event) {
-    const slot = e.target as HTMLSlotElement;
-
-    slot.assignedNodes({ flatten: false }).forEach((node) => {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const el = node as HTMLElement;
-        if (el.tagName.toLowerCase() === "nys-alert") return;
-
-        console.warn(
-          "<nys-unavheader> only accepts <nys-alert> elements. Removing invalid node:",
-          el,
-        );
-        el.remove();
-      } else if (node.textContent?.trim()) {
-        // Strip stray text so only alerts render below the header
-        node.parentNode?.removeChild(node);
+  /** Fetches the alert feed. Resolves to null on any failure. */
+  private async _readFeed(request: AbortController) {
+    try {
+      const response = await fetch(NYS_ALERT_URL, {
+        signal: request.signal,
+        credentials: "omit",
+        // An alert that is switched off must go away everywhere on the next page
+        // load, so never read (or write) the HTTP cache for this
+        cache: "no-store",
+      });
+      if (!response.ok) {
+        throw new Error(`Responded with ${response.status}`);
       }
-    });
 
-    this._assignAlertBands();
+      const feed = (await response.json()) as AlertFeed;
+      // A late response for a header that has since been detached is dead weight
+      return request.signal.aborted ? null : feed;
+    } catch (error) {
+      if (!request.signal.aborted) {
+        console.warn(
+          `<nys-unavheader> could not load ${NYS_ALERT_URL}:`,
+          error,
+        );
+      }
+      return null;
+    }
+  }
+
+  /** Feed severity → `nys-alert` type. */
+  private _alertType(severity?: string): AlertType {
+    return SEVERITY_TYPES[severity?.trim().toLowerCase() ?? ""] ?? "info";
   }
 
   /**
-   * Moves each alert out of the default (collector) slot into its own numbered slot,
-   * so every alert renders in a separate band and their backgrounds stack instead of
-   * one wrapper painting a single color behind all of them.
+   * Feed icon name → `nys-icon` name. Unknown names resolve to "", which leaves
+   * `nys-alert` to draw the default icon for the alert's type.
    */
-  private _assignAlertBands() {
-    const alerts = this._alerts;
+  private _alertIcon(icon?: string) {
+    const name = icon?.trim().toLowerCase().replace(/\s+/g, "_");
+    return (name && FEED_ICONS[name]) || "";
+  }
 
-    // Keep already-resolved colors so re-slotting doesn't flash back to transparent
-    this._alertBackgrounds = alerts.map(
-      (_, i) => this._alertBackgrounds[i] ?? "transparent",
-    );
+  /**
+   * One full-bleed band per published alert, so alerts of different severities keep
+   * their own background instead of sharing one. The body is slotted rather than
+   * passed as `text`/`primaryAction` so the link can carry the feed's `linkAriaLabel`.
+   */
+  private _renderAlerts() {
+    return this._alerts.map((alert) => this._renderAlert(alert));
+  }
 
-    alerts.forEach((alert, i) => {
-      // Match the max-width/centering of the header's other content rows
-      alert.classList.add("content");
-      alert.slot = `alert-${i}`;
-      this._syncAlertBackground(alert);
-    });
+  private _renderAlert(alert: FeedAlert) {
+    // An entry switched on with nothing to say would render an empty band
+    if (!alert.headline?.trim() && !alert.description?.trim()) return nothing;
+
+    const type = this._alertType(alert.severity);
+    const icon = this._alertIcon(alert.icon);
+    const linkLabel = alert.linkTitle?.trim() || "Learn more";
+
+    return html`
+      <div class="nys-unavheader__alert wrapper" data-type=${type}>
+        <nys-alert
+          class="content"
+          type=${type}
+          heading=${alert.headline ?? ""}
+          icon=${icon}
+        >
+          ${alert.description
+            ? html`<p class="nys-unavheader__alert-text">
+                ${alert.description}
+              </p>`
+            : nothing}
+          ${alert.link
+            ? html`<a
+                class="nys-unavheader__alert-link"
+                href=${alert.link}
+                aria-label=${alert.linkAriaLabel?.trim() || nothing}
+                >${linkLabel}</a
+              >`
+            : nothing}
+        </nys-alert>
+      </div>
+    `;
   }
 
   render() {
@@ -641,21 +720,7 @@ export class NysUnavHeader extends LitElement {
             ></nys-textinput>
           </div>
         </div>
-        ${this._alertBackgrounds.map(
-          (background, i) => html`
-            <div
-              class="nys-unavheader__alert wrapper"
-              style="background-color: ${background}"
-            >
-              <slot name="alert-${i}"></slot>
-            </div>
-          `,
-        )}
-        <!-- Collector: alerts land here first, then move into their numbered slot -->
-        <slot
-          class="nys-unavheader__alert-collector"
-          @slotchange=${this._validateAlertSlot}
-        ></slot>
+        ${this._renderAlerts()}
       </header>
     `;
   }

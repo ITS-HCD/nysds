@@ -15321,15 +15321,18 @@
       "path": "packages/nys-unavheader/src/nys-unavheader.ts",
       "declarations": [
         {
+          "kind": "variable",
+          "name": "NYS_ALERT_URL",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta-dev.static-assets.ny.gov/alerts.json\"",
+          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nTODO: currently pointed at dev. Production is\nhttps://alerts-cta.static-assets.ny.gov/alerts.json."
+        },
+        {
           "kind": "class",
           "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
-          "slots": [
-            {
-              "description": "Default slot for `nys-alert` elements displayed below the header. Only `nys-alert` children are accepted; others are removed.",
-              "name": ""
-            }
-          ],
           "members": [
             {
               "kind": "field",
@@ -15505,61 +15508,96 @@
             },
             {
               "kind": "field",
-              "name": "_alertBackgrounds",
+              "name": "_alerts",
               "type": {
-                "text": "string[]"
+                "text": "FeedAlert[]"
               },
               "privacy": "private",
               "default": "[]",
-              "description": "One resolved background color per slotted alert, in document order. The length\ndrives how many bands render, so each alert gets its own full-bleed background\ninstead of sharing (and nesting inside) a single wrapper."
+              "description": "The published alerts, in feed order. Empty when nothing is published."
             },
             {
               "kind": "field",
-              "name": "_alertTypeObserver",
+              "name": "_alertRequest",
+              "type": {
+                "text": "AbortController | null"
+              },
               "privacy": "private",
-              "default": "new MutationObserver((mutations) => mutations.forEach((m) => this._syncAlertBackground(m.target as HTMLElement), ), )",
-              "description": "Watches slotted alerts for `type` changes so the full-bleed band stays in sync."
-            },
-            {
-              "kind": "field",
-              "name": "_alerts",
-              "privacy": "private",
-              "description": "The slotted alerts, in document order. Index here matches band index.",
-              "readonly": true
+              "default": "null",
+              "description": "In-flight feed request, aborted if the header leaves the page first."
             },
             {
               "kind": "method",
-              "name": "_syncAlertBackground",
+              "name": "_loadAlerts",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_readFeed",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": {
+                    "text": "AbortController"
+                  }
+                }
+              ],
+              "description": "Fetches the alert feed. Resolves to null on any failure."
+            },
+            {
+              "kind": "method",
+              "name": "_alertType",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "AlertType"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "severity",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed severity → `nys-alert` type."
+            },
+            {
+              "kind": "method",
+              "name": "_alertIcon",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "icon",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed icon name → `nys-icon` name. Unknown names resolve to \"\", which leaves\n`nys-alert` to draw the default icon for the alert's type."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlerts",
+              "privacy": "private",
+              "description": "One full-bleed band per published alert, so alerts of different severities keep\ntheir own background instead of sharing one. The body is slotted rather than\npassed as `text`/`primaryAction` so the link can carry the feed's `linkAriaLabel`."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlert",
               "privacy": "private",
               "parameters": [
                 {
                   "name": "alert",
                   "type": {
-                    "text": "HTMLElement"
+                    "text": "FeedAlert"
                   }
                 }
-              ],
-              "description": "`--_nys-alert-background-color` lives on the alert's `:host`, so it only inherits\ndownward — the header's own shadow tree can't read it. Copy the resolved value\nonto that alert's own band so the full-bleed background behind it matches."
-            },
-            {
-              "kind": "method",
-              "name": "_validateAlertSlot",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ],
-              "description": "Removes anything slotted into the default slot that isn't a `<nys-alert>`."
-            },
-            {
-              "kind": "method",
-              "name": "_assignAlertBands",
-              "privacy": "private",
-              "description": "Moves each alert out of the default (collector) slot into its own numbered slot,\nso every alert renders in a separate band and their backgrounds stack instead of\none wrapper painting a single color behind all of them."
+              ]
             }
           ],
           "events": [
@@ -15691,21 +15729,19 @@
               "title": "Custom Language List JS",
               "code": "<nys-unavheader id=\"my-header2\"></nys-unavheader>\n<script>\ndocument.querySelector('#my-header2').addEventListener('nys-language-select', (event) => {\nevent.preventDefault();\nconst selectedLanguage = event.detail.language.label;\n});\n</script>",
               "lang": "html"
-            },
-            {
-              "title": "Alert",
-              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>\n</nys-unavheader>\n<nys-globalheader appName=\"Testing\"></nys-globalheader>",
-              "lang": "html"
-            },
-            {
-              "title": "Multiple Alerts",
-              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Emergency Example\">\n</nys-alert>\n<nys-alert\ntype=\"info\"\nheading=\"Info Example\">\n</nys-alert>\n<nys-alert\ntype=\"success\"\nheading=\"Success Example\">\n</nys-alert>\n<nys-alert\ntype=\"warning\"\nheading=\"Warning Example\">\n</nys-alert>\n<nys-alert\ntype=\"danger\"\nheading=\"Danger Example\">\n</nys-alert>\n<nys-alert\nheading=\"Neutral Example\">\n</nys-alert>\n</nys-unavheader>\n<nys-globalheader appName=\"Testing\"></nys-globalheader>",
-              "lang": "html"
             }
           ]
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "NYS_ALERT_URL",
+          "declaration": {
+            "name": "NYS_ALERT_URL",
+            "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "nys-unavheader",
