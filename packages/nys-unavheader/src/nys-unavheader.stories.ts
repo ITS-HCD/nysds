@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-unavheader";
+import "@nysds/nys-alert";
 import "@nysds/nys-button";
 import "@nysds/nys-icon";
 import "@nysds/nys-textinput";
@@ -152,6 +153,37 @@ event.preventDefault();
 const selectedLanguage = event.detail.language.label;
 });
 </script>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Alert: Story = {
+  render: () => {
+    return html`
+      <nys-unavheader>
+        <nys-alert
+          type="emergency"
+          heading="Winter storm warning: Dec 10th, 2024."
+          text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+          icon="ac_unit"
+        ></nys-alert>
+      </nys-unavheader>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-unavheader>
+  <nys-alert
+    type="emergency"
+    heading="Winter storm warning: Dec 10th, 2024."
+    text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+    icon="ac_unit"
+  ></nys-alert>
+</nys-unavheader>`,
         type: "auto",
       },
     },

@@ -513,6 +513,7 @@ export class NysUnavHeader extends LitElement {
             ></nys-textinput>
           </div>
         </div>
+        <slot></slot>
       </header>
     `;
   }
