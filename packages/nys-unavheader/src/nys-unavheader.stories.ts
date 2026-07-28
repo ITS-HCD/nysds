@@ -200,6 +200,9 @@ export const MultipleAlerts: Story = {
         <nys-alert type="emergency" heading="Emergency Example"></nys-alert>
         <nys-alert type="info" heading="Info Example"></nys-alert>
         <nys-alert type="success" heading="Success Example"></nys-alert>
+        <nys-alert type="warning" heading="Warning Example"></nys-alert>
+        <nys-alert type="danger" heading="Danger Example"></nys-alert>
+        <nys-alert heading="Neutral Example"></nys-alert>
       </nys-unavheader>
       <nys-globalheader appName="Testing"></nys-globalheader>
     `;
@@ -212,6 +215,9 @@ export const MultipleAlerts: Story = {
   <nys-alert type="emergency" heading="Emergency Example"></nys-alert>
   <nys-alert type="info" heading="Info Example"></nys-alert>
   <nys-alert type="success" heading="Success Example"></nys-alert>
+  <nys-alert type="warning" heading="Warning Example"></nys-alert>
+  <nys-alert type="danger" heading="Danger Example"></nys-alert>
+  <nys-alert heading="Neutral Example"></nys-alert>
 </nys-unavheader>
 <nys-globalheader appName="Testing"></nys-globalheader>`,
         type: "auto",

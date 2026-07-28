@@ -73,9 +73,27 @@
 
   ::slotted(nys-alert[type="info"]) {
     --_nys-alert-background-color: var(--nys-color-info, #004dd1);
+    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
   }
 
-  
+  ::slotted(nys-alert[type="success"]) {
+    --_nys-alert-background-color: var(--nys-color-success, #1e752e);
+    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
+  }
+
+  ::slotted(nys-alert[type="warning"]) {
+    --_nys-alert-background-color: var(--nys-color-warning, #face00);
+  }
+
+  ::slotted(nys-alert[type="danger"]) {
+    --_nys-alert-background-color: var(--nys-color-danger, #b52c2c);
+    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
+  }
+
+  ::slotted(nys-alert[type="base"]) {
+    --_nys-alert-background-color: var(--nys-color-base, #62666a);
+    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
+  }
 }
 
 /* Alerts only pass through here on their way to a numbered slot */

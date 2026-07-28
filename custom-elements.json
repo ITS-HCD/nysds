@@ -15699,7 +15699,7 @@
             },
             {
               "title": "Multiple Alerts",
-              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Emergency Example\">\n</nys-alert>\n<nys-alert\ntype=\"info\"\nheading=\"Info Example\">\n</nys-alert>\n<nys-alert\ntype=\"success\"\nheading=\"Success Example\">\n</nys-alert>\n</nys-unavheader>\n<nys-globalheader appName=\"Testing\"></nys-globalheader>",
+              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Emergency Example\">\n</nys-alert>\n<nys-alert\ntype=\"info\"\nheading=\"Info Example\">\n</nys-alert>\n<nys-alert\ntype=\"success\"\nheading=\"Success Example\">\n</nys-alert>\n<nys-alert\ntype=\"warning\"\nheading=\"Warning Example\">\n</nys-alert>\n<nys-alert\ntype=\"danger\"\nheading=\"Danger Example\">\n</nys-alert>\n<nys-alert\nheading=\"Neutral Example\">\n</nys-alert>\n</nys-unavheader>\n<nys-globalheader appName=\"Testing\"></nys-globalheader>",
               "lang": "html"
             }
           ]
