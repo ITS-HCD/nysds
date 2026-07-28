@@ -51,10 +51,11 @@
    at the inline (>=768px) breakpoints. */
 ::slotted(nys-alert) {
   order: 3;
+  //reset styling for cohesion
   --_nys-alert-border-radius: 0;
-  max-width: var(--_nys-unavheader-max-width--content);
-  margin: 0 auto;
-  padding: 0 var(--_nys-unavheader-padding--gutter);
+  --_nys-alert-border-color: var(
+    --_nys-alert-background-color
+  ); //remove side border accent
 }
 
 .nys-unavheader__main.wrapper {

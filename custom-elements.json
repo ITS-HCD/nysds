@@ -15324,6 +15324,12 @@
           "kind": "class",
           "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
+          "slots": [
+            {
+              "description": "Default slot for `nys-alert` elements displayed below the header. Only `nys-alert` children are accepted; others are removed.",
+              "name": ""
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -15496,6 +15502,20 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_validateAlertSlot",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Removes anything slotted into the default slot that isn't a `<nys-alert>`."
             }
           ],
           "events": [
@@ -15630,7 +15650,7 @@
             },
             {
               "title": "Alert",
-              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>\n</nys-unavheader>",
+              "code": "<nys-unavheader>\n<nys-alert\ntype=\"warning\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>\n</nys-unavheader>",
               "lang": "html"
             }
           ]

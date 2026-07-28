@@ -78,5 +78,8 @@ export interface NysUnavHeaderProps extends Pick<
  * ### **Events:**
  *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
  * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
+ *
+ * ### **Slots:**
+ *  - _default_ - Default slot for `nys-alert` elements displayed below the header. Only `nys-alert` children are accepted; others are removed.
  */
 export const NysUnavHeader: React.ForwardRefExoticComponent<NysUnavHeaderProps>;
