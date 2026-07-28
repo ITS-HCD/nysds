@@ -2,6 +2,7 @@ import { expect, html, fixture, oneEvent } from "@open-wc/testing";
 import "../dist/nys-dropdownmenu.js";
 import { NysDropdownMenu } from "./nys-dropdownmenu";
 import { NysDropdownMenuItem } from "./nys-dropdownmenuitem";
+import { sendKeys } from "@web/test-runner-commands";
 
 // ----------- nys-dropdownmenu -----------
 
@@ -97,6 +98,91 @@ describe("nys-dropdownmenu", () => {
     trigger.click();
     await menu.updateComplete;
     expect(menu.showDropdown).to.be.false;
+  });
+
+  /****** Regression: keyboard activation should not double-toggle ******/
+  // See: nys-button's keydown handler calls this.click() to synthesize a
+  // click for keyboard users, which was *also* being caught by
+  // nys-dropdownmenu's own keydown listener on the trigger — causing
+  // _toggleDropdown to fire twice per keypress (open then immediately close).
+
+  it("toggles only once when trigger is activated via Enter (real button keydown)", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    const menuAny = menu as any;
+    let toggleCount = 0;
+    const originalToggle = menuAny._toggleDropdown.bind(menuAny);
+    menuAny._toggleDropdown = (...args: unknown[]) => {
+      toggleCount++;
+      return originalToggle(...args);
+    };
+
+    // Dispatch on the *inner* <button> inside nys-button's shadow root,
+    // matching real keyboard interaction, not the host element directly.
+    const innerButton = trigger.shadowRoot!.querySelector(
+      "button.nys-button",
+    ) as HTMLButtonElement;
+    expect(innerButton).to.exist;
+
+    innerButton.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await menu.updateComplete;
+
+    expect(toggleCount).to.equal(1);
+    expect(menu.showDropdown).to.be.true;
+  });
+
+  /****** Regression: keyboard activation should not double-toggle ******/
+  // See: nys-button's own keydown handler synthesizes a click() for
+  // keyboard activation (for accessibility), which was *also* being
+  // caught by nys-dropdownmenu's keydown listener on the same trigger —
+  // causing _toggleDropdown to fire twice per keypress (open then
+  // immediately close). These tests drive a real keypress through the
+  // browser so nys-button's internal handling runs exactly as it would
+  // for an actual user, rather than dispatching a synthetic event by hand.
+
+  it("toggles only once when trigger is activated via Enter", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    const menuAny = menu as any;
+    let toggleCount = 0;
+    const originalToggle = menuAny._toggleDropdown.bind(menuAny);
+    menuAny._toggleDropdown = (...args: unknown[]) => {
+      toggleCount++;
+      return originalToggle(...args);
+    };
+
+    trigger.focus();
+    await sendKeys({ press: "Enter" });
+    await menu.updateComplete;
+
+    expect(toggleCount).to.equal(1);
+    expect(menu.showDropdown).to.be.true;
+  });
+
+  it("toggles only once when trigger is activated via Space", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    const menuAny = menu as any;
+    let toggleCount = 0;
+    const originalToggle = menuAny._toggleDropdown.bind(menuAny);
+    menuAny._toggleDropdown = (...args: unknown[]) => {
+      toggleCount++;
+      return originalToggle(...args);
+    };
+
+    trigger.focus();
+    await sendKeys({ press: " " });
+    await menu.updateComplete;
+
+    expect(toggleCount).to.equal(1);
+    expect(menu.showDropdown).to.be.true;
   });
 
   /****** A11y ******/
