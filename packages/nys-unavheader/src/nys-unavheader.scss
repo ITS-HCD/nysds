@@ -66,10 +66,10 @@
 }
 
 ::slotted(nys-alert) {
-  //reset styling for cohesion
+  // reset styling for cohesion
   --_nys-alert-border-radius: 0;
   --_nys-alert-border-width: 0;
-  --_nys-alert-padding: var(--nys-space-100, 8px) 0;
+  --_nys-alert-padding: var(--nys-space-150, 12px) 0;
 }
 
 .nys-unavheader__main.wrapper {
