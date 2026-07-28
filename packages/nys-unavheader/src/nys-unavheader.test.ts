@@ -1,6 +1,7 @@
-import { expect, html, fixture } from "@open-wc/testing";
+import { expect, html, fixture, nextFrame } from "@open-wc/testing";
 import { NysUnavHeader } from "./nys-unavheader";
 import "../dist/nys-unavheader.js";
+import "@nysds/nys-alert";
 import sinon from "sinon";
 
 describe("nys-unavheader", () => {
@@ -724,6 +725,54 @@ describe("nys-unavheader", () => {
     expect(redirectAttempted).to.be.false;
 
     (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
+  });
+
+  it("accepts a slotted nys-alert", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader>
+        <nys-alert
+          type="emergency"
+          heading="Winter storm warning: Dec 10th, 2024."
+        ></nys-alert>
+      </nys-unavheader>`,
+    );
+    await nextFrame();
+
+    const alert = el.querySelector("nys-alert");
+    expect(alert).to.exist;
+
+    const slot = el.shadowRoot?.querySelector(
+      ".nys-unavheader__alert.wrapper slot",
+    ) as HTMLSlotElement;
+    expect(slot).to.exist;
+    expect(slot.assignedElements()).to.deep.equal([alert]);
+    expect(alert?.classList.contains("content")).to.be.true;
+  });
+
+  it("removes slotted content that is not a nys-alert", async () => {
+    const warn = sinon.stub(console, "warn");
+
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader>
+        <nys-alert heading="Keep me"></nys-alert>
+        <div id="invalid">Remove me</div>
+        <nys-button label="Remove me too"></nys-button>
+        Remove me three
+      </nys-unavheader>`,
+    );
+    await nextFrame();
+
+    expect(el.querySelector("#invalid")).to.not.exist;
+    expect(el.querySelector("nys-button")).to.not.exist;
+    expect(el.querySelectorAll("nys-alert").length).to.equal(1);
+
+    const slot = el.shadowRoot?.querySelector(
+      ".nys-unavheader__alert.wrapper slot",
+    ) as HTMLSlotElement;
+    expect(slot.assignedElements().length).to.equal(1);
+    expect(warn.called).to.be.true;
+
+    warn.restore();
   });
 
   it("passes the a11y audit", async () => {
