@@ -46,8 +46,11 @@
   padding: 0 var(--_nys-unavheader-padding--gutter);
 }
 
-/* Slotted alerts sit flush against the header, so square off their corners */
+/* Slotted alerts sit flush against the header, so square off their corners.
+   `order` keeps the alert after the trust panel, which is reordered to `order: 2`
+   at the inline (>=768px) breakpoints. */
 ::slotted(nys-alert) {
+  order: 3;
   --_nys-alert-border-radius: 0;
   max-width: var(--_nys-unavheader-max-width--content);
   margin: 0 auto;
