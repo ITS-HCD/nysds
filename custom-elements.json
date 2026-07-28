@@ -15504,6 +15504,27 @@
               ]
             },
             {
+              "kind": "field",
+              "name": "_alertTypeObserver",
+              "privacy": "private",
+              "default": "new MutationObserver((mutations) => mutations.forEach((m) => this._syncAlertBackground(m.target as HTMLElement), ), )",
+              "description": "Watches slotted alerts for `type` changes so the full-bleed band stays in sync."
+            },
+            {
+              "kind": "method",
+              "name": "_syncAlertBackground",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "alert",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ],
+              "description": "`--_nys-alert-background-color` lives on the alert's `:host`, so it only inherits\ndownward — the header's own shadow tree can't read it. Copy the resolved value up\nto the host so the full-bleed band behind the alert matches it."
+            },
+            {
               "kind": "method",
               "name": "_validateAlertSlot",
               "privacy": "private",
@@ -15650,7 +15671,7 @@
             },
             {
               "title": "Alert",
-              "code": "<nys-unavheader>\n<nys-alert\ntype=\"warning\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>\n</nys-unavheader>",
+              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>\n</nys-unavheader>",
               "lang": "html"
             }
           ]

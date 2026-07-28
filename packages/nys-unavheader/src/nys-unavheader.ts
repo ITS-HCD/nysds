@@ -84,7 +84,7 @@ interface Language {
  * ```html
  * <nys-unavheader>
  *   <nys-alert
- *     type="warning"
+ *     type="emergency"
  *     heading="Winter storm warning: Dec 10th, 2024."
  *     text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
  *     icon="ac_unit">
@@ -147,6 +147,7 @@ export class NysUnavHeader extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this._alertTypeObserver.disconnect();
   }
 
   /**
@@ -281,6 +282,39 @@ export class NysUnavHeader extends LitElement {
     }
   }
 
+  /** Watches slotted alerts for `type` changes so the full-bleed band stays in sync. */
+  private _alertTypeObserver = new MutationObserver((mutations) =>
+    mutations.forEach((m) =>
+      this._syncAlertBackground(m.target as HTMLElement),
+    ),
+  );
+
+  /**
+   * `--_nys-alert-background-color` lives on the alert's `:host`, so it only inherits
+   * downward — the header's own shadow tree can't read it. Copy the resolved value up
+   * to the host so the full-bleed band behind the alert matches it.
+   */
+  private async _syncAlertBackground(alert: HTMLElement) {
+    await customElements.whenDefined("nys-alert");
+    // Let the alert render so its :host custom properties are applied
+    await (alert as HTMLElement & { updateComplete?: Promise<unknown> })
+      .updateComplete;
+
+    const background = getComputedStyle(alert)
+      .getPropertyValue("--_nys-alert-background-color")
+      .trim();
+
+    this.style.setProperty(
+      "--_nys-unavheader-background-color--alert",
+      background,
+    );
+
+    this._alertTypeObserver.observe(alert, {
+      attributes: true,
+      attributeFilter: ["type"],
+    });
+  }
+
   /** Removes anything slotted into the default slot that isn't a `<nys-alert>`. */
   private _validateAlertSlot(e: Event) {
     const slot = e.target as HTMLSlotElement;
@@ -288,7 +322,12 @@ export class NysUnavHeader extends LitElement {
     slot.assignedNodes({ flatten: false }).forEach((node) => {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const el = node as HTMLElement;
-        if (el.tagName.toLowerCase() === "nys-alert") return;
+        if (el.tagName.toLowerCase() === "nys-alert") {
+          // Match the max-width/centering of the header's other content rows
+          el.classList.add("content");
+          this._syncAlertBackground(el);
+          return;
+        }
 
         console.warn(
           "<nys-unavheader> only accepts <nys-alert> elements. Removing invalid node:",
@@ -537,7 +576,9 @@ export class NysUnavHeader extends LitElement {
             ></nys-textinput>
           </div>
         </div>
-        <slot @slotchange=${this._validateAlertSlot}></slot>
+        <div class="nys-unavheader__alert wrapper">
+          <slot @slotchange=${this._validateAlertSlot}></slot>
+        </div>
       </header>
     `;
   }
