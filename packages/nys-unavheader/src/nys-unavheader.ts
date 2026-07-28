@@ -90,6 +90,26 @@ interface Language {
  *     icon="ac_unit">
  *   </nys-alert>
  * </nys-unavheader>
+ * <nys-globalheader appName="Testing"></nys-globalheader>
+ * ```
+ *
+ * @example Multiple Alerts
+ * ```html
+ * <nys-unavheader>
+ *   <nys-alert
+ *     type="emergency"
+ *     heading="Emergency Example">
+ *   </nys-alert>
+ *   <nys-alert
+ *     type="info"
+ *     heading="Info Example">
+ *   </nys-alert>
+ *   <nys-alert
+ *     type="success"
+ *     heading="Success Example">
+ *   </nys-alert>
+ * </nys-unavheader>
+ * <nys-globalheader appName="Testing"></nys-globalheader>
  * ```
  */
 

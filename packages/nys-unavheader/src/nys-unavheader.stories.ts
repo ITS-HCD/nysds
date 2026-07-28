@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-unavheader";
 import "@nysds/nys-alert";
 import "@nysds/nys-button";
+import "@nysds/nys-globalheader";
 import "@nysds/nys-icon";
 import "@nysds/nys-textinput";
 
@@ -170,6 +171,7 @@ export const Alert: Story = {
           icon="ac_unit"
         ></nys-alert>
       </nys-unavheader>
+      <nys-globalheader appName="Testing"></nys-globalheader>
     `;
   },
   parameters: {
@@ -183,7 +185,35 @@ export const Alert: Story = {
     text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
     icon="ac_unit"
   ></nys-alert>
-</nys-unavheader>`,
+</nys-unavheader>
+<nys-globalheader appName="Testing"></nys-globalheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const MultipleAlerts: Story = {
+  render: () => {
+    return html`
+      <nys-unavheader>
+        <nys-alert type="emergency" heading="Emergency Example"></nys-alert>
+        <nys-alert type="info" heading="Info Example"></nys-alert>
+        <nys-alert type="success" heading="Success Example"></nys-alert>
+      </nys-unavheader>
+      <nys-globalheader appName="Testing"></nys-globalheader>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-unavheader>
+  <nys-alert type="emergency" heading="Emergency Example"></nys-alert>
+  <nys-alert type="info" heading="Info Example"></nys-alert>
+  <nys-alert type="success" heading="Success Example"></nys-alert>
+</nys-unavheader>
+<nys-globalheader appName="Testing"></nys-globalheader>`,
         type: "auto",
       },
     },

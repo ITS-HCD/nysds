@@ -15671,7 +15671,12 @@
             },
             {
               "title": "Alert",
-              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>\n</nys-unavheader>",
+              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>\n</nys-unavheader>\n<nys-globalheader appName=\"Testing\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Multiple Alerts",
+              "code": "<nys-unavheader>\n<nys-alert\ntype=\"emergency\"\nheading=\"Emergency Example\">\n</nys-alert>\n<nys-alert\ntype=\"info\"\nheading=\"Info Example\">\n</nys-alert>\n<nys-alert\ntype=\"success\"\nheading=\"Success Example\">\n</nys-alert>\n</nys-unavheader>\n<nys-globalheader appName=\"Testing\"></nys-globalheader>",
               "lang": "html"
             }
           ]
