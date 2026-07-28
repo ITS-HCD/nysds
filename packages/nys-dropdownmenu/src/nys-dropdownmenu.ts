@@ -158,6 +158,7 @@ export class NysDropdownMenu extends LitElement {
   }
 
   private _toggleDropdown = async () => {
+    console.log("_toggleDropdown");
     this.showDropdown = !this.showDropdown;
 
     this._ariaTarget?.setAttribute("aria-expanded", String(this.showDropdown));
@@ -180,6 +181,7 @@ export class NysDropdownMenu extends LitElement {
 
       await this.updateComplete;
       this._positionMenu();
+      console.log("Now calling focusOnItem");
       this._focusOnItem(this._lastFocusedIndex);
     } else {
       window.removeEventListener("scroll", this._handleWindowScroll, true);
@@ -223,11 +225,13 @@ export class NysDropdownMenu extends LitElement {
   };
 
   private async _focusOnItem(index: number = 0) {
+    console.log("HERE WE ARE IN _focusOnItem");
     await new Promise((resolve) => requestAnimationFrame(resolve));
     const items = this._getMenuItems();
     const target = items[Math.min(index, items.length - 1)];
     if (!target) return;
 
+    console.log(target);
     target.focus();
   }
 
@@ -449,10 +453,12 @@ export class NysDropdownMenu extends LitElement {
   }
 
   private _handleTriggerKeydown = (event: KeyboardEvent) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      this._toggleDropdown();
-    }
+    console.log("_handleTriggerKeydown");
+    if (event.defaultPrevented) return;
+    // if (event.key === "Enter" || event.key === " ") {
+    //   event.preventDefault();
+    //   this._toggleDropdown();
+    // }
 
     if (event.key === "Escape" && this.showDropdown) {
       event.preventDefault();
