@@ -553,15 +553,15 @@ export const StandaloneOnePerTableRow: Story = {
       <tr>
       <td>HEAP</td>
       <td>
-      <label>Brooklyn</label>
-      <input type="radio" name="group" value="Brooklyn"></input>
+      <label for="rg-bk1">Brooklyn</label>
+      <input id="rg-bk1" type="radio" name="group" value="Brooklyn"></input>
       </td>
       </tr>
       <tr>
       <td>Medicaid</td>
       <td>
-      <label>Manhattan</label>
-      <input type="radio" name="group" value="Manhattan"></input>
+      <label for="rg-bk2">Manhattan</label>
+      <input id="rg-bk2" type="radio" name="group" value="Manhattan"></input>
       </td>
       </tr>
       </table>
@@ -604,15 +604,15 @@ Select the highest priority application for review
 <tr>
 <td>HEAP</td>
 <td>
-<label>Brooklyn</label>
-<input type="radio" name="group" value="Brooklyn"></input>
+<label for="rg-bk1">Brooklyn</label>
+<input id="rg-bk1" type="radio" name="group" value="Brooklyn"></input>
 </td>
 </tr>
 <tr>
 <td>Medicaid</td>
 <td>
-<label>Manhattan</label>
-<input type="radio" name="group" value="Manhattan"></input>
+<label for="rg-bk2">Manhattan</label>
+<input id="rg-bk2" type="radio" name="group" value="Manhattan"></input>
 </td>
 </tr>
 </table>
