@@ -51,7 +51,7 @@ interface SpaceAvailable {
  *   </nys-dropdownmenu>
  * </div>
  * ```
- * 
+ *
  *  * @example Test
  * ```html
  * <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
@@ -183,7 +183,6 @@ export class NysDropdownMenu extends LitElement {
   }
 
   private _toggleDropdown = async () => {
-    console.log("toggleDropdown")
     this.showDropdown = !this.showDropdown;
 
     this._ariaTarget?.setAttribute("aria-expanded", String(this.showDropdown));
@@ -484,7 +483,6 @@ export class NysDropdownMenu extends LitElement {
   };
 
   private _handleMenuKeydown = (event: KeyboardEvent) => {
-    console.log("_handleMenuKeydown")
     const items = this._getMenuItems();
     const currentIndex = items.indexOf(document.activeElement as HTMLElement);
 
