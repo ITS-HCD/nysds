@@ -46,13 +46,18 @@
   padding: 0 var(--_nys-unavheader-padding--gutter);
 }
 
-/* `order` keeps the alert after the trust panel, which is reordered to `order: 2`
-   at the inline (>=768px) breakpoints. The background is copied off the slotted
-   alert in JS — `--_nys-alert-background-color` is scoped to the alert's own
-   :host, so it never inherits up to this wrapper. */
+/* One band per alert, so alerts with different types stack their own backgrounds.
+   `order` keeps them after the trust panel, which is reordered to `order: 2` at the
+   inline (>=768px) breakpoints; a shared `order` preserves their DOM order. The
+   background is set inline in JS — `--_nys-alert-background-color` is scoped to the
+   alert's own :host, so it never inherits up to this wrapper. */
 .nys-unavheader__alert.wrapper {
   order: 3;
-  background-color: var(--_nys-unavheader-background-color--alert, transparent);
+}
+
+/* Alerts only pass through here on their way to a numbered slot */
+.nys-unavheader__alert-collector {
+  display: none;
 }
 
 /* Slotted alerts sit flush against the header, so square off their corners.

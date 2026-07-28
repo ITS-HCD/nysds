@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavheader.scss?inline";
@@ -302,6 +302,13 @@ export class NysUnavHeader extends LitElement {
     }
   }
 
+  /**
+   * One resolved background color per slotted alert, in document order. The length
+   * drives how many bands render, so each alert gets its own full-bleed background
+   * instead of sharing (and nesting inside) a single wrapper.
+   */
+  @state() private _alertBackgrounds: string[] = [];
+
   /** Watches slotted alerts for `type` changes so the full-bleed band stays in sync. */
   private _alertTypeObserver = new MutationObserver((mutations) =>
     mutations.forEach((m) =>
@@ -309,10 +316,17 @@ export class NysUnavHeader extends LitElement {
     ),
   );
 
+  /** The slotted alerts, in document order. Index here matches band index. */
+  private get _alerts() {
+    return Array.from(
+      this.querySelectorAll(":scope > nys-alert"),
+    ) as HTMLElement[];
+  }
+
   /**
    * `--_nys-alert-background-color` lives on the alert's `:host`, so it only inherits
-   * downward — the header's own shadow tree can't read it. Copy the resolved value up
-   * to the host so the full-bleed band behind the alert matches it.
+   * downward — the header's own shadow tree can't read it. Copy the resolved value
+   * onto that alert's own band so the full-bleed background behind it matches.
    */
   private async _syncAlertBackground(alert: HTMLElement) {
     await customElements.whenDefined("nys-alert");
@@ -320,14 +334,16 @@ export class NysUnavHeader extends LitElement {
     await (alert as HTMLElement & { updateComplete?: Promise<unknown> })
       .updateComplete;
 
+    const index = this._alerts.indexOf(alert);
+    if (index < 0) return;
+
     const background = getComputedStyle(alert)
       .getPropertyValue("--_nys-alert-background-color")
       .trim();
 
-    this.style.setProperty(
-      "--_nys-unavheader-background-color--alert",
-      background,
-    );
+    const backgrounds = [...this._alertBackgrounds];
+    backgrounds[index] = background;
+    this._alertBackgrounds = backgrounds;
 
     this._alertTypeObserver.observe(alert, {
       attributes: true,
@@ -342,12 +358,7 @@ export class NysUnavHeader extends LitElement {
     slot.assignedNodes({ flatten: false }).forEach((node) => {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const el = node as HTMLElement;
-        if (el.tagName.toLowerCase() === "nys-alert") {
-          // Match the max-width/centering of the header's other content rows
-          el.classList.add("content");
-          this._syncAlertBackground(el);
-          return;
-        }
+        if (el.tagName.toLowerCase() === "nys-alert") return;
 
         console.warn(
           "<nys-unavheader> only accepts <nys-alert> elements. Removing invalid node:",
@@ -358,6 +369,29 @@ export class NysUnavHeader extends LitElement {
         // Strip stray text so only alerts render below the header
         node.parentNode?.removeChild(node);
       }
+    });
+
+    this._assignAlertBands();
+  }
+
+  /**
+   * Moves each alert out of the default (collector) slot into its own numbered slot,
+   * so every alert renders in a separate band and their backgrounds stack instead of
+   * one wrapper painting a single color behind all of them.
+   */
+  private _assignAlertBands() {
+    const alerts = this._alerts;
+
+    // Keep already-resolved colors so re-slotting doesn't flash back to transparent
+    this._alertBackgrounds = alerts.map(
+      (_, i) => this._alertBackgrounds[i] ?? "transparent",
+    );
+
+    alerts.forEach((alert, i) => {
+      // Match the max-width/centering of the header's other content rows
+      alert.classList.add("content");
+      alert.slot = `alert-${i}`;
+      this._syncAlertBackground(alert);
     });
   }
 
@@ -596,9 +630,21 @@ export class NysUnavHeader extends LitElement {
             ></nys-textinput>
           </div>
         </div>
-        <div class="nys-unavheader__alert wrapper">
-          <slot @slotchange=${this._validateAlertSlot}></slot>
-        </div>
+        ${this._alertBackgrounds.map(
+          (background, i) => html`
+            <div
+              class="nys-unavheader__alert wrapper"
+              style="background-color: ${background}"
+            >
+              <slot name="alert-${i}"></slot>
+            </div>
+          `,
+        )}
+        <!-- Collector: alerts land here first, then move into their numbered slot -->
+        <slot
+          class="nys-unavheader__alert-collector"
+          @slotchange=${this._validateAlertSlot}
+        ></slot>
       </header>
     `;
   }

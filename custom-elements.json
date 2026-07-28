@@ -15505,10 +15505,27 @@
             },
             {
               "kind": "field",
+              "name": "_alertBackgrounds",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "One resolved background color per slotted alert, in document order. The length\ndrives how many bands render, so each alert gets its own full-bleed background\ninstead of sharing (and nesting inside) a single wrapper."
+            },
+            {
+              "kind": "field",
               "name": "_alertTypeObserver",
               "privacy": "private",
               "default": "new MutationObserver((mutations) => mutations.forEach((m) => this._syncAlertBackground(m.target as HTMLElement), ), )",
               "description": "Watches slotted alerts for `type` changes so the full-bleed band stays in sync."
+            },
+            {
+              "kind": "field",
+              "name": "_alerts",
+              "privacy": "private",
+              "description": "The slotted alerts, in document order. Index here matches band index.",
+              "readonly": true
             },
             {
               "kind": "method",
@@ -15522,7 +15539,7 @@
                   }
                 }
               ],
-              "description": "`--_nys-alert-background-color` lives on the alert's `:host`, so it only inherits\ndownward — the header's own shadow tree can't read it. Copy the resolved value up\nto the host so the full-bleed band behind the alert matches it."
+              "description": "`--_nys-alert-background-color` lives on the alert's `:host`, so it only inherits\ndownward — the header's own shadow tree can't read it. Copy the resolved value\nonto that alert's own band so the full-bleed background behind it matches."
             },
             {
               "kind": "method",
@@ -15537,6 +15554,12 @@
                 }
               ],
               "description": "Removes anything slotted into the default slot that isn't a `<nys-alert>`."
+            },
+            {
+              "kind": "method",
+              "name": "_assignAlertBands",
+              "privacy": "private",
+              "description": "Moves each alert out of the default (collector) slot into its own numbered slot,\nso every alert renders in a separate band and their backgrounds stack instead of\none wrapper painting a single color behind all of them."
             }
           ],
           "events": [
