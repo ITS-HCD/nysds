@@ -96,11 +96,11 @@ nys-accordion {
     font-weight: var(--_nys-verticalnav-font-weight--header);
     line-height: var(--_nys-verticalnav-line-height);
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: var(--_nys-verticalnav-trigger--hover);
     }
 
-    &:active {
+    &:not(:disabled):active {
       background-color: var(--_nys-verticalnav-trigger--active);
     }
 

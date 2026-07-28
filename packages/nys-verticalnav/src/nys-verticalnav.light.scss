@@ -57,13 +57,13 @@ nys-verticalnav {
       font-weight: var(--_nys-verticalnav-font-weight);
       line-height: var(--_nys-verticalnav-line-height);
 
-      &:hover {
+      &:not([aria-disabled="true"]):hover {
         color: var(--nys-color-text, #1b1b1b);
         background-color: var(--nys-color-neutral-10, #f6f6f6);
         text-decoration: none; // nysds-full.min.scss overrides early text-decoration: none so this is needed again here
       }
 
-      &:active {
+      &:not([aria-disabled="true"]):active {
         background-color: var(--nys-color-neutral-50, #ededed);
       }
 
@@ -81,6 +81,7 @@ nys-verticalnav {
       &[aria-disabled="true"] {
         color: var(--nys-color-text-disabled, #bec0c1);
         cursor: not-allowed;
+        text-decoration: none;
       }
 
       &[aria-current="page"] {
@@ -89,11 +90,11 @@ nys-verticalnav {
         border-left: var(--nys-border-width-md, 2px) solid
           var(--nys-color-theme, #154973);
 
-        &:hover {
+        &:not(:disabled):hover {
           background-color: var(--nys-color-theme-weaker, #eff6fb);
         }
 
-        &:active {
+        &:not(:disabled):active {
           background-color: var(--nys-color-theme-weak, #cddde9);
         }
       }
@@ -138,6 +139,10 @@ nys-verticalnavgroup {
   nys-verticalnav ul > li:not(:last-child) {
     border-bottom: var(--nys-size-1px, 1px) solid
       var(--nys-color-neutral-100, #e4e5e6);
+  }
+
+  nys-verticalnav ul > li:not(:last-child) a {
+    margin-bottom: var(--nys-space-100, 8px);
   }
 
   nys-verticalnav nys-verticalnavgroup ul > li:not(:last-child) {
