@@ -51,6 +51,31 @@ interface SpaceAvailable {
  *   </nys-dropdownmenu>
  * </div>
  * ```
+ * 
+ *  * @example Test
+ * ```html
+ * <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
+ * <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+ *   <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Organizations" href="/organizations"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
+ * </nys-dropdownmenu>
+ * </div>
+ * ```
+ *
+ * @render Test
+ * ```html
+ * <div style="margin: 200px; display: flex; justify-content: center; align-items: center;">
+ *   <button id="my-trigger-id" label="Open Menu">TesT</button>
+ *   <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+ *     <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Organizations" href="/organizations"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
+ *   </nys-dropdownmenu>
+ * </div>
+ * ```
  */
 
 export class NysDropdownMenu extends LitElement {
@@ -158,6 +183,7 @@ export class NysDropdownMenu extends LitElement {
   }
 
   private _toggleDropdown = async () => {
+    console.log("toggleDropdown")
     this.showDropdown = !this.showDropdown;
 
     this._ariaTarget?.setAttribute("aria-expanded", String(this.showDropdown));
@@ -458,6 +484,7 @@ export class NysDropdownMenu extends LitElement {
   };
 
   private _handleMenuKeydown = (event: KeyboardEvent) => {
+    console.log("_handleMenuKeydown")
     const items = this._getMenuItems();
     const currentIndex = items.indexOf(document.activeElement as HTMLElement);
 
