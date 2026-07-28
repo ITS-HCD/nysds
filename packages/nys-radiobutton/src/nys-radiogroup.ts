@@ -534,9 +534,11 @@ export class NysRadiogroup extends LitElement {
     );
     if (firstEnabledRadio) {
       const focusFirstInput = () => {
-        this.shadowRoot
-          ?.querySelector<HTMLElement>(`#input-${firstEnabledRadio.id}`)
-          ?.focus();
+        const input = this.shadowRoot?.querySelector<HTMLElement>(
+          `#input-${firstEnabledRadio.id}`,
+        );
+        input?.focus();
+        input?.classList.add("nys-radiobutton__radio--invalid-focus");
       };
 
       // Focus only if this is the first invalid element (top-down approach)
@@ -649,6 +651,11 @@ export class NysRadiogroup extends LitElement {
   }
 
   private _handleRadiobtnBlur(radiobtn: NysRadiobutton) {
+    const input = this.shadowRoot?.querySelector<HTMLElement>(
+      `#input-${radiobtn.id}`,
+    );
+    input?.classList.remove("nys-radiobutton__radio--invalid-focus");
+
     radiobtn.dispatchEvent(
       new CustomEvent("nys-blur", { bubbles: true, composed: true }),
     );

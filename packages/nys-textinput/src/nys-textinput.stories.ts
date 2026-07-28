@@ -2,8 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-textinput";
 import "@nysds/nys-button";
-import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
 
 const meta: Meta = {
   title: "Components/Textinput",

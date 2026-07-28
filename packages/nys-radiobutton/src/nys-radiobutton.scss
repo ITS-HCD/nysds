@@ -313,7 +313,7 @@
 
 /* When input has focus, show outline on the custom span */
 .nys-radiobutton__radio:focus-visible,
-.nys-radiobutton__radio--force-outline {
+.nys-radiobutton__radio--invalid-focus {
   outline: solid var(--_nys-radiobutton-outline-width)
     var(--_nys-radiobutton-outline-color);
   outline-offset: var(--_nys-radiobutton-outline-offset);
