@@ -2227,16 +2227,6 @@
             },
             {
               "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "attribute": "ariaLabel"
-            },
-            {
-              "kind": "field",
               "name": "ariaControls",
               "type": {
                 "text": "string"
@@ -2317,16 +2307,6 @@
               "default": "\"\"",
               "description": "Value submitted with form data. Only used when `type=\"submit\"`.",
               "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "ariaDescription",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "attribute": "ariaDescription"
             },
             {
               "kind": "field",
@@ -2640,16 +2620,6 @@
               "propName": "label"
             },
             {
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "fieldName": "ariaLabel",
-              "propName": "arialabel"
-            },
-            {
               "name": "ariaControls",
               "type": {
                 "text": "string"
@@ -2728,16 +2698,6 @@
               "description": "Value submitted with form data. Only used when `type=\"submit\"`.",
               "fieldName": "value",
               "propName": "value"
-            },
-            {
-              "name": "ariaDescription",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "fieldName": "ariaDescription",
-              "propName": "ariadescription"
             },
             {
               "name": "ariaDescribedBy",

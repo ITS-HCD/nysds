@@ -45,9 +45,6 @@ export interface NysButtonProps extends Pick<
   /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: NysButtonElement["label"];
 
-  /** Screen reader label. Required for icon-only buttons if `label` is not set. */
-  ariaLabel?: NysButtonElement["ariaLabel"];
-
   /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
   ariaControls?: NysButtonElement["ariaControls"];
 
@@ -65,9 +62,6 @@ export interface NysButtonProps extends Pick<
 
   /** Value submitted with form data. Only used when `type="submit"`. */
   value?: NysButtonElement["value"];
-
-  /** Additional screen reader description. Sets `aria-description`. */
-  ariaDescription?: NysButtonElement["ariaDescription"];
 
   /** ID(s) of element(s) describing this button. Sets `aria-describedby`. */
   ariaDescribedBy?: NysButtonElement["ariaDescribedBy"];

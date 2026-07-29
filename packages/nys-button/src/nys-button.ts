@@ -169,11 +169,6 @@ export class NysButton extends LitElement {
   @property({ type: String }) label = "";
 
   /**
-   * Screen reader label. Required for icon-only buttons if `label` is not set.
-   */
-  @property({ type: String }) ariaLabel = "";
-
-  /**
    * ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
    */
   @property({ type: String }) ariaControls = "";
@@ -214,11 +209,6 @@ export class NysButton extends LitElement {
    * Value submitted with form data. Only used when `type="submit"`.
    */
   @property({ type: String }) value = "";
-
-  /**
-   * Additional screen reader description. Sets `aria-description`.
-   */
-  @property({ type: String }) ariaDescription = "";
 
   /**
    * ID(s) of element(s) describing this button. Sets `aria-describedby`.
@@ -443,14 +433,7 @@ export class NysButton extends LitElement {
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
-                aria-label=${ifDefined(
-                  this.ariaLabel ||
-                    this.label ||
-                    (this.circle ? this.icon : null) ||
-                    "button",
-                )}
                 aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
-                aria-description=${ifDefined(this.ariaDescription || undefined)}
               >
                 <slot
                   name="prefix-icon"
@@ -518,16 +501,7 @@ export class NysButton extends LitElement {
               @blur=${this._handleBlur}
               @keydown=${this._handleKeydown}
               @keyup=${this._handleKeyup}
-              aria-label=${ifDefined(
-                this.ariaLabel ||
-                  this.label ||
-                  (this.circle ? this.icon : null) ||
-                  this.prefixIcon ||
-                  this.suffixIcon ||
-                  "button",
-              )}
               aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
-              aria-description=${ifDefined(this.ariaDescription || undefined)}
             >
               <slot
                 name="prefix-icon"

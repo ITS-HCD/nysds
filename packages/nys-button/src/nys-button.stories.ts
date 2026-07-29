@@ -25,7 +25,6 @@ export const Basic: Story = {
     variant: "filled",
     inverted: false,
     label: "Button",
-    ariaLabel: "",
     ariaControls: "",
     prefixIcon: "",
     suffixIcon: "",
@@ -33,7 +32,6 @@ export const Basic: Story = {
     icon: "",
     disabled: false,
     value: "",
-    ariaDescription: "",
     ariaDescribedBy: "",
     type: "button",
     href: "",
@@ -63,7 +61,6 @@ export const Basic: Story = {
         variant=${args.variant}
         ?inverted=${args.inverted}
         label=${args.label}
-        ariaLabel=${args.ariaLabel}
         ariaControls=${args.ariaControls}
         prefixIcon=${args.prefixIcon}
         suffixIcon=${args.suffixIcon}
@@ -71,7 +68,6 @@ export const Basic: Story = {
         icon=${args.icon}
         ?disabled=${args.disabled}
         value=${args.value}
-        ariaDescription=${args.ariaDescription}
         ariaDescribedBy=${args.ariaDescribedBy}
         type=${args.type}
         href=${args.href}
