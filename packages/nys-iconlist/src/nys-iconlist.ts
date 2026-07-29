@@ -2,7 +2,7 @@ import { LitElement, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import "./nys-iconlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from "./nys-iconlist.scss?inline";
+import lightStyles from "./nys-iconlist.light.scss?inline";
 
 let componentIdCounter = 0;
 
@@ -13,7 +13,7 @@ let _lightSheet: CSSStyleSheet | null = null;
 function adoptLightStyles() {
   if (_lightSheet || typeof document === "undefined") return;
   _lightSheet = new CSSStyleSheet();
-  _lightSheet.replaceSync(styles);
+  _lightSheet.replaceSync(lightStyles);
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
 }
 
@@ -30,7 +30,7 @@ function adoptLightStyles() {
  * Children: one or more `<nys-iconlistitem>` elements, kept in light DOM so the
  * `list`/`listitem` roles stay directly related in the accessibility tree. The
  * host itself is the `role="list"` container and renders in the light DOM, so
- * its styling comes from `nys-iconlist.scss` adopted once onto
+ * its styling comes from `nys-iconlist.light.scss` adopted once onto
  * `document.adoptedStyleSheets` rather than from a shadow-DOM stylesheet.
  *
  * @example Basic
@@ -101,14 +101,13 @@ export class NysIconlist extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    adoptLightStyles();
     if (!this.id) {
       this.id = `nys-iconlist-${Date.now()}-${componentIdCounter++}`;
     }
     if (!this.hasAttribute("role")) {
       this.setAttribute("role", "list");
     }
-
-    adoptLightStyles();
 
     this._childObserver.observe(this, { childList: true });
     this._syncDividers();
