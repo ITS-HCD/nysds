@@ -20,6 +20,7 @@ const packages = [
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
   { name: "nys-icon", path: "packages/nys-icon" },
+  { name: "nys-iconlist", path: "packages/nys-iconlist" },
   { name: "nys-label", path: "packages/nys-label" },
   { name: "nys-modal", path: "packages/nys-modal" },
   { name: "nys-pagination", path: "packages/nys-pagination" },

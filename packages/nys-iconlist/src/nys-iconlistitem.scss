@@ -1,0 +1,73 @@
+:host {
+  --_nys-iconlistitem-gap: var(--nys-space-150, 12px);
+  --_nys-iconlistitem-align-items: center;
+
+  /* Without this the host defaults to display:inline while its shadow content
+     is block-level, which splits it into anonymous blocks and drops its
+     accessibility node — taking role="listitem" with it. */
+  display: block;
+
+  color: var(--nys-color-text);
+
+  /* UI/Large/Semibold */
+  --_nys-iconlistitem-font-family: var(
+    --nys-font-family-ui,
+    "Proxima Nova",
+    "Helvetica Neue",
+    "Helvetica",
+    "Arial",
+    sans-serif
+  );
+  --_nys-iconlistitem-font-size: var(--nys-font-size-ui-lg, 18px);
+  --_nys-iconlistitem-font-style: normal;
+  --_nys-iconlistitem-font-weight: 600;
+  --_nys-iconlistitem-line-height: var(
+    --nys-font-lineheight-ui-lg,
+    28px
+  ); /* 155.556% */
+
+  --_nys-iconlistitem-letter-spacing: var(
+    --nys-font-letterspacing-ui-lg,
+    0.028px
+  );
+  --_nys-iconlistitem-color--divider: var(--nys-color-neutral-100, #d0d0ce);
+  --_nys-iconlistitem-width--divider: var(--nys-size-1px, 1px);
+  --_nys-iconlistitem-spacing--divider: var(--nys-space-150, 12px);
+  --_nys-iconlistitem-padding--icon: var(--nys-space-50, 4px);
+}
+
+/* When a secondary label is present, align icon to the top */
+:host([data-has-secondary]) {
+  --_nys-iconlistitem-align-items: flex-start;
+}
+
+.nys-iconlistitem {
+  display: flex;
+  gap: var(--_nys-iconlistitem-gap);
+  align-items: var(--_nys-iconlistitem-align-items);
+
+  // when no divider, add spacing between items
+  padding-bottom: var(--_nys-iconlistitem-spacing--divider);
+}
+
+:host([divider]) .nys-iconlistitem {
+  padding-bottom: var(--_nys-iconlistitem-spacing--divider);
+  margin-bottom: var(--_nys-iconlistitem-spacing--divider);
+  border-bottom: var(--_nys-iconlistitem-width--divider) solid
+    var(--_nys-iconlistitem-color--divider);
+}
+
+.nys-iconlistitem__icon {
+  padding: var(--_nys-iconlistitem-padding--icon);
+}
+
+.nys-iconlistitem__label {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--_nys-iconlistitem-font-family);
+  font-size: var(--_nys-iconlistitem-font-size);
+  font-style: var(--_nys-iconlistitem-font-style);
+  font-weight: var(--_nys-iconlistitem-font-weight);
+  line-height: var(--_nys-iconlistitem-line-height);
+  letter-spacing: var(--_nys-iconlistitem-letter-spacing);
+}

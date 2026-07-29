@@ -18,6 +18,7 @@
     { "path": "packages/nys-globalfooter" },
     { "path": "packages/nys-globalheader" },
     { "path": "packages/nys-icon" },
+    { "path": "packages/nys-iconlist" },
     { "path": "packages/nys-label" },
     { "path": "packages/nys-modal" },
     { "path": "packages/nys-pagination" },
