@@ -2,6 +2,18 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalfooter.scss?inline";
+// @ts-ignore: SCSS module imported via bundler as inline
+import lightStyles from "./nys-globalfooter.light.scss?inline";
+
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the lightDOM styling for the scss for
+// styling CSS into the adopted/constructed stylesheet.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
 
 /**
  * Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.
@@ -88,6 +100,11 @@ export class NysGlobalFooter extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  connectedCallback() {
+    super.connectedCallback();
+    adoptLightStyles();
+  }
+
   firstUpdated() {
     // Check for slot content after rendering
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
@@ -100,7 +117,8 @@ export class NysGlobalFooter extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
+  // Gets called when the slot content changes.
+  // Slotted elements stay in the light DOM (styled via adoptLightStyles) and projected in the <slot>.
   private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) return;
@@ -121,37 +139,26 @@ export class NysGlobalFooter extends LitElement {
       (node) => node.tagName === "H4",
     );
 
-    // Toggle layout classes
-    if (container) {
-      container.classList.toggle("columns", hasMultipleGroups);
-      container.classList.toggle("small", !hasMultipleGroups);
+    this.classList.toggle("columns", hasMultipleGroups);
+    this.classList.toggle("small", !hasMultipleGroups);
 
-      container.innerHTML = "";
+    container?.classList.toggle("columns", hasMultipleGroups);
+    container?.classList.toggle("small", !hasMultipleGroups);
 
-      // Clone and append slotted elements into the shadow DOM container
-      assignedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const cleanNode = node.cloneNode(true);
+    assignedNodes.forEach((node) => {
+      const spans =
+        node.tagName === "SPAN"
+          ? [node]
+          : Array.from(node.querySelectorAll("span"));
 
-          // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
-          const dangerousTags = ["script", "iframe", "object", "embed", "img"];
-          dangerousTags.forEach((tag) => {
-            (cleanNode as Element)
-              .querySelectorAll(tag)
-              .forEach((element) => element.remove());
-          });
-          container.appendChild(cleanNode);
-          node.remove(); // Remove from light DOM to avoid duplication
+      spans.forEach((span) => {
+        if (span.nextElementSibling?.tagName !== "NYS-DIVIDER") {
+          const divider = document.createElement("nys-divider");
+          divider.classList.add("divider");
+          span.insertAdjacentElement("afterend", divider);
         }
       });
-
-      const spans = container.querySelectorAll("span");
-      spans.forEach((span) => {
-        const divider = document.createElement("nys-divider");
-        divider.classList.add("divider");
-        span.insertAdjacentElement("afterend", divider);
-      });
-    }
+    });
   }
 
   render() {
@@ -172,10 +179,7 @@ export class NysGlobalFooter extends LitElement {
           </div>
           ${this.slotHasContent
             ? html`<div class="nys-globalfooter__content">
-                <slot
-                  style="display: hidden"
-                  @slotchange="${this._handleSlotChange}"
-                ></slot>
+                <slot @slotchange="${this._handleSlotChange}"></slot>
               </div>`
             : ""}
         </div>
