@@ -285,6 +285,21 @@ export const Masking: Story = {
   },
 };
 
+export const Password: Story = {
+  render: () => {
+    return html` <nys-textinput type="password"></nys-textinput> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput type="password"></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const MaxMinValues: Story = {
   render: () => {
     return html`

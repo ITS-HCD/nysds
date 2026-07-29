@@ -128,4 +128,6 @@ export class NysFileItem extends LitElement {
   }
 }
 
-customElements.define("nys-fileitem", NysFileItem);
+if (!customElements.get("nys-fileitem")) {
+  customElements.define("nys-fileitem", NysFileItem);
+}
