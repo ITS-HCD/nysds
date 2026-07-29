@@ -507,7 +507,7 @@ export class NysUnavHeader extends LitElement {
             <nys-button
               id="nys-unavheader__know"
               label="Here's how you know"
-              variant="ghost"
+              variant="text"
               size="sm"
               @nys-click="${(e: CustomEvent) => {
                 e.preventDefault();
@@ -586,7 +586,7 @@ export class NysUnavHeader extends LitElement {
                 label="Here's how you know"
                 aria-controls="nys-unavheader__closetrustbar"
                 aria-expanded="${this.trustbarVisible}"
-                variant="ghost"
+                variant="text"
                 size="sm"
                 @nys-click="${() =>
                   this._toggleTrustbar("nys-unavheader__know--inline")}"

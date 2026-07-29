@@ -13954,6 +13954,11 @@
             },
             {
               "kind": "method",
+              "name": "_clearSearch",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_updateOverlay",
               "privacy": "private",
               "parameters": [
@@ -14349,6 +14354,11 @@
             {
               "title": "Masking",
               "code": "<nys-textinput type=\"tel\" label=\"Phone Number\">\n<div slot=\"description\">Some types, such as <code>tel</code> have automatic masking available.</div>\n</nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Password",
+              "code": "<nys-textinput type=\"password\"></nys-textinput>",
               "lang": "html"
             },
             {
