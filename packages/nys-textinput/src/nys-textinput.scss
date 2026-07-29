@@ -135,6 +135,13 @@
   font: inherit;
 }
 
+/* Hide the browser's native search clear "X" — replaced by the nys-button above */
+.nys-textinput__input[type="search"]::-webkit-search-cancel-button,
+.nys-textinput__input[type="search"]::-webkit-search-decoration {
+  appearance: none;
+  display: none;
+}
+
 .nys-textinput__input::placeholder {
   color: var(--_nys-textinput-color--placeholder);
 }
@@ -192,7 +199,7 @@
     var(--_nys-textinput-border-radius) 0;
 }
 
-.eye-icon {
+.inline-icon {
   position: absolute;
   right: var(--nys-space-50, 4px);
   top: 50%;
@@ -209,7 +216,6 @@
   --_nys-button-outline-focus: calc(var(--_nys-button-outline-width) * -1);
 
   /* Needs to be negative of the offset width */
-
   --_nys-button-padding--y: var(--nys-space-50, 4px);
   --_nys-button-padding--x: var(--nys-space-50, 4px);
   --_nys-button-height: var(--nys-size-300, 32px);

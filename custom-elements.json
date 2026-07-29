@@ -7084,7 +7084,15 @@
             {
               "kind": "method",
               "name": "_dispatchChangeEvent",
-              "privacy": "private"
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "changedFiles",
+                  "type": {
+                    "text": "FileWithProgress[]"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -7166,6 +7174,24 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_addFiles",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<FileWithProgress[]>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "files",
+                  "type": {
+                    "text": "File[]"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -7181,7 +7207,7 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Fired when files are added or removed. Detail: `{id, files}`."
+              "description": "Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: \"pending\" | \"processing\" | \"done\" | \"error\", errorMsg?: string }`."
             }
           ],
           "attributes": [
@@ -14170,6 +14196,11 @@
             },
             {
               "kind": "method",
+              "name": "_clearSearch",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_updateOverlay",
               "privacy": "private",
               "parameters": [
@@ -14565,6 +14596,11 @@
             {
               "title": "Masking",
               "code": "<nys-textinput type=\"tel\" label=\"Phone Number\">\n<div slot=\"description\">Some types, such as <code>tel</code> have automatic masking available.</div>\n</nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Password",
+              "code": "<nys-textinput type=\"password\"></nys-textinput>",
               "lang": "html"
             },
             {

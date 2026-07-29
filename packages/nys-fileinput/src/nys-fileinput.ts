@@ -30,7 +30,11 @@ interface FileWithProgress {
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`.
+ * @fires nys-change - Fired once per user action (file selection, drop, or removal).
+ * Detail: `{id, files, changedFiles}`. The `files` is the full current selection
+ * Whereas `changedFiles` is the entries this action added or removed.
+ * Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
+ *
  * @fires nys-blur - Fired when focus leaves the component. Triggers validation.
  *
  * @example Basic
@@ -482,6 +486,8 @@ export class NysFileinput extends LitElement {
     // Now that the file is added, update form value and validation
     this._setValue();
     this._validate();
+
+    return entry;
   }
 
   // Read the contents of stored files, this will indicate loading progress of the uploaded files
@@ -539,10 +545,14 @@ export class NysFileinput extends LitElement {
     );
   }
 
-  private _dispatchChangeEvent() {
+  private _dispatchChangeEvent(changedFiles: FileWithProgress[]) {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
-        detail: { id: this.id, files: this._selectedFiles },
+        detail: {
+          id: this.id,
+          files: this._selectedFiles,
+          changedFiles,
+        },
         bubbles: true,
         composed: true,
       }),
@@ -593,27 +603,29 @@ export class NysFileinput extends LitElement {
    */
 
   // Access the selected files & add new files to the internal list via the hidden <input type="file">
-  private _handleFileChange(e: Event) {
+  private async _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
     const files = input.files;
     const newFiles = files ? Array.from(files) : []; // changes FileList to array
 
     // Store the uploaded files
-    newFiles.map((file) => {
-      this._saveSelectedFiles(file);
-    });
+    const changedFiles = await this._addFiles(newFiles);
 
     this.requestUpdate();
-    this._dispatchChangeEvent();
+    if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
     this._handlePostFileSelectionFocus();
   }
 
   private _handleFileRemove(e: CustomEvent) {
-    const filenameToRemove = e.detail.filename;
+    const fileNameToRemove = e.detail.filename;
+
+    const removed = this._selectedFiles.find(
+      (existingFile) => existingFile.file.name === fileNameToRemove,
+    );
 
     // Remove selected files
     this._selectedFiles = this._selectedFiles.filter(
-      (existingFile) => existingFile.file.name !== filenameToRemove,
+      (existingFile) => existingFile.file.name !== fileNameToRemove,
     );
 
     if (this._selectedFiles.length === 0) {
@@ -627,7 +639,7 @@ export class NysFileinput extends LitElement {
     this._validate();
 
     this.requestUpdate();
-    this._dispatchChangeEvent();
+    if (removed) this._dispatchChangeEvent([removed]);
   }
 
   private _onDragOver(e: DragEvent) {
@@ -654,7 +666,7 @@ export class NysFileinput extends LitElement {
     }
   }
 
-  private _onDrop(e: DragEvent) {
+  private async _onDrop(e: DragEvent) {
     if (this.disabled) return;
 
     e.preventDefault();
@@ -665,17 +677,21 @@ export class NysFileinput extends LitElement {
     if (!files) return;
 
     const newFiles = Array.from(files);
+    const filesToAdd = this.multiple ? newFiles : [newFiles[0]];
 
-    if (this.multiple) {
-      newFiles.forEach((file) => {
-        this._saveSelectedFiles(file);
-      });
-    } else {
-      this._saveSelectedFiles(newFiles[0]);
-    }
+    const changedFiles = await this._addFiles(filesToAdd);
 
     this.requestUpdate();
-    this._dispatchChangeEvent();
+    if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
+  }
+
+  private async _addFiles(files: File[]): Promise<FileWithProgress[]> {
+    const savedEntries = await Promise.all(
+      files.map((file) => this._saveSelectedFiles(file)),
+    );
+    return savedEntries.filter(
+      (entry): entry is FileWithProgress => entry !== undefined,
+    );
   }
 
   render() {
