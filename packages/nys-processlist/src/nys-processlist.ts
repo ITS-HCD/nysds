@@ -3,15 +3,20 @@ import { property } from "lit/decorators.js";
 import { NysProcesslistitem } from "./nys-processlistitem";
 import "./nys-processlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from "./nys-processlist.scss?inline";
+import lightStyles from "./nys-processlist.light.scss?inline";
 
 let componentIdCounter = 0;
 
-// The list renders in light DOM, so its styles are adopted into whichever
-// root (document or containing shadow root) the element lives in — once per root.
-const lightSheet = new CSSStyleSheet();
-lightSheet.replaceSync(styles);
-const styledRoots = new WeakSet<Document | ShadowRoot>();
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the light-DOM styling for <nys-processlist> into a single constructed
+// stylesheet adopted on the document. Guarded so it runs once regardless of how
+// many lists mount, and skipped during SSR where `document` is undefined.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
 
 /**
  * A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.
@@ -23,7 +28,10 @@ const styledRoots = new WeakSet<Document | ShadowRoot>();
  * @element nys-processlist
  *
  * Children: one or more `<nys-processlistitem>` elements, kept in light DOM so the
- * `list`/`listitem` roles stay directly related in the accessibility tree.
+ * `list`/`listitem` roles stay directly related in the accessibility tree. The
+ * host itself is the `role="list"` container and renders in the light DOM, so
+ * its styling comes from `nys-processlist.light.scss` adopted once onto
+ * `document.adoptedStyleSheets` rather than from a shadow-DOM stylesheet.
  *
  * @example Basic
  * ```html
@@ -129,17 +137,12 @@ export class NysProcesslist extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    adoptLightStyles();
     if (!this.id) {
       this.id = `nys-processlist-${Date.now()}-${componentIdCounter++}`;
     }
     if (!this.hasAttribute("role")) {
       this.setAttribute("role", "list");
-    }
-
-    const root = this.getRootNode() as Document | ShadowRoot;
-    if (!styledRoots.has(root)) {
-      styledRoots.add(root);
-      root.adoptedStyleSheets = [...root.adoptedStyleSheets, lightSheet];
     }
 
     this._childObserver.observe(this, { childList: true });

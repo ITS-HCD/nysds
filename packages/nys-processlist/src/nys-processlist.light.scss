@@ -1,0 +1,63 @@
+// Light-DOM styles for <nys-processlist>.
+
+// Injected once into `document.adoptedStyleSheets` (see nys-processlist.ts) so
+// the list container is styled from the light DOM. <nys-processlist> has no
+// shadow root at all (`createRenderRoot()` returns `this`): the element carries
+// role="list" and its <nys-processlistitem> children must be its direct DOM
+// children, or Chrome ≥150 drops the listitem roles from the a11y tree. With no
+// shadow root there is no shadow sheet to hold these rules, so every list-level
+// style lives here.
+
+// Every selector is scoped to the `nys-processlist` tag name so nothing leaks
+// to the rest of the document. A document-adopted sheet cannot pierce shadow
+// DOM, so the list must sit in the document's light DOM.
+
+// The list-level variants below set `--_nys-processlist*` custom properties on
+// the items. Those properties are declared on the item's own `:host`
+// (nys-processlistitem.scss), and a rule in the outer tree beats a `:host` rule
+// for the same property, so these overrides win and inherit into the item's
+// shadow DOM.
+nys-processlist {
+  display: block;
+}
+
+// Only <nys-processlistitem> children are rendered; hide anything else rather
+// than removing it from the light DOM (framework-owned nodes).
+nys-processlist > :not(nys-processlistitem) {
+  display: none;
+}
+
+// `strong` lives on the list, not the item, so the override is applied here.
+nys-processlist[strong] > nys-processlistitem {
+  --_nys-processlist-color--step: var(--nys-color-surface, #ffffff);
+  --_nys-processlist-background-color--step: var(
+    --_nys-processlist-theme--step
+  );
+}
+
+// `neutral` lives on the list, not the item, so the override is applied here.
+nys-processlist[neutral] > nys-processlistitem {
+  --_nys-processlist-theme--step: var(--nys-color-neutral-600, #62666a);
+  --_nys-processlist-theme--connector: var(--nys-color-neutral-100, #d0d0ce);
+}
+
+// When both variants are set, the connector uses a darker neutral so it stays
+// visible against the strong step's higher-contrast fill.
+nys-processlist[strong][neutral] > nys-processlistitem {
+  --_nys-processlist-theme--connector: var(--nys-color-neutral-200, #bec0c1);
+}
+
+// `size` lives on the list, not the item, so the override is applied here.
+nys-processlist[size="sm"] > nys-processlistitem {
+  /* UI/Small/Semibold */
+  --_nys-processlistitem-font-family: var(--nys-font-family-ui, "Proxima Nova");
+  --_nys-processlistitem-font-size: var(--nys-font-size-ui-sm, 14px);
+  --_nys-processlistitem-font-weight: 600;
+  --_nys-processlistitem-line-height: var(--nys-font-lineheight-ui-sm, 24px);
+  --_nys-processlistitem-letter-spacing: var(
+    --p-type-unpublished-font-letterspacing-ui-sm,
+    0.044px
+  );
+  --_nys-processlist-size--step: var(--nys-size-300, 24px);
+  --_nys-processlistitem-padding-top: var(--nys-space-1px, 1px);
+}
