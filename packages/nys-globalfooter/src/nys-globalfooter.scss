@@ -26,7 +26,10 @@
     --nys-font-weight-semibold,
     600
   );
-  --_nys-globalfooter-max-width: var(--nys-max-content-width, 1280px);
+  --_nys-globalfooter-max-width--content: var(
+    --nys-globalfooter-max-width--content,
+    1280px
+  );
 
   /* Agency Name */
   --_nys-globalfooter-font-family--agency: var(
@@ -78,7 +81,7 @@
     flex-direction: column;
     gap: var(--_nys-globalfooter-gap);
     width: 100%;
-    max-width: var(--_nys-globalfooter-max-width);
+    max-width: var(--_nys-globalfooter-max-width--content);
 
     .nys-globalfooter__heading-container {
       display: flex;
