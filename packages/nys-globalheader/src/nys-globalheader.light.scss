@@ -12,6 +12,7 @@ nys-globalheader > ul li {
   box-sizing: border-box;
 }
 
+/***** Link states *****/
 nys-globalheader > ul a {
   color: var(--_nys-globalheader-color);
   text-decoration: none;
@@ -20,6 +21,10 @@ nys-globalheader > ul a {
   font-weight: 400;
   line-height: var(--_nys-globalheader-line-height--menu);
   letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
+}
+
+nys-globalheader > ul a:visited {
+  color: var(--_nys-globalheader-color);
 }
 
 nys-globalheader > ul a:hover,
@@ -33,14 +38,19 @@ nys-globalheader > ul a:focus-visible {
   text-underline-position: from-font;
 }
 
+nys-globalheader > ul a:focus {
+  color: var(--_nys-globalheader-color);
+}
+
 nys-globalheader > ul a:active {
+  color: var(--_nys-globalheader-color);
   text-decoration-thickness: var(
     --_nys-globalheader-text-decoration-thickness--menu
   );
 }
-
 /* Active link */
 nys-globalheader > ul li.active a {
+  color: var(--_nys-globalheader-color);
   font-weight: 700;
 }
 
@@ -79,11 +89,14 @@ nys-globalheader > ul li.active a:hover {
     background-color: var(--_nys-globalheader-background-color);
   }
 
-  nys-globalheader[mobile-menu-open] > ul li a:hover {
+  nys-globalheader[mobile-menu-open] > ul li a:hover,
+  nys-globalheader[mobile-menu-open] > ul li a:focus-visible {
+    color: var(--_nys-globalheader-color);
     background-color: var(--_nys-globalheader-background-color--menu--hover);
   }
 
   nys-globalheader[mobile-menu-open] > ul li a:active {
+    color: var(--_nys-globalheader-color);
     background-color: var(--_nys-globalheader-background-color--menu--active);
   }
 
