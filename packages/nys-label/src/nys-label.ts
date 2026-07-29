@@ -119,9 +119,14 @@ export class NysLabel extends LitElement {
                 ></nys-icon> `
             : ""}
         </div>
-        <p class="nys-label__description" @click=${this._dispatchLabelClick}>
-          <slot name="description">${this.description}</slot>
-        </p>
+        ${this.description
+          ? html`<p
+              class="nys-label__description"
+              @click=${this._dispatchLabelClick}
+            >
+              <slot name="description">${this.description}</slot>
+            </p>`
+          : ""}
       </div>
     `;
   }
