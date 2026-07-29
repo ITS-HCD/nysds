@@ -624,7 +624,8 @@ async function main() {
       while ((m = tagRe.exec(renderCode)) !== null) usedTags.add(m[1]);
     });
 
-    // Also scan source files for internal usage of common components
+    // Also scan source files for any nys-* tag rendered internally (e.g. the
+    // nys-label / nys-errormessage a form control renders in its own template).
     const componentSourceFiles = fs
       .readdirSync(dir)
       .filter(
@@ -632,25 +633,44 @@ async function main() {
       );
     for (const f of componentSourceFiles) {
       const content = fs.readFileSync(path.join(dir, f), "utf8");
-      if (content.includes("<nys-label")) usedTags.add("nys-label");
-      if (content.includes("<nys-errormessage")) usedTags.add("nys-errormessage");
-      if (content.includes("<nys-textinput")) usedTags.add("nys-textinput");
+      const tagRe = /<(nys-[\w-]+)/g;
+      let m;
+      while ((m = tagRe.exec(content)) !== null) usedTags.add(m[1]);
     }
 
-    const siblingImports = [...usedTags]
-      .filter((t) => t !== componentName)
-      .map((t) => {
-        const modPath = tagToModule[t];
-        if (modPath) {
-          if (path.dirname(modPath) === dir) {
-            return `import "./${t}";`;
+    // Every @nysds/nys-* dependency declared in the package's package.json is
+    // needed at runtime, including transitive-only ones that never appear as a
+    // literal tag here (e.g. nys-textinput slots a nys-button whose prefixIcon
+    // renders a nys-icon). Import them all so stories don't silently render
+    // undefined elements.
+    const declaredPackageDeps = new Set();
+    const pkgJsonPath = path.join(path.dirname(dir), "package.json");
+    if (fs.existsSync(pkgJsonPath)) {
+      const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
+      for (const depName of Object.keys(pkgJson.dependencies || {})) {
+        const match = depName.match(/^@nysds\/(nys-[\w-]+)$/);
+        if (match && match[1] !== componentName) declaredPackageDeps.add(match[1]);
+      }
+    }
+
+    const siblingImports = [
+      ...[...usedTags]
+        .filter((t) => t !== componentName)
+        .map((t) => {
+          const modPath = tagToModule[t];
+          if (modPath) {
+            if (path.dirname(modPath) === dir) {
+              return `import "./${t}";`;
+            }
+            const pkg = tagToPackage[t] ?? t;
+            return `import "@nysds/${pkg}";`;
           }
-          const pkg = tagToPackage[t] ?? t;
-          return `import "@nysds/${pkg}";`;
-        }
-        return `import "@nysds/${t}";`;
-      })
+          return `import "@nysds/${t}";`;
+        }),
+      ...[...declaredPackageDeps].map((pkg) => `import "@nysds/${pkg}";`),
+    ]
       .filter((imp, i, arr) => arr.indexOf(imp) === i)  // dedupe same-package tags
+      .sort()
       .join("\n");
 
     // Hoist all <script data-scope="module"> blocks to module scope, deduped
