@@ -19,6 +19,8 @@ export * from "./NysFileItem.js";
 export * from "./NysGlobalFooter.js";
 export * from "./NysGlobalHeader.js";
 export * from "./NysIcon.js";
+export * from "./NysIconlist.js";
+export * from "./NysIconlistitem.js";
 export * from "./NysLabel.js";
 export * from "./NysModal.js";
 export * from "./NysPagination.js";

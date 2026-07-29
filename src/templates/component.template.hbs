@@ -4,7 +4,7 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-{{componentName}}.scss?inline";
 
 
-let componentIdCounter = 0; 
+let componentIdCounter = 0;
 
 /**
  * `<nys-your-component-name>` is ...
@@ -19,9 +19,15 @@ export class Nys{{capitalize componentName}} extends LitElement {
   };
   {{/if}}
 
+  /**
+   * Unique identifier. Auto-generated if not provided.
+   */
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) name = "";
   {{#if formRelated}}
+  /**
+   * Name for form submission.
+   */
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
@@ -72,7 +78,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
-   
+
   constructor() {
     super();
   }
@@ -91,7 +97,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
    * Form Integration
    * --------------------------------------------------------------------------
    */
-   
+
   /**
   * Placeholder for form-related helper methods
   * Refer to existing form-related components for full integration. Only a subset of functions is included here!
@@ -179,7 +185,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.checkValidity() : true;
   }
-  
+
   // This callback is automatically called when the parent form is reset.
   public formResetCallback() {
     this.value = "";
