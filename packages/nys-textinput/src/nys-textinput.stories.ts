@@ -2,8 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-textinput";
 import "@nysds/nys-button";
-import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
 
 const meta: Meta = {
   title: "Components/Textinput",
@@ -278,6 +279,21 @@ export const Masking: Story = {
     have automatic masking available.
   </div>
 </nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Password: Story = {
+  render: () => {
+    return html` <nys-textinput type="password"></nys-textinput> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput type="password"></nys-textinput>`,
         type: "auto",
       },
     },
