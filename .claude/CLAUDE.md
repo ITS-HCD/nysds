@@ -56,6 +56,24 @@ Each package: `tsc --emitDeclarationOnly` → `vite build`. Package vite configs
 - Styles use design tokens from `@nysds/tokens`
 - TypeScript strict mode
 - CI runs on PRs to develop/main
+- `nys-label` is for form components only. Elsewhere, render label/description text as plain markup in the component's own shadow DOM.
+
+### CSS Custom Property Naming
+
+Private custom properties are named `--_nys-<component>-<property-name>--<delimiter>` — the CSS property name comes first, and any variant/part qualifier is appended after a double dash.
+
+```scss
+// Correct
+--_nys-processlistitem-font-size--description;
+--_nys-processlist-color--step;
+--_nys-processlistitem-padding-top; // unqualified: no suffix needed
+
+// Wrong
+--_nys-processlistitem-description-font-size;
+--_nys-processlist-step-color;
+```
+
+This applies to declarations and to variant override blocks in light-DOM stylesheets.
 
 ## MCP Server
 
