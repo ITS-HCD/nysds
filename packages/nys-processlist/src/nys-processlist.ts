@@ -34,9 +34,42 @@ function adoptLightStyles() {
  * its styling comes from `nys-processlist.light.scss` adopted once onto
  * `document.adoptedStyleSheets` rather than from a shadow-DOM stylesheet.
  *
+ * A list carries no accessible name of its own. Give one with `ariaLabel`, or with
+ * `ariaLabelledBy` pointing at the visible heading above the list, so screen reader users can
+ * tell what the process is and distinguish it from any other list on the page. Use
+ * `ariaDescribedBy` for supporting copy such as an intro paragraph.
+ *
  * @example Basic
  * ```html
  * <nys-processlist id="application-steps">
+ *   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+ *   <nys-processlistitem label="Complete the application"></nys-processlistitem>
+ *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+ * </nys-processlist>
+ * ```
+ *
+ * @example Accessible Name
+ * ```html
+ * <nys-processlist id="application-steps-labelled" aria-label="Application steps">
+ *   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+ *   <nys-processlistitem label="Complete the application"></nys-processlistitem>
+ * </nys-processlist>
+ * ```
+ *
+ * @example Accessible Name and Description
+ * When a visible heading and intro paragraph already describe the process, point at them rather
+ * than repeating the text, so the accessible name cannot drift from the visible one.
+ * ```html
+ * <h2 id="process-heading">Super duper app process</h2>
+ * <p id="process-intro">
+ *   In order to complete this process you will need 3.5 number 2 pencils and a glass of lemonade.
+ * </p>
+ *
+ * <nys-processlist
+ *   id="application-steps-described"
+ *   aria-labelledby="process-heading"
+ *   aria-describedby="process-intro"
+ * >
  *   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
  *   <nys-processlistitem label="Complete the application"></nys-processlistitem>
  *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
@@ -109,9 +142,12 @@ function adoptLightStyles() {
  * One process is sometimes interrupted by content that cannot live inside the list —
  * an intermission, a callout, a form. Splitting it into two lists would restart the
  * numbering at 1 and read as two separate processes, so the second list picks up where
- * the first left off.
+ * the first left off. Two lists on one page means each needs its own accessible name.
  * ```html
- * <nys-processlist id="application-steps-part1">
+ * <nys-processlist
+ *   id="application-steps-part1"
+ *   aria-label="Application steps, part 1"
+ * >
  *   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
  *   <nys-processlistitem label="Complete the application"></nys-processlistitem>
  *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
@@ -119,7 +155,11 @@ function adoptLightStyles() {
  *
  * <p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>
  *
- * <nys-processlist id="application-steps-part2" initialstep="4">
+ * <nys-processlist
+ *   id="application-steps-part2"
+ *   initialstep="4"
+ *   aria-label="Application steps, part 2"
+ * >
  *   <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
  *   <nys-processlistitem label="Wow, this might be tricky"></nys-processlistitem>
  *   <nys-processlistitem label="Cool cool, I got this thing"></nys-processlistitem>
@@ -155,6 +195,37 @@ export class NysProcesslist extends LitElement {
    * restarting at 1.
    */
   @property({ type: Number, reflect: true }) initialStep = 1;
+
+  /**
+   * Accessible name for the list, e.g. "Application steps". A list has no name of its own, so
+   * give one whenever the surrounding content does not already make the list's purpose obvious —
+   * especially when a page holds more than one process list.
+   *
+   * Sets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already
+   * names the list.
+   */
+  @property({ type: String, reflect: true, attribute: "aria-label" })
+  ariaLabel: string | null = null;
+
+  /**
+   * Space-separated IDs of the elements that name the list, typically the visible heading above
+   * it. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the
+   * visible one cannot drift apart.
+   *
+   * Sets `aria-labelledby` on the host.
+   */
+  @property({ type: String, reflect: true, attribute: "aria-labelledby" })
+  ariaLabelledBy: string | null = null;
+
+  /**
+   * Space-separated IDs of the elements that describe the list, such as the intro paragraph
+   * explaining what the process involves. A description supplements the name; it does not
+   * replace it.
+   *
+   * Sets `aria-describedby` on the host.
+   */
+  @property({ type: String, reflect: true, attribute: "aria-describedby" })
+  ariaDescribedBy: string | null = null;
 
   private _childObserver = new MutationObserver(() => this._syncSteps());
 

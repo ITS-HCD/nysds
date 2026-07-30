@@ -2,7 +2,17 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysProcesslist = forwardRef((props, forwardedRef) => {
-  const { strong, neutral, id, size, initialStep, ...filteredProps } = props;
+  const {
+    strong,
+    neutral,
+    id,
+    size,
+    initialStep,
+    ariaLabel,
+    ariaLabelledBy,
+    ariaDescribedBy,
+    ...filteredProps
+  } = props;
 
   return React.createElement(
     "nys-processlist",
@@ -11,6 +21,9 @@ export const NysProcesslist = forwardRef((props, forwardedRef) => {
       id: props.id,
       size: props.size,
       initialStep: props.initialStep,
+      "aria-label": props.ariaLabel || props["aria-label"],
+      "aria-labelledby": props.ariaLabelledBy || props["aria-labelledby"],
+      "aria-describedby": props.ariaDescribedBy || props["aria-describedby"],
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

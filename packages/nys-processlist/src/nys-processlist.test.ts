@@ -104,6 +104,60 @@ describe("nys-processlist", () => {
     expect(await stepsOf(el)).to.deep.equal(["1", "2", "3"]);
   });
 
+  it("sets no aria attributes when none are provided", async () => {
+    // An empty aria-labelledby/describedby is worse than none at all, so the
+    // unset properties must not reflect.
+    const el = await fixture<NysProcesslist>(
+      html`<nys-processlist></nys-processlist>`,
+    );
+    await el.updateComplete;
+
+    expect(el.hasAttribute("aria-label")).to.be.false;
+    expect(el.hasAttribute("aria-labelledby")).to.be.false;
+    expect(el.hasAttribute("aria-describedby")).to.be.false;
+  });
+
+  it("names the list from the ariaLabel property", async () => {
+    const el = await fixture<NysProcesslist>(html`
+      <nys-processlist>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `);
+    el.ariaLabel = "Application steps";
+    await el.updateComplete;
+
+    // The host is the role=list element, so the name has to land on it.
+    expect(el.getAttribute("aria-label")).to.equal("Application steps");
+    await expect(el).to.be.accessible();
+  });
+
+  it("reflects aria-labelledby and aria-describedby onto the list", async () => {
+    const el = await fixture<NysProcesslist>(html`
+      <div>
+        <h2 id="process-heading">Super duper app process</h2>
+        <p id="process-intro">You will need 3.5 number 2 pencils.</p>
+        <nys-processlist
+          aria-labelledby="process-heading"
+          aria-describedby="process-intro"
+        >
+          <nys-processlistitem
+            label="Gather your documents"
+          ></nys-processlistitem>
+        </nys-processlist>
+      </div>
+    `);
+    const list = el.querySelector<NysProcesslist>("nys-processlist");
+    await list?.updateComplete;
+
+    expect(list?.ariaLabelledBy).to.equal("process-heading");
+    expect(list?.ariaDescribedBy).to.equal("process-intro");
+    expect(list?.getAttribute("aria-labelledby")).to.equal("process-heading");
+    expect(list?.getAttribute("aria-describedby")).to.equal("process-intro");
+    await expect(el).to.be.accessible();
+  });
+
   it("defaults initialStep to 1", async () => {
     const el = await fixture<NysProcesslist>(
       html`<nys-processlist></nys-processlist>`,

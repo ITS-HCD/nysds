@@ -9836,6 +9836,39 @@
             },
             {
               "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Accessible name for the list, e.g. \"Application steps\". A list has no name of its own, so\ngive one whenever the surrounding content does not already make the list's purpose obvious —\nespecially when a page holds more than one process list.\n\nSets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already\nnames the list.",
+              "attribute": "aria-label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabelledBy",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that name the list, typically the visible heading above\nit. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the\nvisible one cannot drift apart.\n\nSets `aria-labelledby` on the host.",
+              "attribute": "aria-labelledby",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaDescribedBy",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that describe the list, such as the intro paragraph\nexplaining what the process involves. A description supplements the name; it does not\nreplace it.\n\nSets `aria-describedby` on the host.",
+              "attribute": "aria-describedby",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_childObserver",
               "privacy": "private",
               "default": "new MutationObserver(() => this._syncSteps())"
@@ -9896,6 +9929,36 @@
               "description": "Number given to the first step. Subsequent steps count up from it. Use this when one\nprocess is split across several lists so the later lists continue the count instead of\nrestarting at 1.",
               "fieldName": "initialStep",
               "propName": "initialstep"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Accessible name for the list, e.g. \"Application steps\". A list has no name of its own, so\ngive one whenever the surrounding content does not already make the list's purpose obvious —\nespecially when a page holds more than one process list.\n\nSets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already\nnames the list.",
+              "fieldName": "ariaLabel",
+              "propName": "ariaLabel"
+            },
+            {
+              "name": "aria-labelledby",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that name the list, typically the visible heading above\nit. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the\nvisible one cannot drift apart.\n\nSets `aria-labelledby` on the host.",
+              "fieldName": "ariaLabelledBy",
+              "propName": "ariaLabelledby"
+            },
+            {
+              "name": "aria-describedby",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that describe the list, such as the intro paragraph\nexplaining what the process involves. A description supplements the name; it does not\nreplace it.\n\nSets `aria-describedby` on the host.",
+              "fieldName": "ariaDescribedBy",
+              "propName": "ariaDescribedby"
             }
           ],
           "superclass": {
@@ -9909,6 +9972,16 @@
             {
               "title": "Basic",
               "code": "<nys-processlist id=\"application-steps\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Accessible Name",
+              "code": "<nys-processlist id=\"application-steps-labelled\" aria-label=\"Application steps\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Accessible Name and Description",
+              "code": "<h2 id=\"process-heading\">Super duper app process</h2>\n<p id=\"process-intro\">\nIn order to complete this process you will need 3.5 number 2 pencils and a glass of lemonade.\n</p>\n\n<nys-processlist\nid=\"application-steps-described\"\naria-labelledby=\"process-heading\"\naria-describedby=\"process-intro\"\n>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
               "lang": "html"
             },
             {
@@ -9943,7 +10016,7 @@
             },
             {
               "title": "Initial Step",
-              "code": "<nys-processlist id=\"application-steps-part1\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>\n\n<p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>\n\n<nys-processlist id=\"application-steps-part2\" initialstep=\"4\">\n<nys-processlistitem label=\"Okay let's continue\"></nys-processlistitem>\n<nys-processlistitem label=\"Wow, this might be tricky\"></nys-processlistitem>\n<nys-processlistitem label=\"Cool cool, I got this thing\"></nys-processlistitem>\n</nys-processlist>",
+              "code": "<nys-processlist\nid=\"application-steps-part1\"\naria-label=\"Application steps, part 1\"\n>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>\n\n<p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>\n\n<nys-processlist\nid=\"application-steps-part2\"\ninitialstep=\"4\"\naria-label=\"Application steps, part 2\"\n>\n<nys-processlistitem label=\"Okay let's continue\"></nys-processlistitem>\n<nys-processlistitem label=\"Wow, this might be tricky\"></nys-processlistitem>\n<nys-processlistitem label=\"Cool cool, I got this thing\"></nys-processlistitem>\n</nys-processlist>",
               "lang": "html"
             }
           ]

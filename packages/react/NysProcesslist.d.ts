@@ -35,6 +35,28 @@ process is split across several lists so the later lists continue the count inst
 restarting at 1. */
   initialStep?: NysProcesslistElement["initialStep"];
 
+  /** Accessible name for the list, e.g. "Application steps". A list has no name of its own, so
+give one whenever the surrounding content does not already make the list's purpose obvious —
+especially when a page holds more than one process list.
+
+Sets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already
+names the list. */
+  ariaLabel?: NysProcesslistElement["ariaLabel"];
+
+  /** Space-separated IDs of the elements that name the list, typically the visible heading above
+it. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the
+visible one cannot drift apart.
+
+Sets `aria-labelledby` on the host. */
+  ariaLabelledBy?: NysProcesslistElement["ariaLabelledBy"];
+
+  /** Space-separated IDs of the elements that describe the list, such as the intro paragraph
+explaining what the process involves. A description supplements the name; it does not
+replace it.
+
+Sets `aria-describedby` on the host. */
+  ariaDescribedBy?: NysProcesslistElement["ariaDescribedBy"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

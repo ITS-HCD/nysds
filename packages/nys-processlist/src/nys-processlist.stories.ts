@@ -66,6 +66,86 @@ export const Basic: Story = {
   },
 };
 
+export const AccessibleName: Story = {
+  render: () => {
+    return html`
+      <nys-processlist
+        id="application-steps-labelled"
+        aria-label="Application steps"
+      >
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-processlist id="application-steps-labelled" aria-label="Application steps">
+  <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+  <nys-processlistitem label="Complete the application"></nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const AccessibleNameAndDescription: Story = {
+  render: () => {
+    return html`
+      <h2 id="process-heading">Super duper app process</h2>
+      <p id="process-intro">
+        In order to complete this process you will need 3.5 number 2 pencils and
+        a glass of lemonade.
+      </p>
+
+      <nys-processlist
+        id="application-steps-described"
+        aria-labelledby="process-heading"
+        aria-describedby="process-intro"
+      >
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<h2 id="process-heading">Super duper app process</h2>
+<p id="process-intro">
+  In order to complete this process you will need 3.5 number 2 pencils and a glass of lemonade.
+</p>
+
+<nys-processlist
+  id="application-steps-described"
+  aria-labelledby="process-heading"
+  aria-describedby="process-intro"
+>
+  <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+  <nys-processlistitem label="Complete the application"></nys-processlistitem>
+  <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Description: Story = {
   render: () => {
     return html`
@@ -275,7 +355,10 @@ export const StrongNeutral: Story = {
 export const InitialStep: Story = {
   render: () => {
     return html`
-      <nys-processlist id="application-steps-part1">
+      <nys-processlist
+        id="application-steps-part1"
+        aria-label="Application steps, part 1"
+      >
         <nys-processlistitem
           label="Gather your documents"
         ></nys-processlistitem>
@@ -291,7 +374,11 @@ export const InitialStep: Story = {
         OK, intermission time. Get up, stretch, and drink the glass of lemonade.
       </p>
 
-      <nys-processlist id="application-steps-part2" initialstep="4">
+      <nys-processlist
+        id="application-steps-part2"
+        initialstep="4"
+        aria-label="Application steps, part 2"
+      >
         <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
         <nys-processlistitem
           label="Wow, this might be tricky"
@@ -306,7 +393,7 @@ export const InitialStep: Story = {
     docs: {
       source: {
         code: `
-<nys-processlist id="application-steps-part1">
+<nys-processlist id="application-steps-part1" aria-label="Application steps, part 1">
   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
   <nys-processlistitem label="Complete the application"></nys-processlistitem>
   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
@@ -314,7 +401,11 @@ export const InitialStep: Story = {
 
 <p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>
 
-<nys-processlist id="application-steps-part2" initialstep="4">
+<nys-processlist
+  id="application-steps-part2"
+  initialstep="4"
+  aria-label="Application steps, part 2"
+>
   <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
   <nys-processlistitem label="Wow, this might be tricky"></nys-processlistitem>
   <nys-processlistitem label="Cool cool, I got this thing"></nys-processlistitem>
