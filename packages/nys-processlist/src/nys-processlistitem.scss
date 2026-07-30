@@ -1,0 +1,146 @@
+:host {
+  /* Without this the host defaults to display:inline while its shadow content
+     is block-level, which splits it into anonymous blocks and drops its
+     accessibility node — taking role="listitem" with it. */
+  display: block;
+
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Pagination Styles */
+
+  --_nys-processlist-gap: var(--nys-space-150, 12px);
+
+  // General
+  --_nys-processlist-theme--step: var(--nys-color-theme, #154973);
+  --_nys-processlist-theme--connector: var(--nys-color-theme-weak, #cddde9);
+  --_nys-processlist-color--step: var(--_nys-processlist-theme--step);
+
+  // Step and connector
+  --_nys-processlist-background-color--step: var(--nys-color-surface, #ffffff);
+  --_nys-processlist-border-color--step: var(--_nys-processlist-theme--step);
+  --_nys-processlist-color--connector: var(--_nys-processlist-theme--connector);
+  --_nys-processlist-width--connector: var(--nys-size-2px, 2px);
+  --_nys-processlist-size--step: var(--nys-size-400, 32px);
+  --_nys-processlistitem-min-height: var(--nys-space-600, 48px);
+  --_nys-processlistitem-gap: var(--nys-space-250, 20px);
+  --_nys-processlistitem-padding-top: var(--nys-space-50, 4px);
+
+  /* UI/Large/Semibold */
+  --_nys-processlistitem-font-family: var(--nys-font-family-ui, "Proxima Nova");
+  --_nys-processlistitem-font-size: var(--nys-font-size-ui-lg, 18px);
+  --_nys-processlistitem-font-weight: 600;
+  --_nys-processlistitem-line-height: var(--nys-font-lineheight-ui-lg, 28px);
+  --_nys-processlistitem-letter-spacing: var(
+    --nys-font-letterspacing-ui-lg,
+    0.028px
+  );
+
+  /* UI/Medium/Regular — the description is supporting text, so it does not
+     follow the label's size or weight. */
+  --_nys-processlistitem-font-size--description: var(
+    --nys-font-size-ui-md,
+    16px
+  );
+  --_nys-processlistitem-font-weight--description: var(
+    --nys-font-weight-regular,
+    400
+  );
+  --_nys-processlistitem-line-height--description: var(
+    --nys-font-lineheight-ui-md,
+    24px
+  );
+  --_nys-processlistitem-letter-spacing--description: var(
+    --nys-font-letterspacing-ui-md,
+    0.044px
+  );
+  --_nys-processlistitem-color--label: var(--nys-color-text, #1b1b1b);
+  --_nys-processlistitem-color--description: var(
+    --nys-color-text-weak,
+    #4a4d4f
+  );
+  --_nys-processlistitem-gap--text: var(--nys-space-4px, 4px);
+}
+
+.nys-processlistitem {
+  display: flex;
+  gap: var(--_nys-processlist-gap);
+}
+
+.nys-processlistitem__stepwrapper {
+  min-height: var(--_nys-processlistitem-min-height);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.nys-processlistitem__step {
+  min-width: var(--_nys-processlist-size--step);
+  width: var(--_nys-processlist-size--step);
+  max-width: var(--_nys-processlist-size--step);
+  min-height: var(--_nys-processlist-size--step);
+  height: var(--_nys-processlist-size--step);
+  max-height: var(--_nys-processlist-size--step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--_nys-processlist-color--step);
+  background-color: var(--_nys-processlist-background-color--step);
+  border: solid var(--nys-size-1px) var(--_nys-processlist-border-color--step);
+  border-radius: var(--nys-radius-round);
+  text-align: center;
+
+  /* UI/Small/Semibold */
+  font-family: var(--_nys-processlistitem-font-family);
+  font-size: var(--_nys-processlistitem-font-size);
+  font-style: normal;
+  font-weight: var(--_nys-processlistitem-font-weight);
+  line-height: var(--_nys-processlistitem-line-height);
+  letter-spacing: var(--_nys-processlistitem-letter-spacing);
+}
+
+.nys-processlistitem__connector {
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+  background-color: var(--_nys-processlist-color--connector);
+  width: var(--_nys-processlist-width--connector);
+}
+
+/* The connector joins a step to the one after it, so the final step has none.
+   :last-of-type matches by tag name, mirroring how the list picks its items. */
+:host(:last-of-type) .nys-processlistitem__connector {
+  display: none;
+}
+
+.nys-processlistitem__content {
+  width: 100%;
+  margin-bottom: var(--_nys-processlistitem-gap);
+  padding-top: var(--_nys-processlistitem-padding-top);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--_nys-processlistitem-gap--text);
+
+  font-family: var(--_nys-processlistitem-font-family);
+  font-style: normal;
+  text-align: left;
+}
+
+.nys-processlistitem__label {
+  color: var(--_nys-processlistitem-color--label);
+  font-size: var(--_nys-processlistitem-font-size);
+  font-weight: var(--_nys-processlistitem-font-weight);
+  line-height: var(--_nys-processlistitem-line-height); /* 155.556% */
+  letter-spacing: var(--_nys-processlistitem-letter-spacing);
+}
+
+.nys-processlistitem__description {
+  margin: 0;
+  color: var(--_nys-processlistitem-color--description);
+  font-size: var(--_nys-processlistitem-font-size--description);
+  font-weight: var(--_nys-processlistitem-font-weight--description);
+  line-height: var(--_nys-processlistitem-line-height--description);
+  letter-spacing: var(--_nys-processlistitem-letter-spacing--description);
+}
