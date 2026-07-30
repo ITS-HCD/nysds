@@ -14,11 +14,11 @@ interface Language {
  * Statewide alert endpoint, read once per page load. Sites don't opt in or out and
  * never author the content, so an alert reads identically everywhere it appears.
  *
- * TODO: currently pointed at dev. Production is
- * https://alerts-cta.static-assets.ny.gov/alerts.json.
+ * Production is https://alerts-cta.static-assets.ny.gov/alerts.json.
+ * For dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json
  */
 export const NYS_ALERT_URL =
-  "https://alerts-cta-dev.static-assets.ny.gov/alerts.json";
+  "https://alerts-cta.static-assets.ny.gov/alerts.json";
 
 /** An `alert` entry in the feed. */
 interface FeedAlert {
