@@ -23,6 +23,7 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
+    "@nysds/nys-alert": "1.19.4",
     "@nysds/nys-icon": "^1.19.4",
     "@nysds/nys-button": "^1.19.4",
     "@nysds/nys-textinput": "^1.19.4"

@@ -99,6 +99,19 @@ describe("nys-dropdownmenu", () => {
     expect(menu.showDropdown).to.be.false;
   });
 
+  /****** Regression: keyboard activation should only call toggle dropdown once (Dropdown is not "hidden") ******/
+  it("opens only once when trigger is activated via Enter", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    expect(menu.showDropdown).to.be.false;
+
+    // Due to how the button when "Enter|Space" calls the "click" listener, we can't listen to an actual dispatch "Enter|Space" event
+    trigger.click();
+    await menu.updateComplete;
+
+    expect(menu.showDropdown).to.be.true;
+  });
+
   /****** A11y ******/
   it("sets aria-expanded=true on trigger when opened", async () => {
     const { menu, trigger } = await fixtureWithTrigger();
@@ -125,28 +138,6 @@ describe("nys-dropdownmenu", () => {
     );
     await menu.updateComplete;
     expect(menu.showDropdown).to.be.false;
-  });
-
-  it("opens menu on Enter key", async () => {
-    const { menu, trigger } = await fixtureWithTrigger();
-
-    trigger.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
-    );
-    await menu.updateComplete;
-
-    expect(menu.showDropdown).to.be.true;
-  });
-
-  it("opens menu on Space key", async () => {
-    const { menu, trigger } = await fixtureWithTrigger();
-
-    trigger.dispatchEvent(
-      new KeyboardEvent("keydown", { key: " ", bubbles: true }),
-    );
-    await menu.updateComplete;
-
-    expect(menu.showDropdown).to.be.true;
   });
 
   it("_findMostAvailableSpace returns bottom-start when bottom > top and start >= end", async () => {

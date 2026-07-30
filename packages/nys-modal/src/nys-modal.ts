@@ -56,7 +56,7 @@ let componentIdCounter = 0;
  * </div>
  * ```
  *
-
+ *
  * @example Subheading
  * ```html
  * <nys-modal
