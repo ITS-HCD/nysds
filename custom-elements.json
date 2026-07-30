@@ -2222,18 +2222,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). Becomes aria-label in `circle` mode.",
+              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.",
               "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "attribute": "ariaLabel"
             },
             {
               "kind": "field",
@@ -2272,7 +2262,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.",
+              "description": "Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.",
               "attribute": "circle",
               "reflects": true
             },
@@ -2320,13 +2310,13 @@
             },
             {
               "kind": "field",
-              "name": "ariaDescription",
+              "name": "ariaDescribedBy",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "attribute": "ariaDescription"
+              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
+              "attribute": "ariaDescribedBy"
             },
             {
               "kind": "field",
@@ -2625,19 +2615,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). Becomes aria-label in `circle` mode.",
+              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.",
               "fieldName": "label",
               "propName": "label"
-            },
-            {
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "fieldName": "ariaLabel",
-              "propName": "arialabel"
             },
             {
               "name": "ariaControls",
@@ -2675,7 +2655,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.",
+              "description": "Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.",
               "fieldName": "circle",
               "propName": "circle"
             },
@@ -2720,14 +2700,14 @@
               "propName": "value"
             },
             {
-              "name": "ariaDescription",
+              "name": "ariaDescribedBy",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "fieldName": "ariaDescription",
-              "propName": "ariadescription"
+              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
+              "fieldName": "ariaDescribedBy",
+              "propName": "ariadescribedby"
             },
             {
               "name": "type",
