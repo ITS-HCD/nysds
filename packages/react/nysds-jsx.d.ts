@@ -1540,10 +1540,6 @@ export type CustomElements = {
   "nys-pagination": Partial<NysPaginationProps & BaseProps & BaseEvents>;
 
   /**
-   * Radio button for single selection from mutually exclusive options.
-   * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
-   * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
-   * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
    * An ordered list of numbered process steps.
    * ---
    *
@@ -1561,7 +1557,10 @@ export type CustomElements = {
   "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
 
   /**
-   * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
+   * Radio button for single selection from mutually exclusive options.
+   * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
+   * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
+   * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
    * ---
    *
    *
