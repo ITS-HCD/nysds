@@ -449,10 +449,7 @@ export class NysDropdownMenu extends LitElement {
   }
 
   private _handleTriggerKeydown = (event: KeyboardEvent) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      this._toggleDropdown();
-    }
+    if (event.defaultPrevented) return;
 
     if (event.key === "Escape" && this.showDropdown) {
       event.preventDefault();
