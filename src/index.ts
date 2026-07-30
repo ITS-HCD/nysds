@@ -33,4 +33,5 @@ export * from "../packages/nys-toggle/src/index";
 export * from "../packages/nys-tooltip/src/index";
 export * from "../packages/nys-unavheader/src/index";
 export * from "../packages/nys-unavfooter/src/index";
+export * from "../packages/nys-verticalnav/src/index";
 export * from "../packages/nys-video/src/index";
