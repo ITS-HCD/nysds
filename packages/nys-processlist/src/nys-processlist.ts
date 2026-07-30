@@ -1,7 +1,6 @@
 import { LitElement, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import { NysProcesslistitem } from "./nys-processlistitem";
-import "./nys-processlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-processlist.light.scss?inline";
 
