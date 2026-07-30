@@ -250,6 +250,32 @@ export type NysButtonProps = {
   "onnys-click"?: (e: CustomEvent<Event>) => void;
 };
 
+export type NysCardProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Appears above the heading text. */
+  preheading?: string;
+  /** Heading text in the card. */
+  heading?: string;
+  /** Heading level used for the card heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
+  /** Appears below the heading text. */
+  subheading?: string;
+  /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
+  description?: string;
+  /** Visual content for the card. Supported types are images: png, jpg, etc. */
+  media?: string;
+  /** When true, adds padding around the media to visually contain it. */
+  inset?: boolean;
+  /** When true, adds a drop shadow to the card, giving it a raised appearance. */
+  elevated?: boolean;
+  /** A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
+The month is shown as a three-letter abbreviation and the day as a number
+(e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
+date. Only supports dates in v1. */
+  mediaAccent?: string;
+};
+
 export type NysCheckboxProps = {
   /** Whether checkbox is checked. */
   checked?: boolean;
@@ -588,6 +614,21 @@ export type NysIconProps = {
   updateComplete?: Promise<boolean>;
 };
 
+export type NysIconlistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Draws a divider between items. No divider is drawn after the last item. */
+  divider?: boolean;
+};
+
+export type NysIconlistitemProps = {
+  /** Material Symbols icon name passed to `<nys-icon>`. */
+  icon?: string;
+  /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
+set directly. */
+  divider?: boolean;
+};
+
 export type NysLabelProps = {
   /** The ID of the label. */
   id?: string;
@@ -601,7 +642,8 @@ export type NysLabelProps = {
   inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon next to label. */
   tooltip?: string;
-
+  /**  */
+  _hasDescription?: string;
   /**  */
   "onnys-label-click"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -640,6 +682,50 @@ export type NysPaginationProps = {
 
   /** Fired when page changes. Detail: `{page}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
+export type NysProcesslistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Renders each step number in a bolder, higher-emphasis color. */
+  strong?: boolean;
+  /** Renders each step number using neutral (grayscale) coloring instead of the theme color. */
+  neutral?: boolean;
+  /** Step marker size: `sm` (smaller) or `md` (default). */
+  size?: "md" | "sm";
+  /** Number given to the first step. Subsequent steps count up from it. Use this when one
+process is split across several lists so the later lists continue the count instead of
+restarting at 1. */
+  initialStep?: number;
+  /** Accessible name for the list, e.g. "Application steps". A list has no name of its own, so
+give one whenever the surrounding content does not already make the list's purpose obvious —
+especially when a page holds more than one process list.
+
+Sets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already
+names the list. */
+  "aria-label"?: string | null;
+  /** Space-separated IDs of the elements that name the list, typically the visible heading above
+it. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the
+visible one cannot drift apart.
+
+Sets `aria-labelledby` on the host. */
+  "aria-labelledby"?: string | null;
+  /** Space-separated IDs of the elements that describe the list, such as the intro paragraph
+explaining what the process involves. A description supplements the name; it does not
+replace it.
+
+Sets `aria-describedby` on the host. */
+  "aria-describedby"?: string | null;
+};
+
+export type NysProcesslistitemProps = {
+  /** Step heading text. */
+  label?: string;
+  /** Supporting information displayed below the label. Use the `description` slot for rich text. */
+  description?: string;
+  /** A description is shown when either the property or the slot has content, so an item with
+neither renders no empty paragraph. */
+  _hasDescription?: string;
 };
 
 export type NysRadiobuttonProps = {
@@ -1047,6 +1133,37 @@ export type NysUnavHeaderProps = {
   "onnys-search-submit"?: (e: CustomEvent<never>) => void;
 };
 
+export type NysVerticalnavProps = {
+  /** ID for the navigation. Generated automatically if not provided. */
+  id?: string;
+  /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
+  heading?: string;
+  /** Hides the visible heading while keeping an accessible label for the navigation. */
+  hideHeading?: boolean;
+  /** Heading level used for the navigation heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
+  /** Expands or collapses the navigation on mobile. */
+  expanded?: boolean;
+};
+
+export type NysVerticalnavGroupProps = {
+  /**  */
+  id?: string;
+  /**  */
+  label?: string;
+  /**  */
+  expanded?: boolean;
+  /**  */
+  disabled?: boolean;
+  /**  */
+  active?: boolean;
+
+  /**  */
+  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-verticalnavgroup-toggle"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
 export type NysVideoProps = {
   /** Full YouTube URL — required. Component will not render if invalid. */
   id?: string;
@@ -1181,6 +1298,18 @@ export type CustomElements = {
    * - **--nys-button-border-color--active** - Border color when active/pressed. _(default: undefined)_
    */
   "nys-button": Partial<NysButtonProps & BaseProps & BaseEvents>;
+
+  /**
+   * Flexible container that groups related content and actions about a single subject.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - **top** - Content rendered above the heading block (e.g. a badge or label).
+   * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
+   * - **footer** - Content rendered at the bottom of the card, typically actions like buttons or links.
+   */
+  "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 
   /**
    * Checkbox for binary choices or multi-select options.
@@ -1352,6 +1481,24 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
+   * A scannable list of icon + text items, with an optional divider between rows.
+   * ---
+   *
+   */
+  "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
+
+  /**
+   * An icon-paired list item for use inside `<nys-iconlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Primary label text.
+   * - **secondary** - Optional second line of text rendered below the primary label.
+   */
+  "nys-iconlistitem": Partial<NysIconlistitemProps & BaseProps & BaseEvents>;
+
+  /**
    * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
    *
    * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
@@ -1397,6 +1544,24 @@ export type CustomElements = {
    * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
    * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
    * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
+   * An ordered list of numbered process steps.
+   * ---
+   *
+   */
+  "nys-processlist": Partial<NysProcesslistProps & BaseProps & BaseEvents>;
+
+  /**
+   * A numbered step for use inside `<nys-processlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - **description** - Custom HTML description content below the label. Overrides the `description` property.
+   */
+  "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
+
+  /**
+   * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
    * ---
    *
    *
@@ -1654,6 +1819,28 @@ export type CustomElements = {
    * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
+
+  /**
+   * Responsive navigation that becomes an accordion on smaller screens.
+   * ---
+   *
+   *
+   * ### **Methods:**
+   *  - **open()** - Public API for controlling the mobile accordion from outside the component
+   * --------------------------------------------------------------------------
+   */
+  "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
+
+  /**
+   * Collapsible link group for use within `<nys-verticalnav>`.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-child-resize**
+   * - **nys-verticalnavgroup-toggle**
+   */
+  "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
   /**
    * YouTube video player with thumbnail preview and accessibility announcements.

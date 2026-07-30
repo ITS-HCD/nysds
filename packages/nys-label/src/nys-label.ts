@@ -66,6 +66,12 @@ export class NysLabel extends LitElement {
   /** Tooltip text shown on hover/focus of info icon next to label. */
   @property({ type: String }) tooltip = "";
 
+  get _hasDescription() {
+    // This accounts for both description prop or slotted content.
+    const slot = this.querySelector('[slot="description"]');
+    return !!this.description || !!slot;
+  }
+
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -119,9 +125,14 @@ export class NysLabel extends LitElement {
                 ></nys-icon> `
             : ""}
         </div>
-        <p class="nys-label__description" @click=${this._dispatchLabelClick}>
-          <slot name="description">${this.description}</slot>
-        </p>
+        ${this._hasDescription
+          ? html`<p
+              class="nys-label__description"
+              @click=${this._dispatchLabelClick}
+            >
+              <slot name="description">${this.description}</slot>
+            </p>`
+          : ""}
       </div>
     `;
   }

@@ -1,0 +1,27 @@
+// Light-DOM styles for <nys-iconlist>.
+
+// Injected once into `document.adoptedStyleSheets` (see nys-iconlist.ts) so the
+// list container is styled from the light DOM. <nys-iconlist> has no shadow
+// root at all (`createRenderRoot()` returns `this`): the element carries
+// role="list" and its <nys-iconlistitem> children must be its direct DOM
+// children, or Chrome ≥150 drops the listitem roles from the a11y tree. With no
+// shadow root there is no shadow sheet to hold these rules, so every list-level
+// style lives here.
+
+// Every selector is scoped to the `nys-iconlist` tag name so nothing leaks to
+// the rest of the document. A document-adopted sheet cannot pierce shadow DOM,
+// so the list must sit in the document's light DOM (it does when slotted into
+// another component, e.g. <nys-card>).
+nys-iconlist {
+  /* Global Iconlist Styles */
+  --_nys-iconlist-width: 100%;
+
+  display: block;
+  width: var(--_nys-iconlist-width);
+}
+
+// Only <nys-iconlistitem> children are rendered; hide anything else rather than
+// removing it from the light DOM (framework-owned nodes).
+nys-iconlist > :not(nys-iconlistitem) {
+  display: none;
+}

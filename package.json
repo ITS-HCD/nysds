@@ -52,6 +52,7 @@
     "test:ssr": "node src/scripts/test-ssr.mjs && npm run audit:dist",
     "audit:dist": "node src/scripts/audit-dist.mjs",
     "test:build": "npm run build:all && npm run test",
+    "test:report": "wtr --node-resolve || true && open coverage/lcov-report/index.html",
     "test:compact": "export NYSDS_TEST_OUTPUT=compact && wtr --node-resolve",
     "test:ai": "export NYSDS_TEST_OUTPUT=ai && wtr --node-resolve",
     "storybook": "cross-env NODE_ENV=production storybook dev -p 6006",
