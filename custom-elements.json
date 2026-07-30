@@ -8688,6 +8688,248 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-iconlist/src/nys-iconlist"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-iconlist/src/nys-iconlistitem"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/nys-iconlist.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "An icon list is a component that displays a collection of items paired with visual icons, making it easy to create structured, scannable lists across web projects. Commonly used in the card component.\n\nAdd `<nys-iconlistitem>` elements as children. Each item accepts an `icon` attribute and uses its\ndefault slot for the primary label. A second line can be added with `<span slot=\"secondary\">`.\nSet `divider` to draw a rule between items; no divider is drawn after the last item.",
+          "name": "NysIconlist",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a divider between items. No divider is drawn after the last item.",
+              "attribute": "divider",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_childObserver",
+              "privacy": "private",
+              "default": "new MutationObserver(() => this._syncDividers())"
+            },
+            {
+              "kind": "method",
+              "name": "_syncDividers",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a divider between items. No divider is drawn after the last item.",
+              "fieldName": "divider",
+              "propName": "divider"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-iconlist",
+          "customElement": true,
+          "summary": "A scannable list of icon + text items, with an optional divider between rows.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-iconlist id=\"event-details\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Divider",
+              "code": "<nys-iconlist id=\"event-details2\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Secondary label",
+              "code": "<nys-iconlist id=\"event-details3\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Checklist",
+              "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-iconlist",
+          "declaration": {
+            "name": "NysIconlist",
+            "module": "packages/nys-iconlist/src/nys-iconlist.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconlist",
+          "declaration": {
+            "name": "NysIconlist",
+            "module": "packages/nys-iconlist/src/nys-iconlist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/nys-iconlistitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single item in a `<nys-iconlist>`. Renders as a list item containing an icon and one or two lines of text.\n\nThe default slot holds the primary label. Use `<span slot=\"secondary\">` for a second line of text;\nwhen present the icon aligns to the top rather than centering against the full block.",
+          "name": "NysIconlistitem",
+          "slots": [
+            {
+              "description": "Primary label text.",
+              "name": ""
+            },
+            {
+              "description": "Optional second line of text rendered below the primary label.",
+              "name": "secondary"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Material Symbols icon name passed to `<nys-icon>`.",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
+              "attribute": "divider",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_handleSecondarySlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Material Symbols icon name passed to `<nys-icon>`.",
+              "fieldName": "icon",
+              "propName": "icon"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
+              "fieldName": "divider",
+              "propName": "divider"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-iconlistitem",
+          "customElement": true,
+          "summary": "An icon-paired list item for use inside `<nys-iconlist>`."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-iconlistitem",
+          "declaration": {
+            "name": "NysIconlistitem",
+            "module": "packages/nys-iconlist/src/nys-iconlistitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconlistitem",
+          "declaration": {
+            "name": "NysIconlistitem",
+            "module": "packages/nys-iconlist/src/nys-iconlistitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-label/src/index.ts",
       "declarations": [],
       "exports": [
@@ -13954,6 +14196,11 @@
             },
             {
               "kind": "method",
+              "name": "_clearSearch",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_updateOverlay",
               "privacy": "private",
               "parameters": [
@@ -14349,6 +14596,11 @@
             {
               "title": "Masking",
               "code": "<nys-textinput type=\"tel\" label=\"Phone Number\">\n<div slot=\"description\">Some types, such as <code>tel</code> have automatic masking available.</div>\n</nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Password",
+              "code": "<nys-textinput type=\"password\"></nys-textinput>",
               "lang": "html"
             },
             {
