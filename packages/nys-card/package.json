@@ -1,16 +1,17 @@
 {
-  "name": "@nysds/nys-unavheader",
-  "version": "1.19.4",
-  "description": "The Unavheader component from the NYS Design System.",
-  "module": "dist/nys-unavheader.js",
+  "name": "@nysds/nys-card",
+  "version": "1.19.2",
+  "description": "The Card component from the NYS Design System.",
+  "module": "dist/nys-card.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-unavheader.js",
+      "import": "./dist/nys-card.js",
       "types": "./dist/index.d.ts"
     }
   },
   "type": "module",
+  "sideEffects": true,
   "files": [
     "dist/"
   ],
@@ -20,32 +21,22 @@
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
-    "lit-analyze": "lit-analyzer '**/*.ts'"
+    "lit-analyze": "lit-analyzer 'src/**/*.ts'"
   },
-  "dependencies": {
-    "@nysds/nys-alert": "1.19.4",
-    "@nysds/nys-icon": "^1.19.4",
-    "@nysds/nys-button": "^1.19.4",
-    "@nysds/nys-textinput": "^1.19.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "lit": "^3.3.1",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
   },
   "keywords": [
-    "nysds",
     "new-york-state",
     "design-system",
     "web-components",
     "lit",
     "nys",
-    "unavheader"
+    "card"
   ],
   "author": "New York State Design System Team",
-  "license": "MIT",
-  "sideEffects": true,
-  "peerDependencies": {
-    "lit": "^3.3.1"
-  }
+  "license": "MIT"
 }
