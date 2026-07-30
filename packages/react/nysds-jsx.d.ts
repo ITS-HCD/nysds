@@ -1057,6 +1057,37 @@ export type NysUnavHeaderProps = {
   "onnys-search-submit"?: (e: CustomEvent<never>) => void;
 };
 
+export type NysVerticalnavProps = {
+  /** ID for the navigation. Generated automatically if not provided. */
+  id?: string;
+  /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
+  heading?: string;
+  /** Hides the visible heading while keeping an accessible label for the navigation. */
+  hideHeading?: boolean;
+  /** Heading level used for the navigation heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
+  /** Expands or collapses the navigation on mobile. */
+  expanded?: boolean;
+};
+
+export type NysVerticalnavGroupProps = {
+  /**  */
+  id?: string;
+  /**  */
+  label?: string;
+  /**  */
+  expanded?: boolean;
+  /**  */
+  disabled?: boolean;
+  /**  */
+  active?: boolean;
+
+  /**  */
+  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-verticalnavgroup-toggle"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
 export type NysVideoProps = {
   /** Full YouTube URL — required. Component will not render if invalid. */
   id?: string;
@@ -1679,6 +1710,28 @@ export type CustomElements = {
    * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
+
+  /**
+   * Responsive navigation that becomes an accordion on smaller screens.
+   * ---
+   *
+   *
+   * ### **Methods:**
+   *  - **open()** - Public API for controlling the mobile accordion from outside the component
+   * --------------------------------------------------------------------------
+   */
+  "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
+
+  /**
+   * Collapsible link group for use within `<nys-verticalnav>`.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-child-resize**
+   * - **nys-verticalnavgroup-toggle**
+   */
+  "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
   /**
    * YouTube video player with thumbnail preview and accessibility announcements.
