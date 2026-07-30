@@ -19,6 +19,7 @@
 // shadow DOM.
 nys-processlist {
   display: block;
+  max-width: 784px; //per WCAG standards
 }
 
 // Only <nys-processlistitem> children are rendered; hide anything else rather
