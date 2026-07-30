@@ -586,6 +586,21 @@ export type NysIconProps = {
   updateComplete?: Promise<boolean>;
 };
 
+export type NysIconlistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Draws a divider between items. No divider is drawn after the last item. */
+  divider?: boolean;
+};
+
+export type NysIconlistitemProps = {
+  /** Material Symbols icon name passed to `<nys-icon>`. */
+  icon?: string;
+  /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
+set directly. */
+  divider?: boolean;
+};
+
 export type NysLabelProps = {
   /** The ID of the label. */
   id?: string;
@@ -1343,6 +1358,24 @@ export type CustomElements = {
    *  - **redraw()** - Called by the icon library registry when the current library changes.
    */
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
+
+  /**
+   * A scannable list of icon + text items, with an optional divider between rows.
+   * ---
+   *
+   */
+  "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
+
+  /**
+   * An icon-paired list item for use inside `<nys-iconlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Primary label text.
+   * - **secondary** - Optional second line of text rendered below the primary label.
+   */
+  "nys-iconlistitem": Partial<NysIconlistitemProps & BaseProps & BaseEvents>;
 
   /**
    * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
