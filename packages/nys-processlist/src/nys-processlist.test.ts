@@ -104,6 +104,87 @@ describe("nys-processlist", () => {
     expect(await stepsOf(el)).to.deep.equal(["1", "2", "3"]);
   });
 
+  it("defaults initialStep to 1", async () => {
+    const el = await fixture<NysProcesslist>(
+      html`<nys-processlist></nys-processlist>`,
+    );
+    await el.updateComplete;
+    expect(el.initialStep).to.equal(1);
+  });
+
+  it("numbers items from initialStep when a process is split across lists", async () => {
+    const el = await fixture<NysProcesslist>(html`
+      <nys-processlist initialstep="4">
+        <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
+        <nys-processlistitem
+          label="Wow, this might be tricky"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Cool cool, I got this thing"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `);
+    await el.updateComplete;
+
+    expect(await stepsOf(el)).to.deep.equal(["4", "5", "6"]);
+  });
+
+  it("renumbers when initialStep changes after initial render", async () => {
+    const el = await fixture<NysProcesslist>(html`
+      <nys-processlist>
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `);
+    await el.updateComplete;
+
+    el.initialStep = 7;
+    await el.updateComplete;
+
+    expect(await stepsOf(el)).to.deep.equal(["7", "8"]);
+  });
+
+  it("falls back to 1 for a non-positive initialStep", async () => {
+    const el = await fixture<NysProcesslist>(html`
+      <nys-processlist initialstep="0">
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `);
+    await el.updateComplete;
+
+    expect(await stepsOf(el)).to.deep.equal(["1", "2"]);
+  });
+
+  it("keeps initialStep numbering when an item is appended", async () => {
+    const el = await fixture<NysProcesslist>(html`
+      <nys-processlist initialstep="4">
+        <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
+        <nys-processlistitem
+          label="Wow, this might be tricky"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `);
+    await el.updateComplete;
+
+    const added = document.createElement(
+      "nys-processlistitem",
+    ) as NysProcesslistitem;
+    added.label = "Cool cool, I got this thing";
+    el.appendChild(added);
+    await Promise.resolve();
+
+    expect(await stepsOf(el)).to.deep.equal(["4", "5", "6"]);
+  });
+
   it("renumbers when an item is appended after initial render", async () => {
     const el = await fixture<NysProcesslist>(html`
       <nys-processlist>

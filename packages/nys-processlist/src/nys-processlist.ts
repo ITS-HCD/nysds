@@ -1,4 +1,4 @@
-import { LitElement } from "lit";
+import { LitElement, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import { NysProcesslistitem } from "./nys-processlistitem";
 import "./nys-processlistitem";
@@ -22,7 +22,8 @@ function adoptLightStyles() {
  * A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.
  *
  * Add `<nys-processlistitem>` elements as children. Each item takes a `label` and an optional
- * `description`. Steps are numbered from 1 by the list, so items never set their own number.
+ * `description`. Steps are numbered by the list — from 1, or from `initialStep` — so items never
+ * set their own number.
  *
  * @summary An ordered list of numbered process steps.
  * @element nys-processlist
@@ -103,6 +104,28 @@ function adoptLightStyles() {
  *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
  * </nys-processlist>
  * ```
+ *
+ * @example Initial Step
+ * One process is sometimes interrupted by content that cannot live inside the list —
+ * an intermission, a callout, a form. Splitting it into two lists would restart the
+ * numbering at 1 and read as two separate processes, so the second list picks up where
+ * the first left off.
+ * ```html
+ * <nys-processlist id="application-steps-part1">
+ *   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+ *   <nys-processlistitem label="Complete the application"></nys-processlistitem>
+ *   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+ * </nys-processlist>
+ *
+ * <p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>
+ *
+ * <nys-processlist id="application-steps-part2" initialstep="4">
+ *   <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
+ *   <nys-processlistitem label="Wow, this might be tricky"></nys-processlistitem>
+ *   <nys-processlistitem label="Cool cool, I got this thing"></nys-processlistitem>
+ * </nys-processlist>
+ * ```
+ *
  */
 
 export class NysProcesslist extends LitElement {
@@ -125,6 +148,13 @@ export class NysProcesslist extends LitElement {
    * Step marker size: `sm` (smaller) or `md` (default).
    */
   @property({ type: String, reflect: true }) size: "md" | "sm" = "md";
+
+  /**
+   * Number given to the first step. Subsequent steps count up from it. Use this when one
+   * process is split across several lists so the later lists continue the count instead of
+   * restarting at 1.
+   */
+  @property({ type: Number, reflect: true }) initialStep = 1;
 
   private _childObserver = new MutationObserver(() => this._syncSteps());
 
@@ -154,6 +184,13 @@ export class NysProcesslist extends LitElement {
     this._childObserver.disconnect();
   }
 
+  updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has("initialStep")) {
+      this._syncSteps();
+    }
+  }
+
   // Ordering lives on the list, not the item, so numbers stay correct when
   // items are added, removed, or reordered.
   private _syncSteps() {
@@ -162,8 +199,15 @@ export class NysProcesslist extends LitElement {
         el.tagName.toLowerCase() === "nys-processlistitem",
     );
 
+    // A non-numeric or non-positive `initialStep` would render a nonsense
+    // sequence, so fall back to the default rather than propagate it.
+    const start =
+      Number.isFinite(this.initialStep) && this.initialStep >= 1
+        ? Math.floor(this.initialStep)
+        : 1;
+
     items.forEach((item, index) => {
-      item.setStep(index + 1);
+      item.setStep(index + start);
     });
   }
 }

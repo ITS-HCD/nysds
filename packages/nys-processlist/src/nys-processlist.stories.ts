@@ -22,6 +22,7 @@ export const Basic: Story = {
     strong: false,
     neutral: false,
     size: "md",
+    initialStep: 1,
     label: "Gather your documents",
     description: "",
   },
@@ -35,6 +36,7 @@ export const Basic: Story = {
         ?strong=${args.strong}
         ?neutral=${args.neutral}
         size=${args.size}
+        initialStep=${args.initialStep}
       >
         <nys-processlistitem
           label=${args.label}
@@ -263,6 +265,59 @@ export const StrongNeutral: Story = {
   <nys-processlistitem label="Gather your documents"></nys-processlistitem>
   <nys-processlistitem label="Complete the application"></nys-processlistitem>
   <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+</nys-processlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const InitialStep: Story = {
+  render: () => {
+    return html`
+      <nys-processlist id="application-steps-part1">
+        <nys-processlistitem
+          label="Gather your documents"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Complete the application"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Submit and await review"
+        ></nys-processlistitem>
+      </nys-processlist>
+
+      <p>
+        OK, intermission time. Get up, stretch, and drink the glass of lemonade.
+      </p>
+
+      <nys-processlist id="application-steps-part2" initialstep="4">
+        <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
+        <nys-processlistitem
+          label="Wow, this might be tricky"
+        ></nys-processlistitem>
+        <nys-processlistitem
+          label="Cool cool, I got this thing"
+        ></nys-processlistitem>
+      </nys-processlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-processlist id="application-steps-part1">
+  <nys-processlistitem label="Gather your documents"></nys-processlistitem>
+  <nys-processlistitem label="Complete the application"></nys-processlistitem>
+  <nys-processlistitem label="Submit and await review"></nys-processlistitem>
+</nys-processlist>
+
+<p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>
+
+<nys-processlist id="application-steps-part2" initialstep="4">
+  <nys-processlistitem label="Okay let's continue"></nys-processlistitem>
+  <nys-processlistitem label="Wow, this might be tricky"></nys-processlistitem>
+  <nys-processlistitem label="Cool cool, I got this thing"></nys-processlistitem>
 </nys-processlist>`,
         type: "auto",
       },

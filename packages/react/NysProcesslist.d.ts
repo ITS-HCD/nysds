@@ -30,6 +30,11 @@ export interface NysProcesslistProps extends Pick<
   /** Step marker size: `sm` (smaller) or `md` (default). */
   size?: NysProcesslistElement["size"];
 
+  /** Number given to the first step. Subsequent steps count up from it. Use this when one
+process is split across several lists so the later lists continue the count instead of
+restarting at 1. */
+  initialStep?: NysProcesslistElement["initialStep"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

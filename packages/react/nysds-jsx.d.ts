@@ -667,6 +667,10 @@ export type NysProcesslistProps = {
   neutral?: boolean;
   /** Step marker size: `sm` (smaller) or `md` (default). */
   size?: "md" | "sm";
+  /** Number given to the first step. Subsequent steps count up from it. Use this when one
+process is split across several lists so the later lists continue the count instead of
+restarting at 1. */
+  initialStep?: number;
 };
 
 export type NysProcesslistitemProps = {
