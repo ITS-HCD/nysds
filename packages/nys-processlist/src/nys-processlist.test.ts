@@ -161,7 +161,7 @@ describe("nys-processlistitem", () => {
     expect(el).to.exist;
   });
 
-  it("passes label and description through to nys-label", async () => {
+  it("renders label and description as plain text", async () => {
     const el = await fixture<NysProcesslistitem>(html`
       <nys-processlistitem
         label="Gather your documents"
@@ -170,18 +170,33 @@ describe("nys-processlistitem", () => {
     `);
     await el.updateComplete;
 
-    const label = el.shadowRoot?.querySelector("nys-label");
-    expect(label?.getAttribute("label")).to.equal("Gather your documents");
-    // The description is forwarded through a slot, so it lands as the slot's
-    // fallback content rather than an attribute on nys-label.
+    // nys-label is reserved for form components, so the item owns its own markup.
+    expect(el.shadowRoot?.querySelector("nys-label")).to.be.null;
+    expect(
+      el.shadowRoot
+        ?.querySelector(".nys-processlistitem__label")
+        ?.textContent?.trim(),
+    ).to.equal("Gather your documents");
+    // The description property lands as the slot's fallback content.
     const slot = el.shadowRoot?.querySelector(
       'slot[name="description"]',
     ) as HTMLSlotElement | null;
-    expect(slot?.getAttribute("slot")).to.equal("description");
     expect(slot?.textContent).to.equal("Recent pay stubs and a tax bill.");
   });
 
-  it("forwards slotted rich-text description to nys-label", async () => {
+  it("renders no description when neither the property nor the slot is set", async () => {
+    const el = await fixture<NysProcesslistitem>(
+      html`<nys-processlistitem
+        label="Gather your documents"
+      ></nys-processlistitem>`,
+    );
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector(".nys-processlistitem__description")).to
+      .be.null;
+  });
+
+  it("renders slotted rich-text description", async () => {
     const el = await fixture<NysProcesslistitem>(html`
       <nys-processlistitem label="Gather your documents">
         <div slot="description">Recent pay stubs and a <b>tax bill</b>.</div>

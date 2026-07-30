@@ -60,4 +60,18 @@ nys-processlist[size="sm"] > nys-processlistitem {
   );
   --_nys-processlist-size--step: var(--nys-size-300, 24px);
   --_nys-processlistitem-padding-top: var(--nys-space-1px, 1px);
+
+  /* UI/Small/Regular */
+  --_nys-processlistitem-font-size--description: var(
+    --nys-font-size-ui-sm,
+    14px
+  );
+  --_nys-processlistitem-line-height--description: var(
+    --nys-font-lineheight-ui-sm,
+    24px
+  );
+  --_nys-processlistitem-letter-spacing--description: var(
+    --nys-font-letterspacing-ui-sm,
+    0.044px
+  );
 }

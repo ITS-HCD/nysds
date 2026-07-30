@@ -9021,6 +9021,11 @@
               "attribute": "tooltip"
             },
             {
+              "kind": "field",
+              "name": "_hasDescription",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "_dispatchLabelClick",
               "privacy": "private",
@@ -9943,7 +9948,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and a `<nys-label>`.\n\nSet `label` for the step label and `description` for supporting information. For rich text, use the\n`description` slot instead of the property. The step number is owned by the parent list, so items\nare never numbered individually.",
+          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and text.\n\nSet `label` for the step label and `description` for supporting information. For rich text, use the\n`description` slot instead of the property. The step number is owned by the parent list, so items\nare never numbered individually.",
           "name": "NysProcesslistitem",
           "slots": [
             {
@@ -9981,6 +9986,12 @@
               "privacy": "private",
               "default": "1",
               "description": "Rendered step number. Assigned by the parent `<nys-processlist>` via `setStep()` — numbering is\na property of the list's order, not of the item, so it is deliberately not part of this\ncomponent's public API."
+            },
+            {
+              "kind": "field",
+              "name": "_hasDescription",
+              "description": "A description is shown when either the property or the slot has content, so an item with\nneither renders no empty paragraph.",
+              "readonly": true
             }
           ],
           "attributes": [

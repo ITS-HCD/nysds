@@ -4,7 +4,7 @@ import { property, state } from "lit/decorators.js";
 import styles from "./nys-processlistitem.scss?inline";
 
 /**
- * A single step in a `<nys-processlist>`. Renders as a list item containing a step number and a `<nys-label>`.
+ * A single step in a `<nys-processlist>`. Renders as a list item containing a step number and text.
  *
  * Set `label` for the step label and `description` for supporting information. For rich text, use the
  * `description` slot instead of the property. The step number is owned by the parent list, so items
@@ -35,6 +35,14 @@ export class NysProcesslistitem extends LitElement {
   @state() private _step = 1;
 
   /**
+   * A description is shown when either the property or the slot has content, so an item with
+   * neither renders no empty paragraph.
+   */
+  get _hasDescription() {
+    return !!this.description || !!this.querySelector('[slot="description"]');
+  }
+
+  /**
    * Sets the rendered step number.
    * @internal Called by `<nys-processlist>`; not intended for direct use.
    */
@@ -63,9 +71,14 @@ export class NysProcesslistitem extends LitElement {
           <div class="nys-processlistitem__step">${this._step}</div>
           <div class="nys-processlistitem__connector"></div>
         </div>
-        <nys-label class="nys-processlistitem__label" label=${this.label}>
-          <slot name="description" slot="description">${this.description}</slot>
-        </nys-label>
+        <div class="nys-processlistitem__content">
+          <div class="nys-processlistitem__label">${this.label}</div>
+          ${this._hasDescription
+            ? html`<p class="nys-processlistitem__description">
+                <slot name="description">${this.description}</slot>
+              </p>`
+            : ""}
+        </div>
       </div>
     `;
   }

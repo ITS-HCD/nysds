@@ -616,7 +616,8 @@ export type NysLabelProps = {
   inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon next to label. */
   tooltip?: string;
-
+  /**  */
+  _hasDescription?: string;
   /**  */
   "onnys-label-click"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -673,6 +674,9 @@ export type NysProcesslistitemProps = {
   label?: string;
   /** Supporting information displayed below the label. Use the `description` slot for rich text. */
   description?: string;
+  /** A description is shown when either the property or the slot has content, so an item with
+neither renders no empty paragraph. */
+  _hasDescription?: string;
 };
 
 export type NysRadiobuttonProps = {

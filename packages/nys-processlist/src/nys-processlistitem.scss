@@ -34,6 +34,31 @@
     --nys-font-letterspacing-ui-lg,
     0.028px
   );
+
+  /* UI/Medium/Regular — the description is supporting text, so it does not
+     follow the label's size or weight. */
+  --_nys-processlistitem-font-size--description: var(
+    --nys-font-size-ui-md,
+    16px
+  );
+  --_nys-processlistitem-font-weight--description: var(
+    --nys-font-weight-regular,
+    400
+  );
+  --_nys-processlistitem-line-height--description: var(
+    --nys-font-lineheight-ui-md,
+    24px
+  );
+  --_nys-processlistitem-letter-spacing--description: var(
+    --nys-font-letterspacing-ui-md,
+    0.044px
+  );
+  --_nys-processlistitem-color--label: var(--nys-color-text, #1b1b1b);
+  --_nys-processlistitem-color--description: var(
+    --nys-color-text-weak,
+    #4a4d4f
+  );
+  --_nys-processlistitem-gap--text: var(--nys-space-4px, 4px);
 }
 
 .nys-processlistitem {
@@ -88,15 +113,34 @@
   display: none;
 }
 
-.nys-processlistitem__label {
+.nys-processlistitem__content {
   width: 100%;
   margin-bottom: var(--_nys-processlistitem-gap);
   padding-top: var(--_nys-processlistitem-padding-top);
 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--_nys-processlistitem-gap--text);
+
   font-family: var(--_nys-processlistitem-font-family);
-  font-size: var(--_nys-processlistitem-font-size);
   font-style: normal;
+  text-align: left;
+}
+
+.nys-processlistitem__label {
+  color: var(--_nys-processlistitem-color--label);
+  font-size: var(--_nys-processlistitem-font-size);
   font-weight: var(--_nys-processlistitem-font-weight);
   line-height: var(--_nys-processlistitem-line-height); /* 155.556% */
   letter-spacing: var(--_nys-processlistitem-letter-spacing);
+}
+
+.nys-processlistitem__description {
+  margin: 0;
+  color: var(--_nys-processlistitem-color--description);
+  font-size: var(--_nys-processlistitem-font-size--description);
+  font-weight: var(--_nys-processlistitem-font-weight--description);
+  line-height: var(--_nys-processlistitem-line-height--description);
+  letter-spacing: var(--_nys-processlistitem-letter-spacing--description);
 }

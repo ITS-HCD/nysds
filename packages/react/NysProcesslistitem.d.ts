@@ -44,6 +44,10 @@ export interface NysProcesslistitemProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** A description is shown when either the property or the slot has content, so an item with
+neither renders no empty paragraph. */
+  _hasDescription?: NysProcesslistitemElement["_hasDescription"];
 }
 
 /**
