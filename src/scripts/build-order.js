@@ -11,6 +11,7 @@ const packages = [
   { name: "nys-badge", path: "packages/nys-badge" },
   { name: "nys-breadcrumbs", path: "packages/nys-breadcrumbs" },
   { name: "nys-button", path: "packages/nys-button" },
+  { name: "nys-card", path: "packages/nys-card" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-combobox", path: "packages/nys-combobox" },
   { name: "nys-datepicker", path: "packages/nys-datepicker" },

@@ -2868,6 +2868,384 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-card/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-card/src/nys-card"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-card/src/nys-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `top`, default, and\n`footer` slots to project custom markup such as buttons, lists, or links.",
+          "name": "NysCard",
+          "slots": [
+            {
+              "description": "Content rendered above the heading block (e.g. a badge or label).",
+              "name": "top"
+            },
+            {
+              "description": "Default slot for the card's main body. Use for rich content when the `description` property is not enough.",
+              "name": ""
+            },
+            {
+              "description": "Content rendered at the bottom of the card, typically actions like buttons or links.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "preheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears above the heading text.",
+              "attribute": "preheading"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heading text in the card.",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the card heading (`h1` through `h6`).",
+              "attribute": "headingLevel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "subheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the heading text.",
+              "attribute": "subheading"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content.",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "media",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visual content for the card. Supported types are images: png, jpg, etc.",
+              "attribute": "media"
+            },
+            {
+              "kind": "field",
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds padding around the media to visually contain it.",
+              "attribute": "inset"
+            },
+            {
+              "kind": "field",
+              "name": "elevated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
+              "attribute": "elevated",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "mediaAccent",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "A date accent displayed over the media, in `M/D` format (e.g. `\"10/16\"`).\nThe month is shown as a three-letter abbreviation and the day as a number\n(e.g. \"Oct 16\"). Only renders when `media` is set and the value is a valid\ndate. Only supports dates in v1.",
+              "attribute": "mediaAccent"
+            },
+            {
+              "kind": "field",
+              "name": "MONTH_ABBREVIATIONS",
+              "type": {
+                "text": "array"
+              },
+              "privacy": "private",
+              "static": true,
+              "readonly": true,
+              "default": "[ \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\", ]",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "parseMediaAccent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ month: string; day: string } | null"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderHeading",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderMediaAccent",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "preheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears above the heading text.",
+              "fieldName": "preheading",
+              "propName": "preheading"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heading text in the card.",
+              "fieldName": "heading",
+              "propName": "heading"
+            },
+            {
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the card heading (`h1` through `h6`).",
+              "fieldName": "headingLevel",
+              "propName": "headinglevel"
+            },
+            {
+              "name": "subheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the heading text.",
+              "fieldName": "subheading",
+              "propName": "subheading"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content.",
+              "fieldName": "description",
+              "propName": "description"
+            },
+            {
+              "name": "media",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visual content for the card. Supported types are images: png, jpg, etc.",
+              "fieldName": "media",
+              "propName": "media"
+            },
+            {
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds padding around the media to visually contain it.",
+              "fieldName": "inset",
+              "propName": "inset"
+            },
+            {
+              "name": "elevated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
+              "fieldName": "elevated",
+              "propName": "elevated"
+            },
+            {
+              "name": "mediaAccent",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "A date accent displayed over the media, in `M/D` format (e.g. `\"10/16\"`).\nThe month is shown as a three-letter abbreviation and the day as a number\n(e.g. \"Oct 16\"). Only renders when `media` is set and the value is a valid\ndate. Only supports dates in v1.",
+              "fieldName": "mediaAccent",
+              "propName": "mediaaccent"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-card",
+          "customElement": true,
+          "summary": "Flexible container that groups related content and actions about a single subject.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-card\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Preheading",
+              "code": "<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Heading Level",
+              "code": "<nys-card\nheading=\"Heading\"\nheadingLevel=\"h3\"\ndescription=\"Set the heading level to fit the page's heading hierarchy.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nheadingLevel=\"h3\"\ndescription=\"Set the heading level to fit the page's heading hierarchy.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Subheading",
+              "code": "<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Media",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Inset Media",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Media Accent",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Inset Media Accent",
+              "code": "<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\ninset\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\ninset\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Elevated",
+              "code": "<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>\n</div>"
+            },
+            {
+              "title": "Footer Slot",
+              "code": "<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>"
+            },
+            {
+              "title": "Top Slot",
+              "code": "<nys-card heading=\"Heading\" description=\"A card with content in the top slot.\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with content in the top slot.\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>\n</div>"
+            },
+            {
+              "title": "Icon List",
+              "code": "<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>",
+              "lang": "html",
+              "render": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>\n</div>"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-card",
+          "declaration": {
+            "name": "NysCard",
+            "module": "packages/nys-card/src/nys-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCard",
+          "declaration": {
+            "name": "NysCard",
+            "module": "packages/nys-card/src/nys-card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-checkbox/src/index.ts",
       "declarations": [],
       "exports": [
