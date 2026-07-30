@@ -417,13 +417,7 @@ export class NysUnavHeader extends LitElement {
       const feed = (await response.json()) as AlertFeed;
       // A late response for a header that has since been detached is dead weight
       return request.signal.aborted ? null : feed;
-    } catch (error) {
-      if (!request.signal.aborted) {
-        console.warn(
-          `<nys-unavheader> could not load ${NYS_ALERT_URL}:`,
-          error,
-        );
-      }
+    } catch {
       return null;
     }
   }

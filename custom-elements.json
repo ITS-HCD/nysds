@@ -16357,8 +16357,8 @@
           "type": {
             "text": "string"
           },
-          "default": "\"https://alerts-cta-dev.static-assets.ny.gov/alerts.json\"",
-          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nTODO: currently pointed at dev. Production is\nhttps://alerts-cta.static-assets.ny.gov/alerts.json."
+          "default": "\"https://alerts-cta.static-assets.ny.gov/alerts.json\"",
+          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nProduction is https://alerts-cta.static-assets.ny.gov/alerts.json.\nFor dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json"
         },
         {
           "kind": "class",
