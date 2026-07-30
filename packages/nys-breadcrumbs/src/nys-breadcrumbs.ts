@@ -2,8 +2,21 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-breadcrumbs.scss?inline";
+// @ts-ignore: SCSS module imported via bundler as inline
+import lightStyles from "./nys-breadcrumbs.light.scss?inline";
 
-let componentIdCounter = 0;
+let breadcrumbsIdCounter = 0;
+
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the lightDOM styling for the scss into the adopted/constructed stylesheet.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
+
+const INJECTED_ATTR = "data-nys-injected";
 
 /**
  * A breadcrumb navigation trail composed of `li` elements.
@@ -181,8 +194,10 @@ export class NysBreadcrumbs extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-breadcrumbs-${Date.now()}-${componentIdCounter++}`;
+      this.id = `nys-breadcrumbs-${Date.now()}-${breadcrumbsIdCounter++}`;
     }
+
+    adoptLightStyles();
 
     this._mediaQuery = window.matchMedia("(max-width: 767px)");
     this._mediaQuery.addEventListener("change", this._updateCollapseThreshold);
@@ -198,6 +213,12 @@ export class NysBreadcrumbs extends LitElement {
   }
 
   firstUpdated() {
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    slot?.addEventListener("slotchange", () => this._handleSlotChange());
+    slot?.addEventListener("click", (e) => {
+      const a = (e.target as HTMLElement)?.closest("a");
+      if (a?.getAttribute("aria-disabled") === "true") e.preventDefault();
+    });
     this._handleSlotChange();
   }
 
@@ -228,20 +249,21 @@ export class NysBreadcrumbs extends LitElement {
   };
 
   private _getSlottedOl(): HTMLOListElement | null {
-    const slot = this.shadowRoot?.querySelector(
-      "slot",
-    ) as HTMLSlotElement | null;
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     const assigned = slot?.assignedElements({ flatten: true }) ?? [];
     return (
       (assigned.find((el) => el.tagName === "OL") as HTMLOListElement) ?? null
     );
   }
 
-  private _getSlottedItems(): HTMLLIElement[] {
-    const ol = this._getSlottedOl();
-    if (!ol) return [];
+  private _getSlottedItems(ol: HTMLOListElement): HTMLLIElement[] {
+    // const ol = this._getSlottedOl();
+    // if (!ol) return [];
+    // return Array.from(ol.children).filter(
+    //   (el) => el.tagName === "LI",
+    // ) as HTMLLIElement[];
     return Array.from(ol.children).filter(
-      (el) => el.tagName === "LI",
+      (el) => el.tagName === "LI" && !el.hasAttribute(INJECTED_ATTR),
     ) as HTMLLIElement[];
   }
 
@@ -250,9 +272,28 @@ export class NysBreadcrumbs extends LitElement {
   }
 
   private _isCurrentPage(li: HTMLLIElement): boolean {
+    return !this._getAnchor(li);
+  }
+
+  private _createIcon(name: string, size: string): HTMLElement {
+    const icon = document.createElement("nys-icon");
+    icon.setAttribute("name", name);
+    icon.setAttribute("size", size);
+    icon.setAttribute(INJECTED_ATTR, "true");
+    return icon;
+  }
+
+  private _resetItem(li: HTMLLIElement) {
+    li.className = "";
+    li.removeAttribute("aria-current");
+
+    li.querySelectorAll(`[${INJECTED_ATTR}]`).forEach((el) => el.remove());
+
     const a = this._getAnchor(li);
-    if (!a) return true;
-    return false;
+    if (a) {
+      a.removeAttribute("aria-disabled");
+      a.removeAttribute("tabindex");
+    }
   }
 
   private _createBackToParentElement(li: HTMLLIElement) {
