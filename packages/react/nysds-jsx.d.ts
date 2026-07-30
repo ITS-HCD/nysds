@@ -753,9 +753,13 @@ export type NysRadiobuttonProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
-
+  /** Public validation API (Form Association)
+-------------------------------------------------------------------------- */
+  validity?: string;
+  /**  */
+  validationMessage?: string;
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
-  "onnys-change"?: (e: CustomEvent<never>) => void;
+  "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when radio gains focus. */
   "onnys-focus"?: (e: CustomEvent<never>) => void;
   /** Fired when radio loses focus. */
@@ -791,7 +795,8 @@ export type NysRadiogroupProps = {
   size?: "sm" | "md";
   /**  */
   _showOtherError?: boolean;
-
+  /**  */
+  role?: string;
   /**  */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /**  */
@@ -1550,7 +1555,10 @@ export type CustomElements = {
   "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
 
   /**
-   * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
+   * Radio button for single selection from mutually exclusive options.
+   * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
+   * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
+   * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
    * ---
    *
    *

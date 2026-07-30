@@ -10675,12 +10675,185 @@
               },
               "default": "false",
               "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "_inputEl",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "description": "Public validation API (Form Association)\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_isGroupChecked",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_updateValidity",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_updateGroupValidity",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleInvalid",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleFocusOut",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_isGrouped",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getGroupMembers",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "NysRadiobutton[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_uncheckOtherRadios",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_forwardDescriptionSlot",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleChange",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleWrapperClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_computeAccessibleLabel",
+              "privacy": "private"
             }
           ],
           "events": [
             {
-              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`.",
-              "name": "nys-change"
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
             },
             {
               "description": "Fired when radio gains focus.",
@@ -10831,11 +11004,26 @@
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
-          "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
+          "summary": "Radio button for single selection from mutually exclusive options.\nThis is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.\nOtherwise this radiobutton mockup the native grouping of radio buttons via \"name\" attribute.\nSince we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.",
           "examples": [
             {
               "title": "Pre-selected",
               "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "No group",
+              "code": "<nys-radiobutton name=\"borough\" value=\"queens\" label=\"Queens\" checked description=\"Includes Flushing and Astoria\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\" checked>\n<span slot=\"description\">Home to <strong>Central Park</strong></span>\n</nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>",
+              "lang": "html"
+            },
+            {
+              "title": "Pre-selected",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Standalone, one per table row",
+              "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th>Application</th>\n<th>Priority</th>\n</tr>\n<tr>\n<td>SNAP Benefits</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n label=\"Select SNAP Benefits\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Child Care Assistance</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"child-care\"\n label=\"Select Child Care Assistance\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>HEAP</td>\n<td>\n<label for=\"rg-bk1\">Brooklyn</label>\n<input id=\"rg-bk1\" type=\"radio\" name=\"group\" value=\"Brooklyn\"></input>\n</td>\n</tr>\n<tr>\n<td>Medicaid</td>\n<td>\n<label for=\"rg-bk2\">Manhattan</label>\n<input id=\"rg-bk2\" type=\"radio\" name=\"group\" value=\"Manhattan\"></input>\n</td>\n</tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
           ]
@@ -11198,6 +11386,11 @@
             },
             {
               "kind": "method",
+              "name": "_forwardRadioDescriptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleInvalid",
               "privacy": "private",
               "parameters": [
@@ -11311,6 +11504,14 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"radiogroup\""
             }
           ],
           "events": [
@@ -11513,7 +11714,7 @@
             },
             {
               "title": "Description Slot",
-              "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "code": "<nys-radiogroup label=\"What is your primary work location?\">\n<label slot=\"description\">This is the location you use for your <a href=\"https://www.ny.gov/\" target=\"__blank\">in office days.</a></label>\n<nys-radiobutton name=\"office\" label=\"Albany\" value=\"albany\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">Upstate New York</a></label>\n</nys-radiobutton>\n<nys-radiobutton name=\"office\" label=\"Manhattan\" value=\"manhattan\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">New York City</a></label>\n</nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]
