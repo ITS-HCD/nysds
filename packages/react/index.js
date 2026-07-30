@@ -24,6 +24,8 @@ export * from "./NysIconlistitem.js";
 export * from "./NysLabel.js";
 export * from "./NysModal.js";
 export * from "./NysPagination.js";
+export * from "./NysProcesslist.js";
+export * from "./NysProcesslistitem.js";
 export * from "./NysRadiobutton.js";
 export * from "./NysRadiogroup.js";
 export * from "./NysOption.js";

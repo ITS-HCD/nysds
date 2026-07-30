@@ -616,7 +616,8 @@ export type NysLabelProps = {
   inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon next to label. */
   tooltip?: string;
-
+  /**  */
+  _hasDescription?: string;
   /**  */
   "onnys-label-click"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -655,6 +656,50 @@ export type NysPaginationProps = {
 
   /** Fired when page changes. Detail: `{page}`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
+export type NysProcesslistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Renders each step number in a bolder, higher-emphasis color. */
+  strong?: boolean;
+  /** Renders each step number using neutral (grayscale) coloring instead of the theme color. */
+  neutral?: boolean;
+  /** Step marker size: `sm` (smaller) or `md` (default). */
+  size?: "md" | "sm";
+  /** Number given to the first step. Subsequent steps count up from it. Use this when one
+process is split across several lists so the later lists continue the count instead of
+restarting at 1. */
+  initialStep?: number;
+  /** Accessible name for the list, e.g. "Application steps". A list has no name of its own, so
+give one whenever the surrounding content does not already make the list's purpose obvious —
+especially when a page holds more than one process list.
+
+Sets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already
+names the list. */
+  "aria-label"?: string | null;
+  /** Space-separated IDs of the elements that name the list, typically the visible heading above
+it. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the
+visible one cannot drift apart.
+
+Sets `aria-labelledby` on the host. */
+  "aria-labelledby"?: string | null;
+  /** Space-separated IDs of the elements that describe the list, such as the intro paragraph
+explaining what the process involves. A description supplements the name; it does not
+replace it.
+
+Sets `aria-describedby` on the host. */
+  "aria-describedby"?: string | null;
+};
+
+export type NysProcesslistitemProps = {
+  /** Step heading text. */
+  label?: string;
+  /** Supporting information displayed below the label. Use the `description` slot for rich text. */
+  description?: string;
+  /** A description is shown when either the property or the slot has content, so an item with
+neither renders no empty paragraph. */
+  _hasDescription?: string;
 };
 
 export type NysRadiobuttonProps = {
@@ -1450,6 +1495,23 @@ export type CustomElements = {
    *  - **nys-change** - Fired when page changes. Detail: `{page}`.
    */
   "nys-pagination": Partial<NysPaginationProps & BaseProps & BaseEvents>;
+
+  /**
+   * An ordered list of numbered process steps.
+   * ---
+   *
+   */
+  "nys-processlist": Partial<NysProcesslistProps & BaseProps & BaseEvents>;
+
+  /**
+   * A numbered step for use inside `<nys-processlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - **description** - Custom HTML description content below the label. Overrides the `description` property.
+   */
+  "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
 
   /**
    * Radio button for single selection from mutually exclusive options. This is a READONLY data component.

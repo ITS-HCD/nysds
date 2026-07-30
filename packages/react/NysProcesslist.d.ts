@@ -1,0 +1,87 @@
+import React from "react";
+import { NysProcesslist as NysProcesslistElement } from "../../dist/nysds.es.js";
+
+export type { NysProcesslistElement };
+
+export interface NysProcesslistProps extends Pick<
+  React.AllHTMLAttributes<HTMLElement>,
+  | "children"
+  | "dir"
+  | "hidden"
+  | "id"
+  | "lang"
+  | "slot"
+  | "style"
+  | "title"
+  | "translate"
+  | "onClick"
+  | "onFocus"
+  | "onBlur"
+> {
+  /** Renders each step number in a bolder, higher-emphasis color. */
+  strong?: boolean;
+
+  /** Renders each step number using neutral (grayscale) coloring instead of the theme color. */
+  neutral?: boolean;
+
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysProcesslistElement["id"];
+
+  /** Step marker size: `sm` (smaller) or `md` (default). */
+  size?: NysProcesslistElement["size"];
+
+  /** Number given to the first step. Subsequent steps count up from it. Use this when one
+process is split across several lists so the later lists continue the count instead of
+restarting at 1. */
+  initialStep?: NysProcesslistElement["initialStep"];
+
+  /** Accessible name for the list, e.g. "Application steps". A list has no name of its own, so
+give one whenever the surrounding content does not already make the list's purpose obvious —
+especially when a page holds more than one process list.
+
+Sets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already
+names the list. */
+  ariaLabel?: NysProcesslistElement["ariaLabel"];
+
+  /** Space-separated IDs of the elements that name the list, typically the visible heading above
+it. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the
+visible one cannot drift apart.
+
+Sets `aria-labelledby` on the host. */
+  ariaLabelledBy?: NysProcesslistElement["ariaLabelledBy"];
+
+  /** Space-separated IDs of the elements that describe the list, such as the intro paragraph
+explaining what the process involves. A description supplements the name; it does not
+replace it.
+
+Sets `aria-describedby` on the host. */
+  ariaDescribedBy?: NysProcesslistElement["ariaDescribedBy"];
+
+  /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
+  className?: string;
+
+  /** Contains a space-separated list of the part names of the element that should be exposed on the host element. */
+  exportparts?: string;
+
+  /** Used for labels to link them with their inputs (using input id). */
+  htmlFor?: string;
+
+  /** Used to help React identify which items have changed, are added, or are removed within a list. */
+  key?: number | string;
+
+  /** Contains a space-separated list of the part names of the element. Part names allows CSS to select and style specific elements in a shadow tree via the ::part pseudo-element. */
+  part?: string;
+
+  /** A mutable ref object whose `.current` property is initialized to the passed argument (`initialValue`). The returned object will persist for the full lifetime of the component. */
+  ref?: any;
+
+  /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
+  tabIndex?: number;
+}
+
+/**
+ * An ordered list of numbered process steps.
+ * ---
+ *
+ */
+export const NysProcesslist: React.ForwardRefExoticComponent<NysProcesslistProps>;
