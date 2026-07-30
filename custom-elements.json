@@ -16352,6 +16352,15 @@
       "path": "packages/nys-unavheader/src/nys-unavheader.ts",
       "declarations": [
         {
+          "kind": "variable",
+          "name": "NYS_ALERT_URL",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta.static-assets.ny.gov/alerts.json\"",
+          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nProduction is https://alerts-cta.static-assets.ny.gov/alerts.json.\nFor dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json"
+        },
+        {
           "kind": "class",
           "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
@@ -16527,6 +16536,99 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "_alerts",
+              "type": {
+                "text": "FeedAlert[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "The published alerts, in feed order. Empty when nothing is published."
+            },
+            {
+              "kind": "field",
+              "name": "_alertRequest",
+              "type": {
+                "text": "AbortController | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "In-flight feed request, aborted if the header leaves the page first."
+            },
+            {
+              "kind": "method",
+              "name": "_loadAlerts",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_readFeed",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": {
+                    "text": "AbortController"
+                  }
+                }
+              ],
+              "description": "Fetches the alert feed. Resolves to null on any failure."
+            },
+            {
+              "kind": "method",
+              "name": "_alertType",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "AlertType"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "severity",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed severity → `nys-alert` type."
+            },
+            {
+              "kind": "method",
+              "name": "_alertIcon",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "icon",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed icon name → `nys-icon` name. Unknown names resolve to \"\", which leaves\n`nys-alert` to draw the default icon for the alert's type."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlerts",
+              "privacy": "private",
+              "description": "One full-bleed band per published alert, so alerts of different severities keep\ntheir own background instead of sharing one. The body is slotted rather than\npassed as `text`/`primaryAction` so the link can carry the feed's `linkAriaLabel`."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlert",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "alert",
+                  "type": {
+                    "text": "FeedAlert"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -16663,6 +16765,14 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "NYS_ALERT_URL",
+          "declaration": {
+            "name": "NYS_ALERT_URL",
+            "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "nys-unavheader",
