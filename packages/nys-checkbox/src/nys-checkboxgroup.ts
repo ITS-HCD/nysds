@@ -151,7 +151,9 @@ export class NysCheckboxgroup extends LitElement {
   @state() private _slottedDescriptionText = "";
   @state() private _hasOtherError = false;
   @state() private _otherErrorCheckbox: NysCheckbox | null = null;
-  @state() private _hasSharedNames = false;
+
+  // Not reactive: only read by event handlers, never by render.
+  private _hasSharedNames = false;
 
   private _internals: ElementInternals;
 
@@ -195,7 +197,9 @@ export class NysCheckboxgroup extends LitElement {
     this._updateCheckboxSize();
     this._updateCheckboxTile();
     this._updateCheckboxShowError();
-    this._getSlotDescriptionForAria();
+    // `_getSlotDescriptionForAria` runs off the description slot's `slotchange`
+    // instead: setting state here would land after the update completed and
+    // force a second render (see lit.dev/msg/change-in-update).
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -610,7 +614,12 @@ export class NysCheckboxgroup extends LitElement {
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           tooltip=${this.tooltip}
         >
-          <slot name="description" slot="description">${this.description}</slot>
+          <slot
+            name="description"
+            slot="description"
+            @slotchange=${this._getSlotDescriptionForAria}
+            >${this.description}</slot
+          >
         </nys-label>
         <div class="nys-checkboxgroup__content">
           <slot></slot>

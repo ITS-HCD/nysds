@@ -3,7 +3,6 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-{{componentName}}.scss?inline";
 
-
 let componentIdCounter = 0;
 
 /**
@@ -37,7 +36,6 @@ export class Nys{{capitalize componentName}} extends LitElement {
   @property({ type: String, reflect: true }) form: string | null = null;
   {{/if}}
 
-
   {{#if formRelated}}
   private _internals: ElementInternals;
 
@@ -65,10 +63,29 @@ export class Nys{{capitalize componentName}} extends LitElement {
 
   firstUpdated() {
     // This ensures our element always participates in the form
-    this._setValue(this.value);
+    this._setValue();
   }
 
-  updated(changedProperties: Map<string | number | symbol, unknown></string>) {
+  /**
+   * Derive state BEFORE rendering.
+   *
+   * Anything computed from another property — a `@state`, a formatted label, a
+   * filtered list — belongs here. Setting a reactive property in `updated()`
+   * lands after the render finished, so Lit has to schedule a second one and
+   * warns about it (see https://lit.dev/msg/change-in-update).
+   */
+  willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("value")) {
+      // e.g. this._displayLabel = this._labelFor(this.value);
+    }
+  }
+
+  /**
+   * Only for work that needs the rendered DOM: measuring layout, syncing a
+   * native element, or `ElementInternals` calls. Do not set reactive
+   * properties here — derive them in `willUpdate` instead.
+   */
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has("value")) {
       this._setValue();
     }
@@ -90,18 +107,35 @@ export class Nys{{capitalize componentName}} extends LitElement {
       this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
     }
   }
-  {{/if}}
 
+  /**
+   * Derive state BEFORE rendering.
+   *
+   * Anything computed from another property — a `@state`, a formatted label, a
+   * filtered list — belongs here. Setting a reactive property in `updated()`
+   * lands after the render finished, so Lit has to schedule a second one and
+   * warns about it (see https://lit.dev/msg/change-in-update).
+   *
+   * Reserve `updated()` for work that needs the rendered DOM: measuring
+   * layout, syncing a native element, or `ElementInternals` calls.
+   */
+  willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("id")) {
+      // e.g. this._describedById = `${this.id}--description`;
+    }
+  }
+  {{/if}}
   {{#if formRelated}}
+
   /**
    * Form Integration
    * --------------------------------------------------------------------------
    */
 
   /**
-  * Placeholder for form-related helper methods
-  * Refer to existing form-related components for full integration. Only a subset of functions is included here!
-  */
+   * Placeholder for form-related helper methods
+   * Refer to existing form-related components for full integration. Only a subset of functions is included here!
+   */
 
   /**
    * Form helper methods:
@@ -114,11 +148,11 @@ export class Nys{{capitalize componentName}} extends LitElement {
    * - _handleInvalid: handle form invalid event and focus first invalid field
    */
 
-  // Performs element validation
-  private _setValue(value: any) {
-    // ...
-    this.value = value;
-    this._internals.setFormValue(value);
+  // Publishes the current value to the form and re-checks validation.
+  // Reads `this.value` rather than assigning it: this runs from `updated()`,
+  // where writing a reactive property would force a second render.
+  private _setValue() {
+    this._internals.setFormValue(this.value);
 
     this._manageRequire(); // Check validation when value is set
   }
@@ -171,7 +205,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
     this._internals.setValidity(
       message ? { customError: true } : {},
       message,
-      input
+      input,
     );
   }
 
@@ -208,7 +242,6 @@ export class Nys{{capitalize componentName}} extends LitElement {
 
     const innerInput = this.shadowRoot?.querySelector("input");
     if (innerInput) {
-
       // Focus only if this is the first invalid element (top-down approach)
       const form = this._internals.form;
       if (form) {
