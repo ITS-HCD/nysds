@@ -146,25 +146,21 @@ describe("nys-alert", () => {
       ></nys-alert>`,
     );
 
-    const primaryLink = el.shadowRoot?.querySelector(
-      ".nys-alert__action.nys-alert__primary",
-    );
+    const primaryLink = el.shadowRoot?.getElementById("primary-action");
 
-    const secondaryLink = el.shadowRoot?.querySelector(
-      ".nys-alert__action.nys-alert__secondary",
-    );
+    const secondaryLink = el.shadowRoot?.getElementById("secondary-action");
 
     expect(primaryLink).to.exist;
     expect(primaryLink?.getAttribute("href")).to.include(
       "https://example.com/primary",
     );
-    expect(primaryLink?.textContent?.trim()).to.equal("Go");
+    expect(primaryLink?.getAttribute("label")).to.equal("Go");
 
     expect(secondaryLink).to.exist;
     expect(secondaryLink?.getAttribute("href")).to.include(
       "https://example.com/secondary",
     );
-    expect(secondaryLink?.textContent?.trim()).to.equal("Cancel");
+    expect(secondaryLink?.getAttribute("label")).to.equal("Cancel");
   });
 
   it("emits nys-close with correct detail when dismissed", async () => {

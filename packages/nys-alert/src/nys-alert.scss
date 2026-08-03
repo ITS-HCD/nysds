@@ -89,22 +89,6 @@ p {
   margin-top: -2px;
 }
 
-/* Links */
-a,
-a:visited {
-  font-weight: var(--_nys-alert-font-weight--semibold);
-  font-size: var(--_nys-alert-font-size);
-  color: var(--_nys-alert-color--link);
-}
-
-a:hover {
-  color: var(--_nys-alert-color--link--hover);
-}
-
-a:active {
-  color: var(--_nys-alert-color--link--active);
-}
-
 /* For HTML elements put into the slot */
 ::slotted(a) {
   color: var(--_nys-alert-color--link);
@@ -156,6 +140,10 @@ a:active {
   display: flex;
   gap: var(--_nys-alert-gap--actions);
   flex-wrap: wrap;
+
+  nys-button {
+    --_nys-button-padding--y: 0;
+  }
 }
 
 /* Dismiss Button */
@@ -235,10 +223,8 @@ a:active {
   );
 }
 
-:host([type="emergency"]) a:hover {
-  text-decoration-thickness: 2px;
-}
-
-:host([type="emergency"]) a:active {
-  text-decoration-thickness: 3px;
+/* Emergency alerts thicken the action link underline for contrast on the dark fill */
+:host([type="emergency"]) .nys-alert__action {
+  --_nys-button-text-decoration-thickness--hover: 2px;
+  --_nys-button-text-decoration-thickness--active: 3px;
 }
