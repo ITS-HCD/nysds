@@ -4764,6 +4764,15 @@
             },
             {
               "kind": "field",
+              "name": "_hasResolvedSlottedValue",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "formAssociated",
               "type": {
                 "text": "boolean"
