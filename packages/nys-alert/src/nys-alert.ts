@@ -325,6 +325,7 @@ export class NysAlert extends LitElement {
                     ${this.primaryAction
                       ? html`<nys-button
                           variant="text"
+                          target="_blank"
                           href=${this.primaryAction}
                           label=${this.primaryLabel}
                           ?inverted=${this.type === "emergency"}
@@ -334,6 +335,7 @@ export class NysAlert extends LitElement {
                     ${this.secondaryAction
                       ? html`<nys-button
                           variant="text"
+                          target="_blank"
                           href=${this.secondaryAction}
                           label=${this.secondaryLabel}
                           ?inverted=${this.type === "emergency"}
