@@ -726,4 +726,50 @@ describe("nys-toggle", () => {
     await el.updateComplete;
     expect(new FormData(form).get("darkmode")).to.be.null;
   });
+
+  // Regression: #1694 — the prefers-reduced-motion block used to set
+  // `--toggle-transition-duration`, while the knob's transition reads
+  // `--_nys-toggle-transition-duration`. The override was dead code and toggles
+  // animated at full duration for users who asked for reduced motion.
+  describe("prefers-reduced-motion", () => {
+    const readShadowCss = (root: ShadowRoot): string => {
+      const chunks: string[] = [];
+      for (const sheet of (root as any).adoptedStyleSheets ?? []) {
+        for (const rule of Array.from(sheet.cssRules) as CSSRule[]) {
+          chunks.push(rule.cssText);
+        }
+      }
+      for (const styleEl of Array.from(root.querySelectorAll("style"))) {
+        chunks.push(styleEl.textContent ?? "");
+      }
+      return chunks.join("\n");
+    };
+
+    it("zeroes the same custom property the knob transition consumes", async () => {
+      const el = await fixture<NysToggle>(html`<nys-toggle></nys-toggle>`);
+      await el.updateComplete;
+
+      const css = readShadowCss(el.shadowRoot!);
+      expect(css, "could not read the component stylesheet").to.not.be.empty;
+
+      // The property the knob's `transition` shorthand actually reads.
+      const consumed = css.match(
+        /\.knob\s*\{[^}]*?transition\s*:[^;}]*?var\(\s*(--[\w-]+)/,
+      );
+      expect(consumed, "the knob transition should read a duration property").to
+        .exist;
+      const prop = consumed![1];
+
+      // The reduced-motion override must set that exact property.
+      const start = css.search(/@media[^{]*prefers-reduced-motion/);
+      expect(start, "a prefers-reduced-motion block should exist").to.be.above(
+        -1,
+      );
+      const block = css.slice(start);
+      expect(
+        new RegExp(`${prop}\\s*:\\s*0s`).test(block),
+        `prefers-reduced-motion must zero ${prop}, not a differently named property`,
+      ).to.equal(true);
+    });
+  });
 });
