@@ -2,6 +2,7 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-alert";
 import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Alert",
@@ -28,6 +29,13 @@ export const Basic: Story = {
     secondaryAction: "",
     primaryLabel: "Learn more",
     secondaryLabel: "Dismiss",
+    type: "base",
+  },
+  argTypes: {
+    type: {
+      control: { type: "select" },
+      options: ["base", "info", "success", "warning", "danger", "emergency"],
+    },
   },
   render: (args) => {
     return html`
@@ -41,6 +49,7 @@ export const Basic: Story = {
         secondaryAction=${args.secondaryAction}
         primaryLabel=${args.primaryLabel}
         secondaryLabel=${args.secondaryLabel}
+        type=${args.type}
       ></nys-alert>
     `;
   },

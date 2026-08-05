@@ -1,10 +1,7 @@
 import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import {
-  NysFormControlElement,
-  associateControlRefs,
-} from "@nysds/internals";
+import { NysFormControlElement, associateControlRefs } from "@nysds/internals";
 import "./nys-checkboxgroup";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-checkbox is used. Importing them here

@@ -10,6 +10,7 @@ const packages = [
   { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-backtotop", path: "packages/nys-backtotop" },
   { name: "nys-badge", path: "packages/nys-badge" },
+  { name: "nys-breadcrumbs", path: "packages/nys-breadcrumbs" },
   { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-combobox", path: "packages/nys-combobox" },
@@ -21,9 +22,11 @@ const packages = [
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
   { name: "nys-icon", path: "packages/nys-icon" },
+  { name: "nys-iconlist", path: "packages/nys-iconlist" },
   { name: "nys-label", path: "packages/nys-label" },
   { name: "nys-modal", path: "packages/nys-modal" },
   { name: "nys-pagination", path: "packages/nys-pagination" },
+  { name: "nys-processlist", path: "packages/nys-processlist" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
   { name: "nys-skipnav", path: "packages/nys-skipnav" },
@@ -35,8 +38,8 @@ const packages = [
   { name: "nys-tooltip", path: "packages/nys-tooltip" },
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
+  { name: "nys-verticalnav", path: "packages/nys-verticalnav" },
   { name: "nys-video", path: "packages/nys-video" },
-  { name: "nys-breadcrumbs", path: "packages/nys-breadcrumbs" },
 ];
 
 packages.forEach((pkg) => {

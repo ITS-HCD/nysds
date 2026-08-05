@@ -56,7 +56,7 @@ import styles from "./nys-modal.scss?inline";
  * </div>
  * ```
  *
-
+ *
  * @example Subheading
  * ```html
  * <nys-modal

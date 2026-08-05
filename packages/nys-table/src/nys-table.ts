@@ -3,12 +3,29 @@ import { property, state } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
+// @ts-ignore: SCSS module imported via bundler as inline
+import lightStyles from "./nys-table.light.scss?inline";
+
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the light-DOM styling for <nys-table> into a single constructed
+// stylesheet adopted on the document. Guarded so it runs once regardless of how
+// many tables mount, and skipped during SSR where `document` is undefined.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
 
 /**
  * `<nys-table>` is a responsive table component that can display native HTML tables,
  * supports striped and bordered styling, sortable columns, and CSV download.
  *
- * @slot - Accepts a `<table>` element. Only the first table is rendered.
+ * @slot - Accepts a `<table>` element. Only the first table is used. The table
+ *   is enhanced in place and stays in the light DOM (projected through a slot,
+ *   never cloned), so embedded components remain interactive and reachable by
+ *   consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`,
+ *   adopted once onto `document.adoptedStyleSheets`.
  *
  * @fires nys-click - Fired when the download button or sortable headers are clicked.
  * @fires nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
@@ -102,6 +119,9 @@ export class NysTable extends NysElement {
   @state() private _captionText = "";
 
   private _observer: MutationObserver | null = null;
+  // Guards against the MutationObserver re-entering while we mutate the table
+  // ourselves (normalize / sort-icon / sort). See `_withObserverPaused`.
+  private _enhancing = false;
 
   /**************** Lifecycle Methods ****************/
   constructor() {
@@ -111,17 +131,17 @@ export class NysTable extends NysElement {
   connectedCallback() {
     // super.connectedCallback() (NysElement) assigns a unique id
     // (prefixed with the element's localName) when one is not provided. The host
-    // is a presentational wrapper: native table semantics live on the inner
-    // cloned <table>, so this component keeps defaultRole = null and never moves
-    // a role onto the host.
+    // is a presentational wrapper: native table semantics live on the slotted
+    // <table>, enhanced in place, so this component keeps defaultRole = null and
+    // never moves a role onto the host.
     super.connectedCallback();
+    adoptLightStyles();
   }
 
   firstUpdated() {
-    const slot = this.shadowRoot?.querySelector("slot");
-    slot?.addEventListener("slotchange", () => this._handleSlotChange());
-    this._handleSlotChange();
+    // The <slot>'s own slotchange (wired in render()) drives re-enhancement.
     this._setupMutationObserver();
+    this._handleSlotChange();
   }
 
   disconnectedCallback() {
@@ -146,69 +166,69 @@ export class NysTable extends NysElement {
 
   /******************** Functions ********************/
 
-  private _handleSlotChange() {
+  // Returns the real slotted <table>. It stays a light-DOM child of the host
+  // (projected through the <slot>, never cloned), so it remains reachable by
+  // consumer CSS/JS and any embedded components stay interactive.
+  private _getSlottedTable(): HTMLTableElement | undefined {
     const slot = this.shadowRoot?.querySelector(
       "slot",
     ) as HTMLSlotElement | null;
-    const container = this.shadowRoot?.querySelector(
-      ".table-container",
-    ) as HTMLElement | null;
-
-    if (!slot || !container) return;
-
-    container.innerHTML = "";
-
-    const assigned = slot.assignedElements({ flatten: true });
-    const tableEl = assigned.find((el) => el.tagName === "TABLE") as
+    const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+    return assigned.find((el) => el.tagName === "TABLE") as
       | HTMLTableElement
       | undefined;
+  }
 
-    if (!tableEl) return;
+  private _observeTable(table: HTMLTableElement) {
+    this._observer?.observe(table, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+  }
 
-    const table = tableEl.cloneNode(true) as HTMLTableElement;
-
-    this._normalizeTableDOM(table);
-
-    // WCAG 1.3.1 (Info and Relationships): ensure column header cells carry
-    // scope="col" so assistive tech reliably associates each data cell with its
-    // header. Applied after normalization so it covers both pre-structured
-    // (thead/tbody) and auto-normalized tables.
-    this._applyHeaderScopes(table);
-
-    if (this.sortable) {
-      this._addSortIcons(table);
+  // Runs `fn` (which mutates the slotted table) with the MutationObserver
+  // detached, then re-attaches it. Because we now enhance the real table in
+  // place, our own writes would otherwise re-trigger the observer and loop.
+  private _withObserverPaused(table: HTMLTableElement, fn: () => void) {
+    if (this._enhancing) {
+      fn();
+      return;
     }
+    this._enhancing = true;
+    this._observer?.disconnect();
+    try {
+      fn();
+    } finally {
+      this._observeTable(table);
+      this._enhancing = false;
+    }
+  }
 
-    container.appendChild(table);
+  private _handleSlotChange() {
+    const table = this._getSlottedTable();
+    if (!table || this._enhancing) return;
+
+    this._withObserverPaused(table, () => {
+      this._normalizeTableDOM(table);
+
+      // WCAG 1.3.1 (Info and Relationships): ensure column header cells carry
+      // scope="col" so assistive tech reliably associates each data cell with
+      // its header. Applied after normalization so it covers both
+      // pre-structured (thead/tbody) and auto-normalized tables.
+      this._applyHeaderScopes(table);
+
+      if (this.sortable) {
+        this._addSortIcons(table);
+      }
+    });
   }
 
   private _setupMutationObserver() {
-    const slot = this.shadowRoot?.querySelector(
-      "slot",
-    ) as HTMLSlotElement | null;
-    if (!slot) return;
+    this._observer = new MutationObserver(() => this._handleSlotChange());
 
-    this._observer = new MutationObserver(() => {
-      this._handleSlotChange();
-    });
-
-    const observeSlottedContent = () => {
-      const assigned = slot.assignedElements({ flatten: true });
-      const tableEl = assigned.find(
-        (el) => el.tagName === "TABLE",
-      ) as HTMLTableElement;
-
-      if (tableEl) {
-        this._observer?.observe(tableEl, {
-          childList: true,
-          subtree: true,
-          characterData: true,
-        });
-      }
-    };
-
-    observeSlottedContent(); // initial observation
-    slot.addEventListener("slotchange", observeSlottedContent);
+    const table = this._getSlottedTable();
+    if (table) this._observeTable(table);
   }
 
   private _normalizeTableDOM(table: HTMLTableElement) {
@@ -398,8 +418,12 @@ export class NysTable extends NysElement {
     this._sortColumn = columnIndex;
     this._sortDirection = nextDirection;
 
-    this._updateSortIcons(table);
-    this._sortTable(table, columnIndex, this._sortDirection);
+    // Sorting reorders tbody rows and rewrites icon attributes on the real
+    // table, so pause the observer to avoid re-triggering enhancement.
+    this._withObserverPaused(table, () => {
+      this._updateSortIcons(table);
+      this._sortTable(table, columnIndex, nextDirection);
+    });
   }
 
   private _sortTable(
@@ -489,7 +513,7 @@ export class NysTable extends NysElement {
   render() {
     return html`
       <div class="nys-table">
-        <div class="table-container"></div>
+        <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
       ${this.download
         ? html` <nys-button
@@ -504,7 +528,6 @@ export class NysTable extends NysElement {
             @nys-click=${this.downloadFile}
           ></nys-button>`
         : ""}
-      <slot style="display:none"></slot>
     `;
   }
 }

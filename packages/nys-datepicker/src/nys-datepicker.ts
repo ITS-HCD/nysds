@@ -204,6 +204,8 @@ export class NysDatepicker extends NysFormControlElement {
 
   @state() private datepickerIsOpen = false;
 
+  private readonly DATEPICKER_GAP = 4;
+  // private _calendarResizeObserver: ResizeObserver | null = null;
   private _hasUserInteracted = false; // need this flag for "eager mode"
 
   /**
@@ -225,6 +227,7 @@ export class NysDatepicker extends NysFormControlElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this._stopDatepickerPositioning();
     this.removeEventListener("invalid", this._handleInvalid);
     this.removeEventListener("focusout", this._handleBlur);
     this.removeEventListener("keydown", this._onKeydownEsc);
@@ -653,11 +656,16 @@ export class NysDatepicker extends NysFormControlElement {
     const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
     const isActive = dateInput?.classList.toggle("active");
     this.datepickerIsOpen = !!isActive;
-    if (!this.value) {
-      this._setFocusOnTodayDate();
-    }
 
-    this.addEventListener("keydown", this._handleFocusTrap);
+    if (isActive) {
+      if (!this.value) {
+        this._setFocusOnTodayDate();
+      }
+      this._startDatepickerPositioning();
+      this.addEventListener("keydown", this._handleFocusTrap);
+    } else {
+      this._stopDatepickerPositioning();
+    }
   }
 
   private _openDatepicker() {
@@ -673,6 +681,7 @@ export class NysDatepicker extends NysFormControlElement {
 
     datepicker?.classList.add("active");
     this.datepickerIsOpen = true;
+    this._startDatepickerPositioning();
     this.addEventListener("keydown", this._handleFocusTrap);
   }
 
@@ -704,9 +713,9 @@ export class NysDatepicker extends NysFormControlElement {
     if (this.disabled) return;
 
     this._setTodayDate();
-    if (this._hasUserInteracted) {
-      this._validate();
-    }
+    this._hasUserInteracted = true;
+    this._validate();
+    this._dispatchInputEvent();
   }
 
   private _handleClearClick() {
@@ -719,9 +728,9 @@ export class NysDatepicker extends NysFormControlElement {
       input.value = "";
     }
 
-    if (this._hasUserInteracted) {
-      this._validate();
-    }
+    this._hasUserInteracted = true;
+    this._validate();
+    this._dispatchInputEvent();
   }
 
   private _handleInputChange(event: Event) {
@@ -841,6 +850,62 @@ export class NysDatepicker extends NysFormControlElement {
 
   private _shouldUseNativeDatepicker(): boolean {
     return this._isSafari() || this._isMobile();
+  }
+
+  /**
+   * Auto-Positioning
+   * --------------------------------------------------------------------------
+   * Opens the calendar below the input by default. If there isn't enough
+   * room below (and there's more room above), it opens above instead.
+   */
+  private _positionDatepicker() {
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    const inputContainer = this.shadowRoot?.querySelector(
+      ".nys-datepicker--input-container",
+    );
+
+    const container = this.shadowRoot?.querySelector(
+      ".nys-datepicker--container",
+    );
+
+    if (!datepicker || !inputContainer || !container) return;
+
+    // Reset to default position
+    datepicker.classList.remove("position-top"); // Used to flip the box-shadow direction.
+    datepicker.style.top = "";
+
+    const popupCalendarRect = datepicker?.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - popupCalendarRect?.bottom;
+
+    // Popup runs past the bottom of the screen, then move it above the input instead.
+    if (spaceBelow < this.DATEPICKER_GAP) {
+      const inputRect = inputContainer.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+      const topAboveInput =
+        inputRect.top -
+        containerRect.top -
+        popupCalendarRect.height -
+        this.DATEPICKER_GAP;
+
+      datepicker.style.top = `${topAboveInput}px`;
+      datepicker.classList.add("position-top");
+    }
+  }
+
+  private _handleScrollReposition = () => {
+    if (this.datepickerIsOpen) {
+      this._positionDatepicker();
+    }
+  };
+
+  private _startDatepickerPositioning() {
+    this._positionDatepicker();
+    window.addEventListener("scroll", this._handleScrollReposition, true);
+  }
+
+  private _stopDatepickerPositioning() {
+    window.removeEventListener("scroll", this._handleScrollReposition, true);
   }
 
   render() {

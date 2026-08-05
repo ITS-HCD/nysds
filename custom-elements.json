@@ -2270,18 +2270,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). Becomes aria-label in `circle` mode.",
+              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.",
               "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "attribute": "ariaLabel"
             },
             {
               "kind": "field",
@@ -2320,7 +2310,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.",
+              "description": "Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.",
               "attribute": "circle",
               "reflects": true
             },
@@ -2368,13 +2358,13 @@
             },
             {
               "kind": "field",
-              "name": "ariaDescription",
+              "name": "ariaDescribedBy",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "attribute": "ariaDescription"
+              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
+              "attribute": "ariaDescribedBy"
             },
             {
               "kind": "field",
@@ -2650,19 +2640,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). Becomes aria-label in `circle` mode.",
+              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.",
               "fieldName": "label",
               "propName": "label"
-            },
-            {
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "fieldName": "ariaLabel",
-              "propName": "arialabel"
             },
             {
               "name": "ariaControls",
@@ -2700,7 +2680,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.",
+              "description": "Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.",
               "fieldName": "circle",
               "propName": "circle"
             },
@@ -2745,14 +2725,14 @@
               "propName": "value"
             },
             {
-              "name": "ariaDescription",
+              "name": "ariaDescribedBy",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "fieldName": "ariaDescription",
-              "propName": "ariadescription"
+              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
+              "fieldName": "ariaDescribedBy",
+              "propName": "ariadescribedby"
             },
             {
               "name": "type",
@@ -2851,7 +2831,8 @@
             {
               "title": "Inverted",
               "code": "<nys-button label=\"Inverted\" inverted></nys-button>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" inverted></nys-button>\n</div>"
             },
             {
               "title": "Disabled",
@@ -4431,6 +4412,15 @@
               "default": "\"\""
             },
             {
+              "kind": "field",
+              "name": "_hasResolvedSlottedValue",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
               "kind": "method",
               "name": "_handleSlotChange",
               "privacy": "private",
@@ -5159,6 +5149,16 @@
             },
             {
               "kind": "field",
+              "name": "DATEPICKER_GAP",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true,
+              "default": "4"
+            },
+            {
+              "kind": "field",
               "name": "_hasUserInteracted",
               "type": {
                 "text": "boolean"
@@ -5442,6 +5442,27 @@
                   "text": "boolean"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "_positionDatepicker",
+              "privacy": "private",
+              "description": "Auto-Positioning\n--------------------------------------------------------------------------\nOpens the calendar below the input by default. If there isn't enough\nroom below (and there's more room above), it opens above instead."
+            },
+            {
+              "kind": "field",
+              "name": "_handleScrollReposition",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_startDatepickerPositioning",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_stopDatepickerPositioning",
+              "privacy": "private"
             }
           ],
           "events": [
@@ -7045,7 +7066,15 @@
             {
               "kind": "method",
               "name": "_dispatchChangeEvent",
-              "privacy": "private"
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "changedFiles",
+                  "type": {
+                    "text": "FileWithProgress[]"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -7127,6 +7156,24 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_addFiles",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<FileWithProgress[]>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "files",
+                  "type": {
+                    "text": "File[]"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -7142,7 +7189,7 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Fired when files are added or removed. Detail: `{id, files}`."
+              "description": "Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: \"pending\" | \"processing\" | \"done\" | \"error\", errorMsg?: string }`."
             }
           ],
           "attributes": [
@@ -8671,6 +8718,248 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-iconlist/src/nys-iconlist"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-iconlist/src/nys-iconlistitem"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/nys-iconlist.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "An icon list is a component that displays a collection of items paired with visual icons, making it easy to create structured, scannable lists across web projects. Commonly used in the card component.\n\nAdd `<nys-iconlistitem>` elements as children. Each item accepts an `icon` attribute and uses its\ndefault slot for the primary label. A second line can be added with `<span slot=\"secondary\">`.\nSet `divider` to draw a rule between items; no divider is drawn after the last item.",
+          "name": "NysIconlist",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a divider between items. No divider is drawn after the last item.",
+              "attribute": "divider",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_childObserver",
+              "privacy": "private",
+              "default": "new MutationObserver(() => this._syncDividers())"
+            },
+            {
+              "kind": "method",
+              "name": "_syncDividers",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a divider between items. No divider is drawn after the last item.",
+              "fieldName": "divider",
+              "propName": "divider"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-iconlist",
+          "customElement": true,
+          "summary": "A scannable list of icon + text items, with an optional divider between rows.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-iconlist id=\"event-details\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Divider",
+              "code": "<nys-iconlist id=\"event-details2\" divider>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Secondary label",
+              "code": "<nys-iconlist id=\"event-details3\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Checklist",
+              "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-iconlist",
+          "declaration": {
+            "name": "NysIconlist",
+            "module": "packages/nys-iconlist/src/nys-iconlist.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconlist",
+          "declaration": {
+            "name": "NysIconlist",
+            "module": "packages/nys-iconlist/src/nys-iconlist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-iconlist/src/nys-iconlistitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single item in a `<nys-iconlist>`. Renders as a list item containing an icon and one or two lines of text.\n\nThe default slot holds the primary label. Use `<span slot=\"secondary\">` for a second line of text;\nwhen present the icon aligns to the top rather than centering against the full block.",
+          "name": "NysIconlistitem",
+          "slots": [
+            {
+              "description": "Primary label text.",
+              "name": ""
+            },
+            {
+              "description": "Optional second line of text rendered below the primary label.",
+              "name": "secondary"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Material Symbols icon name passed to `<nys-icon>`.",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
+              "attribute": "divider",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_handleSecondarySlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Material Symbols icon name passed to `<nys-icon>`.",
+              "fieldName": "icon",
+              "propName": "icon"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
+              "fieldName": "divider",
+              "propName": "divider"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-iconlistitem",
+          "customElement": true,
+          "summary": "An icon-paired list item for use inside `<nys-iconlist>`."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-iconlistitem",
+          "declaration": {
+            "name": "NysIconlistitem",
+            "module": "packages/nys-iconlist/src/nys-iconlistitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconlistitem",
+          "declaration": {
+            "name": "NysIconlistitem",
+            "module": "packages/nys-iconlist/src/nys-iconlistitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-label/src/index.ts",
       "declarations": [],
       "exports": [
@@ -8768,6 +9057,11 @@
                 "text": "ElementInternals | null"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasDescription",
+              "readonly": true
             },
             {
               "kind": "method",
@@ -9498,6 +9792,402 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-processlist/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-processlist/src/nys-processlist"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-processlist/src/nys-processlistitem"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-processlist/src/nys-processlist.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.\n\nAdd `<nys-processlistitem>` elements as children. Each item takes a `label` and an optional\n`description`. Steps are numbered by the list — from 1, or from `initialStep` — so items never\nset their own number.",
+          "name": "NysProcesslist",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "strong",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number in a bolder, higher-emphasis color.",
+              "attribute": "strong",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "neutral",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number using neutral (grayscale) coloring instead of the theme color.",
+              "attribute": "neutral",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"md\" | \"sm\""
+              },
+              "default": "\"md\"",
+              "description": "Step marker size: `sm` (smaller) or `md` (default).",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "initialStep",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Number given to the first step. Subsequent steps count up from it. Use this when one\nprocess is split across several lists so the later lists continue the count instead of\nrestarting at 1.",
+              "attribute": "initialStep",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Accessible name for the list, e.g. \"Application steps\". A list has no name of its own, so\ngive one whenever the surrounding content does not already make the list's purpose obvious —\nespecially when a page holds more than one process list.\n\nSets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already\nnames the list.",
+              "attribute": "aria-label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabelledBy",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that name the list, typically the visible heading above\nit. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the\nvisible one cannot drift apart.\n\nSets `aria-labelledby` on the host.",
+              "attribute": "aria-labelledby",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaDescribedBy",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that describe the list, such as the intro paragraph\nexplaining what the process involves. A description supplements the name; it does not\nreplace it.\n\nSets `aria-describedby` on the host.",
+              "attribute": "aria-describedby",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_childObserver",
+              "privacy": "private",
+              "default": "new MutationObserver(() => this._syncSteps())"
+            },
+            {
+              "kind": "method",
+              "name": "_syncSteps",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "strong",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number in a bolder, higher-emphasis color.",
+              "fieldName": "strong",
+              "propName": "strong"
+            },
+            {
+              "name": "neutral",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders each step number using neutral (grayscale) coloring instead of the theme color.",
+              "fieldName": "neutral",
+              "propName": "neutral"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"md\" | \"sm\""
+              },
+              "default": "\"md\"",
+              "description": "Step marker size: `sm` (smaller) or `md` (default).",
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
+              "name": "initialStep",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Number given to the first step. Subsequent steps count up from it. Use this when one\nprocess is split across several lists so the later lists continue the count instead of\nrestarting at 1.",
+              "fieldName": "initialStep",
+              "propName": "initialstep"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Accessible name for the list, e.g. \"Application steps\". A list has no name of its own, so\ngive one whenever the surrounding content does not already make the list's purpose obvious —\nespecially when a page holds more than one process list.\n\nSets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already\nnames the list.",
+              "fieldName": "ariaLabel",
+              "propName": "ariaLabel"
+            },
+            {
+              "name": "aria-labelledby",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that name the list, typically the visible heading above\nit. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the\nvisible one cannot drift apart.\n\nSets `aria-labelledby` on the host.",
+              "fieldName": "ariaLabelledBy",
+              "propName": "ariaLabelledby"
+            },
+            {
+              "name": "aria-describedby",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Space-separated IDs of the elements that describe the list, such as the intro paragraph\nexplaining what the process involves. A description supplements the name; it does not\nreplace it.\n\nSets `aria-describedby` on the host.",
+              "fieldName": "ariaDescribedBy",
+              "propName": "ariaDescribedby"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-processlist",
+          "customElement": true,
+          "summary": "An ordered list of numbered process steps.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-processlist id=\"application-steps\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Accessible Name",
+              "code": "<nys-processlist id=\"application-steps-labelled\" aria-label=\"Application steps\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Accessible Name and Description",
+              "code": "<h2 id=\"process-heading\">Super duper app process</h2>\n<p id=\"process-intro\">\nIn order to complete this process you will need 3.5 number 2 pencils and a glass of lemonade.\n</p>\n\n<nys-processlist\nid=\"application-steps-described\"\naria-labelledby=\"process-heading\"\naria-describedby=\"process-intro\"\n>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Description",
+              "code": "<nys-processlist id=\"application-steps2\">\n<nys-processlistitem\nlabel=\"Gather your documents\"\ndescription=\"Recent pay stubs and a current property tax bill.\"\n></nys-processlistitem>\n<nys-processlistitem\nlabel=\"Complete the application\"\ndescription=\"Most applicants finish in about 20 minutes.\"\n></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-processlist id=\"application-steps-desc-slot\">\n<nys-processlistitem label=\"Gather your documents\">\n<div slot=\"description\">Recent pay stubs and a <strong>current</strong> property tax bill.</div>\n</nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\">\n<div slot=\"description\">Most applicants finish in about <a href=\"https://www.ny.gov\">20 minutes</a>.</div>\n</nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Small",
+              "code": "<nys-processlist id=\"application-steps-sm\" size=\"sm\">\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong",
+              "code": "<nys-processlist id=\"application-steps-strong\" strong>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Neutral",
+              "code": "<nys-processlist id=\"application-steps-neutral\" neutral>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Neutral",
+              "code": "<nys-processlist id=\"application-steps-strong-neutral\" strong neutral>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Initial Step",
+              "code": "<nys-processlist\nid=\"application-steps-part1\"\naria-label=\"Application steps, part 1\"\n>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>\n\n<p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>\n\n<nys-processlist\nid=\"application-steps-part2\"\ninitialstep=\"4\"\naria-label=\"Application steps, part 2\"\n>\n<nys-processlistitem label=\"Okay let's continue\"></nys-processlistitem>\n<nys-processlistitem label=\"Wow, this might be tricky\"></nys-processlistitem>\n<nys-processlistitem label=\"Cool cool, I got this thing\"></nys-processlistitem>\n</nys-processlist>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-processlist",
+          "declaration": {
+            "name": "NysProcesslist",
+            "module": "packages/nys-processlist/src/nys-processlist.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysProcesslist",
+          "declaration": {
+            "name": "NysProcesslist",
+            "module": "packages/nys-processlist/src/nys-processlist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-processlist/src/nys-processlistitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single step in a `<nys-processlist>`. Renders as a list item containing a step number and text.\n\nSet `label` for the step label and `description` for supporting information. For rich text, use the\n`description` slot instead of the property. The step number is owned by the parent list, so items\nare never numbered individually.",
+          "name": "NysProcesslistitem",
+          "slots": [
+            {
+              "description": "Custom HTML description content below the label. Overrides the `description` property.",
+              "name": "description"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Step heading text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Supporting information displayed below the label. Use the `description` slot for rich text.",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "_step",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "1",
+              "description": "Rendered step number. Assigned by the parent `<nys-processlist>` via `setStep()` — numbering is\na property of the list's order, not of the item, so it is deliberately not part of this\ncomponent's public API."
+            },
+            {
+              "kind": "field",
+              "name": "_hasDescription",
+              "description": "A description is shown when either the property or the slot has content, so an item with\nneither renders no empty paragraph.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Step heading text.",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Supporting information displayed below the label. Use the `description` slot for rich text.",
+              "fieldName": "description",
+              "propName": "description"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-processlistitem",
+          "customElement": true,
+          "summary": "A numbered step for use inside `<nys-processlist>`."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-processlistitem",
+          "declaration": {
+            "name": "NysProcesslistitem",
+            "module": "packages/nys-processlist/src/nys-processlistitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysProcesslistitem",
+          "declaration": {
+            "name": "NysProcesslistitem",
+            "module": "packages/nys-processlist/src/nys-processlistitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-radiobutton/src/index.ts",
       "declarations": [],
       "exports": [
@@ -9670,12 +10360,152 @@
               },
               "default": "false",
               "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "_inputEl",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState | undefined"
+              },
+              "description": "Public validation API (Form Association)\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_isGroupChecked",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_updateValidity",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_updateGroupValidity",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleInvalid",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleFocusOut",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_isGrouped",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getGroupMembers",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "NysRadiobutton[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_uncheckOtherRadios",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_forwardDescriptionSlot",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleChange",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleWrapperClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_computeAccessibleLabel",
+              "privacy": "private"
             }
           ],
           "events": [
             {
-              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`.",
-              "name": "nys-change"
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
             },
             {
               "description": "Fired when radio gains focus.",
@@ -9821,16 +10651,31 @@
             }
           ],
           "superclass": {
-            "name": "NysElement",
+            "name": "NysFormControlElement",
             "package": "@nysds/internals"
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
-          "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
+          "summary": "Radio button for single selection from mutually exclusive options.\nThis is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.\nOtherwise this radiobutton mockup the native grouping of radio buttons via \"name\" attribute.\nSince we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.",
           "examples": [
             {
               "title": "Pre-selected",
               "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "No group",
+              "code": "<nys-radiobutton name=\"borough\" value=\"queens\" label=\"Queens\" checked description=\"Includes Flushing and Astoria\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\" checked>\n<span slot=\"description\">Home to <strong>Central Park</strong></span>\n</nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>",
+              "lang": "html"
+            },
+            {
+              "title": "Pre-selected",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Standalone, one per table row",
+              "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th>Application</th>\n<th>Priority</th>\n</tr>\n<tr>\n<td>SNAP Benefits</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n label=\"Select SNAP Benefits\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Child Care Assistance</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"child-care\"\n label=\"Select Child Care Assistance\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>HEAP</td>\n<td>\n<label for=\"rg-bk1\">Brooklyn</label>\n<input id=\"rg-bk1\" type=\"radio\" name=\"group\" value=\"Brooklyn\"></input>\n</td>\n</tr>\n<tr>\n<td>Medicaid</td>\n<td>\n<label for=\"rg-bk2\">Manhattan</label>\n<input id=\"rg-bk2\" type=\"radio\" name=\"group\" value=\"Manhattan\"></input>\n</td>\n</tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
           ]
@@ -10082,6 +10927,16 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "defaultRole",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "protected",
+              "description": "Lifecycle methods\n--------------------------------------------------------------------------\nForm association, ElementInternals, and id generation are provided by\nNysFormControlElement (@nysds/internals). super.connectedCallback()\nassigns an id (prefix = localName) when one is not provided.",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "_setValue",
               "privacy": "private",
@@ -10171,6 +11026,11 @@
             {
               "kind": "method",
               "name": "_getSlotDescriptionForAria",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_forwardRadioDescriptions",
               "privacy": "private"
             },
             {
@@ -10490,7 +11350,7 @@
             },
             {
               "title": "Description Slot",
-              "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "code": "<nys-radiogroup label=\"What is your primary work location?\">\n<label slot=\"description\">This is the location you use for your <a href=\"https://www.ny.gov/\" target=\"__blank\">in office days.</a></label>\n<nys-radiobutton name=\"office\" label=\"Albany\" value=\"albany\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">Upstate New York</a></label>\n</nys-radiobutton>\n<nys-radiobutton name=\"office\" label=\"Manhattan\" value=\"manhattan\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">New York City</a></label>\n</nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]
@@ -12038,11 +12898,11 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`\nelements.\n\nAccepts tabs and panels as flat light-DOM children in any order (interleaved\nor grouped). On slot change, children are sorted into dedicated shadow-DOM\ncontainers, ARIA relationships are wired, and the first selected (or first)\ntab is activated.\n\nScroll shadows are rendered on either side of the tab list and toggled via\n`ResizeObserver` and a `scroll` listener so they accurately reflect whether\noverflow content exists in each direction.\n\nKeyboard navigation follows the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:\n- Arrow keys move focus without changing selection.\n- Enter / Space confirm selection on the focused tab.",
+          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`\nelements.\n\nAccepts tabs and panels as flat light-DOM children in any order (interleaved\nor grouped). On slot change, each child is assigned `slot=\"tab\"` or\n`slot=\"panel\"` so it is projected into the correct shadow-DOM container\nwhile remaining in the light DOM, ARIA relationships are wired, and the\nfirst selected (or first) tab is activated.\n\nScroll shadows are rendered on either side of the tab list and toggled via\n`ResizeObserver` and a `scroll` listener so they accurately reflect whether\noverflow content exists in each direction.\n\nKeyboard navigation follows the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:\n- Arrow keys move focus without changing selection.\n- Enter / Space confirm selection on the focused tab.",
           "name": "NysTabgroup",
           "slots": [
             {
-              "description": "Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are moved into internal shadow-DOM containers on `slotchange`; the slot itself is not rendered visibly.",
+              "description": "Accepts `<nys-tab>` and `<nys-tabpanel>` children. On `slotchange` they are assigned `slot=\"tab\"` / `slot=\"panel\"` and projected into the tablist and panel containers; they stay in the light DOM. Any other children remain in the default slot, rendered below the panels.",
               "name": ""
             }
           ],
@@ -12124,7 +12984,7 @@
                   "text": ""
                 }
               },
-              "description": "Returns all `<nys-tab>` elements currently residing in the shadow-DOM\ntabs container, in DOM order."
+              "description": "Returns all `<nys-tab>` light-DOM children in DOM order.\n\nTabs are projected into the shadow-DOM tablist via the `tab` slot but\nremain light-DOM children of the group, so they stay reachable by consumer\nCSS and JavaScript."
             },
             {
               "kind": "method",
@@ -12135,7 +12995,34 @@
                   "text": ""
                 }
               },
-              "description": "Returns all `<nys-tabpanel>` elements currently residing in the\nshadow-DOM panels container, in DOM order."
+              "description": "Returns the `<nys-tabpanel>` light-DOM children ordered to align with\n`_getTabs()` — i.e. `panels[i]` is the panel paired with `tabs[i]`.\n\nPairing honors explicit `aria-labelledby` references first, then falls\nback to source order for the remaining panels. See _pairPanels."
+            },
+            {
+              "kind": "method",
+              "name": "_pairPanels",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tabs",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  },
+                  "description": "Ordered `<nys-tab>` elements."
+                },
+                {
+                  "name": "panels",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  },
+                  "description": "`<nys-tabpanel>` elements in source order."
+                }
+              ],
+              "description": "Orders `panels` to align 1:1 with `tabs`.\n\nA panel is paired with a tab when its `aria-labelledby` matches that tab's\n`id`; explicit references win over position. Panels without a reference\nfill the remaining tab slots in source order. Any panels whose reference\ndoes not resolve to a tab are appended at the end.\n\nIdempotent: after `_applySelection` writes `aria-labelledby` onto every\npanel, re-running this yields the same order."
             },
             {
               "kind": "method",
@@ -12172,24 +13059,15 @@
               "description": "Single source of truth for ARIA wiring, `tabindex`, and panel visibility.\n\nFor each index `i`:\n- Sets `selected` / removes `selected` attribute on `tabs[i]`.\n- Sets `aria-controls` on `tabs[i]` to the `id` of `panels[i]`.\n- Sets `aria-labelledby` on `panels[i]` to the `id` of `tabs[i]`.\n- Removes `hidden` from `panels[selectedIndex]`; adds it to all others.\n\nMust be called any time the selected tab changes (initial render and\nsubsequent user interactions)."
             },
             {
-              "kind": "method",
-              "name": "_sortChildren",
+              "kind": "field",
+              "name": "_syncChildren",
               "privacy": "private",
+              "description": "Handles `slotchange` and keeps the tabs/panels wired without ever removing\nthem from the light DOM.\n\nConsumers author `<nys-tab>` / `<nys-tabpanel>` as flat children with no\n`slot` attribute. This assigns `slot=\"tab\"` / `slot=\"panel\"` so each is\nprojected into the correct shadow-DOM container while remaining a\nlight-DOM child of the group (reachable by consumer CSS/JS). Any other\nchildren (e.g. a footnote `<p>`) are left untouched in the default slot.\n\nReads all current light-DOM children on every call (rather than a single\nslot's assigned nodes), so it is robust to dynamic additions/removals and\nidempotent: setting the `slot` attributes triggers further `slotchange`\nevents, but once the attributes are stable no more mutations occur and the\ncascade settles.\n\nAfter (re)assignment, `_applySelection` is called honoring the first tab\nthat already has a `selected` attribute, or index `0` if none is found.",
               "return": {
                 "type": {
                   "text": ""
                 }
-              },
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  },
-                  "description": "The `Event` fired by the `<slot>` element on slot change."
-                }
-              ],
-              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`. If a panel has an `aria-labelledby` attribute,\nit is explicitly paired with the tab it references; otherwise panels are\npaired with tabs by index order. After sorting, calls `_applySelection`\nusing the first element that already has a `selected` attribute, or\nindex `0` if none is found."
+              }
             },
             {
               "kind": "method",
@@ -12278,6 +13156,16 @@
               "title": "Explicit Ordering",
               "code": "<nys-tabgroup id=\"explicit-ordering\">\n<nys-tab label=\"1st Tab\" id=\"tab1\"></nys-tab>\n<nys-tab label=\"2nd Tab\" id=\"tab2\"></nys-tab>\n<nys-tab label=\"3rd Tab\" id=\"tab3\"></nys-tab>\n<nys-tabpanel aria-labelledby=\"tab2\">Content for tab 2</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab3\">Content for tab 3</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab1\">Content for tab 1</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
+            },
+            {
+              "title": "JS in tabpanel",
+              "code": "<nys-tabgroup>\n<nys-tab label=\"Tab 1\"></nys-tab>\n<nys-tab label=\"Tab 2\"></nys-tab>\n<nys-tabpanel>\n<p>Content for tab 1</p>\n</nys-tabpanel>\n<nys-tabpanel>\n<p>Content for tab 2</p>\n</nys-tabpanel>\n</nys-tabgroup>\n<script>\nconst tabgroup = document.querySelector(\"nys-tabgroup\");\nconst panels = tabgroup.querySelectorAll(\"nys-tabpanel\");\npanels[0].innerHTML += \"<p>Added via JS</p>\";\n</script>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Styling",
+              "code": "<style>\nnys-tabpanel {\n--_nys-tabpanel-background-color: var(--nys-color-theme-faint);\nborder: solid 2px var(--nys-color-theme-strong);\n--nys-button-background-color: var(--nys-color-success);\n}\n</style>\n<nys-tabgroup>\n<nys-tab label=\"Tab 1\"></nys-tab>\n<nys-tab label=\"Tab 2\"></nys-tab>\n<nys-tabpanel>\n<p>Content for tab 1</p>\n<nys-button>Click me</nys-button>\n</nys-tabpanel>\n<nys-tabpanel>\n<p>Content for tab 2</p>\n</nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
             }
           ]
         }
@@ -12307,11 +13195,11 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a\n`<nys-tabgroup>`.\n\nPairing is determined by render order: the Nth `<nys-tabpanel>` child of a\n`<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.\n`aria-labelledby` and the `hidden` attribute are managed externally by\n`<nys-tabgroup>` via `_applySelection`; do not set them directly.",
+          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a\n`<nys-tabgroup>`.\n\nPairing is determined by render order: the Nth `<nys-tabpanel>` child of a\n`<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child (or by explicit\n`aria-labelledby`). `aria-labelledby` and the `hidden` attribute are managed\nexternally by `<nys-tabgroup>` via `_applySelection`; do not set them\ndirectly.\n\nThe panel container is styled from the light DOM (`nys-tabpanel.light.scss`,\nadopted on the document) rather than a shadow-DOM wrapper. This keeps the\nslotted panel content in the light DOM — reachable by consumer CSS and\nJavaScript — and lets consumers override the panel's own styling (e.g.\n`nys-tabpanel { padding: 0 }`), which a shadow wrapper would prevent.",
           "name": "NysTabpanel",
           "slots": [
             {
-              "description": "Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.",
+              "description": "Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex=\"0\"`) `role=\"tabpanel\"` region.",
               "name": ""
             }
           ],
@@ -12393,7 +13281,7 @@
           "name": "NysTable",
           "slots": [
             {
-              "description": "Accepts a `<table>` element. Only the first table is rendered.",
+              "description": "Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.",
               "name": ""
             }
           ],
@@ -12495,10 +13383,61 @@
               "default": "null"
             },
             {
+              "kind": "field",
+              "name": "_enhancing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "method",
+              "name": "_getSlottedTable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLTableElement | undefined"
+                }
+              },
+              "description": "****************** Functions *******************"
+            },
+            {
+              "kind": "method",
+              "name": "_observeTable",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "table",
+                  "type": {
+                    "text": "HTMLTableElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_withObserverPaused",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "table",
+                  "type": {
+                    "text": "HTMLTableElement"
+                  }
+                },
+                {
+                  "name": "fn",
+                  "type": {
+                    "text": "() => void"
+                  }
+                }
+              ]
+            },
+            {
               "kind": "method",
               "name": "_handleSlotChange",
-              "privacy": "private",
-              "description": "****************** Functions *******************"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -13863,6 +14802,11 @@
             },
             {
               "kind": "method",
+              "name": "_clearSearch",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_updateOverlay",
               "privacy": "private",
               "parameters": [
@@ -14258,6 +15202,11 @@
             {
               "title": "Masking",
               "code": "<nys-textinput type=\"tel\" label=\"Phone Number\">\n<div slot=\"description\">Some types, such as <code>tel</code> have automatic masking available.</div>\n</nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Password",
+              "code": "<nys-textinput type=\"password\"></nys-textinput>",
               "lang": "html"
             },
             {
@@ -15226,6 +16175,15 @@
       "path": "packages/nys-unavheader/src/nys-unavheader.ts",
       "declarations": [
         {
+          "kind": "variable",
+          "name": "NYS_ALERT_URL",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta.static-assets.ny.gov/alerts.json\"",
+          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nProduction is https://alerts-cta.static-assets.ny.gov/alerts.json.\nFor dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json"
+        },
+        {
           "kind": "class",
           "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
@@ -15401,6 +16359,99 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "_alerts",
+              "type": {
+                "text": "FeedAlert[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "The published alerts, in feed order. Empty when nothing is published."
+            },
+            {
+              "kind": "field",
+              "name": "_alertRequest",
+              "type": {
+                "text": "AbortController | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "In-flight feed request, aborted if the header leaves the page first."
+            },
+            {
+              "kind": "method",
+              "name": "_loadAlerts",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_readFeed",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": {
+                    "text": "AbortController"
+                  }
+                }
+              ],
+              "description": "Fetches the alert feed. Resolves to null on any failure."
+            },
+            {
+              "kind": "method",
+              "name": "_alertType",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "AlertType"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "severity",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed severity → `nys-alert` type."
+            },
+            {
+              "kind": "method",
+              "name": "_alertIcon",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "icon",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed icon name → `nys-icon` name. Unknown names resolve to \"\", which leaves\n`nys-alert` to draw the default icon for the alert's type."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlerts",
+              "privacy": "private",
+              "description": "One full-bleed band per published alert, so alerts of different severities keep\ntheir own background instead of sharing one. The body is slotted rather than\npassed as `text`/`primaryAction` so the link can carry the feed's `linkAriaLabel`."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlert",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "alert",
+                  "type": {
+                    "text": "FeedAlert"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -15538,6 +16589,14 @@
       ],
       "exports": [
         {
+          "kind": "js",
+          "name": "NYS_ALERT_URL",
+          "declaration": {
+            "name": "NYS_ALERT_URL",
+            "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        },
+        {
           "kind": "custom-element-definition",
           "name": "nys-unavheader",
           "declaration": {
@@ -15551,6 +16610,444 @@
           "declaration": {
             "name": "NysUnavHeader",
             "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-verticalnav/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-verticalnav/src/nys-verticalnav"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-verticalnav/src/nys-verticalnavgroup"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-verticalnav/src/nys-verticalnav.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Vertical navigation component with responsive desktop/mobile behavior.\n\nRenders as a side navigation on desktop and collapses into a\n`<nys-accordion>` on tablet and mobile. The default slot accepts a\n`<ul>` of links with optional section headings (`<h2>` to `<h6>`) or\n`<nys-verticalnavgroup>` elements. Use the `heading` slot to replace the\ngenerated heading and the `footer` slot for additional content below the\nnavigation.",
+          "name": "NysVerticalnav",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "ID for the navigation. Generated automatically if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Page navigation\"",
+              "description": "Heading text displayed at the top of the navigation. Defaults to \"Page navigation\".",
+              "attribute": "heading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideHeading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the visible heading while keeping an accessible label for the navigation.",
+              "attribute": "hideHeading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the navigation heading (`h1` through `h6`).",
+              "attribute": "headingLevel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Expands or collapses the navigation on mobile.",
+              "attribute": "expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_isMobile",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_mediaQuery",
+              "type": {
+                "text": "MediaQueryList | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "privacy": "public",
+              "description": "Public API for controlling the mobile accordion from outside the component\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "_handleAccordionToggle",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_handleResize",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_applyActiveState",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderHeading",
+              "privacy": "private",
+              "description": "Helper Render Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "renderContentDesktop",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderContentMobile",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "ID for the navigation. Generated automatically if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Page navigation\"",
+              "description": "Heading text displayed at the top of the navigation. Defaults to \"Page navigation\".",
+              "fieldName": "heading",
+              "propName": "heading"
+            },
+            {
+              "name": "hideHeading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the visible heading while keeping an accessible label for the navigation.",
+              "fieldName": "hideHeading",
+              "propName": "hideheading"
+            },
+            {
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the navigation heading (`h1` through `h6`).",
+              "fieldName": "headingLevel",
+              "propName": "headinglevel"
+            },
+            {
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Expands or collapses the navigation on mobile.",
+              "fieldName": "expanded",
+              "propName": "expanded"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-verticalnav",
+          "customElement": true,
+          "summary": "Responsive navigation that becomes an accordion on smaller screens.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Header slot",
+              "code": "<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html",
+              "render": "<style>\n[slot=\"header\"] p {\nmargin: 0;\nfont-size: var(--nys-font-size-xs, 0.75rem);\nfont-weight: 500;\nletter-spacing: 0.08em;\ncolor: var(--nys-color-success, #2e7d32);\n}\n[slot=\"header\"] h2 {\nmargin: 0;\nfont-size: var(--nys-font-size-h4, 1.25rem);\ncolor: var(--nys-color-theme, #154973);\n}\n</style>\n\n<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>"
+            },
+            {
+              "title": "Footer slot",
+              "code": "<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n<div slot=\"footer\" style=\"font-size:0.875rem;color:#555;padding-top:0.5rem\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>",
+              "lang": "html",
+              "render": "<style>\n[slot=\"footer\"] {\ndisplay: flex;\nflex-direction: column;\ngap: var(--nys-space-100, 8px);\n}\n[slot=\"footer\"] p {\nmargin: 0;\nfont-size: var(--nys-font-size-xs, 0.75rem);\ncolor: var(--nys-color-text-weak, #4a4d4f);\n}\n[slot=\"footer\"] a {\nfont-size: var(--nys-font-size-sm, 0.875rem);\ncolor: var(--nys-color-theme, #154973);\n}\n</style>\n\n<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n\n<div slot=\"footer\" style=\"font-size:0.875rem;color:#555;padding-top:0.5rem\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>"
+            },
+            {
+              "title": "Header and footer slot",
+              "code": "<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>",
+              "lang": "html",
+              "render": "<style>\n[slot=\"header\"] p {\nmargin: 0;\nfont-size: var(--nys-font-size-xs, 0.75rem);\nletter-spacing: 0.08em;\ncolor: var(--nys-color-success, #2e7d32);\nfont-weight: 500;\n}\n[slot=\"header\"] h2 {\nmargin: 0;\nfont-size: var(--nys-font-size-h4, 1.25rem);\ncolor: var(--nys-color-theme, #154973);\n}\n[slot=\"footer\"] {\ndisplay: flex;\nflex-direction: column;\ngap: var(--nys-space-100, 8px);\n}\n[slot=\"footer\"] p {\nmargin: 0;\nfont-size: var(--nys-font-size-xs, 0.75rem);\ncolor: var(--nys-color-text-weak, #4a4d4f);\n}\n[slot=\"footer\"] a {\nfont-size: var(--nys-font-size-sm, 0.875rem);\ncolor: var(--nys-color-theme, #154973);\n}\n</style>\n\n<nys-verticalnav heading=\"Freshwater Fishing\" headingLevel=\"h2\">\n<div slot=\"header\">\n<h2>Freshwater Fishing</h2>\n<p>2026 Season Open</p>\n</div>\n<ul>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>\n<h3>Freshwater Fishing Regulations</h3>\n<ul>\n<li><a href=\"\">Places to Fish</a></li>\n<li><a href=\"\">Learn to Fish</a></li>\n<li><a href=\"\">Ice Fishing</a></li>\n</ul>\n</li>\n</ul>\n\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Regulations last updated: January 2026</p>\n<a href=\"/contact-dec\">Contact the DEC for fishing inquiries</a>\n</div>\n</nys-verticalnav>"
+            },
+            {
+              "title": "Dropdown group",
+              "code": "<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a href=\"\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Active state",
+              "code": "<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li>\n   <a aria-current=\"page\" href=\"\">\n     WCAG Guidelines\n   </a>\n </li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a href=\"\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled state",
+              "code": "<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li><a aria-disabled=\"true\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a aria-disabled=\"true\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Hidden heading",
+              "code": "<nys-verticalnav heading=\"NYS Design System\" hideHeading>\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li><a aria-disabled=\"true\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a aria-disabled=\"true\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Page layout",
+              "code": "<div class=\"story-page\">\n<nys-unavheader></nys-unavheader>\n\n<nys-globalheader\nhomepageLink=\"https://ny.gov\"\nagencyName=\"Office of Information Technology Services\"\n>\n<ul>\n<li><a href=\"https://its.ny.gov/services\">Services</a></li>\n<li><a href=\"https://its.ny.gov/get-help\">Help Center</a></li>\n<li><a href=\"https://its.ny.gov/cybersecurity\">Cybersecurity</a></li>\n<li><a href=\"https://its.ny.gov/policies\">Policies and Laws</a></li>\n<li><a href=\"https://its.ny.gov/procurement\">Procurement</a></li>\n<li><a href=\"https://its.ny.gov/about-us\">About Us</a></li>\n</ul>\n</nys-globalheader>\n\n<div class=\"story-page__body\">\n<div class=\"story-page__body--side\">\n<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n  <li><a href=\"/\">Foundations</a></li>\n  <li><a href=\"/components\" aria-current=\"page\">Components</a></li>\n  <li>\n    <nys-verticalnavgroup label=\"Accessibility\">\n      <ul>\n        <li><a href=\"\">WCAG Guidelines</a></li>\n        <li><a href=\"\">Screen Readers</a></li>\n        <li><a href=\"\">Color Contrast</a></li>\n      </ul>\n    </nys-verticalnavgroup>\n  </li>\n  <li>\n    <h3>Resources</h3>\n    <ul>\n      <li><a href=\"\">Design Tokens</a></li>\n      <li><a href=\"\">Utilities</a></li>\n      <li><a href=\"\">Learn</a></li>\n      <li><a href=\"\">What's New</a></li>\n    </ul>\n  </li>\n</ul>\n</nys-verticalnav>\n</div>\n\n<main class=\"story-page__body--main\">\n<p>Place content here.</p>\n<nys-button\nlabel=\"Toggle Expand/Collapse for vertical nav (mobile)\"\nonclick=\"document.querySelector('nys-verticalnav').toggle()\"\n></nys-button>\n</main>\n</div>\n\n<nys-globalfooter agencyName=\"{agencyName}\" homepageLink=\"https://\">\n<ul>\n<li><a href=\"https://\">Privacy Policy</a></li>\n<li><a href=\"https://\">Terms of Service</a></li>\n</ul>\n</nys-globalfooter>\n\n<nys-unavfooter></nys-unavfooter>\n</div>",
+              "lang": "html",
+              "render": "<style>\n.page-layout__body {\nbackground-color: var(--nys-color-white, #ffffff);\n}\n.page-layout__nav {\npadding: var(--nys-space-300, 24px) var(--nys-space-50, 4px) var(--nys-space-300, 24px) 0;\n}\n.page-layout__main {\npadding: var(--nys-space-400, 32px);\n}\n</style>\n<div>\n<nys-unavheader></nys-unavheader>\n<nys-globalheader homepageLink=\"https://ny.gov\" agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov/services\">Services</a></li>\n<li><a href=\"https://its.ny.gov/get-help\">Help Center</a></li>\n</ul>\n</nys-globalheader>\n<div class=\"page-layout__body\">\n<div class=\"nys-grid-container nys-grid-gap-400\">\n<div class=\"nys-grid-row\">\n<div class=\"nys-desktop:nys-grid-col page-layout__nav\">\n <nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n   <ul>\n     <li><a href=\"/\">Foundations</a></li>\n     <li><a href=\"/components\">Components</a></li>\n     <li>\n       <nys-verticalnavgroup label=\"Accessibility\">\n         <ul>\n           <li><a href=\"\">WCAG Guidelines</a></li>\n           <li><a href=\"\">Screen Readers</a></li>\n           <li><a href=\"\">Color Contrast</a></li>\n         </ul>\n       </nys-verticalnavgroup>\n     </li>\n     <li>\n       <h3>Resources</h3>\n       <ul>\n         <li><a href=\"\">Design Tokens</a></li>\n         <li><a href=\"\">Utilities</a></li>\n       </ul>\n     </li>\n   </ul>\n </nys-verticalnav>\n</div>\n<main class=\"nys-desktop:nys-grid-col page-layout__main\">\n <p>Place content here.</p>\n</main>\n</div>\n</div>\n</div>\n<nys-globalfooter agencyName=\"Agency Name\" homepageLink=\"https://ny.gov\">\n<ul>\n<li><a href=\"https://\"> Privacy Policy </a></li>\n<li><a href=\"https://\"> Terms of Service </a></li>\n</ul>\n</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>\n</div>\n```"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-verticalnav",
+          "declaration": {
+            "name": "NysVerticalnav",
+            "module": "packages/nys-verticalnav/src/nys-verticalnav.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVerticalnav",
+          "declaration": {
+            "name": "NysVerticalnav",
+            "module": "packages/nys-verticalnav/src/nys-verticalnav.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-verticalnav/src/nys-verticalnavgroup.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Collapsible dropdown group for use inside `<nys-verticalnav>`.\n\nRenders a toggle button and an expandable panel for a nested `<ul>` of links.\nDesigned to be placed as a direct child of a `<li>` inside the vertical nav's\ndefault slot. Use `expanded` to open it by default, and `disabled` to prevent\ninteraction. Set `aria-current=\"page\"` on an `<a>` inside to automatically\nexpand the group and apply the active state.",
+          "name": "NysVerticalnavGroup",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_toggle",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-child-resize",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-verticalnavgroup-toggle",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "expanded",
+              "propName": "expanded"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "active",
+              "propName": "active"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-verticalnavgroup",
+          "customElement": true,
+          "summary": "Collapsible link group for use within `<nys-verticalnav>`."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-verticalnavgroup",
+          "declaration": {
+            "name": "NysVerticalnavGroup",
+            "module": "packages/nys-verticalnav/src/nys-verticalnavgroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVerticalnavGroup",
+          "declaration": {
+            "name": "NysVerticalnavGroup",
+            "module": "packages/nys-verticalnav/src/nys-verticalnavgroup.ts"
           }
         }
       ]

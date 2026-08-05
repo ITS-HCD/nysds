@@ -2,6 +2,7 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-accordion";
 import "./nys-accordionitem";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Accordion",
@@ -22,6 +23,7 @@ export const Basic: Story = {
     singleSelect: false,
     bordered: false,
     heading: "How do I renew my passport or apply for a new one?",
+    headingLevel: 3,
     expanded: false,
   },
   render: (args) => {
@@ -33,6 +35,7 @@ export const Basic: Story = {
         <nys-accordionitem
           id="accordionId1"
           heading=${args.heading}
+          headingLevel=${args.headingLevel}
           ?expanded=${args.expanded}
         >
           <p>

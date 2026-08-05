@@ -9,9 +9,10 @@ import styles from "./nys-tab.scss?inline";
  * elements.
  *
  * Accepts tabs and panels as flat light-DOM children in any order (interleaved
- * or grouped). On slot change, children are sorted into dedicated shadow-DOM
- * containers, ARIA relationships are wired, and the first selected (or first)
- * tab is activated.
+ * or grouped). On slot change, each child is assigned `slot="tab"` or
+ * `slot="panel"` so it is projected into the correct shadow-DOM container
+ * while remaining in the light DOM, ARIA relationships are wired, and the
+ * first selected (or first) tab is activated.
  *
  * Scroll shadows are rendered on either side of the tab list and toggled via
  * `ResizeObserver` and a `scroll` listener so they accurately reflect whether
@@ -24,9 +25,10 @@ import styles from "./nys-tab.scss?inline";
  *
  * @element nys-tabgroup
  *
- * @slot - Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are
- *   moved into internal shadow-DOM containers on `slotchange`; the slot
- *   itself is not rendered visibly.
+ * @slot - Accepts `<nys-tab>` and `<nys-tabpanel>` children. On `slotchange`
+ *   they are assigned `slot="tab"` / `slot="panel"` and projected into the
+ *   tablist and panel containers; they stay in the light DOM. Any other
+ *   children remain in the default slot, rendered below the panels.
  *
  * @example Basic
  * ```html
@@ -109,6 +111,47 @@ import styles from "./nys-tab.scss?inline";
  *   <nys-tabpanel aria-labelledby="tab2">Content for tab 2</nys-tabpanel>
  *   <nys-tabpanel aria-labelledby="tab3">Content for tab 3</nys-tabpanel>
  *   <nys-tabpanel aria-labelledby="tab1">Content for tab 1</nys-tabpanel>
+ * </nys-tabgroup>
+ * ```
+ *
+ * @example JS in tabpanel
+ * ```html
+ * <nys-tabgroup>
+ *   <nys-tab label="Tab 1"></nys-tab>
+ *   <nys-tab label="Tab 2"></nys-tab>
+ *   <nys-tabpanel>
+ *     <p>Content for tab 1</p>
+ *   </nys-tabpanel>
+ *   <nys-tabpanel>
+ *     <p>Content for tab 2</p>
+ *   </nys-tabpanel>
+ * </nys-tabgroup>
+ * <script>
+ *   const tabgroup = document.querySelector("nys-tabgroup");
+ *   const panels = tabgroup.querySelectorAll("nys-tabpanel");
+ *   panels[0].innerHTML += "<p>Added via JS</p>";
+ * </script>
+ * ```
+ *
+ * @example Custom Styling
+ * ```html
+ * <style>
+ *   nys-tabpanel {
+ *     --_nys-tabpanel-background-color: var(--nys-color-theme-faint);
+ *     border: solid 2px var(--nys-color-theme-strong);
+ *     --nys-button-background-color: var(--nys-color-success);
+ *   }
+ * </style>
+ * <nys-tabgroup>
+ *   <nys-tab label="Tab 1"></nys-tab>
+ *   <nys-tab label="Tab 2"></nys-tab>
+ *   <nys-tabpanel>
+ *     <p>Content for tab 1</p>
+ *     <nys-button>Click me</nys-button>
+ *   </nys-tabpanel>
+ *   <nys-tabpanel>
+ *     <p>Content for tab 2</p>
+ *   </nys-tabpanel>
  * </nys-tabgroup>
  * ```
  */
@@ -241,31 +284,82 @@ export class NysTabgroup extends NysElement {
   };
 
   /**
-   * Returns all `<nys-tab>` elements currently residing in the shadow-DOM
-   * tabs container, in DOM order.
+   * Returns all `<nys-tab>` light-DOM children in DOM order.
+   *
+   * Tabs are projected into the shadow-DOM tablist via the `tab` slot but
+   * remain light-DOM children of the group, so they stay reachable by consumer
+   * CSS and JavaScript.
    *
    * @returns An array of `HTMLElement` references to every `<nys-tab>` child.
    */
   private _getTabs(): HTMLElement[] {
-    return Array.from(
-      this.shadowRoot
-        ?.querySelector(".nys-tabgroup__tabs")
-        ?.querySelectorAll("nys-tab") ?? [],
+    return Array.from(this.children).filter(
+      (c) => c.tagName.toLowerCase() === "nys-tab",
     ) as HTMLElement[];
   }
 
   /**
-   * Returns all `<nys-tabpanel>` elements currently residing in the
-   * shadow-DOM panels container, in DOM order.
+   * Returns the `<nys-tabpanel>` light-DOM children ordered to align with
+   * `_getTabs()` — i.e. `panels[i]` is the panel paired with `tabs[i]`.
    *
-   * @returns An array of `HTMLElement` references to every `<nys-tabpanel>` child.
+   * Pairing honors explicit `aria-labelledby` references first, then falls
+   * back to source order for the remaining panels. See {@link _pairPanels}.
+   *
+   * @returns An array of `HTMLElement` references to every `<nys-tabpanel>`,
+   *   in tab-paired order.
    */
   private _getPanels(): HTMLElement[] {
-    return Array.from(
-      this.shadowRoot
-        ?.querySelector(".nys-tabgroup__panels")
-        ?.querySelectorAll("nys-tabpanel") ?? [],
+    const panels = Array.from(this.children).filter(
+      (c) => c.tagName.toLowerCase() === "nys-tabpanel",
     ) as HTMLElement[];
+    return this._pairPanels(this._getTabs(), panels);
+  }
+
+  /**
+   * Orders `panels` to align 1:1 with `tabs`.
+   *
+   * A panel is paired with a tab when its `aria-labelledby` matches that tab's
+   * `id`; explicit references win over position. Panels without a reference
+   * fill the remaining tab slots in source order. Any panels whose reference
+   * does not resolve to a tab are appended at the end.
+   *
+   * Idempotent: after `_applySelection` writes `aria-labelledby` onto every
+   * panel, re-running this yields the same order.
+   *
+   * @param tabs - Ordered `<nys-tab>` elements.
+   * @param panels - `<nys-tabpanel>` elements in source order.
+   * @returns The panels reordered to tab-paired order.
+   */
+  private _pairPanels(
+    tabs: HTMLElement[],
+    panels: HTMLElement[],
+  ): HTMLElement[] {
+    const panelsByRef = new Map<string, HTMLElement>();
+    const panelsWithoutRef: HTMLElement[] = [];
+
+    panels.forEach((panel) => {
+      const ref = panel.getAttribute("aria-labelledby");
+      if (ref) {
+        panelsByRef.set(ref, panel);
+      } else {
+        panelsWithoutRef.push(panel);
+      }
+    });
+
+    const ordered: HTMLElement[] = [];
+    tabs.forEach((tab) => {
+      if (tab.id && panelsByRef.has(tab.id)) {
+        ordered.push(panelsByRef.get(tab.id)!);
+        panelsByRef.delete(tab.id);
+      } else if (panelsWithoutRef.length > 0) {
+        ordered.push(panelsWithoutRef.shift()!);
+      }
+    });
+
+    // Append any panels whose aria-labelledby did not resolve to a tab.
+    panelsByRef.forEach((panel) => ordered.push(panel));
+
+    return ordered;
   }
 
   /**
@@ -325,67 +419,42 @@ export class NysTabgroup extends NysElement {
   // ---------------------------------------------------------------------------
 
   /**
-   * Handles `slotchange` on the default slot.
+   * Handles `slotchange` and keeps the tabs/panels wired without ever removing
+   * them from the light DOM.
    *
-   * Iterates over all assigned elements and moves each `<nys-tab>` into
-   * `.nys-tabgroup__tabs` and each `<nys-tabpanel>` into
-   * `.nys-tabgroup__panels`. If a panel has an `aria-labelledby` attribute,
-   * it is explicitly paired with the tab it references; otherwise panels are
-   * paired with tabs by index order. After sorting, calls `_applySelection`
-   * using the first element that already has a `selected` attribute, or
-   * index `0` if none is found.
+   * Consumers author `<nys-tab>` / `<nys-tabpanel>` as flat children with no
+   * `slot` attribute. This assigns `slot="tab"` / `slot="panel"` so each is
+   * projected into the correct shadow-DOM container while remaining a
+   * light-DOM child of the group (reachable by consumer CSS/JS). Any other
+   * children (e.g. a footnote `<p>`) are left untouched in the default slot.
    *
-   * @param e - The `Event` fired by the `<slot>` element on slot change.
+   * Reads all current light-DOM children on every call (rather than a single
+   * slot's assigned nodes), so it is robust to dynamic additions/removals and
+   * idempotent: setting the `slot` attributes triggers further `slotchange`
+   * events, but once the attributes are stable no more mutations occur and the
+   * cascade settles.
+   *
+   * After (re)assignment, `_applySelection` is called honoring the first tab
+   * that already has a `selected` attribute, or index `0` if none is found.
+   *
    * @returns void
    */
-  private _sortChildren(e: Event): void {
-    const slot = e.target as HTMLSlotElement;
-    const assigned = slot.assignedElements();
+  private _syncChildren = (): void => {
+    const tabs = this._getTabs();
+    const panelEls = Array.from(this.children).filter(
+      (c) => c.tagName.toLowerCase() === "nys-tabpanel",
+    ) as HTMLElement[];
 
-    const tabsContainer = this.shadowRoot?.querySelector(".nys-tabgroup__tabs");
-    const panelsContainer = this.shadowRoot?.querySelector(
-      ".nys-tabgroup__panels",
-    );
-    if (!tabsContainer || !panelsContainer) return;
-
-    const tabs: HTMLElement[] = [];
-    const panelsByRef = new Map<string, HTMLElement>();
-    const panelsWithoutRef: HTMLElement[] = [];
-
-    assigned.forEach((child) => {
-      const tag = child.tagName.toLowerCase();
-      if (tag === "nys-tab") {
-        tabsContainer.appendChild(child);
-        tabs.push(child as HTMLElement);
-      } else if (tag === "nys-tabpanel") {
-        panelsContainer.appendChild(child);
-        const panel = child as HTMLElement;
-        const ariaLabelledBy = panel.getAttribute("aria-labelledby");
-        if (ariaLabelledBy) {
-          panelsByRef.set(ariaLabelledBy, panel);
-        } else {
-          panelsWithoutRef.push(panel);
-        }
-      }
-    });
-
-    // Pair panels with tabs: explicit refs first, then remaining panels by index
-    const panels: HTMLElement[] = [];
     tabs.forEach((tab) => {
-      const tabId = tab.id;
-      if (tabId && panelsByRef.has(tabId)) {
-        panels.push(panelsByRef.get(tabId)!);
-        panelsByRef.delete(tabId);
-      } else if (panelsWithoutRef.length > 0) {
-        panels.push(panelsWithoutRef.shift()!);
+      if (tab.getAttribute("slot") !== "tab") tab.setAttribute("slot", "tab");
+    });
+    panelEls.forEach((panel) => {
+      if (panel.getAttribute("slot") !== "panel") {
+        panel.setAttribute("slot", "panel");
       }
     });
 
-    // Append any remaining panels with unresolved references
-    panelsByRef.forEach((panel) => panels.push(panel));
-
-    // Re-append panels in correct order so _getPanels() reads them in tab order
-    panels.forEach((panel) => panelsContainer.appendChild(panel));
+    const panels = this._pairPanels(tabs, panelEls);
 
     // Honor the first selected tab; ignore any others
     const declaredSelectedIndex = tabs.findIndex((t) =>
@@ -395,7 +464,7 @@ export class NysTabgroup extends NysElement {
       declaredSelectedIndex !== -1 ? declaredSelectedIndex : 0;
 
     this._applySelection(tabs, panels, selectedIndex);
-  }
+  };
 
   /**
    * Handles the `nys-tab-select` custom event bubbled up from a child
@@ -514,11 +583,15 @@ export class NysTabgroup extends NysElement {
             aria-orientation="horizontal"
             aria-label=${this.name}
             @keydown=${this._handleKeydown}
-          ></div>
+          >
+            <slot name="tab" @slotchange=${this._syncChildren}></slot>
+          </div>
           <div class="scroll-shadow scroll-shadow--right"></div>
         </div>
-        <div class="nys-tabgroup__panels"></div>
-        <slot @slotchange=${this._sortChildren}></slot>
+        <div class="nys-tabgroup__panels">
+          <slot name="panel" @slotchange=${this._syncChildren}></slot>
+        </div>
+        <slot @slotchange=${this._syncChildren}></slot>
       </div>
     `;
   }

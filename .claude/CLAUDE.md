@@ -56,6 +56,51 @@ Each package: `tsc --emitDeclarationOnly` → `vite build`. Package vite configs
 - Styles use design tokens from `@nysds/tokens`
 - TypeScript strict mode
 - CI runs on PRs to develop/main
+- `nys-label` is for form components only. Elsewhere, render label/description text as plain markup in the component's own shadow DOM.
+
+### Lifecycle: derive state in `willUpdate`
+
+State computed from another reactive property goes in `willUpdate(changedProperties)`, never in `updated()` or `firstUpdated()`. Setting a reactive property after the render completed makes Lit schedule a second update and log a `change-in-update` warning (https://lit.dev/msg/change-in-update) — double work per change, and a source of flicker or update loops.
+
+```ts
+// Correct — derived before the render that consumes it
+willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+  if (changedProperties.has("value")) {
+    this._selectedLabel = this._options.find((o) => o.value === this.value)?.label ?? "";
+  }
+}
+
+// Wrong — lands after the render, forcing another one
+updated(changedProperties: Map<string | number | symbol, unknown>) {
+  if (changedProperties.has("value")) {
+    this._selectedLabel = ...;
+  }
+}
+```
+
+Reserve `updated()`/`firstUpdated()` for work that genuinely needs the rendered DOM: measuring layout, syncing a native element, `ElementInternals` calls. Two follow-ons:
+
+- **Reading slotted content:** do it from the slot's `@slotchange` handler, not `firstUpdated()`. `slotchange` fires outside the update cycle, so state set there is free — and the component then also handles content added later.
+- **Post-render measurement** that must set state (e.g. flipping a dropdown above the input) goes inside `this.updateComplete.then(...)` so the write lands after the cycle closes.
+
+A field that `render()` never reads does not need `@state` — a plain private field avoids scheduling updates at all.
+
+### CSS Custom Property Naming
+
+Private custom properties are named `--_nys-<component>-<property-name>--<delimiter>` — the CSS property name comes first, and any variant/part qualifier is appended after a double dash.
+
+```scss
+// Correct
+--_nys-processlistitem-font-size--description;
+--_nys-processlist-color--step;
+--_nys-processlistitem-padding-top; // unqualified: no suffix needed
+
+// Wrong
+--_nys-processlistitem-description-font-size;
+--_nys-processlist-step-color;
+```
+
+This applies to declarations and to variant override blocks in light-DOM stylesheets.
 
 ## MCP Server
 

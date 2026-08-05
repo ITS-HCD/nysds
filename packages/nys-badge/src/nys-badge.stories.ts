@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-badge";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Badge",
@@ -20,6 +21,7 @@ export const Basic: Story = {
   args: {
     name: "",
     size: "md",
+    intent: "neutral",
     prefixLabel: "",
     label: "Basic badge",
     srText: "",
@@ -27,6 +29,10 @@ export const Basic: Story = {
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md"] },
+    intent: {
+      control: { type: "select" },
+      options: ["neutral", "error", "success", "warning"],
+    },
     variant: { control: { type: "select" }, options: ["strong", ""] },
   },
   render: (args) => {
@@ -34,6 +40,7 @@ export const Basic: Story = {
       <nys-badge
         name=${args.name}
         size=${args.size}
+        intent=${args.intent}
         prefixLabel=${args.prefixLabel}
         label=${args.label}
         srText=${args.srText}

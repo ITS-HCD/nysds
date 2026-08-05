@@ -2,21 +2,42 @@ import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from "./nys-tab.scss?inline";
+import styles from "./nys-tabpanel.scss?inline";
+// @ts-ignore: SCSS module imported via bundler as inline
+import lightStyles from "./nys-tabpanel.light.scss?inline";
+
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the light-DOM styling for <nys-tabpanel> into a single constructed
+// stylesheet adopted on the document. Guarded so it runs once regardless of how
+// many panels mount, and skipped during SSR where `document` is undefined.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
 
 /**
  * `<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a
  * `<nys-tabgroup>`.
  *
  * Pairing is determined by render order: the Nth `<nys-tabpanel>` child of a
- * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.
- * `aria-labelledby` and the `hidden` attribute are managed externally by
- * `<nys-tabgroup>` via `_applySelection`; do not set them directly.
+ * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child (or by explicit
+ * `aria-labelledby`). `aria-labelledby` and the `hidden` attribute are managed
+ * externally by `<nys-tabgroup>` via `_applySelection`; do not set them
+ * directly.
+ *
+ * The panel container is styled from the light DOM (`nys-tabpanel.light.scss`,
+ * adopted on the document) rather than a shadow-DOM wrapper. This keeps the
+ * slotted panel content in the light DOM — reachable by consumer CSS and
+ * JavaScript — and lets consumers override the panel's own styling (e.g.
+ * `nys-tabpanel { padding: 0 }`), which a shadow wrapper would prevent.
  *
  * @element nys-tabpanel
  *
- * @slot - Default slot for panel content. Rendered inside a wrapper `<div>`
- *   with the `.nys-tabpanel` class for styling.
+ * @slot - Default slot for panel content. Rendered directly under the host,
+ *   which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"`
+ *   region.
  */
 export class NysTabpanel extends NysElement {
   static styles = unsafeCSS(styles);
@@ -42,7 +63,11 @@ export class NysTabpanel extends NysElement {
     // on the host as a reflected attribute (defaultRole intentionally null) so
     // existing getAttribute("role") consumers/tests keep working.
     super.connectedCallback();
+    adoptLightStyles();
     this.setAttribute("role", "tabpanel");
+    // The host is the scrollable region (overflow is applied in the light
+    // styles), so it must be keyboard-focusable for scroll access.
+    this.setAttribute("tabindex", "0");
   }
 
   // ---------------------------------------------------------------------------
@@ -50,11 +75,7 @@ export class NysTabpanel extends NysElement {
   // ---------------------------------------------------------------------------
 
   render() {
-    return html`
-      <div class="nys-tabpanel" tabindex="0">
-        <slot></slot>
-      </div>
-    `;
+    return html`<slot></slot>`;
   }
 }
 

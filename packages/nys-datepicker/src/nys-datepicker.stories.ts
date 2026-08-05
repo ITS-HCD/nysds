@@ -1,8 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-datepicker";
-import "@nysds/nys-label";
+import "@nysds/nys-button";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
 
 const meta: Meta = {
   title: "Components/Datepicker",
@@ -44,6 +46,7 @@ export const Basic: Story = {
   render: (args) => {
     return html`
       <nys-datepicker
+        id="my-datepicker"
         name=${args.name}
         width=${args.width}
         ?hideTodayButton=${args.hideTodayButton}

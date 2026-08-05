@@ -617,7 +617,8 @@ a[disabled] {
   pointer-events: none;
 }
 
-.nys-button:focus-visible {
+.nys-button:focus-visible,
+.active-focus {
   outline-offset: var(--_nys-button-outline-offset);
   outline: solid var(--_nys-button-outline-width)
     var(--_nys-button-outline-color);
@@ -627,4 +628,14 @@ a[disabled] {
   display: flex;
   align-items: center;
   user-select: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
 }

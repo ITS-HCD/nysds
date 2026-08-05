@@ -1,6 +1,8 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-table";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Table",
@@ -27,6 +29,7 @@ export const Basic: Story = {
   render: (args) => {
     return html`
       <nys-table
+        id="table1"
         name=${args.name}
         ?striped=${args.striped}
         ?sortable=${args.sortable}

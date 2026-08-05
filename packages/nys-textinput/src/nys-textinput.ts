@@ -88,6 +88,11 @@ import styles from "./nys-textinput.scss?inline";
  * </nys-textinput>
  * ```
  *
+ * @example Password
+ * ```html
+ * <nys-textinput type="password"></nys-textinput>
+ * ```
+ *
  * @example Max Min Values
  * ```html
  * <nys-textinput type="number" label="Age" min="18" max="99" width="sm"></nys-textinput>
@@ -434,6 +439,30 @@ export class NysTextinput extends NysFormControlElement {
     this.showPassword = !this.showPassword;
   }
 
+  private _clearSearch() {
+    this.value = "";
+
+    const input = this._inputEl;
+    if (input) {
+      input.value = "";
+      input.focus();
+    }
+
+    this.setFormValue("");
+
+    if (this._hasUserInteracted) {
+      this._validate();
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("nys-input", {
+        detail: { id: this.id, value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   private _updateOverlay(value: string, mask: string) {
     const overlay = this.shadowRoot?.querySelector(
       ".nys-textinput__mask-overlay",
@@ -649,18 +678,39 @@ export class NysTextinput extends NysFormControlElement {
             />
             ${this.type === "password"
               ? html` <nys-button
-                  class="eye-icon"
+                  class="inline-icon"
                   id="password-toggle"
                   ariaLabel="password toggle"
                   variant="ghost"
+                  circle
                   size="sm"
                   @nys-click=${() =>
                     !this.disabled && this._togglePasswordVisibility()}
                 >
                   <nys-icon
-                    slot="suffix-icon"
+                    slot="circle-icon"
                     size="2xl"
                     name=${this.showPassword ? "visibility_off" : "visibility"}
+                  ></nys-icon>
+                </nys-button>`
+              : ""}
+            ${this.type === "search" &&
+            this.value &&
+            !this.disabled &&
+            !this.readonly
+              ? html` <nys-button
+                  class="inline-icon"
+                  id="search-clear"
+                  ariaLabel="clear search"
+                  variant="ghost"
+                  circle
+                  size="sm"
+                  @nys-click=${() => this._clearSearch()}
+                >
+                  <nys-icon
+                    slot="circle-icon"
+                    size="2xl"
+                    name="close"
                   ></nys-icon>
                 </nys-button>`
               : ""}

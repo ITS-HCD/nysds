@@ -217,17 +217,15 @@ export type NysButtonProps = {
   variant?: "filled" | "outline" | "ghost" | "text";
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
-  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode. */
+  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: string;
-  /** Screen reader label. Required for icon-only buttons if `label` is not set. */
-  ariaLabel?: string;
   /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
   ariaControls?: string;
   /** Material Symbol icon before label. Not shown for `circle` mode. */
   prefixIcon?: string;
   /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode. */
   suffixIcon?: string;
-  /** Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label. */
+  /** Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name. */
   circle?: boolean;
   /** Icon for circle mode. Required when `circle` is true. Scales with size (sm=24px, md=32px, lg=40px). */
   icon?: string;
@@ -237,8 +235,8 @@ export type NysButtonProps = {
   form?: string | null;
   /** Value submitted with form data. Only used when `type="submit"`. */
   value?: string;
-  /** Additional screen reader description. Sets `aria-description`. */
-  ariaDescription?: string;
+  /** ID(s) of element(s) describing this button. Sets `aria-describedby`. */
+  ariaDescribedBy?: string;
   /** Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions. */
   type?: "submit" | "reset" | "button";
   /** URL to navigate to. Renders as `<a>` tag. Omit for action buttons. */
@@ -523,7 +521,7 @@ Reads the first selected file (or `null`); setting replaces the selection. */
   value?: File | null;
   /** Fired when focus leaves the component. Triggers validation. */
   "onnys-blur"?: (e: CustomEvent<Event>) => void;
-  /** Fired when files are added or removed. Detail: `{id, files}`. */
+  /** Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
@@ -606,6 +604,21 @@ export type NysIconProps = {
   updateComplete?: Promise<boolean>;
 };
 
+export type NysIconlistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Draws a divider between items. No divider is drawn after the last item. */
+  divider?: boolean;
+};
+
+export type NysIconlistitemProps = {
+  /** Material Symbols icon name passed to `<nys-icon>`. */
+  icon?: string;
+  /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
+set directly. */
+  divider?: boolean;
+};
+
 export type NysLabelProps = {
   /** The ID of the label. */
   id?: string;
@@ -619,7 +632,8 @@ export type NysLabelProps = {
   inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon next to label. */
   tooltip?: string;
-
+  /**  */
+  _hasDescription?: string;
   /**  */
   "onnys-label-click"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -660,6 +674,50 @@ export type NysPaginationProps = {
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
+export type NysProcesslistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Renders each step number in a bolder, higher-emphasis color. */
+  strong?: boolean;
+  /** Renders each step number using neutral (grayscale) coloring instead of the theme color. */
+  neutral?: boolean;
+  /** Step marker size: `sm` (smaller) or `md` (default). */
+  size?: "md" | "sm";
+  /** Number given to the first step. Subsequent steps count up from it. Use this when one
+process is split across several lists so the later lists continue the count instead of
+restarting at 1. */
+  initialStep?: number;
+  /** Accessible name for the list, e.g. "Application steps". A list has no name of its own, so
+give one whenever the surrounding content does not already make the list's purpose obvious —
+especially when a page holds more than one process list.
+
+Sets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already
+names the list. */
+  "aria-label"?: string | null;
+  /** Space-separated IDs of the elements that name the list, typically the visible heading above
+it. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the
+visible one cannot drift apart.
+
+Sets `aria-labelledby` on the host. */
+  "aria-labelledby"?: string | null;
+  /** Space-separated IDs of the elements that describe the list, such as the intro paragraph
+explaining what the process involves. A description supplements the name; it does not
+replace it.
+
+Sets `aria-describedby` on the host. */
+  "aria-describedby"?: string | null;
+};
+
+export type NysProcesslistitemProps = {
+  /** Step heading text. */
+  label?: string;
+  /** Supporting information displayed below the label. Use the `description` slot for rich text. */
+  description?: string;
+  /** A description is shown when either the property or the slot has content, so an item with
+neither renders no empty paragraph. */
+  _hasDescription?: string;
+};
+
 export type NysRadiobuttonProps = {
   /** Whether this radio is selected. Only one per group can be checked. */
   checked?: boolean;
@@ -687,9 +745,13 @@ export type NysRadiobuttonProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
-
+  /** Public validation API (Form Association)
+-------------------------------------------------------------------------- */
+  validity?: ValidityState | undefined;
+  /**  */
+  validationMessage?: string;
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
-  "onnys-change"?: (e: CustomEvent<never>) => void;
+  "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when radio gains focus. */
   "onnys-focus"?: (e: CustomEvent<never>) => void;
   /** Fired when radio loses focus. */
@@ -1064,6 +1126,37 @@ export type NysUnavHeaderProps = {
   "onnys-search-submit"?: (e: CustomEvent<never>) => void;
 };
 
+export type NysVerticalnavProps = {
+  /** ID for the navigation. Generated automatically if not provided. */
+  id?: string;
+  /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
+  heading?: string;
+  /** Hides the visible heading while keeping an accessible label for the navigation. */
+  hideHeading?: boolean;
+  /** Heading level used for the navigation heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
+  /** Expands or collapses the navigation on mobile. */
+  expanded?: boolean;
+};
+
+export type NysVerticalnavGroupProps = {
+  /**  */
+  id?: string;
+  /**  */
+  label?: string;
+  /**  */
+  expanded?: boolean;
+  /**  */
+  disabled?: boolean;
+  /**  */
+  active?: boolean;
+
+  /**  */
+  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-verticalnavgroup-toggle"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
 export type NysVideoProps = {
   /** Full YouTube URL — required. Component will not render if invalid. */
   id?: string;
@@ -1314,7 +1407,7 @@ export type CustomElements = {
    *
    * ### **Events:**
    *  - **nys-blur** - Fired when focus leaves the component. Triggers validation.
-   * - **nys-change** - Fired when files are added or removed. Detail: `{id, files}`.
+   * - **nys-change** - Fired once per user action (file selection, drop, or removal). Detail: `{id, files, changedFiles}`. The `files` is the full current selection Whereas `changedFiles` is the entries this action added or removed. Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
    *
    * ### **Methods:**
    *  - **setFiles(incoming: _File[]_): _Promise<void>_** - Programmatically set the selection and await async validation/processing.
@@ -1369,6 +1462,24 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
+   * A scannable list of icon + text items, with an optional divider between rows.
+   * ---
+   *
+   */
+  "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
+
+  /**
+   * An icon-paired list item for use inside `<nys-iconlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Primary label text.
+   * - **secondary** - Optional second line of text rendered below the primary label.
+   */
+  "nys-iconlistitem": Partial<NysIconlistitemProps & BaseProps & BaseEvents>;
+
+  /**
    * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
    *
    * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
@@ -1410,7 +1521,27 @@ export type CustomElements = {
   "nys-pagination": Partial<NysPaginationProps & BaseProps & BaseEvents>;
 
   /**
-   * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
+   * An ordered list of numbered process steps.
+   * ---
+   *
+   */
+  "nys-processlist": Partial<NysProcesslistProps & BaseProps & BaseEvents>;
+
+  /**
+   * A numbered step for use inside `<nys-processlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - **description** - Custom HTML description content below the label. Overrides the `description` property.
+   */
+  "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
+
+  /**
+   * Radio button for single selection from mutually exclusive options.
+   * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
+   * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
+   * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
    * ---
    *
    *
@@ -1528,9 +1659,10 @@ export type CustomElements = {
    * elements.
    *
    * Accepts tabs and panels as flat light-DOM children in any order (interleaved
-   * or grouped). On slot change, children are sorted into dedicated shadow-DOM
-   * containers, ARIA relationships are wired, and the first selected (or first)
-   * tab is activated.
+   * or grouped). On slot change, each child is assigned `slot="tab"` or
+   * `slot="panel"` so it is projected into the correct shadow-DOM container
+   * while remaining in the light DOM, ARIA relationships are wired, and the
+   * first selected (or first) tab is activated.
    *
    * Scroll shadows are rendered on either side of the tab list and toggled via
    * `ResizeObserver` and a `scroll` listener so they accurately reflect whether
@@ -1544,7 +1676,7 @@ export type CustomElements = {
    *
    *
    * ### **Slots:**
-   *  - _default_ - Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are moved into internal shadow-DOM containers on `slotchange`; the slot itself is not rendered visibly.
+   *  - _default_ - Accepts `<nys-tab>` and `<nys-tabpanel>` children. On `slotchange` they are assigned `slot="tab"` / `slot="panel"` and projected into the tablist and panel containers; they stay in the light DOM. Any other children remain in the default slot, rendered below the panels.
    */
   "nys-tabgroup": Partial<NysTabgroupProps & BaseProps & BaseEvents>;
 
@@ -1553,14 +1685,21 @@ export type CustomElements = {
    * `<nys-tabgroup>`.
    *
    * Pairing is determined by render order: the Nth `<nys-tabpanel>` child of a
-   * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.
-   * `aria-labelledby` and the `hidden` attribute are managed externally by
-   * `<nys-tabgroup>` via `_applySelection`; do not set them directly.
+   * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child (or by explicit
+   * `aria-labelledby`). `aria-labelledby` and the `hidden` attribute are managed
+   * externally by `<nys-tabgroup>` via `_applySelection`; do not set them
+   * directly.
+   *
+   * The panel container is styled from the light DOM (`nys-tabpanel.light.scss`,
+   * adopted on the document) rather than a shadow-DOM wrapper. This keeps the
+   * slotted panel content in the light DOM — reachable by consumer CSS and
+   * JavaScript — and lets consumers override the panel's own styling (e.g.
+   * `nys-tabpanel { padding: 0 }`), which a shadow wrapper would prevent.
    * ---
    *
    *
    * ### **Slots:**
-   *  - _default_ - Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.
+   *  - _default_ - Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"` region.
    */
   "nys-tabpanel": Partial<NysTabpanelProps & BaseProps & BaseEvents>;
 
@@ -1575,7 +1714,7 @@ export type CustomElements = {
    * - **nys-column-sort** - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
    *
    * ### **Slots:**
-   *  - _default_ - Accepts a `<table>` element. Only the first table is rendered.
+   *  - _default_ - Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.
    */
   "nys-table": Partial<NysTableProps & BaseProps & BaseEvents>;
 
@@ -1660,6 +1799,28 @@ export type CustomElements = {
    * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
+
+  /**
+   * Responsive navigation that becomes an accordion on smaller screens.
+   * ---
+   *
+   *
+   * ### **Methods:**
+   *  - **open()** - Public API for controlling the mobile accordion from outside the component
+   * --------------------------------------------------------------------------
+   */
+  "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
+
+  /**
+   * Collapsible link group for use within `<nys-verticalnav>`.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-child-resize**
+   * - **nys-verticalnavgroup-toggle**
+   */
+  "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
   /**
    * YouTube video player with thumbnail preview and accessibility announcements.

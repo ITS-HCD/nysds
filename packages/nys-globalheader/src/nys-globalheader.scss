@@ -29,7 +29,10 @@
   --_nys-globalheader-line-height: normal;
   --_nys-globalheader-letter-spacing: normal;
   --_nys-globalheader-font-weight: var(--nys-font-weight-semibold, 600);
-  --_nys-globalheader-max-width: var(--nys-max-content-width, 1280px);
+  --_nys-globalheader-max-width--content: var(
+    --nys-globalheader-max-width--content,
+    1280px
+  );
 
   /* Agency and App Name Styling */
   --_nys-globalheader-gap--text: var(--nys-space-100, 8px);
@@ -59,7 +62,7 @@
     var(--nys-space-200, 16px);
 
   /* Mobile Menu */
-  --_nys-globalheader-font-size--menu-btn: var(--nys-type-size-ui-xs, 12px);
+  --_nys-globalheader-font-size--menu-btn: var(--nys-font-size-ui-xs, 12px);
   --_nys-globalheader-line-height--menu-btn: var(
     --nys-font-lineheight-ui-xs,
     20px
@@ -140,7 +143,7 @@ a#nys-globalheader__logolink {
 .nys-globalheader__main-container {
   display: flex;
   gap: var(--_nys-globalheader-gap);
-  max-width: var(--_nys-globalheader-max-width);
+  max-width: var(--_nys-globalheader-max-width--content);
   width: 100%;
 
   @media (width >= 1024px) {

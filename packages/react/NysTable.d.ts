@@ -75,6 +75,6 @@ export interface NysTableProps extends Pick<
  * - **nys-column-sort** - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * ### **Slots:**
- *  - _default_ - Accepts a `<table>` element. Only the first table is rendered.
+ *  - _default_ - Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.
  */
 export const NysTable: React.ForwardRefExoticComponent<NysTableProps>;

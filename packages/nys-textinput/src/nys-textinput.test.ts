@@ -84,6 +84,69 @@ describe("nys-textinput", () => {
     expect(input?.type).to.equal("password");
   });
 
+  it("only shows the search clear button when type is search and a value exists", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput type="search"></nys-textinput>`,
+    );
+    expect(el.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+
+    el.value = "albany";
+    await el.updateComplete;
+    expect(el.shadowRoot?.querySelector("#search-clear")).to.exist;
+
+    // not offered on other types
+    const textEl = await fixture<NysTextinput>(
+      html`<nys-textinput value="albany"></nys-textinput>`,
+    );
+    expect(textEl.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+  });
+
+  it("hides the search clear button when disabled or readonly", async () => {
+    const disabled = await fixture<NysTextinput>(
+      html`<nys-textinput
+        type="search"
+        value="albany"
+        disabled
+      ></nys-textinput>`,
+    );
+    expect(disabled.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+
+    const readonly = await fixture<NysTextinput>(
+      html`<nys-textinput
+        type="search"
+        value="albany"
+        readonly
+      ></nys-textinput>`,
+    );
+    expect(readonly.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+  });
+
+  it("clears the value, refocuses the input, and fires nys-input when the search clear button is clicked", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput type="search" value="albany"></nys-textinput>`,
+    );
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    const clearButton = el.shadowRoot?.querySelector(
+      "#search-clear",
+    ) as HTMLElement;
+    const nativeButton = clearButton.shadowRoot?.querySelector(
+      "button",
+    ) as HTMLButtonElement;
+
+    const listener = oneEvent(el, "nys-input");
+    nativeButton.click();
+    const event = await listener;
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+    expect(input.value).to.equal("");
+    expect(event.detail.value).to.equal("");
+    expect(event.detail.id).to.equal(el.id);
+    // focus returns to the input, and the button removes itself once empty
+    expect(el.shadowRoot?.activeElement).to.equal(input);
+    expect(el.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+  });
+
   it("displays an error message when required field is empty", async () => {
     const el = await fixture<NysTextinput>(
       html`<nys-textinput required></nys-textinput>`,

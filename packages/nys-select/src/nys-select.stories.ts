@@ -1,8 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-select";
-import "@nysds/nys-label";
+import "./nys-option";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
 
 const meta: Meta = {
   title: "Components/Select",
@@ -23,6 +25,7 @@ export const Basic: Story = {
     name: "",
     label: "Select your favorite borough",
     description: "",
+    ariaLabel: "",
     value: "",
     disabled: false,
     required: false,
@@ -31,13 +34,19 @@ export const Basic: Story = {
     inverted: false,
     showError: false,
     errorMessage: "",
+    width: "full",
+  },
+  argTypes: {
+    width: { control: { type: "select" }, options: ["sm", "md", "lg", "full"] },
   },
   render: (args) => {
     return html`
       <nys-select
+        id="borough"
         name=${args.name}
         label=${args.label}
         description=${args.description}
+        ariaLabel=${args.ariaLabel}
         value=${args.value}
         ?disabled=${args.disabled}
         ?required=${args.required}
@@ -46,6 +55,7 @@ export const Basic: Story = {
         ?inverted=${args.inverted}
         ?showError=${args.showError}
         errorMessage=${args.errorMessage}
+        width=${args.width}
       >
         <option value="bronx" label="The Bronx"></option>
         <option value="brooklyn" label="Brooklyn"></option>

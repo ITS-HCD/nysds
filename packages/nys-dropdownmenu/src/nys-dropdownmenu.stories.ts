@@ -1,8 +1,9 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-dropdownmenu";
-import "@nysds/nys-button";
 import "./nys-dropdownmenuitem";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 const meta: Meta = {
   title: "Components/Dropdownmenu",
@@ -36,6 +37,7 @@ export const Basic: Story = {
       >
         <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
         <nys-dropdownmenu
+          id="my-dropdownmenu"
           for=${args.for}
           ?showDropdown=${args.showDropdown}
           label=${args.label}

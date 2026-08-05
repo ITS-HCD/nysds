@@ -100,10 +100,14 @@ import styles from "./nys-radiobutton.scss?inline";
  *
  * @example Description Slot
  * ```html
- * <nys-radiogroup label="Select borough">
- *   <div slot="description">Your primary <strong>residence</strong> in NYC.</div>
- *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
- *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * <nys-radiogroup label="What is your primary work location?">
+ *  <label slot="description">This is the location you use for your <a href="https://www.ny.gov/" target="__blank">in office days.</a></label>
+ *  <nys-radiobutton name="office" label="Albany" value="albany">
+ *    <label slot="description">A part of <a href="https://www.ny.gov/" target="__blank">Upstate New York</a></label>
+ *   </nys-radiobutton>
+ *  <nys-radiobutton name="office" label="Manhattan" value="manhattan">
+ *    <label slot="description">A part of <a href="https://www.ny.gov/" target="__blank">New York City</a></label>
+ *   </nys-radiobutton>
  * </nys-radiogroup>
  * ```
  */
@@ -174,6 +178,13 @@ export class NysRadiogroup extends NysFormControlElement {
    * assigns an id (prefix = localName) when one is not provided.
    */
 
+  // The host is the semantic grouping element: expose role="radiogroup" on the
+  // host's accessibility node via the shared ReflectsAriaMixin instead of a
+  // hand-attached ElementInternals.
+  protected get defaultRole(): string | null {
+    return "radiogroup";
+  }
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -226,6 +237,7 @@ export class NysRadiogroup extends NysFormControlElement {
       this._updateRadioButtonsSize();
     }
     this._updateGroupTabIndex();
+    this._forwardRadioDescriptions();
   }
 
   /**
@@ -469,6 +481,25 @@ export class NysRadiogroup extends NysFormControlElement {
       .join(", ");
   }
 
+  private _forwardRadioDescriptions() {
+    // Note to self: future rework to "eat our own dog food"
+    // for the new revamp radiobutton (1.19.4) will render this function useless.
+    this._radios.forEach((radiobtn) => {
+      const slotted = radiobtn.querySelector<HTMLElement>(
+        ':scope > [slot="description"]',
+      );
+      if (!slotted) return;
+
+      const label = this.shadowRoot?.querySelector(`#${radiobtn.id}-label`);
+      if (!label) return;
+
+      // appendChild is a no-op move if it's already there — safe to call every render
+      if (slotted.parentElement !== label) {
+        label.appendChild(slotted);
+      }
+    });
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -504,9 +535,11 @@ export class NysRadiogroup extends NysFormControlElement {
     );
     if (firstEnabledRadio) {
       const focusFirstInput = () => {
-        this.shadowRoot
-          ?.querySelector<HTMLElement>(`#input-${firstEnabledRadio.id}`)
-          ?.focus();
+        const input = this.shadowRoot?.querySelector<HTMLElement>(
+          `#input-${firstEnabledRadio.id}`,
+        );
+        input?.focus();
+        input?.classList.add("nys-radiobutton__radio--invalid-focus");
       };
 
       // Focus only if this is the first invalid element (top-down approach)
@@ -619,6 +652,11 @@ export class NysRadiogroup extends NysFormControlElement {
   }
 
   private _handleRadiobtnBlur(radiobtn: NysRadiobutton) {
+    const input = this.shadowRoot?.querySelector<HTMLElement>(
+      `#input-${radiobtn.id}`,
+    );
+    input?.classList.remove("nys-radiobutton__radio--invalid-focus");
+
     radiobtn.dispatchEvent(
       new CustomEvent("nys-blur", { bubbles: true, composed: true }),
     );
@@ -691,10 +729,7 @@ export class NysRadiogroup extends NysFormControlElement {
                     label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
                     description=${ifDefined(radiobtn.description || undefined)}
                   >
-                    <slot name="description" slot="description"
-                      >${radiobtn.description}</slot
-                    >
-                  </nys-label> `}
+                  </nys-label>`}
                 </div>
                 <div class="nys-radiobutton__other-container">
                   ${radiobtn.other && radiobtn.checked

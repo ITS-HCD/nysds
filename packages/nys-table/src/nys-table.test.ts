@@ -152,7 +152,7 @@ describe("nys-table", () => {
       </nys-table>
     `);
 
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     expect(table).to.exist;
     const thead = table?.querySelector("thead");
     expect(thead).to.exist;
@@ -199,7 +199,7 @@ describe("nys-table", () => {
         </table>
       </nys-table>
     `);
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const firstTh = table?.querySelector("th");
     const sortIcons = firstTh?.querySelectorAll("nys-icon");
     expect(sortIcons?.length).to.be.greaterThan(0);
@@ -226,7 +226,7 @@ describe("nys-table", () => {
         </table>
       </nys-table>
     `);
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const firstButton = table?.querySelector("th nys-button");
     expect(firstButton).to.exist;
 
@@ -278,7 +278,7 @@ describe("nys-table", () => {
       </nys-table>
     `);
 
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const caption = table?.querySelector("caption");
     const commentSpan = caption?.querySelector("span");
 
@@ -304,7 +304,7 @@ describe("nys-table", () => {
       </nys-table>
     `);
 
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const caption = table?.querySelector("caption");
     const commentSpan = caption?.querySelector("span");
 
@@ -339,7 +339,7 @@ describe("nys-table", () => {
       </nys-table>
     `);
 
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const firstButton = table?.querySelector("th nys-button");
     expect(firstButton).to.exist;
 
@@ -379,7 +379,7 @@ describe("nys-table", () => {
       </nys-table>
     `);
 
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const firstButton = table?.querySelector("th nys-button");
 
     const events: CustomEvent[] = [];
@@ -425,7 +425,7 @@ describe("nys-table", () => {
       </nys-table>
     `);
 
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const buttons = table?.querySelectorAll("th nys-button");
     const firstButton = buttons?.[0];
     const secondButton = buttons?.[1];
@@ -470,7 +470,7 @@ describe("nys-table", () => {
       </nys-table>
     `);
 
-    const table = el.shadowRoot?.querySelector("table");
+    const table = el.querySelector("table");
     const firstButton = table?.querySelector("th nys-button");
 
     el.addEventListener("nys-column-sort", (e) => {
@@ -516,5 +516,33 @@ describe("nys-table", () => {
     appendSpy.restore();
     removeSpy.restore();
     clickSpy.restore();
+  });
+
+  it("keeps embedded cell content as a single interactive light-DOM copy", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <tr>
+            <th>Header</th>
+          </tr>
+          <tr>
+            <td><button id="embedded-btn">Click</button></td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    // The table is enhanced in place, not cloned, so exactly one copy of the
+    // embedded element exists and it lives in the light DOM.
+    expect(el.querySelectorAll("#embedded-btn").length).to.equal(1);
+    expect(el.shadowRoot?.querySelector("#embedded-btn")).to.be.null;
+
+    // A listener bound to the real element receives its events (the bug this
+    // refactor fixes: with a shadow-DOM clone, the visible copy had no listener).
+    const btn = el.querySelector("#embedded-btn") as HTMLButtonElement;
+    const spy = sinon.spy();
+    btn.addEventListener("click", spy);
+    btn.click();
+    expect(spy.calledOnce).to.be.true;
   });
 });

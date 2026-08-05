@@ -22,9 +22,9 @@ export const Basic: Story = {
     name: "",
     size: "md",
     fullWidth: false,
+    variant: "filled",
     inverted: false,
     label: "Button",
-    ariaLabel: "",
     ariaControls: "",
     prefixIcon: "",
     suffixIcon: "",
@@ -32,11 +32,25 @@ export const Basic: Story = {
     icon: "",
     disabled: false,
     value: "",
-    ariaDescription: "",
+    ariaDescribedBy: "",
+    type: "button",
     href: "",
+    target: "_self",
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md", "lg"] },
+    variant: {
+      control: { type: "select" },
+      options: ["filled", "outline", "ghost", "text"],
+    },
+    type: {
+      control: { type: "select" },
+      options: ["submit", "reset", "button"],
+    },
+    target: {
+      control: { type: "select" },
+      options: ["_self", "_blank", "_parent", "_top", "framename"],
+    },
   },
   render: (args) => {
     return html`
@@ -44,9 +58,9 @@ export const Basic: Story = {
         name=${args.name}
         size=${args.size}
         ?fullWidth=${args.fullWidth}
+        variant=${args.variant}
         ?inverted=${args.inverted}
         label=${args.label}
-        ariaLabel=${args.ariaLabel}
         ariaControls=${args.ariaControls}
         prefixIcon=${args.prefixIcon}
         suffixIcon=${args.suffixIcon}
@@ -54,8 +68,10 @@ export const Basic: Story = {
         icon=${args.icon}
         ?disabled=${args.disabled}
         value=${args.value}
-        ariaDescription=${args.ariaDescription}
+        ariaDescribedBy=${args.ariaDescribedBy}
+        type=${args.type}
         href=${args.href}
+        target=${args.target}
       ></nys-button>
     `;
   },

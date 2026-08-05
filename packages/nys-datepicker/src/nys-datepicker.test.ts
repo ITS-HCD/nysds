@@ -93,6 +93,54 @@ describe("nys-datepicker", () => {
     expect(event.detail.value.getDate()).to.equal(20);
   });
 
+  it("dispatches nys-input when Today is clicked", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker label="Date"></nys-datepicker>
+    `);
+
+    await el.updateComplete;
+
+    const todayBtn = el.shadowRoot?.querySelector('nys-button[label="Today"]')!;
+
+    const eventPromise = oneEvent(el, "nys-input");
+
+    todayBtn.dispatchEvent(
+      new CustomEvent("nys-click", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    const event = await eventPromise;
+
+    expect(event.detail.id).to.equal(el.id);
+    expect(event.detail.value).to.exist;
+  });
+
+  it("dispatches nys-input when Clear is clicked", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker label="Date" value="2026-07-15"></nys-datepicker>
+    `);
+
+    await el.updateComplete;
+
+    const clearBtn = el.shadowRoot?.querySelector('nys-button[label="Clear"]')!;
+
+    const eventPromise = oneEvent(el, "nys-input");
+
+    clearBtn.dispatchEvent(
+      new CustomEvent("nys-click", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    const event = await eventPromise;
+
+    expect(event.detail.id).to.equal(el.id);
+    expect(event.detail.value).to.equal(undefined);
+  });
+
   it("handles Today button click", async () => {
     const el = await fixture<NysDatepicker>(
       html`<nys-datepicker></nys-datepicker>`,
@@ -1179,7 +1227,7 @@ describe("nys-datepicker", () => {
     expect(el.showError).to.be.true;
   });
 
-  it("_handleClearClick without _hasUserInteracted does not show error", async () => {
+  it("_handleClearClick on a required field shows error after clearing", async () => {
     const el = await fixture<NysDatepicker>(html`
       <nys-datepicker required value="2026-01-01"></nys-datepicker>
     `);
@@ -1190,7 +1238,7 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     expect(el.value).to.be.undefined;
-    expect(el.showError).to.be.false;
+    expect(el.showError).to.be.true;
   });
 
   // -------------------------------------------------------------------------

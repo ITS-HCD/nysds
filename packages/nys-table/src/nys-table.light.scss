@@ -1,0 +1,116 @@
+// Light-DOM styles for <nys-table>.
+
+// Injected once into `document.adoptedStyleSheets` (see nys-table.ts) so the
+// slotted <table> and its cells are styled from the light DOM. The table stays
+// a light-DOM child of <nys-table> (projected through a <slot>, never cloned),
+// which is what lets embedded components (e.g. <nys-badge>, <nys-toggle>)
+// render and stay interactive, and lets consumer CSS/JS reach the cells.
+
+// A shadow sheet can only reach the top-level slotted <table> via ::slotted() —
+// never its <tr>/<th>/<td> descendants — so all cell styling must live here.
+
+// Every selector is scoped to the `nys-table` tag name so nothing leaks to the
+// rest of the document. The `--_nys-table-*` custom properties are declared on
+// the <nys-table> :host (nys-table.scss) and inherit down into the table.
+
+nys-table table {
+  width: var(--_nys-table-width);
+  border-collapse: collapse;
+  background-color: var(--_nys-table-background-color);
+  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) /
+    var(--_nys-table-line-height) var(--_nys-table-font-family);
+}
+
+nys-table caption {
+  padding: var(--_nys-table-padding--caption);
+  font-size: var(--_nys-table-font-size--caption);
+  font-weight: var(--_nys-table-font-weight--caption);
+  text-align: start;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+nys-table td {
+  padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
+  border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
+
+  code {
+    color: var(--_nys-table-color--code);
+    background-color: var(--_nys-table-background-color--code);
+    padding: var(--nys-space-1px) var(--nys-space-2px);
+    border-radius: var(--nys-radius-md);
+  }
+}
+
+nys-table th {
+  border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
+  text-align: left;
+
+  &:has(nys-button) {
+    padding: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  nys-button {
+    margin: 0;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    justify-content: space-between;
+
+    --_nys-button-border-width: 0;
+    --_nys-button-border-radius: 0;
+    --_nys-button-padding--x: var(--_nys-table-padding--cell--x);
+    --_nys-button-justify-content: space-between;
+    --_nys-button-outline-offset: -2px;
+  }
+}
+
+nys-table th.nys-table__sortedcolumn {
+  background-color: var(--nys-color-theme-weak, #cddde9);
+}
+
+nys-table td.nys-table__sortedcolumn {
+  position: relative;
+  z-index: 0;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--nys-color-theme, #154973);
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+nys-table[striped] tbody tr:nth-child(odd) {
+  background-color: var(--_nys-table-background-color--striped);
+}
+
+nys-table[sortable] th {
+  cursor: pointer;
+}
+
+nys-table .sr-only {
+  border: 0 !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
+}

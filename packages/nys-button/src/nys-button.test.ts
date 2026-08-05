@@ -45,18 +45,19 @@ describe("nys-button", () => {
     expect(label?.textContent).to.equal("Click Me");
   });
 
-  it("uses ariaLabel when provided", async () => {
+  it("sets aria-describedby when ariaDescribedBy is provided", async () => {
     const el = await fixture(
-      html`<nys-button ariaLabel="Custom label"></nys-button>`,
+      html`<nys-button label="Save" ariaDescribedBy="help-text"></nys-button>`,
     );
     const button = el.shadowRoot?.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("Custom label");
+    expect(button.getAttribute("aria-describedby")).to.equal("help-text");
   });
 
-  it('VO falls back to "button" if neither ariaLabel nor label is provided', async () => {
-    const el = await fixture(html`<nys-button></nys-button>`);
+  it("does not set aria-label or aria-describedby by default", async () => {
+    const el = await fixture(html`<nys-button label="Save"></nys-button>`);
     const button = el.shadowRoot?.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("button");
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    expect(button.hasAttribute("aria-describedby")).to.be.false;
   });
 
   it("should trigger click event only once", async () => {
@@ -84,7 +85,6 @@ describe("nys-button", () => {
 
     const button = el.shadowRoot?.querySelector("button")!;
     expect(button.disabled).to.be.true;
-    expect(button.getAttribute("tabindex")).to.equal("-1");
   });
 
   it("calls preventDefault when disabled", async () => {
@@ -130,12 +130,14 @@ describe("nys-button", () => {
     expect(el.circle).to.be.true;
   });
 
-  it("uses the label as aria-label when circle is true)", async () => {
+  it("renders the label as visually hidden text when circle is true", async () => {
     const el = await fixture<NysButton>(
-      html`<nys-button circle label="Close"></nys-button>`,
+      html`<nys-button circle icon="close" label="Close"></nys-button>`,
     );
-    const button = el.shadowRoot?.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("Close");
+    const text = el.shadowRoot?.querySelector(".nys-button__text")!;
+    expect(text).to.exist;
+    expect(text.classList.contains("sr-only")).to.be.true;
+    expect(text.textContent?.trim()).to.equal("Close");
   });
 
   it("should render prefix and suffix icons as props", async () => {
@@ -574,12 +576,13 @@ describe("NysButton keyboard support", () => {
     expect(clicked).to.be.false;
   });
 
-  it("uses label if ariaLabel not provided", async () => {
+  it("derives its accessible name from the rendered label text", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Label Only"></nys-button>`,
     );
     const button = el.shadowRoot!.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("Label Only");
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    expect(button.textContent).to.include("Label Only");
   });
 
   it("focus() falls back to host if renderRoot.querySelector returns null", async () => {
@@ -689,8 +692,10 @@ describe("nys-button internals migration", () => {
     );
     const button = el.shadowRoot!.querySelector("button.nys-button")!;
 
-    // Accessible name comes from the label-derived aria-label.
-    expect(button.getAttribute("aria-label")).to.equal("Save Changes");
+    // Accessible name comes from the rendered label text, not a synthetic
+    // aria-label duplicating it.
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    expect(button.textContent).to.include("Save Changes");
     // Implicit <button> role only; the redundant explicit role was removed.
     expect(button.hasAttribute("role")).to.be.false;
   });
