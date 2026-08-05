@@ -24,7 +24,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Basic
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card
  *   heading="Heading"
  *   description="A short description of the card's subject."
@@ -34,7 +34,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Preheading
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card
  *   preheading="Preheading"
  *   heading="Heading"
@@ -45,7 +45,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Heading Level
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card
  *   heading="Heading"
  *   headingLevel="h3"
@@ -56,7 +56,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Subheading
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card
  *   heading="Heading"
  *   subheading="Subheading"
@@ -67,7 +67,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Media
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *   <nys-card
  *     heading="Heading"
  *     description="A card with a media image."
@@ -79,7 +79,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Inset Media
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card
  *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
  *   heading="Heading"
@@ -91,7 +91,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Media Accent
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *   <nys-card
  *     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
  *     mediaaccent="10/16"
@@ -103,7 +103,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Inset Media Accent
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *   <nys-card
  *     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
  *     inset
@@ -116,7 +116,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Elevated
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card
  *   heading="Heading"
  *   description="Elevated adds a drop shadow to give the card a raised appearance."
@@ -127,7 +127,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Footer Slot
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card heading="Heading" description="A card with actions in the footer slot.">
  *   <nys-button slot="footer" label="Learn more"></nys-button>
  *  </nys-card>
@@ -136,7 +136,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Top Slot
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card heading="Heading" description="A card with content in the top slot.">
  *   <nys-badge slot="top" label="New" intent="success"></nys-badge>
  *  </nys-card>
@@ -145,7 +145,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Icon List
  * ```html
- * <div class="nys-grid-col-3">
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *  <nys-card heading="What's included">
  *   <nys-iconlist divider>
  *     <nys-iconlistitem icon="check">First item</nys-iconlistitem>

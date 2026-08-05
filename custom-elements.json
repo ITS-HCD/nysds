@@ -3132,62 +3132,62 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Preheading",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Heading Level",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nheadingLevel=\"h3\"\ndescription=\"Set the heading level to fit the page's heading hierarchy.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nheadingLevel=\"h3\"\ndescription=\"Set the heading level to fit the page's heading hierarchy.\"\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Subheading",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Media",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Inset Media",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Media Accent",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Inset Media Accent",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\ninset\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\ninset\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Elevated",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Footer Slot",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Top Slot",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with content in the top slot.\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with content in the top slot.\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Icon List",
-              "code": "<div class=\"nys-grid-col-3\">\n<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>\n</div>",
               "lang": "html"
             }
           ]

@@ -32,7 +32,7 @@ export const Basic: Story = {
   },
   render: (args) => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           preheading=${args.preheading}
           heading=${args.heading}
@@ -50,7 +50,7 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card heading="Heading" description="A short description of the card's subject."></nys-card>
 </div>`,
         type: "auto",
@@ -62,7 +62,7 @@ export const Basic: Story = {
 export const Preheading: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           preheading="Preheading"
           heading="Heading"
@@ -75,7 +75,7 @@ export const Preheading: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
     preheading="Preheading"
     heading="Heading"
@@ -91,7 +91,7 @@ export const Preheading: Story = {
 export const HeadingLevel: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
           headingLevel="h3"
@@ -104,7 +104,7 @@ export const HeadingLevel: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
     heading="Heading"
     headingLevel="h3"
@@ -120,7 +120,7 @@ export const HeadingLevel: Story = {
 export const Subheading: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
           subheading="Subheading"
@@ -133,7 +133,7 @@ export const Subheading: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
     heading="Heading"
     subheading="Subheading"
@@ -149,7 +149,7 @@ export const Subheading: Story = {
 export const Media: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card heading="Heading" description="A card with a media image.">
           <img
             slot="media"
@@ -163,7 +163,7 @@ export const Media: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card heading="Heading" description="A card with a media image.">
     <img
       slot="media"
@@ -180,7 +180,7 @@ export const Media: Story = {
 export const InsetMedia: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
           heading="Heading"
@@ -194,7 +194,7 @@ export const InsetMedia: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
     heading="Heading"
@@ -211,7 +211,7 @@ export const InsetMedia: Story = {
 export const MediaAccent: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
           mediaaccent="10/16"
@@ -225,7 +225,7 @@ export const MediaAccent: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
     mediaaccent="10/16"
@@ -242,7 +242,7 @@ export const MediaAccent: Story = {
 export const InsetMediaAccent: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
           inset
@@ -257,7 +257,7 @@ export const InsetMediaAccent: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
     inset
@@ -275,7 +275,7 @@ export const InsetMediaAccent: Story = {
 export const Elevated: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
           description="Elevated adds a drop shadow to give the card a raised appearance."
@@ -288,7 +288,7 @@ export const Elevated: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
     heading="Heading"
     description="Elevated adds a drop shadow to give the card a raised appearance."
@@ -304,7 +304,7 @@ export const Elevated: Story = {
 export const FooterSlot: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
           description="A card with actions in the footer slot."
@@ -318,7 +318,7 @@ export const FooterSlot: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card heading="Heading" description="A card with actions in the footer slot.">
     <nys-button slot="footer" label="Learn more"></nys-button>
   </nys-card>
@@ -332,7 +332,7 @@ export const FooterSlot: Story = {
 export const TopSlot: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
           description="A card with content in the top slot."
@@ -346,7 +346,7 @@ export const TopSlot: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card heading="Heading" description="A card with content in the top slot.">
     <nys-badge slot="top" label="New" intent="success"></nys-badge>
   </nys-card>
@@ -360,7 +360,7 @@ export const TopSlot: Story = {
 export const IconList: Story = {
   render: () => {
     return html`
-      <div class="nys-grid-col-3">
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card heading="What's included">
           <nys-iconlist divider>
             <nys-iconlistitem icon="check">First item</nys-iconlistitem>
@@ -375,7 +375,7 @@ export const IconList: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-grid-col-3">
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card heading="What's included">
     <nys-iconlist divider>
       <nys-iconlistitem icon="check">First item</nys-iconlistitem>
