@@ -2129,7 +2129,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.\n\nUse `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,\n`text` for inline. Set `href` to render as a navigation link.",
+          "description": "A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.\n\nUse `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,\n`text` for inline. Set `href` to render as a navigation link.\n\nARIA belongs on the component's props, not on the `<nys-button>` host. The host has no role,\nso attributes placed there are not mapped into the accessibility tree and never reach the\ninternal `<button>`. For a disclosure trigger use `ariaExpanded` together with `ariaControls`.",
           "name": "NysButton",
           "cssProperties": [
             {
@@ -2280,8 +2280,24 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.",
+              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.\n\nSet this on `<nys-button>` rather than putting `aria-controls` on the host:\nthe host has no role, so ARIA placed there is not mapped into the\naccessibility tree and never reaches the internal `<button>`.",
               "attribute": "ariaControls"
+            },
+            {
+              "kind": "field",
+              "name": "ariaExpanded",
+              "type": {
+                "text": "\"true\" | \"false\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Disclosure state for buttons that show/hide content. Sets `aria-expanded`\non the internal `<button>`/`<a>`.\n\nUse `\"false\"` when the controlled content is collapsed and `\"true\"` when it\nis expanded, updating it every time the content toggles. Leave unset for\nbuttons that are not disclosure triggers — an `aria-expanded` that never\nchanges is worse than none. Pair with `ariaControls` pointing at the\nelement being shown or hidden.\n\nSetting `aria-expanded` directly on the `<nys-button>` host does nothing:\na custom element with no role does not map its ARIA attributes into the\naccessibility tree, and host ARIA does not cross into the shadow root.",
+              "attribute": "ariaExpanded",
+              "examples": [
+                {
+                  "title": "```html",
+                  "code": "<nys-button\n  label=\"Here's how you know\"\n  ariaExpanded=\"false\"\n  ariaControls=\"trust-bar\"\n></nys-button>\n```"
+                }
+              ]
             },
             {
               "kind": "field",
@@ -2650,9 +2666,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.",
+              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.\n\nSet this on `<nys-button>` rather than putting `aria-controls` on the host:\nthe host has no role, so ARIA placed there is not mapped into the\naccessibility tree and never reaches the internal `<button>`.",
               "fieldName": "ariaControls",
               "propName": "ariacontrols"
+            },
+            {
+              "name": "ariaExpanded",
+              "type": {
+                "text": "\"true\" | \"false\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Disclosure state for buttons that show/hide content. Sets `aria-expanded`\non the internal `<button>`/`<a>`.\n\nUse `\"false\"` when the controlled content is collapsed and `\"true\"` when it\nis expanded, updating it every time the content toggles. Leave unset for\nbuttons that are not disclosure triggers — an `aria-expanded` that never\nchanges is worse than none. Pair with `ariaControls` pointing at the\nelement being shown or hidden.\n\nSetting `aria-expanded` directly on the `<nys-button>` host does nothing:\na custom element with no role does not map its ARIA attributes into the\naccessibility tree, and host ARIA does not cross into the shadow root.",
+              "fieldName": "ariaExpanded",
+              "propName": "ariaexpanded"
             },
             {
               "name": "prefixIcon",
@@ -2847,6 +2873,11 @@
             {
               "title": "Type",
               "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Disclosure trigger",
+              "code": "<nys-button\nlabel=\"Here's how you know\"\nariaExpanded=\"false\"\nariaControls=\"trust-bar\"\n></nys-button>",
               "lang": "html"
             }
           ]

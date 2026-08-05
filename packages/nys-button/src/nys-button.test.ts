@@ -748,4 +748,62 @@ describe("nys-button internals migration", () => {
 
     document.body.removeChild(form);
   });
+
+  // Regression: #1794 — a custom element with no role does not map its ARIA
+  // into the accessibility tree, and host ARIA does not cross the shadow
+  // boundary. Disclosure state has to be forwarded to the real <button>/<a>.
+  describe("aria-expanded forwarding", () => {
+    it("forwards ariaExpanded to the internal <button>", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button
+          label="Here's how you know"
+          ariaExpanded="false"
+          ariaControls="trust-bar"
+        ></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-expanded")).to.equal("false");
+      expect(inner.getAttribute("aria-controls")).to.equal("trust-bar");
+    });
+
+    it("propagates state changes to the internal <button>", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="Toggle" ariaExpanded="false"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-expanded")).to.equal("false");
+
+      el.ariaExpanded = "true";
+      await el.updateComplete;
+      expect(inner.getAttribute("aria-expanded")).to.equal("true");
+    });
+
+    it("omits aria-expanded entirely when unset", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="Plain"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.hasAttribute("aria-expanded")).to.equal(false);
+    });
+
+    it("forwards ariaExpanded to the internal <a> when href is set", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button
+          label="Menu"
+          href="#menu"
+          ariaExpanded="true"
+        ></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("a.nys-button")!;
+      expect(inner.getAttribute("aria-expanded")).to.equal("true");
+    });
+  });
 });
