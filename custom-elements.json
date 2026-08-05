@@ -2222,18 +2222,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). Becomes aria-label in `circle` mode.",
+              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.",
               "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "attribute": "ariaLabel"
             },
             {
               "kind": "field",
@@ -2272,7 +2262,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.",
+              "description": "Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.",
               "attribute": "circle",
               "reflects": true
             },
@@ -2320,13 +2310,13 @@
             },
             {
               "kind": "field",
-              "name": "ariaDescription",
+              "name": "ariaDescribedBy",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "attribute": "ariaDescription"
+              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
+              "attribute": "ariaDescribedBy"
             },
             {
               "kind": "field",
@@ -2625,19 +2615,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). Becomes aria-label in `circle` mode.",
+              "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.",
               "fieldName": "label",
               "propName": "label"
-            },
-            {
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "fieldName": "ariaLabel",
-              "propName": "arialabel"
             },
             {
               "name": "ariaControls",
@@ -2675,7 +2655,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.",
+              "description": "Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.",
               "fieldName": "circle",
               "propName": "circle"
             },
@@ -2720,14 +2700,14 @@
               "propName": "value"
             },
             {
-              "name": "ariaDescription",
+              "name": "ariaDescribedBy",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Additional screen reader description. Sets `aria-description`.",
-              "fieldName": "ariaDescription",
-              "propName": "ariadescription"
+              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
+              "fieldName": "ariaDescribedBy",
+              "propName": "ariadescribedby"
             },
             {
               "name": "type",
@@ -4781,6 +4761,15 @@
               },
               "privacy": "private",
               "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_hasResolvedSlottedValue",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",
@@ -10695,12 +10684,185 @@
               },
               "default": "false",
               "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "_inputEl",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "description": "Public validation API (Form Association)\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_isGroupChecked",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_updateValidity",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_updateGroupValidity",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleInvalid",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleFocusOut",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_isGrouped",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getGroupMembers",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "NysRadiobutton[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_uncheckOtherRadios",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_forwardDescriptionSlot",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleChange",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleWrapperClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_computeAccessibleLabel",
+              "privacy": "private"
             }
           ],
           "events": [
             {
-              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`.",
-              "name": "nys-change"
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
             },
             {
               "description": "Fired when radio gains focus.",
@@ -10851,11 +11013,26 @@
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
-          "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
+          "summary": "Radio button for single selection from mutually exclusive options.\nThis is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.\nOtherwise this radiobutton mockup the native grouping of radio buttons via \"name\" attribute.\nSince we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.",
           "examples": [
             {
               "title": "Pre-selected",
               "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "No group",
+              "code": "<nys-radiobutton name=\"borough\" value=\"queens\" label=\"Queens\" checked description=\"Includes Flushing and Astoria\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\" checked>\n<span slot=\"description\">Home to <strong>Central Park</strong></span>\n</nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>",
+              "lang": "html"
+            },
+            {
+              "title": "Pre-selected",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Standalone, one per table row",
+              "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th>Application</th>\n<th>Priority</th>\n</tr>\n<tr>\n<td>SNAP Benefits</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n label=\"Select SNAP Benefits\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Child Care Assistance</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"child-care\"\n label=\"Select Child Care Assistance\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>HEAP</td>\n<td>\n<label for=\"rg-bk1\">Brooklyn</label>\n<input id=\"rg-bk1\" type=\"radio\" name=\"group\" value=\"Brooklyn\"></input>\n</td>\n</tr>\n<tr>\n<td>Medicaid</td>\n<td>\n<label for=\"rg-bk2\">Manhattan</label>\n<input id=\"rg-bk2\" type=\"radio\" name=\"group\" value=\"Manhattan\"></input>\n</td>\n</tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
           ]
@@ -11218,6 +11395,11 @@
             },
             {
               "kind": "method",
+              "name": "_forwardRadioDescriptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleInvalid",
               "privacy": "private",
               "parameters": [
@@ -11331,6 +11513,14 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"radiogroup\""
             }
           ],
           "events": [
@@ -11533,7 +11723,7 @@
             },
             {
               "title": "Description Slot",
-              "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "code": "<nys-radiogroup label=\"What is your primary work location?\">\n<label slot=\"description\">This is the location you use for your <a href=\"https://www.ny.gov/\" target=\"__blank\">in office days.</a></label>\n<nys-radiobutton name=\"office\" label=\"Albany\" value=\"albany\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">Upstate New York</a></label>\n</nys-radiobutton>\n<nys-radiobutton name=\"office\" label=\"Manhattan\" value=\"manhattan\">\n<label slot=\"description\">A part of <a href=\"https://www.ny.gov/\" target=\"__blank\">New York City</a></label>\n</nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]
@@ -16352,6 +16542,15 @@
       "path": "packages/nys-unavheader/src/nys-unavheader.ts",
       "declarations": [
         {
+          "kind": "variable",
+          "name": "NYS_ALERT_URL",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta.static-assets.ny.gov/alerts.json\"",
+          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nProduction is https://alerts-cta.static-assets.ny.gov/alerts.json.\nFor dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json"
+        },
+        {
           "kind": "class",
           "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
@@ -16527,6 +16726,99 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "_alerts",
+              "type": {
+                "text": "FeedAlert[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "The published alerts, in feed order. Empty when nothing is published."
+            },
+            {
+              "kind": "field",
+              "name": "_alertRequest",
+              "type": {
+                "text": "AbortController | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "In-flight feed request, aborted if the header leaves the page first."
+            },
+            {
+              "kind": "method",
+              "name": "_loadAlerts",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_readFeed",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": {
+                    "text": "AbortController"
+                  }
+                }
+              ],
+              "description": "Fetches the alert feed. Resolves to null on any failure."
+            },
+            {
+              "kind": "method",
+              "name": "_alertType",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "AlertType"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "severity",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed severity → `nys-alert` type."
+            },
+            {
+              "kind": "method",
+              "name": "_alertIcon",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "icon",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Feed icon name → `nys-icon` name. Unknown names resolve to \"\", which leaves\n`nys-alert` to draw the default icon for the alert's type."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlerts",
+              "privacy": "private",
+              "description": "One full-bleed band per published alert, so alerts of different severities keep\ntheir own background instead of sharing one. The body is slotted rather than\npassed as `text`/`primaryAction` so the link can carry the feed's `linkAriaLabel`."
+            },
+            {
+              "kind": "method",
+              "name": "_renderAlert",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "alert",
+                  "type": {
+                    "text": "FeedAlert"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -16663,6 +16955,14 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "NYS_ALERT_URL",
+          "declaration": {
+            "name": "NYS_ALERT_URL",
+            "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "nys-unavheader",

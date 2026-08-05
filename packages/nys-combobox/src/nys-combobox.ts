@@ -237,6 +237,7 @@ export class NysCombobox extends LitElement {
   private _internals: ElementInternals;
   private _selectedLabel = "";
   private _defaultValue = "";
+  private _hasResolvedSlottedValue = false;
 
   /**
    * Lifecycle methods
@@ -267,50 +268,33 @@ export class NysCombobox extends LitElement {
   }
 
   firstUpdated() {
-    this._handleSlotChange();
-
-    // If a selected option was found and no explicit value was set, use it
-    const slot = this.shadowRoot?.querySelector(
-      'slot:not([name="description"])',
-    ) as HTMLSlotElement | null;
-
-    if (!this.value && slot) {
-      const assignedElements = slot.assignedElements({ flatten: true });
-      for (const node of assignedElements) {
-        if (node.tagName === "OPTION" && (node as HTMLOptionElement).selected) {
-          this.value = (node as HTMLOptionElement).value;
-          break;
-        } else if (node.tagName === "OPTGROUP") {
-          for (const child of (node as HTMLOptGroupElement).children) {
-            if (
-              child.tagName === "OPTION" &&
-              (child as HTMLOptionElement).selected
-            ) {
-              this.value = (child as HTMLOptionElement).value;
-              break;
-            }
-          }
-          if (this.value) break;
-        }
-      }
-    }
-
+    // Slotted options are read in `_handleSlotChange`, which the slot's
+    // `slotchange` event fires once its nodes are assigned. It also resolves an
+    // option marked `selected` into `value` and captures `_defaultValue`.
     this._setValue();
-    this._defaultValue = this.value; // ← capture after resolving selected option
+    this._defaultValue = this.value;
   }
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
+  // Derive display state from `value` before rendering, not after, so Lit
+  // doesn't have to schedule a second update (see lit.dev/msg/change-in-update).
+  willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has("value")) {
       const option = this._options.find((opt) => opt.value === this.value);
       this._selectedLabel = option ? option.label : "";
       this._filterText = this._selectedLabel;
+    }
+  }
 
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("value")) {
       this._setValue();
     }
 
     if (changedProperties.has("_isOpen") && this._isOpen) {
-      this._positionDropdown();
+      // Positioning measures the rendered listbox, so it has to wait for this
+      // update to settle before it may flip `_dropdownAbove`.
       this.updateComplete.then(() => {
+        this._positionDropdown();
         this._scrollToHighlighted();
       });
     }
@@ -329,6 +313,7 @@ export class NysCombobox extends LitElement {
 
     const assignedElements = slot.assignedElements({ flatten: true });
     const options: ComboboxOption[] = [];
+    let markupSelected = "";
 
     assignedElements.forEach((node) => {
       if (node.tagName === "OPTION") {
@@ -338,6 +323,9 @@ export class NysCombobox extends LitElement {
           label: option.textContent?.trim() || option.value,
           disabled: option.disabled,
         });
+        if (option.selected && !markupSelected) {
+          markupSelected = option.value;
+        }
       } else if (node.tagName === "OPTGROUP") {
         const group = node as HTMLOptGroupElement;
         const groupLabel = group.label;
@@ -351,6 +339,9 @@ export class NysCombobox extends LitElement {
               disabled: option.disabled || group.disabled,
               group: groupLabel,
             });
+            if (option.selected && !markupSelected) {
+              markupSelected = option.value;
+            }
           }
         });
       }
@@ -358,6 +349,17 @@ export class NysCombobox extends LitElement {
 
     this._options = options;
     this._filteredOptions = options;
+
+    // The first time options arrive, adopt an option marked `selected` unless
+    // an explicit value was already set, and use the result as the reset baseline.
+    if (!this._hasResolvedSlottedValue) {
+      this._hasResolvedSlottedValue = true;
+
+      if (!this.value && markupSelected) {
+        this.value = markupSelected;
+      }
+      this._defaultValue = this.value;
+    }
 
     // Set initial display text if value exists
     if (this.value) {

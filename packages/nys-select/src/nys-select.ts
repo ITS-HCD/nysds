@@ -265,14 +265,10 @@ export class NysSelect extends LitElement {
   }
 
   firstUpdated() {
-    //read in slotted options
-    const slot = this.shadowRoot?.querySelector(
-      'slot:not([name="description"])',
-    ) as HTMLSlotElement | null;
-
-    if (slot) {
-      this._handleSlotChange();
-    }
+    // Slotted options are read in `_handleSlotChange`, which the slot's
+    // `slotchange` event fires once its nodes are assigned. Doing it here
+    // instead would set `value` after the update completed, forcing Lit to
+    // schedule a second render (see lit.dev/msg/change-in-update).
 
     // This ensures our element always participates in the form
     this._setValue();
@@ -313,7 +309,6 @@ export class NysSelect extends LitElement {
         const original = node as HTMLOptionElement;
         const optionClone = original.cloneNode(true) as HTMLOptionElement;
 
-        optionClone.setAttribute("data-native", "true");
         optionClone.disabled = original.disabled;
         optionClone.selected = original.selected;
 
@@ -349,7 +344,18 @@ export class NysSelect extends LitElement {
       }
     });
 
-    // Sync initial selected state into component value
+    // Sync selected state into the component value. Re-cloning resets the
+    // native selection, so keep the current value whenever it still matches an
+    // option and only fall back to whatever the markup marked as selected.
+    const keepsCurrentValue =
+      !!this.value &&
+      Array.from(select.options).some((o) => o.value === this.value);
+
+    if (keepsCurrentValue) {
+      select.value = this.value;
+      return;
+    }
+
     const selectedOption = Array.from(select.options).find((o) => o.selected);
 
     if (selectedOption) {
@@ -567,7 +573,10 @@ export class NysSelect extends LitElement {
           >
             <option data-native hidden disabled value=""></option>
           </select>
-          <slot style="display: none;"></slot>
+          <slot
+            style="display: none;"
+            @slotchange=${this._handleSlotChange}
+          ></slot>
           <nys-icon
             name="chevron_down"
             size="2xl"

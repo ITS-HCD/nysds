@@ -212,17 +212,15 @@ export type NysButtonProps = {
   variant?: "filled" | "outline" | "ghost" | "text";
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
-  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode. */
+  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: string;
-  /** Screen reader label. Required for icon-only buttons if `label` is not set. */
-  ariaLabel?: string;
   /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
   ariaControls?: string;
   /** Material Symbol icon before label. Not shown for `circle` mode. */
   prefixIcon?: string;
   /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode. */
   suffixIcon?: string;
-  /** Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label. */
+  /** Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name. */
   circle?: boolean;
   /** Icon for circle mode. Required when `circle` is true. Scales with size (sm=24px, md=32px, lg=40px). */
   icon?: string;
@@ -232,8 +230,8 @@ export type NysButtonProps = {
   form?: string | null;
   /** Value submitted with form data. Only used when `type="submit"`. */
   value?: string;
-  /** Additional screen reader description. Sets `aria-description`. */
-  ariaDescription?: string;
+  /** ID(s) of element(s) describing this button. Sets `aria-describedby`. */
+  ariaDescribedBy?: string;
   /** Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions. */
   type?: "submit" | "reset" | "button";
   /** URL to navigate to. Renders as `<a>` tag. Omit for action buttons. */
@@ -755,9 +753,13 @@ export type NysRadiobuttonProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
-
+  /** Public validation API (Form Association)
+-------------------------------------------------------------------------- */
+  validity?: string;
+  /**  */
+  validationMessage?: string;
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
-  "onnys-change"?: (e: CustomEvent<never>) => void;
+  "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when radio gains focus. */
   "onnys-focus"?: (e: CustomEvent<never>) => void;
   /** Fired when radio loses focus. */
@@ -793,7 +795,8 @@ export type NysRadiogroupProps = {
   size?: "sm" | "md";
   /**  */
   _showOtherError?: boolean;
-
+  /**  */
+  role?: string;
   /**  */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /**  */
@@ -1552,7 +1555,10 @@ export type CustomElements = {
   "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
 
   /**
-   * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
+   * Radio button for single selection from mutually exclusive options.
+   * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
+   * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
+   * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
    * ---
    *
    *
