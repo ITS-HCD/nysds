@@ -762,6 +762,17 @@ export type NysRadiobuttonProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
+  /** Id of an element in the host's light-DOM tree to borrow the accessible name
+from (e.g. a table row `<th>`). Enables labelling a radio button that has no
+visible label of its own.
+
+Standalone radios only: inside a `nys-radiogroup` the group renders the
+native inputs and names them from the group's own labels. */
+  labelledby?: string;
+  /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
+table cells). Without `labelledby` the accessible name still comes from
+`label`, so a hidden label stays nameable. */
+  hideLabel?: boolean;
   /** Public validation API (Form Association)
 -------------------------------------------------------------------------- */
   validity?: ValidityState | undefined;

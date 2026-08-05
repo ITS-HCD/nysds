@@ -1,4 +1,4 @@
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { NysFormControlElement } from "@nysds/internals";
 import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -110,6 +110,43 @@ function adoptLightStyles() {
  *   </table>
  * </nys-table>
  * ```
+ *
+ * @example Labelled by a table row header
+ * ```html
+ * <nys-table striped bordered>
+ *   <table>
+ *     <caption>
+ *       Select the highest priority application for review
+ *     </caption>
+ *     <tr>
+ *       <th scope="col">Application</th>
+ *       <th scope="col">Priority</th>
+ *     </tr>
+ *     <tr>
+ *       <th scope="row" id="row-snap">SNAP Benefits</th>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="snap"
+ *           labelledby="row-snap"
+ *           hideLabel
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <th scope="row" id="row-heap">HEAP</th>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="heap"
+ *           labelledby="row-heap"
+ *           hideLabel
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *   </table>
+ * </nys-table>
+ * ```
  */
 
 // Light-DOM component: no shadow root (see createRenderRoot), so no static
@@ -153,6 +190,23 @@ export class NysRadiobutton extends NysFormControlElement {
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
+
+  /**
+   * Id of an element in the host's light-DOM tree to borrow the accessible name
+   * from (e.g. a table row `<th>`). Enables labelling a radio button that has no
+   * visible label of its own.
+   *
+   * Standalone radios only: inside a `nys-radiogroup` the group renders the
+   * native inputs and names them from the group's own labels.
+   */
+  @property({ type: String }) labelledby = "";
+
+  /**
+   * Suppress the internal visible `<nys-label>` (use with `labelledby` for
+   * table cells). Without `labelledby` the accessible name still comes from
+   * `label`, so a hidden label stays nameable.
+   */
+  @property({ type: Boolean }) hideLabel = false;
 
   @query("input") private _inputEl!: HTMLInputElement;
 
@@ -370,6 +424,29 @@ export class NysRadiobutton extends NysFormControlElement {
     return `${radioLabel}`;
   }
 
+  /**
+   * This component renders into the light DOM (see createRenderRoot), so the
+   * native <input> and any external labelling element share one tree scope: a
+   * plain aria-labelledby IDREF resolves natively and needs none of the
+   * cross-shadow machinery (associateControlRefs) that nys-checkbox requires.
+   *
+   * When the referenced element is a <nys-label>, its text lives in ITS shadow
+   * root; the reference still names the input because nys-label mirrors `label`
+   * onto its host via ElementInternals.ariaLabel — do not remove that mirror.
+   */
+  private get _hasExternalLabel(): boolean {
+    return !!this.labelledby;
+  }
+
+  // The internal <nys-label> is dropped when hidden, when an external label
+  // supersedes it, or when there is nothing to label with. `nothing` (not a
+  // boolean) so lit never renders the literal string "false".
+  private get _renderInternalLabel(): boolean {
+    return (
+      !this.hideLabel && !this._hasExternalLabel && !!(this.label || this.other)
+    );
+  }
+
   render() {
     return html`
       <div class="nys-radiobutton" @click=${this._handleWrapperClick}>
@@ -387,16 +464,22 @@ export class NysRadiobutton extends NysFormControlElement {
             @change="${this._handleChange}"
             @keydown="${this._handleKeydown}"
             @blur="${this._handleFocusOut}"
-            aria-label=${this._computeAccessibleLabel()}
+            aria-labelledby=${ifDefined(this.labelledby || undefined)}
+            aria-label=${ifDefined(
+              this._hasExternalLabel
+                ? undefined
+                : this._computeAccessibleLabel(),
+            )}
           />
-          ${(this.label || this.other) &&
-          html`<nys-label
-            aria-hidden="true"
-            id="${this.id}-label"
-            label="${this.label || (this.other ? "Other" : "")}"
-            description=${ifDefined(this.description || undefined)}
-          >
-          </nys-label>`}
+          ${this._renderInternalLabel
+            ? html`<nys-label
+                aria-hidden="true"
+                id="${this.id}-label"
+                label="${this.label || (this.other ? "Other" : "")}"
+                description=${ifDefined(this.description || undefined)}
+              >
+              </nys-label>`
+            : nothing}
         </div>
       </div>
     `;

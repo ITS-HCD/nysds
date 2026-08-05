@@ -39,6 +39,11 @@ export interface NysRadiobuttonProps extends Pick<
   /** undefined */
   showOtherError?: boolean;
 
+  /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
+table cells). Without `labelledby` the accessible name still comes from
+`label`, so a hidden label stays nameable. */
+  hideLabel?: boolean;
+
   /** Visible label text. Required for accessibility. */
   label?: NysRadiobuttonElement["label"];
 
@@ -59,6 +64,14 @@ export interface NysRadiobuttonProps extends Pick<
 
   /** Radio size: `sm` (24px) or `md` (32px, default). */
   size?: NysRadiobuttonElement["size"];
+
+  /** Id of an element in the host's light-DOM tree to borrow the accessible name
+from (e.g. a table row `<th>`). Enables labelling a radio button that has no
+visible label of its own.
+
+Standalone radios only: inside a `nys-radiogroup` the group renders the
+native inputs and names them from the group's own labels. */
+  labelledby?: NysRadiobuttonElement["labelledby"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

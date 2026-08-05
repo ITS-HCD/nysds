@@ -10430,6 +10430,26 @@
             },
             {
               "kind": "field",
+              "name": "labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Id of an element in the host's light-DOM tree to borrow the accessible name\nfrom (e.g. a table row `<th>`). Enables labelling a radio button that has no\nvisible label of its own.\n\nStandalone radios only: inside a `nys-radiogroup` the group renders the\nnative inputs and names them from the group's own labels.",
+              "attribute": "labelledby"
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells). Without `labelledby` the accessible name still comes from\n`label`, so a hidden label stays nameable.",
+              "attribute": "hideLabel"
+            },
+            {
+              "kind": "field",
               "name": "_inputEl",
               "type": {
                 "text": "HTMLInputElement"
@@ -10564,6 +10584,25 @@
               "kind": "method",
               "name": "_computeAccessibleLabel",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasExternalLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "This component renders into the light DOM (see createRenderRoot), so the\nnative <input> and any external labelling element share one tree scope: a\nplain aria-labelledby IDREF resolves natively and needs none of the\ncross-shadow machinery (associateControlRefs) that nys-checkbox requires.\n\nWhen the referenced element is a <nys-label>, its text lives in ITS shadow\nroot; the reference still names the input because nys-label mirrors `label`\nonto its host via ElementInternals.ariaLabel — do not remove that mirror.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_renderInternalLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
             }
           ],
           "events": [
@@ -10715,6 +10754,26 @@
               "default": "false",
               "fieldName": "showOtherError",
               "propName": "showothererror"
+            },
+            {
+              "name": "labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Id of an element in the host's light-DOM tree to borrow the accessible name\nfrom (e.g. a table row `<th>`). Enables labelling a radio button that has no\nvisible label of its own.\n\nStandalone radios only: inside a `nys-radiogroup` the group renders the\nnative inputs and names them from the group's own labels.",
+              "fieldName": "labelledby",
+              "propName": "labelledby"
+            },
+            {
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells). Without `labelledby` the accessible name still comes from\n`label`, so a hidden label stays nameable.",
+              "fieldName": "hideLabel",
+              "propName": "hidelabel"
             }
           ],
           "superclass": {
@@ -10743,6 +10802,11 @@
             {
               "title": "Standalone, one per table row",
               "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th>Application</th>\n<th>Priority</th>\n</tr>\n<tr>\n<td>SNAP Benefits</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n label=\"Select SNAP Benefits\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>Child Care Assistance</td>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"child-care\"\n label=\"Select Child Care Assistance\"\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<td>HEAP</td>\n<td>\n<label for=\"rg-bk1\">Brooklyn</label>\n<input id=\"rg-bk1\" type=\"radio\" name=\"group\" value=\"Brooklyn\"></input>\n</td>\n</tr>\n<tr>\n<td>Medicaid</td>\n<td>\n<label for=\"rg-bk2\">Manhattan</label>\n<input id=\"rg-bk2\" type=\"radio\" name=\"group\" value=\"Manhattan\"></input>\n</td>\n</tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Labelled by a table row header",
+              "code": "<nys-table striped bordered>\n<table>\n<caption>\nSelect the highest priority application for review\n</caption>\n<tr>\n<th scope=\"col\">Application</th>\n<th scope=\"col\">Priority</th>\n</tr>\n<tr>\n<th scope=\"row\" id=\"row-snap\">SNAP Benefits</th>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"snap\"\n labelledby=\"row-snap\"\n hideLabel\n></nys-radiobutton>\n</td>\n</tr>\n<tr>\n<th scope=\"row\" id=\"row-heap\">HEAP</th>\n<td>\n<nys-radiobutton\n name=\"priority-application\"\n value=\"heap\"\n labelledby=\"row-heap\"\n hideLabel\n></nys-radiobutton>\n</td>\n</tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
           ]
