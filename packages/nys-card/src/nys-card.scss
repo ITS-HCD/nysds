@@ -250,7 +250,7 @@
   }
 }
 
-::slotted([slot="top"]) {
+::slotted([slot="preheading"]) {
   display: flex;
   flex-direction: row;
 }

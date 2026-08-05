@@ -12,13 +12,13 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * about a single subject into a distinct, flexible container.
  *
  * Text content is supplied through the `preheading`, `heading`, `subheading`, and
- * `description` properties. For richer content, use the `top`, default, and
+ * `description` properties. For richer content, use the `preheading`, default, and
  * `footer` slots to project custom markup such as buttons, lists, or links.
  *
  * @summary Flexible container that groups related content and actions about a single subject.
  * @element nys-card
  *
- * @slot top - Content rendered above the heading block (e.g. a badge or label).
+ * @slot preheading - Content rendered above the heading block (e.g. a badge or label).
  * @slot - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
  * @slot footer - Content rendered at the footer of the card, typically actions like buttons or links.
  * @slot media - Visual content displayed at the top of the card, typically an `<img>`.
@@ -192,11 +192,11 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * </div>
  * ```
  *
- * @example Top Slot
+ * @example Preheading Slot
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *   <nys-card heading="Heading" description="A card with content in the top slot.">
- *     <nys-badge slot="top" label="New" intent="success"></nys-badge>
+ *   <nys-card heading="Heading" description="A card with content in the preheading slot.">
+ *     <nys-badge slot="preheading" label="New" intent="success"></nys-badge>
  *   </nys-card>
  * </div>
  * ```
@@ -409,7 +409,7 @@ export class NysCard extends LitElement {
         </div>
       </div>
       <div class="nys-card__main-content">
-        <slot name="top" class="nys-card__top"></slot>
+        <slot name="preheading" class="nys-card__preheading-slot"></slot>
         <div>
           ${this.preheading
             ? html`<p class="nys-card__preheading">${this.preheading}</p>`

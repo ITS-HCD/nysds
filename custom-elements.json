@@ -2867,12 +2867,12 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `top`, default, and\n`footer` slots to project custom markup such as buttons, lists, or links.",
+          "description": "A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `preheading`, default, and\n`footer` slots to project custom markup such as buttons, lists, or links.",
           "name": "NysCard",
           "slots": [
             {
               "description": "Content rendered above the heading block (e.g. a badge or label).",
-              "name": "top"
+              "name": "preheading"
             },
             {
               "description": "Default slot for the card's main body. Use for rich content when the `description` property is not enough.",
@@ -3315,8 +3315,8 @@
               "lang": "html"
             },
             {
-              "title": "Top Slot",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with content in the top slot.\">\n<nys-badge slot=\"top\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>\n</div>",
+              "title": "Preheading Slot",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with content in the preheading slot.\">\n<nys-badge slot=\"preheading\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {

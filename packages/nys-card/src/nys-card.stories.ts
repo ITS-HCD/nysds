@@ -446,15 +446,15 @@ export const FooterSlot: Story = {
   },
 };
 
-export const TopSlot: Story = {
+export const PreheadingSlot: Story = {
   render: () => {
     return html`
       <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
-          description="A card with content in the top slot."
+          description="A card with content in the preheading slot."
         >
-          <nys-badge slot="top" label="New" intent="success"></nys-badge>
+          <nys-badge slot="preheading" label="New" intent="success"></nys-badge>
         </nys-card>
       </div>
     `;
@@ -464,8 +464,8 @@ export const TopSlot: Story = {
       source: {
         code: `
 <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
-  <nys-card heading="Heading" description="A card with content in the top slot.">
-    <nys-badge slot="top" label="New" intent="success"></nys-badge>
+  <nys-card heading="Heading" description="A card with content in the preheading slot.">
+    <nys-badge slot="preheading" label="New" intent="success"></nys-badge>
   </nys-card>
 </div>`,
         type: "auto",

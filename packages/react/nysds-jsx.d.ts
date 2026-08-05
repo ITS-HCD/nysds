@@ -1316,7 +1316,7 @@ export type CustomElements = {
    * - **nys-blur** - Fired when an interactive card loses focus.
    *
    * ### **Slots:**
-   *  - **top** - Content rendered above the heading block (e.g. a badge or label).
+   *  - **preheading** - Content rendered above the heading block (e.g. a badge or label).
    * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
    * - **footer** - Content rendered at the footer of the card, typically actions like buttons or links.
    * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
