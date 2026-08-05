@@ -512,37 +512,54 @@ export const StretchToFillColumnHeight: Story = {
     return html`
       <div class="nys-grid-row nys-grid-gap" style="--nys-card-height: 100%">
         <div
-          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex"
         >
-          <nys-card heading="Home Energy Assistance">
-            <nys-iconlist divider>
-              <nys-iconlistitem icon="check">First item</nys-iconlistitem>
-              <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
-              <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
-            </nys-iconlist>
+          <nys-card
+            heading="Roosevelt Island Four Freedoms State Park"
+            description="A memorial park on Roosevelt Island dedicated to Franklin D. Roosevelt, featuring sweeping lawns, formal gardens, and panoramic views of the Manhattan and Queens waterfronts on all sides."
+          >
+            <img
+              slot="media"
+              src="/assets/images/card/manhatten.png"
+              role="presentation"
+            />
+            <nys-button
+              slot="footer"
+              label="Visit Manhattan"
+              fullWidth
+            ></nys-button>
           </nys-card>
         </div>
         <div
-          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex"
         >
-          <nys-card heading="Child Care Assistance"></nys-card>
-        </div>
-        <div
-          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
-        >
-          <nys-card heading="Child Care Assistance">
-            <nys-iconlist divider>
-              <nys-iconlistitem icon="check">First item</nys-iconlistitem>
-              <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
-            </nys-iconlist>
-            <nys-button slot="footer" label="Learn more"></nys-button>
+          <nys-card heading="Astoria Park" description="A waterfront park.">
+            <img
+              slot="media"
+              src="/assets/images/card/astoria.jpg"
+              role="presentation"
+            />
+            <nys-button
+              slot="footer"
+              label="Visit Queens"
+              fullWidth
+            ></nys-button>
           </nys-card>
         </div>
         <div
-          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex"
         >
-          <nys-card heading="Child Care Assistance">
-            <nys-button slot="footer" label="Learn more"></nys-button>
+          <nys-card heading="Brooklyn Bridge Park" description="A park.">
+            <img
+              slot="media"
+              src="/assets/images/card/brooklynbridge.png"
+              role="presentation"
+            />
+            <nys-button
+              slot="footer"
+              label="Visit Brooklyn"
+              fullWidth
+            ></nys-button>
           </nys-card>
         </div>
       </div>
@@ -553,30 +570,25 @@ export const StretchToFillColumnHeight: Story = {
       source: {
         code: `
 <div class="nys-grid-row nys-grid-gap" style="--nys-card-height: 100%">
-  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
-    <nys-card heading="Home Energy Assistance">
-      <nys-iconlist divider>
-        <nys-iconlistitem icon="check">First item</nys-iconlistitem>
-        <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
-        <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
-      </nys-iconlist>
+  <div class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex">
+    <nys-card
+      heading="Roosevelt Island Four Freedoms State Park"
+      description="A memorial park on Roosevelt Island dedicated to Franklin D. Roosevelt, featuring sweeping lawns, formal gardens, and panoramic views of the Manhattan and Queens waterfronts on all sides."
+    >
+      <img slot="media" src="/assets/images/card/manhatten.png" role="presentation" />
+      <nys-button slot="footer" label="Visit Manhattan" fullWidth></nys-button>
     </nys-card>
   </div>
-  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
-    <nys-card heading="Child Care Assistance"></nys-card>
-  </div>
-  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
-    <nys-card heading="Child Care Assistance">
-      <nys-iconlist divider>
-        <nys-iconlistitem icon="check">First item</nys-iconlistitem>
-        <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
-      </nys-iconlist>
-      <nys-button slot="footer" label="Learn more"></nys-button>
+  <div class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex">
+    <nys-card heading="Astoria Park" description="A waterfront park.">
+      <img slot="media" src="/assets/images/card/astoria.jpg" role="presentation" />
+      <nys-button slot="footer" label="Visit Queens" fullWidth></nys-button>
     </nys-card>
   </div>
-  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
-    <nys-card heading="Child Care Assistance">
-      <nys-button slot="footer" label="Learn more"></nys-button>
+  <div class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex">
+    <nys-card heading="Brooklyn Bridge Park" description="A park.">
+      <img slot="media" src="/assets/images/card/brooklynbridge.png" role="presentation" />
+      <nys-button slot="footer" label="Visit Brooklyn" fullWidth></nys-button>
     </nys-card>
   </div>
 </div>`,
