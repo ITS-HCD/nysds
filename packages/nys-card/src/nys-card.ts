@@ -80,12 +80,13 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * @example Inset Media
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *  <nys-card
- *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *   heading="Heading"
- *   description="Inset adds padding around the media to visually contain it."
- *   inset
- *  ></nys-card>
+ *   <nys-card
+ *    heading="Heading"
+ *    description="Inset adds padding around the media to visually contain it."
+ *    inset
+ *   >
+ *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
+ *   </nys-card>
  * </div>
  * ```
  *
@@ -93,11 +94,12 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *   <nys-card
- *     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *     mediaaccent="10/16"
  *     heading="Heading"
  *     description="A card with a media image and a date accent."
- *   ></nys-card>
+ *   >
+ *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
+ *     <span slot="media-accent">Oct 16</span>
+ *   </nys-card>
  * </div>
  * ```
  *
@@ -105,54 +107,55 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
  *   <nys-card
- *     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *     inset
- *     mediaaccent="10/16"
  *     heading="Heading"
  *     description="A card with a media image and a date accent."
- *   ></nys-card>
+ *     inset
+ *   >
+ *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
+ *     <span slot="media-accent">10/16</span>
+ *   </nys-card>
  * </div>
  * ```
  *
  * @example Elevated
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *  <nys-card
- *   heading="Heading"
- *   description="Elevated adds a drop shadow to give the card a raised appearance."
- *   elevated
- *  ></nys-card>
+ *   <nys-card
+ *     heading="Heading"
+ *     description="Elevated adds a drop shadow to give the card a raised appearance."
+ *     elevated
+ *   ></nys-card>
  * </div>
  * ```
  *
  * @example Footer Slot
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *  <nys-card heading="Heading" description="A card with actions in the footer slot.">
- *   <nys-button slot="footer" label="Learn more"></nys-button>
- *  </nys-card>
+ *   <nys-card heading="Heading" description="A card with actions in the footer slot.">
+ *     <nys-button slot="footer" label="Learn more"></nys-button>
+ *   </nys-card>
  * </div>
  * ```
  *
  * @example Top Slot
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *  <nys-card heading="Heading" description="A card with content in the top slot.">
- *   <nys-badge slot="top" label="New" intent="success"></nys-badge>
- *  </nys-card>
+ *   <nys-card heading="Heading" description="A card with content in the top slot.">
+ *     <nys-badge slot="top" label="New" intent="success"></nys-badge>
+ *   </nys-card>
  * </div>
  * ```
  *
  * @example Icon List
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *  <nys-card heading="What's included">
- *   <nys-iconlist divider>
- *     <nys-iconlistitem icon="check">First item</nys-iconlistitem>
- *     <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
- *     <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
- *   </nys-iconlist>
- *  </nys-card>
+ *   <nys-card heading="What's included">
+ *     <nys-iconlist divider>
+ *       <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+ *       <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+ *       <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
+ *     </nys-iconlist>
+ *   </nys-card>
  * </div>
  * ```
  */

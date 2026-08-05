@@ -3157,17 +3157,17 @@
             },
             {
               "title": "Inset Media",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Media Accent",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n<span slot=\"media-accent\">Oct 16</span>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Inset Media Accent",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nmedia=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\ninset\nmediaaccent=\"10/16\"\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n></nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\ninset\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n<span slot=\"media-accent\">10/16</span>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {

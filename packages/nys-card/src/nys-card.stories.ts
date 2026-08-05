@@ -182,11 +182,15 @@ export const InsetMedia: Story = {
     return html`
       <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
-          media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
           heading="Heading"
           description="Inset adds padding around the media to visually contain it."
           inset
-        ></nys-card>
+        >
+          <img
+            slot="media"
+            src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+          />
+        </nys-card>
       </div>
     `;
   },
@@ -196,11 +200,15 @@ export const InsetMedia: Story = {
         code: `
 <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
   <nys-card
-    media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
     heading="Heading"
     description="Inset adds padding around the media to visually contain it."
     inset
-  ></nys-card>
+  >
+    <img
+      slot="media"
+      src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+    />
+  </nys-card>
 </div>`,
         type: "auto",
       },
@@ -213,11 +221,15 @@ export const MediaAccent: Story = {
     return html`
       <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
-          media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
-          mediaaccent="10/16"
           heading="Heading"
           description="A card with a media image and a date accent."
-        ></nys-card>
+        >
+          <img
+            slot="media"
+            src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+          />
+          <span slot="media-accent">Oct 16</span>
+        </nys-card>
       </div>
     `;
   },
@@ -226,12 +238,13 @@ export const MediaAccent: Story = {
       source: {
         code: `
 <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
-  <nys-card
-    media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
-    mediaaccent="10/16"
-    heading="Heading"
-    description="A card with a media image and a date accent."
-  ></nys-card>
+  <nys-card heading="Heading" description="A card with a media image and a date accent.">
+    <img
+      slot="media"
+      src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+    />
+    <span slot="media-accent">Oct 16</span>
+  </nys-card>
 </div>`,
         type: "auto",
       },
@@ -244,12 +257,16 @@ export const InsetMediaAccent: Story = {
     return html`
       <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
-          media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
-          inset
-          mediaaccent="10/16"
           heading="Heading"
           description="A card with a media image and a date accent."
-        ></nys-card>
+          inset
+        >
+          <img
+            slot="media"
+            src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+          />
+          <span slot="media-accent">10/16</span>
+        </nys-card>
       </div>
     `;
   },
@@ -258,13 +275,13 @@ export const InsetMediaAccent: Story = {
       source: {
         code: `
 <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
-  <nys-card
-    media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
-    inset
-    mediaaccent="10/16"
-    heading="Heading"
-    description="A card with a media image and a date accent."
-  ></nys-card>
+  <nys-card heading="Heading" description="A card with a media image and a date accent." inset>
+    <img
+      slot="media"
+      src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+    />
+    <span slot="media-accent">10/16</span>
+  </nys-card>
 </div>`,
         type: "auto",
       },
