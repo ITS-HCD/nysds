@@ -7,10 +7,22 @@ import { NysElement } from "@nysds/internals";
 import styles from "./nys-globalheader.scss?inline";
 
 /**
+ * Matches an element the author has marked as the current page. `aria-current="false"`
+ * is the spec's way of saying "not current", so it must not count as a signal.
+ */
+const CURRENT_SELECTOR = "[aria-current]:not([aria-current='false'])";
+
+/** True when this element carries an author-set, non-"false" `aria-current`. */
+const isCurrent = (el: Element) => el.matches(CURRENT_SELECTOR);
+
+/**
  * Agency-branded header with app/agency name, navigation, and responsive mobile menu.
  *
  * Place below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links
- * are auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.
+ * are auto-highlighted based on current URL, unless you set `aria-current` on a link
+ * yourself — then the header leaves the current-page state entirely to you, which is
+ * what apps that don't route on the pathname (hash-routed SPAs, for example) need.
+ * Mobile menu toggles automatically on narrow screens.
  *
  * @summary Agency header with navigation, mobile menu, and active link highlighting.
  * @element nys-globalheader
@@ -55,6 +67,17 @@ import styles from "./nys-globalheader.scss?inline";
  *   </ul>
  * </nys-globalheader>
  * ```
+ * @example Author-controlled active link
+ * ```html
+ * <!-- Set aria-current yourself and the header stops guessing from the URL. -->
+ * <nys-globalheader agencyName="Office of Information Technology Services">
+ *   <ul>
+ *     <li><a href="#/services">Services</a></li>
+ *     <li><a href="#/help" aria-current="page">Help Center</a></li>
+ *   </ul>
+ * </nys-globalheader>
+ * ```
+ *
  * @example User Actions
  * ```html
  * <nys-globalheader agencyName="Office of Information Technology Services">
@@ -111,6 +134,16 @@ export class NysGlobalHeader extends NysElement {
   @state() private _hasLinkContent = false;
 
   /**
+   * True once the author has marked the current page themselves with `aria-current`.
+   *
+   * Matching `window.location.pathname` is only a default. An app that doesn't route
+   * on the pathname — a hash-routed SPA, say — has to be able to say which link is
+   * current, and the header must then leave that signal alone rather than clearing
+   * it and marking a link of its own choosing.
+   */
+  private _authorSetsCurrent = false;
+
+  /**
    * Lifecycle Methods
    * --------------------------------------------------------------------------
    */
@@ -147,6 +180,17 @@ export class NysGlobalHeader extends NysElement {
 
   private _highlightActiveLink(container: HTMLElement) {
     const links = Array.from(container.querySelectorAll("a"));
+
+    // The author owns the current-page signal. Every attribute the author wrote is
+    // already on the clone; all this does is mirror it into the visual active state
+    // so the styling agrees with what assistive tech is announcing.
+    if (this._authorSetsCurrent) {
+      links.forEach((a) => {
+        a.closest("li")?.classList.toggle("active", isCurrent(a));
+      });
+      return;
+    }
+
     const currentUrl = window.location.pathname.replace(/\/+$/, "") || "/";
 
     let bestMatch: { li: HTMLElement | null; length: number } = {
@@ -195,6 +239,12 @@ export class NysGlobalHeader extends NysElement {
     const assignedNodes = slot
       .assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
+
+    // Decide this from the light DOM the author actually wrote, before anything is
+    // cloned, so a stale reading can't survive a slot change.
+    this._authorSetsCurrent = assignedNodes.some(
+      (node) => isCurrent(node) || !!node.querySelector(CURRENT_SELECTOR),
+    );
 
     // Get the containers to append the slotted elements
     const containers = [
@@ -248,6 +298,8 @@ export class NysGlobalHeader extends NysElement {
         const ahref = target.closest("a");
 
         if (!ahref) return;
+        // The author is driving aria-current, so clicking must not move it.
+        if (this._authorSetsCurrent) return;
 
         // Clear all existing active <li> (visual class + aria-current)
         container.querySelectorAll("li.active").forEach((li) => {
