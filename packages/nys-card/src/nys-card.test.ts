@@ -1,4 +1,4 @@
-import { expect, html, fixture } from "@open-wc/testing";
+import { expect, html, fixture, nextFrame } from "@open-wc/testing";
 import "../dist/nys-card.js";
 import { NysCard } from "./nys-card.js";
 
@@ -49,14 +49,24 @@ describe("nys-card", () => {
     expect(el.shadowRoot?.querySelector("h2.nys-card__heading")).to.not.exist;
   });
 
-  // ── Media Accent ──────────────────────────────────
+  // ── Media & Media Accent ──────────────────────────────────
   const MEDIA =
     "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070";
 
-  // Returns [month, day] from the rendered accent, or null when not rendered.
+  // Slot assignment happens outside the update cycle, so let it settle first.
+  const settle = async (el: NysCard) => {
+    await el.updateComplete;
+    await nextFrame();
+    await el.updateComplete;
+  };
+
+  const mediaContainer = (el: NysCard) =>
+    el.shadowRoot?.querySelector(".nys-card__media-container") ?? null;
+
+  // Returns [month, day] from the rendered accent, or null when it is hidden.
   const readAccent = (el: NysCard) => {
     const accent = el.shadowRoot?.querySelector(".nys-card--media-accent");
-    if (!accent) return null;
+    if (!accent || accent.hasAttribute("hidden")) return null;
     return [
       accent
         .querySelector(".nys-card--media-accent-month")
@@ -65,57 +75,87 @@ describe("nys-card", () => {
     ];
   };
 
-  it("renders the media accent as a month abbreviation and day", async () => {
+  it("shows the media container when the media slot has content", async () => {
     const el = await fixture<NysCard>(html`
-      <nys-card media=${MEDIA} mediaAccent="10/16"></nys-card>
+      <nys-card>
+        <img slot="media" src=${MEDIA} role="presentation" />
+      </nys-card>
     `);
-    await el.updateComplete;
+    await settle(el);
+
+    expect(mediaContainer(el)?.hasAttribute("hidden")).to.be.false;
+    const slot = el.shadowRoot?.querySelector(
+      'slot[name="media"]',
+    ) as HTMLSlotElement;
+    expect(slot.assignedElements()).to.have.lengthOf(1);
+  });
+
+  it("hides the media container when the media slot is empty", async () => {
+    const el = await fixture<NysCard>(html`<nys-card></nys-card>`);
+    await settle(el);
+
+    expect(mediaContainer(el)?.hasAttribute("hidden")).to.be.true;
+  });
+
+  it("renders the media accent's two lines as the month and day", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card>
+        <img slot="media" src=${MEDIA} role="presentation" />
+        <div slot="media-accent">
+          <span>Oct</span>
+          <span>16</span>
+        </div>
+      </nys-card>
+    `);
+    await settle(el);
+
     expect(readAccent(el)).to.deep.equal(["Oct", "16"]);
   });
 
-  it("renders the first and last months of the year", async () => {
-    const jan = await fixture<NysCard>(html`
-      <nys-card media=${MEDIA} mediaAccent="1/1"></nys-card>
-    `);
-    await jan.updateComplete;
-    expect(readAccent(jan)).to.deep.equal(["Jan", "1"]);
-
-    const dec = await fixture<NysCard>(html`
-      <nys-card media=${MEDIA} mediaAccent="12/31"></nys-card>
-    `);
-    await dec.updateComplete;
-    expect(readAccent(dec)).to.deep.equal(["Dec", "31"]);
-  });
-
-  it("does not render the media accent for invalid values", async () => {
-    const invalid = [
-      "", // empty
-      "10", // missing day
-      "10/16/2026", // too many parts
-      "0/16", // month below range
-      "13/16", // month above range
-      "10/0", // day below range
-      "10/32", // day above range
-      "Oct/16", // non-numeric
-      "10.5/16", // non-integer
-    ];
-
-    for (const mediaAccent of invalid) {
-      const el = await fixture<NysCard>(html`
-        <nys-card media=${MEDIA} mediaAccent=${mediaAccent}></nys-card>
-      `);
-      await el.updateComplete;
-      expect(readAccent(el), `expected "${mediaAccent}" to render no accent`).to
-        .be.null;
-    }
-  });
-
-  it("does not render the media accent when media is not set", async () => {
+  it("accepts two sibling elements in the media accent slot", async () => {
     const el = await fixture<NysCard>(html`
-      <nys-card mediaAccent="10/16"></nys-card>
+      <nys-card>
+        <img slot="media" src=${MEDIA} role="presentation" />
+        <span slot="media-accent">Jan</span>
+        <span slot="media-accent">1</span>
+      </nys-card>
     `);
-    await el.updateComplete;
+    await settle(el);
+
+    expect(readAccent(el)).to.deep.equal(["Jan", "1"]);
+  });
+
+  it("does not render the media accent when its slot is empty", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card>
+        <img slot="media" src=${MEDIA} role="presentation" />
+      </nys-card>
+    `);
+    await settle(el);
+
     expect(readAccent(el)).to.be.null;
+  });
+
+  it("updates the media accent when the slotted content changes", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card>
+        <img slot="media" src=${MEDIA} role="presentation" />
+        <div slot="media-accent">
+          <span>Oct</span>
+          <span>16</span>
+        </div>
+      </nys-card>
+    `);
+    await settle(el);
+
+    el.querySelector('[slot="media-accent"]')?.remove();
+    const accent = document.createElement("div");
+    accent.slot = "media-accent";
+    accent.innerHTML = "<span>Dec</span><span>31</span>";
+    el.appendChild(accent);
+    await settle(el);
+
+    expect(readAccent(el)).to.deep.equal(["Dec", "31"]);
   });
 
   it("passes the a11y audit", async () => {
