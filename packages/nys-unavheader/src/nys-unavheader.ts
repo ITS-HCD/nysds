@@ -1,6 +1,16 @@
 import { html, unsafeCSS, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
+
+// These elements are rendered inside this component's shadow DOM, so they must
+// be registered whenever nys-unavheader is used. Importing them here
+// (intentional side effect) guarantees the buttons, icons, search input, and
+// statewide alerts always upgrade — the translate trigger's ARIA state lands on
+// nys-button's real inner <button>, which only exists once nys-button renders.
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
+import "@nysds/nys-textinput";
+import "@nysds/nys-alert";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavheader.scss?inline";
@@ -627,7 +637,7 @@ export class NysUnavHeader extends NysElement {
               circle
               icon="close"
               size="sm"
-              ariaLabel="Close this notice"
+              label="Close this notice"
               aria-expanded="${this.trustbarVisible}"
               @nys-click="${() =>
                 this._toggleTrustbar("nys-unavheader__know--inline")}"
@@ -755,7 +765,7 @@ export class NysUnavHeader extends NysElement {
                   <nys-button
                     variant="ghost"
                     circle
-                    ariaLabel="Search"
+                    label="Search"
                     aria-expanded="${this.searchDropdownVisible}"
                     id="nys-unavheader__searchbutton"
                     class="nys-unavheader__iconbutton"
@@ -781,11 +791,11 @@ export class NysUnavHeader extends NysElement {
                       slot="endButton"
                       type="submit"
                       prefixIcon="search"
-                      ariaLabel="Search"
                       @nys-click=${() => {
                         this._handleSearchButton("nys-unavheader__searchbar");
                       }}
-                    ></nys-button>
+                      ><span class="sr-only">Search</span></nys-button
+                    >
                   </nys-textinput>
                 `
               : null}
@@ -812,11 +822,10 @@ export class NysUnavHeader extends NysElement {
                 slot="endButton"
                 type="submit"
                 prefixIcon="search"
-                ariaLabel="Search"
                 @nys-click=${() => {
                   this._handleSearchButton("nys-unavheader__searchbardropdown");
                 }}
-              ></nys-button
+                ><span class="sr-only">Search</span></nys-button
             ></nys-textinput>
           </div>
         </div>

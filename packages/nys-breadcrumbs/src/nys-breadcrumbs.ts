@@ -294,7 +294,6 @@ export class NysBreadcrumbs extends NysElement {
       // programmatically identified so assistive tech announces "current page".
       liEl.setAttribute("aria-current", "page");
       liEl.textContent = label;
-      liEl.setAttribute("aria-current", "page");
       return liEl;
     }
 
