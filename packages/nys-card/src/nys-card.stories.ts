@@ -506,3 +506,82 @@ export const IconList: Story = {
     },
   },
 };
+
+export const StretchToFillColumnHeight: Story = {
+  render: () => {
+    return html`
+      <div class="nys-grid-row nys-grid-gap" style="--nys-card-height: 100%">
+        <div
+          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+        >
+          <nys-card heading="Home Energy Assistance">
+            <nys-iconlist divider>
+              <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+              <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+              <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
+            </nys-iconlist>
+          </nys-card>
+        </div>
+        <div
+          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+        >
+          <nys-card heading="Child Care Assistance"></nys-card>
+        </div>
+        <div
+          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+        >
+          <nys-card heading="Child Care Assistance">
+            <nys-iconlist divider>
+              <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+              <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+            </nys-iconlist>
+            <nys-button slot="footer" label="Learn more"></nys-button>
+          </nys-card>
+        </div>
+        <div
+          class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+        >
+          <nys-card heading="Child Care Assistance">
+            <nys-button slot="footer" label="Learn more"></nys-button>
+          </nys-card>
+        </div>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="nys-grid-row nys-grid-gap" style="--nys-card-height: 100%">
+  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
+    <nys-card heading="Home Energy Assistance">
+      <nys-iconlist divider>
+        <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+        <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+        <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
+      </nys-iconlist>
+    </nys-card>
+  </div>
+  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
+    <nys-card heading="Child Care Assistance"></nys-card>
+  </div>
+  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
+    <nys-card heading="Child Care Assistance">
+      <nys-iconlist divider>
+        <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+        <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+      </nys-iconlist>
+      <nys-button slot="footer" label="Learn more"></nys-button>
+    </nys-card>
+  </div>
+  <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex">
+    <nys-card heading="Child Care Assistance">
+      <nys-button slot="footer" label="Learn more"></nys-button>
+    </nys-card>
+  </div>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};

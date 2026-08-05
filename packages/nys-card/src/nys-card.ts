@@ -28,6 +28,8 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * an `href` renders it as an `<a>`, a click handler (`onClick` or an inline
  * `onclick`) renders it as a `<button>`.
  *
+ * @cssprop [--nys-card-height=fit-content] - Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`).
+ *
  * @fires nys-click - Fired when an interactive card is activated (mouse or keyboard).
  * @fires nys-focus - Fired when an interactive card receives focus.
  * @fires nys-blur - Fired when an interactive card loses focus.
@@ -211,6 +213,46 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *       <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
  *     </nys-iconlist>
  *   </nys-card>
+ * </div>
+ * ```
+ *
+ * @example Stretch to Fill Column Height
+ * ```html
+ * <div class="nys-grid-row nys-grid-gap" style="--nys-card-height: 100%;">
+ *   <div
+ *     class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+ *   >
+ *     <nys-card heading="Home Energy Assistance">
+ *       <nys-iconlist divider>
+ *         <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+ *         <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+ *         <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
+ *       </nys-iconlist>
+ *     </nys-card>
+ *   </div>
+ *   <div
+ *     class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+ *   >
+ *     <nys-card heading="Child Care Assistance"></nys-card>
+ *   </div>
+ *   <div
+ *     class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+ *   >
+ *     <nys-card heading="Child Care Assistance">
+ *       <nys-iconlist divider>
+ *         <nys-iconlistitem icon="check">First item</nys-iconlistitem>
+ *         <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
+ *       </nys-iconlist>
+ *       <nys-button slot="footer" label="Learn more"></nys-button>
+ *     </nys-card>
+ *   </div>
+ *   <div
+ *     class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+ *   >
+ *     <nys-card heading="Child Care Assistance">
+ *       <nys-button slot="footer" label="Learn more"></nys-button>
+ *     </nys-card>
+ *   </div>
  * </div>
  * ```
  */

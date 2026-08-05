@@ -3,7 +3,10 @@
 
   /* Global Card Styles */
   --_nys-card-width: 100%;
-  --_nys-card-height: fit-content;
+
+  /* Set to 100% to make the card fill its container's height. The extra height
+     is taken by the main content block, so a footer stays pinned to the bottom. */
+  --_nys-card-height: var(--nys-card-height, fit-content);
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-border-radius--media: 0;
   --_nys-card-padding--t: var(--nys-space-200, 16px);
@@ -155,6 +158,10 @@
     display: flex;
     flex-direction: column;
     gap: var(--_nys-card-gap);
+
+    /* Absorb any height the card gains beyond its content, so the growth lands
+       at the default slot rather than below the footer. No-op at fit-content. */
+    flex: 1 1 auto;
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;

@@ -2869,6 +2869,13 @@
           "kind": "class",
           "description": "A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `preheading`, default, and\n`footer` slots to project custom markup such as buttons, lists, or links.",
           "name": "NysCard",
+          "cssProperties": [
+            {
+              "description": "Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`).",
+              "name": "--nys-card-height",
+              "default": "fit-content"
+            }
+          ],
           "slots": [
             {
               "description": "Content rendered above the heading block (e.g. a badge or label).",
@@ -3344,6 +3351,11 @@
             {
               "title": "Icon List",
               "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Stretch to Fill Column Height",
+              "code": "<div class=\"nys-grid-row nys-grid-gap\" style=\"--nys-card-height: 100%;\">\n<div\nclass=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex\"\n>\n<nys-card heading=\"Home Energy Assistance\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>\n</div>\n<div\nclass=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex\"\n>\n<nys-card heading=\"Child Care Assistance\"></nys-card>\n</div>\n<div\nclass=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex\"\n>\n<nys-card heading=\"Child Care Assistance\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n</nys-iconlist>\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>\n<div\nclass=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex\"\n>\n<nys-card heading=\"Child Care Assistance\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>\n</div>",
               "lang": "html"
             }
           ]
