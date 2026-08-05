@@ -215,7 +215,9 @@ describe("nys-fileinput", () => {
     expect(customElements.get("nys-errormessage")).to.exist;
   });
 
-  it("associates the error message with the native input via aria-errormessage", async () => {
+  // Regression: #1763 — the error used to be associated with the hidden,
+  // aria-hidden <input type="file">, which is not in the accessibility tree.
+  it("does not put the error association on the aria-hidden native input", async () => {
     const el = await fixture<NysFileinput>(
       html`<nys-fileinput
         label="Doc"
@@ -224,9 +226,85 @@ describe("nys-fileinput", () => {
         errorMessage="Required"
       ></nys-fileinput>`,
     );
+    await el.updateComplete;
+
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-errormessage")).to.equal("dc--error");
+    expect(input.getAttribute("aria-hidden")).to.equal("true");
+    expect(input.hasAttribute("aria-errormessage")).to.equal(false);
+    expect(input.hasAttribute("aria-invalid")).to.equal(false);
     expect(el.shadowRoot!.getElementById("dc--error")).to.exist;
+  });
+
+  it("associates the error with the exposed control (the choose-file button)", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Doc"
+        id="dc2"
+        showError
+        errorMessage="Required"
+      ></nys-fileinput>`,
+    );
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    const control = el["_innerNysButton"]!;
+    expect(control, "inner <button> should resolve").to.exist;
+
+    expect(control.getAttribute("aria-invalid")).to.equal("true");
+    expect(control.getAttribute("aria-description")).to.equal("Required");
+
+    // The message lives in a different shadow root than the control, so the
+    // association travels by element reference rather than IDREF.
+    const refs = (control as any).ariaDescribedByElements;
+    if (refs !== undefined) {
+      expect(Array.from(refs ?? [])).to.deep.equal([errorEl]);
+    }
+  });
+
+  it("clears the error association on the exposed control when the error resolves", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Doc"
+        id="dc3"
+        showError
+        errorMessage="Required"
+      ></nys-fileinput>`,
+    );
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    el.showError = false;
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    const control = el["_innerNysButton"]!;
+    expect(control.getAttribute("aria-invalid")).to.equal("false");
+    expect(control.hasAttribute("aria-description")).to.equal(false);
+
+    const refs = (control as any).ariaDescribedByElements;
+    if (refs !== undefined) {
+      expect(refs == null || Array.from(refs).length === 0).to.equal(true);
+    }
+  });
+
+  it("associates the error with the exposed control in dropzone mode", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Doc"
+        id="dc4"
+        dropzone
+        showError
+        errorMessage="Required"
+      ></nys-fileinput>`,
+    );
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    const control = el["_innerNysButton"]!;
+    expect(control, "inner <button> should resolve").to.exist;
+    expect(control.getAttribute("aria-invalid")).to.equal("true");
+    expect(control.getAttribute("aria-description")).to.equal("Required");
   });
 
   it("remains form-associated through the shared mixin (FormData round-trip)", async () => {

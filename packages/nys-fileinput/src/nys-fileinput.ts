@@ -1,7 +1,7 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import { NysFormControlElement, associateControlRefs } from "@nysds/internals";
 import { validateFileHeader } from "./validateFileHeader";
 import "./nys-fileitem";
 // These internal elements are rendered inside this component's shadow DOM, so
@@ -316,6 +316,66 @@ export class NysFileinput extends NysFormControlElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
+  }
+
+  updated() {
+    void this._syncControlErrorAssociation();
+  }
+
+  /**
+   * Point the exposed control at the rendered <nys-errormessage>.
+   *
+   * The native <input type="file"> is `hidden`, `aria-hidden` and `tabindex="-1"`,
+   * so it is not in the accessibility tree and must not carry the error
+   * association. The element a user actually reaches is the <button> inside the
+   * "Choose file" <nys-button>'s shadow root.
+   *
+   * That button and the message sit in different shadow roots, so an IDREF
+   * written on the button would dangle. ARIA element reflection does cross into a
+   * shadow-including ancestor tree, so associateControlRefs sets the control's own
+   * ariaDescribedByElements (plus an aria-description string fallback for engines
+   * that expose the IDL but do not yet honor it). aria-describedby — not
+   * aria-errormessage — is what Blink actually surfaces for a control inside a
+   * shadow root; see src/scripts/verify-a11y-names.mjs. aria-errormessage is set
+   * through its element-reflection form where the engine supports it.
+   */
+  private async _syncControlErrorAssociation() {
+    const nysButton = this.renderRoot?.querySelector('[name="file-btn"]') as
+      | (HTMLElement & { updateComplete?: Promise<unknown> })
+      | null;
+    if (!nysButton) return;
+
+    // The trigger lives in <nys-button>'s shadow root, which only exists once
+    // that element has been defined and has completed its first render.
+    if (!customElements.get("nys-button")) {
+      await customElements.whenDefined("nys-button");
+    }
+    await nysButton.updateComplete;
+
+    const control = this._innerNysButton;
+    if (!control) return;
+
+    const errorEl = this.showError
+      ? (this.renderRoot?.querySelector(
+          "nys-errormessage",
+        ) as HTMLElement | null)
+      : null;
+
+    control.setAttribute("aria-invalid", errorEl ? "true" : "false");
+    associateControlRefs(control, "describedby", errorEl ? [errorEl] : []);
+
+    // <nys-errormessage> keeps its text in its own shadow root, so the helper's
+    // textContent-derived fallback comes back empty. Supply the message directly
+    // so engines that do not honor element references still announce it;
+    // aria-describedby wins wherever the reference is honored.
+    const message = this.internals?.validationMessage || this.errorMessage;
+    if (errorEl && message) control.setAttribute("aria-description", message);
+    else control.removeAttribute("aria-description");
+
+    const rec = control as unknown as Record<string, unknown>;
+    if ("ariaErrorMessageElements" in control) {
+      rec.ariaErrorMessageElements = errorEl ? [errorEl] : null;
+    }
   }
 
   /**
@@ -723,8 +783,6 @@ export class NysFileinput extends NysFormControlElement {
           !this.label && this.ariaLabel ? this.ariaLabel : undefined,
         )}
         aria-disabled="${this.disabled}"
-        aria-invalid=${this.showError ? "true" : "false"}
-        aria-errormessage=${this.id + "--error"}
         aria-hidden="true"
         @change=${this._handleFileChange}
         hidden
