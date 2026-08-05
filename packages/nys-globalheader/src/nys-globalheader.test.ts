@@ -239,6 +239,69 @@ describe("nys-globalheader", () => {
     expect(mobileNav?.getAttribute("aria-label")).to.exist;
   });
 
+  // --- Regression: #1795 — paired with nys-unavheader this is one of two banner
+  // landmarks, so it needs a name of its own. ---
+  it("names the banner landmark from the visible app name", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="User Registration Form"
+        agencyName="Office of Information Technology Services"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const appName = el.shadowRoot?.querySelector(".nys-globalheader__appName");
+    expect(appName?.id).to.equal(`${el.id}-appname`);
+    expect(header?.getAttribute("aria-labelledby")).to.equal(appName?.id);
+    expect(header?.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("names the banner landmark from the agency name when there is no app name", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const agencyName = el.shadowRoot?.querySelector(
+      ".nys-globalheader__agencyName",
+    );
+    expect(agencyName?.id).to.equal(`${el.id}-agencyname`);
+    expect(header?.getAttribute("aria-labelledby")).to.equal(agencyName?.id);
+  });
+
+  it("keeps the banner name reference when the title is a homepage link", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="eFile"
+        agencyName="Tax Department"
+        homepageLink="https://ny.gov"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const appName = el.shadowRoot?.querySelector(
+      ".nys-globalheader__name-container-link .nys-globalheader__appName",
+    );
+    expect(appName, "the title should render inside the link").to.exist;
+    expect(header?.getAttribute("aria-labelledby")).to.equal(
+      `${el.id}-appname`,
+    );
+  });
+
+  it("falls back to a default banner name when no title is provided", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    // Nothing visible to point at, so the landmark still needs a name of its own
+    // to stay distinguishable from the statewide header.
+    expect(header?.hasAttribute("aria-labelledby")).to.be.false;
+    expect(header?.getAttribute("aria-label")).to.equal("Site");
+  });
+
   it("sets aria-current=page on the active link (WCAG 1.4.1)", async () => {
     history.pushState({}, "", "/services");
 
@@ -260,6 +323,119 @@ describe("nys-globalheader", () => {
     );
     expect(active?.getAttribute("aria-current")).to.equal("page");
     expect(inactive?.getAttribute("aria-current")).to.be.null;
+  });
+
+  // --- Regression: #1726 — an author-set aria-current must survive the clone into
+  // the shadow DOM and must not be overwritten by the pathname heuristic. ---
+  it("honors an author-set aria-current instead of matching the pathname", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about" aria-current="page">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    // Both the desktop and the mobile copy are rebuilt from the same light DOM.
+    for (const selector of [
+      ".nys-globalheader__content",
+      ".nys-globalheader__content-mobile",
+    ]) {
+      const nav = el.shadowRoot?.querySelector(selector) as HTMLElement;
+      const authored = nav.querySelector('a[href="/about"]');
+      const pathnameMatch = nav.querySelector('a[href="/services"]');
+
+      expect(authored?.getAttribute("aria-current"), selector).to.equal("page");
+      // The pathname match must not steal the current-page state.
+      expect(pathnameMatch?.getAttribute("aria-current"), selector).to.be.null;
+      // ...and the visual active state follows the author, not the URL.
+      expect(authored?.closest("li")?.classList.contains("active"), selector).to
+        .be.true;
+      expect(
+        pathnameMatch?.closest("li")?.classList.contains("active"),
+        selector,
+      ).to.be.false;
+    }
+  });
+
+  it("leaves an author-set aria-current in place when another link is clicked", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about" aria-current="page">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector(
+      ".nys-globalheader__content",
+    ) as HTMLElement;
+    clickWithoutNavigation(nav.querySelector('a[href="/services"]')!);
+    await el.updateComplete;
+
+    expect(
+      nav.querySelector('a[href="/about"]')?.getAttribute("aria-current"),
+    ).to.equal("page");
+    expect(
+      nav.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
+    ).to.be.null;
+  });
+
+  it("treats aria-current=false as 'not current' and keeps the pathname default", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about" aria-current="false">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector(
+      ".nys-globalheader__content",
+    ) as HTMLElement;
+    expect(
+      nav.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
+    ).to.equal("page");
+  });
+
+  it("preserves the author's other attributes on cloned nav links", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li>
+            <a
+              href="/reports"
+              aria-label="Annual reports"
+              aria-describedby="hint"
+              rel="noopener"
+              data-testid="reports"
+              >Reports</a
+            >
+          </li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const link = el.shadowRoot?.querySelector(
+      '.nys-globalheader__content a[href="/reports"]',
+    );
+    expect(link?.getAttribute("aria-label")).to.equal("Annual reports");
+    expect(link?.getAttribute("aria-describedby")).to.equal("hint");
+    expect(link?.getAttribute("rel")).to.equal("noopener");
+    expect(link?.getAttribute("data-testid")).to.equal("reports");
   });
 
   it("exposes aria-expanded and aria-controls on the mobile menu button (WCAG 4.1.2)", async () => {

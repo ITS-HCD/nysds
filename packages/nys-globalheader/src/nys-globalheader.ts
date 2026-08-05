@@ -1,15 +1,28 @@
 import { html, unsafeCSS } from "lit";
 import nysLogo from "./nys-brand.logo";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalheader.scss?inline";
 
 /**
+ * Matches an element the author has marked as the current page. `aria-current="false"`
+ * is the spec's way of saying "not current", so it must not count as a signal.
+ */
+const CURRENT_SELECTOR = "[aria-current]:not([aria-current='false'])";
+
+/** True when this element carries an author-set, non-"false" `aria-current`. */
+const isCurrent = (el: Element) => el.matches(CURRENT_SELECTOR);
+
+/**
  * Agency-branded header with app/agency name, navigation, and responsive mobile menu.
  *
  * Place below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links
- * are auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.
+ * are auto-highlighted based on current URL, unless you set `aria-current` on a link
+ * yourself — then the header leaves the current-page state entirely to you, which is
+ * what apps that don't route on the pathname (hash-routed SPAs, for example) need.
+ * Mobile menu toggles automatically on narrow screens.
  *
  * @summary Agency header with navigation, mobile menu, and active link highlighting.
  * @element nys-globalheader
@@ -54,6 +67,17 @@ import styles from "./nys-globalheader.scss?inline";
  *   </ul>
  * </nys-globalheader>
  * ```
+ * @example Author-controlled active link
+ * ```html
+ * <!-- Set aria-current yourself and the header stops guessing from the URL. -->
+ * <nys-globalheader agencyName="Office of Information Technology Services">
+ *   <ul>
+ *     <li><a href="#/services">Services</a></li>
+ *     <li><a href="#/help" aria-current="page">Help Center</a></li>
+ *   </ul>
+ * </nys-globalheader>
+ * ```
+ *
  * @example User Actions
  * ```html
  * <nys-globalheader agencyName="Office of Information Technology Services">
@@ -110,6 +134,16 @@ export class NysGlobalHeader extends NysElement {
   @state() private _hasLinkContent = false;
 
   /**
+   * True once the author has marked the current page themselves with `aria-current`.
+   *
+   * Matching `window.location.pathname` is only a default. An app that doesn't route
+   * on the pathname — a hash-routed SPA, say — has to be able to say which link is
+   * current, and the header must then leave that signal alone rather than clearing
+   * it and marking a link of its own choosing.
+   */
+  private _authorSetsCurrent = false;
+
+  /**
    * Lifecycle Methods
    * --------------------------------------------------------------------------
    */
@@ -146,6 +180,17 @@ export class NysGlobalHeader extends NysElement {
 
   private _highlightActiveLink(container: HTMLElement) {
     const links = Array.from(container.querySelectorAll("a"));
+
+    // The author owns the current-page signal. Every attribute the author wrote is
+    // already on the clone; all this does is mirror it into the visual active state
+    // so the styling agrees with what assistive tech is announcing.
+    if (this._authorSetsCurrent) {
+      links.forEach((a) => {
+        a.closest("li")?.classList.toggle("active", isCurrent(a));
+      });
+      return;
+    }
+
     const currentUrl = window.location.pathname.replace(/\/+$/, "") || "/";
 
     let bestMatch: { li: HTMLElement | null; length: number } = {
@@ -194,6 +239,12 @@ export class NysGlobalHeader extends NysElement {
     const assignedNodes = slot
       .assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
+
+    // Decide this from the light DOM the author actually wrote, before anything is
+    // cloned, so a stale reading can't survive a slot change.
+    this._authorSetsCurrent = assignedNodes.some(
+      (node) => isCurrent(node) || !!node.querySelector(CURRENT_SELECTOR),
+    );
 
     // Get the containers to append the slotted elements
     const containers = [
@@ -247,6 +298,8 @@ export class NysGlobalHeader extends NysElement {
         const ahref = target.closest("a");
 
         if (!ahref) return;
+        // The author is driving aria-current, so clicking must not move it.
+        if (this._authorSetsCurrent) return;
 
         // Clear all existing active <li> (visual class + aria-current)
         container.querySelectorAll("li.active").forEach((li) => {
@@ -262,6 +315,52 @@ export class NysGlobalHeader extends NysElement {
         }
       });
     });
+  }
+
+  /**
+   * Id of the element that names the banner landmark, or undefined when this
+   * header carries no title to point at.
+   *
+   * The documented pairing puts this header below `nys-unavheader`, which leaves a
+   * page with two `banner` landmarks. Naming each one keeps landmark navigation
+   * useful instead of announcing "banner, banner" (axe `landmark-unique`). The name
+   * references the visible title rather than repeating it in an `aria-label`, so it
+   * cannot drift out of sync and is translated along with the rest of the page.
+   */
+  private get _bannerLabelledBy(): string | undefined {
+    if (this.appName?.trim()) return `${this.id}-appname`;
+    if (this.agencyName?.trim()) return `${this.id}-agencyname`;
+    return undefined;
+  }
+
+  /**
+   * App/agency title block. Rendered on its own so the linked and unlinked
+   * variants cannot drift apart — the ids here are what names the banner.
+   */
+  private _renderNameContainer() {
+    return html`
+      <div class="nys-globalheader__name-container">
+        ${this.appName?.trim().length > 0
+          ? html`<div
+              id="${this.id}-appname"
+              class="nys-globalheader__appName nys-globalheader__name"
+            >
+              ${this.appName}
+            </div> `
+          : ""}
+        ${this.agencyName?.trim().length > 0
+          ? html`<div
+              id="${this.id}-agencyname"
+              class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
+                .length > 0
+                ? ""
+                : "main"}"
+            >
+              ${this.agencyName}
+            </div> `
+          : ""}
+      </div>
+    `;
   }
 
   private _renderBrandMark() {
@@ -298,7 +397,11 @@ export class NysGlobalHeader extends NysElement {
 
   render() {
     return html`
-      <header class="nys-globalheader">
+      <header
+        class="nys-globalheader"
+        aria-labelledby=${ifDefined(this._bannerLabelledBy)}
+        aria-label=${ifDefined(this._bannerLabelledBy ? undefined : "Site")}
+      >
         <div class="nys-globalheader__main-container">
           ${this._hasLinkContent
             ? html` <div class="nys-globalheader__button-container">
@@ -322,50 +425,12 @@ export class NysGlobalHeader extends NysElement {
             : ""}
           ${this._renderBrandMark()}
           ${!this.homepageLink?.trim()
-            ? html`
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
-              `
+            ? this._renderNameContainer()
             : html`<a
                 class="nys-globalheader__name-container-link"
                 href=${this.homepageLink?.trim()}
               >
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
+                ${this._renderNameContainer()}
               </a>`}
           <nav
             class="nys-globalheader__content"

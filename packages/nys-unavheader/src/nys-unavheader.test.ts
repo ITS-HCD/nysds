@@ -1,4 +1,4 @@
-import { expect, html, fixture } from "@open-wc/testing";
+import { expect, html, fixture, aTimeout } from "@open-wc/testing";
 import { NysUnavHeader } from "./nys-unavheader";
 import "../dist/nys-unavheader.js";
 import sinon from "sinon";
@@ -755,6 +755,197 @@ describe("nys-unavheader", () => {
     expect(header).to.exist;
     // Host must not carry a role (landmark belongs to the inner header).
     expect(el.getAttribute("role")).to.be.null;
+  });
+
+  // --- Regression: #1412 — the Translate control needs keyboard and screen
+  // reader affordances, and its options need language semantics. ---
+  describe("translate menu", () => {
+    const triggerIds = [
+      "nys-unavheader__translate--desktop",
+      "nys-unavheader__translate--mobile",
+    ];
+
+    // nys-button renders the real <button> in its own shadow root, so that is the
+    // element the state has to land on — aria-expanded on the host reaches nothing.
+    const innerButton = (el: NysUnavHeader, id: string) =>
+      el.shadowRoot?.getElementById(id)?.shadowRoot?.querySelector("button");
+
+    it("points aria-controls at the language menu from both triggers", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const list = el.shadowRoot?.getElementById(
+        "nys-unavheader__languagelist",
+      );
+      expect(list, "the language menu should have an id to reference").to.exist;
+
+      for (const id of triggerIds) {
+        expect(innerButton(el, id)?.getAttribute("aria-controls"), id).to.equal(
+          "nys-unavheader__languagelist",
+        );
+      }
+    });
+
+    it("reflects aria-expanded on the real trigger buttons as the menu opens", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      for (const id of triggerIds) {
+        expect(innerButton(el, id)?.getAttribute("aria-expanded"), id).to.equal(
+          "false",
+        );
+        expect(innerButton(el, id)?.getAttribute("aria-haspopup"), id).to.equal(
+          "true",
+        );
+      }
+
+      el.languageVisible = true;
+      await el.updateComplete;
+      await aTimeout(0);
+
+      for (const id of triggerIds) {
+        expect(innerButton(el, id)?.getAttribute("aria-expanded"), id).to.equal(
+          "true",
+        );
+      }
+    });
+
+    it("gives the icon-only trigger an accessible name", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const mobile = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--mobile",
+      );
+
+      // The name has to be inside the button, not an aria-label on the host that
+      // nys-button never forwards.
+      const text = mobile?.shadowRoot?.querySelector(
+        "button .nys-button__text",
+      );
+      expect(text?.textContent?.trim()).to.equal("Translate");
+    });
+
+    it("keeps the language options out of the tab order until the menu opens", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+
+      const list = el.shadowRoot?.getElementById(
+        "nys-unavheader__languagelist",
+      ) as HTMLElement;
+      // `.hide` is display:none, which takes the options out of the tab order.
+      expect(list.classList.contains("hide")).to.be.true;
+      expect(getComputedStyle(list).display).to.equal("none");
+
+      el.languageVisible = true;
+      await el.updateComplete;
+      expect(list.classList.contains("show")).to.be.true;
+      expect(getComputedStyle(list).display).to.not.equal("none");
+    });
+
+    it("closes on Escape and returns focus to the trigger that opened it", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+
+      const trigger = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      ) as HTMLElement;
+      trigger.dispatchEvent(
+        new CustomEvent("nys-click", { bubbles: true, composed: true }),
+      );
+      await el.updateComplete;
+      expect(el.languageVisible).to.be.true;
+
+      const option = el.shadowRoot?.querySelector(
+        ".nys-unavheader__languagelink",
+      ) as HTMLElement;
+      option.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "Escape",
+          bubbles: true,
+          composed: true,
+        }),
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      expect(el.languageVisible).to.be.false;
+      // Focus must not be dropped to the top of the page when the menu vanishes.
+      expect(el.shadowRoot?.activeElement).to.equal(trigger);
+    });
+
+    it("tags each language option with the language it names", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+
+      const options = Array.from(
+        el.shadowRoot?.querySelectorAll(".nys-unavheader__languagelink") ?? [],
+      );
+      expect(options).to.have.lengthOf(el.languages.length);
+
+      // Every option is tagged, so its label is announced in its own language
+      // rather than the page's (WCAG 3.1.2).
+      options.forEach((option, i) => {
+        const code = el.languages[i].code;
+        expect(option.getAttribute("lang"), code).to.be.a("string").and.not.be
+          .empty;
+      });
+
+      const byLabel = (label: string) =>
+        options.find((o) => o.getAttribute("label") === label);
+
+      // The codes double as Smartling subdomains, so the Chinese ones are not
+      // valid language tags and have to be mapped.
+      expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-Hans");
+      expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-Hant");
+      expect(byLabel("Español")?.getAttribute("lang")).to.equal("es");
+      expect(byLabel("Kreyòl Ayisyen")?.getAttribute("lang")).to.equal("ht");
+    });
+
+    it("tags author-supplied languages from their own codes", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      el.languages = [
+        { code: "en", label: "English" },
+        { code: "pt", label: "Português" },
+      ];
+      await el.updateComplete;
+
+      const options = Array.from(
+        el.shadowRoot?.querySelectorAll(".nys-unavheader__languagelink") ?? [],
+      );
+      expect(options.map((o) => o.getAttribute("lang"))).to.deep.equal([
+        "en",
+        "pt",
+      ]);
+    });
+  });
+
+  // --- Regression: #1795 — paired with nys-globalheader this is one of two
+  // banner landmarks, so it needs a name of its own. ---
+  it("names the banner landmark so it is distinguishable from an agency header", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header, "a <header> landmark should be present").to.exist;
+    expect(header?.getAttribute("aria-label")).to.equal("New York State");
   });
 
   // --- Regression: WCAG 4.1.1 / 1.3.1 — no duplicate IDs in shadow DOM ---

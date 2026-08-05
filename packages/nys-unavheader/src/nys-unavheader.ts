@@ -1,4 +1,4 @@
-import { html, unsafeCSS, nothing } from "lit";
+import { html, unsafeCSS, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
 import nysLogo from "./nys-unav.logo";
@@ -102,6 +102,30 @@ const FEED_ICONS: Record<string, string> = {
 /** `true` only for the feed's explicit "on" switch. */
 const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
 
+/** The element the translate menu is rendered into, referenced by `aria-controls`. */
+const LANGUAGE_LIST_ID = "nys-unavheader__languagelist";
+
+/** Both translate triggers — only one is visible at a time, depending on width. */
+const TRANSLATE_TRIGGER_IDS = [
+  "nys-unavheader__translate--desktop",
+  "nys-unavheader__translate--mobile",
+] as const;
+
+/**
+ * Language code → BCP 47 tag for the option's `lang` attribute.
+ *
+ * The codes double as Smartling subdomains, so they aren't all valid language tags.
+ * Only the ones that differ need an entry; everything else already is a valid tag
+ * and is used as written. Without a correct `lang`, a screen reader reads each
+ * option in the page's own voice — "Español" announced as English.
+ */
+const LANGUAGE_TAGS: Record<string, string> = {
+  zh: "zh-Hans",
+  "zh-traditional": "zh-Hant",
+};
+
+const languageTag = (code: string) => LANGUAGE_TAGS[code] ?? code;
+
 /**
  * Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.
  *
@@ -113,7 +137,12 @@ const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
  * - Semantic `<header>` element ensures assistive technology recognition.
  * - Trust bar button: `role="button"`, `aria-expanded`, descriptive `aria-label`.
  * - All links and buttons are keyboard-navigable via Tab.
- * - Language dropdown announces current language and list on focus.
+ * - Translate trigger: a real button carrying `aria-expanded`, `aria-haspopup`, and
+ *   `aria-controls` pointing at the language menu. The menu is display-hidden when
+ *   closed, so its options only enter the tab order once it opens; Escape closes it
+ *   and returns focus to the trigger.
+ * - Each language option carries the BCP 47 `lang` of the language it names, so its
+ *   label is announced in that language rather than the page's.
  * - Search input announces field purpose and keyboard shortcuts (Enter to submit, Escape to dismiss).
  * - Visual focus indicators meet WCAG 2.2 AA standards.
  * - All text has sufficient color contrast (4.5:1 minimum).
@@ -240,6 +269,11 @@ export class NysUnavHeader extends NysElement {
     this._alertRequest = null;
   }
 
+  protected updated(changed: PropertyValues) {
+    super.updated(changed);
+    if (!this.hideTranslate) this._syncTranslateTriggerAria();
+  }
+
   /**
    * Functions
    * --------------------------------------------------------------------------
@@ -281,11 +315,55 @@ export class NysUnavHeader extends NysElement {
     }
   }
 
-  private _toggleLanguageList() {
+  /** Which translate trigger opened the menu, so Escape can return focus to it. */
+  private _translateTrigger: string = TRANSLATE_TRIGGER_IDS[0];
+
+  private _toggleLanguageList(triggerId?: string) {
+    if (triggerId) this._translateTrigger = triggerId;
+
     this.languageVisible = !this.languageVisible;
     if (this.languageVisible) {
       this.trustbarVisible = false;
       this.searchDropdownVisible = false;
+    }
+  }
+
+  /**
+   * Closes the menu and puts focus back on the trigger. The open list is the only
+   * thing keeping the language buttons focusable, so closing it while focus sits on
+   * one would drop focus to the top of the page (WCAG 2.4.3).
+   */
+  private _closeLanguageList() {
+    if (!this.languageVisible) return;
+    this.languageVisible = false;
+
+    this.updateComplete.then(() => {
+      const trigger =
+        this.shadowRoot?.getElementById(this._translateTrigger) ??
+        this.shadowRoot?.getElementById(TRANSLATE_TRIGGER_IDS[1]);
+      trigger?.focus();
+    });
+  }
+
+  /**
+   * `nys-button` renders the real `<button>` inside its own shadow root, so an
+   * `aria-expanded` written on the host never reaches the element that carries the
+   * button role — assistive tech was never told the translate menu collapses. Mirror
+   * the state onto the inner control, the same way `nys-dropdownmenu` does for its
+   * trigger (WCAG 4.1.2).
+   */
+  private async _syncTranslateTriggerAria() {
+    for (const id of TRANSLATE_TRIGGER_IDS) {
+      const trigger = this.shadowRoot?.getElementById(id) as
+        | (HTMLElement & { updateComplete?: Promise<unknown> })
+        | null;
+      if (!trigger) continue;
+
+      // The inner button only exists once nys-button has rendered.
+      await trigger.updateComplete;
+      const control = trigger.shadowRoot?.querySelector("button") ?? trigger;
+      control.setAttribute("aria-expanded", String(this.languageVisible));
+      control.setAttribute("aria-haspopup", "true");
     }
   }
 
@@ -319,6 +397,13 @@ export class NysUnavHeader extends NysElement {
         window.location.href = `https://${subdomain}${window.location.hostname}`;
       }
     }
+  }
+
+  /** Escape dismisses the translate menu, matching the search field's Escape. */
+  private _handleTranslateKeydown(e: KeyboardEvent) {
+    if (e.key !== "Escape" || !this.languageVisible) return;
+    e.stopPropagation();
+    this._closeLanguageList();
   }
 
   private _handleSearchFocus() {
@@ -485,8 +570,12 @@ export class NysUnavHeader extends NysElement {
   }
 
   render() {
+    // The statewide header sits above an agency's own `nys-globalheader`, so a page
+    // normally carries two banner landmarks. Naming this one "New York State" keeps
+    // landmark navigation meaningful instead of announcing "banner, banner" (axe
+    // `landmark-unique`); the agency banner is named after the agency.
     return html`
-      <header class="nys-unavheader">
+      <header class="nys-unavheader" aria-label="New York State">
         <div
           class="nys-unavheader__trustbar wrapper"
           @click="${(e: MouseEvent) => {
@@ -602,15 +691,20 @@ export class NysUnavHeader extends NysElement {
             </div>
             <div class="nys-unavheader__spacer"></div>
             ${!this.hideTranslate
-              ? html`<div class="nys-unavheader__translatewrapper">
+              ? html`<div
+                  class="nys-unavheader__translatewrapper"
+                  @keydown=${this._handleTranslateKeydown}
+                >
                   <nys-button
                     variant="ghost"
                     circle
-                    ariaLabel="Translate"
+                    label="Translate"
+                    ariaControls="${LANGUAGE_LIST_ID}"
                     aria-expanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
                     class="nys-unavheader__iconbutton"
-                    @nys-click=${this._toggleLanguageList}
+                    @nys-click=${() =>
+                      this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
                   >
                     <nys-icon
                       slot="circle-icon"
@@ -623,6 +717,7 @@ export class NysUnavHeader extends NysElement {
                         <nys-button
                           variant="ghost"
                           label="Translate"
+                          ariaControls="${LANGUAGE_LIST_ID}"
                           aria-expanded="${this.languageVisible}"
                           size="sm"
                           prefixIcon="language"
@@ -630,11 +725,13 @@ export class NysUnavHeader extends NysElement {
                             ? "chevron_up"
                             : "chevron_down"}
                           id="nys-unavheader__translate--desktop"
-                          @nys-click="${this._toggleLanguageList}"
+                          @nys-click="${() =>
+                            this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
                         ></nys-button>
                       `
                     : null}
                   <div
+                    id="${LANGUAGE_LIST_ID}"
                     class="nys-unavheader__languagelist ${this.languageVisible
                       ? "show"
                       : "hide"}"
@@ -644,6 +741,7 @@ export class NysUnavHeader extends NysElement {
                         html`<nys-button
                           variant="ghost"
                           fullWidth
+                          lang="${languageTag(lang.code)}"
                           label="${lang.label}"
                           class="nys-unavheader__languagelink"
                           @click="${() => this._handleLanguageSelect(lang)}"
