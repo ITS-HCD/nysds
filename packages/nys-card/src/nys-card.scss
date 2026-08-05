@@ -3,10 +3,11 @@
 
   /* Global Card Styles */
   --_nys-card-width: 100%;
+  --_nys-card-height: var(
+    --nys-card-height,
+    fit-content
+  ); // set t0 100% for full height cards
 
-  /* Set to 100% to make the card fill its container's height. The extra height
-     is taken by the main content block, so a footer stays pinned to the bottom. */
-  --_nys-card-height: var(--nys-card-height, fit-content);
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-border-radius--media: 0;
   --_nys-card-padding--t: var(--nys-space-200, 16px);
@@ -42,6 +43,18 @@
   --_nys-card-font-weight: 400;
   --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
   --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+
+  /* Width belongs on the host: it is the box the page lays out. As a flex item
+     the host is shrink-to-fit by default, and a percentage width inside the
+     shadow root cannot widen it — .nys-card only fills whatever lands here. */
+  display: block;
+  width: var(--_nys-card-width);
+  max-width: 100%;
+}
+
+/* The host's own `display` beats the `hidden` attribute's UA rule, so restore it. */
+:host([hidden]) {
+  display: none;
 }
 
 :host([inset]) {
@@ -75,7 +88,7 @@
   font-weight: var(--_nys-card-font-weight);
   line-height: var(--_nys-card-line-height);
   letter-spacing: var(--_nys-card-letter-spacing);
-  width: var(--_nys-card-width);
+  width: 100%;
   height: var(--_nys-card-height);
   display: flex;
   flex-direction: column;
