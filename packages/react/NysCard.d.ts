@@ -98,7 +98,7 @@ card control is invalid HTML and unreachable for keyboard and screen reader user
  * ### **Slots:**
  *  - **top** - Content rendered above the heading block (e.g. a badge or label).
  * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
- * - **bottom** - Content rendered at the bottom of the card, typically actions like buttons or links.
+ * - **footer** - Content rendered at the footer of the card, typically actions like buttons or links.
  * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
  * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.
  */

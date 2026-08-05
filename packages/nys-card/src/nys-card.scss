@@ -222,7 +222,7 @@
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
   }
 
-  &__bottom {
+  &__footer {
     display: contents;
   }
 }
@@ -255,7 +255,7 @@
   flex-direction: row;
 }
 
-::slotted([slot="bottom"]) {
+::slotted([slot="footer"]) {
   width: -webkit-fill-available;
   width: -moz-available;
   width: fill-available;

@@ -352,9 +352,9 @@ export const Clickable: Story = {
         <nys-card
           onclick="alert('you clicked me')"
           heading="Heading"
-          description="The whole card is one button. To visually indicate this you should add the arrow icon to the bottom slot."
+          description="The whole card is one button. To visually indicate this you should add the arrow icon to the footer slot."
         >
-          <nys-icon slot="bottom" name="arrow_forward" size="5xl"></nys-icon>
+          <nys-icon slot="footer" name="arrow_forward" size="5xl"></nys-icon>
         </nys-card>
       </div>
     `;
@@ -367,9 +367,9 @@ export const Clickable: Story = {
   <nys-card
     onclick="alert('you clicked me')"
     heading="Heading"
-    description="The whole card is one button. To visually indicate this you should add the arrow icon to the bottom slot."
+    description="The whole card is one button. To visually indicate this you should add the arrow icon to the footer slot."
   >
-    <nys-icon slot="bottom" name="arrow_forward" size="5xl"></nys-icon>
+    <nys-icon slot="footer" name="arrow_forward" size="5xl"></nys-icon>
   </nys-card>
 </div>`,
         type: "auto",
@@ -386,10 +386,10 @@ export const ClickableLink: Story = {
           href="https://www.ny.gov/"
           target="_blank"
           heading="Visit NY.gov"
-          description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
+          description="The whole card is one link.  To visually indicate this you should add the arrow icon to the footer slot."
         >
           <nys-icon
-            slot="bottom"
+            slot="footer"
             name="open_in_new"
             size="5xl"
             style="justify-content: end"
@@ -407,9 +407,9 @@ export const ClickableLink: Story = {
     href="https://www.ny.gov/"
     target="_blank"
     heading="Visit NY.gov"
-    description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
+    description="The whole card is one link.  To visually indicate this you should add the arrow icon to the footer slot."
   >
-    <nys-icon slot="bottom" name="open_in_new" size="5xl" style="justify-content: end"></nys-icon>
+    <nys-icon slot="footer" name="open_in_new" size="5xl" style="justify-content: end"></nys-icon>
   </nys-card>
 </div>`,
         type: "auto",
@@ -418,15 +418,15 @@ export const ClickableLink: Story = {
   },
 };
 
-export const BottomSlot: Story = {
+export const FooterSlot: Story = {
   render: () => {
     return html`
       <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
-          description="A card with actions in the bottom slot."
+          description="A card with actions in the footer slot."
         >
-          <nys-button slot="bottom" label="Learn more"></nys-button>
+          <nys-button slot="footer" label="Learn more"></nys-button>
         </nys-card>
       </div>
     `;
@@ -436,8 +436,8 @@ export const BottomSlot: Story = {
       source: {
         code: `
 <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
-  <nys-card heading="Heading" description="A card with actions in the bottom slot.">
-    <nys-button slot="bottom" label="Learn more"></nys-button>
+  <nys-card heading="Heading" description="A card with actions in the footer slot.">
+    <nys-button slot="footer" label="Learn more"></nys-button>
   </nys-card>
 </div>`,
         type: "auto",

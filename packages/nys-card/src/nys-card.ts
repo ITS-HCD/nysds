@@ -13,14 +13,14 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * Text content is supplied through the `preheading`, `heading`, `subheading`, and
  * `description` properties. For richer content, use the `top`, default, and
- * `bottom` slots to project custom markup such as buttons, lists, or links.
+ * `footer` slots to project custom markup such as buttons, lists, or links.
  *
  * @summary Flexible container that groups related content and actions about a single subject.
  * @element nys-card
  *
  * @slot top - Content rendered above the heading block (e.g. a badge or label).
  * @slot - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
- * @slot bottom - Content rendered at the bottom of the card, typically actions like buttons or links.
+ * @slot footer - Content rendered at the footer of the card, typically actions like buttons or links.
  * @slot media - Visual content displayed at the top of the card, typically an `<img>`.
  * @slot media-accent - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.
  *
@@ -162,9 +162,9 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *   <nys-card
  *     onclick="alert('you clicked me')"
  *     heading="Heading"
- *     description="The whole card is one button. To visually indicate this you should add the arrow icon to the bottom slot."
+ *     description="The whole card is one button. To visually indicate this you should add the arrow icon to the footer slot."
  *   >
- *     <nys-icon slot="bottom" name="arrow_forward" size="5xl"></nys-icon>
+ *     <nys-icon slot="footer" name="arrow_forward" size="5xl"></nys-icon>
  *   </nys-card>
  * </div>
  * ```
@@ -176,18 +176,18 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *     href="https://www.ny.gov/"
  *     target="_blank"
  *     heading="Visit NY.gov"
- *     description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
+ *     description="The whole card is one link.  To visually indicate this you should add the arrow icon to the footer slot."
  *   >
- *     <nys-icon slot="bottom" name="open_in_new" size="5xl" style="justify-content: end;"></nys-icon>
+ *     <nys-icon slot="footer" name="open_in_new" size="5xl" style="justify-content: end;"></nys-icon>
  *   </nys-card>
  * </div>
  * ```
  *
- * @example Bottom Slot
+ * @example Footer Slot
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *   <nys-card heading="Heading" description="A card with actions in the bottom slot.">
- *     <nys-button slot="bottom" label="Learn more"></nys-button>
+ *   <nys-card heading="Heading" description="A card with actions in the footer slot.">
+ *     <nys-button slot="footer" label="Learn more"></nys-button>
  *   </nys-card>
  * </div>
  * ```
@@ -424,7 +424,7 @@ export class NysCard extends LitElement {
           : ""}
         <slot></slot>
       </div>
-      <slot name="bottom" class="nys-card__bottom"></slot>
+      <slot name="footer" class="nys-card__footer"></slot>
     `;
 
     if (!this.isClickable) {
