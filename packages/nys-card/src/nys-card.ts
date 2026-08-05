@@ -21,6 +21,8 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * @slot top - Content rendered above the heading block (e.g. a badge or label).
  * @slot - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
  * @slot bottom - Content rendered at the bottom of the card, typically actions like buttons or links.
+ * @slot media - Visual content for the card.
+ * @slot media-accent - A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`). The month is shown as a three-letter abbreviation and the day as a number (e.g. "Oct 16"). Only renders when `media` is set and the value is a valid date. Only supports dates in v1.
  *
  * @example Basic
  * ```html
@@ -195,11 +197,6 @@ export class NysCard extends LitElement {
   @property({ type: String }) description = "";
 
   /**
-   * Visual content for the card. Supported types are images: png, jpg, etc.
-   */
-  @property({ type: String }) media = "";
-
-  /**
    * When true, adds padding around the media to visually contain it.
    */
   @property({ type: Boolean }) inset = false;
@@ -208,14 +205,6 @@ export class NysCard extends LitElement {
    * When true, adds a drop shadow to the card, giving it a raised appearance.
    */
   @property({ type: Boolean, reflect: true }) elevated = false;
-
-  /**
-   * A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
-   * The month is shown as a three-letter abbreviation and the day as a number
-   * (e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
-   * date. Only supports dates in v1.
-   */
-  @property({ type: String }) mediaAccent = "";
 
   /**
    * Lifecycle methods
