@@ -17,6 +17,7 @@ const entry = [
   "packages/nys-label/dist/nys-label.js",
   "packages/nys-errormessage/dist/nys-errormessage.js",
   "packages/nys-checkbox/dist/nys-checkbox.js",
+  "packages/nys-radiobutton/dist/nys-radiobutton.js",
   "packages/nys-textinput/dist/nys-textinput.js",
 ]
   .map((p) => `import ${JSON.stringify(resolve(process.cwd(), p))};`)
@@ -37,6 +38,9 @@ const HTML = `<!doctype html><html><body>
   <span id="col">Select row</span>
   <nys-textinput id="ti" label="Full name" showError errorMessage="Required field"></nys-textinput>
   <nys-checkbox id="cbx" labelledby="col" hideLabel></nys-checkbox>
+  <nys-radiobutton id="rb" name="p" value="snap" labelledby="col" hideLabel></nys-radiobutton>
+  <nys-label id="rowlabel" label="Select HEAP"></nys-label>
+  <nys-radiobutton id="rb2" name="p" value="heap" labelledby="rowlabel" hideLabel></nys-radiobutton>
 </body></html>`;
 
 const browser = await chromium.launch();
@@ -51,6 +55,7 @@ await page.addScriptTag({ content: componentsJs, type: "module" });
 await page.waitForFunction(
   () =>
     customElements.get("nys-checkbox") &&
+    customElements.get("nys-radiobutton") &&
     customElements.get("nys-label") &&
     customElements.get("nys-errormessage") &&
     customElements.get("nys-textinput"),
@@ -70,6 +75,7 @@ const descOf = (n) => n.description?.value ?? "";
 
 const textboxes = byRole("textbox");
 const checkboxes = byRole("checkbox");
+const radios = byRole("radio");
 
 const checks = [
   // nys-textinput's name comes from <nys-label>, whose text lives in its own shadow
@@ -83,6 +89,14 @@ const checks = [
   // The checkbox borrows its name from a light-DOM <span> that no same-root IDREF
   // could reach — the associateControlRefs element-reference path.
   ["external-th", checkboxes.some((n) => nameOf(n) === "Select row")],
+  // nys-radiobutton renders in the LIGHT DOM, so its native <input> and the external
+  // element share a tree scope: this is the plain aria-labelledby IDREF path, with no
+  // element references involved. Confirms the IDREF really does name the control.
+  ["radio-external-idref", radios.some((n) => nameOf(n) === "Select row")],
+  // Same IDREF path, but pointing at a <nys-label> whose text lives in ITS shadow
+  // root. This resolves only because nys-label mirrors `label` onto its host via
+  // internals.ariaLabel — this check guards that dependency.
+  ["radio-external-nys-label", radios.some((n) => nameOf(n) === "Select HEAP")],
 ];
 
 await browser.close();
@@ -101,7 +115,7 @@ if (!ok) {
   // Dump what Blink actually computed, so a failure is diagnosable rather than a
   // bare non-zero exit.
   console.error("\nComputed names Blink reported:");
-  for (const n of [...textboxes, ...checkboxes]) {
+  for (const n of [...textboxes, ...checkboxes, ...radios]) {
     console.error(
       `  role=${n.role.value} name=${JSON.stringify(nameOf(n))} description=${JSON.stringify(descOf(n))}`,
     );

@@ -38,6 +38,8 @@ export const Basic: Story = {
     value: "bronx",
     other: false,
     showOtherError: false,
+    labelledby: "",
+    hideLabel: false,
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md"] },
@@ -64,6 +66,8 @@ export const Basic: Story = {
           ?disabled=${args.disabled}
           ?other=${args.other}
           ?showOtherError=${args.showOtherError}
+          labelledby=${args.labelledby}
+          ?hideLabel=${args.hideLabel}
         ></nys-radiobutton>
         <nys-radiobutton
           name="borough"
@@ -616,6 +620,85 @@ Select the highest priority application for review
 </td>
 </tr>
 </table>
+</nys-table>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const LabelledByATableRowHeader: Story = {
+  render: () => {
+    return html`
+      <nys-table striped bordered>
+        <table>
+          <caption>
+            Select the highest priority application for review
+          </caption>
+          <tr>
+            <th scope="col">Application</th>
+            <th scope="col">Priority</th>
+          </tr>
+          <tr>
+            <th scope="row" id="row-snap">SNAP Benefits</th>
+            <td>
+              <nys-radiobutton
+                name="priority-application"
+                value="snap"
+                labelledby="row-snap"
+                hideLabel
+              ></nys-radiobutton>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" id="row-heap">HEAP</th>
+            <td>
+              <nys-radiobutton
+                name="priority-application"
+                value="heap"
+                labelledby="row-heap"
+                hideLabel
+              ></nys-radiobutton>
+            </td>
+          </tr>
+        </table>
+      </nys-table>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-table striped bordered>
+  <table>
+    <caption>Select the highest priority application for review</caption>
+    <tr>
+      <th scope="col">Application</th>
+      <th scope="col">Priority</th>
+    </tr>
+    <tr>
+      <th scope="row" id="row-snap">SNAP Benefits</th>
+      <td>
+        <nys-radiobutton
+          name="priority-application"
+          value="snap"
+          labelledby="row-snap"
+          hideLabel
+        ></nys-radiobutton>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row" id="row-heap">HEAP</th>
+      <td>
+        <nys-radiobutton
+          name="priority-application"
+          value="heap"
+          labelledby="row-heap"
+          hideLabel
+        ></nys-radiobutton>
+      </td>
+    </tr>
+  </table>
 </nys-table>`,
         type: "auto",
       },

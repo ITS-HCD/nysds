@@ -1119,3 +1119,172 @@ describe("nys-radiobutton", () => {
     expect(Array.from(form.elements)).to.include(group);
   });
 });
+
+describe("nys-radiobutton external labelling", () => {
+  // nys-radiobutton renders into the light DOM, so the native <input> and the
+  // external labelling element share a tree scope: a plain aria-labelledby IDREF
+  // resolves natively — no cross-shadow element references needed.
+  it("points the native radio at a light-DOM element via labelledby", async () => {
+    const wrap = await fixture(html`
+      <div>
+        <span id="rowhead">Select SNAP Benefits</span>
+        <nys-radiobutton
+          name="priority"
+          value="snap"
+          labelledby="rowhead"
+          hideLabel
+        ></nys-radiobutton>
+      </div>
+    `);
+    const radio = wrap.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    await radio.updateComplete;
+
+    const input = radio.querySelector("input")!;
+    expect(input.getAttribute("aria-labelledby")).to.equal("rowhead");
+    // The IDREF is the only name source; no duplicated string label.
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    // Same tree scope, so the reference actually resolves.
+    const root = radio.getRootNode() as Document | ShadowRoot;
+    expect(root.getElementById("rowhead")).to.exist;
+  });
+
+  it("labelledby supersedes the internal label", async () => {
+    const wrap = await fixture(html`
+      <div>
+        <span id="head2">Row header</span>
+        <nys-radiobutton label="Ignored" labelledby="head2"></nys-radiobutton>
+      </div>
+    `);
+    const radio = wrap.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    await radio.updateComplete;
+
+    expect(radio.querySelector("nys-label")).to.equal(null);
+    const input = radio.querySelector("input")!;
+    expect(input.getAttribute("aria-labelledby")).to.equal("head2");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+  });
+
+  it("re-resolves when labelledby changes after the first render", async () => {
+    const wrap = await fixture(html`
+      <div>
+        <span id="first">First header</span>
+        <span id="second">Second header</span>
+        <nys-radiobutton labelledby="first" hideLabel></nys-radiobutton>
+      </div>
+    `);
+    const radio = wrap.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    await radio.updateComplete;
+
+    radio.labelledby = "second";
+    await radio.updateComplete;
+
+    expect(
+      radio.querySelector("input")!.getAttribute("aria-labelledby"),
+    ).to.equal("second");
+  });
+
+  it("restores the internal label when labelledby is removed", async () => {
+    const wrap = await fixture(html`
+      <div>
+        <span id="head3">Row header</span>
+        <nys-radiobutton label="Albany" labelledby="head3"></nys-radiobutton>
+      </div>
+    `);
+    const radio = wrap.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    await radio.updateComplete;
+    expect(radio.querySelector("nys-label")).to.equal(null);
+
+    radio.labelledby = "";
+    await radio.updateComplete;
+
+    const input = radio.querySelector("input")!;
+    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
+    expect(input.getAttribute("aria-label")).to.equal("Albany");
+    expect(radio.querySelector("nys-label")).to.not.equal(null);
+  });
+
+  it("hideLabel removes the visible label but keeps the accessible name", async () => {
+    const radio = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton label="Albany" hideLabel></nys-radiobutton>`,
+    );
+    await radio.updateComplete;
+
+    expect(radio.querySelector("nys-label")).to.equal(null);
+    // Without an external label the name still comes from `label`.
+    expect(radio.querySelector("input")!.getAttribute("aria-label")).to.equal(
+      "Albany",
+    );
+  });
+
+  it("renders no stray text when the internal label is suppressed", async () => {
+    // A `cond && html` guard renders the literal string "false" when cond is a
+    // boolean false — lit only treats nullish/nothing/empty-string as blank.
+    // Assert on rendered text, not just on nys-label being absent.
+    for (const radio of [
+      await fixture<NysRadiobutton>(
+        html`<nys-radiobutton label="Albany" hideLabel></nys-radiobutton>`,
+      ),
+      await fixture<NysRadiobutton>(
+        html`<nys-radiobutton
+          labelledby="somewhere"
+          hideLabel
+        ></nys-radiobutton>`,
+      ),
+      await fixture<NysRadiobutton>(html`<nys-radiobutton></nys-radiobutton>`),
+    ]) {
+      await radio.updateComplete;
+      expect(radio.textContent).to.not.contain("false");
+      expect(radio.textContent).to.not.contain("true");
+    }
+  });
+
+  it("leaves default labelling unchanged when neither prop is set", async () => {
+    const radio = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton id="plain" label="Albany"></nys-radiobutton>`,
+    );
+    await radio.updateComplete;
+
+    const input = radio.querySelector("input")!;
+    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
+    expect(input.getAttribute("aria-label")).to.equal("Albany");
+
+    const label = radio.querySelector("nys-label")!;
+    expect(label).to.exist;
+    expect(label.id).to.equal("plain-label");
+    expect(label.getAttribute("label")).to.equal("Albany");
+  });
+
+  it("still names an 'other' radio when the internal label is hidden", async () => {
+    const radio = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton other hideLabel></nys-radiobutton>`,
+    );
+    await radio.updateComplete;
+
+    expect(radio.querySelector("nys-label")).to.equal(null);
+    expect(radio.querySelector("input")!.getAttribute("aria-label")).to.equal(
+      "Other",
+    );
+  });
+
+  it("keeps the group's own label ids intact for grouped radios", async () => {
+    // nys-radiogroup forwards slotted descriptions by looking up `#<id>-label`
+    // inside its OWN shadow root; the standalone-only labelling props must not
+    // disturb that contract.
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Pick one" id="grp-ext">
+        <nys-radiobutton
+          id="opt-ext"
+          name="choices"
+          value="a"
+          label="Option A"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    const input =
+      group.shadowRoot!.querySelector<HTMLInputElement>("#input-opt-ext")!;
+    expect(input.getAttribute("aria-labelledby")).to.equal("opt-ext-label");
+    expect(group.shadowRoot!.getElementById("opt-ext-label")).to.exist;
+  });
+});
