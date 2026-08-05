@@ -388,7 +388,12 @@ export const ClickableLink: Story = {
           heading="Visit NY.gov"
           description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
         >
-          <nys-icon slot="bottom" name="open_in_new" size="5xl"></nys-icon>
+          <nys-icon
+            slot="bottom"
+            name="open_in_new"
+            size="5xl"
+            style="justify-content: end"
+          ></nys-icon>
         </nys-card>
       </div>
     `;
@@ -404,7 +409,7 @@ export const ClickableLink: Story = {
     heading="Visit NY.gov"
     description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
   >
-    <nys-icon slot="bottom" name="open_in_new" size="5xl"></nys-icon>
+    <nys-icon slot="bottom" name="open_in_new" size="5xl" style="justify-content: end"></nys-icon>
   </nys-card>
 </div>`,
         type: "auto",

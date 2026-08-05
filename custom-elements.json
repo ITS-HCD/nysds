@@ -3306,7 +3306,7 @@
             },
             {
               "title": "Clickable Link",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nhref=\"https://www.ny.gov/\"\ntarget=\"_blank\"\nheading=\"Visit NY.gov\"\ndescription=\"The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot.\"\n>\n<nys-icon slot=\"bottom\" name=\"open_in_new\" size=\"5xl\"></nys-icon>\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nhref=\"https://www.ny.gov/\"\ntarget=\"_blank\"\nheading=\"Visit NY.gov\"\ndescription=\"The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot.\"\n>\n<nys-icon slot=\"bottom\" name=\"open_in_new\" size=\"5xl\" style=\"justify-content: end;\"></nys-icon>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
