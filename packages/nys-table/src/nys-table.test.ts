@@ -43,7 +43,7 @@ describe("nys-table", () => {
     `);
     await el.updateComplete;
 
-    const headerCells = el.shadowRoot?.querySelectorAll("thead th");
+    const headerCells = el.querySelector("table")?.querySelectorAll("thead th");
     expect(headerCells?.length).to.equal(2);
     headerCells?.forEach((th) => {
       expect(th.getAttribute("scope")).to.equal("col");
@@ -74,7 +74,7 @@ describe("nys-table", () => {
     `);
     await el.updateComplete;
 
-    const headerCells = el.shadowRoot?.querySelectorAll("thead th");
+    const headerCells = el.querySelector("table")?.querySelectorAll("thead th");
     expect(headerCells?.length).to.equal(2);
     headerCells?.forEach((th) => {
       expect(th.getAttribute("scope")).to.equal("col");
@@ -102,7 +102,7 @@ describe("nys-table", () => {
     `);
     await el.updateComplete;
 
-    const headerCells = el.shadowRoot?.querySelectorAll("thead th");
+    const headerCells = el.querySelector("table")?.querySelectorAll("thead th");
     expect(headerCells?.[0].getAttribute("scope")).to.equal("colgroup");
     expect(headerCells?.[1].getAttribute("scope")).to.equal("col");
   });
