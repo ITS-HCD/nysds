@@ -1,5 +1,6 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-iconlistitem.scss?inline";
 
@@ -17,7 +18,7 @@ import styles from "./nys-iconlistitem.scss?inline";
  * @slot - Primary label text.
  * @slot secondary - Optional second line of text rendered below the primary label.
  */
-export class NysIconlistitem extends LitElement {
+export class NysIconlistitem extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -33,6 +34,8 @@ export class NysIconlistitem extends LitElement {
   @property({ type: Boolean, reflect: true }) divider = false;
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto id when
+    // one is not provided, preserving the `nys-iconlistitem-<ts>-<n>` shape.
     super.connectedCallback();
     // Only expose the listitem role when actually inside a list, so a
     // standalone item isn't announced as an orphan listitem.
