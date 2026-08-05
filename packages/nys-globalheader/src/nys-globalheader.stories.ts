@@ -145,6 +145,35 @@ export const WithLinks: Story = {
   },
 };
 
+export const AuthorcontrolledActiveLink: Story = {
+  render: () => {
+    return html`
+      <!-- Set aria-current yourself and the header stops guessing from the URL. -->
+      <nys-globalheader agencyName="Office of Information Technology Services">
+        <ul>
+          <li><a href="#/services">Services</a></li>
+          <li><a href="#/help" aria-current="page">Help Center</a></li>
+        </ul>
+      </nys-globalheader>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<!-- Set aria-current yourself and the header stops guessing from the URL. -->
+<nys-globalheader agencyName="Office of Information Technology Services">
+  <ul>
+    <li><a href="#/services">Services</a></li>
+    <li><a href="#/help" aria-current="page">Help Center</a></li>
+  </ul>
+</nys-globalheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const UserActions: Story = {
   render: () => {
     return html`

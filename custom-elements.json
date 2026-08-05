@@ -7776,6 +7776,16 @@
               "name": "_handleSlotChange",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_contentinfoLabelledBy",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "Id of the heading that names the contentinfo landmark, or undefined when no\nagency name was given.\n\nThe documented pairing puts this footer above `nys-unavfooter`, which leaves a\npage with two `contentinfo` landmarks. Pointing at the visible heading rather\nthan repeating the agency name in an `aria-label` keeps the two in sync and lets\nthe name be translated along with the rest of the page.",
+              "readonly": true
             }
           ],
           "attributes": [
@@ -7896,7 +7906,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.",
+          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL, unless you set `aria-current` on a link\nyourself — then the header leaves the current-page state entirely to you, which is\nwhat apps that don't route on the pathname (hash-routed SPAs, for example) need.\nMobile menu toggles automatically on narrow screens.",
           "name": "NysGlobalHeader",
           "slots": [
             {
@@ -7981,6 +7991,16 @@
               "description": "Internal state to track if any navigation links are present in the slot."
             },
             {
+              "kind": "field",
+              "name": "_authorSetsCurrent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "True once the author has marked the current page themselves with `aria-current`.\n\nMatching `window.location.pathname` is only a default. An app that doesn't route\non the pathname — a hash-routed SPA, say — has to be able to say which link is\ncurrent, and the header must then leave that signal alone rather than clearing\nit and marking a link of its own choosing."
+            },
+            {
               "kind": "method",
               "name": "_highlightActiveLink",
               "privacy": "private",
@@ -8026,6 +8046,22 @@
               "kind": "method",
               "name": "_listenLinkClicks",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_bannerLabelledBy",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "Id of the element that names the banner landmark, or undefined when this\nheader carries no title to point at.\n\nThe documented pairing puts this header below `nys-unavheader`, which leaves a\npage with two `banner` landmarks. Naming each one keeps landmark navigation\nuseful instead of announcing \"banner, banner\" (axe `landmark-unique`). The name\nreferences the visible title rather than repeating it in an `aria-label`, so it\ncannot drift out of sync and is translated along with the rest of the page.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_renderNameContainer",
+              "privacy": "private",
+              "description": "App/agency title block. Rendered on its own so the linked and unlinked\nvariants cannot drift apart — the ids here are what names the banner."
             },
             {
               "kind": "method",
@@ -8131,6 +8167,11 @@
             {
               "title": "With Links",
               "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov/services\">Services</a></li>\n<li><a href=\"https://its.ny.gov/get-help\">Help Center</a></li>\n<li><a href=\"https://its.ny.gov/cybersecurity\">Cybersecurity</a></li>\n<li><a href=\"https://its.ny.gov/policies\">Policies and Laws</a></li>\n<li><a href=\"https://its.ny.gov/procurement\">Procurement</a></li>\n<li><a href=\"https://its.ny.gov/about-us\">About Us</a></li>\n</ul>\n</nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Author-controlled active link",
+              "code": "<!-- Set aria-current yourself and the header stops guessing from the URL. -->\n<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"#/services\">Services</a></li>\n<li><a href=\"#/help\" aria-current=\"page\">Help Center</a></li>\n</ul>\n</nys-globalheader>",
               "lang": "html"
             },
             {
@@ -8844,6 +8885,12 @@
               "default": "new MutationObserver(() => this._syncDividers())"
             },
             {
+              "kind": "field",
+              "name": "_warnedChildren",
+              "privacy": "private",
+              "default": "new WeakSet<Element>()"
+            },
+            {
               "kind": "method",
               "name": "_syncDividers",
               "privacy": "private"
@@ -8872,8 +8919,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-iconlist",
           "customElement": true,
@@ -8882,6 +8929,11 @@
             {
               "title": "Basic",
               "code": "<nys-iconlist id=\"event-details\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">Central Park West</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Accessible Name",
+              "code": "<nys-iconlist id=\"event-details-labelled\" aria-label=\"Event details\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">5:00</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
@@ -8998,8 +9050,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-iconlistitem",
           "customElement": true,
@@ -9946,42 +9998,15 @@
             },
             {
               "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string | null"
-              },
-              "default": "null",
-              "description": "Accessible name for the list, e.g. \"Application steps\". A list has no name of its own, so\ngive one whenever the surrounding content does not already make the list's purpose obvious —\nespecially when a page holds more than one process list.\n\nSets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already\nnames the list.",
-              "attribute": "aria-label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabelledBy",
-              "type": {
-                "text": "string | null"
-              },
-              "default": "null",
-              "description": "Space-separated IDs of the elements that name the list, typically the visible heading above\nit. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the\nvisible one cannot drift apart.\n\nSets `aria-labelledby` on the host.",
-              "attribute": "aria-labelledby",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "ariaDescribedBy",
-              "type": {
-                "text": "string | null"
-              },
-              "default": "null",
-              "description": "Space-separated IDs of the elements that describe the list, such as the intro paragraph\nexplaining what the process involves. A description supplements the name; it does not\nreplace it.\n\nSets `aria-describedby` on the host.",
-              "attribute": "aria-describedby",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "_childObserver",
               "privacy": "private",
               "default": "new MutationObserver(() => this._syncSteps())"
+            },
+            {
+              "kind": "field",
+              "name": "_warnedChildren",
+              "privacy": "private",
+              "default": "new WeakSet<Element>()"
             },
             {
               "kind": "method",
@@ -10039,41 +10064,11 @@
               "description": "Number given to the first step. Subsequent steps count up from it. Use this when one\nprocess is split across several lists so the later lists continue the count instead of\nrestarting at 1.",
               "fieldName": "initialStep",
               "propName": "initialstep"
-            },
-            {
-              "name": "aria-label",
-              "type": {
-                "text": "string | null"
-              },
-              "default": "null",
-              "description": "Accessible name for the list, e.g. \"Application steps\". A list has no name of its own, so\ngive one whenever the surrounding content does not already make the list's purpose obvious —\nespecially when a page holds more than one process list.\n\nSets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already\nnames the list.",
-              "fieldName": "ariaLabel",
-              "propName": "ariaLabel"
-            },
-            {
-              "name": "aria-labelledby",
-              "type": {
-                "text": "string | null"
-              },
-              "default": "null",
-              "description": "Space-separated IDs of the elements that name the list, typically the visible heading above\nit. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the\nvisible one cannot drift apart.\n\nSets `aria-labelledby` on the host.",
-              "fieldName": "ariaLabelledBy",
-              "propName": "ariaLabelledby"
-            },
-            {
-              "name": "aria-describedby",
-              "type": {
-                "text": "string | null"
-              },
-              "default": "null",
-              "description": "Space-separated IDs of the elements that describe the list, such as the intro paragraph\nexplaining what the process involves. A description supplements the name; it does not\nreplace it.\n\nSets `aria-describedby` on the host.",
-              "fieldName": "ariaDescribedBy",
-              "propName": "ariaDescribedby"
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-processlist",
           "customElement": true,
@@ -10226,8 +10221,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-processlistitem",
           "customElement": true,
@@ -16420,9 +16415,40 @@
               ]
             },
             {
+              "kind": "field",
+              "name": "_translateTrigger",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "TRANSLATE_TRIGGER_IDS[0]",
+              "description": "Which translate trigger opened the menu, so Escape can return focus to it."
+            },
+            {
               "kind": "method",
               "name": "_toggleLanguageList",
-              "privacy": "private"
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "triggerId",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_closeLanguageList",
+              "privacy": "private",
+              "description": "Closes the menu and puts focus back on the trigger. The open list is the only\nthing keeping the language buttons focusable, so closing it while focus sits on\none would drop focus to the top of the page (WCAG 2.4.3)."
+            },
+            {
+              "kind": "method",
+              "name": "_syncTranslateTriggerAria",
+              "privacy": "private",
+              "description": "`nys-button` renders the real `<button>` inside its own shadow root, so an\n`aria-expanded` written on the host never reaches the element that carries the\nbutton role — assistive tech was never told the translate menu collapses. Mirror\nthe state onto the inner control, the same way `nys-dropdownmenu` does for its\ntrigger (WCAG 4.1.2)."
             },
             {
               "kind": "method",
@@ -16441,6 +16467,20 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTranslateKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ],
+              "description": "Escape dismisses the translate menu, matching the search field's Escape."
             },
             {
               "kind": "method",
@@ -16878,6 +16918,33 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "_handleSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleHeaderSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_slottedHeader",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "description": "The element a consumer supplied to the `header` slot, or null when the slot is\nempty (in which case the generated heading renders as the slot's fallback)."
+            },
+            {
+              "kind": "method",
+              "name": "_syncNavLabel",
+              "privacy": "private",
+              "description": "Give the <nav> landmark an accessible name.\n\nThe generated heading is the header slot's FALLBACK content, so it does not\nexist once a consumer fills that slot — an `aria-labelledby` IDREF pointing at\nit would dangle and leave the landmark unnamed (WCAG 4.1.2 / 2.4.1). When the\nslot is filled, the name comes from the consumer's heading, which lives in the\nlight DOM and cannot be reached by an IDREF from inside the shadow root:\n`associateControlRefs` sets the nav's own `ariaLabelledByElements` (element\nreferences may point into an enclosing scope) plus a string fallback for engines\nthat do not yet honor them. The `heading` property is the intended name, so it\noverrides the fallback string derived from the slotted content's full text.\n\nWhen the slot is empty the same-root IDREF to the generated heading is used, and\na hidden heading falls back to `aria-label`. All of this is applied imperatively\n(never as template bindings) so Lit cannot fight the attributes written here."
+            },
+            {
               "kind": "method",
               "name": "_applyActiveState",
               "privacy": "private"
@@ -16952,8 +17019,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-verticalnav",
           "customElement": true,
@@ -16994,12 +17061,12 @@
             },
             {
               "title": "Disabled state",
-              "code": "<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li><a aria-disabled=\"true\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a aria-disabled=\"true\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "code": "<nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li>\n   <a role=\"link\" tabindex=\"0\" aria-disabled=\"true\">WCAG Guidelines</a>\n </li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li>\n <a role=\"link\" tabindex=\"0\" aria-disabled=\"true\">Design Tokens</a>\n</li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
               "title": "Hidden heading",
-              "code": "<nys-verticalnav heading=\"NYS Design System\" hideHeading>\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li><a aria-disabled=\"true\">WCAG Guidelines</a></li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li><a aria-disabled=\"true\">Design Tokens</a></li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "code": "<nys-verticalnav heading=\"NYS Design System\" hideHeading>\n<ul>\n<li><a href=\"/\">Foundations</a></li>\n<li><a href=\"/components\">Components</a></li>\n<li>\n<nys-verticalnavgroup disabled label=\"Accessibility\">\n<ul>\n <li>\n   <a role=\"link\" tabindex=\"0\" aria-disabled=\"true\">WCAG Guidelines</a>\n </li>\n <li><a href=\"\">Screen Readers</a></li>\n <li><a href=\"\">Color Contrast</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n<li>\n<h3>Resources</h3>\n<ul>\n<li>\n <a role=\"link\" tabindex=\"0\" aria-disabled=\"true\">Design Tokens</a>\n</li>\n<li><a href=\"\">Utilities</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
               "lang": "html"
             },
             {
@@ -17156,8 +17223,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-verticalnavgroup",
           "customElement": true,
