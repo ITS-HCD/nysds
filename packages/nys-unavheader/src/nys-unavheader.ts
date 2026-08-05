@@ -485,8 +485,12 @@ export class NysUnavHeader extends NysElement {
   }
 
   render() {
+    // The statewide header sits above an agency's own `nys-globalheader`, so a page
+    // normally carries two banner landmarks. Naming this one "New York State" keeps
+    // landmark navigation meaningful instead of announcing "banner, banner" (axe
+    // `landmark-unique`); the agency banner is named after the agency.
     return html`
-      <header class="nys-unavheader">
+      <header class="nys-unavheader" aria-label="New York State">
         <div
           class="nys-unavheader__trustbar wrapper"
           @click="${(e: MouseEvent) => {

@@ -1,6 +1,7 @@
 import { html, unsafeCSS } from "lit";
 import nysLogo from "./nys-brand.logo";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalheader.scss?inline";
@@ -264,6 +265,52 @@ export class NysGlobalHeader extends NysElement {
     });
   }
 
+  /**
+   * Id of the element that names the banner landmark, or undefined when this
+   * header carries no title to point at.
+   *
+   * The documented pairing puts this header below `nys-unavheader`, which leaves a
+   * page with two `banner` landmarks. Naming each one keeps landmark navigation
+   * useful instead of announcing "banner, banner" (axe `landmark-unique`). The name
+   * references the visible title rather than repeating it in an `aria-label`, so it
+   * cannot drift out of sync and is translated along with the rest of the page.
+   */
+  private get _bannerLabelledBy(): string | undefined {
+    if (this.appName?.trim()) return `${this.id}-appname`;
+    if (this.agencyName?.trim()) return `${this.id}-agencyname`;
+    return undefined;
+  }
+
+  /**
+   * App/agency title block. Rendered on its own so the linked and unlinked
+   * variants cannot drift apart — the ids here are what names the banner.
+   */
+  private _renderNameContainer() {
+    return html`
+      <div class="nys-globalheader__name-container">
+        ${this.appName?.trim().length > 0
+          ? html`<div
+              id="${this.id}-appname"
+              class="nys-globalheader__appName nys-globalheader__name"
+            >
+              ${this.appName}
+            </div> `
+          : ""}
+        ${this.agencyName?.trim().length > 0
+          ? html`<div
+              id="${this.id}-agencyname"
+              class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
+                .length > 0
+                ? ""
+                : "main"}"
+            >
+              ${this.agencyName}
+            </div> `
+          : ""}
+      </div>
+    `;
+  }
+
   private _renderBrandMark() {
     return this.nysLogo ? html`${this._getNysLogo()}` : "";
   }
@@ -298,7 +345,11 @@ export class NysGlobalHeader extends NysElement {
 
   render() {
     return html`
-      <header class="nys-globalheader">
+      <header
+        class="nys-globalheader"
+        aria-labelledby=${ifDefined(this._bannerLabelledBy)}
+        aria-label=${ifDefined(this._bannerLabelledBy ? undefined : "Site")}
+      >
         <div class="nys-globalheader__main-container">
           ${this._hasLinkContent
             ? html` <div class="nys-globalheader__button-container">
@@ -322,50 +373,12 @@ export class NysGlobalHeader extends NysElement {
             : ""}
           ${this._renderBrandMark()}
           ${!this.homepageLink?.trim()
-            ? html`
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
-              `
+            ? this._renderNameContainer()
             : html`<a
                 class="nys-globalheader__name-container-link"
                 href=${this.homepageLink?.trim()}
               >
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
+                ${this._renderNameContainer()}
               </a>`}
           <nav
             class="nys-globalheader__content"

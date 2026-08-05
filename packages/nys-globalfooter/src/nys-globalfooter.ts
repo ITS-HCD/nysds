@@ -165,21 +165,40 @@ export class NysGlobalFooter extends NysElement {
     }
   }
 
+  /**
+   * Id of the heading that names the contentinfo landmark, or undefined when no
+   * agency name was given.
+   *
+   * The documented pairing puts this footer above `nys-unavfooter`, which leaves a
+   * page with two `contentinfo` landmarks. Pointing at the visible heading rather
+   * than repeating the agency name in an `aria-label` keeps the two in sync and lets
+   * the name be translated along with the rest of the page.
+   */
+  private get _contentinfoLabelledBy(): string | undefined {
+    return this.agencyName?.trim() ? `${this.id}-name` : undefined;
+  }
+
   render() {
+    const heading = html`<h2
+      id="${this.id}-name"
+      class="nys-globalfooter__name"
+    >
+      ${this.agencyName}
+    </h2>`;
+
     return html`
       <footer
         class="nys-globalfooter"
+        aria-labelledby=${ifDefined(this._contentinfoLabelledBy)}
         aria-label=${ifDefined(
-          this.agencyName?.trim() ? this.agencyName.trim() : undefined,
+          this._contentinfoLabelledBy ? undefined : "Site",
         )}
       >
         <div class="nys-globalfooter__main-container">
           <div class="nys-globalfooter__heading-container">
             ${!this.homepageLink?.trim()
-              ? html`<h2 class="nys-globalfooter__name">${this.agencyName}</h2>`
-              : html`<a href=${this.homepageLink?.trim()}>
-                  <h2 class="nys-globalfooter__name">${this.agencyName}</h2>
-                </a>`}
+              ? heading
+              : html`<a href=${this.homepageLink?.trim()}>${heading}</a>`}
             ${this.agencySubheading
               ? html`<p class="nys-globalfooter__subheading">
                   ${this.agencySubheading}

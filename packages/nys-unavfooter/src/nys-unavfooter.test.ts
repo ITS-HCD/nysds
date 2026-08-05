@@ -84,6 +84,16 @@ describe("nys-unavfooter accessibility", () => {
     expect(footer, "a <footer> landmark should be present").to.exist;
   });
 
+  // --- Regression: #1795 — paired with nys-globalfooter this is one of two
+  // contentinfo landmarks, so it needs a name of its own.
+  it("names the contentinfo landmark so it is distinguishable from an agency footer", async () => {
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-label")).to.equal("New York State");
+  });
+
   it("marks the decorative logo SVG as hidden from the a11y tree", async () => {
     const el = await fixture<NysUnavFooter>(
       html`<nys-unavfooter></nys-unavfooter>`,

@@ -239,6 +239,69 @@ describe("nys-globalheader", () => {
     expect(mobileNav?.getAttribute("aria-label")).to.exist;
   });
 
+  // --- Regression: #1795 — paired with nys-unavheader this is one of two banner
+  // landmarks, so it needs a name of its own. ---
+  it("names the banner landmark from the visible app name", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="User Registration Form"
+        agencyName="Office of Information Technology Services"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const appName = el.shadowRoot?.querySelector(".nys-globalheader__appName");
+    expect(appName?.id).to.equal(`${el.id}-appname`);
+    expect(header?.getAttribute("aria-labelledby")).to.equal(appName?.id);
+    expect(header?.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("names the banner landmark from the agency name when there is no app name", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const agencyName = el.shadowRoot?.querySelector(
+      ".nys-globalheader__agencyName",
+    );
+    expect(agencyName?.id).to.equal(`${el.id}-agencyname`);
+    expect(header?.getAttribute("aria-labelledby")).to.equal(agencyName?.id);
+  });
+
+  it("keeps the banner name reference when the title is a homepage link", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="eFile"
+        agencyName="Tax Department"
+        homepageLink="https://ny.gov"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const appName = el.shadowRoot?.querySelector(
+      ".nys-globalheader__name-container-link .nys-globalheader__appName",
+    );
+    expect(appName, "the title should render inside the link").to.exist;
+    expect(header?.getAttribute("aria-labelledby")).to.equal(
+      `${el.id}-appname`,
+    );
+  });
+
+  it("falls back to a default banner name when no title is provided", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    // Nothing visible to point at, so the landmark still needs a name of its own
+    // to stay distinguishable from the statewide header.
+    expect(header?.hasAttribute("aria-labelledby")).to.be.false;
+    expect(header?.getAttribute("aria-label")).to.equal("Site");
+  });
+
   it("sets aria-current=page on the active link (WCAG 1.4.1)", async () => {
     history.pushState({}, "", "/services");
 

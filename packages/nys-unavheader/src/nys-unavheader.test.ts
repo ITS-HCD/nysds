@@ -757,6 +757,17 @@ describe("nys-unavheader", () => {
     expect(el.getAttribute("role")).to.be.null;
   });
 
+  // --- Regression: #1795 — paired with nys-globalheader this is one of two
+  // banner landmarks, so it needs a name of its own. ---
+  it("names the banner landmark so it is distinguishable from an agency header", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header, "a <header> landmark should be present").to.exist;
+    expect(header?.getAttribute("aria-label")).to.equal("New York State");
+  });
+
   // --- Regression: WCAG 4.1.1 / 1.3.1 — no duplicate IDs in shadow DOM ---
   it("does not duplicate the 'official website' element id", async () => {
     const el = await fixture<NysUnavHeader>(

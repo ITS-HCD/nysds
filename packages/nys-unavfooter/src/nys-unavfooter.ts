@@ -67,8 +67,13 @@ export class NysUnavFooter extends NysElement {
   }
 
   render() {
+    // The statewide footer sits below an agency's own `nys-globalfooter`, so a page
+    // normally carries two contentinfo landmarks. Naming this one "New York State"
+    // keeps landmark navigation meaningful instead of announcing "content
+    // information" twice (axe `landmark-unique`); the agency footer is named after
+    // the agency.
     return html`
-      <footer class="nys-unavfooter">
+      <footer class="nys-unavfooter" aria-label="New York State">
         <div class="nys-unavfooter__main-container">
           <div class="nys-unavfooter__container_menu">
             <div class="nys-unavfooter__logo">
