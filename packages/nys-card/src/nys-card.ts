@@ -287,6 +287,10 @@ export class NysCard extends LitElement {
   // container and accent badge are only rendered when they are used.
   @state() private _hasMedia = false;
 
+  // Whether the preheading slot has assigned content, so the preheading block
+  // renders for slotted markup as well as for the `preheading` property.
+  @state() private _hasPreheadingSlot = false;
+
   // Month and day text read from the `media-accent` slot's two lines.
   @state() private _accentMonth = "";
   @state() private _accentDay = "";
@@ -362,6 +366,10 @@ export class NysCard extends LitElement {
     this._hasMedia = this.hasSlotContent(e);
   }
 
+  private handlePreheadingSlotChange(e: Event) {
+    this._hasPreheadingSlot = this.hasSlotContent(e);
+  }
+
   private handleMediaAccentSlotChange(e: Event) {
     this.readMediaAccent(e.target as HTMLSlotElement);
   }
@@ -387,6 +395,8 @@ export class NysCard extends LitElement {
 
   render() {
     const hasMediaAccent = !!(this._accentMonth || this._accentDay);
+    // The preheading block accepts either the property or slotted rich content.
+    const hasPreheading = !!this.preheading || this._hasPreheadingSlot;
 
     // The card's inner markup is identical in all three cases; only the element
     // wrapping it changes based on how the card was made interactive.
@@ -409,11 +419,14 @@ export class NysCard extends LitElement {
         </div>
       </div>
       <div class="nys-card__main-content">
-        <slot name="preheading" class="nys-card__preheading-slot"></slot>
         <div>
-          ${this.preheading
-            ? html`<p class="nys-card__preheading">${this.preheading}</p>`
-            : ""}
+          <p class="nys-card__preheading" ?hidden=${!hasPreheading}>
+            <slot
+              name="preheading"
+              @slotchange=${this.handlePreheadingSlotChange}
+              >${this.preheading}</slot
+            >
+          </p>
           ${this.renderHeading()}
           ${this.subheading
             ? html`<p class="nys-card__subheading">${this.subheading}</p>`
