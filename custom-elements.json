@@ -2867,7 +2867,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `top`, default, and\n`footer` slots to project custom markup such as buttons, lists, or links.",
+          "description": "A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `top`, default, and\n`bottom` slots to project custom markup such as buttons, lists, or links.",
           "name": "NysCard",
           "slots": [
             {
@@ -2880,7 +2880,7 @@
             },
             {
               "description": "Content rendered at the bottom of the card, typically actions like buttons or links.",
-              "name": "footer"
+              "name": "bottom"
             }
           ],
           "members": [
@@ -3176,8 +3176,8 @@
               "lang": "html"
             },
             {
-              "title": "Footer Slot",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>",
+              "title": "Bottom Slot",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with actions in the bottom slot.\">\n<nys-button slot=\"bottom\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {

@@ -13,14 +13,14 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * Text content is supplied through the `preheading`, `heading`, `subheading`, and
  * `description` properties. For richer content, use the `top`, default, and
- * `footer` slots to project custom markup such as buttons, lists, or links.
+ * `bottom` slots to project custom markup such as buttons, lists, or links.
  *
  * @summary Flexible container that groups related content and actions about a single subject.
  * @element nys-card
  *
  * @slot top - Content rendered above the heading block (e.g. a badge or label).
  * @slot - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
- * @slot footer - Content rendered at the bottom of the card, typically actions like buttons or links.
+ * @slot bottom - Content rendered at the bottom of the card, typically actions like buttons or links.
  *
  * @example Basic
  * ```html
@@ -128,11 +128,11 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * </div>
  * ```
  *
- * @example Footer Slot
+ * @example Bottom Slot
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
- *   <nys-card heading="Heading" description="A card with actions in the footer slot.">
- *     <nys-button slot="footer" label="Learn more"></nys-button>
+ *   <nys-card heading="Heading" description="A card with actions in the bottom slot.">
+ *     <nys-button slot="bottom" label="Learn more"></nys-button>
  *   </nys-card>
  * </div>
  * ```
@@ -327,7 +327,7 @@ export class NysCard extends LitElement {
           : ""}
         <slot></slot>
       </div>
-      <slot name="footer" class="nys-card__footer"></slot>
+      <slot name="bottom" class="nys-card__bottom"></slot>
     </div>`;
   }
 }

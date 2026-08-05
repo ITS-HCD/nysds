@@ -318,15 +318,15 @@ export const Elevated: Story = {
   },
 };
 
-export const FooterSlot: Story = {
+export const BottomSlot: Story = {
   render: () => {
     return html`
       <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
           heading="Heading"
-          description="A card with actions in the footer slot."
+          description="A card with actions in the bottom slot."
         >
-          <nys-button slot="footer" label="Learn more"></nys-button>
+          <nys-button slot="bottom" label="Learn more"></nys-button>
         </nys-card>
       </div>
     `;
@@ -336,8 +336,8 @@ export const FooterSlot: Story = {
       source: {
         code: `
 <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
-  <nys-card heading="Heading" description="A card with actions in the footer slot.">
-    <nys-button slot="footer" label="Learn more"></nys-button>
+  <nys-card heading="Heading" description="A card with actions in the bottom slot.">
+    <nys-button slot="bottom" label="Learn more"></nys-button>
   </nys-card>
 </div>`,
         type: "auto",

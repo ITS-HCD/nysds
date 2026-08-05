@@ -209,12 +209,12 @@
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
   }
 
-  &__footer {
+  &__bottom {
     display: contents;
   }
 }
 
-::slotted([slot="footer"]) {
+::slotted([slot="bottom"]) {
   display: block;
   margin: 0 var(--_nys-card-padding--x) var(--nys-space-300);
 }
