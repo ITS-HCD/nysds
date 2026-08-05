@@ -248,32 +248,6 @@ export type NysButtonProps = {
   "onnys-click"?: (e: CustomEvent<Event>) => void;
 };
 
-export type NysCardProps = {
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: string;
-  /** Appears above the heading text. */
-  preheading?: string;
-  /** Heading text in the card. */
-  heading?: string;
-  /** Heading level used for the card heading (`h1` through `h6`). */
-  headingLevel?: HeadingLevel;
-  /** Appears below the heading text. */
-  subheading?: string;
-  /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
-  description?: string;
-  /** Visual content for the card. Supported types are images: png, jpg, etc. */
-  media?: string;
-  /** When true, adds padding around the media to visually contain it. */
-  inset?: boolean;
-  /** When true, adds a drop shadow to the card, giving it a raised appearance. */
-  elevated?: boolean;
-  /** A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
-The month is shown as a three-letter abbreviation and the day as a number
-(e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
-date. Only supports dates in v1. */
-  mediaAccent?: string;
-};
-
 export type NysCheckboxProps = {
   /** Whether checkbox is checked. */
   checked?: boolean;
@@ -1296,18 +1270,6 @@ export type CustomElements = {
    * - **--nys-button-border-color--active** - Border color when active/pressed. _(default: undefined)_
    */
   "nys-button": Partial<NysButtonProps & BaseProps & BaseEvents>;
-
-  /**
-   * Flexible container that groups related content and actions about a single subject.
-   * ---
-   *
-   *
-   * ### **Slots:**
-   *  - **top** - Content rendered above the heading block (e.g. a badge or label).
-   * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
-   * - **footer** - Content rendered at the bottom of the card, typically actions like buttons or links.
-   */
-  "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 
   /**
    * Checkbox for binary choices or multi-select options.
