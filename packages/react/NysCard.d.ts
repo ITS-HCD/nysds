@@ -1,7 +1,7 @@
 import React from "react";
-import { NysCard as NysCardElement } from "../../dist/nysds.es.js";
+import { NysCard as NysCardElement, Event } from "../../dist/nysds.es.js";
 
-export type { NysCardElement };
+export type { NysCardElement, Event };
 
 export interface NysCardProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -42,6 +42,14 @@ export interface NysCardProps extends Pick<
   /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
   description?: NysCardElement["description"];
 
+  /** URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots
+free of other interactive elements when using this — nesting them inside the
+card control is invalid HTML and unreachable for keyboard and screen reader users. */
+  href?: NysCardElement["href"];
+
+  /** Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`. */
+  target?: NysCardElement["target"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 
@@ -62,6 +70,19 @@ export interface NysCardProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** Click handler. Makes the whole card a single `<button>`. Use instead of
+`@click` to ensure keyboard accessibility. */
+  onClick?: NysCardElement["onClick"];
+
+  /** Fired when an interactive card is activated (mouse or keyboard). */
+  onNysClick?: (event: CustomEvent) => void;
+
+  /** Fired when an interactive card receives focus. */
+  onNysFocus?: (event: CustomEvent) => void;
+
+  /** Fired when an interactive card loses focus. */
+  onNysBlur?: (event: CustomEvent) => void;
 }
 
 /**
@@ -69,11 +90,16 @@ export interface NysCardProps extends Pick<
  * ---
  *
  *
+ * ### **Events:**
+ *  - **nys-click** - Fired when an interactive card is activated (mouse or keyboard).
+ * - **nys-focus** - Fired when an interactive card receives focus.
+ * - **nys-blur** - Fired when an interactive card loses focus.
+ *
  * ### **Slots:**
  *  - **top** - Content rendered above the heading block (e.g. a badge or label).
  * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
  * - **bottom** - Content rendered at the bottom of the card, typically actions like buttons or links.
  * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
- * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.
+ * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.
  */
 export const NysCard: React.ForwardRefExoticComponent<NysCardProps>;

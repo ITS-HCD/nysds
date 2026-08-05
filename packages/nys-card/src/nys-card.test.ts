@@ -158,8 +158,74 @@ describe("nys-card", () => {
     expect(readAccent(el)).to.deep.equal(["Dec", "31"]);
   });
 
+  // ── Clickable ─────────────────────────────────────────────
+  const control = (el: NysCard) =>
+    el.shadowRoot?.querySelector(".nys-card") as HTMLElement;
+
+  it("renders a plain container when there is nothing to click", async () => {
+    const el = await fixture<NysCard>(html`<nys-card></nys-card>`);
+    await el.updateComplete;
+
+    expect(control(el).tagName).to.equal("DIV");
+  });
+
+  it("renders a button when an onClick handler is set", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card .onClick=${() => {}}></nys-card>
+    `);
+    await el.updateComplete;
+
+    const btn = control(el) as HTMLButtonElement;
+    expect(btn.tagName).to.equal("BUTTON");
+    expect(btn.type).to.equal("button");
+  });
+
+  it("renders a button when an inline onclick attribute is set", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card onclick="void 0"></nys-card>
+    `);
+    await el.updateComplete;
+
+    expect(control(el).tagName).to.equal("BUTTON");
+  });
+
+  it("renders an anchor when an href is set", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card href="https://www.ny.gov/" target="_blank"></nys-card>
+    `);
+    await el.updateComplete;
+
+    const link = control(el) as HTMLAnchorElement;
+    expect(link.tagName).to.equal("A");
+    expect(link.getAttribute("href")).to.equal("https://www.ny.gov/");
+    expect(link.getAttribute("target")).to.equal("_blank");
+  });
+
+  it("fires nys-click and calls onClick when activated", async () => {
+    let handled = 0;
+    const el = await fixture<NysCard>(html`
+      <nys-card .onClick=${() => handled++}></nys-card>
+    `);
+    await el.updateComplete;
+
+    let fired = 0;
+    el.addEventListener("nys-click", () => fired++);
+
+    control(el).click();
+
+    expect(handled).to.equal(1);
+    expect(fired).to.equal(1);
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-card heading="My Label"></nys-card>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("passes the a11y audit when clickable", async () => {
+    const el = await fixture(html`
+      <nys-card heading="My Label" .onClick=${() => {}}></nys-card>
+    `);
     await expect(el).shadowDom.to.be.accessible();
   });
 

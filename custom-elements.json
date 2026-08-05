@@ -2887,7 +2887,7 @@
               "name": "media"
             },
             {
-              "description": "Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.",
+              "description": "Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.",
               "name": "media-accent"
             }
           ],
@@ -2977,6 +2977,36 @@
             },
             {
               "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots\nfree of other interactive elements when using this — nesting them inside the\ncard control is invalid HTML and unreachable for keyboard and screen reader users.",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+              },
+              "default": "\"_self\"",
+              "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
+              "attribute": "target",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "onClick",
+              "type": {
+                "text": "((event: Event) => void) | null"
+              },
+              "default": "null",
+              "description": "Click handler. Makes the whole card a single `<button>`. Use instead of\n`@click` to ensure keyboard accessibility."
+            },
+            {
+              "kind": "field",
               "name": "_hasMedia",
               "type": {
                 "text": "boolean"
@@ -3003,10 +3033,16 @@
               "default": "\"\""
             },
             {
+              "kind": "field",
+              "name": "isClickable",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "renderHeading",
-              "privacy": "private",
-              "description": "Functions\n--------------------------------------------------------------------------"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -3060,6 +3096,52 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "handleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleBlur",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-click",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when an interactive card is activated (mouse or keyboard)."
+            },
+            {
+              "name": "nys-focus",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when an interactive card receives focus."
+            },
+            {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when an interactive card loses focus."
             }
           ],
           "attributes": [
@@ -3142,6 +3224,26 @@
               "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
               "fieldName": "elevated",
               "propName": "elevated"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots\nfree of other interactive elements when using this — nesting them inside the\ncard control is invalid HTML and unreachable for keyboard and screen reader users.",
+              "fieldName": "href",
+              "propName": "href"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+              },
+              "default": "\"_self\"",
+              "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
+              "fieldName": "target",
+              "propName": "target"
             }
           ],
           "superclass": {
@@ -3195,6 +3297,16 @@
             {
               "title": "Elevated",
               "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Clickable",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nonclick=\"alert('you clicked me')\"\nheading=\"Heading\"\ndescription=\"The whole card is one button. To visually indicate this you should add the arrow icon to the bottom slot.\"\n>\n<nys-icon slot=\"bottom\" name=\"arrow_forward\" size=\"5xl\"></nys-icon>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Clickable Link",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nhref=\"https://www.ny.gov/\"\ntarget=\"_blank\"\nheading=\"Visit NY.gov\"\ndescription=\"The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot.\"\n>\n<nys-icon slot=\"bottom\" name=\"open_in_new\" size=\"5xl\"></nys-icon>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {

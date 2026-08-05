@@ -265,6 +265,21 @@ export type NysCardProps = {
   inset?: boolean;
   /** When true, adds a drop shadow to the card, giving it a raised appearance. */
   elevated?: boolean;
+  /** URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots
+free of other interactive elements when using this — nesting them inside the
+card control is invalid HTML and unreachable for keyboard and screen reader users. */
+  href?: string;
+  /** Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`. */
+  target?: "_self" | "_blank" | "_parent" | "_top" | "framename";
+  /** Click handler. Makes the whole card a single `<button>`. Use instead of
+`@click` to ensure keyboard accessibility. */
+  onClick?: ((event: Event) => void) | null;
+  /** Fired when an interactive card is activated (mouse or keyboard). */
+  "onnys-click"?: (e: CustomEvent<Event>) => void;
+  /** Fired when an interactive card receives focus. */
+  "onnys-focus"?: (e: CustomEvent<Event>) => void;
+  /** Fired when an interactive card loses focus. */
+  "onnys-blur"?: (e: CustomEvent<Event>) => void;
 };
 
 export type NysCheckboxProps = {
@@ -1295,12 +1310,17 @@ export type CustomElements = {
    * ---
    *
    *
+   * ### **Events:**
+   *  - **nys-click** - Fired when an interactive card is activated (mouse or keyboard).
+   * - **nys-focus** - Fired when an interactive card receives focus.
+   * - **nys-blur** - Fired when an interactive card loses focus.
+   *
    * ### **Slots:**
    *  - **top** - Content rendered above the heading block (e.g. a badge or label).
    * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
    * - **bottom** - Content rendered at the bottom of the card, typically actions like buttons or links.
    * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
-   * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.
+   * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.
    */
   "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 

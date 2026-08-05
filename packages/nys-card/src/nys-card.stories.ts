@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-card";
 import "@nysds/nys-badge";
 import "@nysds/nys-button";
+import "@nysds/nys-icon";
 import "@nysds/nys-iconlist";
 
 const meta: Meta = {
@@ -27,6 +28,14 @@ export const Basic: Story = {
     description: "A short description of the card's subject.",
     inset: false,
     elevated: false,
+    href: "",
+    target: "_self",
+  },
+  argTypes: {
+    target: {
+      control: { type: "select" },
+      options: ["_self", "_blank", "_parent", "_top", "framename"],
+    },
   },
   render: (args) => {
     return html`
@@ -38,6 +47,8 @@ export const Basic: Story = {
           description=${args.description}
           ?inset=${args.inset}
           ?elevated=${args.elevated}
+          href=${args.href}
+          target=${args.target}
         ></nys-card>
       </div>
     `;
@@ -327,6 +338,74 @@ export const Elevated: Story = {
     description="Elevated adds a drop shadow to give the card a raised appearance."
     elevated
   ></nys-card>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Clickable: Story = {
+  render: () => {
+    return html`
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+        <nys-card
+          onclick="alert('you clicked me')"
+          heading="Heading"
+          description="The whole card is one button. To visually indicate this you should add the arrow icon to the bottom slot."
+        >
+          <nys-icon slot="bottom" name="arrow_forward" size="5xl"></nys-icon>
+        </nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+  <nys-card
+    onclick="alert('you clicked me')"
+    heading="Heading"
+    description="The whole card is one button. To visually indicate this you should add the arrow icon to the bottom slot."
+  >
+    <nys-icon slot="bottom" name="arrow_forward" size="5xl"></nys-icon>
+  </nys-card>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const ClickableLink: Story = {
+  render: () => {
+    return html`
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+        <nys-card
+          href="https://www.ny.gov/"
+          target="_blank"
+          heading="Visit NY.gov"
+          description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
+        >
+          <nys-icon slot="bottom" name="open_in_new" size="5xl"></nys-icon>
+        </nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+  <nys-card
+    href="https://www.ny.gov/"
+    target="_blank"
+    heading="Visit NY.gov"
+    description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
+  >
+    <nys-icon slot="bottom" name="open_in_new" size="5xl"></nys-icon>
+  </nys-card>
 </div>`,
         type: "auto",
       },

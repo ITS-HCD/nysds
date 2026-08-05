@@ -24,6 +24,14 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * @slot media - Visual content displayed at the top of the card, typically an `<img>`.
  * @slot media-accent - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.
  *
+ * The card becomes a single interactive control when it is given something to do:
+ * an `href` renders it as an `<a>`, a click handler (`onClick` or an inline
+ * `onclick`) renders it as a `<button>`.
+ *
+ * @fires nys-click - Fired when an interactive card is activated (mouse or keyboard).
+ * @fires nys-focus - Fired when an interactive card receives focus.
+ * @fires nys-blur - Fired when an interactive card loses focus.
+ *
  * @example Basic
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
@@ -148,6 +156,33 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * </div>
  * ```
  *
+ * @example Clickable
+ * ```html
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+ *   <nys-card
+ *     onclick="alert('you clicked me')"
+ *     heading="Heading"
+ *     description="The whole card is one button. To visually indicate this you should add the arrow icon to the bottom slot."
+ *   >
+ *     <nys-icon slot="bottom" name="arrow_forward" size="5xl"></nys-icon>
+ *   </nys-card>
+ * </div>
+ * ```
+ *
+ * @example Clickable Link
+ * ```html
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+ *   <nys-card
+ *     href="https://www.ny.gov/"
+ *     target="_blank"
+ *     heading="Visit NY.gov"
+ *     description="The whole card is one link.  To visually indicate this you should add the arrow icon to the bottom slot."
+ *   >
+ *     <nys-icon slot="bottom" name="open_in_new" size="5xl"></nys-icon>
+ *   </nys-card>
+ * </div>
+ * ```
+ *
  * @example Bottom Slot
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
@@ -224,6 +259,30 @@ export class NysCard extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) elevated = false;
 
+  /**
+   * URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots
+   * free of other interactive elements when using this — nesting them inside the
+   * card control is invalid HTML and unreachable for keyboard and screen reader users.
+   */
+  @property({ type: String }) href = "";
+
+  /**
+   * Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.
+   */
+  @property({ type: String, reflect: true }) target:
+    | "_self"
+    | "_blank"
+    | "_parent"
+    | "_top"
+    | "framename" = "_self";
+
+  /**
+   * Click handler. Makes the whole card a single `<button>`. Use instead of
+   * `@click` to ensure keyboard accessibility.
+   */
+  @property({ attribute: false }) onClick: ((event: Event) => void) | null =
+    null;
+
   // Whether the media and accent slots have assigned content, so the media
   // container and accent badge are only rendered when they are used.
   @state() private _hasMedia = false;
@@ -253,6 +312,13 @@ export class NysCard extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
+  // A card is interactive when it has somewhere to go or something to run:
+  // `href` makes it a link, a click handler makes it a button. `onclick` is the
+  // native handler, set by an inline `onclick="…"` attribute on the host.
+  private get isClickable() {
+    return !!this.href || !!this.onClick || !!this.onclick;
+  }
 
   private renderHeading() {
     if (!this.heading) return "";
@@ -300,10 +366,31 @@ export class NysCard extends LitElement {
     this.readMediaAccent(e.target as HTMLSlotElement);
   }
 
+  private handleClick(e: Event) {
+    this.onClick?.(e);
+    this.dispatchEvent(
+      new Event("nys-click", { bubbles: true, composed: true }),
+    );
+  }
+
+  private handleFocus() {
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
+  }
+
+  private handleBlur() {
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
+  }
+
   render() {
     const hasMediaAccent = !!(this._accentMonth || this._accentDay);
 
-    return html` <div class="nys-card">
+    // The card's inner markup is identical in all three cases; only the element
+    // wrapping it changes based on how the card was made interactive.
+    const content = html`
       <div class="nys-card__media-container" ?hidden=${!this._hasMedia}>
         <slot
           name="media"
@@ -338,7 +425,33 @@ export class NysCard extends LitElement {
         <slot></slot>
       </div>
       <slot name="bottom" class="nys-card__bottom"></slot>
-    </div>`;
+    `;
+
+    if (!this.isClickable) {
+      return html`<div class="nys-card">${content}</div>`;
+    }
+
+    if (this.href) {
+      return html`<a
+        class="nys-card nys-card--clickable"
+        href=${this.href}
+        target=${this.target}
+        @click=${this.handleClick}
+        @focus=${this.handleFocus}
+        @blur=${this.handleBlur}
+        >${content}</a
+      >`;
+    }
+
+    return html`<button
+      class="nys-card nys-card--clickable"
+      type="button"
+      @click=${this.handleClick}
+      @focus=${this.handleFocus}
+      @blur=${this.handleBlur}
+    >
+      ${content}
+    </button>`;
   }
 }
 
