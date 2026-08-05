@@ -151,8 +151,9 @@ describe("nys-processlist", () => {
     const list = el.querySelector<NysProcesslist>("nys-processlist");
     await list?.updateComplete;
 
-    expect(list?.ariaLabelledBy).to.equal("process-heading");
-    expect(list?.ariaDescribedBy).to.equal("process-intro");
+    // aria-labelledby/aria-describedby are not reflected as component
+    // properties (the light-DOM host needs no component code for native
+    // attributes to work), so assert on the attributes directly.
     expect(list?.getAttribute("aria-labelledby")).to.equal("process-heading");
     expect(list?.getAttribute("aria-describedby")).to.equal("process-intro");
     await expect(el).to.be.accessible();
@@ -395,5 +396,21 @@ describe("nys-processlistitem", () => {
     );
     await el.updateComplete;
     expect(el.getAttribute("role")).to.be.null;
+  });
+
+  it("renders the step number as visible, non-aria-hidden text", async () => {
+    // role="list" carries no inherent ordering, so the rendered step number is
+    // the only thing conveying sequence to assistive tech — it must not be
+    // hidden from the accessibility tree.
+    const el = await fixture<NysProcesslistitem>(
+      html`<nys-processlistitem
+        label="Gather your documents"
+      ></nys-processlistitem>`,
+    );
+    await el.updateComplete;
+
+    const step = el.shadowRoot?.querySelector(".nys-processlistitem__step");
+    expect(step?.hasAttribute("aria-hidden")).to.be.false;
+    expect(step?.textContent?.trim()).to.equal("1");
   });
 });

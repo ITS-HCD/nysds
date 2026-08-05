@@ -47,6 +47,20 @@ describe("nys-iconlist", () => {
     expect(el.getAttribute("role")).to.equal("presentation");
   });
 
+  it("keeps an author-supplied aria-label and exposes it as the accessible name", async () => {
+    // The host renders in the light DOM, so aria-label needs no component
+    // code to work — it should simply pass through untouched.
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist aria-label="Event details">
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    expect(el.getAttribute("aria-label")).to.equal("Event details");
+    await expect(el).to.be.accessible();
+  });
+
   it("renders items as direct children of the list role", async () => {
     // The list must not be a shadow host: Chrome >=150 demotes role=listitem
     // on elements slotted into a shadow-host list, so items have to be direct
@@ -185,5 +199,20 @@ describe("nys-iconlistitem", () => {
     `);
     await el.updateComplete;
     expect(el.hasAttribute("data-has-secondary")).to.be.true;
+  });
+
+  it("assigns unique ids to two items created and connected in the same tick", async () => {
+    // Regression guard for the @nysds/internals migration: the id generator
+    // is keyed on Date.now() + a counter, so two elements connected within
+    // the same millisecond must still get distinct ids.
+    const container = await fixture<HTMLDivElement>(html`<div></div>`);
+    const a = document.createElement("nys-iconlistitem") as NysIconlistitem;
+    const b = document.createElement("nys-iconlistitem") as NysIconlistitem;
+    container.append(a, b);
+    await Promise.all([a.updateComplete, b.updateComplete]);
+
+    expect(a.id).to.not.be.empty;
+    expect(b.id).to.not.be.empty;
+    expect(a.id).to.not.equal(b.id);
   });
 });
