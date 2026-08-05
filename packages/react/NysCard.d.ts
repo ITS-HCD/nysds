@@ -42,15 +42,6 @@ export interface NysCardProps extends Pick<
   /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
   description?: NysCardElement["description"];
 
-  /** Visual content for the card. Supported types are images: png, jpg, etc. */
-  media?: NysCardElement["media"];
-
-  /** A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
-The month is shown as a three-letter abbreviation and the day as a number
-(e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
-date. Only supports dates in v1. */
-  mediaAccent?: NysCardElement["mediaAccent"];
-
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 
@@ -82,5 +73,7 @@ date. Only supports dates in v1. */
  *  - **top** - Content rendered above the heading block (e.g. a badge or label).
  * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
  * - **bottom** - Content rendered at the bottom of the card, typically actions like buttons or links.
+ * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
+ * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.
  */
 export const NysCard: React.ForwardRefExoticComponent<NysCardProps>;

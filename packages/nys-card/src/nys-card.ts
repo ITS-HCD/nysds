@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-card.scss?inline";
 
@@ -21,8 +21,8 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * @slot top - Content rendered above the heading block (e.g. a badge or label).
  * @slot - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
  * @slot bottom - Content rendered at the bottom of the card, typically actions like buttons or links.
- * @slot media - Visual content for the card.
- * @slot media-accent - A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`). The month is shown as a three-letter abbreviation and the day as a number (e.g. "Oct 16"). Only renders when `media` is set and the value is a valid date. Only supports dates in v1.
+ * @slot media - Visual content displayed at the top of the card, typically an `<img>`.
+ * @slot media-accent - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.
  *
  * @example Basic
  * ```html
@@ -74,7 +74,10 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *     heading="Heading"
  *     description="A card with a media image."
  *   >
- *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
+ *     <img slot="media"
+ *       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *       role="presentation"
+ *     />
  *   </nys-card>
  * </div>
  * ```
@@ -87,7 +90,10 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *    description="Inset adds padding around the media to visually contain it."
  *    inset
  *   >
- *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
+ *     <img slot="media"
+ *       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *       role="presentation"
+ *     />
  *   </nys-card>
  * </div>
  * ```
@@ -99,8 +105,14 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *     heading="Heading"
  *     description="A card with a media image and a date accent."
  *   >
- *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
- *     <span slot="media-accent">Oct 16</span>
+ *     <img slot="media"
+ *       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *       role="presentation"
+ *     />
+ *     <div slot="media-accent">
+ *       <span>Oct</span>
+ *       <span>16</span>
+ *     </div>
  *   </nys-card>
  * </div>
  * ```
@@ -113,8 +125,14 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *     description="A card with a media image and a date accent."
  *     inset
  *   >
- *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
- *     <span slot="media-accent">10/16</span>
+ *     <img slot="media"
+ *       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+ *       role="presentation"
+ *     />
+ *     <div slot="media-accent">
+ *       <span>Oct</span>
+ *       <span>16</span>
+ *     </div>
  *   </nys-card>
  * </div>
  * ```
@@ -206,6 +224,14 @@ export class NysCard extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) elevated = false;
 
+  // Whether the media and accent slots have assigned content, so the media
+  // container and accent badge are only rendered when they are used.
+  @state() private _hasMedia = false;
+
+  // Month and day text read from the `media-accent` slot's two lines.
+  @state() private _accentMonth = "";
+  @state() private _accentDay = "";
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -228,38 +254,6 @@ export class NysCard extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  private static readonly MONTH_ABBREVIATIONS = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  // Parse the `mediaAccent` "M/D" string into a month abbreviation and day.
-  // Returns null when empty or not a valid date so the accent is not rendered.
-  private parseMediaAccent(): { month: string; day: string } | null {
-    const parts = this.mediaAccent.split("/");
-    if (parts.length !== 2) return null;
-
-    const month = Number(parts[0]);
-    const day = Number(parts[1]);
-    if (!Number.isInteger(month) || month < 1 || month > 12) return null;
-    if (!Number.isInteger(day) || day < 1 || day > 31) return null;
-
-    return {
-      month: NysCard.MONTH_ABBREVIATIONS[month - 1],
-      day: String(day),
-    };
-  }
-
   private renderHeading() {
     if (!this.heading) return "";
 
@@ -275,14 +269,17 @@ export class NysCard extends LitElement {
     return headingTag[this.headingLevel];
   }
 
-  private renderMediaAccent() {
-    const accent = this.parseMediaAccent();
-    if (!accent) return "";
+  // The accent's two lines live in the light DOM, so the shadow stylesheet
+  // cannot reach them. Read their text instead and render it into the badge,
+  // where the month and day styles apply: first line is the month, second the day.
+  private readMediaAccent(slot: HTMLSlotElement) {
+    const assigned = slot.assignedElements({ flatten: true });
+    // Support both a single wrapper holding the two lines and two sibling elements.
+    const lines =
+      assigned.length > 1 ? assigned : Array.from(assigned[0]?.children ?? []);
 
-    return html`<div class="nys-card--media-accent">
-      <p class="nys-card--media-accent-month">${accent.month}</p>
-      <p class="nys-card--media-accent-day">${accent.day}</p>
-    </div>`;
+    this._accentMonth = lines[0]?.textContent?.trim() ?? "";
+    this._accentDay = lines[1]?.textContent?.trim() ?? "";
   }
 
   /**
@@ -290,16 +287,40 @@ export class NysCard extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  // Placeholder for event handlers if needed
+  private hasSlotContent(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    return slot.assignedNodes({ flatten: true }).length > 0;
+  }
+
+  private handleMediaSlotChange(e: Event) {
+    this._hasMedia = this.hasSlotContent(e);
+  }
+
+  private handleMediaAccentSlotChange(e: Event) {
+    this.readMediaAccent(e.target as HTMLSlotElement);
+  }
 
   render() {
+    const hasMediaAccent = !!(this._accentMonth || this._accentDay);
+
     return html` <div class="nys-card">
-      ${this.media
-        ? html`<div class="nys-card__media-container">
-            <img class="nys-card__media" src=${this.media} />
-            ${this.renderMediaAccent()}
-          </div>`
-        : ""}
+      <div class="nys-card__media-container" ?hidden=${!this._hasMedia}>
+        <slot
+          name="media"
+          class="nys-card__media"
+          @slotchange=${this.handleMediaSlotChange}
+        ></slot>
+        <div class="nys-card--media-accent" ?hidden=${!hasMediaAccent}>
+          <p class="nys-card--media-accent-month">${this._accentMonth}</p>
+          <p class="nys-card--media-accent-day">${this._accentDay}</p>
+        </div>
+        <div class="nys-card__media-accent-source" hidden>
+          <slot
+            name="media-accent"
+            @slotchange=${this.handleMediaAccentSlotChange}
+          ></slot>
+        </div>
+      </div>
       <div class="nys-card__main-content">
         <slot name="top" class="nys-card__top"></slot>
         <div>

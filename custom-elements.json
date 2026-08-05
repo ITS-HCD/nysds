@@ -2881,6 +2881,14 @@
             {
               "description": "Content rendered at the bottom of the card, typically actions like buttons or links.",
               "name": "bottom"
+            },
+            {
+              "description": "Visual content displayed at the top of the card, typically an `<img>`.",
+              "name": "media"
+            },
+            {
+              "description": "Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.",
+              "name": "media-accent"
             }
           ],
           "members": [
@@ -2948,16 +2956,6 @@
             },
             {
               "kind": "field",
-              "name": "media",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Visual content for the card. Supported types are images: png, jpg, etc.",
-              "attribute": "media"
-            },
-            {
-              "kind": "field",
               "name": "inset",
               "type": {
                 "text": "boolean"
@@ -2979,45 +2977,89 @@
             },
             {
               "kind": "field",
-              "name": "mediaAccent",
+              "name": "_hasMedia",
               "type": {
-                "text": "string"
+                "text": "boolean"
               },
-              "default": "\"\"",
-              "description": "A date accent displayed over the media, in `M/D` format (e.g. `\"10/16\"`).\nThe month is shown as a three-letter abbreviation and the day as a number\n(e.g. \"Oct 16\"). Only renders when `media` is set and the value is a valid\ndate. Only supports dates in v1.",
-              "attribute": "mediaAccent"
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",
-              "name": "MONTH_ABBREVIATIONS",
+              "name": "_accentMonth",
               "type": {
-                "text": "array"
+                "text": "string"
               },
               "privacy": "private",
-              "static": true,
-              "readonly": true,
-              "default": "[ \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\", ]",
-              "description": "Functions\n--------------------------------------------------------------------------"
+              "default": "\"\""
             },
             {
-              "kind": "method",
-              "name": "parseMediaAccent",
+              "kind": "field",
+              "name": "_accentDay",
+              "type": {
+                "text": "string"
+              },
               "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "{ month: string; day: string } | null"
-                }
-              }
+              "default": "\"\""
             },
             {
               "kind": "method",
               "name": "renderHeading",
-              "privacy": "private"
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
-              "name": "renderMediaAccent",
-              "privacy": "private"
+              "name": "readMediaAccent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "slot",
+                  "type": {
+                    "text": "HTMLSlotElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "hasSlotContent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "handleMediaSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleMediaAccentSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -3082,16 +3124,6 @@
               "propName": "description"
             },
             {
-              "name": "media",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Visual content for the card. Supported types are images: png, jpg, etc.",
-              "fieldName": "media",
-              "propName": "media"
-            },
-            {
               "name": "inset",
               "type": {
                 "text": "boolean"
@@ -3110,16 +3142,6 @@
               "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
               "fieldName": "elevated",
               "propName": "elevated"
-            },
-            {
-              "name": "mediaAccent",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "A date accent displayed over the media, in `M/D` format (e.g. `\"10/16\"`).\nThe month is shown as a three-letter abbreviation and the day as a number\n(e.g. \"Oct 16\"). Only renders when `media` is set and the value is a valid\ndate. Only supports dates in v1.",
-              "fieldName": "mediaAccent",
-              "propName": "mediaaccent"
             }
           ],
           "superclass": {
@@ -3152,22 +3174,22 @@
             },
             {
               "title": "Media",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Inset Media",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Media Accent",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n<span slot=\"media-accent\">Oct 16</span>\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n<div slot=\"media-accent\">\n<span>Oct</span>\n<span>16</span>\n</div>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {
               "title": "Inset Media Accent",
-              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\ninset\n>\n<img slot=\"media\" src=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\" />\n<span slot=\"media-accent\">10/16</span>\n</nys-card>\n</div>",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\ninset\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n<div slot=\"media-accent\">\n<span>Oct</span>\n<span>16</span>\n</div>\n</nys-card>\n</div>",
               "lang": "html"
             },
             {

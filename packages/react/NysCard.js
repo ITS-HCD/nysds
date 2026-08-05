@@ -11,8 +11,6 @@ export const NysCard = forwardRef((props, forwardedRef) => {
     headingLevel,
     subheading,
     description,
-    media,
-    mediaAccent,
     ...filteredProps
   } = props;
 
@@ -26,8 +24,6 @@ export const NysCard = forwardRef((props, forwardedRef) => {
       headingLevel: props.headingLevel,
       subheading: props.subheading,
       description: props.description,
-      media: props.media,
-      mediaAccent: props.mediaAccent,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

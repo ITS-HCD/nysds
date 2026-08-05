@@ -261,17 +261,10 @@ export type NysCardProps = {
   subheading?: string;
   /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
   description?: string;
-  /** Visual content for the card. Supported types are images: png, jpg, etc. */
-  media?: string;
   /** When true, adds padding around the media to visually contain it. */
   inset?: boolean;
   /** When true, adds a drop shadow to the card, giving it a raised appearance. */
   elevated?: boolean;
-  /** A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
-The month is shown as a three-letter abbreviation and the day as a number
-(e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
-date. Only supports dates in v1. */
-  mediaAccent?: string;
 };
 
 export type NysCheckboxProps = {
@@ -1306,6 +1299,8 @@ export type CustomElements = {
    *  - **top** - Content rendered above the heading block (e.g. a badge or label).
    * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
    * - **bottom** - Content rendered at the bottom of the card, typically actions like buttons or links.
+   * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
+   * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content.
    */
   "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 

@@ -25,10 +25,8 @@ export const Basic: Story = {
     heading: "Heading",
     subheading: "",
     description: "A short description of the card's subject.",
-    media: "",
     inset: false,
     elevated: false,
-    mediaAccent: "",
   },
   render: (args) => {
     return html`
@@ -38,10 +36,8 @@ export const Basic: Story = {
           heading=${args.heading}
           subheading=${args.subheading}
           description=${args.description}
-          media=${args.media}
           ?inset=${args.inset}
           ?elevated=${args.elevated}
-          mediaAccent=${args.mediaAccent}
         ></nys-card>
       </div>
     `;
@@ -154,6 +150,7 @@ export const Media: Story = {
           <img
             slot="media"
             src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+            role="presentation"
           />
         </nys-card>
       </div>
@@ -168,6 +165,7 @@ export const Media: Story = {
     <img
       slot="media"
       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+      role="presentation"
     />
   </nys-card>
 </div>`,
@@ -189,6 +187,7 @@ export const InsetMedia: Story = {
           <img
             slot="media"
             src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+            role="presentation"
           />
         </nys-card>
       </div>
@@ -207,6 +206,7 @@ export const InsetMedia: Story = {
     <img
       slot="media"
       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+      role="presentation"
     />
   </nys-card>
 </div>`,
@@ -227,8 +227,12 @@ export const MediaAccent: Story = {
           <img
             slot="media"
             src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+            role="presentation"
           />
-          <span slot="media-accent">Oct 16</span>
+          <div slot="media-accent">
+            <span>Oct</span>
+            <span>16</span>
+          </div>
         </nys-card>
       </div>
     `;
@@ -242,8 +246,12 @@ export const MediaAccent: Story = {
     <img
       slot="media"
       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+      role="presentation"
     />
-    <span slot="media-accent">Oct 16</span>
+    <div slot="media-accent">
+      <span>Oct</span>
+      <span>16</span>
+    </div>
   </nys-card>
 </div>`,
         type: "auto",
@@ -264,8 +272,12 @@ export const InsetMediaAccent: Story = {
           <img
             slot="media"
             src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+            role="presentation"
           />
-          <span slot="media-accent">10/16</span>
+          <div slot="media-accent">
+            <span>Oct</span>
+            <span>16</span>
+          </div>
         </nys-card>
       </div>
     `;
@@ -279,8 +291,12 @@ export const InsetMediaAccent: Story = {
     <img
       slot="media"
       src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
+      role="presentation"
     />
-    <span slot="media-accent">10/16</span>
+    <div slot="media-accent">
+      <span>Oct</span>
+      <span>16</span>
+    </div>
   </nys-card>
 </div>`,
         type: "auto",

@@ -84,9 +84,10 @@
     width: 100%;
     height: fit-content;
 
-    img {
+    ::slotted([slot="media"]) {
       display: block;
       max-width: 100%;
+      width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
       border-radius: var(--_nys-card-border-radius--media);
@@ -112,6 +113,10 @@
       font-family: var(--nys-font-family-ui, "Proxima Nova");
       font-style: normal;
       font-weight: 700;
+
+      &[hidden] {
+        display: none;
+      }
 
       &-month {
         padding: 0;
