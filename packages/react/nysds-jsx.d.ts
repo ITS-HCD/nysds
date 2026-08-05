@@ -219,8 +219,25 @@ export type NysButtonProps = {
   inverted?: boolean;
   /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: string;
-  /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
+  /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
+
+Set this on `<nys-button>` rather than putting `aria-controls` on the host:
+the host has no role, so ARIA placed there is not mapped into the
+accessibility tree and never reaches the internal `<button>`. */
   ariaControls?: string;
+  /** Disclosure state for buttons that show/hide content. Sets `aria-expanded`
+on the internal `<button>`/`<a>`.
+
+Use `"false"` when the controlled content is collapsed and `"true"` when it
+is expanded, updating it every time the content toggles. Leave unset for
+buttons that are not disclosure triggers — an `aria-expanded` that never
+changes is worse than none. Pair with `ariaControls` pointing at the
+element being shown or hidden.
+
+Setting `aria-expanded` directly on the `<nys-button>` host does nothing:
+a custom element with no role does not map its ARIA attributes into the
+accessibility tree, and host ARIA does not cross into the shadow root. */
+  ariaExpanded?: "true" | "false" | "";
   /** Material Symbol icon before label. Not shown for `circle` mode. */
   prefixIcon?: string;
   /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode. */

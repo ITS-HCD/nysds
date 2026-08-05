@@ -11,6 +11,10 @@ import styles from "./nys-button.scss?inline";
  * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
  * `text` for inline. Set `href` to render as a navigation link.
  *
+ * ARIA belongs on the component's props, not on the `<nys-button>` host. The host has no role,
+ * so attributes placed there are not mapped into the accessibility tree and never reach the
+ * internal `<button>`. For a disclosure trigger use `ariaExpanded` together with `ariaControls`.
+ *
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
  *
@@ -115,6 +119,15 @@ import styles from "./nys-button.scss?inline";
  * ```html
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
+ *
+ * @example Disclosure trigger
+ * ```html
+ * <nys-button
+ *   label="Here's how you know"
+ *   ariaExpanded="false"
+ *   ariaControls="trust-bar"
+ * ></nys-button>
+ * ```
  */
 
 export class NysButton extends NysFormControlElement {
@@ -169,8 +182,37 @@ export class NysButton extends NysFormControlElement {
 
   /**
    * ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
+   *
+   * Set this on `<nys-button>` rather than putting `aria-controls` on the host:
+   * the host has no role, so ARIA placed there is not mapped into the
+   * accessibility tree and never reaches the internal `<button>`.
    */
   @property({ type: String }) ariaControls = "";
+
+  /**
+   * Disclosure state for buttons that show/hide content. Sets `aria-expanded`
+   * on the internal `<button>`/`<a>`.
+   *
+   * Use `"false"` when the controlled content is collapsed and `"true"` when it
+   * is expanded, updating it every time the content toggles. Leave unset for
+   * buttons that are not disclosure triggers — an `aria-expanded` that never
+   * changes is worse than none. Pair with `ariaControls` pointing at the
+   * element being shown or hidden.
+   *
+   * Setting `aria-expanded` directly on the `<nys-button>` host does nothing:
+   * a custom element with no role does not map its ARIA attributes into the
+   * accessibility tree, and host ARIA does not cross into the shadow root.
+   *
+   * @example
+   * ```html
+   * <nys-button
+   *   label="Here's how you know"
+   *   ariaExpanded="false"
+   *   ariaControls="trust-bar"
+   * ></nys-button>
+   * ```
+   */
+  @property({ type: String }) ariaExpanded: "true" | "false" | "" = "";
 
   /**
    * Material Symbol icon before label. Not shown for `circle` mode.
@@ -410,6 +452,7 @@ export class NysButton extends NysFormControlElement {
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
                 aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+                aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
               >
                 <slot
                   name="prefix-icon"
@@ -477,6 +520,7 @@ export class NysButton extends NysFormControlElement {
               @keydown=${this._handleKeydown}
               @keyup=${this._handleKeyup}
               aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+              aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
             >
               <slot
                 name="prefix-icon"

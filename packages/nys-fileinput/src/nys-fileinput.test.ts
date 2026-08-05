@@ -215,7 +215,9 @@ describe("nys-fileinput", () => {
     expect(customElements.get("nys-errormessage")).to.exist;
   });
 
-  it("associates the error message with the native input via aria-errormessage", async () => {
+  // Regression: #1763 — the error used to be associated with the hidden,
+  // aria-hidden <input type="file">, which is not in the accessibility tree.
+  it("does not put the error association on the aria-hidden native input", async () => {
     const el = await fixture<NysFileinput>(
       html`<nys-fileinput
         label="Doc"
@@ -224,9 +226,85 @@ describe("nys-fileinput", () => {
         errorMessage="Required"
       ></nys-fileinput>`,
     );
+    await el.updateComplete;
+
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-errormessage")).to.equal("dc--error");
+    expect(input.getAttribute("aria-hidden")).to.equal("true");
+    expect(input.hasAttribute("aria-errormessage")).to.equal(false);
+    expect(input.hasAttribute("aria-invalid")).to.equal(false);
     expect(el.shadowRoot!.getElementById("dc--error")).to.exist;
+  });
+
+  it("associates the error with the exposed control (the choose-file button)", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Doc"
+        id="dc2"
+        showError
+        errorMessage="Required"
+      ></nys-fileinput>`,
+    );
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    const control = el["_innerNysButton"]!;
+    expect(control, "inner <button> should resolve").to.exist;
+
+    expect(control.getAttribute("aria-invalid")).to.equal("true");
+    expect(control.getAttribute("aria-description")).to.equal("Required");
+
+    // The message lives in a different shadow root than the control, so the
+    // association travels by element reference rather than IDREF.
+    const refs = (control as any).ariaDescribedByElements;
+    if (refs !== undefined) {
+      expect(Array.from(refs ?? [])).to.deep.equal([errorEl]);
+    }
+  });
+
+  it("clears the error association on the exposed control when the error resolves", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Doc"
+        id="dc3"
+        showError
+        errorMessage="Required"
+      ></nys-fileinput>`,
+    );
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    el.showError = false;
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    const control = el["_innerNysButton"]!;
+    expect(control.getAttribute("aria-invalid")).to.equal("false");
+    expect(control.hasAttribute("aria-description")).to.equal(false);
+
+    const refs = (control as any).ariaDescribedByElements;
+    if (refs !== undefined) {
+      expect(refs == null || Array.from(refs).length === 0).to.equal(true);
+    }
+  });
+
+  it("associates the error with the exposed control in dropzone mode", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Doc"
+        id="dc4"
+        dropzone
+        showError
+        errorMessage="Required"
+      ></nys-fileinput>`,
+    );
+    await el.updateComplete;
+    await el["_syncControlErrorAssociation"]();
+
+    const control = el["_innerNysButton"]!;
+    expect(control, "inner <button> should resolve").to.exist;
+    expect(control.getAttribute("aria-invalid")).to.equal("true");
+    expect(control.getAttribute("aria-description")).to.equal("Required");
   });
 
   it("remains form-associated through the shared mixin (FormData round-trip)", async () => {
@@ -608,6 +686,78 @@ describe("nys-fileinput", () => {
         new File(["b"], "b.txt", { type: "text/plain" }),
       ]);
       expect(el.files.map((f) => f.name)).to.deep.equal(["a.txt", "b.txt"]);
+    });
+  });
+
+  // Regression: #1764 — aria-errormessage used to receive the error TEXT, which
+  // is an IDREF attribute, so the relation resolved to nothing.
+  describe("nys-fileitem error association", () => {
+    it("references the error element by id, not by its text", async () => {
+      const el = await fixture(html`
+        <nys-fileitem
+          filename="report.pdf"
+          status="error"
+          errorMessage="File type is invalid."
+        ></nys-fileitem>
+      `);
+      await (el as any).updateComplete;
+
+      const item = el.shadowRoot!.querySelector(".file-item")!;
+      const errorEl = el.shadowRoot!.querySelector(".file-item__error")!;
+
+      const idref = item.getAttribute("aria-errormessage");
+      expect(idref).to.not.equal("File type is invalid.");
+      expect(idref).to.equal(errorEl.id);
+      expect(errorEl.id).to.not.be.empty;
+      expect(errorEl.textContent!.trim()).to.equal("File type is invalid.");
+
+      // The IDREF must resolve inside this same shadow root.
+      expect(el.shadowRoot!.getElementById(idref!)).to.equal(errorEl);
+
+      // Chromium does not surface aria-errormessage inside a shadow root, so the
+      // relation is duplicated onto aria-describedby.
+      expect(item.getAttribute("aria-describedby")).to.equal(errorEl.id);
+      expect(item.getAttribute("aria-invalid")).to.equal("true");
+
+      // The error element itself must not claim to be an invalid control.
+      expect(errorEl.hasAttribute("aria-invalid")).to.equal(false);
+      expect(errorEl.hasAttribute("aria-errormessage")).to.equal(false);
+    });
+
+    it("does not announce a healthy file item as invalid", async () => {
+      const el = await fixture(html`
+        <nys-fileitem filename="report.pdf" status="done"></nys-fileitem>
+      `);
+      await (el as any).updateComplete;
+
+      const item = el.shadowRoot!.querySelector(".file-item")!;
+      expect(item.getAttribute("aria-invalid")).to.equal("false");
+      expect(item.hasAttribute("aria-errormessage")).to.equal(false);
+      expect(item.hasAttribute("aria-describedby")).to.equal(false);
+      expect(el.shadowRoot!.querySelector(".file-item__error")).to.equal(null);
+    });
+
+    it("gives each file item a distinct error id", async () => {
+      const a = await fixture(html`
+        <nys-fileitem
+          filename="a.pdf"
+          status="error"
+          errorMessage="Bad"
+        ></nys-fileitem>
+      `);
+      const b = await fixture(html`
+        <nys-fileitem
+          filename="b.pdf"
+          status="error"
+          errorMessage="Bad"
+        ></nys-fileitem>
+      `);
+      await (a as any).updateComplete;
+      await (b as any).updateComplete;
+
+      const idA = a.shadowRoot!.querySelector(".file-item__error")!.id;
+      const idB = b.shadowRoot!.querySelector(".file-item__error")!.id;
+      expect(idA).to.not.equal(idB);
     });
   });
 });

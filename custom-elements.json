@@ -2129,7 +2129,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.\n\nUse `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,\n`text` for inline. Set `href` to render as a navigation link.",
+          "description": "A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.\n\nUse `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,\n`text` for inline. Set `href` to render as a navigation link.\n\nARIA belongs on the component's props, not on the `<nys-button>` host. The host has no role,\nso attributes placed there are not mapped into the accessibility tree and never reach the\ninternal `<button>`. For a disclosure trigger use `ariaExpanded` together with `ariaControls`.",
           "name": "NysButton",
           "cssProperties": [
             {
@@ -2280,8 +2280,24 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.",
+              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.\n\nSet this on `<nys-button>` rather than putting `aria-controls` on the host:\nthe host has no role, so ARIA placed there is not mapped into the\naccessibility tree and never reaches the internal `<button>`.",
               "attribute": "ariaControls"
+            },
+            {
+              "kind": "field",
+              "name": "ariaExpanded",
+              "type": {
+                "text": "\"true\" | \"false\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Disclosure state for buttons that show/hide content. Sets `aria-expanded`\non the internal `<button>`/`<a>`.\n\nUse `\"false\"` when the controlled content is collapsed and `\"true\"` when it\nis expanded, updating it every time the content toggles. Leave unset for\nbuttons that are not disclosure triggers — an `aria-expanded` that never\nchanges is worse than none. Pair with `ariaControls` pointing at the\nelement being shown or hidden.\n\nSetting `aria-expanded` directly on the `<nys-button>` host does nothing:\na custom element with no role does not map its ARIA attributes into the\naccessibility tree, and host ARIA does not cross into the shadow root.",
+              "attribute": "ariaExpanded",
+              "examples": [
+                {
+                  "title": "```html",
+                  "code": "<nys-button\n  label=\"Here's how you know\"\n  ariaExpanded=\"false\"\n  ariaControls=\"trust-bar\"\n></nys-button>\n```"
+                }
+              ]
             },
             {
               "kind": "field",
@@ -2650,9 +2666,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.",
+              "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.\n\nSet this on `<nys-button>` rather than putting `aria-controls` on the host:\nthe host has no role, so ARIA placed there is not mapped into the\naccessibility tree and never reaches the internal `<button>`.",
               "fieldName": "ariaControls",
               "propName": "ariacontrols"
+            },
+            {
+              "name": "ariaExpanded",
+              "type": {
+                "text": "\"true\" | \"false\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Disclosure state for buttons that show/hide content. Sets `aria-expanded`\non the internal `<button>`/`<a>`.\n\nUse `\"false\"` when the controlled content is collapsed and `\"true\"` when it\nis expanded, updating it every time the content toggles. Leave unset for\nbuttons that are not disclosure triggers — an `aria-expanded` that never\nchanges is worse than none. Pair with `ariaControls` pointing at the\nelement being shown or hidden.\n\nSetting `aria-expanded` directly on the `<nys-button>` host does nothing:\na custom element with no role does not map its ARIA attributes into the\naccessibility tree, and host ARIA does not cross into the shadow root.",
+              "fieldName": "ariaExpanded",
+              "propName": "ariaexpanded"
             },
             {
               "name": "prefixIcon",
@@ -2847,6 +2873,11 @@
             {
               "title": "Type",
               "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Disclosure trigger",
+              "code": "<nys-button\nlabel=\"Here's how you know\"\nariaExpanded=\"false\"\nariaControls=\"trust-bar\"\n></nys-button>",
               "lang": "html"
             }
           ]
@@ -6968,6 +6999,12 @@
             },
             {
               "kind": "method",
+              "name": "_syncControlErrorAssociation",
+              "privacy": "private",
+              "description": "Point the exposed control at the rendered <nys-errormessage>.\n\nThe native <input type=\"file\"> is `hidden`, `aria-hidden` and `tabindex=\"-1\"`,\nso it is not in the accessibility tree and must not carry the error\nassociation. The element a user actually reaches is the <button> inside the\n\"Choose file\" <nys-button>'s shadow root.\n\nThat button and the message sit in different shadow roots, so an IDREF\nwritten on the button would dangle. ARIA element reflection does cross into a\nshadow-including ancestor tree, so associateControlRefs sets the control's own\nariaDescribedByElements (plus an aria-description string fallback for engines\nthat expose the IDL but do not yet honor it). aria-describedby — not\naria-errormessage — is what Blink actually surfaces for a control inside a\nshadow root; see src/scripts/verify-a11y-names.mjs. aria-errormessage is set\nthrough its element-reflection form where the engine supports it."
+            },
+            {
+              "kind": "method",
               "name": "_setValue",
               "privacy": "private",
               "description": "Form Integration\n--------------------------------------------------------------------------"
@@ -7435,7 +7472,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "**Internal component.** Displays an individual file within `nys-fileinput` with status and progress.\n\nRendered automatically by `nys-fileinput` for each selected file. Shows filename, upload status\n(pending/processing/done/error), progress bar during upload, and error messages. Remove button emits event.",
+          "description": "**Internal component.** Displays an individual file within `nys-fileinput` with status and progress.\n\nRendered automatically by `nys-fileinput` for each selected file. Shows filename, upload status\n(pending/processing/done/error), progress bar during upload, and error messages. Remove button emits event.\n\nWhen `errorMessage` is set the text is rendered into an element with a stable id\n(`{host id}--error`) and the item references that id via `aria-errormessage` +\n`aria-describedby`, paired with `aria-invalid` reflecting the real status.",
           "name": "NysFileItem",
           "members": [
             {
@@ -7486,6 +7523,36 @@
               "default": "\"\"",
               "description": "Error message displayed when status is `error`.",
               "attribute": "errorMessage"
+            },
+            {
+              "kind": "field",
+              "name": "_isInvalid",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "True when this item is actually in an error state. `aria-invalid` reflects\nthis rather than being hardcoded, so a healthy item is never announced as\ninvalid.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_hasErrorText",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "True only when the error element is rendered, so the IDREF can resolve.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_errorId",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Stable id of the element that holds the error text. `aria-errormessage` and\n`aria-describedby` take an IDREF, so they must point at this — never at the\nmessage text itself. Derived from the host id (auto-generated by NysElement)\nrather than the filename, which is not id-safe and not stable.",
+              "readonly": true
             },
             {
               "kind": "method",
@@ -7558,8 +7625,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-fileitem",
           "customElement": true,
