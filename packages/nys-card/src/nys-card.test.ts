@@ -217,6 +217,123 @@ describe("nys-card", () => {
     expect(fired).to.equal(1);
   });
 
+  // ── Focus & Blur ──────────────────────────────────────────
+  // The card's control is a native <a>/<button>, so tabbing to it is exercised
+  // by focusing that element: it is the element the browser's tab order lands on.
+  const focusEvents = (el: NysCard) => {
+    const events: string[] = [];
+    el.addEventListener("nys-focus", () => events.push("focus"));
+    el.addEventListener("nys-blur", () => events.push("blur"));
+    return events;
+  };
+
+  it("fires nys-focus and nys-blur when the button card is focused and left", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card heading="My Label" .onClick=${() => {}}></nys-card>
+    `);
+    await el.updateComplete;
+
+    const events = focusEvents(el);
+    const btn = control(el);
+
+    btn.focus();
+    expect(el.shadowRoot?.activeElement).to.equal(btn);
+    expect(events).to.deep.equal(["focus"]);
+
+    btn.blur();
+    expect(el.shadowRoot?.activeElement).to.be.null;
+    expect(events).to.deep.equal(["focus", "blur"]);
+  });
+
+  it("fires nys-focus and nys-blur when the link card is focused and left", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card heading="My Label" href="https://www.ny.gov/"></nys-card>
+    `);
+    await el.updateComplete;
+
+    const events = focusEvents(el);
+    const link = control(el);
+
+    link.focus();
+    expect(el.shadowRoot?.activeElement).to.equal(link);
+    expect(events).to.deep.equal(["focus"]);
+
+    link.blur();
+    expect(events).to.deep.equal(["focus", "blur"]);
+  });
+
+  it("fires nys-focus and nys-blur exactly once per focus change", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card heading="My Label" .onClick=${() => {}}></nys-card>
+    `);
+    await el.updateComplete;
+
+    const events = focusEvents(el);
+    const btn = control(el);
+
+    btn.focus();
+    btn.focus(); // already focused — no second event
+    btn.blur();
+    btn.blur(); // already blurred — no second event
+
+    expect(events).to.deep.equal(["focus", "blur"]);
+  });
+
+  it("moves focus off the card when focus goes to the next control", async () => {
+    const wrapper = await fixture(html`
+      <div>
+        <nys-card heading="My Label" .onClick=${() => {}}></nys-card>
+        <button id="after">After</button>
+      </div>
+    `);
+    const el = wrapper.querySelector("nys-card") as NysCard;
+    await el.updateComplete;
+
+    const events = focusEvents(el);
+    const card = control(el);
+
+    card.focus();
+    (wrapper.querySelector("#after") as HTMLButtonElement).focus();
+
+    expect(el.shadowRoot?.activeElement).to.be.null;
+    expect(document.activeElement?.id).to.not.equal(el.id);
+    expect(events).to.deep.equal(["focus", "blur"]);
+  });
+
+  it("bubbles nys-focus and nys-blur out of the card", async () => {
+    const wrapper = await fixture(html`
+      <div><nys-card heading="My Label" .onClick=${() => {}}></nys-card></div>
+    `);
+    const el = wrapper.querySelector("nys-card") as NysCard;
+    await el.updateComplete;
+
+    const events: string[] = [];
+    wrapper.addEventListener("nys-focus", () => events.push("focus"));
+    wrapper.addEventListener("nys-blur", () => events.push("blur"));
+
+    control(el).focus();
+    control(el).blur();
+
+    expect(events).to.deep.equal(["focus", "blur"]);
+  });
+
+  it("keeps a non-interactive card out of the tab order", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card heading="My Label"></nys-card>
+    `);
+    await el.updateComplete;
+
+    const events = focusEvents(el);
+    const container = control(el);
+
+    expect(container.tagName).to.equal("DIV");
+    expect(container.hasAttribute("tabindex")).to.be.false;
+
+    container.focus();
+    expect(el.shadowRoot?.activeElement).to.be.null;
+    expect(events).to.be.empty;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-card heading="My Label"></nys-card>`);
     await expect(el).shadowDom.to.be.accessible();
