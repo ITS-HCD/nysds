@@ -24,14 +24,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Basic
  * ```html
- * <nys-card
- *  heading="Heading"
- *  description="A short description of the card's subject."
- * ></nys-card>
- * ```
- *
- * @render Basic
- * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card
  *   heading="Heading"
@@ -41,15 +33,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * ```
  *
  * @example Preheading
- * ```html
- * <nys-card
- *  preheading="Preheading"
- *  heading="Heading"
- *  description="A short description of the card's subject."
- * ></nys-card>
- * ```
- *
- * @render Preheading
  * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card
@@ -62,15 +45,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Heading Level
  * ```html
- * <nys-card
- *  heading="Heading"
- *  headingLevel="h3"
- *  description="Set the heading level to fit the page's heading hierarchy."
- * ></nys-card>
- * ```
- *
- * @render Heading Level
- * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card
  *   heading="Heading"
@@ -81,15 +55,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * ```
  *
  * @example Subheading
- * ```html
- * <nys-card
- *  heading="Heading"
- *  subheading="Subheading"
- *  description="A short description of the card's subject."
- * ></nys-card>
- * ```
- *
- * @render Subheading
  * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card
@@ -102,35 +67,17 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Media
  * ```html
- * <nys-card
- *  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *  heading="Heading"
- *  description="A card with a media image."
- * ></nys-card>
- * ```
- *
- * @render Media
- * ```html
  * <div class="nys-grid-col-3">
- *  <nys-card
- *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *   heading="Heading"
- *   description="A card with a media image."
- *  ></nys-card>
+ *   <nys-card
+ *     heading="Heading"
+ *     description="A card with a media image."
+ *   >
+ *     <img slot="media" src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop" />
+ *   </nys-card>
  * </div>
  * ```
  *
  * @example Inset Media
- * ```html
- * <nys-card
- *  media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *  heading="Heading"
- *  description="Inset adds padding around the media to visually contain it."
- *  inset
- * ></nys-card>
- * ```
- *
- * @render Inset Media
  * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card
@@ -144,16 +91,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Media Accent
  * ```html
- * <nys-card
- *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *   mediaaccent="10/16"
- *   heading="Heading"
- *   description="A card with a media image and a date accent."
- * ></nys-card>
- * ```
- *
- * @render Media Accent
- * ```html
  * <div class="nys-grid-col-3">
  *   <nys-card
  *     media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
@@ -165,17 +102,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * ```
  *
  * @example Inset Media Accent
- * ```html
- * <nys-card
- *   media="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop"
- *   inset
- *   mediaaccent="10/16"
- *   heading="Heading"
- *   description="A card with a media image and a date accent."
- * ></nys-card>
- * ```
- *
- * @render Inset Media Accent
  * ```html
  * <div class="nys-grid-col-3">
  *   <nys-card
@@ -190,15 +116,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Elevated
  * ```html
- * <nys-card
- *  heading="Heading"
- *  description="Elevated adds a drop shadow to give the card a raised appearance."
- *  elevated
- * ></nys-card>
- * ```
- *
- * @render Elevated
- * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card
  *   heading="Heading"
@@ -210,13 +127,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Footer Slot
  * ```html
- * <nys-card heading="Heading" description="A card with actions in the footer slot.">
- *  <nys-button slot="footer" label="Learn more"></nys-button>
- * </nys-card>
- * ```
- *
- * @render Footer Slot
- * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card heading="Heading" description="A card with actions in the footer slot.">
  *   <nys-button slot="footer" label="Learn more"></nys-button>
@@ -226,13 +136,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Top Slot
  * ```html
- * <nys-card heading="Heading" description="A card with content in the top slot.">
- *  <nys-badge slot="top" label="New" intent="success"></nys-badge>
- * </nys-card>
- * ```
- *
- * @render Top Slot
- * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card heading="Heading" description="A card with content in the top slot.">
  *   <nys-badge slot="top" label="New" intent="success"></nys-badge>
@@ -241,17 +144,6 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * ```
  *
  * @example Icon List
- * ```html
- * <nys-card heading="What's included">
- *  <nys-iconlist divider>
- *    <nys-iconlistitem icon="check">First item</nys-iconlistitem>
- *    <nys-iconlistitem icon="check">Second item</nys-iconlistitem>
- *    <nys-iconlistitem icon="check">Third item</nys-iconlistitem>
- *  </nys-iconlist>
- * </nys-card>
- * ```
- *
- * @render Icon List
  * ```html
  * <div class="nys-grid-col-3">
  *  <nys-card heading="What's included">
