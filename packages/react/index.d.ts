@@ -6,7 +6,6 @@ export * from "./NysBacktotop.js";
 export * from "./NysBadge.js";
 export * from "./NysBreadcrumbs.js";
 export * from "./NysButton.js";
-export * from "./NysCard.js";
 export * from "./NysCheckbox.js";
 export * from "./NysCheckboxgroup.js";
 export * from "./NysCombobox.js";

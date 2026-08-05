@@ -8,7 +8,6 @@
     { "path": "packages/nys-badge" },
     { "path": "packages/nys-breadcrumbs" },
     { "path": "packages/nys-button" },
-    { "path": "packages/nys-card" },
     { "path": "packages/nys-checkbox" },
     { "path": "packages/nys-combobox" },
     { "path": "packages/nys-datepicker" },
