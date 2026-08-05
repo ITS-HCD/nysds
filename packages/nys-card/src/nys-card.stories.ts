@@ -520,7 +520,7 @@ export const StretchToFillColumnHeight: Story = {
           >
             <img
               slot="media"
-              src="/assets/images/card/manhatten.png"
+              src="/assets/images/card/manhattan.png"
               role="presentation"
             />
             <nys-button
@@ -575,7 +575,7 @@ export const StretchToFillColumnHeight: Story = {
       heading="Roosevelt Island Four Freedoms State Park"
       description="A memorial park on Roosevelt Island dedicated to Franklin D. Roosevelt, featuring sweeping lawns, formal gardens, and panoramic views of the Manhattan and Queens waterfronts on all sides."
     >
-      <img slot="media" src="/assets/images/card/manhatten.png" role="presentation" />
+      <img slot="media" src="/assets/images/card/manhattan.png" role="presentation" />
       <nys-button slot="footer" label="Visit Manhattan" fullWidth></nys-button>
     </nys-card>
   </div>

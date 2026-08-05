@@ -226,7 +226,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *       heading="Roosevelt Island Four Freedoms State Park"
  *       description="A memorial park on Roosevelt Island dedicated to Franklin D. Roosevelt, featuring sweeping lawns, formal gardens, and panoramic views of the Manhattan and Queens waterfronts on all sides."
  *     >
- *       <img slot="media" src="/assets/images/card/manhatten.png" role="presentation" />
+ *       <img slot="media" src="/assets/images/card/manhattan.png" role="presentation" />
  *       <nys-button slot="footer" label="Visit Manhattan" fullWidth></nys-button>
  *     </nys-card>
  *   </div>
