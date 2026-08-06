@@ -1,6 +1,10 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-pagination.js";
 import { NysPagination } from "./nys-pagination.js";
+// Explicitly registered so the mobile prev/next nys-buttons upgrade in this
+// test file even if that ever stops happening transitively through the
+// package's own dist bundle.
+import "@nysds/nys-button";
 
 // You may need to import other dependencies such as the component's tag name
 // For example:
@@ -144,6 +148,62 @@ describe("nys-pagination", () => {
       html`<nys-pagination id="my-pager" totalPages="5"></nys-pagination>`,
     );
     expect(el.id).to.equal("my-pager");
+  });
+
+  it("gives the icon-only mobile Previous/Next buttons a real accessible name", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="5" totalPages="10"></nys-pagination>`,
+    );
+    await el.updateComplete;
+
+    const prev = el.shadowRoot!.getElementById(
+      "previous--mobile",
+    ) as HTMLElement;
+    const next = el.shadowRoot!.getElementById("next--mobile") as HTMLElement;
+
+    // These buttons render icon-only (no `label`, so nys-button falls back to
+    // its default slot). The accessible name has to come from content that
+    // actually lands in that slot — not a dead `ariaLabel` attribute nys-button
+    // never forwards to the internal <button>.
+    const prevSlot = prev.shadowRoot?.querySelector(
+      "slot.nys-button__default-slot",
+    ) as HTMLSlotElement | null;
+    const nextSlot = next.shadowRoot?.querySelector(
+      "slot.nys-button__default-slot",
+    ) as HTMLSlotElement | null;
+
+    const prevName = prevSlot
+      ?.assignedElements({ flatten: true })
+      .map((n) => n.textContent?.trim())
+      .join("");
+    const nextName = nextSlot
+      ?.assignedElements({ flatten: true })
+      .map((n) => n.textContent?.trim())
+      .join("");
+
+    expect(prevName).to.equal("Previous Page");
+    expect(nextName).to.equal("Next Page");
+
+    // Neither button carries the old dead attribute anymore.
+    expect(prev.hasAttribute("arialabel")).to.be.false;
+    expect(next.hasAttribute("arialabel")).to.be.false;
+  });
+
+  it("does not leave dead ariaLabel attributes on the desktop Previous/Next or page-number buttons", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="2" totalPages="5"></nys-pagination>`,
+    );
+    await el.updateComplete;
+
+    // These buttons already have a real accessible name from the visible
+    // `label` prop ("Previous", "Next", the page number). The old `ariaLabel`
+    // attribute never reached nys-button and is now removed rather than left
+    // behind as misleading dead markup.
+    const buttons = el.shadowRoot!.querySelectorAll("nys-button");
+    for (const button of Array.from(buttons)) {
+      expect(button.hasAttribute("arialabel"), button.id || "(page button)")
+        .to.be.false;
+    }
   });
 
   it("passes the a11y audit", async () => {

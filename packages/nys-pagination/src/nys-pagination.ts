@@ -2,6 +2,12 @@ import { TemplateResult, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM, so it must be
+// registered whenever nys-pagination is used. Importing it here (intentional
+// side effect) guarantees every page/prev/next nys-button always upgrades —
+// the mobile prev/next buttons' accessible name lands on nys-button's real
+// inner <button>, which only exists once nys-button renders.
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
 
@@ -103,7 +109,6 @@ export class NysPagination extends NysElement {
       buttons.push(html`
         <nys-button
           label=${String(page)}
-          ariaLabel="Page ${page}${isCurrent ? " - Current Page" : ""}"
           aria-current=${ifDefined(isCurrent ? "page" : undefined)}
           id=${ifDefined(id)}
           variant=${isCurrent ? "filled" : "outline"}
@@ -192,7 +197,6 @@ export class NysPagination extends NysElement {
       <nys-button
         id="previous"
         label="Previous"
-        ariaLabel="Previous Page"
         prefixIcon="chevron_left"
         variant="outline"
         size="sm"
@@ -202,17 +206,16 @@ export class NysPagination extends NysElement {
       <nys-button
         id="previous--mobile"
         prefixIcon="chevron_left"
-        ariaLabel="Previous Page"
         variant="outline"
         size="sm"
         ?disabled=${this.currentPage === 1}
         @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
-      ></nys-button>
+        ><span class="sr-only">Previous Page</span></nys-button
+      >
       ${this.renderPageButtons()}
       <nys-button
         id="next"
         label="Next"
-        ariaLabel="Next Page"
         suffixIcon="chevron_right"
         variant="outline"
         size="sm"
@@ -222,12 +225,12 @@ export class NysPagination extends NysElement {
       <nys-button
         id="next--mobile"
         suffixIcon="chevron_right"
-        ariaLabel="Next Page"
         variant="outline"
         size="sm"
         ?disabled=${this.currentPage === this.totalPages}
         @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
-      ></nys-button>
+        ><span class="sr-only">Next Page</span></nys-button
+      >
     </nav>`;
   }
   /****************** 🪡 in the Haystack Release ******/

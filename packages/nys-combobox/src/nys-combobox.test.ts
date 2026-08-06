@@ -4,6 +4,7 @@ import { NysCombobox } from "./nys-combobox.js";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";
+import "@nysds/nys-button";
 
 /**
  * Test suite for nys-combobox component
@@ -642,6 +643,39 @@ describe("nys-combobox", () => {
     );
     const input = el.shadowRoot?.querySelector("input");
     expect(input?.getAttribute("aria-disabled")).to.equal("true");
+  });
+
+  it("gives the icon-only clear and toggle buttons a real accessible name", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox value="apple">
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+    await el.updateComplete;
+
+    // Both buttons render `circle`, so nys-button puts `label` into a
+    // visually-hidden `.nys-button__text` node inside the real <button> —
+    // that's what has to carry the name, not a dead `ariaLabel` attribute
+    // nys-button never forwards.
+    const clearBtn = el.shadowRoot?.querySelector(
+      ".nys-combobox__clear",
+    ) as HTMLElement;
+    const chevronBtn = el.shadowRoot?.querySelector(
+      ".nys-combobox__chevron",
+    ) as HTMLElement;
+
+    expect(clearBtn.hasAttribute("arialabel")).to.be.false;
+    expect(chevronBtn.hasAttribute("arialabel")).to.be.false;
+
+    const clearText = clearBtn.shadowRoot?.querySelector(
+      "button .nys-button__text",
+    );
+    const chevronText = chevronBtn.shadowRoot?.querySelector(
+      "button .nys-button__text",
+    );
+
+    expect(clearText?.textContent?.trim()).to.equal("Clear selection");
+    expect(chevronText?.textContent?.trim()).to.equal("Toggle dropdown");
   });
 
   // Keyboard interaction tests

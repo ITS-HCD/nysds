@@ -1,6 +1,8 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-table.js";
 import { NysTable } from "./nys-table.js";
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 import sinon from "sinon";
 
 describe("nys-table", () => {
@@ -176,10 +178,19 @@ describe("nys-table", () => {
         </table>
       </nys-table>
     `);
-    const button = el.shadowRoot?.getElementById("test-table-download-button");
+    const button = el.shadowRoot?.getElementById(
+      "test-table-download-button",
+    ) as HTMLElement;
     expect(button).to.exist;
     expect(el.download).to.equal("data.csv");
-    expect(button?.ariaLabel).to.equal("Download Caption Table");
+
+    // The old dead `aria-label` binding on the host never reached nys-button
+    // (host has no role, so it never maps into the accessibility tree). The
+    // real accessible name has to come from nys-button's `label` prop, which
+    // it renders into the internal <button>'s `.nys-button__text` node.
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    const text = button.shadowRoot?.querySelector("button .nys-button__text");
+    expect(text?.textContent?.trim()).to.equal("Download Caption Table");
   });
 
   it("adds sort icons to sortable tables", async () => {

@@ -1,6 +1,13 @@
 import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
+// These elements are rendered inside this component's shadow DOM, so they must
+// be registered whenever nys-table is used. Importing them here (intentional
+// side effect) guarantees the sort icons and download button always upgrade —
+// the download button's accessible name lands on nys-button's real inner
+// <button>, which only exists once nys-button renders.
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
 // @ts-ignore: SCSS module imported via bundler as inline
@@ -518,8 +525,7 @@ export class NysTable extends NysElement {
       ${this.download
         ? html` <nys-button
             id="${this.id}-download-button"
-            label="Download table"
-            aria-label=${this._captionText
+            label=${this._captionText
               ? `Download ${this._captionText}`
               : "Download table"}
             size="sm"

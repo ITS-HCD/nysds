@@ -13,7 +13,6 @@ const packages = [
   { name: "nys-breadcrumbs", path: "packages/nys-breadcrumbs" },
   { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
-  { name: "nys-combobox", path: "packages/nys-combobox" },
   { name: "nys-datepicker", path: "packages/nys-datepicker" },
   { name: "nys-divider", path: "packages/nys-divider" },
   { name: "nys-dropdownmenu", path: "packages/nys-dropdownmenu" },
@@ -22,6 +21,9 @@ const packages = [
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
   { name: "nys-icon", path: "packages/nys-icon" },
+  // nys-combobox depends on nys-button and nys-icon (icon-only clear/toggle
+  // buttons), so it must build after both.
+  { name: "nys-combobox", path: "packages/nys-combobox" },
   { name: "nys-iconlist", path: "packages/nys-iconlist" },
   { name: "nys-label", path: "packages/nys-label" },
   { name: "nys-modal", path: "packages/nys-modal" },

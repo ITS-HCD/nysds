@@ -2,6 +2,13 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
+// These elements are rendered inside this component's shadow DOM, so they must
+// be registered whenever nys-fileitem is used. Importing them here (intentional
+// side effect) guarantees the remove button and its icon always upgrade — the
+// button's accessible name lands on nys-button's real inner <button>, which
+// only exists once nys-button renders.
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileitem.scss?inline";
 
@@ -139,11 +146,10 @@ export class NysFileItem extends NysElement {
           <nys-button
             circle
             icon="close"
-            ariaLabel="close button"
+            label="Remove file: ${this.filename}"
             size="sm"
             variant="ghost"
             @nys-click=${this._handleRemove}
-            ariaLabel="Remove file: ${this.filename}"
           ></nys-button>
         </div>
         ${this.status === "processing"
