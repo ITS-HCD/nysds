@@ -89,21 +89,127 @@ describe("nys-alert", () => {
     expect(alertContainer).to.not.exist;
   });
 
-  it("should have correct role attribute based on type", async () => {
+  it("should have correct role and aria-live based on type", async () => {
     const el = await fixture<NysAlert>(
       html`<nys-alert type="danger"></nys-alert>`,
     );
     const alertTextContainer =
       el.shadowRoot?.querySelector(".nys-alert__texts");
     expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
+      "assertive",
+    );
+
+    el.type = "warning";
+    await el.updateComplete;
+    expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
+      "assertive",
+    );
+
+    el.type = "emergency";
+    await el.updateComplete;
+    expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
+      "assertive",
+    );
 
     el.type = "success";
     await el.updateComplete;
     expect(alertTextContainer?.getAttribute("role")).to.equal("status");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("polite");
 
     el.type = "info";
     await el.updateComplete;
-    expect(alertTextContainer?.getAttribute("role")).to.equal("region");
+    expect(alertTextContainer?.getAttribute("role")).to.equal("status");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("polite");
+
+    el.type = "base";
+    await el.updateComplete;
+    expect(alertTextContainer?.getAttribute("role")).to.equal("status");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("polite");
+  });
+
+  it("keeps role/aria-live and the announced content on the same element", async () => {
+    const el = await fixture<NysAlert>(
+      html`<nys-alert
+        type="danger"
+        heading="Error"
+        text="Something went wrong"
+      ></nys-alert>`,
+    );
+
+    const alertTextContainer =
+      el.shadowRoot?.querySelector(".nys-alert__texts");
+    const container = el.shadowRoot?.querySelector(".nys-alert__container");
+
+    // The live-region role/aria-live must live on the same element that
+    // wraps the announced heading/text content, not on an ancestor.
+    expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
+    const headerEl = alertTextContainer?.querySelector(".nys-alert__header");
+    expect(alertTextContainer?.contains(headerEl!)).to.be.true;
+    expect(
+      alertTextContainer?.textContent?.trim().includes("Something went wrong"),
+    ).to.be.true;
+
+    // The outer container must not carry a redundant/mismatched role or
+    // accessible-name attribute split from the live-region element.
+    expect(container?.hasAttribute("role")).to.be.false;
+    expect(container?.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("does not include the dismiss button inside the announced live-region content", async () => {
+    const el = await fixture<NysAlert>(
+      html`<nys-alert
+        type="danger"
+        heading="Error"
+        dismissible
+      ></nys-alert>`,
+    );
+
+    const alertTextContainer =
+      el.shadowRoot?.querySelector(".nys-alert__texts");
+    const dismissButton = el.shadowRoot?.getElementById("dismiss-btn");
+
+    expect(dismissButton).to.exist;
+    expect(alertTextContainer?.contains(dismissButton!)).to.be.false;
+  });
+
+  it("announces dynamically-inserted alert content because the live region is already present when text changes", async () => {
+    // Simulates the common "system injects an alert" scenario: the alert
+    // element is added to the page first (as an empty/base alert), then its
+    // content is set afterward. Because role/aria-live render on
+    // .nys-alert__texts on first paint (independent of heading/text being
+    // populated yet), the live region is already registered with the
+    // accessibility tree before the announced content is inserted into it,
+    // so assistive technology reliably picks up the change.
+    const el = await fixture<NysAlert>(
+      html`<nys-alert type="danger"></nys-alert>`,
+    );
+    await el.updateComplete;
+
+    const alertTextContainer =
+      el.shadowRoot?.querySelector(".nys-alert__texts");
+    expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
+      "assertive",
+    );
+
+    // Now dynamically update the content of the already-present live region.
+    el.heading = "Session expiring";
+    el.text = "Your session will expire in 2 minutes.";
+    await el.updateComplete;
+
+    expect(alertTextContainer?.textContent).to.include("Session expiring");
+    expect(alertTextContainer?.textContent).to.include(
+      "Your session will expire in 2 minutes.",
+    );
+    // The role/aria-live attributes remain on the same element throughout
+    // the content update, confirming the live region was never re-created.
+    expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
+      "assertive",
+    );
   });
 
   it("should reflect Slot content", async () => {
@@ -200,10 +306,11 @@ describe("nys-alert", () => {
 
 // Accessibility Tests
 /*
- * Ensure that the role attribute is set properly for the alert based on its type:
- * - "danger" and "emergency" should have role="alert"
- * - "success" should have role="status"
- * - All other types should have role="region"
+ * Ensure that the role/aria-live attributes are set properly for the alert
+ * based on its type, and that they live on the same element that wraps the
+ * announced content (nysds#1092):
+ * - "warning", "danger", and "emergency" => role="alert", aria-live="assertive"
+ * - "base", "info", and "success" => role="status", aria-live="polite"
  */
 
 /*
