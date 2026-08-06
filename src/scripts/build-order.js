@@ -31,6 +31,7 @@ const packages = [
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-iconlist", path: "packages/nys-iconlist" },
+  { name: "nys-card", path: "packages/nys-card" },
   { name: "nys-modal", path: "packages/nys-modal" },
   { name: "nys-pagination", path: "packages/nys-pagination" },
   { name: "nys-processlist", path: "packages/nys-processlist" },
