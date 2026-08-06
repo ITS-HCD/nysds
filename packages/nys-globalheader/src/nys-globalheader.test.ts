@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysGlobalHeader } from "./nys-globalheader";
 import "../dist/nys-globalheader.js";
 
@@ -503,6 +504,20 @@ describe("nys-globalheader", () => {
     await el.updateComplete;
     expect(buttonIcon.getAttribute("name")).to.equal("menu");
     expect(labelSpan.textContent?.trim()).to.include("MENU");
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    // Mobile menu icon only renders once there is link content to toggle.
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader agencyName="Test">
+        <ul>
+          <li><a href="/">Home</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });
 

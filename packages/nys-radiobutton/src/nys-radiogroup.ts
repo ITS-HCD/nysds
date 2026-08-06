@@ -7,8 +7,10 @@ import type { NysRadiobutton } from "./nys-radiobutton";
 // they must be registered whenever nys-radiogroup is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
 // which the accessible name/error association depends on — always render.
+// nys-textinput renders the "other" free-text field for a checked "other" radio.
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-textinput";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 

@@ -7,8 +7,10 @@ import { NysOption } from "./nys-option";
 // they must be registered whenever nys-select is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
 // which the accessible name/error association depends on — always render.
+// nys-icon renders the chevron-down indicator.
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-select.scss?inline";
 

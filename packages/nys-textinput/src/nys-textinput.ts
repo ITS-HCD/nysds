@@ -6,8 +6,12 @@ import { NysFormControlElement } from "@nysds/internals";
 // they must be registered whenever nys-textinput is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
 // which the accessible name/error association depends on — always render.
+// nys-button/nys-icon render the password-visibility toggle and search-clear
+// controls.
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textinput.scss?inline";
 

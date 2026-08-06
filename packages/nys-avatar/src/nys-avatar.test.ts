@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysAvatar } from "./nys-avatar";
 import "../dist/nys-avatar.js";
 
@@ -362,5 +363,10 @@ describe("nys-avatar", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

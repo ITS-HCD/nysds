@@ -1,4 +1,5 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-radiobutton.js";
 import { NysRadiogroup } from "./nys-radiogroup";
 import { NysRadiobutton } from "./nys-radiobutton";
@@ -1286,5 +1287,30 @@ describe("nys-radiobutton external labelling", () => {
       group.shadowRoot!.querySelector<HTMLInputElement>("#input-opt-ext")!;
     expect(input.getAttribute("aria-labelledby")).to.equal("opt-ext-label");
     expect(group.shadowRoot!.getElementById("opt-ext-label")).to.exist;
+  });
+});
+
+describe("nys-radiobutton/nys-radiogroup self-registration", () => {
+  it("registers every nys-* element nys-radiobutton renders standalone", async () => {
+    const el = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton label="Test" value="a"></nys-radiobutton>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
+  });
+
+  it("registers every nys-* element nys-radiogroup renders, including the 'other' text input", async () => {
+    const el = await fixture<NysRadiogroup>(
+      html`<nys-radiogroup label="Test">
+        <nys-radiobutton
+          name="g"
+          value="other"
+          label="Other"
+          other
+          checked
+        ></nys-radiobutton>
+      </nys-radiogroup>`,
+    );
+    await el.updateComplete;
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

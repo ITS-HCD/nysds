@@ -1,6 +1,12 @@
 import { PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
+// Bare side-effect import: `NysProcesslistitem` below is used only in a type
+// position (the `el is NysProcesslistitem` guard in `_syncSteps`), so a
+// TS/esbuild import-elision pass can drop a plain named import entirely,
+// leaving <nys-processlistitem> unregistered whenever nys-processlist is
+// imported standalone. This import guarantees registration regardless.
+import "./nys-processlistitem";
 import { NysProcesslistitem } from "./nys-processlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-processlist.light.scss?inline";

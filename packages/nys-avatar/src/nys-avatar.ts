@@ -2,6 +2,10 @@ import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the default
+// icon fallback), so it must be registered whenever nys-avatar is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-avatar.scss?inline";
 

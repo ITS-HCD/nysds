@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-backtotop.js";
 import { NysBacktotop } from "./nys-backtotop.js";
 
@@ -185,5 +186,12 @@ describe("nys-backtotop", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

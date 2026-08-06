@@ -1,6 +1,12 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-pagination.js";
 import { NysPagination } from "./nys-pagination.js";
+// nys-pagination's self-registration of nys-button is fixed on
+// fix/a11y-arialabel-sweep (not this branch) — kept here so the
+// self-registration test below is meaningful on this branch standalone. Safe
+// to drop once that branch merges and nys-pagination.ts imports it itself.
+import "@nysds/nys-button";
 
 // You may need to import other dependencies such as the component's tag name
 // For example:
@@ -149,5 +155,12 @@ describe("nys-pagination", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-pagination></nys-pagination>`);
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination totalPages="5" currentPage="2"></nys-pagination>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

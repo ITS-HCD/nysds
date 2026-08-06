@@ -6,8 +6,12 @@ import { NysFormControlElement } from "@nysds/internals";
 // they must be registered whenever nys-datepicker is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
 // which the accessible name/error association depends on — always render.
+// nys-icon renders the calendar trigger and nav arrows; nys-button renders
+// the "Today"/"Clear" calendar-popup actions.
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-datepicker.scss?inline";

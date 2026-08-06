@@ -5,7 +5,7 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "references": [{ "path": "../internals" }],
+  "references": [{ "path": "../internals" }, { "path": "../nys-accordion" }],
   "include": ["src/**/*"],
   "exclude": [
     "**/*.stories.ts",

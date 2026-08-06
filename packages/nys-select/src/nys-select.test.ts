@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-select.js";
 import { NysSelect } from "./nys-select";
 import "@nysds/nys-label";
@@ -966,5 +967,12 @@ describe("nys-select", () => {
     await el.updateComplete;
     expect(new FormData(form).get("field")).to.equal("manhattan");
     expect(Array.from(form.elements)).to.include(el);
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select label="Test"></nys-select>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

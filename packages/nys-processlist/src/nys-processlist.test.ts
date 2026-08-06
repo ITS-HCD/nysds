@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-processlist.js";
 import { NysProcesslist } from "./nys-processlist.js";
 import { NysProcesslistitem } from "./nys-processlistitem.js";
@@ -412,5 +413,20 @@ describe("nys-processlistitem", () => {
     const step = el.shadowRoot?.querySelector(".nys-processlistitem__step");
     expect(step?.hasAttribute("aria-hidden")).to.be.false;
     expect(step?.textContent?.trim()).to.equal("1");
+  });
+});
+
+describe("nys-processlist self-registration", () => {
+  // Regression guard: nys-processlist.ts previously imported
+  // NysProcesslistitem only in a type position (`el is NysProcesslistitem`),
+  // which a bundler can elide entirely, leaving <nys-processlistitem>
+  // un-upgraded whenever only "@nysds/nys-processlist" is imported.
+  it("registers nys-processlistitem when only nys-processlist is imported", async () => {
+    const el = await fixture<NysProcesslist>(
+      html`<nys-processlist>
+        <nys-processlistitem label="Step 1"></nys-processlistitem>
+      </nys-processlist>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

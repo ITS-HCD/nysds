@@ -2,6 +2,11 @@ import { html, unsafeCSS, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
+// This element is created imperatively (document.createElement) after each
+// slotted <span> section heading, so it must be registered whenever
+// nys-globalfooter is used. Importing it here (intentional side effect)
+// guarantees it always renders.
+import "@nysds/nys-divider";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalfooter.scss?inline";
 

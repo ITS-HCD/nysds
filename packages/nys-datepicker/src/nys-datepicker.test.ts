@@ -1,4 +1,5 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-datepicker.js";
 import { NysDatepicker } from "./nys-datepicker.js";
 
@@ -1550,5 +1551,12 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
     expect(new FormData(form).get("field")).to.equal("2026-06-15");
     expect(Array.from(form.elements)).to.include(el);
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker label="Test"></nys-datepicker>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

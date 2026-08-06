@@ -3,6 +3,11 @@ import nysLogo from "./nys-brand.logo";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the mobile
+// menu toggle icon), so it must be registered whenever nys-globalheader is
+// used. Importing it here (intentional side effect) guarantees it always
+// renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalheader.scss?inline";
 

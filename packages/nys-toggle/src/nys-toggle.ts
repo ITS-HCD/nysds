@@ -2,11 +2,13 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysFormControlElement } from "@nysds/internals";
-// This internal element is rendered inside this component's shadow DOM, so it
-// must be registered whenever nys-toggle is used. Importing it here
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-toggle is used. Importing them here
 // (intentional side effect) guarantees the visible label — which the
-// accessible name association depends on — always renders.
+// accessible name association depends on — always renders, along with the
+// check/close knob icon.
 import "@nysds/nys-label";
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-toggle.scss?inline";
 

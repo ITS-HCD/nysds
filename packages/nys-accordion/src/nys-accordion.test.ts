@@ -1,4 +1,5 @@
 import { expect, html, fixture, oneEvent, nextFrame } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-accordion.js";
 import { NysAccordionItem } from "./nys-accordionitem";
 import { NysAccordion } from "./nys-accordion.js";
@@ -339,5 +340,12 @@ describe("nys-accordionitem", () => {
 
     const controls = button?.getAttribute("aria-controls");
     expect(controls).to.equal(region?.id);
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Test"></nys-accordionitem>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

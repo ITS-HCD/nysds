@@ -7,8 +7,12 @@ import "./nys-checkboxgroup";
 // they must be registered whenever nys-checkbox is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
 // which the accessible name/error association depends on — always render.
+// nys-icon renders the checked-state checkmark; nys-textinput renders the
+// "other" free-text field.
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-textinput";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
 

@@ -1,6 +1,11 @@
 import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
+// This element is created imperatively (document.createElement) for the
+// back-to-parent arrow, the trailing chevrons, and the collapsed-trail
+// ellipsis, so it must be registered whenever nys-breadcrumbs is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-breadcrumbs.scss?inline";
 

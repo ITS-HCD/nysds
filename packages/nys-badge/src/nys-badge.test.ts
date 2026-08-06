@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-badge.js";
 import { NysBadge } from "./nys-badge.js";
 
@@ -197,5 +198,12 @@ describe("nys-badge", () => {
       ></nys-badge>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Test" prefixIcon></nys-badge>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

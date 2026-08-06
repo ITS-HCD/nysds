@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-label.js";
 import { NysLabel } from "./nys-label.js";
 
@@ -152,5 +153,12 @@ describe("nys-label", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-label label="Full name"></nys-label>`);
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysLabel>(
+      html`<nys-label label="Full name" tooltip="Helpful hint"></nys-label>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

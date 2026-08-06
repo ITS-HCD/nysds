@@ -1,6 +1,10 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the prefix
+// icon), so it must be registered whenever nys-dropdownmenuitem is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-dropdownmenu.scss?inline";
 

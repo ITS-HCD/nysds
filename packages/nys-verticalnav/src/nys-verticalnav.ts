@@ -6,6 +6,12 @@ import styles from "./nys-verticalnav.scss?inline";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-verticalnav.light.scss?inline";
 import "./nys-verticalnavgroup";
+// These elements are rendered inside this component's shadow DOM in the
+// mobile (collapsed) template, so they must be registered whenever
+// nys-verticalnav is used. Importing nys-accordion here (intentional side
+// effect) also registers nys-accordionitem, since nys-accordion imports it
+// as its own side effect.
+import "@nysds/nys-accordion";
 
 type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
