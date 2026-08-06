@@ -143,8 +143,9 @@ describe("nys-tooltip", () => {
     // ...and the real ariaDescribedBy *property* must point at the tooltip's
     // own id, which nys-button renders as a working aria-describedby on its
     // internal <button>.
-    expect((button as unknown as { ariaDescribedBy?: string }).ariaDescribedBy)
-      .to.include(tooltip.id);
+    expect(
+      (button as unknown as { ariaDescribedBy?: string }).ariaDescribedBy,
+    ).to.include(tooltip.id);
     const innerButton = button.shadowRoot?.querySelector("button");
     expect(innerButton?.getAttribute("aria-describedby")).to.include(
       tooltip.id,

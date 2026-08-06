@@ -31,7 +31,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.",
+          "description": "A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.\n\nEach item's toggle button is wrapped in a real heading element. Set\n`headingLevel` here to place the whole group correctly in the page outline.",
           "name": "NysAccordion",
           "cssProperties": [
             {
@@ -88,6 +88,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\""
+              },
+              "default": "\"h3\"",
+              "description": "Heading element wrapping every item's toggle button (`h2` through `h6`).\n\nEach item's trigger is a real heading, so this is what places the accordion\nin the page outline: choose one level below the heading that introduces the\naccordion (an accordion under an `h2` section heading uses the `h3`\ndefault). An individual `nys-accordionitem` can override it with its own\n`headingLevel`. `h1` is not offered because an accordion trigger is never\nthe page title.",
+              "attribute": "headingLevel",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_getAccordionItems",
               "privacy": "private",
@@ -110,6 +121,12 @@
               "kind": "method",
               "name": "_applyBordered",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_notifyHeadingLevel",
+              "privacy": "private",
+              "description": "Items read the group's `headingLevel` themselves (so an item that sets its\nown always wins), which means a change here is invisible to them until they\nre-render. Ask them to."
             }
           ],
           "attributes": [
@@ -142,6 +159,16 @@
               "description": "Adds borders around each accordion item. Propagates to all children.",
               "fieldName": "bordered",
               "propName": "bordered"
+            },
+            {
+              "name": "headingLevel",
+              "type": {
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\""
+              },
+              "default": "\"h3\"",
+              "description": "Heading element wrapping every item's toggle button (`h2` through `h6`).\n\nEach item's trigger is a real heading, so this is what places the accordion\nin the page outline: choose one level below the heading that introduces the\naccordion (an accordion under an `h2` section heading uses the `h3`\ndefault). An individual `nys-accordionitem` can override it with its own\n`headingLevel`. `h1` is not offered because an accordion trigger is never\nthe page title.",
+              "fieldName": "headingLevel",
+              "propName": "headinglevel"
             }
           ],
           "superclass": {
@@ -165,6 +192,11 @@
             {
               "title": "Bordered",
               "code": "<nys-accordion bordered>\n<nys-accordionitem heading=\"We are a group of accordions\">\n<p>Stronger together! Learn more at\n<a href=\"https://www.ny.gov\" target=\"_blank\">ny.gov</a>\n</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Liberty Ipsum: Bridges & Boroughs\">\n<p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Hudson Ipsum: Riverfront Stories\">\n<p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
+            },
+            {
+              "title": "Heading level",
+              "code": "<h2>Fishing licenses</h2>\n<nys-accordion headingLevel=\"h3\">\n<nys-accordionitem heading=\"Who needs a license?\">\n<p>Anyone 16 or older fishing in New York State freshwater.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"How long is a license valid?\">\n<p>Annual licenses are valid for 365 days from the date of purchase.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
@@ -195,7 +227,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.\n\nPlace inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button\naccessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.",
+          "description": "A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.\n\nPlace inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button\naccessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.\n\nPer the WAI-ARIA Accordion pattern the toggle button is wrapped in a real\nheading element so the panels appear in the document outline and screen\nreader users can jump between them by heading. Set `headingLevel` (here or on\nthe parent `nys-accordion`) to the level that fits the surrounding page.",
           "name": "NysAccordionItem",
           "slots": [
             {
@@ -229,11 +261,12 @@
               "kind": "field",
               "name": "headingLevel",
               "type": {
-                "text": "number"
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | \"\""
               },
-              "default": "3",
-              "description": "ARIA heading level (1-6) applied to the wrapper around the toggle button,\nper the WAI-ARIA Accordion pattern. Defaults to 3.",
-              "attribute": "headingLevel"
+              "default": "\"\"",
+              "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
+              "attribute": "headingLevel",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -259,9 +292,19 @@
             },
             {
               "kind": "method",
-              "name": "_dispatchEvent",
+              "name": "_resolveHeadingLevel",
               "privacy": "private",
-              "description": "Functions\n--------------------------------------------------------------------------"
+              "return": {
+                "type": {
+                  "text": "NysAccordionHeadingLevel"
+                }
+              },
+              "description": "The level actually rendered: this item's own `headingLevel`, otherwise the\none set on the enclosing `nys-accordion`, otherwise the `h3` default.\n\nThe group's value is read here rather than pushed down from the container\nso there is a single source of truth per item and an item-level value\nalways wins. `nys-accordion` re-renders its items when its own level\nchanges (see `_notifyHeadingLevel` there)."
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchEvent",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -293,6 +336,20 @@
               "kind": "method",
               "name": "_updateHeight",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderHeading",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "trigger",
+                  "type": {
+                    "text": "TemplateResult"
+                  }
+                }
+              ],
+              "description": "WAI-ARIA Accordion pattern: the toggle button must be contained in a\nheading at the level appropriate for the surrounding page. A real `h2`-`h6`\nelement is used rather than `role=\"heading\"` + `aria-level` so the trigger\ncarries native heading semantics everywhere — including the places that\nread the DOM instead of the accessibility tree."
             }
           ],
           "events": [
@@ -328,10 +385,10 @@
             {
               "name": "headingLevel",
               "type": {
-                "text": "number"
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | \"\""
               },
-              "default": "3",
-              "description": "ARIA heading level (1-6) applied to the wrapper around the toggle button,\nper the WAI-ARIA Accordion pattern. Defaults to 3.",
+              "default": "\"\"",
+              "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
               "fieldName": "headingLevel",
               "propName": "headinglevel"
             },
@@ -367,6 +424,11 @@
             {
               "title": "Expanded item",
               "code": "<nys-accordion>\n<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"What documents do I need?\">\n<p>You will need a valid ID and proof of residency.</p>\n</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
+            },
+            {
+              "title": "Per-item heading level",
+              "code": "<nys-accordion headingLevel=\"h2\">\n<nys-accordionitem heading=\"Sits at h2, inherited from the group\">\n<p>Every item follows the group unless it says otherwise.</p>\n</nys-accordionitem>\n<nys-accordionitem headingLevel=\"h3\" heading=\"Sits at h3, set on the item\">\n<p>An item that nests under the preceding one sets its own level.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
@@ -531,7 +593,7 @@
                 "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"emergency\""
               },
               "default": "\"base\"",
-              "description": "Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region.",
+              "description": "Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use\n`role=\"alert\"` (assertive live region); `base`/`info`/`success` use `role=\"status\"` (polite).",
               "attribute": "type",
               "reflects": true
             },
@@ -557,18 +619,9 @@
               "kind": "field",
               "name": "ariaAttributes",
               "type": {
-                "text": "{\n    role: \"alert\" | \"status\" | \"region\";\n    ariaLabel: string;\n  }"
+                "text": "{\n    role: \"alert\" | \"status\";\n    ariaLive: \"polite\" | \"assertive\";\n  }"
               },
-              "description": "Returns ARIA role and label based on alert type.\n- 'alert' => assertive live region (implied)\n- 'status' => polite live region\n- 'region' => generic, requires aria-label",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "liveRegion",
-              "type": {
-                "text": "\"polite\" | undefined"
-              },
-              "description": "Returns live-region type for screen readers if applicable.\n- 'polite' for status role\n- undefined for alert (since it's implicitly assertive) or region",
+              "description": "Returns the ARIA role and aria-live setting for the alert's live region based on type.\n- `warning`/`danger`/`emergency` => role=\"alert\", aria-live=\"assertive\" (urgent, interrupts)\n- `base`/`info`/`success` => role=\"status\", aria-live=\"polite\" (waits its turn)\n\n`aria-live` is set explicitly alongside `role` (rather than relying on the role's implicit\nlive-region semantics) for more consistent behavior across browser/AT combinations.",
               "readonly": true
             },
             {
@@ -720,7 +773,7 @@
                 "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"emergency\""
               },
               "default": "\"base\"",
-              "description": "Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region.",
+              "description": "Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use\n`role=\"alert\"` (assertive live region); `base`/`info`/`success` use `role=\"status\"` (polite).",
               "fieldName": "type",
               "propName": "type"
             }
@@ -837,7 +890,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Displays a user representation as image, initials, or icon with automatic fallback chain.\n\nPriority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;\nforeground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).",
+          "description": "Displays a user representation as image, initials, or icon with automatic fallback chain.\n\nPriority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;\nforeground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).\n\nAn avatar with no `ariaLabel` is treated as decorative and hidden from assistive\ntech — correct beside a visible name, wrong for an `interactive` avatar, which\nrenders a `<button>` and warns in the console when left nameless.",
           "name": "NysAvatar",
           "slots": [
             {
@@ -864,7 +917,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accessible label for screen readers. Required when no image `alt` is available.",
+              "description": "Accessible name for the avatar — who or what it represents (\"Jane Smith\"),\nnot what it is (\"avatar\").\n\nLeave it unset for a decorative avatar and the whole thing is hidden from\nassistive tech, which is the right outcome next to a visible name. Set it\nwhenever the avatar is the only thing identifying the person, and always when\n`interactive` is set: that renders a `<button>`, and a nameless button cannot\nbe operated by screen reader or voice-control users (WCAG 4.1.2). An\ninteractive avatar without a name logs a console warning.\n\nWhitespace-only values — including a non-breaking space — count as no name.",
               "attribute": "ariaLabel"
             },
             {
@@ -961,8 +1014,24 @@
                 "text": "string"
               },
               "privacy": "private",
-              "description": "Functions\n--------------------------------------------------------------------------",
+              "description": "The label with all whitespace — including the non-breaking space consumers\nreach for when they want \"no label but the prop is required\" — collapsed and\ntrimmed. A name made only of blank characters is announced as an empty name,\nso `\" \"` and `\"&nbsp;\"` must resolve to no label at all rather than to a\nlabel the user can neither hear nor act on.",
               "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_warnedMissingName",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "One warning per gap, so a re-rendering avatar cannot flood the console."
+            },
+            {
+              "kind": "method",
+              "name": "_warnMissingInteractiveName",
+              "privacy": "private",
+              "description": "Warns when an interactive avatar has no accessible name.\n\nAn interactive avatar renders a `<button>`, and a button with no name is\nunusable by screen reader and voice-control users (WCAG 4.1.2). The component\nused to paper over this with a captive default name of \"Avatar\", which told\nthe user nothing (\"button, avatar\") and hid the mistake from audits (#1093).\nThe name is the author's to supply, so the component surfaces the gap here\ninstead of inventing one. `ariaLabel` deliberately stays optional —\ndecorative avatars are legitimate, and making it required would break the\nconsumers already shipping without it."
             },
             {
               "kind": "method",
@@ -1003,7 +1072,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accessible label for screen readers. Required when no image `alt` is available.",
+              "description": "Accessible name for the avatar — who or what it represents (\"Jane Smith\"),\nnot what it is (\"avatar\").\n\nLeave it unset for a decorative avatar and the whole thing is hidden from\nassistive tech, which is the right outcome next to a visible name. Set it\nwhenever the avatar is the only thing identifying the person, and always when\n`interactive` is set: that renders a `<button>`, and a nameless button cannot\nbe operated by screen reader or voice-control users (WCAG 4.1.2). An\ninteractive avatar without a name logs a console warning.\n\nWhitespace-only values — including a non-breaking space — count as no name.",
               "fieldName": "ariaLabel",
               "propName": "arialabel"
             },
@@ -1109,7 +1178,12 @@
             },
             {
               "title": "Interactive",
-              "code": "<nys-avatar interactive></nys-avatar>",
+              "code": "<!-- Interactive renders a <button>, so it always needs a name. -->\n<nys-avatar interactive ariaLabel=\"Open account menu\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Decorative",
+              "code": "<!-- No ariaLabel: hidden from assistive tech, for use beside a visible name. -->\n<nys-avatar initials=\"JS\"></nys-avatar>\n<span>Jane Smith</span>",
               "lang": "html"
             },
             {
@@ -1119,7 +1193,7 @@
             },
             {
               "title": "Custom Background Color",
-              "code": "<nys-avatar color=\"var(--nys-color-red-500)\" interactive></nys-avatar>",
+              "code": "<nys-avatar\ncolor=\"var(--nys-color-red-500)\"\ninteractive\nariaLabel=\"Open account menu\"\n></nys-avatar>",
               "lang": "html"
             },
             {
@@ -2301,6 +2375,22 @@
             },
             {
               "kind": "field",
+              "name": "ariaCurrent",
+              "type": {
+                "text": "| \"page\"\n    | \"step\"\n    | \"location\"\n    | \"date\"\n    | \"time\"\n    | \"true\"\n    | \"false\"\n    | \"\""
+              },
+              "default": "\"\"",
+              "description": "Marks this button as the current item within a set of related controls — the current\npage of a pagination control, the current step of a wizard. Sets `aria-current` on the\ninternal `<button>`/`<a>`.\n\nUse `\"page\"` inside a pagination landmark, `\"step\"` inside a step indicator, and\n`\"true\"` when no more specific token fits. Only one control in a set is ever current:\nleave the property unset on all the others rather than setting `\"false\"`, which the\nspec reads as \"explicitly not current\" and adds nothing.\n\nSetting `aria-current` directly on the `<nys-button>` host does nothing: a custom\nelement with no role does not map its ARIA attributes into the accessibility tree,\nand host ARIA does not cross into the shadow root.",
+              "attribute": "ariaCurrent",
+              "examples": [
+                {
+                  "title": "```html",
+                  "code": "<nys-button label=\"3\" ariaCurrent=\"page\"></nys-button>\n```"
+                }
+              ]
+            },
+            {
+              "kind": "field",
               "name": "prefixIcon",
               "type": {
                 "text": "string"
@@ -2679,6 +2769,16 @@
               "description": "Disclosure state for buttons that show/hide content. Sets `aria-expanded`\non the internal `<button>`/`<a>`.\n\nUse `\"false\"` when the controlled content is collapsed and `\"true\"` when it\nis expanded, updating it every time the content toggles. Leave unset for\nbuttons that are not disclosure triggers — an `aria-expanded` that never\nchanges is worse than none. Pair with `ariaControls` pointing at the\nelement being shown or hidden.\n\nSetting `aria-expanded` directly on the `<nys-button>` host does nothing:\na custom element with no role does not map its ARIA attributes into the\naccessibility tree, and host ARIA does not cross into the shadow root.",
               "fieldName": "ariaExpanded",
               "propName": "ariaexpanded"
+            },
+            {
+              "name": "ariaCurrent",
+              "type": {
+                "text": "| \"page\"\n    | \"step\"\n    | \"location\"\n    | \"date\"\n    | \"time\"\n    | \"true\"\n    | \"false\"\n    | \"\""
+              },
+              "default": "\"\"",
+              "description": "Marks this button as the current item within a set of related controls — the current\npage of a pagination control, the current step of a wizard. Sets `aria-current` on the\ninternal `<button>`/`<a>`.\n\nUse `\"page\"` inside a pagination landmark, `\"step\"` inside a step indicator, and\n`\"true\"` when no more specific token fits. Only one control in a set is ever current:\nleave the property unset on all the others rather than setting `\"false\"`, which the\nspec reads as \"explicitly not current\" and adds nothing.\n\nSetting `aria-current` directly on the `<nys-button>` host does nothing: a custom\nelement with no role does not map its ARIA attributes into the accessibility tree,\nand host ARIA does not cross into the shadow root.",
+              "fieldName": "ariaCurrent",
+              "propName": "ariacurrent"
             },
             {
               "name": "prefixIcon",
@@ -6972,24 +7072,6 @@
             },
             {
               "kind": "field",
-              "name": "_buttonAriaLabel",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "_buttonAriaDescription",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
               "name": "_innerNysButton",
               "type": {
                 "text": "HTMLElement | null"
@@ -7001,7 +7083,7 @@
               "kind": "method",
               "name": "_syncControlErrorAssociation",
               "privacy": "private",
-              "description": "Point the exposed control at the rendered <nys-errormessage>.\n\nThe native <input type=\"file\"> is `hidden`, `aria-hidden` and `tabindex=\"-1\"`,\nso it is not in the accessibility tree and must not carry the error\nassociation. The element a user actually reaches is the <button> inside the\n\"Choose file\" <nys-button>'s shadow root.\n\nThat button and the message sit in different shadow roots, so an IDREF\nwritten on the button would dangle. ARIA element reflection does cross into a\nshadow-including ancestor tree, so associateControlRefs sets the control's own\nariaDescribedByElements (plus an aria-description string fallback for engines\nthat expose the IDL but do not yet honor it). aria-describedby — not\naria-errormessage — is what Blink actually surfaces for a control inside a\nshadow root; see src/scripts/verify-a11y-names.mjs. aria-errormessage is set\nthrough its element-reflection form where the engine supports it."
+              "description": "Point the exposed control at the rendered <nys-errormessage> and, in\ndropzone mode, at the \"or drag here\" instructional text.\n\nThe native <input type=\"file\"> is `hidden`, `aria-hidden` and `tabindex=\"-1\"`,\nso it is not in the accessibility tree and must not carry these\nassociations. The element a user actually reaches is the <button> inside the\n\"Choose file\" <nys-button>'s shadow root — that's also the keyboard path for\nthe dropzone (Enter/Space opens the native file picker via real button\nsemantics); the dropzone `<div>` itself is a non-interactive, pointer-only\ndrop target and never receives focus.\n\nThe button and these targets sit in different shadow roots, so an IDREF\nwritten on the button would dangle. ARIA element reflection does cross into a\nshadow-including ancestor tree, so associateControlRefs sets the control's own\nariaDescribedByElements (plus an aria-description string fallback for engines\nthat expose the IDL but do not yet honor it). aria-describedby — not\naria-errormessage — is what Blink actually surfaces for a control inside a\nshadow root; see src/scripts/verify-a11y-names.mjs. aria-errormessage is set\nthrough its element-reflection form where the engine supports it."
             },
             {
               "kind": "method",
@@ -7764,6 +7846,16 @@
             },
             {
               "kind": "field",
+              "name": "landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `contentinfo` landmark this footer renders.\n\nLeave it unset and the landmark is named after the visible `agencyName`\nheading, which cannot drift out of sync and is translated with the rest of\nthe page. Falls back to `\"Site\"` when there is no agency name to reference.\n\nSet this only when the agency name is not right for your audience. A page\npairing this with `nys-unavfooter` carries two `contentinfo` landmarks, so\nthe name must stay distinct from that footer's (`\"New York State\"` by\ndefault) or landmark navigation stops distinguishing them.\n\nAn explicit name replaces the reference to the visible heading.",
+              "attribute": "landmarkLabel"
+            },
+            {
+              "kind": "field",
               "name": "slotHasContent",
               "type": {
                 "text": "boolean"
@@ -7785,6 +7877,26 @@
               },
               "privacy": "private",
               "description": "Id of the heading that names the contentinfo landmark, or undefined when no\nagency name was given.\n\nThe documented pairing puts this footer above `nys-unavfooter`, which leaves a\npage with two `contentinfo` landmarks. Pointing at the visible heading rather\nthan repeating the agency name in an `aria-label` keeps the two in sync and lets\nthe name be translated along with the rest of the page.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_landmarkLabelOverride",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "The author's landmark name, or undefined when they gave none.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_contentinfoLabel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "Literal name for the contentinfo: the author's override, or the \"Site\"\ndefault when there is no agency heading to reference. Undefined whenever\n`_contentinfoLabelledBy` has something to point at, so the landmark never\ncarries both.",
               "readonly": true
             }
           ],
@@ -7828,6 +7940,16 @@
               "description": "URL for the agency name link. If empty, name is not clickable.",
               "fieldName": "homepageLink",
               "propName": "homepagelink"
+            },
+            {
+              "name": "landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `contentinfo` landmark this footer renders.\n\nLeave it unset and the landmark is named after the visible `agencyName`\nheading, which cannot drift out of sync and is translated with the rest of\nthe page. Falls back to `\"Site\"` when there is no agency name to reference.\n\nSet this only when the agency name is not right for your audience. A page\npairing this with `nys-unavfooter` carries two `contentinfo` landmarks, so\nthe name must stay distinct from that footer's (`\"New York State\"` by\ndefault) or landmark navigation stops distinguishing them.\n\nAn explicit name replaces the reference to the visible heading.",
+              "fieldName": "landmarkLabel",
+              "propName": "landmarklabel"
             }
           ],
           "superclass": {
@@ -7861,6 +7983,11 @@
             {
               "title": "Subheading",
               "code": "<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nagencySubheading=\"Innovating Technology for a Better New York\"\n></nys-globalfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom landmark label",
+              "code": "<!-- Names the contentinfo landmark directly instead of from the visible\nheading. Keep it distinct from nys-unavfooter's (\"New York State\"). -->\n<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nlandmarkLabel=\"ITS\"\n></nys-globalfooter>",
               "lang": "html"
             }
           ]
@@ -7972,6 +8099,16 @@
             },
             {
               "kind": "field",
+              "name": "landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `banner` landmark this header renders.\n\nLeave it unset and the banner is named after the visible `appName` or\n`agencyName`, which cannot drift out of sync and is translated with the rest\nof the page. Falls back to `\"Site\"` when there is no title to reference.\n\nSet this only when neither is right for your audience. A page pairing this\nwith `nys-unavheader` carries two `banner` landmarks, so the name must stay\ndistinct from that header's (`\"New York State\"` by default) or landmark\nnavigation stops distinguishing them.\n\nAn explicit name replaces the reference to the visible title.",
+              "attribute": "landmarkLabel"
+            },
+            {
+              "kind": "field",
               "name": "_isMobileMenuOpen",
               "type": {
                 "text": "boolean"
@@ -7999,6 +8136,12 @@
               "privacy": "private",
               "default": "false",
               "description": "True once the author has marked the current page themselves with `aria-current`.\n\nMatching `window.location.pathname` is only a default. An app that doesn't route\non the pathname — a hash-routed SPA, say — has to be able to say which link is\ncurrent, and the header must then leave that signal alone rather than clearing\nit and marking a link of its own choosing."
+            },
+            {
+              "kind": "field",
+              "name": "_desktopMedia",
+              "privacy": "private",
+              "description": "Watches for the viewport growing past the mobile breakpoint. The menu and its\ntoggle are `display: none` there, so an open menu that survived a resize would\nleave the focus trap guarding elements nobody can reach."
             },
             {
               "kind": "method",
@@ -8043,6 +8186,81 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "_menuButton",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "description": "The toggle, which is both the trap's first stop and where focus returns.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_mobileNav",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_closeMobileMenu",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "restoreFocus",
+                  "default": "false"
+                }
+              ],
+              "description": "Closes the mobile menu.\n\n`restoreFocus` moves focus back to the toggle, which is required whenever the\nmenu is dismissed by keyboard: the closed menu is `display: none`, so focus\nsitting on one of its links would otherwise be dropped to the top of the\ndocument (WCAG 2.4.3 Focus Order). A click outside is a pointer gesture that\nlands somewhere the user chose, so that path leaves focus alone."
+            },
+            {
+              "kind": "method",
+              "name": "_focusableMenuElements",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              },
+              "description": "Toggle first, then the menu's own links — the tab order a sighted keyboard\nuser sees, so the trap cycles in the order the menu reads."
+            },
+            {
+              "kind": "method",
+              "name": "_activeMenuElement",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "focusable",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  }
+                }
+              ],
+              "description": "The focused element, but only when it is one of the menu's own stops.\n\n`document.activeElement` reports the host for anything focused inside this\nshadow root, so the shadow root's own `activeElement` is what identifies the\nreal stop."
+            },
+            {
+              "kind": "method",
+              "name": "_trapMobileMenuFocus",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ],
+              "description": "Keeps Tab / Shift+Tab inside the open mobile menu (#1101).\n\nThe open menu covers the page, so tabbing out of it silently moves focus to\ncontent the user cannot see (WCAG 2.4.3, 2.1.2). Wrapping at both ends keeps\nevery stop reachable, and Escape (handled alongside this) is the documented\nway out."
+            },
+            {
               "kind": "method",
               "name": "_listenLinkClicks",
               "privacy": "private"
@@ -8055,6 +8273,26 @@
               },
               "privacy": "private",
               "description": "Id of the element that names the banner landmark, or undefined when this\nheader carries no title to point at.\n\nThe documented pairing puts this header below `nys-unavheader`, which leaves a\npage with two `banner` landmarks. Naming each one keeps landmark navigation\nuseful instead of announcing \"banner, banner\" (axe `landmark-unique`). The name\nreferences the visible title rather than repeating it in an `aria-label`, so it\ncannot drift out of sync and is translated along with the rest of the page.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_landmarkLabelOverride",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "The author's landmark name, or undefined when they gave none.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_bannerLabel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "Literal name for the banner: the author's override, or the \"Site\" default when\nthere is no visible title to reference. Undefined whenever `_bannerLabelledBy`\nhas something to point at, so the landmark never carries both.",
               "readonly": true
             },
             {
@@ -8077,6 +8315,12 @@
               "kind": "field",
               "name": "_boundClickOutside",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundBreakpointChange",
+              "privacy": "private",
+              "description": "Growing past the mobile breakpoint takes the menu off the page, so drop the\nopen state with it. No focus restore: the toggle is gone too, and the resize\nwas not a dismissal the user aimed at anything."
             },
             {
               "kind": "field",
@@ -8134,6 +8378,16 @@
               "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "fieldName": "nysLogo",
               "propName": "nyslogo"
+            },
+            {
+              "name": "landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `banner` landmark this header renders.\n\nLeave it unset and the banner is named after the visible `appName` or\n`agencyName`, which cannot drift out of sync and is translated with the rest\nof the page. Falls back to `\"Site\"` when there is no title to reference.\n\nSet this only when neither is right for your audience. A page pairing this\nwith `nys-unavheader` carries two `banner` landmarks, so the name must stay\ndistinct from that header's (`\"New York State\"` by default) or landmark\nnavigation stops distinguishing them.\n\nAn explicit name replaces the reference to the visible title.",
+              "fieldName": "landmarkLabel",
+              "propName": "landmarklabel"
             }
           ],
           "superclass": {
@@ -8182,6 +8436,11 @@
             {
               "title": "With NYS Logo",
               "code": "<nys-globalheader nysLogo appName=\"Admin Dashboard\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom landmark label",
+              "code": "<!-- Names the banner landmark directly instead of from the visible title.\nKeep it distinct from nys-unavheader's (\"New York State\"). -->\n<nys-globalheader\nagencyName=\"Office of Information Technology Services\"\nlandmarkLabel=\"ITS\"\n></nys-globalheader>",
               "lang": "html"
             }
           ]
@@ -9370,8 +9629,18 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Modal heading text. Required for accessibility.",
+              "description": "Modal heading text. Required for accessibility — it becomes the dialog's\naccessible name via `aria-labelledby`.",
               "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the dialog, used only when no `heading` is set.\nPrefer a visible `heading`: a visible label satisfies WCAG 2.5.3 (Label in\nName) and gives sighted users the same information. Use `ariaLabel` for the\nrare headless dialog so it still exposes a name (WCAG 4.1.2).",
+              "attribute": "ariaLabel"
             },
             {
               "kind": "field",
@@ -9529,12 +9798,6 @@
             },
             {
               "kind": "method",
-              "name": "_updateDismissAria",
-              "privacy": "private",
-              "description": "This exist to prevent the VO for dismiss button from announcing itself between the heading & subheading/slot content.\nWe add the \"Close this window\" ariaLabel after the initial VO is done"
-            },
-            {
-              "kind": "method",
               "name": "_handleKeydown",
               "privacy": "private",
               "parameters": [
@@ -9586,9 +9849,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Modal heading text. Required for accessibility.",
+              "description": "Modal heading text. Required for accessibility — it becomes the dialog's\naccessible name via `aria-labelledby`.",
               "fieldName": "heading",
               "propName": "heading"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the dialog, used only when no `heading` is set.\nPrefer a visible `heading`: a visible label satisfies WCAG 2.5.3 (Label in\nName) and gives sighted users the same information. Use `ariaLabel` for the\nrare headless dialog so it still exposes a name (WCAG 4.1.2).",
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
             },
             {
               "name": "subheading",
@@ -9706,7 +9979,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.\n\nSet `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.\nHidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.",
+          "description": "Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.\n\nSet `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.\nHidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.\n\n## Accessibility\n- The controls sit in a `navigation` landmark named \"Pagination\".\n- The current page's button carries `aria-current=\"page\"` so assistive technology\n  announces which page the user is on.\n- Keyboard focus follows the user across a page change: it stays on the page they\n  activated, and moves to the current page's button when Previous or Next disables\n  itself on the first or last page rather than falling back to the document.\n- The ellipsis between non-adjacent page numbers is inert text, not a control, and is\n  hidden from assistive technology.",
           "name": "NysPagination",
           "members": [
             {
@@ -9765,6 +10038,26 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "_focusKeyBeforeUpdate",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Logical identity of the control that held focus when this update was scheduled,\ncaptured before the re-render that invalidates it. Null whenever focus was outside\nthe component, which is what keeps a programmatic page change from stealing focus."
+            },
+            {
+              "kind": "field",
+              "name": "_focusRestoreToken",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0",
+              "description": "Guards against an older, still-pending focus restore overriding a newer one."
+            },
+            {
               "kind": "method",
               "name": "_clampPage",
               "privacy": "private",
@@ -9782,6 +10075,88 @@
                 }
               ],
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_focusKeyOf",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "el",
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ],
+              "description": "Stable identity for a control in the shadow root, one that survives a re-render.\n\nDOM position is not that identity: the window of visible page numbers slides as the\nuser pages through, and Lit reuses the element sitting at a given position, so the\nbutton under the user's focus silently starts navigating to a different page. Page\nbuttons are therefore identified by the page they navigate to, and the fixed\nPrevious/Next controls by their id."
+            },
+            {
+              "kind": "method",
+              "name": "_controlForKey",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Resolve a focus key back to the control that now carries that identity."
+            },
+            {
+              "kind": "method",
+              "name": "_isFocusable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "el is HTMLElement"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "el",
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ],
+              "description": "A control has to be both enabled and rendered to take focus. `getClientRects()`\ncovers the responsive rules that swap the desktop Previous/Next for their\nicon-only mobile twins, and hide the page neighbors on narrow screens."
+            },
+            {
+              "kind": "method",
+              "name": "_fallbackFocusTarget",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "description": "Where focus goes when the control the user was on is gone or has just been\ndisabled: the current page's button. It is always rendered, it is never disabled,\nand it announces the page the user just landed on."
+            },
+            {
+              "kind": "method",
+              "name": "_restoreFocus",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Keep keyboard focus on the control the user was operating.\n\nTwo things pull focus out from under them otherwise. Reaching the first or last page\ndisables Previous/Next while it still holds focus, which drops focus to `<body>` and\nends the keyboard journey. And activating a page slides the window of page numbers,\nso the button that keeps focus by DOM position is now a different, non-current page."
             },
             {
               "kind": "method",
@@ -10440,7 +10815,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells). Without `labelledby` the accessible name still comes from\n`label`, so a hidden label stays nameable.",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells). Without `labelledby` there is no visible element left to name\nthe radio from, so the accessible name falls back to the `label` string —\npair `hideLabel` with `labelledby` wherever a visible element exists.",
               "attribute": "hideLabel"
             },
             {
@@ -10576,9 +10951,14 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
-              "name": "_computeAccessibleLabel",
-              "privacy": "private"
+              "kind": "field",
+              "name": "_labelText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "The text the internal `<nys-label>` shows, and the last-resort name.",
+              "readonly": true
             },
             {
               "kind": "field",
@@ -10587,7 +10967,7 @@
                 "text": "boolean"
               },
               "privacy": "private",
-              "description": "This component renders into the light DOM (see createRenderRoot), so the\nnative <input> and any external labelling element share one tree scope: a\nplain aria-labelledby IDREF resolves natively and needs none of the\ncross-shadow machinery (associateControlRefs) that nys-checkbox requires.\n\nWhen the referenced element is a <nys-label>, its text lives in ITS shadow\nroot; the reference still names the input because nys-label mirrors `label`\nonto its host via ElementInternals.ariaLabel — do not remove that mirror.",
+              "description": "This component renders into the light DOM (see createRenderRoot), so the\nnative <input>, the internal <nys-label>, and any external labelling element\nall share one tree scope: a plain aria-labelledby IDREF resolves natively and\nneeds none of the cross-shadow machinery (associateControlRefs) that\nnys-checkbox requires.\n\nWhen the referenced element is a <nys-label>, its text lives in ITS shadow\nroot; the reference still names the input because nys-label mirrors `label`\nonto its host via ElementInternals.ariaLabel — do not remove that mirror.\nThat mirror is also why the internal label must NOT be aria-hidden: the name\nis read from the element the user can see, which is the whole point.",
               "readonly": true
             },
             {
@@ -10597,6 +10977,36 @@
                 "text": "boolean"
               },
               "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_internalLabelId",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Id of the internal `<nys-label>`, which is also what names the input.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_labelledById",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "The `aria-labelledby` IDREF for the native input, resolved in priority order:\nan author-supplied `labelledby` first, then the visible internal label.\n\nNaming the input from the element the user can actually see is what keeps the\naccessible name and the visible text identical (WCAG 2.5.3 Label in Name).\nThe old path built a separate `aria-label` string from the same `label` prop,\nwhich is a copy that can drift and that voice-control users cannot rely on\n(#1820). This component renders into the light DOM, so a plain IDREF resolves\nnatively in one tree scope.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_fallbackAriaLabel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "Last-resort accessible name, used only when `hideLabel` suppressed the visible\nlabel and no external `labelledby` was given. There is no element left to point\nat, and a nameless radio is worse than a duplicated string.",
               "readonly": true
             }
           ],
@@ -10766,7 +11176,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells). Without `labelledby` the accessible name still comes from\n`label`, so a hidden label stays nameable.",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells). Without `labelledby` there is no visible element left to name\nthe radio from, so the accessible name falls back to the `label` string —\npair `hideLabel` with `labelledby` wherever a visible element exists.",
               "fieldName": "hideLabel",
               "propName": "hidelabel"
             }
@@ -12383,7 +12793,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate the active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation, or omit it and listen to `nys-step-click` for SPA/framework routing.\n\n## Step states\n\nThree boolean attributes control step appearance and behavior:\n\n- **`current`** — The furthest step the user has reached (the progress boundary). Only one step should\n  have `current` at a time; if multiple are set the parent stepper keeps the first and removes the rest.\n  Steps after `current` are not navigable and do not fire `nys-step-click`. Update `current` in your\n  application state when the user advances.\n\n- **`selected`** — Which step's content is currently displayed. Defaults to the `current` step if not\n  explicitly set. If `selected` is placed on a step after `current`, the stepper silently corrects it\n  to match `current`. When managing state from a framework, always set `selected` explicitly — without\n  it the stepper's fallback will reset in-sidebar navigation on every state update.\n\n- **`previous`** — Auto-applied by the parent stepper to every step before `current`. Do not set this\n  manually. Steps with `previous` are clickable and fire `nys-step-click`.\n\n## `nys-step-click` firing conditions\n\nThe event fires only when ALL of the following are true:\n1. The step has `previous` or `current` (i.e. it is navigable).\n2. The step does NOT already have `selected` (clicking the already-viewed step is a no-op).\n\nSteps that are neither `previous` nor `current` (future steps) never fire the event.\n\n## `href` and navigation\n\nIf `href` is set, the stepper calls `window.location.href = href` after dispatching `nys-step-click`\n— but only if the event was **not canceled**. To handle navigation yourself (SPA routing, fetch, etc.),\nalways call `e.preventDefault()` in your listener. Omitting `href` entirely is simpler for SPAs.\n\n## `onClick` vs `nys-step-click`\n\nThe `onClick` property (a function reference, not a DOM attribute) is called **before** the\n`nys-step-click` event is dispatched. Use it for imperative pre-navigation logic. In React, pass it\nas the `onClick` prop on `NysStep`.\n\n## Accessibility\n- The interactive step row renders with `role=\"button\"` and is keyboard-focusable (`tabindex=\"0\"`)\n  for navigable steps (`current`, `previous`, `selected`). Future steps get `tabindex=\"-1\"`,\n  `aria-disabled=\"true\"`, and are not reachable by keyboard.\n- Enter and Space activate the step (same as click).\n- `aria-label` announces the step name and 1-indexed position, e.g. `\"Personal Info, step 1\"`.\n- The `current` step (progress boundary) is marked with `aria-current=\"step\"` so assistive\n  technology announces the user's current position.\n- The visual step number is `aria-hidden` (its meaning is folded into the row's accessible name).\n\n## Common patterns\n\n**Initial state:** Set `current` on the first step. `selected` defaults to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (progress still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
+          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate the active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation, or omit it and listen to `nys-step-click` for SPA/framework routing.\n\n## Step states\n\nThree boolean attributes control step appearance and behavior:\n\n- **`current`** — The furthest step the user has reached (the progress boundary). Only one step should\n  have `current` at a time; if multiple are set the parent stepper keeps the first and removes the rest.\n  Steps after `current` are not navigable and do not fire `nys-step-click`. Update `current` in your\n  application state when the user advances.\n\n- **`selected`** — Which step's content is currently displayed. Defaults to the `current` step if not\n  explicitly set. If `selected` is placed on a step after `current`, the stepper silently corrects it\n  to match `current`. When managing state from a framework, always set `selected` explicitly — without\n  it the stepper's fallback will reset in-sidebar navigation on every state update.\n\n- **`previous`** — Auto-applied by the parent stepper to every step before `current`. Do not set this\n  manually. Steps with `previous` are clickable and fire `nys-step-click`.\n\n## `nys-step-click` firing conditions\n\nThe event fires only when ALL of the following are true:\n1. The step has `previous` or `current` (i.e. it is navigable).\n2. The step does NOT already have `selected` (clicking the already-viewed step is a no-op).\n\nSteps that are neither `previous` nor `current` (future steps) never fire the event.\n\n## `href` and navigation\n\nIf `href` is set, the stepper calls `window.location.href = href` after dispatching `nys-step-click`\n— but only if the event was **not canceled**. To handle navigation yourself (SPA routing, fetch, etc.),\nalways call `e.preventDefault()` in your listener. Omitting `href` entirely is simpler for SPAs.\n\n## `onClick` vs `nys-step-click`\n\nThe `onClick` property (a function reference, not a DOM attribute) is called **before** the\n`nys-step-click` event is dispatched. Use it for imperative pre-navigation logic. In React, pass it\nas the `onClick` prop on `NysStep`.\n\n## Accessibility\n- The host carries `role=\"listitem\"` so the parent stepper's `<ol>` and its slotted\n  `<nys-step>` children form a real list — assistive technology announces each step's\n  position and count (e.g. \"2 of 4\") automatically.\n- Navigable steps (`current`, `previous`, `selected`) render a real `<button>` for their\n  row, giving native keyboard activation (Enter/Space), focus handling, and semantics for\n  free — no manual `tabindex`/`keydown` scaffolding required.\n- Future (non-navigable) steps render the row as a plain, non-interactive `<div>` — not a\n  disabled button. They are not focusable and carry no `role`, `tabindex`, or `aria-disabled`.\n- `aria-label` announces the step name and 1-indexed position, e.g. `\"Personal Info, step 1\"`.\n- The `current` step (progress boundary) is marked with `aria-current=\"step\"` on the\n  `<button>` itself so assistive technology announces the user's current position.\n- The visual step number is `aria-hidden` (its meaning is folded into the row's accessible name).\n\n## Common patterns\n\n**Initial state:** Set `current` on the first step. `selected` defaults to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (progress still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
           "name": "NysStep",
           "members": [
             {
@@ -12455,19 +12865,6 @@
                   "name": "e",
                   "type": {
                     "text": "Event"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_handleKeydown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
                   }
                 }
               ]
@@ -12555,7 +12952,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary; all steps\nbefore it become navigable. Compact view on mobile expands to show all steps. Use the `actions` slot for\npersistent navigation buttons (e.g., Save & Exit). Do not place the stepper inside a `<form>` element —\nput form fields in the main content area alongside it.\n\n## When to use\n- Linear, ordered forms or wizards with more than 2 sections.\n\n## When not to use\n- Forms with only 1 or 2 sections — use a simpler layout.\n- Non-linear forms where sections can be completed in any order.\n\n## Compact mode (mobile)\nOn small screens the stepper collapses to a compact view: step labels are hidden and progress\nis shown as a bar indicator with a \"Step x of y\" counter. Clicking or pressing Enter/Space on\nthe counter expands the full step list (counter text changes to \"Back to Form\"). Collapsing\nagain returns the user to the form view.\n\n## actions slot constraints\nThe `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only\ncontain `<nys-button>` elements — any other element is removed with a console warning.\nThe stepper automatically forces `size=\"sm\"` on every button in the slot. Buttons with the\n`fullWidth` attribute get `flex: 1 1 0` injected so they share available width equally.\n\n## Multiple `current` conflict\nIf more than one `nys-step` has the `current` attribute, only the first one is kept; the rest\nare silently removed. Always mark exactly one step as `current`.\n\n## id auto-generation\nIf no `id` is provided, a unique id is generated automatically in the form\n`nys-stepper-{timestamp}-{n}`.\n\n## Accessibility\n- The compact counter is rendered as a `role=\"button\"` with `aria-expanded` and a descriptive\n  `aria-label` that announces the current step (e.g., \"Expand step navigation. You are on Step 2 of 4\").\n- Keyboard: Enter or Space toggles the compact view.\n- Each `nys-step` label is keyboard-focusable and activatable for navigable steps.\n- Visual focus indicators are provided on all interactive elements.",
+          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary; all steps\nbefore it become navigable. Compact view on mobile expands to show all steps. Use the `actions` slot for\npersistent navigation buttons (e.g., Save & Exit). Do not place the stepper inside a `<form>` element —\nput form fields in the main content area alongside it.\n\n## When to use\n- Linear, ordered forms or wizards with more than 2 sections.\n\n## When not to use\n- Forms with only 1 or 2 sections — use a simpler layout.\n- Non-linear forms where sections can be completed in any order.\n\n## Compact mode (mobile)\nOn small screens the stepper collapses to a compact view: step labels are hidden and progress\nis shown as a bar indicator with a \"Step x of y\" counter. Clicking or pressing Enter/Space on\nthe counter expands the full step list (counter text changes to \"Back to Form\"). Collapsing\nagain returns the user to the form view.\n\n## actions slot constraints\nThe `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only\ncontain `<nys-button>` elements — any other element is removed with a console warning.\nThe stepper automatically forces `size=\"sm\"` on every button in the slot. Buttons with the\n`fullWidth` attribute get `flex: 1 1 0` injected so they share available width equally.\n\n## Multiple `current` conflict\nIf more than one `nys-step` has the `current` attribute, only the first one is kept; the rest\nare silently removed. Always mark exactly one step as `current`.\n\n## id auto-generation\nIf no `id` is provided, a unique id is generated automatically in the form\n`nys-stepper-{timestamp}-{n}`.\n\n## Accessibility\n- The compact counter is rendered as a `role=\"button\"` with `aria-expanded` and a descriptive\n  `aria-label` that announces the current step (e.g., \"Expand step navigation. You are on Step 2 of 4\").\n- Keyboard: Enter or Space toggles the compact view.\n- Steps are rendered inside an `<ol>` so assistive technology announces each step's position\n  and count (e.g. \"2 of 4\"). Each slotted `<nys-step>` carries `role=\"listitem\"` since it\n  can't itself be a real `<li>`.\n- Navigable steps render as real `<button>` elements — keyboard-focusable and activatable\n  (Enter/Space) natively. Future (non-navigable) steps render as plain, non-interactive rows.\n- Visual focus indicators are provided on all interactive elements.",
           "name": "NysStepper",
           "slots": [
             {
@@ -16240,10 +16637,39 @@
           "name": "NysUnavFooter",
           "members": [
             {
+              "kind": "field",
+              "name": "landmarkLabel",
+              "default": "\"New York State\"",
+              "description": "Accessible name for the `contentinfo` landmark this footer renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this footer with `nys-globalfooter` carries two `contentinfo`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"content information\" twice. Override only when your wording is\nclearer for your audience — and keep it distinct from the agency footer's\nname, which comes from that footer's visible heading.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
+              "attribute": "landmarkLabel",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
               "kind": "method",
               "name": "_getNysLogo",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "The contentinfo's accessible name. A blank override would put the page back\nwhere #1795 found it — two unnamed contentinfo landmarks — so it falls back\nto the default.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "landmarkLabel",
+              "default": "DEFAULT_LANDMARK_LABEL",
+              "description": "Accessible name for the `contentinfo` landmark this footer renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this footer with `nys-globalfooter` carries two `contentinfo`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"content information\" twice. Override only when your wording is\nclearer for your audience — and keep it distinct from the agency footer's\nname, which comes from that footer's visible heading.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
+              "fieldName": "landmarkLabel",
+              "propName": "landmarklabel"
             }
           ],
           "superclass": {
@@ -16257,6 +16683,11 @@
             {
               "title": "Basic",
               "code": "<nys-unavfooter></nys-unavfooter>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom landmark label",
+              "code": "<!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->\n<nys-unavfooter landmarkLabel=\"Statewide\"></nys-unavfooter>",
               "lang": "html"
             }
           ]
@@ -16386,6 +16817,16 @@
             },
             {
               "kind": "field",
+              "name": "landmarkLabel",
+              "default": "\"New York State\"",
+              "description": "Accessible name for the `banner` landmark this header renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this header with `nys-globalheader` carries two `banner`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"banner, banner\". Override only when your wording is clearer for\nyour audience — and keep it distinct from the agency header's name, which\ncomes from that header's visible title.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
+              "attribute": "landmarkLabel",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
               "name": "languages",
               "type": {
                 "text": "Language[]"
@@ -16425,6 +16866,26 @@
               "description": "Which translate trigger opened the menu, so Escape can return focus to it."
             },
             {
+              "kind": "field",
+              "name": "_activeOption",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0",
+              "description": "Index of the option holding the menu's single tab stop."
+            },
+            {
+              "kind": "field",
+              "name": "_openWithFocus",
+              "type": {
+                "text": "\"first\" | \"last\" | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Where focus lands when the menu opens, set only by a keyboard activation. A\nmouse open leaves focus on the trigger: moving it would put a focus ring on an\noption the pointer user never asked for."
+            },
+            {
               "kind": "method",
               "name": "_toggleLanguageList",
               "privacy": "private",
@@ -16449,6 +16910,37 @@
               "name": "_syncTranslateTriggerAria",
               "privacy": "private",
               "description": "`nys-button` renders the real `<button>` inside its own shadow root, so an\n`aria-expanded` written on the host never reaches the element that carries the\nbutton role — assistive tech was never told the translate menu collapses. Mirror\nthe state onto the inner control, the same way `nys-dropdownmenu` does for its\ntrigger (WCAG 4.1.2)."
+            },
+            {
+              "kind": "method",
+              "name": "_languageOptions",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "ButtonElement[]"
+                }
+              },
+              "description": "The language options, in the order they are rendered."
+            },
+            {
+              "kind": "method",
+              "name": "_syncLanguageMenuAria",
+              "privacy": "private",
+              "description": "Menu semantics for the options, and the same shadow-root problem as the trigger:\n`role=\"menuitem\"` and the tab stop have to land on the real `<button>`, not on\nthe `nys-button` host. The hosts carry `role=\"presentation\"` in the template so\nthey don't sit between the menu and its items in the accessibility tree."
+            },
+            {
+              "kind": "method",
+              "name": "_focusOption",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Moves both focus and the tab stop to an option, wrapping at either end. Index\n-1 is the last option, so \"previous from the first\" and \"End\" are the same call."
             },
             {
               "kind": "method",
@@ -16480,7 +16972,53 @@
                   }
                 }
               ],
-              "description": "Escape dismisses the translate menu, matching the search field's Escape."
+              "description": "Keyboard model for the translate menu (APG menu button):\n- on the trigger: Down/Up open the menu on its first/last option, Enter/Space\n  open it on the first option, Escape closes it\n- in the menu: Down/Up step and wrap, Home/End jump to either end, Enter/Space\n  pick the option (native `<button>` activation), Escape closes the menu and\n  returns focus to the trigger\n\nType-ahead is deliberately left out. Each label is written in its own script, so\nmatching typed characters would mean transliteration plus an IME to be usable —\n\"e\" finds nothing in \"Español\" for anyone who would need it. The pattern lists\ntype-ahead as optional."
+            },
+            {
+              "kind": "method",
+              "name": "_handleTriggerKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                },
+                {
+                  "name": "triggerId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOptionKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTranslateFocusout",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ],
+              "description": "Focus leaving the menu closes it — that is what Tab and Shift+Tab do under the\nmenu button pattern, and it also covers clicking away. Closing without touching\nfocus is the point here: the browser is already moving it somewhere else."
             },
             {
               "kind": "method",
@@ -16623,6 +17161,16 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "_landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "The banner's accessible name. A blank override would put the page back where\n#1795 found it — two unnamed banners — so it falls back to the default.",
+              "readonly": true
             }
           ],
           "events": [
@@ -16707,6 +17255,13 @@
               "propName": "searchurl"
             },
             {
+              "name": "landmarkLabel",
+              "default": "DEFAULT_LANDMARK_LABEL",
+              "description": "Accessible name for the `banner` landmark this header renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this header with `nys-globalheader` carries two `banner`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"banner, banner\". Override only when your wording is clearer for\nyour audience — and keep it distinct from the agency header's name, which\ncomes from that header's visible title.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
+              "fieldName": "landmarkLabel",
+              "propName": "landmarklabel"
+            },
+            {
               "name": "languages",
               "type": {
                 "text": "Language[]"
@@ -16738,6 +17293,11 @@
             {
               "title": "Hide translate",
               "code": "<nys-unavheader hideTranslate></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom landmark label",
+              "code": "<!-- Renames the banner landmark. Keep it distinct from the agency header's. -->\n<nys-unavheader landmarkLabel=\"Statewide\"></nys-unavheader>",
               "lang": "html"
             },
             {
@@ -16959,6 +17519,17 @@
               "kind": "method",
               "name": "renderContentDesktop",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_accordionHeadingLevel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "\"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\""
+                }
+              },
+              "description": "The heading level for the mobile disclosure trigger.\n\nBelow 1024px the navigation heading IS the accordion trigger, so it has to\nland at the same outline position the desktop heading occupies — otherwise\nthe nav's place in the outline changes with the viewport. `nys-accordion`\nruns h2-h6 (a disclosure trigger is never a page title), so the one level\nthis nav offers that it does not, `h1`, maps to the next valid level."
             },
             {
               "kind": "method",

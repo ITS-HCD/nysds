@@ -242,7 +242,7 @@ export const ExpandedItem: Story = {
   },
 };
 
-export const PerItemHeadingLevel: Story = {
+export const PeritemHeadingLevel: Story = {
   render: () => {
     return html`
       <nys-accordion headingLevel="h2">

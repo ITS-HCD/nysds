@@ -26,6 +26,7 @@ export const Basic: Story = {
     agencyName: "Office of Information Technology Services",
     homepageLink: "",
     nysLogo: false,
+    landmarkLabel: "",
   },
   render: (args) => {
     return html`
@@ -34,6 +35,7 @@ export const Basic: Story = {
         agencyName=${args.agencyName}
         homepageLink=${args.homepageLink}
         ?nysLogo=${args.nysLogo}
+        landmarkLabel=${args.landmarkLabel}
       ></nys-globalheader>
     `;
   },
@@ -249,7 +251,7 @@ export const CustomLandmarkLabel: Story = {
   render: () => {
     return html`
       <!-- Names the banner landmark directly instead of from the visible title.
-           Keep it distinct from nys-unavheader's ("New York State"). -->
+      Keep it distinct from nys-unavheader's ("New York State"). -->
       <nys-globalheader
         agencyName="Office of Information Technology Services"
         landmarkLabel="ITS"
@@ -261,7 +263,7 @@ export const CustomLandmarkLabel: Story = {
       source: {
         code: `
 <!-- Names the banner landmark directly instead of from the visible title.
-     Keep it distinct from nys-unavheader's ("New York State"). -->
+Keep it distinct from nys-unavheader's ("New York State"). -->
 <nys-globalheader
   agencyName="Office of Information Technology Services"
   landmarkLabel="ITS"

@@ -45,7 +45,11 @@ export function findUnregisteredChildren(host: Element): string[] {
   const scan = (root: Element | ShadowRoot) => {
     root.querySelectorAll("*").forEach((el) => {
       const tag = el.tagName.toLowerCase();
-      if (tag.startsWith("nys-") && tag !== ownTag && !customElements.get(tag)) {
+      if (
+        tag.startsWith("nys-") &&
+        tag !== ownTag &&
+        !customElements.get(tag)
+      ) {
         unregistered.add(tag);
       }
       // Recurse into nested shadow roots so a grandchild component's own

@@ -206,7 +206,10 @@ export class NysStep extends NysElement {
               </button>
             `
           : html`
-              <div class="nys-step__contentwrapper" aria-label=${accessibleName}>
+              <div
+                class="nys-step__contentwrapper"
+                aria-label=${accessibleName}
+              >
                 ${rowContent}
               </div>
             `}

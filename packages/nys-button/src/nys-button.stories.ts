@@ -27,6 +27,7 @@ export const Basic: Story = {
     label: "Button",
     ariaControls: "",
     ariaExpanded: "",
+    ariaCurrent: "",
     prefixIcon: "",
     suffixIcon: "",
     circle: false,
@@ -48,6 +49,19 @@ export const Basic: Story = {
       control: { type: "select" },
       options: ["true", "false", ""],
     },
+    ariaCurrent: {
+      control: { type: "select" },
+      options: [
+        "page",
+        "step",
+        "location",
+        "date",
+        "time",
+        "true",
+        "false",
+        "",
+      ],
+    },
     type: {
       control: { type: "select" },
       options: ["submit", "reset", "button"],
@@ -68,6 +82,7 @@ export const Basic: Story = {
         label=${args.label}
         ariaControls=${args.ariaControls}
         ariaExpanded=${args.ariaExpanded}
+        ariaCurrent=${args.ariaCurrent}
         prefixIcon=${args.prefixIcon}
         suffixIcon=${args.suffixIcon}
         ?circle=${args.circle}

@@ -381,8 +381,8 @@ describe("nys-pagination", () => {
     // behind as misleading dead markup.
     const buttons = el.shadowRoot!.querySelectorAll("nys-button");
     for (const button of Array.from(buttons)) {
-      expect(button.hasAttribute("arialabel"), button.id || "(page button)")
-        .to.be.false;
+      expect(button.hasAttribute("arialabel"), button.id || "(page button)").to
+        .be.false;
     }
   });
 

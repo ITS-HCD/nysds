@@ -40,8 +40,9 @@ export interface NysRadiobuttonProps extends Pick<
   showOtherError?: boolean;
 
   /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
-table cells). Without `labelledby` the accessible name still comes from
-`label`, so a hidden label stays nameable. */
+table cells). Without `labelledby` there is no visible element left to name
+the radio from, so the accessible name falls back to the `label` string —
+pair `hideLabel` with `labelledby` wherever a visible element exists. */
   hideLabel?: boolean;
 
   /** Visible label text. Required for accessibility. */

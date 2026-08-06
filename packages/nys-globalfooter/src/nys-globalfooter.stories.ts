@@ -22,6 +22,7 @@ export const Basic: Story = {
     agencyName: "Office of Information Technology Services",
     agencySubheading: "",
     homepageLink: "",
+    landmarkLabel: "",
   },
   render: (args) => {
     return html`
@@ -29,6 +30,7 @@ export const Basic: Story = {
         agencyName=${args.agencyName}
         agencySubheading=${args.agencySubheading}
         homepageLink=${args.homepageLink}
+        landmarkLabel=${args.landmarkLabel}
       ></nys-globalfooter>
     `;
   },
@@ -179,7 +181,7 @@ export const CustomLandmarkLabel: Story = {
   render: () => {
     return html`
       <!-- Names the contentinfo landmark directly instead of from the visible
-           heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
+      heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
       <nys-globalfooter
         agencyName="Office of Information Technology Services"
         landmarkLabel="ITS"
@@ -191,7 +193,7 @@ export const CustomLandmarkLabel: Story = {
       source: {
         code: `
 <!-- Names the contentinfo landmark directly instead of from the visible
-     heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
+heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
 <nys-globalfooter
   agencyName="Office of Information Technology Services"
   landmarkLabel="ITS"

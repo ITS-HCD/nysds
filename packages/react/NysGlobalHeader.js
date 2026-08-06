@@ -2,8 +2,15 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysGlobalHeader = forwardRef((props, forwardedRef) => {
-  const { nysLogo, id, appName, agencyName, homepageLink, ...filteredProps } =
-    props;
+  const {
+    nysLogo,
+    id,
+    appName,
+    agencyName,
+    homepageLink,
+    landmarkLabel,
+    ...filteredProps
+  } = props;
 
   return React.createElement(
     "nys-globalheader",
@@ -13,6 +20,7 @@ export const NysGlobalHeader = forwardRef((props, forwardedRef) => {
       appName: props.appName,
       agencyName: props.agencyName,
       homepageLink: props.homepageLink,
+      landmarkLabel: props.landmarkLabel,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

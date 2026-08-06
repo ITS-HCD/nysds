@@ -503,9 +503,7 @@ describe("nys-fileinput", () => {
       expect(dropzoneDiv.hasAttribute("tabindex")).to.be.false;
       expect(dropzoneDiv.hasAttribute("role")).to.be.false;
 
-      const nysButton = el.shadowRoot!.querySelector(
-        "#choose-files-btn-drag",
-      )!;
+      const nysButton = el.shadowRoot!.querySelector("#choose-files-btn-drag")!;
       const innerButton = nysButton.shadowRoot?.querySelector("button");
       expect(innerButton, "inner control must be a real <button>").to.exist;
       expect(innerButton!.tagName).to.equal("BUTTON");
@@ -522,9 +520,7 @@ describe("nys-fileinput", () => {
       let clicked = false;
       input.click = () => (clicked = true);
 
-      const nysButton = el.shadowRoot!.querySelector(
-        "#choose-files-btn-drag",
-      )!;
+      const nysButton = el.shadowRoot!.querySelector("#choose-files-btn-drag")!;
       const innerButton = nysButton.shadowRoot!.querySelector(
         "button",
       ) as HTMLButtonElement;
@@ -555,9 +551,7 @@ describe("nys-fileinput", () => {
       let clicked = false;
       input.click = () => (clicked = true);
 
-      const nysButton = el.shadowRoot!.querySelector(
-        "#choose-files-btn-drag",
-      )!;
+      const nysButton = el.shadowRoot!.querySelector("#choose-files-btn-drag")!;
       const innerButton = nysButton.shadowRoot!.querySelector(
         "button",
       ) as HTMLButtonElement;
@@ -601,9 +595,7 @@ describe("nys-fileinput", () => {
       expect(hint.textContent!.trim()).to.equal("or drag here");
 
       const control = el["_innerNysButton"]!;
-      expect(control.getAttribute("aria-description")).to.equal(
-        "or drag here",
-      );
+      expect(control.getAttribute("aria-description")).to.equal("or drag here");
 
       const refs = (control as any).ariaDescribedByElements;
       if (refs !== undefined) {

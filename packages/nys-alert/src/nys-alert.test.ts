@@ -101,23 +101,17 @@ describe("nys-alert", () => {
     const alertTextContainer =
       el.shadowRoot?.querySelector(".nys-alert__texts");
     expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
-    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
-      "assertive",
-    );
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("assertive");
 
     el.type = "warning";
     await el.updateComplete;
     expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
-    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
-      "assertive",
-    );
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("assertive");
 
     el.type = "emergency";
     await el.updateComplete;
     expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
-    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
-      "assertive",
-    );
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("assertive");
 
     el.type = "success";
     await el.updateComplete;
@@ -165,11 +159,7 @@ describe("nys-alert", () => {
 
   it("does not include the dismiss button inside the announced live-region content", async () => {
     const el = await fixture<NysAlert>(
-      html`<nys-alert
-        type="danger"
-        heading="Error"
-        dismissible
-      ></nys-alert>`,
+      html`<nys-alert type="danger" heading="Error" dismissible></nys-alert>`,
     );
 
     const alertTextContainer =
@@ -196,9 +186,7 @@ describe("nys-alert", () => {
     const alertTextContainer =
       el.shadowRoot?.querySelector(".nys-alert__texts");
     expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
-    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
-      "assertive",
-    );
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("assertive");
 
     // Now dynamically update the content of the already-present live region.
     el.heading = "Session expiring";
@@ -212,9 +200,7 @@ describe("nys-alert", () => {
     // The role/aria-live attributes remain on the same element throughout
     // the content update, confirming the live region was never re-created.
     expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
-    expect(alertTextContainer?.getAttribute("aria-live")).to.equal(
-      "assertive",
-    );
+    expect(alertTextContainer?.getAttribute("aria-live")).to.equal("assertive");
   });
 
   it("should reflect Slot content", async () => {
