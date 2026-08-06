@@ -146,6 +146,43 @@ describe("nys-globalfooter", () => {
     expect(footer?.getAttribute("aria-label")).to.equal("Site");
   });
 
+  // --- #1795 — the paired landmark names must be author-overridable. ---
+  it("lets the author name the contentinfo landmark directly", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Department of Health"
+        landmarkLabel="Health"
+      ></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-label")).to.equal("Health");
+    // Never both: aria-labelledby would win and the override would do nothing.
+    expect(footer?.hasAttribute("aria-labelledby")).to.be.false;
+  });
+
+  it("overrides the default contentinfo name when no agency name is given", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter landmarkLabel="Portal"></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-label")).to.equal("Portal");
+  });
+
+  it("ignores a blank landmarkLabel and keeps naming from the agency heading", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Department of Health"
+        landmarkLabel="   "
+      ></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-labelledby")).to.equal(`${el.id}-name`);
+    expect(footer?.hasAttribute("aria-label")).to.be.false;
+  });
+
   it("auto-generates a valid id when none is provided", async () => {
     const el = await fixture<NysGlobalFooter>(
       html`<nys-globalfooter></nys-globalfooter>`,

@@ -1,4 +1,4 @@
-import { html, unsafeCSS } from "lit";
+import { html, unsafeCSS, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
@@ -10,6 +10,10 @@ import styles from "./nys-avatar.scss?inline";
  *
  * Priority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;
  * foreground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).
+ *
+ * An avatar with no `ariaLabel` is treated as decorative and hidden from assistive
+ * tech — correct beside a visible name, wrong for an `interactive` avatar, which
+ * renders a `<button>` and warns in the console when left nameless.
  *
  * @summary User avatar with image, initials, or icon fallback and contrast-aware colors.
  * @element nys-avatar
@@ -48,7 +52,15 @@ import styles from "./nys-avatar.scss?inline";
  *
  * @example Interactive
  * ```html
- * <nys-avatar interactive></nys-avatar>
+ * <!-- Interactive renders a <button>, so it always needs a name. -->
+ * <nys-avatar interactive ariaLabel="Open account menu"></nys-avatar>
+ * ```
+ *
+ * @example Decorative
+ * ```html
+ * <!-- No ariaLabel: hidden from assistive tech, for use beside a visible name. -->
+ * <nys-avatar initials="JS"></nys-avatar>
+ * <span>Jane Smith</span>
  * ```
  *
  * @example Disabled
@@ -58,7 +70,11 @@ import styles from "./nys-avatar.scss?inline";
  *
  * @example Custom Background Color
  * ```html
- * <nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>
+ * <nys-avatar
+ *   color="var(--nys-color-red-500)"
+ *   interactive
+ *   ariaLabel="Open account menu"
+ * ></nys-avatar>
  * ```
  *
  * @example Lazy Loading
@@ -73,7 +89,19 @@ export class NysAvatar extends NysElement {
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
 
-  /** Accessible label for screen readers. Required when no image `alt` is available. */
+  /**
+   * Accessible name for the avatar — who or what it represents ("Jane Smith"),
+   * not what it is ("avatar").
+   *
+   * Leave it unset for a decorative avatar and the whole thing is hidden from
+   * assistive tech, which is the right outcome next to a visible name. Set it
+   * whenever the avatar is the only thing identifying the person, and always when
+   * `interactive` is set: that renders a `<button>`, and a nameless button cannot
+   * be operated by screen reader or voice-control users (WCAG 4.1.2). An
+   * interactive avatar without a name logs a console warning.
+   *
+   * Whitespace-only values — including a non-breaking space — count as no name.
+   */
   @property({ type: String }) ariaLabel = "";
 
   /** Image URL. Takes priority over initials and icon. */
@@ -112,6 +140,13 @@ export class NysAvatar extends NysElement {
     super.connectedCallback();
   }
 
+  updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    // Cheap enough to re-check every cycle, and the once-guard keeps a repeatedly
+    // re-rendering avatar from filling the console.
+    this._warnMissingInteractiveName();
+  }
+
   private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) {
@@ -137,8 +172,45 @@ export class NysAvatar extends NysElement {
    * --------------------------------------------------------------------------
    */
 
+  /**
+   * The label with all whitespace — including the non-breaking space consumers
+   * reach for when they want "no label but the prop is required" — collapsed and
+   * trimmed. A name made only of blank characters is announced as an empty name,
+   * so `" "` and `"&nbsp;"` must resolve to no label at all rather than to a
+   * label the user can neither hear nor act on.
+   */
   private get _cleanAriaLabel(): string {
     return (this.ariaLabel ?? "").replace(/[\s\u00a0]+/g, " ").trim();
+  }
+
+  /** One warning per gap, so a re-rendering avatar cannot flood the console. */
+  private _warnedMissingName = false;
+
+  /**
+   * Warns when an interactive avatar has no accessible name.
+   *
+   * An interactive avatar renders a `<button>`, and a button with no name is
+   * unusable by screen reader and voice-control users (WCAG 4.1.2). The component
+   * used to paper over this with a captive default name of "Avatar", which told
+   * the user nothing ("button, avatar") and hid the mistake from audits (#1093).
+   * The name is the author's to supply, so the component surfaces the gap here
+   * instead of inventing one. `ariaLabel` deliberately stays optional —
+   * decorative avatars are legitimate, and making it required would break the
+   * consumers already shipping without it.
+   */
+  private _warnMissingInteractiveName() {
+    if (!this.interactive || this._cleanAriaLabel) {
+      // A name arriving later clears the warning so a fresh gap is reported.
+      this._warnedMissingName = false;
+      return;
+    }
+    if (this._warnedMissingName) return;
+    this._warnedMissingName = true;
+
+    console.warn(
+      `nys-avatar: interactive avatar "${this.id}" has no accessible name — ` +
+        `set ariaLabel to describe who or what it represents (WCAG 4.1.2).`,
+    );
   }
 
   private _colorStyle(): string {
@@ -221,18 +293,12 @@ export class NysAvatar extends NysElement {
                 : null}
             </div>`;
 
-    // An interactive avatar is a <button>, which must always have an accessible
-    // name (WCAG 4.1.2 Name, Role, Value). The image alt / decorative icon do not
-    // provide one, so fall back to a sensible default ("Avatar") when the consumer
-    // did not supply an ariaLabel.
-    const interactiveLabel = label || "Avatar";
-
     const container = this.interactive
       ? html`<button
           part="nys-avatar"
           class="nys-avatar__component"
           style=${ifDefined(colorStyle || undefined)}
-          aria-label=${interactiveLabel}
+          aria-label=${ifDefined(label || undefined)}
           ?disabled=${this.disabled}
         >
           ${avatarContent}

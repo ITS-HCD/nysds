@@ -302,6 +302,45 @@ describe("nys-globalheader", () => {
     expect(header?.getAttribute("aria-label")).to.equal("Site");
   });
 
+  // --- #1795 — the paired landmark names must be author-overridable. ---
+  it("lets the author name the banner landmark directly", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="ITS"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("ITS");
+    // Never both: aria-labelledby would win and the override would do nothing.
+    expect(header?.hasAttribute("aria-labelledby")).to.be.false;
+  });
+
+  it("overrides the default banner name when there is no visible title", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader landmarkLabel="Portal"></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("Portal");
+  });
+
+  it("ignores a blank landmarkLabel and keeps naming from the visible title", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="   "
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-labelledby")).to.equal(
+      `${el.id}-agencyname`,
+    );
+    expect(header?.hasAttribute("aria-label")).to.be.false;
+  });
+
   it("sets aria-current=page on the active link (WCAG 1.4.1)", async () => {
     history.pushState({}, "", "/services");
 
@@ -503,6 +542,161 @@ describe("nys-globalheader", () => {
     await el.updateComplete;
     expect(buttonIcon.getAttribute("name")).to.equal("menu");
     expect(labelSpan.textContent?.trim()).to.include("MENU");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Mobile menu focus trap (#1101)
+// ---------------------------------------------------------------------------
+
+describe("nys-globalheader mobile menu focus trap", () => {
+  /**
+   * The test browser runs above the 1024px breakpoint, where the menu and its
+   * toggle are `display: none` — and `focus()` is a no-op on anything that is not
+   * rendered. Force the mobile layout on so the trap has real focusable stops,
+   * exactly as it would below the breakpoint.
+   */
+  function forceMobileLayout(el: NysGlobalHeader) {
+    const toggleContainer = el.shadowRoot?.querySelector<HTMLElement>(
+      ".nys-globalheader__button-container",
+    );
+    const nav = el.shadowRoot?.querySelector<HTMLElement>(
+      ".nys-globalheader__content-mobile",
+    );
+    if (toggleContainer) toggleContainer.style.display = "flex";
+    if (nav) nav.style.display = "flex";
+  }
+
+  async function openMenu() {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader agencyName="Test Agency">
+        <ul>
+          <li><a href="/one">One</a></li>
+          <li><a href="/two">Two</a></li>
+          <li><a href="/three">Three</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    // The toggle only renders once the slot handler has reported link content,
+    // which lands a cycle after the first render.
+    await el.updateComplete;
+    await el.updateComplete;
+    forceMobileLayout(el);
+
+    const toggle = el.shadowRoot!.querySelector<HTMLButtonElement>(
+      ".nys-globalheader__mobile-menu-button",
+    )!;
+    toggle.click();
+    await el.updateComplete;
+
+    const links = Array.from(
+      el
+        .shadowRoot!.querySelector(".nys-globalheader__content-mobile")!
+        .querySelectorAll<HTMLAnchorElement>("a"),
+    );
+
+    return { el, toggle, links };
+  }
+
+  function pressKey(key: string, shiftKey = false) {
+    const event = new KeyboardEvent("keydown", {
+      key,
+      shiftKey,
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+    document.dispatchEvent(event);
+    return event;
+  }
+
+  it("wraps Tab from the last menu link back to the toggle", async () => {
+    const { el, toggle, links } = await openMenu();
+
+    const last = links[links.length - 1];
+    last.focus();
+    expect(el.shadowRoot!.activeElement).to.equal(last);
+
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.true;
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+  });
+
+  it("wraps Shift+Tab from the toggle to the last menu link", async () => {
+    const { el, toggle, links } = await openMenu();
+
+    toggle.focus();
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+
+    const event = pressKey("Tab", true);
+    expect(event.defaultPrevented).to.be.true;
+    expect(el.shadowRoot!.activeElement).to.equal(links[links.length - 1]);
+  });
+
+  it("leaves Tab alone in the middle of the menu so the browser advances normally", async () => {
+    const { el, links } = await openMenu();
+
+    links[0].focus();
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.false;
+    // Focus is still inside the menu; the browser moves it from here.
+    expect(el.shadowRoot!.activeElement).to.equal(links[0]);
+  });
+
+  it("pulls focus back into the menu when it has escaped altogether", async () => {
+    const { el, toggle } = await openMenu();
+
+    const outside = document.createElement("button");
+    document.body.appendChild(outside);
+    outside.focus();
+
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.true;
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+
+    outside.remove();
+  });
+
+  it("does not trap Tab while the menu is closed", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader agencyName="Test Agency">
+        <ul>
+          <li><a href="/one">One</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.false;
+  });
+
+  it("closes the menu on Escape and returns focus to the toggle", async () => {
+    const { el, toggle, links } = await openMenu();
+
+    links[0].focus();
+    const event = pressKey("Escape");
+    await el.updateComplete;
+
+    expect(event.defaultPrevented).to.be.true;
+    expect(toggle.getAttribute("aria-expanded")).to.equal("false");
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+  });
+
+  it("closes on an outside click without stealing focus", async () => {
+    const { el, toggle } = await openMenu();
+
+    const outside = document.createElement("button");
+    document.body.appendChild(outside);
+    outside.focus();
+
+    document.body.click();
+    await el.updateComplete;
+
+    expect(toggle.getAttribute("aria-expanded")).to.equal("false");
+    expect(document.activeElement).to.equal(outside);
+
+    outside.remove();
   });
 });
 

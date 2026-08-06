@@ -244,3 +244,30 @@ export const WithNYSLogo: Story = {
     },
   },
 };
+
+export const CustomLandmarkLabel: Story = {
+  render: () => {
+    return html`
+      <!-- Names the banner landmark directly instead of from the visible title.
+           Keep it distinct from nys-unavheader's ("New York State"). -->
+      <nys-globalheader
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="ITS"
+      ></nys-globalheader>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<!-- Names the banner landmark directly instead of from the visible title.
+     Keep it distinct from nys-unavheader's ("New York State"). -->
+<nys-globalheader
+  agencyName="Office of Information Technology Services"
+  landmarkLabel="ITS"
+></nys-globalheader>`,
+        type: "auto",
+      },
+    },
+  },
+};

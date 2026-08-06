@@ -158,3 +158,22 @@ const selectedLanguage = event.detail.language.label;
     },
   },
 };
+
+export const CustomLandmarkLabel: Story = {
+  render: () => {
+    return html`
+      <!-- Renames the banner landmark. Keep it distinct from the agency header's. -->
+      <nys-unavheader landmarkLabel="Statewide"></nys-unavheader>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<!-- Renames the banner landmark. Keep it distinct from the agency header's. -->
+<nys-unavheader landmarkLabel="Statewide"></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};

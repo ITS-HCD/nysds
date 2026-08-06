@@ -107,13 +107,36 @@ export const Icon: Story = {
 
 export const Interactive: Story = {
   render: () => {
-    return html` <nys-avatar interactive></nys-avatar> `;
+    // Interactive renders a <button>, which is unusable without a name.
+    return html`
+      <nys-avatar interactive ariaLabel="Open account menu"></nys-avatar>
+    `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-avatar interactive></nys-avatar>`,
+<nys-avatar interactive ariaLabel="Open account menu"></nys-avatar>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Decorative: Story = {
+  render: () => {
+    // No ariaLabel: hidden from assistive tech, for use beside a visible name.
+    return html`
+      <nys-avatar initials="JS"></nys-avatar>
+      <span>Jane Smith</span>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-avatar initials="JS"></nys-avatar>
+<span>Jane Smith</span>`,
         type: "auto",
       },
     },
@@ -138,14 +161,22 @@ export const Disabled: Story = {
 export const CustomBackgroundColor: Story = {
   render: () => {
     return html`
-      <nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>
+      <nys-avatar
+        color="var(--nys-color-red-500)"
+        interactive
+        ariaLabel="Open account menu"
+      ></nys-avatar>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>`,
+<nys-avatar
+  color="var(--nys-color-red-500)"
+  interactive
+  ariaLabel="Open account menu"
+></nys-avatar>`,
         type: "auto",
       },
     },

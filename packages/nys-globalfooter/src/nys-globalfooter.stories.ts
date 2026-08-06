@@ -174,3 +174,30 @@ export const Subheading: Story = {
     },
   },
 };
+
+export const CustomLandmarkLabel: Story = {
+  render: () => {
+    return html`
+      <!-- Names the contentinfo landmark directly instead of from the visible
+           heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
+      <nys-globalfooter
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="ITS"
+      ></nys-globalfooter>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<!-- Names the contentinfo landmark directly instead of from the visible
+     heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
+<nys-globalfooter
+  agencyName="Office of Information Technology Services"
+  landmarkLabel="ITS"
+></nys-globalfooter>`,
+        type: "auto",
+      },
+    },
+  },
+};
