@@ -215,6 +215,35 @@ export class NysButton extends NysFormControlElement {
   @property({ type: String }) ariaExpanded: "true" | "false" | "" = "";
 
   /**
+   * Marks this button as the current item within a set of related controls — the current
+   * page of a pagination control, the current step of a wizard. Sets `aria-current` on the
+   * internal `<button>`/`<a>`.
+   *
+   * Use `"page"` inside a pagination landmark, `"step"` inside a step indicator, and
+   * `"true"` when no more specific token fits. Only one control in a set is ever current:
+   * leave the property unset on all the others rather than setting `"false"`, which the
+   * spec reads as "explicitly not current" and adds nothing.
+   *
+   * Setting `aria-current` directly on the `<nys-button>` host does nothing: a custom
+   * element with no role does not map its ARIA attributes into the accessibility tree,
+   * and host ARIA does not cross into the shadow root.
+   *
+   * @example
+   * ```html
+   * <nys-button label="3" ariaCurrent="page"></nys-button>
+   * ```
+   */
+  @property({ type: String }) ariaCurrent:
+    | "page"
+    | "step"
+    | "location"
+    | "date"
+    | "time"
+    | "true"
+    | "false"
+    | "" = "";
+
+  /**
    * Material Symbol icon before label. Not shown for `circle` mode.
    */
   @property({ type: String }) prefixIcon = "";
@@ -453,6 +482,7 @@ export class NysButton extends NysFormControlElement {
                 @keyup="${this._handleKeyup}"
                 aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
                 aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
+                aria-current=${ifDefined(this.ariaCurrent || undefined)}
               >
                 <slot
                   name="prefix-icon"
@@ -521,6 +551,7 @@ export class NysButton extends NysFormControlElement {
               @keyup=${this._handleKeyup}
               aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
               aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
+              aria-current=${ifDefined(this.ariaCurrent || undefined)}
             >
               <slot
                 name="prefix-icon"

@@ -806,4 +806,57 @@ describe("nys-button internals migration", () => {
       expect(inner.getAttribute("aria-expanded")).to.equal("true");
     });
   });
+
+  // Regression: #1104 — same shape as the disclosure state above. A pagination
+  // control marks its current page on the host; that never reaches the <button>
+  // assistive tech actually interacts with unless the component forwards it.
+  describe("aria-current forwarding", () => {
+    it("forwards ariaCurrent to the internal <button>", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="3" ariaCurrent="page"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-current")).to.equal("page");
+    });
+
+    it("drops aria-current from the internal <button> when cleared", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="3" ariaCurrent="page"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-current")).to.equal("page");
+
+      el.ariaCurrent = "";
+      await el.updateComplete;
+      expect(inner.hasAttribute("aria-current")).to.equal(false);
+    });
+
+    it("omits aria-current entirely when unset", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="Plain"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.hasAttribute("aria-current")).to.equal(false);
+    });
+
+    it("forwards ariaCurrent to the internal <a> when href is set", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button
+          label="Help"
+          href="/help"
+          ariaCurrent="page"
+        ></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("a.nys-button")!;
+      expect(inner.getAttribute("aria-current")).to.equal("page");
+    });
+  });
 });

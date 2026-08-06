@@ -11,11 +11,24 @@ import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
 
+/** All the focus restore needs of a rendered child: when has it finished updating. */
+type LitLikeElement = HTMLElement & { updateComplete: Promise<unknown> };
+
 /**
  * Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.
  *
  * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.
  * Hidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.
+ *
+ * ## Accessibility
+ * - The controls sit in a `navigation` landmark named "Pagination".
+ * - The current page's button carries `aria-current="page"` so assistive technology
+ *   announces which page the user is on.
+ * - Keyboard focus follows the user across a page change: it stays on the page they
+ *   activated, and moves to the current page's button when Previous or Next disables
+ *   itself on the first or last page rather than falling back to the document.
+ * - The ellipsis between non-adjacent page numbers is inert text, not a control, and is
+ *   hidden from assistive technology.
  *
  * @summary Page navigation with numbered links, prev/next buttons, and responsive layout.
  * @element nys-pagination
@@ -57,6 +70,16 @@ export class NysPagination extends NysElement {
   @property({ type: Boolean, reflect: true }) _twoBeforeLast = false;
 
   /**
+   * Logical identity of the control that held focus when this update was scheduled,
+   * captured before the re-render that invalidates it. Null whenever focus was outside
+   * the component, which is what keeps a programmatic page change from stealing focus.
+   */
+  private _focusKeyBeforeUpdate: string | null = null;
+
+  /** Guards against an older, still-pending focus restore overriding a newer one. */
+  private _focusRestoreToken = 0;
+
+  /**
    * Lifecycle Methods
    * --------------------------------------------------------------------------
    */
@@ -79,6 +102,18 @@ export class NysPagination extends NysElement {
         this._twoBeforeLast = twoBefore;
       }
     }
+
+    // Record what the user was on while the old DOM is still standing; render() is
+    // about to reshuffle which page each button navigates to.
+    this._focusKeyBeforeUpdate = this._focusKeyOf(
+      this.shadowRoot?.activeElement ?? null,
+    );
+  }
+
+  updated() {
+    const key = this._focusKeyBeforeUpdate;
+    this._focusKeyBeforeUpdate = null;
+    if (key) this._restoreFocus(key);
   }
 
   connectedCallback() {
@@ -101,6 +136,99 @@ export class NysPagination extends NysElement {
     return page;
   }
 
+  /**
+   * Stable identity for a control in the shadow root, one that survives a re-render.
+   *
+   * DOM position is not that identity: the window of visible page numbers slides as the
+   * user pages through, and Lit reuses the element sitting at a given position, so the
+   * button under the user's focus silently starts navigating to a different page. Page
+   * buttons are therefore identified by the page they navigate to, and the fixed
+   * Previous/Next controls by their id.
+   */
+  private _focusKeyOf(el: Element | null): string | null {
+    if (!el) return null;
+    const page = el.getAttribute("data-page");
+    if (page) return `page:${page}`;
+    return el.id ? `control:${el.id}` : null;
+  }
+
+  /** Resolve a focus key back to the control that now carries that identity. */
+  private _controlForKey(key: string): HTMLElement | null {
+    const root = this.shadowRoot;
+    if (!root) return null;
+
+    const separator = key.indexOf(":");
+    const kind = key.slice(0, separator);
+    const value = key.slice(separator + 1);
+
+    return kind === "page"
+      ? root.querySelector<HTMLElement>(`nys-button[data-page="${value}"]`)
+      : (root.getElementById(value) as HTMLElement | null);
+  }
+
+  /**
+   * A control has to be both enabled and rendered to take focus. `getClientRects()`
+   * covers the responsive rules that swap the desktop Previous/Next for their
+   * icon-only mobile twins, and hide the page neighbors on narrow screens.
+   */
+  private _isFocusable(el: Element | null): el is HTMLElement {
+    return (
+      !!el && !el.hasAttribute("disabled") && el.getClientRects().length > 0
+    );
+  }
+
+  /**
+   * Where focus goes when the control the user was on is gone or has just been
+   * disabled: the current page's button. It is always rendered, it is never disabled,
+   * and it announces the page the user just landed on.
+   */
+  private _fallbackFocusTarget(): HTMLElement | null {
+    const root = this.shadowRoot;
+    if (!root) return null;
+
+    const current = root.querySelector<HTMLElement>(
+      `nys-button[data-page="${this.currentPage}"]`,
+    );
+    if (this._isFocusable(current)) return current;
+
+    const controls = Array.from(
+      root.querySelectorAll<HTMLElement>("nys-button"),
+    );
+    return controls.find((btn) => this._isFocusable(btn)) ?? null;
+  }
+
+  /**
+   * Keep keyboard focus on the control the user was operating.
+   *
+   * Two things pull focus out from under them otherwise. Reaching the first or last page
+   * disables Previous/Next while it still holds focus, which drops focus to `<body>` and
+   * ends the keyboard journey. And activating a page slides the window of page numbers,
+   * so the button that keeps focus by DOM position is now a different, non-current page.
+   */
+  private async _restoreFocus(key: string) {
+    const root = this.shadowRoot;
+    if (!root) return;
+
+    // Every control here is a `nys-button`. Ones this update just created have not
+    // rendered their internal <button> yet, so until they have they can neither be
+    // focused nor measured — and the ones going disabled have not dropped focus yet.
+    // allSettled, not all: whether a child rendered cleanly is its own business,
+    // and a rejection here would surface as an unhandled one.
+    const controls = Array.from(root.querySelectorAll("nys-button"));
+    const token = ++this._focusRestoreToken;
+    await Promise.allSettled(
+      controls.map((btn) => (btn as LitLikeElement).updateComplete),
+    );
+    if (token !== this._focusRestoreToken || !this.isConnected) return;
+
+    const target = this._controlForKey(key);
+    const next = this._isFocusable(target)
+      ? target
+      : this._fallbackFocusTarget();
+
+    if (next && next !== root.activeElement) next.focus();
+  }
+
   private renderPageButtons() {
     const buttons: TemplateResult[] = [];
 
@@ -109,7 +237,8 @@ export class NysPagination extends NysElement {
       buttons.push(html`
         <nys-button
           label=${String(page)}
-          aria-current=${ifDefined(isCurrent ? "page" : undefined)}
+          ariaCurrent=${ifDefined(isCurrent ? "page" : undefined)}
+          data-page=${page}
           id=${ifDefined(id)}
           variant=${isCurrent ? "filled" : "outline"}
           size="sm"
@@ -118,15 +247,16 @@ export class NysPagination extends NysElement {
       `);
     };
 
+    // The gap between two non-adjacent page numbers. It navigates nowhere, so it is
+    // not a control: as a `nys-button` it was a tab stop that did nothing, and the
+    // host's tabindex="-1" could not take it out of the tab order because the button
+    // it was really landing on lives in that component's shadow root. Inert text now,
+    // and hidden from assistive technology.
     const addSpacer = (id: string) => {
       buttons.push(
-        html`<nys-button
-          label="..."
-          class="spacer"
-          tabindex="-1"
-          id=${id}
-          size="sm"
-        ></nys-button>`,
+        html`<span class="nys-pagination__ellipsis" id=${id} aria-hidden="true"
+          >...</span
+        >`,
       );
     };
 
