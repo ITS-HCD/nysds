@@ -6,7 +6,8 @@
 		"rootDir": "./src"
 	},
 	"references": [
-		{ "path": "../internals" }
+		{ "path": "../internals" },
+		{ "path": "../nys-button" }
 	],
 	"include": [
 		"src/**/*"
