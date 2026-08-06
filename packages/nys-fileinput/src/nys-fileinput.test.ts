@@ -1,6 +1,7 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
 import "../dist/nys-fileinput.js";
 import { NysFileinput } from "./nys-fileinput";
+import { NysFileItem } from "./nys-fileitem";
 import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
@@ -536,6 +537,24 @@ describe("nys-fileinput", () => {
 
       expect(eventDetail).to.exist;
       expect(eventDetail.filename).to.equal("report.pdf");
+    });
+
+    it("<nys-fileitem> gives the icon-only remove button a real accessible name", async () => {
+      const el = await fixture<NysFileItem>(html`
+        <nys-fileitem filename="report.pdf"></nys-fileitem>
+      `);
+      await el.updateComplete;
+
+      const button = el.shadowRoot!.querySelector("nys-button") as HTMLElement;
+
+      // Dead ariaLabel never reached nys-button — the host must not carry it.
+      expect(button.hasAttribute("arialabel")).to.be.false;
+
+      // The button renders `circle`, so nys-button puts `label` into a
+      // visually-hidden `.nys-button__text` node inside the real <button> —
+      // that's what has to carry the name.
+      const text = button.shadowRoot?.querySelector("button .nys-button__text");
+      expect(text?.textContent?.trim()).to.equal("Remove file: report.pdf");
     });
 
     /* Accessibility */

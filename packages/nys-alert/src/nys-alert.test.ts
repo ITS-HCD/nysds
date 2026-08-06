@@ -190,6 +190,28 @@ describe("nys-alert", () => {
     expect(eventDetail.label).to.equal("Watch out");
   });
 
+  it("gives the icon-only dismiss button a real accessible name", async () => {
+    const el = await fixture<NysAlert>(html`
+      <nys-alert heading="Watch out" dismissible></nys-alert>
+    `);
+    await el.updateComplete;
+
+    const dismissButton = el.shadowRoot?.getElementById(
+      "dismiss-btn",
+    ) as HTMLElement;
+
+    // Dead ariaLabel never reached nys-button — the host must not carry it.
+    expect(dismissButton.hasAttribute("arialabel")).to.be.false;
+
+    // dismiss-btn renders `circle`, so nys-button puts `label` into a
+    // visually-hidden `.nys-button__text` node inside the real <button> —
+    // that's what has to carry the name.
+    const text = dismissButton.shadowRoot?.querySelector(
+      "button .nys-button__text",
+    );
+    expect(text?.textContent?.trim()).to.equal("Watch out, alert, Close");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-textinput label="First Name"></nys-textinput>`,

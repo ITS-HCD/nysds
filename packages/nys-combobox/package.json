@@ -24,7 +24,9 @@
   },
   "dependencies": {
     "@nysds/nys-label": "^1.19.2",
-    "@nysds/nys-errormessage": "^1.19.2"
+    "@nysds/nys-errormessage": "^1.19.2",
+    "@nysds/nys-icon": "^1.19.4",
+    "@nysds/nys-button": "^1.19.4"
   },
   "devDependencies": {
     "@nysds/internals": "^1.19.4",

@@ -5,9 +5,14 @@ import { NysFormControlElement } from "@nysds/internals";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-combobox is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render.
+// which the accessible name/error association depends on — always render. It
+// also guarantees the clear/toggle nys-buttons upgrade, since their accessible
+// name lands on nys-button's real inner <button>, which only exists once
+// nys-button renders.
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-combobox.scss?inline";
 
@@ -862,7 +867,7 @@ export class NysCombobox extends NysFormControlElement {
                 ? html`
                     <nys-button
                       class="nys-combobox__clear"
-                      ariaLabel="clear selection"
+                      label="Clear selection"
                       variant="ghost"
                       size="sm"
                       circle
@@ -879,7 +884,7 @@ export class NysCombobox extends NysFormControlElement {
                 : ""}
               <nys-button
                 class="nys-combobox__chevron"
-                ariaLabel="toggle dropdown"
+                label="Toggle dropdown"
                 variant="ghost"
                 size="sm"
                 circle

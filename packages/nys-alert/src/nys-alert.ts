@@ -2,6 +2,13 @@ import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
+// These elements are rendered inside this component's shadow DOM, so they must
+// be registered whenever nys-alert is used. Importing them here (intentional
+// side effect) guarantees the type icon and dismiss button always upgrade —
+// the dismiss button's accessible name lands on nys-button's real inner
+// <button>, which only exists once nys-button renders.
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-alert.scss?inline";
 
@@ -344,7 +351,7 @@ export class NysAlert extends NysElement {
                   icon="close"
                   size="sm"
                   ?inverted=${this.type === "emergency"}
-                  ariaLabel="${this.heading}, alert, Close"
+                  label="${this.heading}, alert, Close"
                   @nys-click=${this._closeAlert}
                   style=${ifDefined(
                     this.type === "emergency"

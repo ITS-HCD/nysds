@@ -794,8 +794,6 @@ export class NysFileinput extends NysFormControlElement {
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
-            ariaLabel=${this._buttonAriaLabel}
-            ariaDescription=${this._buttonAriaDescription}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
             @nys-click=${this._openFileDialog}
@@ -828,8 +826,6 @@ export class NysFileinput extends NysFormControlElement {
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
-                    ariaLabel=${this._buttonAriaLabel}
-                    ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
                     @nys-click="${(e: CustomEvent) => {
                       e.preventDefault();
