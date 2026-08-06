@@ -6,6 +6,7 @@
     "rootDir": "./src"
   },
   "references": [
+    { "path": "../internals" },
     { "path": "../nys-badge" },
     { "path": "../nys-button" },
     { "path": "../nys-icon" },

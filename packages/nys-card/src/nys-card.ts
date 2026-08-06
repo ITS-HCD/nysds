@@ -1,9 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-card.scss?inline";
-
-let componentIdCounter = 0;
 
 type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -250,7 +249,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * ```
  */
 
-export class NysCard extends LitElement {
+export class NysCard extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -335,16 +334,14 @@ export class NysCard extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  constructor() {
-    super();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto-generated id
+    // (prefixed with the element's localName) when one is not provided,
+    // preserving the `nys-card-<ts>-<n>` shape. The card's semantics live on the
+    // inner element the template renders — a plain <div> container, or the real
+    // <a>/<button> control when the card is interactive — so no role is
+    // reflected onto the host.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-card-${Date.now()}-${componentIdCounter++}`;
-    }
   }
 
   /**
