@@ -140,7 +140,8 @@ export class NysAlert extends NysElement {
   @property({ type: String }) secondaryLabel = "Dismiss";
 
   /**
-   * Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region.
+   * Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use
+   * `role="alert"` (assertive live region); `base`/`info`/`success` use `role="status"` (polite).
    * @default "base"
    */
   @property({ type: String, reflect: true }) type:
@@ -155,37 +156,26 @@ export class NysAlert extends NysElement {
   @state() private _slotHasContent = true;
 
   /**
-   * Returns ARIA role and label based on alert type.
-   * - 'alert' => assertive live region (implied)
-   * - 'status' => polite live region
-   * - 'region' => generic, requires aria-label
+   * Returns the ARIA role and aria-live setting for the alert's live region based on type.
+   * - `warning`/`danger`/`emergency` => role="alert", aria-live="assertive" (urgent, interrupts)
+   * - `base`/`info`/`success` => role="status", aria-live="polite" (waits its turn)
+   *
+   * `aria-live` is set explicitly alongside `role` (rather than relying on the role's implicit
+   * live-region semantics) for more consistent behavior across browser/AT combinations.
    */
   get ariaAttributes(): {
-    role: "alert" | "status" | "region";
-    ariaLabel: string;
+    role: "alert" | "status";
+    ariaLive: "polite" | "assertive";
   } {
-    const ariaRole =
-      this.type === "danger" || this.type === "emergency"
-        ? "alert"
-        : this.type === "success"
-          ? "status"
-          : "region"; // Default role
+    const isUrgent =
+      this.type === "warning" ||
+      this.type === "danger" ||
+      this.type === "emergency";
 
-    // Set aria-label only for role="region"
-    const ariaLabel = ariaRole === "region" ? `${this.type} alert` : "";
-
-    return { role: ariaRole, ariaLabel };
-  }
-
-  /**
-   * Returns live-region type for screen readers if applicable.
-   * - 'polite' for status role
-   * - undefined for alert (since it's implicitly assertive) or region
-   */
-  get liveRegion(): "polite" | undefined {
-    const role = this.ariaAttributes.role;
-    if (role === "status") return "polite";
-    return undefined; // for region. No need to return "assertive" as role="alert" implies it
+    return {
+      role: isUrgent ? "alert" : "status",
+      ariaLive: isUrgent ? "assertive" : "polite",
+    };
   }
 
   /**
@@ -197,10 +187,13 @@ export class NysAlert extends NysElement {
 
   connectedCallback() {
     // super.connectedCallback() (NysElement) assigns an id when one
-    // is not provided. The live-region role/aria-live stay on the inner
-    // .nys-alert__texts element (so only the message text is announced), so this
-    // component intentionally keeps defaultRole = null and does not move role to
-    // the host.
+    // is not provided. The live-region role/aria-live/aria-atomic and the
+    // announced content they wrap must live on the SAME element
+    // (.nys-alert__texts) so the accessible name/role pairing is never split
+    // across nested elements (see nysds#1092). The dismiss button lives
+    // outside .nys-alert__texts as a sibling so it is never read as part of
+    // the announced content. This component intentionally keeps
+    // defaultRole = null and does not move role to the host.
     super.connectedCallback();
 
     // For alerts that have durations, we set a timer to close them.
@@ -282,7 +275,7 @@ export class NysAlert extends NysElement {
   }
 
   render() {
-    const { role, ariaLabel } = this.ariaAttributes;
+    const { role, ariaLive } = this.ariaAttributes;
 
     return html`
       ${!this._alertClosed
@@ -291,9 +284,6 @@ export class NysAlert extends NysElement {
             this.text?.trim().length > 0
               ? ""
               : "nys-alert--centered"}"
-            aria-label=${ifDefined(
-              ariaLabel.trim() !== "" ? ariaLabel : undefined,
-            )}
           >
             <div part="nys-alert__icon" class="nys-alert__icon">
               <nys-icon
@@ -305,7 +295,8 @@ export class NysAlert extends NysElement {
             <div
               class="nys-alert__texts"
               role=${role}
-              aria-live=${ifDefined(this.liveRegion)}
+              aria-live=${ariaLive}
+              aria-atomic="true"
             >
               ${this.heading?.trim()
                 ? html`<p class="nys-alert__header">${this.heading}</p>`
