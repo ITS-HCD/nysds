@@ -304,7 +304,11 @@ describe("nys-fileinput", () => {
     const control = el["_innerNysButton"]!;
     expect(control, "inner <button> should resolve").to.exist;
     expect(control.getAttribute("aria-invalid")).to.equal("true");
-    expect(control.getAttribute("aria-description")).to.equal("Required");
+    // #1099: dropzone mode also folds in the "or drag here" instructional
+    // text, so the control's description is the hint followed by the error.
+    expect(control.getAttribute("aria-description")).to.equal(
+      "or drag here Required",
+    );
   });
 
   it("remains form-associated through the shared mixin (FormData round-trip)", async () => {
@@ -472,6 +476,150 @@ describe("nys-fileinput", () => {
         new CustomEvent("nys-click", { bubbles: true, composed: true }),
       );
       expect(clicked).to.be.true;
+    });
+
+    // Regression: #1099 — the dropzone used to be a click-only <div> with no
+    // keyboard path. The visible "Choose file" control in dropzone mode is a
+    // real <nys-button>, which renders a real native <button> internally, so
+    // Enter/Space open the file picker via native button semantics rather
+    // than a fake tabindex+keydown handler.
+    it("dropzone's visible control is a real <button>, not a fake tabindex/keydown widget", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput dropzone></nys-fileinput>`,
+      );
+
+      const dropzoneDiv = el.shadowRoot!.querySelector(
+        ".nys-fileinput__dropzone",
+      )!;
+      // The wrapper is a non-interactive pointer-only drop target: no role,
+      // no tabindex, so it is never part of the keyboard focus order.
+      expect(dropzoneDiv.hasAttribute("tabindex")).to.be.false;
+      expect(dropzoneDiv.hasAttribute("role")).to.be.false;
+
+      const nysButton = el.shadowRoot!.querySelector(
+        "#choose-files-btn-drag",
+      )!;
+      const innerButton = nysButton.shadowRoot?.querySelector("button");
+      expect(innerButton, "inner control must be a real <button>").to.exist;
+      expect(innerButton!.tagName).to.equal("BUTTON");
+    });
+
+    it("pressing Enter on the dropzone's real button opens the file picker", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput dropzone></nys-fileinput>`,
+      );
+      const input = el.shadowRoot?.querySelector(
+        ".hidden-file-input",
+      ) as HTMLInputElement;
+
+      let clicked = false;
+      input.click = () => (clicked = true);
+
+      const nysButton = el.shadowRoot!.querySelector(
+        "#choose-files-btn-drag",
+      )!;
+      const innerButton = nysButton.shadowRoot!.querySelector(
+        "button",
+      ) as HTMLButtonElement;
+
+      // A genuine keydown (not a synthetic nys-click) exercises <nys-button>'s
+      // own native-button keyboard handling end to end, proving Enter reaches
+      // the file picker without any keydown handler in nys-fileinput itself.
+      innerButton.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "Enter",
+          code: "Enter",
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+      expect(clicked).to.be.true;
+    });
+
+    it("pressing Space on the dropzone's real button opens the file picker", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput dropzone></nys-fileinput>`,
+      );
+      const input = el.shadowRoot?.querySelector(
+        ".hidden-file-input",
+      ) as HTMLInputElement;
+
+      let clicked = false;
+      input.click = () => (clicked = true);
+
+      const nysButton = el.shadowRoot!.querySelector(
+        "#choose-files-btn-drag",
+      )!;
+      const innerButton = nysButton.shadowRoot!.querySelector(
+        "button",
+      ) as HTMLButtonElement;
+
+      innerButton.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: " ",
+          code: "Space",
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+      expect(clicked).to.be.true;
+    });
+
+    it("does not carry a dead aria-label on the non-interactive dropzone wrapper", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput dropzone></nys-fileinput>`,
+      );
+      const dropzoneDiv = el.shadowRoot!.querySelector(
+        ".nys-fileinput__dropzone",
+      )!;
+      // A plain, role-less <div> does not expose aria-label to the
+      // accessibility tree — the real name/description now live on the
+      // actual control (the button) via aria-describedby.
+      expect(dropzoneDiv.hasAttribute("aria-label")).to.be.false;
+    });
+
+    it("associates the 'or drag here' instructional text with the exposed control via aria-describedby", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput label="Doc" id="dz1" dropzone></nys-fileinput>`,
+      );
+      await el.updateComplete;
+      await el["_syncControlErrorAssociation"]();
+
+      const hint = el.shadowRoot!.querySelector(
+        ".nys-fileinput__dropzone-hint",
+      )!;
+      expect(hint, "hint text should exist").to.exist;
+      expect(hint.textContent!.trim()).to.equal("or drag here");
+
+      const control = el["_innerNysButton"]!;
+      expect(control.getAttribute("aria-description")).to.equal(
+        "or drag here",
+      );
+
+      const refs = (control as any).ariaDescribedByElements;
+      if (refs !== undefined) {
+        expect(Array.from(refs ?? [])).to.deep.equal([hint]);
+      }
+    });
+
+    it("does not associate the hint text while the drag-active state is showing", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput label="Doc" id="dz3" dropzone></nys-fileinput>`,
+      );
+      await el.updateComplete;
+
+      el["_dragActive"] = true;
+      el.requestUpdate();
+      await el.updateComplete;
+      await el["_syncControlErrorAssociation"]();
+
+      // The button + hint are swapped out for "Drop file to upload" while
+      // dragging, so there is no hint element to associate.
+      expect(
+        el.shadowRoot!.querySelector(".nys-fileinput__dropzone-hint"),
+      ).to.equal(null);
     });
 
     it("resets selected files when formResetCallback is called", async () => {

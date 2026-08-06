@@ -323,14 +323,18 @@ export class NysFileinput extends NysFormControlElement {
   }
 
   /**
-   * Point the exposed control at the rendered <nys-errormessage>.
+   * Point the exposed control at the rendered <nys-errormessage> and, in
+   * dropzone mode, at the "or drag here" instructional text.
    *
    * The native <input type="file"> is `hidden`, `aria-hidden` and `tabindex="-1"`,
-   * so it is not in the accessibility tree and must not carry the error
-   * association. The element a user actually reaches is the <button> inside the
-   * "Choose file" <nys-button>'s shadow root.
+   * so it is not in the accessibility tree and must not carry these
+   * associations. The element a user actually reaches is the <button> inside the
+   * "Choose file" <nys-button>'s shadow root — that's also the keyboard path for
+   * the dropzone (Enter/Space opens the native file picker via real button
+   * semantics); the dropzone `<div>` itself is a non-interactive, pointer-only
+   * drop target and never receives focus.
    *
-   * That button and the message sit in different shadow roots, so an IDREF
+   * The button and these targets sit in different shadow roots, so an IDREF
    * written on the button would dangle. ARIA element reflection does cross into a
    * shadow-including ancestor tree, so associateControlRefs sets the control's own
    * ariaDescribedByElements (plus an aria-description string fallback for engines
@@ -361,16 +365,35 @@ export class NysFileinput extends NysFormControlElement {
         ) as HTMLElement | null)
       : null;
 
+    // Only present in dropzone mode, and only while the drag-active state
+    // (which swaps the button + hint for a "Drop file to upload" message) isn't
+    // showing.
+    const hintEl =
+      this.dropzone && !this._dragActive
+        ? (this.renderRoot?.querySelector(
+            ".nys-fileinput__dropzone-hint",
+          ) as HTMLElement | null)
+        : null;
+
     control.setAttribute("aria-invalid", errorEl ? "true" : "false");
-    associateControlRefs(control, "describedby", errorEl ? [errorEl] : []);
+    associateControlRefs(control, "describedby", [hintEl, errorEl]);
 
     // <nys-errormessage> keeps its text in its own shadow root, so the helper's
-    // textContent-derived fallback comes back empty. Supply the message directly
-    // so engines that do not honor element references still announce it;
-    // aria-describedby wins wherever the reference is honored.
+    // textContent-derived fallback comes back empty for that piece — the hint
+    // <p> is plain text, so its portion is already correct. Rebuild the full
+    // fallback string here so neither part clobbers the other. aria-describedby
+    // wins wherever the element reference is honored.
     const message = this.internals?.validationMessage || this.errorMessage;
-    if (errorEl && message) control.setAttribute("aria-description", message);
-    else control.removeAttribute("aria-description");
+    const descriptionParts = [
+      hintEl?.textContent?.trim() || undefined,
+      errorEl && message ? message : undefined,
+    ].filter((part): part is string => !!part);
+
+    if (descriptionParts.length) {
+      control.setAttribute("aria-description", descriptionParts.join(" "));
+    } else {
+      control.removeAttribute("aria-description");
+    }
 
     const rec = control as unknown as Record<string, unknown>;
     if ("ariaErrorMessageElements" in control) {
@@ -813,13 +836,16 @@ export class NysFileinput extends NysFormControlElement {
                   // Ignore clicks that originated within a nys-button
                   if (target.closest("nys-button")) return;
 
-                  // Only handle direct wrapper clicks (outside of buttons)
+                  // Only handle direct wrapper clicks (outside of buttons). This
+                  // is a pointer-only convenience — the div carries no role or
+                  // tabindex, so it is never part of the keyboard path. Keyboard
+                  // users activate the real <nys-button> below (Enter/Space),
+                  // which opens the native file picker the same as a click here.
                   this._openFileDialog();
                 }}
             @dragover=${this._isDropDisabled ? null : this._onDragOver}
             @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
             @drop=${this._isDropDisabled ? null : this._onDrop}
-            aria-label="Drag files here or choose from folder"
           >
             ${this._dragActive
               ? html`<p>Drop file to upload</p>`
@@ -837,7 +863,12 @@ export class NysFileinput extends NysFormControlElement {
                       this._openFileDialog();
                     }}"
                   ></nys-button>
-                  <p>or drag here</p>`}
+                  <p
+                    id="${this.id}--dropzone-hint"
+                    class="nys-fileinput__dropzone-hint"
+                  >
+                    or drag here
+                  </p>`}
           </div>`}
       ${this.showError
         ? html`
