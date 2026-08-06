@@ -801,7 +801,7 @@ describe("nys-unavheader", () => {
           "false",
         );
         expect(innerButton(el, id)?.getAttribute("aria-haspopup"), id).to.equal(
-          "true",
+          "menu",
         );
       }
 
@@ -948,6 +948,231 @@ describe("nys-unavheader", () => {
         "en",
         "pt",
       ]);
+    });
+  });
+
+  // --- Regression: #1114 / #1412 — the language list is the popup half of the
+  // APG menu button pattern the trigger already advertises, so it needs menu
+  // semantics and arrow-key navigation of its own. ---
+  describe("translate menu — APG menu button semantics", () => {
+    const OPTION = ".nys-unavheader__languagelink";
+
+    const options = (el: NysUnavHeader) =>
+      Array.from(el.shadowRoot?.querySelectorAll<HTMLElement>(OPTION) ?? []);
+
+    // The menuitem role and the roving tabindex live on the real <button> inside
+    // each nys-button, not on the host — the host has no role to carry them.
+    const control = (option: HTMLElement) =>
+      option.shadowRoot?.querySelector("button");
+
+    /** Index of the option holding the menu's single tab stop. */
+    const activeIndex = (el: NysUnavHeader) =>
+      options(el).findIndex(
+        (o) => control(o)?.getAttribute("tabindex") === "0",
+      );
+
+    const settle = async (el: NysUnavHeader) => {
+      await el.updateComplete;
+      await aTimeout(0);
+    };
+
+    const open = async (el: NysUnavHeader) => {
+      el.languageVisible = true;
+      await settle(el);
+    };
+
+    const press = async (
+      el: NysUnavHeader,
+      target: HTMLElement,
+      key: string,
+    ) => {
+      target.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, composed: true }),
+      );
+      await settle(el);
+    };
+
+    it("gives the option list menu semantics", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const menu = el.shadowRoot?.getElementById(
+        "nys-unavheader__languagelist",
+      );
+      expect(menu?.getAttribute("role")).to.equal("menu");
+      // A menu needs a name of its own; it matches the trigger that opens it.
+      expect(menu?.getAttribute("aria-label")).to.equal("Translate");
+
+      const items = options(el);
+      expect(items).to.have.lengthOf(el.languages.length);
+
+      items.forEach((option, i) => {
+        // The nys-button host would otherwise sit between the menu and its items
+        // in the accessibility tree as a generic container.
+        expect(option.getAttribute("role"), `option ${i} host`).to.equal(
+          "presentation",
+        );
+        expect(control(option)?.getAttribute("role"), `option ${i}`).to.equal(
+          "menuitem",
+        );
+      });
+    });
+
+    it("keeps the open menu to a single tab stop", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const tabIndexes = options(el).map((o) =>
+        control(o)?.getAttribute("tabindex"),
+      );
+      // Tab enters and leaves the menu; the arrows move within it.
+      expect(tabIndexes.filter((t) => t === "0")).to.have.lengthOf(1);
+      expect(tabIndexes[0]).to.equal("0");
+      expect(tabIndexes.slice(1).every((t) => t === "-1")).to.be.true;
+    });
+
+    it("opens on ArrowDown from the trigger, on the first option", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await settle(el);
+
+      const trigger = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      ) as HTMLElement;
+      await press(el, trigger, "ArrowDown");
+
+      expect(el.languageVisible).to.be.true;
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("opens on ArrowUp from the trigger, on the last option", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await settle(el);
+
+      const trigger = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--mobile",
+      ) as HTMLElement;
+      await press(el, trigger, "ArrowUp");
+
+      expect(el.languageVisible).to.be.true;
+      expect(activeIndex(el)).to.equal(el.languages.length - 1);
+    });
+
+    it("steps through the options with ArrowDown and ArrowUp, wrapping at both ends", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+      const last = el.languages.length - 1;
+
+      await press(el, options(el)[0], "ArrowDown");
+      expect(activeIndex(el)).to.equal(1);
+
+      await press(el, options(el)[1], "ArrowDown");
+      expect(activeIndex(el)).to.equal(2);
+
+      await press(el, options(el)[2], "ArrowUp");
+      expect(activeIndex(el)).to.equal(1);
+
+      // Up from the first option wraps to the last, and down from the last wraps
+      // back to the first.
+      await press(el, options(el)[1], "ArrowUp");
+      await press(el, options(el)[0], "ArrowUp");
+      expect(activeIndex(el)).to.equal(last);
+
+      await press(el, options(el)[last], "ArrowDown");
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("jumps to either end of the menu with Home and End", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+      const last = el.languages.length - 1;
+
+      await press(el, options(el)[0], "End");
+      expect(activeIndex(el)).to.equal(last);
+
+      await press(el, options(el)[last], "Home");
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("moves real focus with the tab stop", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const first = options(el)[0];
+      // Probe: some runner environments can't take programmatic focus at all, so
+      // the focus half of this assertion is meaningless there.
+      first.focus();
+      await aTimeout(0);
+      if (el.shadowRoot?.activeElement !== first) return;
+
+      await press(el, first, "ArrowDown");
+      // Compare ids, not elements — a failed element-to-element diff makes chai
+      // serialize the whole Lit component graph, which freezes the test page.
+      expect(el.shadowRoot?.activeElement?.id).to.equal(options(el)[1].id);
+    });
+
+    it("keeps the tab stop in range when the language list shrinks", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      await press(el, options(el)[0], "End");
+      expect(activeIndex(el)).to.equal(el.languages.length - 1);
+
+      el.languages = [
+        { code: "en", label: "English" },
+        { code: "es", label: "Español" },
+      ];
+      await settle(el);
+
+      // A shorter list would otherwise leave the menu with no tab stop at all.
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("closes when focus leaves the menu, but not while it moves within it", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const items = options(el);
+      const leaveWithin = new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: items[1],
+      });
+      items[0].dispatchEvent(leaveWithin);
+      await settle(el);
+      expect(el.languageVisible).to.be.true;
+
+      // Tab past the last option: the browser is already moving focus, so the menu
+      // only has to get out of the way.
+      const searchButton = el.shadowRoot?.getElementById(
+        "nys-unavheader__searchbutton",
+      ) as HTMLElement;
+      items[items.length - 1].dispatchEvent(
+        new FocusEvent("focusout", {
+          bubbles: true,
+          composed: true,
+          relatedTarget: searchButton,
+        }),
+      );
+      await settle(el);
+      expect(el.languageVisible).to.be.false;
     });
   });
 

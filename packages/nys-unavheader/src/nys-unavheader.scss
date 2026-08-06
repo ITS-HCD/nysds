@@ -336,6 +336,13 @@ a#nys-unavheader__logolink {
   --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
   --_nys-button-border-radius: 0;
   --_nys-button-justify-content: start;
+
+  /* Arrow keys move focus between options, so the focus ring is the only thing
+     showing which one is active. The options are full-bleed and stacked with no
+     gap, so an outward ring would be drawn over its neighbors — inset it instead.
+     Width and offset must stay equal and opposite. */
+  --_nys-button-outline-width: var(--nys-border-width-md, 2px);
+  --_nys-button-outline-offset: calc(-1 * var(--nys-border-width-md, 2px));
 }
 
 /* Breakpoints using NYSDS Grid Guidelines */
