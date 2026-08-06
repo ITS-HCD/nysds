@@ -6,7 +6,11 @@
 		"rootDir": "./src"
 	},
 	"references": [
-		{ "path": "../internals" }
+		{ "path": "../internals" },
+		{ "path": "../nys-alert" },
+		{ "path": "../nys-button" },
+		{ "path": "../nys-icon" },
+		{ "path": "../nys-textinput" }
 	],
 	"include": [
 		"src/**/*"

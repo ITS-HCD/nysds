@@ -7,8 +7,9 @@
 	},
 	"references": [
 		{ "path": "../internals" },
+		{ "path": "../nys-errormessage" },
 		{ "path": "../nys-label" },
-		{ "path": "../nys-errormessage" }
+		{ "path": "../nys-textinput" }
 	],
 	"include": [
 		"src/**/*"
