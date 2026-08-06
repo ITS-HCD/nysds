@@ -187,7 +187,7 @@ describe("nys-avatar", () => {
 
   it("sets role=button and tabindex=0 when interactive and not disabled", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar interactive></nys-avatar>`,
+      html`<nys-avatar interactive ariaLabel="Jane Smith"></nys-avatar>`,
     );
     await el.updateComplete;
 
@@ -199,7 +199,11 @@ describe("nys-avatar", () => {
 
   it("disables button when interactive and disabled", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar interactive disabled></nys-avatar>`,
+      html`<nys-avatar
+        interactive
+        disabled
+        ariaLabel="Jane Smith"
+      ></nys-avatar>`,
     );
     await el.updateComplete;
 
@@ -294,22 +298,90 @@ describe("nys-avatar", () => {
   });
 
   // -------------------------------------------------------------------------
-  // WCAG 4.1.2 — interactive avatar (<button>) must always have an accessible name
+  // #1093 — no captive default name; a missing name means decorative
   // -------------------------------------------------------------------------
 
-  it("interactive button has a fallback accessible name when ariaLabel is not set", async () => {
+  /** Captures console.warn for the duration of one call. */
+  async function withCapturedWarnings<T>(fn: () => Promise<T>) {
+    const original = console.warn;
+    const messages: string[] = [];
+    console.warn = (...args: unknown[]) => messages.push(String(args[0]));
+    try {
+      await fn();
+    } finally {
+      console.warn = original;
+    }
+    return messages;
+  }
+
+  it("does not invent an accessible name for an interactive avatar", async () => {
+    let button!: HTMLButtonElement;
+
+    const warnings = await withCapturedWarnings(async () => {
+      const el = await fixture<NysAvatar>(
+        html`<nys-avatar interactive></nys-avatar>`,
+      );
+      await el.updateComplete;
+      button = el.shadowRoot!.querySelector(
+        "button.nys-avatar__component",
+      ) as HTMLButtonElement;
+    });
+
+    expect(button).to.exist;
+    // The old captive default ("Avatar") named the widget, not the person.
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    // The gap is surfaced to the developer rather than papered over.
+    expect(warnings.some((m) => m.includes("no accessible name"))).to.be.true;
+  });
+
+  it("does not warn for an interactive avatar that has a name", async () => {
+    const warnings = await withCapturedWarnings(async () => {
+      const el = await fixture<NysAvatar>(
+        html`<nys-avatar interactive ariaLabel="Jane Smith"></nys-avatar>`,
+      );
+      await el.updateComplete;
+    });
+
+    expect(warnings).to.be.empty;
+  });
+
+  it("does not warn for a decorative (non-interactive) avatar", async () => {
+    const warnings = await withCapturedWarnings(async () => {
+      const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
+      await el.updateComplete;
+    });
+
+    expect(warnings).to.be.empty;
+  });
+
+  it("treats a whitespace-only or &nbsp; label as no label at all", async () => {
+    // Plain space, non-breaking space (\u00a0), and mixed whitespace.
+    for (const label of [" ", "\u00a0", "  \t "]) {
+      const el = await fixture<NysAvatar>(
+        html`<nys-avatar .ariaLabel=${label}></nys-avatar>`,
+      );
+      await el.updateComplete;
+
+      const component = el.shadowRoot!.querySelector(
+        ".nys-avatar__component",
+      ) as HTMLElement;
+      expect(component.hasAttribute("aria-label")).to.be.false;
+      expect(component.hasAttribute("role")).to.be.false;
+      // Nothing to announce, so the whole thing stays out of the a11y tree.
+      expect(component.getAttribute("aria-hidden")).to.equal("true");
+    }
+  });
+
+  it("hides an unnamed, image-less avatar from assistive tech", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar interactive></nys-avatar>`,
+      html`<nys-avatar initials="JS"></nys-avatar>`,
     );
     await el.updateComplete;
 
-    const button = el.shadowRoot!.querySelector(
-      "button.nys-avatar__component",
-    ) as HTMLButtonElement;
-    expect(button).to.exist;
-    // Button must not be nameless: the decorative icon is aria-hidden, so a
-    // fallback aria-label is required.
-    expect(button.getAttribute("aria-label")).to.equal("Avatar");
+    const component = el.shadowRoot!.querySelector(
+      ".nys-avatar__component",
+    ) as HTMLElement;
+    expect(component.getAttribute("aria-hidden")).to.equal("true");
   });
 
   it("interactive button uses the provided ariaLabel when set", async () => {
