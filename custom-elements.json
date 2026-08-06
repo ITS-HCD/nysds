@@ -3166,7 +3166,7 @@
                 "text": "((event: Event) => void) | null"
               },
               "default": "null",
-              "description": "Click handler. Makes the whole card a single `<button>`. Use instead of\n`@click` to ensure keyboard accessibility."
+              "description": "Click handler. Makes the whole card a single `<button>`. Use instead of\n`@click` to ensure keyboard accessibility. Keep the card's slots free of\nother interactive elements when using this — nesting them inside the card\ncontrol is invalid HTML and unreachable for keyboard and screen reader users."
             },
             {
               "kind": "field",
@@ -3432,8 +3432,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-card",
           "customElement": true,

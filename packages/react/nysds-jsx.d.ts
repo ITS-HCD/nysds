@@ -331,7 +331,9 @@ card control is invalid HTML and unreachable for keyboard and screen reader user
   /** Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`. */
   target?: "_self" | "_blank" | "_parent" | "_top" | "framename";
   /** Click handler. Makes the whole card a single `<button>`. Use instead of
-`@click` to ensure keyboard accessibility. */
+`@click` to ensure keyboard accessibility. Keep the card's slots free of
+other interactive elements when using this — nesting them inside the card
+control is invalid HTML and unreachable for keyboard and screen reader users. */
   onClick?: ((event: Event) => void) | null;
   /** Fired when an interactive card is activated (mouse or keyboard). */
   "onnys-click"?: (e: CustomEvent<Event>) => void;
