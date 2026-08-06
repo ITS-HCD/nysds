@@ -2,6 +2,10 @@ import { html, nothing } from "lit";
 import { NysFormControlElement } from "@nysds/internals";
 import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+// The input's accessible name is an aria-labelledby reference to this element
+// (intentional side-effect import). An un-upgraded <nys-label> exposes no name,
+// so the reference would resolve to nothing and leave the radio unnamed.
+import "@nysds/nys-label";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-radiobutton.light.scss?inline";
 
@@ -203,8 +207,9 @@ export class NysRadiobutton extends NysFormControlElement {
 
   /**
    * Suppress the internal visible `<nys-label>` (use with `labelledby` for
-   * table cells). Without `labelledby` the accessible name still comes from
-   * `label`, so a hidden label stays nameable.
+   * table cells). Without `labelledby` there is no visible element left to name
+   * the radio from, so the accessible name falls back to the `label` string —
+   * pair `hideLabel` with `labelledby` wherever a visible element exists.
    */
   @property({ type: Boolean }) hideLabel = false;
 
@@ -418,21 +423,23 @@ export class NysRadiobutton extends NysFormControlElement {
     }
   };
 
-  private _computeAccessibleLabel() {
-    const radioLabel = this.label || (this.other ? "Other" : "");
-    if (this._isGrouped()) return radioLabel;
-    return `${radioLabel}`;
+  /** The text the internal `<nys-label>` shows, and the last-resort name. */
+  private get _labelText(): string {
+    return this.label || (this.other ? "Other" : "");
   }
 
   /**
    * This component renders into the light DOM (see createRenderRoot), so the
-   * native <input> and any external labelling element share one tree scope: a
-   * plain aria-labelledby IDREF resolves natively and needs none of the
-   * cross-shadow machinery (associateControlRefs) that nys-checkbox requires.
+   * native <input>, the internal <nys-label>, and any external labelling element
+   * all share one tree scope: a plain aria-labelledby IDREF resolves natively and
+   * needs none of the cross-shadow machinery (associateControlRefs) that
+   * nys-checkbox requires.
    *
    * When the referenced element is a <nys-label>, its text lives in ITS shadow
    * root; the reference still names the input because nys-label mirrors `label`
    * onto its host via ElementInternals.ariaLabel — do not remove that mirror.
+   * That mirror is also why the internal label must NOT be aria-hidden: the name
+   * is read from the element the user can see, which is the whole point.
    */
   private get _hasExternalLabel(): boolean {
     return !!this.labelledby;
@@ -442,9 +449,38 @@ export class NysRadiobutton extends NysFormControlElement {
   // supersedes it, or when there is nothing to label with. `nothing` (not a
   // boolean) so lit never renders the literal string "false".
   private get _renderInternalLabel(): boolean {
-    return (
-      !this.hideLabel && !this._hasExternalLabel && !!(this.label || this.other)
-    );
+    return !this.hideLabel && !this._hasExternalLabel && !!this._labelText;
+  }
+
+  /** Id of the internal `<nys-label>`, which is also what names the input. */
+  private get _internalLabelId(): string {
+    return `${this.id}-label`;
+  }
+
+  /**
+   * The `aria-labelledby` IDREF for the native input, resolved in priority order:
+   * an author-supplied `labelledby` first, then the visible internal label.
+   *
+   * Naming the input from the element the user can actually see is what keeps the
+   * accessible name and the visible text identical (WCAG 2.5.3 Label in Name).
+   * The old path built a separate `aria-label` string from the same `label` prop,
+   * which is a copy that can drift and that voice-control users cannot rely on
+   * (#1820). This component renders into the light DOM, so a plain IDREF resolves
+   * natively in one tree scope.
+   */
+  private get _labelledById(): string | undefined {
+    if (this._hasExternalLabel) return this.labelledby;
+    if (this._renderInternalLabel) return this._internalLabelId;
+    return undefined;
+  }
+
+  /**
+   * Last-resort accessible name, used only when `hideLabel` suppressed the visible
+   * label and no external `labelledby` was given. There is no element left to point
+   * at, and a nameless radio is worse than a duplicated string.
+   */
+  private get _fallbackAriaLabel(): string | undefined {
+    return this._labelledById ? undefined : this._labelText || undefined;
   }
 
   render() {
@@ -464,18 +500,13 @@ export class NysRadiobutton extends NysFormControlElement {
             @change="${this._handleChange}"
             @keydown="${this._handleKeydown}"
             @blur="${this._handleFocusOut}"
-            aria-labelledby=${ifDefined(this.labelledby || undefined)}
-            aria-label=${ifDefined(
-              this._hasExternalLabel
-                ? undefined
-                : this._computeAccessibleLabel(),
-            )}
+            aria-labelledby=${ifDefined(this._labelledById)}
+            aria-label=${ifDefined(this._fallbackAriaLabel)}
           />
           ${this._renderInternalLabel
             ? html`<nys-label
-                aria-hidden="true"
-                id="${this.id}-label"
-                label="${this.label || (this.other ? "Other" : "")}"
+                id="${this._internalLabelId}"
+                label="${this._labelText}"
                 description=${ifDefined(this.description || undefined)}
               >
               </nys-label>`

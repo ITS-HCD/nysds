@@ -1198,9 +1198,11 @@ describe("nys-radiobutton external labelling", () => {
     await radio.updateComplete;
 
     const input = radio.querySelector("input")!;
-    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
-    expect(input.getAttribute("aria-label")).to.equal("Albany");
-    expect(radio.querySelector("nys-label")).to.not.equal(null);
+    const label = radio.querySelector("nys-label")!;
+    expect(label).to.not.equal(null);
+    // Back to naming the input from its own visible label, not a copy of it.
+    expect(input.getAttribute("aria-labelledby")).to.equal(label.id);
+    expect(input.hasAttribute("aria-label")).to.equal(false);
   });
 
   it("hideLabel removes the visible label but keeps the accessible name", async () => {
@@ -1238,20 +1240,73 @@ describe("nys-radiobutton external labelling", () => {
     }
   });
 
-  it("leaves default labelling unchanged when neither prop is set", async () => {
+  it("names a standalone radio from its own visible label when neither prop is set", async () => {
     const radio = await fixture<NysRadiobutton>(
       html`<nys-radiobutton id="plain" label="Albany"></nys-radiobutton>`,
     );
     await radio.updateComplete;
 
     const input = radio.querySelector("input")!;
-    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
-    expect(input.getAttribute("aria-label")).to.equal("Albany");
+    // The visible label is the name source; no synthetic copy of it (#1820).
+    expect(input.getAttribute("aria-labelledby")).to.equal("plain-label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
 
     const label = radio.querySelector("nys-label")!;
     expect(label).to.exist;
     expect(label.id).to.equal("plain-label");
     expect(label.getAttribute("label")).to.equal("Albany");
+    // Hiding the name source from assistive tech would defeat the reference.
+    expect(label.hasAttribute("aria-hidden")).to.equal(false);
+  });
+
+  it("resolves the radio's name reference to the element showing the label text", async () => {
+    const radio = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton id="acc" label="Albany"></nys-radiobutton>`,
+    );
+    await radio.updateComplete;
+
+    const label = radio.querySelector("nys-label")! as HTMLElement & {
+      updateComplete: Promise<unknown>;
+    };
+    await label.updateComplete;
+
+    const input = radio.querySelector("input")!;
+    // Same tree scope (light DOM), so the IDREF resolves without any
+    // cross-shadow machinery...
+    const named = radio.querySelector(
+      `#${input.getAttribute("aria-labelledby")}`,
+    );
+    expect(named).to.equal(label);
+
+    // ...and what it resolves to is the text the user actually reads, which is
+    // what keeps the accessible name and the visible label identical.
+    const visible = label.shadowRoot!.querySelector(".nys-label__label")!;
+    expect(visible.textContent?.trim()).to.equal("Albany");
+  });
+
+  it("names an 'other' radio from its visible label rather than a copy", async () => {
+    const radio = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton id="oth" other></nys-radiobutton>`,
+    );
+    await radio.updateComplete;
+
+    const input = radio.querySelector("input")!;
+    expect(input.getAttribute("aria-labelledby")).to.equal("oth-label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    expect(radio.querySelector("nys-label")!.getAttribute("label")).to.equal(
+      "Other",
+    );
+  });
+
+  it("names nothing when there is no label, no labelledby, and no other", async () => {
+    const radio = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton id="bare"></nys-radiobutton>`,
+    );
+    await radio.updateComplete;
+
+    const input = radio.querySelector("input")!;
+    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
+    expect(input.hasAttribute("aria-label")).to.equal(false);
   });
 
   it("still names an 'other' radio when the internal label is hidden", async () => {
