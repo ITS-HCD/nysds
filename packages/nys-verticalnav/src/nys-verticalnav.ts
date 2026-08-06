@@ -733,12 +733,26 @@ export class NysVerticalnav extends NysElement {
     </nav>`;
   }
 
+  /**
+   * The heading level for the mobile disclosure trigger.
+   *
+   * Below 1024px the navigation heading IS the accordion trigger, so it has to
+   * land at the same outline position the desktop heading occupies — otherwise
+   * the nav's place in the outline changes with the viewport. `nys-accordion`
+   * runs h2-h6 (a disclosure trigger is never a page title), so the one level
+   * this nav offers that it does not, `h1`, maps to the next valid level.
+   */
+  private _accordionHeadingLevel(): "h2" | "h3" | "h4" | "h5" | "h6" {
+    return this.headingLevel === "h1" ? "h2" : this.headingLevel;
+  }
+
   private renderContentMobile() {
     return html` <nav class="nys-verticalnav nys-verticalnav--mobile">
       <nys-accordion bordered>
         <nys-accordionitem
           id="${this.id}-accordion"
           heading="${this.heading}"
+          headingLevel="${this._accordionHeadingLevel()}"
           ?expanded=${this.expanded}
           @nys-accordionitem-toggle=${this._handleAccordionToggle}
         >

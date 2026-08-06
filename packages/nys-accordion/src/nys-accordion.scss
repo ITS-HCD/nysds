@@ -75,9 +75,15 @@ p {
   flex-direction: column;
 }
 
-/* Heading wrapper (role="heading") around the toggle button. Carries the flex
-   sizing so the button still stretches to fill the row. */
+/* Heading element (h2-h6) wrapping the toggle button. The level is author-set,
+   so the user-agent heading margin and typography are neutralized here: the
+   button inherits its type styles from .nys-accordionitem and must look
+   identical at every level. Also carries the flex sizing so the button still
+   stretches to fill the row. */
 .nys-accordionitem__title {
+  margin: 0;
+  font: inherit;
+  color: inherit;
   display: flex;
   flex: 1;
   align-self: stretch;

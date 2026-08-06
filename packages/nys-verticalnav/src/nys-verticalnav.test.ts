@@ -1,5 +1,9 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-verticalnav.js";
+// The mobile template renders <nys-accordion>, which nys-verticalnav does not
+// register itself. Pull it in so the mobile disclosure upgrades and its heading
+// semantics can be asserted for real rather than by attribute alone.
+import "@nysds/nys-accordion";
 import { NysVerticalnav } from "./nys-verticalnav.js";
 import type { NysVerticalnavGroup } from "./nys-verticalnavgroup.js";
 
@@ -452,6 +456,56 @@ describe("nys-verticalnav", () => {
     expect(accordionItem?.getAttribute("heading")).to.equal(
       "Freshwater Fishing",
     );
+  });
+
+  it("passes its heading level through to the mobile accordion trigger", async () => {
+    const el = await fixture<NysVerticalnav>(html`
+      <nys-verticalnav
+        heading="Freshwater Fishing"
+        headingLevel="h4"
+      ></nys-verticalnav>
+    `);
+    (el as any)._isMobile = true;
+    await el.updateComplete;
+
+    const accordionItem = el.shadowRoot?.querySelector("nys-accordionitem")!;
+    expect(accordionItem.getAttribute("headingLevel")).to.equal("h4");
+
+    // The trigger must be a real heading at that level, not a generic element:
+    // the nav's place in the outline cannot change with the viewport.
+    await (accordionItem as any).updateComplete;
+    const trigger = accordionItem.shadowRoot?.querySelector(
+      ".nys-accordionitem__title",
+    );
+    expect(trigger?.tagName).to.equal("H4");
+  });
+
+  it("maps an h1 nav heading to h2 for the mobile trigger", async () => {
+    // nys-accordion runs h2-h6 — a disclosure trigger is never a page title.
+    const el = await fixture<NysVerticalnav>(html`
+      <nys-verticalnav heading="Fishing" headingLevel="h1"></nys-verticalnav>
+    `);
+    (el as any)._isMobile = true;
+    await el.updateComplete;
+
+    const accordionItem = el.shadowRoot?.querySelector("nys-accordionitem")!;
+    expect(accordionItem.getAttribute("headingLevel")).to.equal("h2");
+  });
+
+  it("defaults the mobile trigger to the nav's own h2", async () => {
+    const el = await fixture<NysVerticalnav>(
+      html`<nys-verticalnav heading="Fishing"></nys-verticalnav>`,
+    );
+    (el as any)._isMobile = true;
+    await el.updateComplete;
+
+    const accordionItem = el.shadowRoot?.querySelector("nys-accordionitem")!;
+    await (accordionItem as any).updateComplete;
+
+    expect(
+      accordionItem.shadowRoot?.querySelector(".nys-accordionitem__title")
+        ?.tagName,
+    ).to.equal("H2");
   });
 
   it("open() sets expanded to true", async () => {
