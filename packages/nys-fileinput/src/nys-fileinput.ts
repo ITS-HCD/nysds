@@ -253,38 +253,6 @@ export class NysFileinput extends NysFormControlElement {
     return this.disabled || (!this.multiple && this._selectedFiles.length > 0);
   }
 
-  private get _buttonAriaLabel(): string {
-    if (this._selectedFiles.length === 0) {
-      return this.multiple ? "Choose files: " : "Choose file: ";
-    }
-
-    return this.multiple ? "Change files: " : "Change file: ";
-  }
-
-  private get _buttonAriaDescription(): string {
-    if (this._selectedFiles.length === 0)
-      return `${this.label + " " + this.description}`;
-
-    const hasInvalidFiles = this._selectedFiles.some(
-      (file) => file.status === "error",
-    );
-
-    let base = "";
-
-    if (this._selectedFiles.length === 1) {
-      base = `You have selected ${this._selectedFiles[0].file.name}.`;
-    } else {
-      const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
-      base = `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
-    }
-
-    const error = hasInvalidFiles
-      ? " Error: One or more files are not valid file types."
-      : "";
-
-    return `${base}${error}`;
-  }
-
   private get _innerNysButton(): HTMLElement | null {
     const nysButton = this.renderRoot.querySelector(
       '[name="file-btn"]',
