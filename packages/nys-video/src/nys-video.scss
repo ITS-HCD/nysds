@@ -30,6 +30,11 @@
     rgba(27, 27, 27, 0.6)
   );
   --_nys-video-outline-color--play-button: var(--nys-color-focus, #004dd1);
+
+  /* Inset focus ring on the play button: the outline is drawn inside the button's
+     bounds (negative offset) so it is not clipped by the thumbnail. Width and
+     offset must stay equal and opposite. */
+  --_nys-video-outline-width--play-button: 3.5px;
   --_nys-video-svg-color--play-button: var(
     --nys-color-white-transparent-400,
     rgba(255, 255, 255, 0.4)
@@ -160,8 +165,11 @@
         }
 
         &:focus-visible {
-          outline: 3.5px solid var(--_nys-video-outline-color--play-button);
-          outline-offset: -3.5px;
+          outline: var(--_nys-video-outline-width--play-button) solid
+            var(--_nys-video-outline-color--play-button);
+          outline-offset: calc(
+            -1 * var(--_nys-video-outline-width--play-button)
+          );
         }
 
         &:hover {

@@ -93,11 +93,12 @@ export class NysGlobalFooter extends NysElement {
    * --------------------------------------------------------------------------
    */
 
-  // super.connectedCallback() (NysElement) assigns an id when one is
-  // not provided. The contentinfo landmark intentionally stays on the inner
-  // <footer> element (and is given an accessible name from the agency name so
-  // multiple footers on a page are distinguishable), so this component keeps
-  // defaultRole = null and does not move a role onto the host.
+  // No connectedCallback override is needed here: NysElement's own
+  // connectedCallback already assigns an id when one is not provided, and it runs
+  // automatically because this class does not override it. The contentinfo landmark
+  // intentionally stays on the inner <footer> element (and is given an accessible
+  // name from the agency name so multiple footers on a page are distinguishable),
+  // so this component keeps defaultRole = null and does not move a role onto the host.
 
   firstUpdated() {
     // Check for slot content after rendering

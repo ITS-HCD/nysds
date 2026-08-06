@@ -67,6 +67,12 @@ p {
   line-height: var(--_nys-accordion-line-height);
   letter-spacing: var(--_nys-accordion-letter-spacing);
   display: flex;
+
+  /* The heading and its content panel stack. Previously the panel escaped this
+     container through a stray closing tag in the template, so the default row
+     direction was never exercised; with the markup corrected, the direction has
+     to be stated. */
+  flex-direction: column;
 }
 
 /* Heading wrapper (role="heading") around the toggle button. Carries the flex
