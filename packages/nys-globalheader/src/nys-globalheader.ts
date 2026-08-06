@@ -46,6 +46,12 @@ const MENU_BUTTON_SELECTOR = ".nys-globalheader__mobile-menu-button";
 const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
 
 /**
+ * Accessible name for the `banner` landmark when the header carries no visible
+ * title to reference and the consumer supplied no override.
+ */
+const DEFAULT_LANDMARK_LABEL = "Site";
+
+/**
  * Rendered and therefore actually focusable. Above the mobile breakpoint the menu
  * and its toggle are `display: none`, so a stale open state must not let the trap
  * call `focus()` on something that cannot take it — that would swallow Tab and
@@ -145,6 +151,16 @@ const isFocusable = (el: HTMLElement) => el.getClientRects().length > 0;
  * ```html
  * <nys-globalheader nysLogo appName="Admin Dashboard"></nys-globalheader>
  * ```
+ *
+ * @example Custom landmark label
+ * ```html
+ * <!-- Names the banner landmark directly instead of from the visible title.
+ *      Keep it distinct from nys-unavheader's ("New York State"). -->
+ * <nys-globalheader
+ *   agencyName="Office of Information Technology Services"
+ *   landmarkLabel="ITS"
+ * ></nys-globalheader>
+ * ```
  */
 
 export class NysGlobalHeader extends NysElement {
@@ -170,6 +186,22 @@ export class NysGlobalHeader extends NysElement {
    * keep `nys-unavheader` for trust and leave this off.
    */
   @property({ type: Boolean }) nysLogo = false;
+
+  /**
+   * Accessible name for the `banner` landmark this header renders.
+   *
+   * Leave it unset and the banner is named after the visible `appName` or
+   * `agencyName`, which cannot drift out of sync and is translated with the rest
+   * of the page. Falls back to `"Site"` when there is no title to reference.
+   *
+   * Set this only when neither is right for your audience. A page pairing this
+   * with `nys-unavheader` carries two `banner` landmarks, so the name must stay
+   * distinct from that header's (`"New York State"` by default) or landmark
+   * navigation stops distinguishing them.
+   *
+   * An explicit name replaces the reference to the visible title.
+   */
+  @property({ type: String }) landmarkLabel = "";
 
   /** Internal state to track mobile menu open/closed status. */
   @state() private _isMobileMenuOpen = false;
@@ -481,9 +513,27 @@ export class NysGlobalHeader extends NysElement {
    * cannot drift out of sync and is translated along with the rest of the page.
    */
   private get _bannerLabelledBy(): string | undefined {
+    // An explicit name is the author saying the visible title is not the right
+    // one; pointing at it anyway would put both on the landmark.
+    if (this._landmarkLabelOverride) return undefined;
     if (this.appName?.trim()) return `${this.id}-appname`;
     if (this.agencyName?.trim()) return `${this.id}-agencyname`;
     return undefined;
+  }
+
+  /** The author's landmark name, or undefined when they gave none. */
+  private get _landmarkLabelOverride(): string | undefined {
+    return this.landmarkLabel?.trim() || undefined;
+  }
+
+  /**
+   * Literal name for the banner: the author's override, or the "Site" default when
+   * there is no visible title to reference. Undefined whenever `_bannerLabelledBy`
+   * has something to point at, so the landmark never carries both.
+   */
+  private get _bannerLabel(): string | undefined {
+    if (this._landmarkLabelOverride) return this._landmarkLabelOverride;
+    return this._bannerLabelledBy ? undefined : DEFAULT_LANDMARK_LABEL;
   }
 
   /**
@@ -574,7 +624,7 @@ export class NysGlobalHeader extends NysElement {
       <header
         class="nys-globalheader"
         aria-labelledby=${ifDefined(this._bannerLabelledBy)}
-        aria-label=${ifDefined(this._bannerLabelledBy ? undefined : "Site")}
+        aria-label=${ifDefined(this._bannerLabel)}
       >
         <div class="nys-globalheader__main-container">
           ${this._hasLinkContent

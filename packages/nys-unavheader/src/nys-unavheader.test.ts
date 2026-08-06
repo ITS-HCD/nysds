@@ -962,6 +962,24 @@ describe("nys-unavheader", () => {
     expect(header?.getAttribute("aria-label")).to.equal("New York State");
   });
 
+  it("lets the author override the banner landmark name", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader landmarkLabel="Statewide"></nys-unavheader>`,
+    );
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("Statewide");
+  });
+
+  it("falls back to the default name when landmarkLabel is blank", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader landmarkLabel="   "></nys-unavheader>`,
+    );
+    // An unnamed banner is exactly what #1795 was about, so a blank override
+    // must not be able to reintroduce it.
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("New York State");
+  });
+
   // --- Regression: WCAG 4.1.1 / 1.3.1 — no duplicate IDs in shadow DOM ---
   it("does not duplicate the 'official website' element id", async () => {
     const el = await fixture<NysUnavHeader>(

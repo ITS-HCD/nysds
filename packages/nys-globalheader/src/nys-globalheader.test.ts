@@ -302,6 +302,45 @@ describe("nys-globalheader", () => {
     expect(header?.getAttribute("aria-label")).to.equal("Site");
   });
 
+  // --- #1795 — the paired landmark names must be author-overridable. ---
+  it("lets the author name the banner landmark directly", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="ITS"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("ITS");
+    // Never both: aria-labelledby would win and the override would do nothing.
+    expect(header?.hasAttribute("aria-labelledby")).to.be.false;
+  });
+
+  it("overrides the default banner name when there is no visible title", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader landmarkLabel="Portal"></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("Portal");
+  });
+
+  it("ignores a blank landmarkLabel and keeps naming from the visible title", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="   "
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-labelledby")).to.equal(
+      `${el.id}-agencyname`,
+    );
+    expect(header?.hasAttribute("aria-label")).to.be.false;
+  });
+
   it("sets aria-current=page on the active link (WCAG 1.4.1)", async () => {
     history.pushState({}, "", "/services");
 

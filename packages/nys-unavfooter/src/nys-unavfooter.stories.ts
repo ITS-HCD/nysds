@@ -30,3 +30,22 @@ export const Basic: Story = {
     },
   },
 };
+
+export const CustomLandmarkLabel: Story = {
+  render: () => {
+    return html`
+      <!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->
+      <nys-unavfooter landmarkLabel="Statewide"></nys-unavfooter>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->
+<nys-unavfooter landmarkLabel="Statewide"></nys-unavfooter>`,
+        type: "auto",
+      },
+    },
+  },
+};

@@ -94,6 +94,24 @@ describe("nys-unavfooter accessibility", () => {
     expect(footer?.getAttribute("aria-label")).to.equal("New York State");
   });
 
+  it("lets the author override the contentinfo landmark name", async () => {
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter landmarkLabel="Statewide"></nys-unavfooter>`,
+    );
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-label")).to.equal("Statewide");
+  });
+
+  it("falls back to the default name when landmarkLabel is blank", async () => {
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter landmarkLabel="   "></nys-unavfooter>`,
+    );
+    // An unnamed contentinfo is exactly what #1795 was about, so a blank
+    // override must not be able to reintroduce it.
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-label")).to.equal("New York State");
+  });
+
   it("marks the decorative logo SVG as hidden from the a11y tree", async () => {
     const el = await fixture<NysUnavFooter>(
       html`<nys-unavfooter></nys-unavfooter>`,

@@ -1,8 +1,16 @@
 import { html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavfooter.scss?inline";
+
+/**
+ * Accessible name for the `contentinfo` landmark, used when the consumer does not
+ * override it. Pairs with the agency `nys-globalfooter`'s own name, so landmark
+ * navigation can tell the statewide chrome from the site's own footer.
+ */
+const DEFAULT_LANDMARK_LABEL = "New York State";
 
 /**
  * Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.
@@ -26,10 +34,33 @@ import styles from "./nys-unavfooter.scss?inline";
  * ```html
  * <nys-unavfooter></nys-unavfooter>
  * ```
+ *
+ * @example Custom landmark label
+ * ```html
+ * <!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->
+ * <nys-unavfooter landmarkLabel="Statewide"></nys-unavfooter>
+ * ```
  */
 
 export class NysUnavFooter extends NysElement {
   static styles = unsafeCSS(styles);
+
+  /**
+   * Accessible name for the `contentinfo` landmark this footer renders.
+   * Defaults to `"New York State"`.
+   *
+   * A page pairing this footer with `nys-globalfooter` carries two `contentinfo`
+   * landmarks; distinct names are what keep landmark navigation useful instead of
+   * announcing "content information" twice. Override only when your wording is
+   * clearer for your audience — and keep it distinct from the agency footer's
+   * name, which comes from that footer's visible heading.
+   *
+   * A blank value falls back to the default rather than leaving the landmark
+   * unnamed.
+   *
+   * @default "New York State"
+   */
+  @property({ type: String }) landmarkLabel = DEFAULT_LANDMARK_LABEL;
 
   /**
    * Lifecycle methods
@@ -66,14 +97,23 @@ export class NysUnavFooter extends NysElement {
     return svgElement;
   }
 
+  /**
+   * The contentinfo's accessible name. A blank override would put the page back
+   * where #1795 found it — two unnamed contentinfo landmarks — so it falls back
+   * to the default.
+   */
+  private get _landmarkLabel(): string {
+    return this.landmarkLabel?.trim() || DEFAULT_LANDMARK_LABEL;
+  }
+
   render() {
     // The statewide footer sits below an agency's own `nys-globalfooter`, so a page
-    // normally carries two contentinfo landmarks. Naming this one "New York State"
-    // keeps landmark navigation meaningful instead of announcing "content
-    // information" twice (axe `landmark-unique`); the agency footer is named after
-    // the agency.
+    // normally carries two contentinfo landmarks. Naming this one keeps landmark
+    // navigation meaningful instead of announcing "content information" twice (axe
+    // `landmark-unique`); the agency footer is named after the agency. `landmarkLabel`
+    // lets a consumer reword this one without giving up the distinction.
     return html`
-      <footer class="nys-unavfooter" aria-label="New York State">
+      <footer class="nys-unavfooter" aria-label=${this._landmarkLabel}>
         <div class="nys-unavfooter__main-container">
           <div class="nys-unavfooter__container_menu">
             <div class="nys-unavfooter__logo">

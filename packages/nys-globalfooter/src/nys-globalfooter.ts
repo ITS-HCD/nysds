@@ -6,6 +6,12 @@ import { NysElement } from "@nysds/internals";
 import styles from "./nys-globalfooter.scss?inline";
 
 /**
+ * Accessible name for the `contentinfo` landmark when the footer carries no
+ * agency name to reference and the consumer supplied no override.
+ */
+const DEFAULT_LANDMARK_LABEL = "Site";
+
+/**
  * Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.
  *
  * Place above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements
@@ -70,6 +76,16 @@ import styles from "./nys-globalfooter.scss?inline";
  *   agencySubheading="Innovating Technology for a Better New York"
  * ></nys-globalfooter>
  * ```
+ *
+ * @example Custom landmark label
+ * ```html
+ * <!-- Names the contentinfo landmark directly instead of from the visible
+ *      heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
+ * <nys-globalfooter
+ *   agencyName="Office of Information Technology Services"
+ *   landmarkLabel="ITS"
+ * ></nys-globalfooter>
+ * ```
  */
 
 export class NysGlobalFooter extends NysElement {
@@ -86,6 +102,23 @@ export class NysGlobalFooter extends NysElement {
 
   /** URL for the agency name link. If empty, name is not clickable. */
   @property({ type: String }) homepageLink = "";
+
+  /**
+   * Accessible name for the `contentinfo` landmark this footer renders.
+   *
+   * Leave it unset and the landmark is named after the visible `agencyName`
+   * heading, which cannot drift out of sync and is translated with the rest of
+   * the page. Falls back to `"Site"` when there is no agency name to reference.
+   *
+   * Set this only when the agency name is not right for your audience. A page
+   * pairing this with `nys-unavfooter` carries two `contentinfo` landmarks, so
+   * the name must stay distinct from that footer's (`"New York State"` by
+   * default) or landmark navigation stops distinguishing them.
+   *
+   * An explicit name replaces the reference to the visible heading.
+   */
+  @property({ type: String }) landmarkLabel = "";
+
   @state() private slotHasContent = true;
 
   /**
@@ -176,7 +209,26 @@ export class NysGlobalFooter extends NysElement {
    * the name be translated along with the rest of the page.
    */
   private get _contentinfoLabelledBy(): string | undefined {
+    // An explicit name is the author saying the visible heading is not the right
+    // one; pointing at it anyway would put both on the landmark.
+    if (this._landmarkLabelOverride) return undefined;
     return this.agencyName?.trim() ? `${this.id}-name` : undefined;
+  }
+
+  /** The author's landmark name, or undefined when they gave none. */
+  private get _landmarkLabelOverride(): string | undefined {
+    return this.landmarkLabel?.trim() || undefined;
+  }
+
+  /**
+   * Literal name for the contentinfo: the author's override, or the "Site"
+   * default when there is no agency heading to reference. Undefined whenever
+   * `_contentinfoLabelledBy` has something to point at, so the landmark never
+   * carries both.
+   */
+  private get _contentinfoLabel(): string | undefined {
+    if (this._landmarkLabelOverride) return this._landmarkLabelOverride;
+    return this._contentinfoLabelledBy ? undefined : DEFAULT_LANDMARK_LABEL;
   }
 
   render() {
@@ -191,9 +243,7 @@ export class NysGlobalFooter extends NysElement {
       <footer
         class="nys-globalfooter"
         aria-labelledby=${ifDefined(this._contentinfoLabelledBy)}
-        aria-label=${ifDefined(
-          this._contentinfoLabelledBy ? undefined : "Site",
-        )}
+        aria-label=${ifDefined(this._contentinfoLabel)}
       >
         <div class="nys-globalfooter__main-container">
           <div class="nys-globalfooter__heading-container">

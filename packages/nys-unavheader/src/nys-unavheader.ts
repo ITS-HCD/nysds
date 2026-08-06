@@ -137,6 +137,13 @@ const LANGUAGE_TAGS: Record<string, string> = {
 const languageTag = (code: string) => LANGUAGE_TAGS[code] ?? code;
 
 /**
+ * Accessible name for the `banner` landmark, used when the consumer does not
+ * override it. Pairs with the agency `nys-globalheader`'s own banner name, so
+ * landmark navigation can tell the statewide chrome from the site's own header.
+ */
+const DEFAULT_LANDMARK_LABEL = "New York State";
+
+/**
  * Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.
  *
  * Place as the first element in `<body>`. Includes "official site" trust indicator, NY.gov logo,
@@ -182,6 +189,12 @@ const languageTag = (code: string) => LANGUAGE_TAGS[code] ?? code;
  *  @example Hide translate
  * ```html
  * <nys-unavheader hideTranslate></nys-unavheader>
+ * ```
+ *
+ * @example Custom landmark label
+ * ```html
+ * <!-- Renames the banner landmark. Keep it distinct from the agency header's. -->
+ * <nys-unavheader landmarkLabel="Statewide"></nys-unavheader>
  * ```
  *
  * @example Custom Search URL
@@ -237,6 +250,23 @@ export class NysUnavHeader extends NysElement {
 
   /** The URL endpoint of the search, make sure to include the query param. */
   @property({ type: String }) searchUrl = "";
+
+  /**
+   * Accessible name for the `banner` landmark this header renders.
+   * Defaults to `"New York State"`.
+   *
+   * A page pairing this header with `nys-globalheader` carries two `banner`
+   * landmarks; distinct names are what keep landmark navigation useful instead of
+   * announcing "banner, banner". Override only when your wording is clearer for
+   * your audience — and keep it distinct from the agency header's name, which
+   * comes from that header's visible title.
+   *
+   * A blank value falls back to the default rather than leaving the landmark
+   * unnamed.
+   *
+   * @default "New York State"
+   */
+  @property({ type: String }) landmarkLabel = DEFAULT_LANDMARK_LABEL;
 
   /** The list of languages this site can be translated to, default to use Smartling */
   @property({ type: Array })
@@ -580,13 +610,23 @@ export class NysUnavHeader extends NysElement {
     `;
   }
 
+  /**
+   * The banner's accessible name. A blank override would put the page back where
+   * #1795 found it — two unnamed banners — so it falls back to the default.
+   */
+  private get _landmarkLabel(): string {
+    return this.landmarkLabel?.trim() || DEFAULT_LANDMARK_LABEL;
+  }
+
   render() {
     // The statewide header sits above an agency's own `nys-globalheader`, so a page
-    // normally carries two banner landmarks. Naming this one "New York State" keeps
-    // landmark navigation meaningful instead of announcing "banner, banner" (axe
+    // normally carries two banner landmarks. Naming this one keeps landmark
+    // navigation meaningful instead of announcing "banner, banner" (axe
     // `landmark-unique`); the agency banner is named after the agency.
+    // `landmarkLabel` lets a consumer reword this one without giving up the
+    // distinction.
     return html`
-      <header class="nys-unavheader" aria-label="New York State">
+      <header class="nys-unavheader" aria-label=${this._landmarkLabel}>
         <div
           class="nys-unavheader__trustbar wrapper"
           @click="${(e: MouseEvent) => {
