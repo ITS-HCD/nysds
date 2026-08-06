@@ -369,10 +369,11 @@ export class NysUnavHeader extends NysElement {
         | null;
       if (!trigger) continue;
 
-      // The inner button only exists once nys-button has rendered.
+      // The inner button only exists once nys-button has rendered. aria-expanded
+      // and aria-controls travel through nys-button's ariaExpanded/ariaControls
+      // props; only aria-haspopup has no prop equivalent yet.
       await trigger.updateComplete;
       const control = trigger.shadowRoot?.querySelector("button") ?? trigger;
-      control.setAttribute("aria-expanded", String(this.languageVisible));
       control.setAttribute("aria-haspopup", "true");
     }
   }
@@ -607,8 +608,8 @@ export class NysUnavHeader extends NysElement {
               label="Here's how you know"
               variant="text"
               size="sm"
-              aria-controls="nys-unavheader__trustpanel"
-              aria-expanded="${this.trustbarVisible}"
+              ariaControls="nys-unavheader__trustpanel"
+              ariaExpanded="${this.trustbarVisible}"
               @nys-click="${(e: CustomEvent) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -625,6 +626,7 @@ export class NysUnavHeader extends NysElement {
         </div>
         <div
           id="nys-unavheader__trustpanel"
+          id="nys-unavheader__trustpanel"
           class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
             ? "show"
             : "hide"}"
@@ -638,7 +640,8 @@ export class NysUnavHeader extends NysElement {
               icon="close"
               size="sm"
               label="Close this notice"
-              aria-expanded="${this.trustbarVisible}"
+              ariaControls="nys-unavheader__trustpanel"
+              ariaExpanded="${this.trustbarVisible}"
               @nys-click="${() =>
                 this._toggleTrustbar("nys-unavheader__know--inline")}"
             ></nys-button>
@@ -685,8 +688,8 @@ export class NysUnavHeader extends NysElement {
               <nys-button
                 id="nys-unavheader__know--inline"
                 label="Here's how you know"
-                aria-controls="nys-unavheader__trustpanel"
-                aria-expanded="${this.trustbarVisible}"
+                ariaControls="nys-unavheader__trustpanel"
+                ariaExpanded="${this.trustbarVisible}"
                 variant="text"
                 size="sm"
                 @nys-click="${() =>
@@ -710,7 +713,7 @@ export class NysUnavHeader extends NysElement {
                     circle
                     label="Translate"
                     ariaControls="${LANGUAGE_LIST_ID}"
-                    aria-expanded="${this.languageVisible}"
+                    ariaExpanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
                     class="nys-unavheader__iconbutton"
                     @nys-click=${() =>
@@ -728,7 +731,7 @@ export class NysUnavHeader extends NysElement {
                           variant="ghost"
                           label="Translate"
                           ariaControls="${LANGUAGE_LIST_ID}"
-                          aria-expanded="${this.languageVisible}"
+                          ariaExpanded="${this.languageVisible}"
                           size="sm"
                           prefixIcon="language"
                           suffixIcon=${this.languageVisible
@@ -766,7 +769,8 @@ export class NysUnavHeader extends NysElement {
                     variant="ghost"
                     circle
                     label="Search"
-                    aria-expanded="${this.searchDropdownVisible}"
+                    ariaControls="nys-unavheader__searchdropdown"
+                    ariaExpanded="${this.searchDropdownVisible}"
                     id="nys-unavheader__searchbutton"
                     class="nys-unavheader__iconbutton"
                     @nys-click=${this._toggleSearchDropdown}
@@ -802,6 +806,7 @@ export class NysUnavHeader extends NysElement {
           </div>
         </div>
         <div
+          id="nys-unavheader__searchdropdown"
           class="nys-unavheader__searchdropdown wrapper ${this
             .searchDropdownVisible
             ? "show"

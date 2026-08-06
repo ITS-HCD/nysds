@@ -988,44 +988,54 @@ describe("nys-unavheader", () => {
   });
 
   // --- Regression: WCAG 4.1.2 — aria-controls targets the controlled panel ---
+  // The state must land on the real <button> inside nys-button's shadow root
+  // (via the ariaControls/ariaExpanded props) — a host attribute reaches
+  // nothing assistive tech can see (#1794).
+  const innerTrustButton = (el: NysUnavHeader, id: string) =>
+    el.shadowRoot?.getElementById(id)?.shadowRoot?.querySelector("button");
+
   it("points trustbar toggle aria-controls at the trust panel", async () => {
     const el = await fixture<NysUnavHeader>(
       html`<nys-unavheader></nys-unavheader>`,
     );
+    await el.updateComplete;
+    await aTimeout(0);
 
     const panel = el.shadowRoot?.getElementById("nys-unavheader__trustpanel");
     expect(panel).to.exist;
 
-    const knowBtn = el.shadowRoot?.getElementById("nys-unavheader__know");
-    const inlineBtn = el.shadowRoot?.getElementById(
-      "nys-unavheader__know--inline",
-    );
-
-    expect(knowBtn?.getAttribute("aria-controls")).to.equal(
-      "nys-unavheader__trustpanel",
-    );
-    expect(inlineBtn?.getAttribute("aria-controls")).to.equal(
-      "nys-unavheader__trustpanel",
-    );
+    for (const id of ["nys-unavheader__know", "nys-unavheader__know--inline"]) {
+      expect(
+        innerTrustButton(el, id)?.getAttribute("aria-controls"),
+        id,
+      ).to.equal("nys-unavheader__trustpanel");
+    }
   });
 
   it("reflects aria-expanded on both trustbar toggles as the panel opens/closes", async () => {
     const el = await fixture<NysUnavHeader>(
       html`<nys-unavheader></nys-unavheader>`,
     );
+    await el.updateComplete;
+    await aTimeout(0);
 
-    const knowBtn = el.shadowRoot?.getElementById("nys-unavheader__know");
-    const inlineBtn = el.shadowRoot?.getElementById(
-      "nys-unavheader__know--inline",
-    );
-
-    expect(knowBtn?.getAttribute("aria-expanded")).to.equal("false");
-    expect(inlineBtn?.getAttribute("aria-expanded")).to.equal("false");
+    const ids = ["nys-unavheader__know", "nys-unavheader__know--inline"];
+    for (const id of ids) {
+      expect(
+        innerTrustButton(el, id)?.getAttribute("aria-expanded"),
+        id,
+      ).to.equal("false");
+    }
 
     el.trustbarVisible = true;
     await el.updateComplete;
+    await aTimeout(0);
 
-    expect(knowBtn?.getAttribute("aria-expanded")).to.equal("true");
-    expect(inlineBtn?.getAttribute("aria-expanded")).to.equal("true");
+    for (const id of ids) {
+      expect(
+        innerTrustButton(el, id)?.getAttribute("aria-expanded"),
+        id,
+      ).to.equal("true");
+    }
   });
 });
