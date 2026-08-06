@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-card",
-  "version": "1.19.2",
+  "version": "1.19.4",
   "description": "The Card component from the NYS Design System.",
   "module": "dist/nys-card.js",
   "types": "dist/index.d.ts",
