@@ -1,14 +1,47 @@
-import { html, unsafeCSS } from "lit";
+import { html, unsafeCSS, type TemplateResult } from "lit";
 import { property, query } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
 
 /**
+ * Heading levels an accordion trigger may occupy. `h1` is intentionally absent:
+ * the trigger is never the page title, so the shallowest useful level is `h2`.
+ */
+type NysAccordionHeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
+
+/** Level used when neither the item nor its parent accordion specifies one. */
+const DEFAULT_ACCORDION_HEADING_LEVEL: NysAccordionHeadingLevel = "h3";
+
+const HEADING_LEVELS: readonly string[] = ["h2", "h3", "h4", "h5", "h6"];
+
+/**
+ * Coerce an author-supplied value into a supported heading level.
+ *
+ * Attributes are stringly typed, so an out-of-range or misspelled value has to
+ * resolve to something: it returns null and the caller falls back rather than
+ * rendering an element the ARIA heading contract does not allow.
+ */
+function normalizeAccordionHeadingLevel(
+  value: unknown,
+): NysAccordionHeadingLevel | null {
+  if (typeof value !== "string") return null;
+  const level = value.trim().toLowerCase();
+  return HEADING_LEVELS.includes(level)
+    ? (level as NysAccordionHeadingLevel)
+    : null;
+}
+
+/**
  * A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.
  *
  * Place inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button
  * accessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.
+ *
+ * Per the WAI-ARIA Accordion pattern the toggle button is wrapped in a real
+ * heading element so the panels appear in the document outline and screen
+ * reader users can jump between them by heading. Set `headingLevel` (here or on
+ * the parent `nys-accordion`) to the level that fits the surrounding page.
  *
  * @summary Collapsible panel for use within nys-accordion with keyboard support.
  * @element nys-accordionitem
@@ -28,6 +61,18 @@ import styles from "./nys-accordion.scss?inline";
  *   </nys-accordionitem>
  * </nys-accordion>
  * ```
+ *
+ * @example Per-item heading level
+ * ```html
+ * <nys-accordion headingLevel="h2">
+ *   <nys-accordionitem heading="Sits at h2, inherited from the group">
+ *     <p>Every item follows the group unless it says otherwise.</p>
+ *   </nys-accordionitem>
+ *   <nys-accordionitem headingLevel="h3" heading="Sits at h3, set on the item">
+ *     <p>An item that nests under the preceding one sets its own level.</p>
+ *   </nys-accordionitem>
+ * </nys-accordion>
+ * ```
  */
 
 export class NysAccordionItem extends NysElement {
@@ -40,10 +85,22 @@ export class NysAccordionItem extends NysElement {
   @property({ type: String }) heading = "";
 
   /**
-   * ARIA heading level (1-6) applied to the wrapper around the toggle button,
-   * per the WAI-ARIA Accordion pattern. Defaults to 3.
+   * Heading element that wraps the toggle button (`h2` through `h6`).
+   *
+   * Pick the level that puts the trigger in the right place in the page
+   * outline — one level below the heading that introduces the accordion. Leave
+   * it empty to follow the `headingLevel` of the enclosing `nys-accordion`,
+   * which is the usual way to set it for a whole group; `h3` applies when
+   * neither is specified. `h1` is not offered because an accordion trigger is
+   * never the page title.
    */
-  @property({ type: Number }) headingLevel = 3;
+  @property({ type: String, reflect: true }) headingLevel:
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6"
+    | "" = "";
 
   /** Whether the content panel is visible. Toggle via click or keyboard. */
   @property({ type: Boolean, reflect: true }) expanded = false;
@@ -94,6 +151,29 @@ export class NysAccordionItem extends NysElement {
    * --------------------------------------------------------------------------
    */
 
+  /**
+   * The level actually rendered: this item's own `headingLevel`, otherwise the
+   * one set on the enclosing `nys-accordion`, otherwise the `h3` default.
+   *
+   * The group's value is read here rather than pushed down from the container
+   * so there is a single source of truth per item and an item-level value
+   * always wins. `nys-accordion` re-renders its items when its own level
+   * changes (see `_notifyHeadingLevel` there).
+   */
+  private _resolveHeadingLevel(): NysAccordionHeadingLevel {
+    const own = normalizeAccordionHeadingLevel(this.headingLevel);
+    if (own) return own;
+
+    const group = this.closest("nys-accordion") as
+      | (HTMLElement & { headingLevel?: string })
+      | null;
+
+    return (
+      normalizeAccordionHeadingLevel(group?.headingLevel) ??
+      DEFAULT_ACCORDION_HEADING_LEVEL
+    );
+  }
+
   private _dispatchEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-accordionitem-toggle", {
@@ -135,43 +215,62 @@ export class NysAccordionItem extends NysElement {
     }
   }
 
+  /**
+   * Helper Render Functions
+   * --------------------------------------------------------------------------
+   */
+
+  /**
+   * WAI-ARIA Accordion pattern: the toggle button must be contained in a
+   * heading at the level appropriate for the surrounding page. A real `h2`-`h6`
+   * element is used rather than `role="heading"` + `aria-level` so the trigger
+   * carries native heading semantics everywhere — including the places that
+   * read the DOM instead of the accessibility tree.
+   */
+  private _renderHeading(trigger: TemplateResult) {
+    const cls = "nys-accordionitem__title";
+
+    switch (this._resolveHeadingLevel()) {
+      case "h2":
+        return html`<h2 class=${cls}>${trigger}</h2>`;
+      case "h4":
+        return html`<h4 class=${cls}>${trigger}</h4>`;
+      case "h5":
+        return html`<h5 class=${cls}>${trigger}</h5>`;
+      case "h6":
+        return html`<h6 class=${cls}>${trigger}</h6>`;
+      default:
+        return html`<h3 class=${cls}>${trigger}</h3>`;
+    }
+  }
+
   render() {
     const contentId = `${this.id}-content`;
     const buttonId = `${this.id}-button`;
-    // Clamp the heading level to the valid ARIA range (1-6).
-    const level = Math.min(6, Math.max(1, this.headingLevel || 3));
+
+    const trigger = html`<button
+      id=${buttonId}
+      class="nys-accordionitem__heading"
+      type="button"
+      @click=${this._handleExpand}
+      @keydown=${this._handleKeydown}
+      aria-expanded=${this.expanded ? "true" : "false"}
+      aria-controls=${contentId}
+    >
+      <span class="nys-accordionitem__heading-title">${this.heading}</span>
+      <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
+    </button>`;
 
     return html`
       <div class="nys-accordionitem">
+        ${this._renderHeading(trigger)}
         <!--
-          WAI-ARIA Accordion pattern: the toggle button must be contained in an
-          element with role="heading" and an appropriate aria-level so screen
-          reader users can navigate the accordion by heading.
+          The panel is a labelled region so it can be reached from the landmark
+          list, named by the trigger that opens it. A collapsed panel is
+          visibility:hidden, so it contributes no landmark at all: the list only
+          ever holds the panels a user has actually opened (at most one under
+          singleSelect), which is why the role is unconditional here.
         -->
-        <div
-          role="heading"
-          aria-level=${level}
-          class="nys-accordionitem__title"
-        >
-          <button
-            id=${buttonId}
-            class="nys-accordionitem__heading"
-            type="button"
-            @click=${this._handleExpand}
-            @keydown=${this._handleKeydown}
-            aria-expanded=${this.expanded ? "true" : "false"}
-            aria-controls=${contentId}
-          >
-            <span class="nys-accordionitem__heading-title"
-              >${this.heading}</span
-            >
-            <nys-icon
-              class="expand-icon"
-              name="chevron_down"
-              size="24"
-            ></nys-icon>
-          </button>
-        </div>
         <div
           id=${contentId}
           class="nys-accordionitem__content ${this.expanded

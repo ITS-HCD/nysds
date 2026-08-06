@@ -11,6 +11,9 @@ import styles from "./nys-accordion.scss?inline";
  * Place `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.
  * The `bordered` style propagates to all children automatically.
  *
+ * Each item's toggle button is wrapped in a real heading element. Set
+ * `headingLevel` here to place the whole group correctly in the page outline.
+ *
  * @summary Container for accordion items with optional single-select and bordered styling.
  * @element nys-accordion
  *
@@ -64,6 +67,21 @@ import styles from "./nys-accordion.scss?inline";
  *   </nys-accordionitem>
  * </nys-accordion>
  * ```
+ *
+ * @example Heading level
+ * Each trigger is a real heading, so it has to sit at the level the page
+ * outline expects — one below the heading that introduces the accordion.
+ * ```html
+ * <h2>Fishing licenses</h2>
+ * <nys-accordion headingLevel="h3">
+ *   <nys-accordionitem heading="Who needs a license?">
+ *     <p>Anyone 16 or older fishing in New York State freshwater.</p>
+ *   </nys-accordionitem>
+ *   <nys-accordionitem heading="How long is a license valid?">
+ *     <p>Annual licenses are valid for 365 days from the date of purchase.</p>
+ *   </nys-accordionitem>
+ * </nys-accordion>
+ * ```
  */
 
 export class NysAccordion extends NysElement {
@@ -77,6 +95,23 @@ export class NysAccordion extends NysElement {
 
   /** Adds borders around each accordion item. Propagates to all children. */
   @property({ type: Boolean, reflect: true }) bordered = false;
+
+  /**
+   * Heading element wrapping every item's toggle button (`h2` through `h6`).
+   *
+   * Each item's trigger is a real heading, so this is what places the accordion
+   * in the page outline: choose one level below the heading that introduces the
+   * accordion (an accordion under an `h2` section heading uses the `h3`
+   * default). An individual `nys-accordionitem` can override it with its own
+   * `headingLevel`. `h1` is not offered because an accordion trigger is never
+   * the page title.
+   */
+  @property({ type: String, reflect: true }) headingLevel:
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6" = "h3";
 
   /**
    * Lifecycle methods
@@ -93,6 +128,9 @@ export class NysAccordion extends NysElement {
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("bordered")) {
       this._applyBordered();
+    }
+    if (changedProperties.has("headingLevel")) {
+      this._notifyHeadingLevel();
     }
   }
 
@@ -130,6 +168,17 @@ export class NysAccordion extends NysElement {
   private _applyBordered() {
     this._getAccordionItems().forEach((accordion: any) => {
       accordion.bordered = this.bordered;
+    });
+  }
+
+  /**
+   * Items read the group's `headingLevel` themselves (so an item that sets its
+   * own always wins), which means a change here is invisible to them until they
+   * re-render. Ask them to.
+   */
+  private _notifyHeadingLevel() {
+    this._getAccordionItems().forEach((accordion) => {
+      (accordion as any).requestUpdate?.();
     });
   }
 

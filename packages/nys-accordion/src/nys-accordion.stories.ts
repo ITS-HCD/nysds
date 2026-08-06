@@ -22,20 +22,26 @@ export const Basic: Story = {
   args: {
     singleSelect: false,
     bordered: false,
+    headingLevel: "h3",
     heading: "How do I renew my passport or apply for a new one?",
-    headingLevel: 3,
     expanded: false,
+  },
+  argTypes: {
+    headingLevel: {
+      control: { type: "select" },
+      options: ["h2", "h3", "h4", "h5", "h6"],
+    },
   },
   render: (args) => {
     return html`
       <nys-accordion
         ?singleSelect=${args.singleSelect}
         ?bordered=${args.bordered}
+        headingLevel=${args.headingLevel}
       >
         <nys-accordionitem
           id="accordionId1"
           heading=${args.heading}
-          headingLevel=${args.headingLevel}
           ?expanded=${args.expanded}
         >
           <p>
@@ -170,6 +176,41 @@ export const Bordered: Story = {
   },
 };
 
+export const HeadingLevel: Story = {
+  render: () => {
+    return html`
+      <h2>Fishing licenses</h2>
+      <nys-accordion headingLevel="h3">
+        <nys-accordionitem heading="Who needs a license?">
+          <p>Anyone 16 or older fishing in New York State freshwater.</p>
+        </nys-accordionitem>
+        <nys-accordionitem heading="How long is a license valid?">
+          <p>
+            Annual licenses are valid for 365 days from the date of purchase.
+          </p>
+        </nys-accordionitem>
+      </nys-accordion>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<h2>Fishing licenses</h2>
+<nys-accordion headingLevel="h3">
+  <nys-accordionitem heading="Who needs a license?">
+    <p>Anyone 16 or older fishing in New York State freshwater.</p>
+  </nys-accordionitem>
+  <nys-accordionitem heading="How long is a license valid?">
+    <p>Annual licenses are valid for 365 days from the date of purchase.</p>
+  </nys-accordionitem>
+</nys-accordion>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const ExpandedItem: Story = {
   render: () => {
     return html`
@@ -193,6 +234,40 @@ export const ExpandedItem: Story = {
   </nys-accordionitem>
   <nys-accordionitem heading="What documents do I need?">
     <p>You will need a valid ID and proof of residency.</p>
+  </nys-accordionitem>
+</nys-accordion>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const PerItemHeadingLevel: Story = {
+  render: () => {
+    return html`
+      <nys-accordion headingLevel="h2">
+        <nys-accordionitem heading="Sits at h2, inherited from the group">
+          <p>Every item follows the group unless it says otherwise.</p>
+        </nys-accordionitem>
+        <nys-accordionitem
+          headingLevel="h3"
+          heading="Sits at h3, set on the item"
+        >
+          <p>An item that nests under the preceding one sets its own level.</p>
+        </nys-accordionitem>
+      </nys-accordion>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-accordion headingLevel="h2">
+  <nys-accordionitem heading="Sits at h2, inherited from the group">
+    <p>Every item follows the group unless it says otherwise.</p>
+  </nys-accordionitem>
+  <nys-accordionitem headingLevel="h3" heading="Sits at h3, set on the item">
+    <p>An item that nests under the preceding one sets its own level.</p>
   </nys-accordionitem>
 </nys-accordion>`,
         type: "auto",
