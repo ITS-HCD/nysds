@@ -9,6 +9,7 @@ import {
   IdentifiedMixin,
   ReflectsAriaMixin,
   FormControlMixin,
+  findUnregisteredChildren,
 } from "./index";
 
 /* -------------------------------------------------------------------------- */
@@ -389,5 +390,85 @@ describe("FormControlMixin", () => {
       html`<form-test-el name="f"></form-test-el>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* findUnregisteredChildren                                                   */
+/* -------------------------------------------------------------------------- */
+
+// Regression guard for #1819: a component whose template renders a <nys-*>
+// child without importing that child's package leaves it un-upgraded and
+// inert when the component is used standalone. These fixtures reproduce that
+// failure mode with fake "nys-*" elements instead of real components, so the
+// guard itself is tested without depending on any component package.
+
+customElements.define(
+  "nys-findunregistered-registered-child",
+  class extends LitElement {
+    render() {
+      return html`<span>upgraded</span>`;
+    }
+  },
+);
+
+class FindUnregisteredHostEl extends LitElement {
+  render() {
+    return html`
+      <nys-findunregistered-registered-child></nys-findunregistered-registered-child>
+      <nys-findunregistered-missing-child></nys-findunregistered-missing-child>
+    `;
+  }
+}
+customElements.define("nys-findunregistered-host", FindUnregisteredHostEl);
+
+// A second-level host so the walk's shadow-root recursion (grandchild
+// components with their own un-upgraded children) is exercised, not just a
+// single shadow root.
+class FindUnregisteredGrandparentEl extends LitElement {
+  render() {
+    return html`<nys-findunregistered-host></nys-findunregistered-host>`;
+  }
+}
+customElements.define(
+  "nys-findunregistered-grandparent",
+  FindUnregisteredGrandparentEl,
+);
+
+describe("findUnregisteredChildren", () => {
+  it("reports a rendered nys-* child that was never registered", async () => {
+    const el = await fixture<FindUnregisteredHostEl>(
+      html`<nys-findunregistered-host></nys-findunregistered-host>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([
+      "nys-findunregistered-missing-child",
+    ]);
+  });
+
+  it("passes when every rendered nys-* child is registered", async () => {
+    const el = await fixture(
+      html`<nys-findunregistered-registered-child></nys-findunregistered-registered-child>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
+  });
+
+  it("recurses into nested shadow roots to catch a grandchild's un-upgraded children", async () => {
+    const el = await fixture<FindUnregisteredGrandparentEl>(
+      html`<nys-findunregistered-grandparent></nys-findunregistered-grandparent>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([
+      "nys-findunregistered-missing-child",
+    ]);
+  });
+
+  it("never reports the host's own tag", async () => {
+    // The registered-child fixture's tag starts with "nys-" too; it must
+    // never flag itself.
+    const el = await fixture(
+      html`<nys-findunregistered-registered-child></nys-findunregistered-registered-child>`,
+    );
+    expect(findUnregisteredChildren(el)).to.not.include(
+      "nys-findunregistered-registered-child",
+    );
   });
 });

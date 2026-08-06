@@ -1,8 +1,14 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-combobox.js";
 import { NysCombobox } from "./nys-combobox.js";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+// nys-combobox's self-registration of these two is fixed on
+// fix/a11y-arialabel-sweep (not this branch) — kept here so the
+// self-registration test below is meaningful on this branch standalone.
+// Safe to drop once that branch merges and nys-combobox.ts imports them itself.
+import "@nysds/nys-button";
 import "@nysds/nys-icon";
 import "@nysds/nys-button";
 
@@ -1350,5 +1356,16 @@ describe("nys-combobox", () => {
     await el.updateComplete;
     expect(new FormData(form).get("field")).to.equal("apple");
     expect(Array.from(form.elements)).to.include(el);
+  });
+});
+
+describe("nys-combobox self-registration", () => {
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Test" value="apple">
+        <option value="apple">Apple</option>
+      </nys-combobox>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

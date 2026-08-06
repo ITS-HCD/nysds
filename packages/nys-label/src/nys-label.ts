@@ -1,5 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+// These elements are rendered inside this component's shadow DOM (the
+// tooltip and its trigger icon, shown when `tooltip` is set), so they must be
+// registered whenever nys-label is used. Importing them here (intentional
+// side effect) guarantees they always render.
+import "@nysds/nys-tooltip";
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-label.scss?inline";
 

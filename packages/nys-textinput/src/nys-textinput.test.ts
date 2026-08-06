@@ -1,10 +1,14 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysTextinput } from "./nys-textinput";
+// nys-textinput.ts imports nys-button and nys-icon itself as a side effect
+// (the password-visibility toggle and search-clear controls) — do not
+// re-import them here. A test-file-only import would mask a regression where
+// that self-import is removed from the component (see #1819 /
+// findUnregisteredChildren below).
 import "../dist/nys-textinput.js";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-button";
-import "@nysds/nys-icon";
 /**
  * Test Tips (Official WTR Doc): Defaults, interactivity, customization, and accessibility, form a great baseline for testing most web UI.
  * When testing web UI it is important to think of your test inputs as a future visitor interacting with your web component or a future developer building with your web component.
@@ -733,5 +737,14 @@ describe("nys-textinput error association", () => {
     const input = el.shadowRoot!.querySelector("input")!;
     expect(input.getAttribute("aria-invalid")).to.equal("false");
     expect(input.hasAttribute("aria-describedby")).to.equal(false);
+  });
+});
+
+describe("nys-textinput self-registration", () => {
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput label="Password" type="password"></nys-textinput>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

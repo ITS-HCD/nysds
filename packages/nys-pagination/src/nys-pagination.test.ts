@@ -1,13 +1,10 @@
 import { expect, html, fixture, aTimeout } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-pagination.js";
 // The page controls are `nys-button`s; the aria-current and focus assertions below
 // reach the real <button> inside them, so the definition has to be loaded.
 import "@nysds/nys-button";
 import { NysPagination } from "./nys-pagination.js";
-// Explicitly registered so the mobile prev/next nys-buttons upgrade in this
-// test file even if that ever stops happening transitively through the
-// package's own dist bundle.
-import "@nysds/nys-button";
 
 /** The real control assistive tech interacts with, inside a `nys-button`. */
 const innerButton = (host: Element | null | undefined) =>
@@ -392,5 +389,12 @@ describe("nys-pagination", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-pagination></nys-pagination>`);
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination totalPages="5" currentPage="2"></nys-pagination>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

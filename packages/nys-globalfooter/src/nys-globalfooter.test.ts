@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysGlobalFooter } from "./nys-globalfooter";
 import "../dist/nys-globalfooter.js";
 
@@ -197,5 +198,25 @@ describe("nys-globalfooter", () => {
     );
 
     expect(el.id).to.equal("my-footer");
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    // A <span> column heading triggers the nys-divider inserted after each
+    // one (see _handleSlotChange).
+    const el = await fixture<NysGlobalFooter>(html`
+      <nys-globalfooter agencyName="Test">
+        <ul>
+          <li>
+            <span>About</span>
+            <ul>
+              <li><a href="https://its.ny.gov">Home</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nys-globalfooter>
+    `);
+    await el.updateComplete;
+
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

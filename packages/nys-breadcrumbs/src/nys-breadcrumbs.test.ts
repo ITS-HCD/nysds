@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-breadcrumbs.js";
 import { NysBreadcrumbs } from "./nys-breadcrumbs.js";
 
@@ -729,5 +730,18 @@ describe("nys-breadcrumbs", () => {
       </nys-breadcrumbs>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

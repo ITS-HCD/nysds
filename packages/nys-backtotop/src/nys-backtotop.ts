@@ -1,6 +1,10 @@
 import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the button
+// itself), so it must be registered whenever nys-backtotop is used. Importing
+// it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-backtotop.scss?inline";
 

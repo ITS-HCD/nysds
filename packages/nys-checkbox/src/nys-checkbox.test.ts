@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-checkbox.js";
 import { NysCheckbox } from "./nys-checkbox";
 import { NysCheckboxgroup } from "./nys-checkboxgroup";
@@ -963,5 +964,14 @@ describe("nys-checkbox error association", () => {
     const input = el.shadowRoot!.querySelector("input")!;
     expect(input.getAttribute("aria-invalid")).to.equal("false");
     expect(input.hasAttribute("aria-describedby")).to.equal(false);
+  });
+});
+
+describe("nys-checkbox self-registration", () => {
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="Test" checked other></nys-checkbox>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

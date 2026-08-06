@@ -1,4 +1,5 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-dropdownmenu.js";
 import { NysDropdownMenu } from "./nys-dropdownmenu";
 import { NysDropdownMenuItem } from "./nys-dropdownmenuitem";
@@ -408,5 +409,15 @@ describe("nys-dropdownmenuitem", () => {
     `);
     await el.updateComplete;
     expect(el.id).to.equal("custom-item-id");
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysDropdownMenuItem>(
+      html`<nys-dropdownmenuitem
+        label="Action"
+        prefixIcon="check"
+      ></nys-dropdownmenuitem>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

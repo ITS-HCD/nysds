@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-toggle.js";
 import { NysToggle } from "./nys-toggle";
 
@@ -771,5 +772,12 @@ describe("nys-toggle", () => {
         `prefers-reduced-motion must zero ${prop}, not a differently named property`,
       ).to.equal(true);
     });
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle label="Test"></nys-toggle>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

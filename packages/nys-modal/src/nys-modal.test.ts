@@ -1,4 +1,5 @@
 import { expect, html, fixture, nextFrame } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-modal.js";
 import { NysModal } from "./nys-modal.js";
 
@@ -480,5 +481,12 @@ describe("nys-modal", () => {
     // Stale handler would have closed the (still-open) modal and fired nys-close.
     expect(closeFired).to.be.false;
     expect(event.defaultPrevented).to.be.false;
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

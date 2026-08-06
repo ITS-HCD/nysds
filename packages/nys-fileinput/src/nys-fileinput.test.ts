@@ -1,10 +1,16 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-fileinput.js";
 import { NysFileinput } from "./nys-fileinput";
 import { NysFileItem } from "./nys-fileitem";
-import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+// nys-fileinput/nys-fileitem's self-registration of these two is fixed on
+// fix/a11y-arialabel-sweep (not this branch) — kept here so the
+// self-registration tests below are meaningful on this branch standalone.
+// Safe to drop once that branch merges and the components import them
+// themselves.
+import "@nysds/nys-icon";
 import "@nysds/nys-button";
 
 describe("nys-fileinput", () => {
@@ -925,6 +931,22 @@ describe("nys-fileinput", () => {
       const idA = a.shadowRoot!.querySelector(".file-item__error")!.id;
       const idB = b.shadowRoot!.querySelector(".file-item__error")!.id;
       expect(idA).to.not.equal(idB);
+    });
+  });
+
+  describe("self-registration", () => {
+    it("registers every nys-* element nys-fileinput renders", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput label="Test"></nys-fileinput>`,
+      );
+      expect(findUnregisteredChildren(el)).to.deep.equal([]);
+    });
+
+    it("registers every nys-* element nys-fileitem renders", async () => {
+      const el = await fixture(
+        html`<nys-fileitem filename="test.pdf" status="done"></nys-fileitem>`,
+      );
+      expect(findUnregisteredChildren(el)).to.deep.equal([]);
     });
   });
 });

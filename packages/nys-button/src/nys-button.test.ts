@@ -1,7 +1,11 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysButton } from "./nys-button";
+// nys-button.ts imports nys-icon itself as a side effect (rendered as the
+// default prefix/suffix/circle icon content) — do not re-import it here. A
+// test-file-only import would mask a regression where that self-import is
+// removed from the component (see #1819 / findUnregisteredChildren below).
 import "../dist/nys-button.js";
-import "@nysds/nys-icon";
 
 describe("nys-button", () => {
   it("renders the component", async () => {
@@ -858,5 +862,14 @@ describe("nys-button internals migration", () => {
       const inner = el.shadowRoot!.querySelector("a.nys-button")!;
       expect(inner.getAttribute("aria-current")).to.equal("page");
     });
+  });
+});
+
+describe("nys-button self-registration", () => {
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Test" prefixIcon="check"></nys-button>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

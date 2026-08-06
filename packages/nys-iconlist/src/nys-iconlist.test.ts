@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-iconlist.js";
 import { NysIconlist } from "./nys-iconlist.js";
 import { NysIconlistitem } from "./nys-iconlistitem.js";
@@ -214,5 +215,12 @@ describe("nys-iconlistitem", () => {
     expect(a.id).to.not.be.empty;
     expect(b.id).to.not.be.empty;
     expect(a.id).to.not.equal(b.id);
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysIconlistitem>(
+      html`<nys-iconlistitem icon="check">Test</nys-iconlistitem>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

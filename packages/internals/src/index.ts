@@ -26,3 +26,7 @@ export {
   NysFormControlElement,
   type FormControlInterface,
 } from "./form-control-mixin";
+// Test-only DOM-walking utility (regression guard for #1819). Harmless to
+// export from the main entry point: nothing in production component source
+// imports it, so bundlers tree-shake it out of every component's own build.
+export { findUnregisteredChildren } from "./test-helpers";

@@ -1,9 +1,16 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-table.js";
 import { NysTable } from "./nys-table.js";
 import "@nysds/nys-icon";
 import "@nysds/nys-button";
 import sinon from "sinon";
+// nys-table's self-registration of these two is fixed on
+// fix/a11y-arialabel-sweep (not this branch) — kept here so the
+// self-registration test below is meaningful on this branch standalone. Safe
+// to drop once that branch merges and nys-table.ts imports them itself.
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 describe("nys-table", () => {
   it("renders the component", async () => {
@@ -555,5 +562,24 @@ describe("nys-table", () => {
     btn.addEventListener("click", spy);
     btn.click();
     expect(spy.calledOnce).to.be.true;
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable download="data.csv">
+        <table>
+          <caption>
+            Test table
+          </caption>
+          <tr>
+            <th>col 1</th>
+          </tr>
+          <tr>
+            <td>data 1</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

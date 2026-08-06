@@ -1,6 +1,10 @@
 import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the disclosure
+// chevron), so it must be registered whenever nys-verticalnavgroup is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
 

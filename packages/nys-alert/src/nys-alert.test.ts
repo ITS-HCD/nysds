@@ -1,6 +1,11 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysAlert } from "./nys-alert";
 import "../dist/nys-alert.js";
+// nys-alert's self-registration of these children is fixed on
+// fix/a11y-arialabel-sweep (not this branch) — kept here so the
+// self-registration test below is meaningful on this branch standalone.
+// Safe to drop once that branch merges and nys-alert.ts imports them itself.
 import "@nysds/nys-button";
 import "@nysds/nys-icon";
 
@@ -323,6 +328,13 @@ describe("nys-alert", () => {
       html`<nys-textinput label="First Name"></nys-textinput>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysAlert>(
+      html`<nys-alert heading="Test" dismissible></nys-alert>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });
 
