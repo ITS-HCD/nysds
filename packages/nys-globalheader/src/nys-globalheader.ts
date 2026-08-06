@@ -16,6 +16,44 @@ const CURRENT_SELECTOR = "[aria-current]:not([aria-current='false'])";
 const isCurrent = (el: Element) => el.matches(CURRENT_SELECTOR);
 
 /**
+ * Elements that can take keyboard focus inside the open mobile menu.
+ *
+ * The menu only ever contains author-slotted navigation markup (cloned into the
+ * shadow root) plus the toggle, so this list stays deliberately narrow — it is
+ * not a general-purpose tabbable query. `nys-modal` keeps its own copy of a
+ * similar list; neither `@nysds/internals` nor any other package exposes a
+ * shared focus-trap helper today, and extracting one would mean re-testing the
+ * modal's trap, which is out of scope for this fix.
+ */
+const FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "area[href]",
+  "button:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  '[tabindex]:not([tabindex^="-"])',
+].join(", ");
+
+/** Class of the mobile menu toggle, shared by the trap and the focus restore. */
+const MENU_BUTTON_SELECTOR = ".nys-globalheader__mobile-menu-button";
+
+/**
+ * The width at which the mobile menu and its toggle stop being rendered. Must stay
+ * in step with the `@media (width >= 1024px)` block in nys-globalheader.scss —
+ * above it there is no menu to trap focus inside of.
+ */
+const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
+
+/**
+ * Rendered and therefore actually focusable. Above the mobile breakpoint the menu
+ * and its toggle are `display: none`, so a stale open state must not let the trap
+ * call `focus()` on something that cannot take it — that would swallow Tab and
+ * strand the user.
+ */
+const isFocusable = (el: HTMLElement) => el.getClientRects().length > 0;
+
+/**
  * Agency-branded header with app/agency name, navigation, and responsive mobile menu.
  *
  * Place below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links
@@ -26,6 +64,12 @@ const isCurrent = (el: Element) => el.matches(CURRENT_SELECTOR);
  *
  * @summary Agency header with navigation, mobile menu, and active link highlighting.
  * @element nys-globalheader
+ *
+ * @accessibility
+ * - The mobile menu toggle is a real `<button>` carrying `aria-expanded` and
+ *   `aria-controls` pointing at the mobile navigation.
+ * - While the mobile menu is open, Tab and Shift+Tab cycle within the toggle and
+ *   the menu's links; Escape closes the menu and returns focus to the toggle.
  *
  * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
  * @slot user-actions - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
@@ -144,6 +188,13 @@ export class NysGlobalHeader extends NysElement {
   private _authorSetsCurrent = false;
 
   /**
+   * Watches for the viewport growing past the mobile breakpoint. The menu and its
+   * toggle are `display: none` there, so an open menu that survived a resize would
+   * leave the focus trap guarding elements nobody can reach.
+   */
+  private _desktopMedia = window.matchMedia(DESKTOP_MEDIA_QUERY);
+
+  /**
    * Lifecycle Methods
    * --------------------------------------------------------------------------
    */
@@ -155,6 +206,13 @@ export class NysGlobalHeader extends NysElement {
     // navigation landmark on the inner <nav> elements, so this component keeps
     // defaultRole = null and never moves a landmark role onto the host.
     super.connectedCallback();
+
+    // Registered here rather than in firstUpdated so a header that is detached
+    // and re-attached keeps its Escape handling and focus trap: firstUpdated
+    // only ever runs once.
+    document.addEventListener("click", this._boundClickOutside);
+    document.addEventListener("keydown", this._boundKeyDown);
+    this._desktopMedia.addEventListener("change", this._boundBreakpointChange);
   }
 
   firstUpdated() {
@@ -163,14 +221,16 @@ export class NysGlobalHeader extends NysElement {
     this._handleListSlotChange(); // run once at startup
 
     this._listenLinkClicks();
-    document.addEventListener("click", this._boundClickOutside);
-    document.addEventListener("keydown", this._boundKeyDown);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("click", this._boundClickOutside);
     document.removeEventListener("keydown", this._boundKeyDown);
+    this._desktopMedia.removeEventListener(
+      "change",
+      this._boundBreakpointChange,
+    );
   }
 
   /**
@@ -286,6 +346,99 @@ export class NysGlobalHeader extends NysElement {
     this._isMobileMenuOpen = !this._isMobileMenuOpen;
   }
 
+  /** The toggle, which is both the trap's first stop and where focus returns. */
+  private get _menuButton(): HTMLElement | null {
+    return (
+      this.shadowRoot?.querySelector<HTMLElement>(MENU_BUTTON_SELECTOR) ?? null
+    );
+  }
+
+  private get _mobileNav(): HTMLElement | null {
+    return (
+      this.shadowRoot?.querySelector<HTMLElement>(
+        ".nys-globalheader__content-mobile",
+      ) ?? null
+    );
+  }
+
+  /**
+   * Closes the mobile menu.
+   *
+   * `restoreFocus` moves focus back to the toggle, which is required whenever the
+   * menu is dismissed by keyboard: the closed menu is `display: none`, so focus
+   * sitting on one of its links would otherwise be dropped to the top of the
+   * document (WCAG 2.4.3 Focus Order). A click outside is a pointer gesture that
+   * lands somewhere the user chose, so that path leaves focus alone.
+   */
+  private _closeMobileMenu(restoreFocus = false) {
+    if (!this._isMobileMenuOpen) return;
+    this._isMobileMenuOpen = false;
+    if (!restoreFocus) return;
+
+    this.updateComplete.then(() => this._menuButton?.focus());
+  }
+
+  /**
+   * Toggle first, then the menu's own links — the tab order a sighted keyboard
+   * user sees, so the trap cycles in the order the menu reads.
+   */
+  private _focusableMenuElements(): HTMLElement[] {
+    const nav = this._mobileNav;
+    const items = nav
+      ? Array.from(nav.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
+      : [];
+
+    return [this._menuButton, ...items].filter(
+      (el): el is HTMLElement => !!el && isFocusable(el),
+    );
+  }
+
+  /**
+   * The focused element, but only when it is one of the menu's own stops.
+   *
+   * `document.activeElement` reports the host for anything focused inside this
+   * shadow root, so the shadow root's own `activeElement` is what identifies the
+   * real stop.
+   */
+  private _activeMenuElement(focusable: HTMLElement[]): HTMLElement | null {
+    const active = this.shadowRoot?.activeElement as HTMLElement | null;
+    return active && focusable.includes(active) ? active : null;
+  }
+
+  /**
+   * Keeps Tab / Shift+Tab inside the open mobile menu (#1101).
+   *
+   * The open menu covers the page, so tabbing out of it silently moves focus to
+   * content the user cannot see (WCAG 2.4.3, 2.1.2). Wrapping at both ends keeps
+   * every stop reachable, and Escape (handled alongside this) is the documented
+   * way out.
+   */
+  private _trapMobileMenuFocus(event: KeyboardEvent) {
+    const focusable = this._focusableMenuElements();
+    // Nothing focusable means nothing to trap — never swallow Tab in that case.
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = this._activeMenuElement(focusable);
+
+    // Focus is outside the menu entirely (browser chrome, another element on the
+    // page). Pull it back to the edge the keypress was heading toward.
+    if (!active) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+      return;
+    }
+
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   // Listens for click events on links to mark them active
   private _listenLinkClicks() {
     const containers = this.shadowRoot?.querySelectorAll(
@@ -384,15 +537,36 @@ export class NysGlobalHeader extends NysElement {
 
     const path = event.composedPath();
     if (!path.includes(this)) {
-      this._isMobileMenuOpen = false;
+      // Pointer dismissal: the click already decided where focus belongs.
+      this._closeMobileMenu();
     }
   };
 
-  private _boundKeyDown = (event: KeyboardEvent) => {
-    if (event.key !== "Escape" || !this._isMobileMenuOpen) return;
-    if (window.matchMedia("pointer: coarse").matches) return; // skip touch devices
+  /**
+   * Growing past the mobile breakpoint takes the menu off the page, so drop the
+   * open state with it. No focus restore: the toggle is gone too, and the resize
+   * was not a dismissal the user aimed at anything.
+   */
+  private _boundBreakpointChange = (event: MediaQueryListEvent) => {
+    if (event.matches) this._closeMobileMenu();
+  };
 
-    this._isMobileMenuOpen = false;
+  private _boundKeyDown = (event: KeyboardEvent) => {
+    if (!this._isMobileMenuOpen) return;
+
+    // Escape closes and hands focus back to the toggle. (The previous
+    // touch-device guard tested "pointer: coarse" without the required
+    // parentheses, so the query never matched and the branch was dead — and a
+    // device with no keyboard cannot send Escape in the first place.)
+    if (event.key === "Escape") {
+      event.preventDefault();
+      this._closeMobileMenu(true);
+      return;
+    }
+
+    if (event.key === "Tab") {
+      this._trapMobileMenuFocus(event);
+    }
   };
 
   render() {
