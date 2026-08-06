@@ -248,6 +248,40 @@ export type NysButtonProps = {
   "onnys-click"?: (e: CustomEvent<Event>) => void;
 };
 
+export type NysCardProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Appears above the heading text. */
+  preheading?: string;
+  /** Heading text in the card. */
+  heading?: string;
+  /** Heading level used for the card heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
+  /** Appears below the heading text. */
+  subheading?: string;
+  /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
+  description?: string;
+  /** When true, adds padding around the media to visually contain it. */
+  inset?: boolean;
+  /** When true, adds a drop shadow to the card, giving it a raised appearance. */
+  elevated?: boolean;
+  /** URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots
+free of other interactive elements when using this — nesting them inside the
+card control is invalid HTML and unreachable for keyboard and screen reader users. */
+  href?: string;
+  /** Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`. */
+  target?: "_self" | "_blank" | "_parent" | "_top" | "framename";
+  /** Click handler. Makes the whole card a single `<button>`. Use instead of
+`@click` to ensure keyboard accessibility. */
+  onClick?: ((event: Event) => void) | null;
+  /** Fired when an interactive card is activated (mouse or keyboard). */
+  "onnys-click"?: (e: CustomEvent<Event>) => void;
+  /** Fired when an interactive card receives focus. */
+  "onnys-focus"?: (e: CustomEvent<Event>) => void;
+  /** Fired when an interactive card loses focus. */
+  "onnys-blur"?: (e: CustomEvent<Event>) => void;
+};
+
 export type NysCheckboxProps = {
   /** Whether checkbox is checked. */
   checked?: boolean;
@@ -1270,6 +1304,28 @@ export type CustomElements = {
    * - **--nys-button-border-color--active** - Border color when active/pressed. _(default: undefined)_
    */
   "nys-button": Partial<NysButtonProps & BaseProps & BaseEvents>;
+
+  /**
+   * Flexible container that groups related content and actions about a single subject.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-click** - Fired when an interactive card is activated (mouse or keyboard).
+   * - **nys-focus** - Fired when an interactive card receives focus.
+   * - **nys-blur** - Fired when an interactive card loses focus.
+   *
+   * ### **Slots:**
+   *  - **preheading** - Content rendered above the heading block (e.g. a badge or label).
+   * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
+   * - **footer** - Content rendered at the footer of the card, typically actions like buttons or links.
+   * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
+   * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-card-height** - Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`). _(default: fit-content)_
+   */
+  "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 
   /**
    * Checkbox for binary choices or multi-select options.

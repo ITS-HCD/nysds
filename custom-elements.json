@@ -2848,6 +2848,540 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-card/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-card/src/nys-card"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-card/src/nys-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `preheading`, default, and\n`footer` slots to project custom markup such as buttons, lists, or links.",
+          "name": "NysCard",
+          "cssProperties": [
+            {
+              "description": "Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`).",
+              "name": "--nys-card-height",
+              "default": "fit-content"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Content rendered above the heading block (e.g. a badge or label).",
+              "name": "preheading"
+            },
+            {
+              "description": "Default slot for the card's main body. Use for rich content when the `description` property is not enough.",
+              "name": ""
+            },
+            {
+              "description": "Content rendered at the footer of the card, typically actions like buttons or links.",
+              "name": "footer"
+            },
+            {
+              "description": "Visual content displayed at the top of the card, typically an `<img>`.",
+              "name": "media"
+            },
+            {
+              "description": "Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.",
+              "name": "media-accent"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "preheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears above the heading text.",
+              "attribute": "preheading"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heading text in the card.",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the card heading (`h1` through `h6`).",
+              "attribute": "headingLevel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "subheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the heading text.",
+              "attribute": "subheading"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content.",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds padding around the media to visually contain it.",
+              "attribute": "inset"
+            },
+            {
+              "kind": "field",
+              "name": "elevated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
+              "attribute": "elevated",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots\nfree of other interactive elements when using this — nesting them inside the\ncard control is invalid HTML and unreachable for keyboard and screen reader users.",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+              },
+              "default": "\"_self\"",
+              "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
+              "attribute": "target",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "onClick",
+              "type": {
+                "text": "((event: Event) => void) | null"
+              },
+              "default": "null",
+              "description": "Click handler. Makes the whole card a single `<button>`. Use instead of\n`@click` to ensure keyboard accessibility."
+            },
+            {
+              "kind": "field",
+              "name": "_hasMedia",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_hasPreheadingSlot",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_accentMonth",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_accentDay",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "isClickable",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderHeading",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "readMediaAccent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "slot",
+                  "type": {
+                    "text": "HTMLSlotElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "hasSlotContent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "handleMediaSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handlePreheadingSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleMediaAccentSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleBlur",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-click",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when an interactive card is activated (mouse or keyboard)."
+            },
+            {
+              "name": "nys-focus",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when an interactive card receives focus."
+            },
+            {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when an interactive card loses focus."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "preheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears above the heading text.",
+              "fieldName": "preheading",
+              "propName": "preheading"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heading text in the card.",
+              "fieldName": "heading",
+              "propName": "heading"
+            },
+            {
+              "name": "headingLevel",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "\"h2\"",
+              "description": "Heading level used for the card heading (`h1` through `h6`).",
+              "fieldName": "headingLevel",
+              "propName": "headinglevel"
+            },
+            {
+              "name": "subheading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the heading text.",
+              "fieldName": "subheading",
+              "propName": "subheading"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content.",
+              "fieldName": "description",
+              "propName": "description"
+            },
+            {
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds padding around the media to visually contain it.",
+              "fieldName": "inset",
+              "propName": "inset"
+            },
+            {
+              "name": "elevated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "When true, adds a drop shadow to the card, giving it a raised appearance.",
+              "fieldName": "elevated",
+              "propName": "elevated"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots\nfree of other interactive elements when using this — nesting them inside the\ncard control is invalid HTML and unreachable for keyboard and screen reader users.",
+              "fieldName": "href",
+              "propName": "href"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+              },
+              "default": "\"_self\"",
+              "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
+              "fieldName": "target",
+              "propName": "target"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-card",
+          "customElement": true,
+          "summary": "Flexible container that groups related content and actions about a single subject.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Preheading",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\npreheading=\"Preheading\"\nheading=\"Heading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Heading Level",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nheadingLevel=\"h3\"\ndescription=\"Set the heading level to fit the page's heading hierarchy.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Subheading",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Media",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Inset Media",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Inset adds padding around the media to visually contain it.\"\ninset\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Media Accent",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n<div slot=\"media-accent\">\n<span>Oct</span>\n<span>16</span>\n</div>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Inset Media Accent",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image and a date accent.\"\ninset\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n<div slot=\"media-accent\">\n<span>Oct</span>\n<span>16</span>\n</div>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Elevated",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"Elevated adds a drop shadow to give the card a raised appearance.\"\nelevated\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Clickable",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nonclick=\"alert('you clicked me')\"\nheading=\"Heading\"\ndescription=\"The whole card is one button. To visually indicate this you should add the arrow icon to the footer slot.\"\n>\n<nys-icon slot=\"footer\" name=\"arrow_forward\" size=\"5xl\"></nys-icon>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Clickable Link",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nhref=\"https://www.ny.gov/\"\ntarget=\"_blank\"\nheading=\"Visit NY.gov\"\ndescription=\"The whole card is one link.  To visually indicate this you should add the arrow icon to the footer slot.\"\n>\n<nys-icon slot=\"footer\" name=\"open_in_new\" size=\"5xl\" style=\"justify-content: end;\"></nys-icon>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Footer Slot",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with actions in the footer slot.\">\n<nys-button slot=\"footer\" label=\"Learn more\"></nys-button>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Preheading Slot",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"Heading\" description=\"A card with content in the preheading slot.\">\n<nys-badge slot=\"preheading\" label=\"New\" intent=\"success\"></nys-badge>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Icon List",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card heading=\"What's included\">\n<nys-iconlist divider>\n<nys-iconlistitem icon=\"check\">First item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Second item</nys-iconlistitem>\n<nys-iconlistitem icon=\"check\">Third item</nys-iconlistitem>\n</nys-iconlist>\n</nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Stretch to Fill Column Height",
+              "code": "<div class=\"nys-grid-row nys-grid-gap\" style=\"--nys-card-height: 100%\">\n<div\nclass=\"nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex\"\n>\n<nys-card\nheading=\"Roosevelt Island Four Freedoms State Park\"\ndescription=\"A memorial park on Roosevelt Island dedicated to Franklin D. Roosevelt, featuring sweeping lawns, formal gardens, and panoramic views of the Manhattan and Queens waterfronts on all sides.\"\n>\n<img slot=\"media\" src=\"/assets/images/card/manhattan.png\" role=\"presentation\" />\n<nys-button slot=\"footer\" label=\"Visit Manhattan\" fullWidth></nys-button>\n</nys-card>\n</div>\n<div\nclass=\"nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex\"\n>\n<nys-card heading=\"Astoria Park\" description=\"A waterfront park.\">\n<img slot=\"media\" src=\"/assets/images/card/astoria.jpg\" role=\"presentation\" />\n<nys-button slot=\"footer\" label=\"Visit Queens\" fullWidth></nys-button>\n</nys-card>\n</div>\n<div\nclass=\"nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex\"\n>\n<nys-card heading=\"Brooklyn Bridge Park\" description=\"A park.\">\n<img slot=\"media\" src=\"/assets/images/card/brooklynbridge.png\" role=\"presentation\" />\n<nys-button slot=\"footer\" label=\"Visit Brooklyn\" fullWidth></nys-button>\n</nys-card>\n</div>\n</div>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-card",
+          "declaration": {
+            "name": "NysCard",
+            "module": "packages/nys-card/src/nys-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCard",
+          "declaration": {
+            "name": "NysCard",
+            "module": "packages/nys-card/src/nys-card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-checkbox/src/index.ts",
       "declarations": [],
       "exports": [
