@@ -44,7 +44,11 @@ import styles from "./nys-stepper.scss?inline";
  * - The compact counter is rendered as a `role="button"` with `aria-expanded` and a descriptive
  *   `aria-label` that announces the current step (e.g., "Expand step navigation. You are on Step 2 of 4").
  * - Keyboard: Enter or Space toggles the compact view.
- * - Each `nys-step` label is keyboard-focusable and activatable for navigable steps.
+ * - Steps are rendered inside an `<ol>` so assistive technology announces each step's position
+ *   and count (e.g. "2 of 4"). Each slotted `<nys-step>` carries `role="listitem"` since it
+ *   can't itself be a real `<li>`.
+ * - Navigable steps render as real `<button>` elements — keyboard-focusable and activatable
+ *   (Enter/Space) natively. Future (non-navigable) steps render as plain, non-interactive rows.
  * - Visual focus indicators are provided on all interactive elements.
  *
  * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
@@ -464,7 +468,9 @@ export class NysStepper extends NysElement {
             ? `${this.label} progress`
             : "Progress"}
         >
-          <slot class="nys-stepper__steps"></slot>
+          <ol class="nys-stepper__steps" role="list">
+            <slot></slot>
+          </ol>
         </nav>
       </div>
     `;

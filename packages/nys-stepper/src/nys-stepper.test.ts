@@ -177,6 +177,28 @@ describe("nys-stepper", () => {
     const nav = el.shadowRoot?.querySelector("nav");
     expect(nav?.getAttribute("aria-label")).to.equal("Progress");
   });
+
+  it("renders the steps inside an ordered list with list semantics", async () => {
+    const el = await fixture<NysStepper>(html`
+      <nys-stepper label="Application">
+        <nys-step label="Step 1" current selected></nys-step>
+        <nys-step label="Step 2"></nys-step>
+      </nys-stepper>
+    `);
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector("nav");
+    const list = el.shadowRoot?.querySelector(".nys-stepper__steps");
+    expect(list?.tagName.toLowerCase()).to.equal("ol");
+    expect(list?.getAttribute("role")).to.equal("list");
+    // The <ol> lives inside the <nav> landmark.
+    expect(nav?.contains(list as Node)).to.be.true;
+    // The <ol>'s only DOM child is the default <slot> that projects the
+    // <nys-step> elements — each <nys-step> host supplies role="listitem"
+    // itself (it can't be a real <li>).
+    const slot = list?.querySelector("slot");
+    expect(slot).to.exist;
+  });
 });
 
 describe("nys-step accessibility", () => {
@@ -188,7 +210,7 @@ describe("nys-step accessibility", () => {
     expect(el.id).to.match(/^nys-step-\d+-\d+$/);
   });
 
-  it("marks the current step with aria-current='step'", async () => {
+  it("marks the current step with aria-current='step' on the button", async () => {
     const el = await fixture<NysStep>(
       html`<nys-step label="Personal Info" current></nys-step>`,
     );
@@ -197,6 +219,7 @@ describe("nys-step accessibility", () => {
     const wrapper = el.shadowRoot?.querySelector(
       ".nys-step__contentwrapper",
     ) as HTMLElement;
+    expect(wrapper.tagName.toLowerCase()).to.equal("button");
     expect(wrapper.getAttribute("aria-current")).to.equal("step");
   });
 
@@ -221,8 +244,9 @@ describe("nys-step accessibility", () => {
     const wrapper = el.shadowRoot?.querySelector(
       ".nys-step__contentwrapper",
     ) as HTMLElement;
-    // The interactive element must be the row and must NOT be hidden.
-    expect(wrapper.getAttribute("role")).to.equal("button");
+    // The interactive element must be a real <button> (native role, no
+    // explicit role attribute needed) and must NOT be hidden.
+    expect(wrapper.tagName.toLowerCase()).to.equal("button");
     expect(wrapper.hasAttribute("aria-hidden")).to.be.false;
     // The label is no longer hidden or a redundant nested button.
     const label = el.shadowRoot?.querySelector(
@@ -232,17 +256,25 @@ describe("nys-step accessibility", () => {
     expect(label.hasAttribute("role")).to.be.false;
   });
 
-  it("makes navigable steps focusable and future steps inert", async () => {
+  it("renders navigable steps as a real <button> with no manual tabindex/aria-disabled scaffolding", async () => {
     const current = await fixture<NysStep>(
       html`<nys-step label="Step 1" current></nys-step>`,
     );
     await current.updateComplete;
     const currentWrapper = current.shadowRoot?.querySelector(
       ".nys-step__contentwrapper",
-    ) as HTMLElement;
-    expect(currentWrapper.getAttribute("tabindex")).to.equal("0");
-    expect(currentWrapper.getAttribute("aria-disabled")).to.equal("false");
+    ) as HTMLButtonElement;
 
+    expect(currentWrapper.tagName.toLowerCase()).to.equal("button");
+    expect(currentWrapper.getAttribute("type")).to.equal("button");
+    // Native <button> is focusable and enabled by default — no tabindex or
+    // aria-disabled bookkeeping required.
+    expect(currentWrapper.hasAttribute("tabindex")).to.be.false;
+    expect(currentWrapper.hasAttribute("aria-disabled")).to.be.false;
+    expect(currentWrapper.disabled).to.be.false;
+  });
+
+  it("renders future (non-navigable) steps as a plain, non-interactive element — not a fake-disabled button", async () => {
     const future = await fixture<NysStep>(
       html`<nys-step label="Step 2"></nys-step>`,
     );
@@ -250,8 +282,34 @@ describe("nys-step accessibility", () => {
     const futureWrapper = future.shadowRoot?.querySelector(
       ".nys-step__contentwrapper",
     ) as HTMLElement;
-    expect(futureWrapper.getAttribute("tabindex")).to.equal("-1");
-    expect(futureWrapper.getAttribute("aria-disabled")).to.equal("true");
+
+    expect(futureWrapper.tagName.toLowerCase()).to.equal("div");
+    expect(futureWrapper.hasAttribute("role")).to.be.false;
+    expect(futureWrapper.hasAttribute("tabindex")).to.be.false;
+    expect(futureWrapper.hasAttribute("aria-disabled")).to.be.false;
+    expect(futureWrapper.hasAttribute("disabled")).to.be.false;
+  });
+
+  it("activates a navigable step by clicking the real button (native Enter/Space activation is a browser guarantee for <button>)", async () => {
+    const el = await fixture<NysStep>(
+      html`<nys-step label="Step" current></nys-step>`,
+    );
+    const button = el.shadowRoot?.querySelector(
+      ".nys-step__contentwrapper",
+    ) as HTMLButtonElement;
+
+    setTimeout(() => button.click(), 0);
+    const event = await oneEvent(el, "nys-step-click");
+    expect(event).to.exist;
+  });
+
+  it("gives the host role='listitem' so it participates in the stepper's <ol>", async () => {
+    const el = await fixture<NysStep>(
+      html`<nys-step label="Step 1" current></nys-step>`,
+    );
+    await el.updateComplete;
+
+    expect(el.getAttribute("role")).to.equal("listitem");
   });
 
   it("includes the step number in the accessible name when assigned", async () => {
