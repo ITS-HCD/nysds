@@ -1,0 +1,285 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Card Styles */
+  --_nys-card-width: 100%;
+  --_nys-card-height: var(
+    --nys-card-height,
+    fit-content
+  ); // set t0 100% for full height cards
+
+  --_nys-card-border-radius: var(--nys-radius-xl, 12px);
+  --_nys-card-border-radius--media: 0;
+  --_nys-card-padding--t: var(--nys-space-200, 16px);
+  --_nys-card-padding--x: var(--nys-space-300, 24px);
+  --_nys-card-padding--b: var(--nys-space-250, 20px);
+  --_nys-card-background-color: var(--nys-color-surface, #ffffff);
+  --_nys-card-gap: var(--nys-space-150, 12px);
+
+  /* Media */
+  --_nys-card-padding--media-inset: var(--nys-space-300, 24px);
+
+  /* Media Accent */
+  --_nys-card-size--media-accent: var(--nys-space-800, 64px);
+  --_nys-card-offset--media-accent: var(--nys-space-300, 24px);
+  --_nys-card-border-radius--media-accent: var(--nys-radius-xxl, 16px);
+  --_nys-card-background-color--media-accent: var(--nys-color-accent, #face00);
+
+  /* Clickable */
+  --_nys-card-cursor: pointer;
+  --_nys-card-border-color--hover: var(--nys-color-neutral-700, #4a4d4f);
+  --_nys-card-border-color--active: var(--nys-color-neutral-900, #1b1b1b);
+  --_nys-card-outline-color: var(--nys-color-focus, #004dd1);
+  --_nys-card-outline-width: var(--nys-border-width-md, 2px);
+  --_nys-card-outline-offset: var(--nys-space-2px, 2px);
+
+  /* Typography */
+  --_nys-card-color: var(--nys-color-text-weak, #4a4d4f);
+
+  /* UI/Medium/Regular */
+  --_nys-card-font-family: var(--nys-font-family-ui, "Proxima Nova");
+  --_nys-card-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-card-font-style: normal;
+  --_nys-card-font-weight: 400;
+  --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+  --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+
+  /* Width belongs on the host: it is the box the page lays out. As a flex item
+     the host is shrink-to-fit by default, and a percentage width inside the
+     shadow root cannot widen it — .nys-card only fills whatever lands here. */
+  display: block;
+  width: var(--_nys-card-width);
+  max-width: 100%;
+}
+
+/* The host's own `display` beats the `hidden` attribute's UA rule, so restore it. */
+:host([hidden]) {
+  display: none;
+}
+
+:host([inset]) {
+  --_nys-card-border-radius--media: var(--nys-radius-md, 4px);
+
+  .nys-card__media-container {
+    padding: var(--_nys-card-padding--media-inset)
+      var(--_nys-card-padding--media-inset) 0;
+  }
+
+  /* Keep the accent inset from the media, not the padded container */
+  .nys-card--media-accent {
+    right: calc(
+      var(--_nys-card-offset--media-accent) +
+        var(--_nys-card-padding--media-inset)
+    );
+  }
+}
+
+:host([elevated]) {
+  .nys-card {
+    box-shadow: var(--nys-shadow-raised);
+  }
+}
+
+.nys-card {
+  color: var(--_nys-card-color);
+  font-family: var(--_nys-card-font-family);
+  font-size: var(--_nys-card-font-size);
+  font-style: var(--_nys-card-font-style);
+  font-weight: var(--_nys-card-font-weight);
+  line-height: var(--_nys-card-line-height);
+  letter-spacing: var(--_nys-card-letter-spacing);
+  width: 100%;
+  height: var(--_nys-card-height);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+
+  border-radius: var(--_nys-card-border-radius);
+  border: var(--nys-border-width-sm, 1px) solid
+    var(--nys-color-neutral-200, #bec0c1);
+  background-color: var(--_nys-card-background-color);
+
+  overflow: hidden;
+
+  &__media-container {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: fit-content;
+
+    ::slotted([slot="media"]) {
+      display: block;
+      max-width: 100%;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: var(--_nys-card-border-radius--media);
+    }
+
+    .nys-card--media-accent {
+      position: absolute;
+      right: var(--_nys-card-offset--media-accent);
+      bottom: var(--_nys-card-offset--media-accent);
+      width: var(--_nys-card-size--media-accent);
+      height: var(--_nys-card-size--media-accent);
+      overflow: hidden;
+      background-color: var(--_nys-card-background-color--media-accent);
+      border-radius: var(--_nys-card-border-radius--media-accent);
+
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+
+      // text styles
+      color: var(--nys-color-text);
+      font-family: var(--nys-font-family-ui, "Proxima Nova");
+      font-style: normal;
+      font-weight: 700;
+
+      &[hidden] {
+        display: none;
+      }
+
+      &-month {
+        padding: 0;
+        margin: 0;
+
+        /* UI Single Line/Medium/Bold */
+        font-size: var(--nys-font-size-ui-md, 16px);
+        line-height: var(--nys-font-size-ui-md, 16px); /* 100% */
+        letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+      }
+
+      &-day {
+        padding: 0;
+        margin: 0;
+
+        /* UI Single Line/Extra Large/Bold */
+        font-size: var(--nys-font-size-ui-xl, 20px);
+        line-height: var(--nys-font-size-ui-xl, 20px); /* 100% */
+        letter-spacing: var(--nys-font-letterspacing-ui-xl, 0.017px);
+      }
+    }
+  }
+
+  &__main-content {
+    margin: var(--_nys-card-padding--t) var(--_nys-card-padding--x)
+      var(--_nys-card-padding--b);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--_nys-card-gap);
+
+    /* Absorb any height the card gains beyond its content, so the growth lands
+       at the default slot rather than below the footer. No-op at fit-content. */
+    flex: 1 1 auto;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+  }
+
+  &__preheading {
+    padding: 0;
+    margin: 0;
+
+    color: var(--nys-color-text-weak, #4a4d4f);
+
+    /* UI/Medium/Bold */
+    font-family: var(--nys-font-family-ui, "Proxima Nova");
+    font-size: var(--nys-font-size-ui-md, 16px);
+    font-style: normal;
+    font-weight: 700;
+    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+  }
+
+  &__heading {
+    padding: 0;
+    margin: 0;
+
+    color: var(--nys-color-text);
+
+    /* UI/Heading/Heading 2/Bold */
+    font-family: var(--nys-font-family-heading, "Proxima Nova");
+    font-size: var(--nys-font-size-h2, 28px);
+    font-style: normal;
+    font-weight: 700;
+    line-height: var(--nys-font-lineheight-h2, 36px); /* 128.571% */
+    letter-spacing: var(--nys-font-letterspacing-h2, 0.013px);
+  }
+
+  &__subheading {
+    padding: 0;
+    margin: 0;
+
+    overflow: hidden;
+    color: var(--nys-color-text-weak, #4a4d4f);
+    text-overflow: ellipsis;
+
+    /* UI/Large/Semibold */
+    font-family: var(--nys-font-family-ui, "Proxima Nova");
+    font-size: var(--nys-font-size-ui-lg, 18px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--nys-font-lineheight-ui-lg, 28px); /* 155.556% */
+    letter-spacing: var(--nys-font-letterspacing-ui-lg, 0.028px);
+  }
+
+  &__description {
+    padding: 0;
+    margin: 0;
+
+    color: var(--nys-color-text-weak, #4a4d4f);
+
+    /* UI/Medium/Regular */
+    font-family: var(--nys-font-family-ui, "Proxima Nova");
+    font-size: var(--nys-font-size-ui-md, 16px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+  }
+
+  &__footer {
+    display: contents;
+  }
+}
+
+/* The whole card is a single <button> or <a>: strip the UA styling so it still
+   looks like a card, and give it the interactive states a control needs. */
+.nys-card--clickable {
+  appearance: none;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  cursor: var(--_nys-card-cursor);
+
+  &:hover {
+    border-color: var(--_nys-card-border-color--hover);
+  }
+
+  &:active {
+    border-color: var(--_nys-card-border-color--active);
+  }
+
+  &:focus-visible {
+    outline: solid var(--_nys-card-outline-width) var(--_nys-card-outline-color);
+    outline-offset: var(--_nys-card-outline-offset);
+  }
+}
+
+::slotted([slot="preheading"]) {
+  display: flex;
+  flex-direction: row;
+}
+
+::slotted([slot="footer"]) {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: fill-available;
+  display: flex;
+  flex-direction: row;
+  margin: 0 var(--_nys-card-padding--x) var(--nys-space-300);
+}

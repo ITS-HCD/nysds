@@ -1,9 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tooltip.scss?inline";
-
-let tooltipIdCounter = 0;
 
 /**
  * Shows contextual help text on hover/focus. Auto-positions to stay within viewport and supports keyboard dismiss.
@@ -59,7 +58,7 @@ let tooltipIdCounter = 0;
  * ```
  */
 
-export class NysTooltip extends LitElement {
+export class NysTooltip extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -123,12 +122,12 @@ export class NysTooltip extends LitElement {
   }
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an id when one
+    // is not provided, preserving the "nys-tooltip-<ts>-<n>" shape. The
+    // role="tooltip" intentionally stays on the inner .nys-tooltip__content
+    // element (so the tooltip bubble — not the host — is the described-by
+    // target), so this component keeps defaultRole = null.
     super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = `nys-tooltip-${Date.now()}-${tooltipIdCounter++}`;
-    }
 
     window.addEventListener("keydown", this._handleEscapeKey);
   }
@@ -158,6 +157,7 @@ export class NysTooltip extends LitElement {
     if (!ref || !tooltip) return;
 
     this.applyInverseTransform();
+    this._associateTrigger(ref);
     this._applyTooltipPropToFormComponent(ref);
 
     if (
@@ -338,16 +338,50 @@ export class NysTooltip extends LitElement {
     return findInShadows(document);
   }
 
+  /**
+   * Programmatically associates the trigger with the tooltip via
+   * `aria-describedby`, per the WAI-ARIA Tooltip pattern. The tooltip bubble
+   * (`.nys-tooltip__content`) carries `role="tooltip"` and `id={this.id}`, so we
+   * point the trigger's `aria-describedby` at that id. Preserves any existing
+   * `aria-describedby` tokens the consumer already set, and avoids duplicates.
+   */
+  private _associateTrigger(el: HTMLElement) {
+    if (!this.text?.trim()) return;
+    const existing = (el.getAttribute("aria-describedby") || "")
+      .split(/\s+/)
+      .filter(Boolean);
+    if (!existing.includes(this.id)) {
+      existing.push(this.id);
+      el.setAttribute("aria-describedby", existing.join(" "));
+    }
+  }
+
   // We need to pass `ariaLabel` or `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
   private async _passAria(el: HTMLElement) {
     const tagName = el.tagName.toLowerCase();
 
     if (tagName === "nys-icon") {
-      // For nys-icon, use ariaLabel instead
+      // nys-icon has a real `ariaLabel` property whose default Lit attribute
+      // name ("arialabel") matches what setAttribute("ariaLabel", ...)
+      // actually writes, so this reaches the icon's rendered <svg>.
       el.setAttribute("ariaLabel", `Hint: ${this.text}`);
     } else if (tagName === "nys-button") {
-      // For other components like nys-button, use ariaDescription
-      el.setAttribute("ariaDescription", `, Hint: ${this.text}`);
+      // nys-button has no ariaLabel/ariaDescription prop, so setAttribute here
+      // reached nothing — and setting the plain aria-describedby *attribute*
+      // (what _associateTrigger does above) doesn't reach it either, since the
+      // host has no role and never maps its own light-DOM ARIA into the
+      // internal <button>. Route through the real `ariaDescribedBy` *property*
+      // instead, pointing at this tooltip's own id — the same id
+      // _associateTrigger already builds toward — so nys-button renders a
+      // working aria-describedby on its real internal <button>.
+      const button = el as unknown as { ariaDescribedBy?: string };
+      const existing = (button.ariaDescribedBy || "")
+        .split(/\s+/)
+        .filter(Boolean);
+      if (!existing.includes(this.id)) {
+        existing.push(this.id);
+        button.ariaDescribedBy = existing.join(" ");
+      }
     }
   }
 

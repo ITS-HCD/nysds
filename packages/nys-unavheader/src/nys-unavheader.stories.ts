@@ -1,6 +1,9 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-unavheader";
+import "@nysds/nys-alert";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 import "@nysds/nys-textinput";
 
 const meta: Meta = {
@@ -22,6 +25,7 @@ export const Basic: Story = {
     hideTranslate: false,
     hideSearch: false,
     searchUrl: "",
+    landmarkLabel: "New York State",
   },
   render: (args) => {
     return html`
@@ -29,6 +33,7 @@ export const Basic: Story = {
         ?hideTranslate=${args.hideTranslate}
         ?hideSearch=${args.hideSearch}
         searchUrl=${args.searchUrl}
+        landmarkLabel=${args.landmarkLabel}
       ></nys-unavheader>
     `;
   },
@@ -67,6 +72,25 @@ export const HideTranslate: Story = {
       source: {
         code: `
 <nys-unavheader hideTranslate></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomLandmarkLabel: Story = {
+  render: () => {
+    return html`
+      <!-- Renames the banner landmark. Keep it distinct from the agency header's. -->
+      <nys-unavheader landmarkLabel="Statewide"></nys-unavheader>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<!-- Renames the banner landmark. Keep it distinct from the agency header's. -->
+<nys-unavheader landmarkLabel="Statewide"></nys-unavheader>`,
         type: "auto",
       },
     },

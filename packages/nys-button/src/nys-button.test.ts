@@ -1,7 +1,11 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysButton } from "./nys-button";
+// nys-button.ts imports nys-icon itself as a side effect (rendered as the
+// default prefix/suffix/circle icon content) — do not re-import it here. A
+// test-file-only import would mask a regression where that self-import is
+// removed from the component (see #1819 / findUnregisteredChildren below).
 import "../dist/nys-button.js";
-import "@nysds/nys-icon";
 
 describe("nys-button", () => {
   it("renders the component", async () => {
@@ -22,13 +26,17 @@ describe("nys-button", () => {
     expect(el?.type).to.equal("button");
   });
 
-  it("should have role='button' for screen readers", async () => {
+  it("exposes button semantics to screen readers without a redundant role", async () => {
+    // WCAG fix: the native <button> carries its implicit role; an explicit
+    // role="button" was removed as redundant. The element must still be a
+    // <button> (implicit role) and must not re-declare the role.
     const el = await fixture<NysButton>(
       html`<nys-button label="Accessible Button"></nys-button>`,
     );
     const button = el.shadowRoot?.querySelector("button, a")!;
 
-    expect(button.getAttribute("role")).to.equal("button");
+    expect(button.tagName.toLowerCase()).to.equal("button");
+    expect(button.hasAttribute("role")).to.be.false;
   });
 
   it("should reflect 'label' prop", async () => {
@@ -41,18 +49,19 @@ describe("nys-button", () => {
     expect(label?.textContent).to.equal("Click Me");
   });
 
-  it("uses ariaLabel when provided", async () => {
+  it("sets aria-describedby when ariaDescribedBy is provided", async () => {
     const el = await fixture(
-      html`<nys-button ariaLabel="Custom label"></nys-button>`,
+      html`<nys-button label="Save" ariaDescribedBy="help-text"></nys-button>`,
     );
     const button = el.shadowRoot?.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("Custom label");
+    expect(button.getAttribute("aria-describedby")).to.equal("help-text");
   });
 
-  it('VO falls back to "button" if neither ariaLabel nor label is provided', async () => {
-    const el = await fixture(html`<nys-button></nys-button>`);
+  it("does not set aria-label or aria-describedby by default", async () => {
+    const el = await fixture(html`<nys-button label="Save"></nys-button>`);
     const button = el.shadowRoot?.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("button");
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    expect(button.hasAttribute("aria-describedby")).to.be.false;
   });
 
   it("should trigger click event only once", async () => {
@@ -80,7 +89,6 @@ describe("nys-button", () => {
 
     const button = el.shadowRoot?.querySelector("button")!;
     expect(button.disabled).to.be.true;
-    expect(button.getAttribute("tabindex")).to.equal("-1");
   });
 
   it("calls preventDefault when disabled", async () => {
@@ -126,12 +134,14 @@ describe("nys-button", () => {
     expect(el.circle).to.be.true;
   });
 
-  it("uses the label as aria-label when circle is true)", async () => {
+  it("renders the label as visually hidden text when circle is true", async () => {
     const el = await fixture<NysButton>(
-      html`<nys-button circle label="Close"></nys-button>`,
+      html`<nys-button circle icon="close" label="Close"></nys-button>`,
     );
-    const button = el.shadowRoot?.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("Close");
+    const text = el.shadowRoot?.querySelector(".nys-button__text")!;
+    expect(text).to.exist;
+    expect(text.classList.contains("sr-only")).to.be.true;
+    expect(text.textContent?.trim()).to.equal("Close");
   });
 
   it("should render prefix and suffix icons as props", async () => {
@@ -570,12 +580,13 @@ describe("NysButton keyboard support", () => {
     expect(clicked).to.be.false;
   });
 
-  it("uses label if ariaLabel not provided", async () => {
+  it("derives its accessible name from the rendered label text", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Label Only"></nys-button>`,
     );
     const button = el.shadowRoot!.querySelector("button")!;
-    expect(button.getAttribute("aria-label")).to.equal("Label Only");
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    expect(button.textContent).to.include("Label Only");
   });
 
   it("focus() falls back to host if renderRoot.querySelector returns null", async () => {
@@ -674,5 +685,191 @@ describe("NysButton keyboard support", () => {
     expect((window as any).__testClicked).to.be.true;
 
     delete (window as any).__testClicked;
+  });
+});
+
+// Regression tests for the @nysds/internals migration + seeded WCAG fixes.
+describe("nys-button internals migration", () => {
+  it("native button derives its accessible name from label (no redundant role)", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Save Changes"></nys-button>`,
+    );
+    const button = el.shadowRoot!.querySelector("button.nys-button")!;
+
+    // Accessible name comes from the rendered label text, not a synthetic
+    // aria-label duplicating it.
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    expect(button.textContent).to.include("Save Changes");
+    // Implicit <button> role only; the redundant explicit role was removed.
+    expect(button.hasAttribute("role")).to.be.false;
+  });
+
+  it("relies on native disabled, not a redundant aria-disabled, on the button", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Disabled" disabled></nys-button>`,
+    );
+    const button =
+      el.shadowRoot!.querySelector<HTMLButtonElement>("button.nys-button")!;
+
+    expect(button.disabled).to.be.true;
+    // Native disabled conveys the state; aria-disabled was removed as redundant.
+    expect(button.hasAttribute("aria-disabled")).to.be.false;
+  });
+
+  it("exposes ElementInternals via the mixin (internals, not _internals)", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Btn"></nys-button>`,
+    );
+    expect((el as any).internals).to.exist;
+    expect((el.constructor as typeof NysButton).formAssociated).to.be.true;
+  });
+
+  it("participates in a <form> and routes submit through internals.form", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+
+    const submitBtn = await fixture<NysButton>(
+      html`<nys-button type="submit" label="Submit"></nys-button>`,
+    );
+    form.appendChild(submitBtn);
+
+    // The mixin's ElementInternals must resolve the owning form.
+    expect((submitBtn as any).internals.form).to.equal(form);
+
+    let submitted = false;
+    form.requestSubmit = () => {
+      submitted = true;
+    };
+
+    const btnEl =
+      submitBtn.shadowRoot!.querySelector<HTMLButtonElement>(
+        "button.nys-button",
+      )!;
+    btnEl.click();
+    await submitBtn.updateComplete;
+
+    expect(submitted).to.be.true;
+
+    document.body.removeChild(form);
+  });
+
+  // Regression: #1794 — a custom element with no role does not map its ARIA
+  // into the accessibility tree, and host ARIA does not cross the shadow
+  // boundary. Disclosure state has to be forwarded to the real <button>/<a>.
+  describe("aria-expanded forwarding", () => {
+    it("forwards ariaExpanded to the internal <button>", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button
+          label="Here's how you know"
+          ariaExpanded="false"
+          ariaControls="trust-bar"
+        ></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-expanded")).to.equal("false");
+      expect(inner.getAttribute("aria-controls")).to.equal("trust-bar");
+    });
+
+    it("propagates state changes to the internal <button>", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="Toggle" ariaExpanded="false"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-expanded")).to.equal("false");
+
+      el.ariaExpanded = "true";
+      await el.updateComplete;
+      expect(inner.getAttribute("aria-expanded")).to.equal("true");
+    });
+
+    it("omits aria-expanded entirely when unset", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="Plain"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.hasAttribute("aria-expanded")).to.equal(false);
+    });
+
+    it("forwards ariaExpanded to the internal <a> when href is set", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button
+          label="Menu"
+          href="#menu"
+          ariaExpanded="true"
+        ></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("a.nys-button")!;
+      expect(inner.getAttribute("aria-expanded")).to.equal("true");
+    });
+  });
+
+  // Regression: #1104 — same shape as the disclosure state above. A pagination
+  // control marks its current page on the host; that never reaches the <button>
+  // assistive tech actually interacts with unless the component forwards it.
+  describe("aria-current forwarding", () => {
+    it("forwards ariaCurrent to the internal <button>", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="3" ariaCurrent="page"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-current")).to.equal("page");
+    });
+
+    it("drops aria-current from the internal <button> when cleared", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="3" ariaCurrent="page"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.getAttribute("aria-current")).to.equal("page");
+
+      el.ariaCurrent = "";
+      await el.updateComplete;
+      expect(inner.hasAttribute("aria-current")).to.equal(false);
+    });
+
+    it("omits aria-current entirely when unset", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button label="Plain"></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("button.nys-button")!;
+      expect(inner.hasAttribute("aria-current")).to.equal(false);
+    });
+
+    it("forwards ariaCurrent to the internal <a> when href is set", async () => {
+      const el = await fixture<NysButton>(
+        html`<nys-button
+          label="Help"
+          href="/help"
+          ariaCurrent="page"
+        ></nys-button>`,
+      );
+      await el.updateComplete;
+
+      const inner = el.shadowRoot!.querySelector("a.nys-button")!;
+      expect(inner.getAttribute("aria-current")).to.equal("page");
+    });
+  });
+});
+
+describe("nys-button self-registration", () => {
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Test" prefixIcon="check"></nys-button>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

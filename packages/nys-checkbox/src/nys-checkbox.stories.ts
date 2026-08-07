@@ -2,8 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-checkbox";
 import "./nys-checkboxgroup";
-import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
 import "@nysds/nys-textinput";
 
 const meta: Meta = {
@@ -37,6 +38,8 @@ export const Basic: Story = {
     value: "adirondacks",
     other: false,
     showOtherError: false,
+    labelledby: "",
+    hideLabel: false,
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md"] },
@@ -63,6 +66,8 @@ export const Basic: Story = {
           ?disabled=${args.disabled}
           ?other=${args.other}
           ?showOtherError=${args.showOtherError}
+          labelledby=${args.labelledby}
+          ?hideLabel=${args.hideLabel}
         ></nys-checkbox>
         <nys-checkbox
           name="landmarks"

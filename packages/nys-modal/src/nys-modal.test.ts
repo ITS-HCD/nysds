@@ -1,6 +1,31 @@
-import { expect, html, fixture } from "@open-wc/testing";
+import { expect, html, fixture, nextFrame } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-modal.js";
 import { NysModal } from "./nys-modal.js";
+
+/**
+ * Resolve an element's accessible name the way the ARIA name computation does
+ * for the cases this component uses: aria-labelledby (the concatenated text of
+ * the referenced elements, resolved inside the same shadow root) takes
+ * precedence over aria-label. Returns "" when nothing resolves — which is
+ * exactly what a dangling IDREF produces in the accessibility tree, so this
+ * catches the regression where the heading is referenced but never rendered.
+ */
+function accessibleName(root: ShadowRoot, el: Element): string {
+  const ids = el.getAttribute("aria-labelledby");
+  if (ids) {
+    return ids
+      .trim()
+      .split(/\s+/)
+      .map((id) => root.getElementById(id)?.textContent?.trim() ?? "")
+      .filter(Boolean)
+      .join(" ");
+  }
+  return el.getAttribute("aria-label")?.trim() ?? "";
+}
+
+const getDialog = (el: NysModal) =>
+  el.shadowRoot!.querySelector('[role="dialog"]')!;
 
 describe("nys-modal", () => {
   it("renders the component", async () => {
@@ -84,7 +109,7 @@ describe("nys-modal", () => {
   });
 
   // handles mandatory modals
-  it("", async () => {
+  it("omits the dismiss button when mandatory is set", async () => {
     const el = await fixture<NysModal>(
       html`<nys-modal heading="Update Available" open mandatory></nys-modal>`,
     );
@@ -271,5 +296,197 @@ describe("nys-modal", () => {
       html`<nys-modal heading="Update Available"></nys-modal>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  /*** Regression: id auto-generation format (mixin uses localName prefix) ***/
+  it("auto-generates an id matching /^nys-modal-\\d+-\\d+$/", async () => {
+    const el = await fixture<NysModal>(html`<nys-modal></nys-modal>`);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-modal-\d+-\d+$/);
+  });
+
+  it("does not overwrite a consumer-provided id", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal id="custom-modal"></nys-modal>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("custom-modal");
+  });
+
+  /*** Regression (WCAG 4.1.2): dialog accessible name wiring ***/
+  it("puts role=dialog and aria-modal on the element that receives focus", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Update Available" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    const dialog = getDialog(el);
+    // The dialog semantics belong on the modal box, not the backdrop.
+    expect(dialog.classList.contains("nys-modal")).to.be.true;
+    expect(dialog.getAttribute("aria-modal")).to.equal("true");
+    expect(dialog.getAttribute("tabindex")).to.equal("-1");
+
+    // The backdrop is presentational.
+    const overlay = el.shadowRoot!.querySelector(".nys-modal-overlay")!;
+    expect(overlay.hasAttribute("role")).to.be.false;
+    expect(overlay.hasAttribute("aria-modal")).to.be.false;
+
+    // ...and it is the element focus is moved to when the modal opens.
+    await nextFrame();
+    expect(el.shadowRoot!.activeElement).to.equal(dialog);
+  });
+
+  it("names the dialog from the visible heading via aria-labelledby", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Update Available" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    const dialog = getDialog(el);
+    expect(dialog.getAttribute("aria-labelledby")).to.equal(`${el.id}-heading`);
+    // aria-label must not compete with the labelledby reference.
+    expect(dialog.hasAttribute("aria-label")).to.be.false;
+    // The referenced element must actually exist for the name to resolve.
+    const heading = el.shadowRoot!.getElementById(`${el.id}-heading`);
+    expect(heading).to.exist;
+    expect(heading!.tagName.toLowerCase()).to.equal("h2");
+    expect(accessibleName(el.shadowRoot!, dialog)).to.equal("Update Available");
+  });
+
+  it("names the dialog immediately on open (no deferred attribute writes)", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test"></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    el.open = true;
+    await el.updateComplete;
+
+    // Name must be complete on the first rendered frame — the old
+    // implementation patched ARIA in a 100ms setTimeout.
+    expect(accessibleName(el.shadowRoot!, getDialog(el))).to.equal("Test");
+  });
+
+  it("falls back to aria-label only when no heading is provided", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal ariaLabel="Session expiring" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    const dialog = getDialog(el);
+    expect(dialog.getAttribute("aria-label")).to.equal("Session expiring");
+    expect(dialog.hasAttribute("aria-labelledby")).to.be.false;
+    expect(accessibleName(el.shadowRoot!, dialog)).to.equal("Session expiring");
+  });
+
+  it("prefers the heading over ariaLabel when both are set", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal
+        heading="Update Available"
+        ariaLabel="Ignored"
+        open
+      ></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    const dialog = getDialog(el);
+    expect(dialog.hasAttribute("aria-label")).to.be.false;
+    expect(accessibleName(el.shadowRoot!, dialog)).to.equal("Update Available");
+  });
+
+  it("exposes no name (and renders no empty heading) when neither heading nor ariaLabel is set", async () => {
+    const el = await fixture<NysModal>(html`<nys-modal open></nys-modal>`);
+    await el.updateComplete;
+
+    const dialog = getDialog(el);
+    // Must not point at — or render — an empty heading element.
+    expect(dialog.hasAttribute("aria-labelledby")).to.be.false;
+    expect(dialog.hasAttribute("aria-label")).to.be.false;
+    expect(el.shadowRoot!.querySelector("h2")).to.not.exist;
+    expect(accessibleName(el.shadowRoot!, dialog)).to.equal("");
+  });
+
+  it("gives the dismiss button a stable accessible name with no timing window", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    const dismissBtn = el.shadowRoot!.querySelector("nys-button")!;
+    // nys-button renders `label` as visually-hidden text inside the button when
+    // `circle` is set, so this is the button's real accessible name.
+    expect(dismissBtn.getAttribute("label")).to.equal("Close this window");
+    // The removed workaround blanked the label and restored it 100ms later.
+    expect(dismissBtn.hasAttribute("arialabel")).to.be.false;
+
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    expect(dismissBtn.getAttribute("label")).to.equal("Close this window");
+  });
+
+  it("omits aria-describedby when there is nothing to describe", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+    expect(getDialog(el).hasAttribute("aria-describedby")).to.be.false;
+  });
+
+  it("describes the dialog from the subheading when one is provided", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal
+        heading="Before you continue"
+        subheading="Your progress has been saved."
+        open
+      ></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    const dialog = getDialog(el);
+    expect(dialog.getAttribute("aria-describedby")).to.equal(
+      `${el.id}-subheading`,
+    );
+    expect(el.shadowRoot!.getElementById(`${el.id}-subheading`)).to.exist;
+  });
+
+  it("passes the a11y audit while open", async () => {
+    const el = await fixture(
+      html`<nys-modal heading="Update Available" open>
+        <p>An update is available.</p>
+      </nys-modal>`,
+    );
+    await expect(el).shadowDom.to.be.accessible();
+  });
+
+  /*** Regression (WCAG 2.1.2): global keydown listener is removed on disconnect ***/
+  it("removes the global keydown listener when disconnected", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeFired = false;
+    el.addEventListener("nys-close", () => (closeFired = true));
+
+    // Disconnect the element; its keydown handler should no longer be active.
+    el.remove();
+    await el.updateComplete;
+
+    const event = new KeyboardEvent("keydown", {
+      key: "Escape",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+
+    // Stale handler would have closed the (still-open) modal and fired nys-close.
+    expect(closeFired).to.be.false;
+    expect(event.defaultPrevented).to.be.false;
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

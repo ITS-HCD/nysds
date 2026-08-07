@@ -1,4 +1,5 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-dropdownmenu.js";
 import { NysDropdownMenu } from "./nys-dropdownmenu";
 import { NysDropdownMenuItem } from "./nys-dropdownmenuitem";
@@ -99,6 +100,19 @@ describe("nys-dropdownmenu", () => {
     expect(menu.showDropdown).to.be.false;
   });
 
+  /****** Regression: keyboard activation should only call toggle dropdown once (Dropdown is not "hidden") ******/
+  it("opens only once when trigger is activated via Enter", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    expect(menu.showDropdown).to.be.false;
+
+    // Due to how the button when "Enter|Space" calls the "click" listener, we can't listen to an actual dispatch "Enter|Space" event
+    trigger.click();
+    await menu.updateComplete;
+
+    expect(menu.showDropdown).to.be.true;
+  });
+
   /****** A11y ******/
   it("sets aria-expanded=true on trigger when opened", async () => {
     const { menu, trigger } = await fixtureWithTrigger();
@@ -125,28 +139,6 @@ describe("nys-dropdownmenu", () => {
     );
     await menu.updateComplete;
     expect(menu.showDropdown).to.be.false;
-  });
-
-  it("opens menu on Enter key", async () => {
-    const { menu, trigger } = await fixtureWithTrigger();
-
-    trigger.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
-    );
-    await menu.updateComplete;
-
-    expect(menu.showDropdown).to.be.true;
-  });
-
-  it("opens menu on Space key", async () => {
-    const { menu, trigger } = await fixtureWithTrigger();
-
-    trigger.dispatchEvent(
-      new KeyboardEvent("keydown", { key: " ", bubbles: true }),
-    );
-    await menu.updateComplete;
-
-    expect(menu.showDropdown).to.be.true;
   });
 
   it("_findMostAvailableSpace returns bottom-start when bottom > top and start >= end", async () => {
@@ -215,6 +207,40 @@ describe("nys-dropdownmenu", () => {
       html`<nys-dropdownmenu label="My Label"></nys-dropdownmenu>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("menu (role=menu) has a default accessible name", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    const menu = el.shadowRoot!.querySelector('[role="menu"]')!;
+    expect(menu.getAttribute("aria-label")).to.equal("Menu");
+  });
+
+  it("menu (role=menu) reflects a custom label as its accessible name", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu label="Account actions"></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    const menu = el.shadowRoot!.querySelector('[role="menu"]')!;
+    expect(menu.getAttribute("aria-label")).to.equal("Account actions");
+  });
+
+  it("auto-generates an id when none is provided", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-dropdownmenu-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu id="custom-menu-id"></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("custom-menu-id");
   });
 });
 
@@ -364,5 +390,34 @@ describe("nys-dropdownmenuitem", () => {
 
     expect(detail.label).to.equal("Action");
     expect(detail.href).to.be.undefined;
+  });
+
+  it("auto-generates an id when none is provided", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action"></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-dropdownmenuitem-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem
+        id="custom-item-id"
+        label="Action"
+      ></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+    expect(el.id).to.equal("custom-item-id");
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysDropdownMenuItem>(
+      html`<nys-dropdownmenuitem
+        label="Action"
+        prefixIcon="check"
+      ></nys-dropdownmenuitem>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.19.4",
+  "version": "1.20.0",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -52,6 +52,7 @@
     "test:ssr": "node src/scripts/test-ssr.mjs && npm run audit:dist",
     "audit:dist": "node src/scripts/audit-dist.mjs",
     "test:build": "npm run build:all && npm run test",
+    "test:report": "wtr --node-resolve || true && open coverage/lcov-report/index.html",
     "test:compact": "export NYSDS_TEST_OUTPUT=compact && wtr --node-resolve",
     "test:ai": "export NYSDS_TEST_OUTPUT=ai && wtr --node-resolve",
     "storybook": "cross-env NODE_ENV=production storybook dev -p 6006",
@@ -60,12 +61,13 @@
     "storybook:cibuild": "storybook build",
     "mcp-server:build": "turbo run build --filter=@nysds/mcp-server",
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf packages/**/*/node_modules",
-    "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && find packages -type d -name dist ! -path '*/mcp-server/dist' -exec rm -rf {} + 2>/dev/null || true",
+    "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && find packages -type d -name dist ! -path '*/mcp-server/dist' -exec rm -rf {} + 2>/dev/null && find packages -name '*.tsbuildinfo' ! -path '*/mcp-server/*' -delete 2>/dev/null && rm -f ./*.tsbuildinfo 2>/dev/null || true",
     "clean:turbo": "find packages -type d -name '.turbo' -exec rm -rf {} + && rm -rf .turbo",
     "clean:cache": "rm -rf node_modules/.cache",
     "clean:all": "npm run clean:dist && npm run clean:node && npm run clean:cache && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js"
+    "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js",
+    "verify:a11y-names": "node src/scripts/verify-a11y-names.mjs"
   },
   "repository": {
     "type": "git",

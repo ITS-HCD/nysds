@@ -1,12 +1,17 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement, associateControlRefs } from "@nysds/internals";
 import { validateFileHeader } from "./validateFileHeader";
 import "./nys-fileitem";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-fileinput is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileinput.scss?inline";
-
-let fileinputIdCounter = 0;
 
 interface FileWithProgress {
   file: File;
@@ -30,7 +35,11 @@ interface FileWithProgress {
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`.
+ * @fires nys-change - Fired once per user action (file selection, drop, or removal).
+ * Detail: `{id, files, changedFiles}`. The `files` is the full current selection
+ * Whereas `changedFiles` is the entries this action added or removed.
+ * Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
+ *
  * @fires nys-blur - Fired when focus leaves the component. Triggers validation.
  *
  * @example Basic
@@ -106,7 +115,7 @@ interface FileWithProgress {
  * ```
  */
 
-export class NysFileinput extends LitElement {
+export class NysFileinput extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -244,38 +253,6 @@ export class NysFileinput extends LitElement {
     return this.disabled || (!this.multiple && this._selectedFiles.length > 0);
   }
 
-  private get _buttonAriaLabel(): string {
-    if (this._selectedFiles.length === 0) {
-      return this.multiple ? "Choose files: " : "Choose file: ";
-    }
-
-    return this.multiple ? "Change files: " : "Change file: ";
-  }
-
-  private get _buttonAriaDescription(): string {
-    if (this._selectedFiles.length === 0)
-      return `${this.label + " " + this.description}`;
-
-    const hasInvalidFiles = this._selectedFiles.some(
-      (file) => file.status === "error",
-    );
-
-    let base = "";
-
-    if (this._selectedFiles.length === 1) {
-      base = `You have selected ${this._selectedFiles[0].file.name}.`;
-    } else {
-      const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
-      base = `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
-    }
-
-    const error = hasInvalidFiles
-      ? " Error: One or more files are not valid file types."
-      : "";
-
-    return `${base}${error}`;
-  }
-
   private get _innerNysButton(): HTMLElement | null {
     const nysButton = this.renderRoot.querySelector(
       '[name="file-btn"]',
@@ -286,27 +263,16 @@ export class NysFileinput extends LitElement {
     return innerButton;
   }
 
-  private _internals: ElementInternals;
-
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
-
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-fileinput-${Date.now()}-${fileinputIdCounter++}`;
-    }
-
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -318,6 +284,89 @@ export class NysFileinput extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
+  }
+
+  updated() {
+    void this._syncControlErrorAssociation();
+  }
+
+  /**
+   * Point the exposed control at the rendered <nys-errormessage> and, in
+   * dropzone mode, at the "or drag here" instructional text.
+   *
+   * The native <input type="file"> is `hidden`, `aria-hidden` and `tabindex="-1"`,
+   * so it is not in the accessibility tree and must not carry these
+   * associations. The element a user actually reaches is the <button> inside the
+   * "Choose file" <nys-button>'s shadow root — that's also the keyboard path for
+   * the dropzone (Enter/Space opens the native file picker via real button
+   * semantics); the dropzone `<div>` itself is a non-interactive, pointer-only
+   * drop target and never receives focus.
+   *
+   * The button and these targets sit in different shadow roots, so an IDREF
+   * written on the button would dangle. ARIA element reflection does cross into a
+   * shadow-including ancestor tree, so associateControlRefs sets the control's own
+   * ariaDescribedByElements (plus an aria-description string fallback for engines
+   * that expose the IDL but do not yet honor it). aria-describedby — not
+   * aria-errormessage — is what Blink actually surfaces for a control inside a
+   * shadow root; see src/scripts/verify-a11y-names.mjs. aria-errormessage is set
+   * through its element-reflection form where the engine supports it.
+   */
+  private async _syncControlErrorAssociation() {
+    const nysButton = this.renderRoot?.querySelector('[name="file-btn"]') as
+      | (HTMLElement & { updateComplete?: Promise<unknown> })
+      | null;
+    if (!nysButton) return;
+
+    // The trigger lives in <nys-button>'s shadow root, which only exists once
+    // that element has been defined and has completed its first render.
+    if (!customElements.get("nys-button")) {
+      await customElements.whenDefined("nys-button");
+    }
+    await nysButton.updateComplete;
+
+    const control = this._innerNysButton;
+    if (!control) return;
+
+    const errorEl = this.showError
+      ? (this.renderRoot?.querySelector(
+          "nys-errormessage",
+        ) as HTMLElement | null)
+      : null;
+
+    // Only present in dropzone mode, and only while the drag-active state
+    // (which swaps the button + hint for a "Drop file to upload" message) isn't
+    // showing.
+    const hintEl =
+      this.dropzone && !this._dragActive
+        ? (this.renderRoot?.querySelector(
+            ".nys-fileinput__dropzone-hint",
+          ) as HTMLElement | null)
+        : null;
+
+    control.setAttribute("aria-invalid", errorEl ? "true" : "false");
+    associateControlRefs(control, "describedby", [hintEl, errorEl]);
+
+    // <nys-errormessage> keeps its text in its own shadow root, so the helper's
+    // textContent-derived fallback comes back empty for that piece — the hint
+    // <p> is plain text, so its portion is already correct. Rebuild the full
+    // fallback string here so neither part clobbers the other. aria-describedby
+    // wins wherever the element reference is honored.
+    const message = this.internals?.validationMessage || this.errorMessage;
+    const descriptionParts = [
+      hintEl?.textContent?.trim() || undefined,
+      errorEl && message ? message : undefined,
+    ].filter((part): part is string => !!part);
+
+    if (descriptionParts.length) {
+      control.setAttribute("aria-description", descriptionParts.join(" "));
+    } else {
+      control.removeAttribute("aria-description");
+    }
+
+    const rec = control as unknown as Record<string, unknown>;
+    if ("ariaErrorMessageElements" in control) {
+      rec.ariaErrorMessageElements = errorEl ? [errorEl] : null;
+    }
   }
 
   /**
@@ -334,13 +383,13 @@ export class NysFileinput extends LitElement {
         files.forEach((file) => {
           formData.append(this.name, file);
         });
-        this._internals.setFormValue(formData);
+        this.setFormValue(formData);
       } else {
-        this._internals.setFormValue(null);
+        this.setFormValue(null);
       }
     } else {
       const singleFile = this._selectedFiles[0]?.file || null;
-      this._internals.setFormValue(singleFile);
+      this.setFormValue(singleFile);
     }
 
     this._manageRequire(); // Check validation when value is set
@@ -355,11 +404,9 @@ export class NysFileinput extends LitElement {
     const isInvalid = this.required && this._selectedFiles.length == 0;
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true"; // Screen readers should announce error
-      this._internals.setValidity({ valueMissing: true }, message, input);
+      this.setValidityFromState({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaInvalid = "false"; // Reset when valid
-      this._internals.setValidity({}, "", input);
+      this.clearValidity();
     }
   }
 
@@ -375,11 +422,11 @@ export class NysFileinput extends LitElement {
       message = this.errorMessage;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
+    if (message) {
+      this.setValidityFromState({ customError: true }, message, input);
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -415,12 +462,12 @@ export class NysFileinput extends LitElement {
       input.value = "";
     }
 
-    this._internals.setFormValue(null);
+    this.setFormValue(null);
 
     // Reset validation UI
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
+    this.clearValidity();
 
     // Re-render UI
     this.requestUpdate();
@@ -433,7 +480,7 @@ export class NysFileinput extends LitElement {
     const innerButton = this._innerNysButton;
     if (innerButton) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -482,6 +529,8 @@ export class NysFileinput extends LitElement {
     // Now that the file is added, update form value and validation
     this._setValue();
     this._validate();
+
+    return entry;
   }
 
   // Read the contents of stored files, this will indicate loading progress of the uploaded files
@@ -539,10 +588,14 @@ export class NysFileinput extends LitElement {
     );
   }
 
-  private _dispatchChangeEvent() {
+  private _dispatchChangeEvent(changedFiles: FileWithProgress[]) {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
-        detail: { id: this.id, files: this._selectedFiles },
+        detail: {
+          id: this.id,
+          files: this._selectedFiles,
+          changedFiles,
+        },
         bubbles: true,
         composed: true,
       }),
@@ -593,27 +646,29 @@ export class NysFileinput extends LitElement {
    */
 
   // Access the selected files & add new files to the internal list via the hidden <input type="file">
-  private _handleFileChange(e: Event) {
+  private async _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
     const files = input.files;
     const newFiles = files ? Array.from(files) : []; // changes FileList to array
 
     // Store the uploaded files
-    newFiles.map((file) => {
-      this._saveSelectedFiles(file);
-    });
+    const changedFiles = await this._addFiles(newFiles);
 
     this.requestUpdate();
-    this._dispatchChangeEvent();
+    if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
     this._handlePostFileSelectionFocus();
   }
 
   private _handleFileRemove(e: CustomEvent) {
-    const filenameToRemove = e.detail.filename;
+    const fileNameToRemove = e.detail.filename;
+
+    const removed = this._selectedFiles.find(
+      (existingFile) => existingFile.file.name === fileNameToRemove,
+    );
 
     // Remove selected files
     this._selectedFiles = this._selectedFiles.filter(
-      (existingFile) => existingFile.file.name !== filenameToRemove,
+      (existingFile) => existingFile.file.name !== fileNameToRemove,
     );
 
     if (this._selectedFiles.length === 0) {
@@ -627,7 +682,7 @@ export class NysFileinput extends LitElement {
     this._validate();
 
     this.requestUpdate();
-    this._dispatchChangeEvent();
+    if (removed) this._dispatchChangeEvent([removed]);
   }
 
   private _onDragOver(e: DragEvent) {
@@ -654,7 +709,7 @@ export class NysFileinput extends LitElement {
     }
   }
 
-  private _onDrop(e: DragEvent) {
+  private async _onDrop(e: DragEvent) {
     if (this.disabled) return;
 
     e.preventDefault();
@@ -665,17 +720,21 @@ export class NysFileinput extends LitElement {
     if (!files) return;
 
     const newFiles = Array.from(files);
+    const filesToAdd = this.multiple ? newFiles : [newFiles[0]];
 
-    if (this.multiple) {
-      newFiles.forEach((file) => {
-        this._saveSelectedFiles(file);
-      });
-    } else {
-      this._saveSelectedFiles(newFiles[0]);
-    }
+    const changedFiles = await this._addFiles(filesToAdd);
 
     this.requestUpdate();
-    this._dispatchChangeEvent();
+    if (changedFiles.length) this._dispatchChangeEvent(changedFiles);
+  }
+
+  private async _addFiles(files: File[]): Promise<FileWithProgress[]> {
+    const savedEntries = await Promise.all(
+      files.map((file) => this._saveSelectedFiles(file)),
+    );
+    return savedEntries.filter(
+      (entry): entry is FileWithProgress => entry !== undefined,
+    );
   }
 
   render() {
@@ -685,6 +744,7 @@ export class NysFileinput extends LitElement {
       @focusout=${this._handleBlur}
     >
       <nys-label
+        id="${this.id}--label"
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -696,7 +756,7 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
-        id=${this.id}
+        id=${this.id + "--native"}
         class="hidden-file-input"
         tabindex="-1"
         type="file"
@@ -707,6 +767,12 @@ export class NysFileinput extends LitElement {
         ?required=${this.required}
         ?disabled=${this.disabled ||
         (!this.multiple && this._selectedFiles.length > 0)}
+        aria-labelledby=${ifDefined(
+          this.label ? this.id + "--label" : undefined,
+        )}
+        aria-label=${ifDefined(
+          !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+        )}
         aria-disabled="${this.disabled}"
         aria-hidden="true"
         @change=${this._handleFileChange}
@@ -719,8 +785,6 @@ export class NysFileinput extends LitElement {
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
-            ariaLabel=${this._buttonAriaLabel}
-            ariaDescription=${this._buttonAriaDescription}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
             @nys-click=${this._openFileDialog}
@@ -738,13 +802,16 @@ export class NysFileinput extends LitElement {
                   // Ignore clicks that originated within a nys-button
                   if (target.closest("nys-button")) return;
 
-                  // Only handle direct wrapper clicks (outside of buttons)
+                  // Only handle direct wrapper clicks (outside of buttons). This
+                  // is a pointer-only convenience — the div carries no role or
+                  // tabindex, so it is never part of the keyboard path. Keyboard
+                  // users activate the real <nys-button> below (Enter/Space),
+                  // which opens the native file picker the same as a click here.
                   this._openFileDialog();
                 }}
             @dragover=${this._isDropDisabled ? null : this._onDragOver}
             @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
             @drop=${this._isDropDisabled ? null : this._onDrop}
-            aria-label="Drag files here or choose from folder"
           >
             ${this._dragActive
               ? html`<p>Drop file to upload</p>`
@@ -753,8 +820,6 @@ export class NysFileinput extends LitElement {
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
-                    ariaLabel=${this._buttonAriaLabel}
-                    ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
                     @nys-click="${(e: CustomEvent) => {
                       e.preventDefault();
@@ -762,13 +827,19 @@ export class NysFileinput extends LitElement {
                       this._openFileDialog();
                     }}"
                   ></nys-button>
-                  <p>or drag here</p>`}
+                  <p
+                    id="${this.id}--dropzone-hint"
+                    class="nys-fileinput__dropzone-hint"
+                  >
+                    or drag here
+                  </p>`}
           </div>`}
       ${this.showError
         ? html`
             <nys-errormessage
+              id=${this.id + "--error"}
               ?showError=${this.showError}
-              errorMessage=${this._internals.validationMessage ||
+              errorMessage=${this.internals?.validationMessage ||
               this.errorMessage}
             ></nys-errormessage>
           `

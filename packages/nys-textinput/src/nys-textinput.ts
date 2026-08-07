@@ -1,10 +1,19 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-textinput is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+// nys-button/nys-icon render the password-visibility toggle and search-clear
+// controls.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textinput.scss?inline";
-
-let textinputIdCounter = 0;
 
 /**
  * A text input for collecting short, single-line data. Supports validation, input masking (tel),
@@ -83,6 +92,11 @@ let textinputIdCounter = 0;
  * </nys-textinput>
  * ```
  *
+ * @example Password
+ * ```html
+ * <nys-textinput type="password"></nys-textinput>
+ * ```
+ *
  * @example Max Min Values
  * ```html
  * <nys-textinput type="number" label="Age" min="18" max="99" width="sm"></nys-textinput>
@@ -101,7 +115,7 @@ let textinputIdCounter = 0;
  * ```
  */
 
-export class NysTextinput extends LitElement {
+export class NysTextinput extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -200,7 +214,6 @@ export class NysTextinput extends LitElement {
 
   private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  private _internals: ElementInternals;
 
   private _maskPatterns: Record<string, string> = {
     tel: "(___) ___-____",
@@ -209,21 +222,13 @@ export class NysTextinput extends LitElement {
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
-    }
-
     this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
@@ -288,7 +293,7 @@ export class NysTextinput extends LitElement {
    */
 
   private _setValue() {
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this._manageRequire(); // Update validation
   }
 
@@ -302,11 +307,9 @@ export class NysTextinput extends LitElement {
       this.required && (!this.value || this.value?.trim() === ""); // Check for blank as well
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true";
-      this._internals.setValidity({ valueMissing: true }, message, input);
+      this.setValidityFromState({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaInvalid = "false";
-      this._internals.setValidity({});
+      this.clearValidity();
       this._hasUserInteracted = false; // Reset eager/lazy checking
     }
   }
@@ -325,10 +328,15 @@ export class NysTextinput extends LitElement {
       this.errorMessage = message;
     }
 
-    this._internals.ariaInvalid = this.showError ? "true" : "false";
-
-    const validityState = message ? { customError: true } : {};
-    this._internals.setValidity(validityState, this.errorMessage, input);
+    if (message) {
+      this.setValidityFromState(
+        { customError: true },
+        this.errorMessage,
+        input,
+      );
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -372,13 +380,12 @@ export class NysTextinput extends LitElement {
       input.value = "";
     }
 
-    this._internals.setFormValue("");
+    this.setFormValue("");
 
     // Reset validation UI
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
-    this._internals.ariaInvalid = "false";
+    this.clearValidity();
 
     this.showPassword = false;
 
@@ -411,7 +418,7 @@ export class NysTextinput extends LitElement {
     const input = this._inputEl;
     if (input) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -434,6 +441,30 @@ export class NysTextinput extends LitElement {
 
   private _togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  private _clearSearch() {
+    this.value = "";
+
+    const input = this._inputEl;
+    if (input) {
+      input.value = "";
+      input.focus();
+    }
+
+    this.setFormValue("");
+
+    if (this._hasUserInteracted) {
+      this._validate();
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("nys-input", {
+        detail: { id: this.id, value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private _updateOverlay(value: string, mask: string) {
@@ -501,7 +532,7 @@ export class NysTextinput extends LitElement {
     }
 
     this.value = newValue;
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
 
     // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
     if (this._hasUserInteracted) {
@@ -620,15 +651,19 @@ export class NysTextinput extends LitElement {
               ?disabled=${this.disabled}
               ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
+              aria-labelledby=${ifDefined(
+                this.label ? this.id + "--label" : undefined,
+              )}
               aria-label=${ifDefined(
-                [this.label, this.description].filter(Boolean).join(" ") ||
-                  this.ariaLabel ||
-                  undefined,
+                !this.label && this.ariaLabel ? this.ariaLabel : undefined,
               )}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
               aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
+              aria-describedby=${ifDefined(
+                this.showError ? this.id + "--error" : undefined,
+              )}
               .value=${this.value}
               placeholder=${ifDefined(
                 this.placeholder ? this.placeholder : undefined,
@@ -647,18 +682,39 @@ export class NysTextinput extends LitElement {
             />
             ${this.type === "password"
               ? html` <nys-button
-                  class="eye-icon"
+                  class="inline-icon"
                   id="password-toggle"
                   ariaLabel="password toggle"
                   variant="ghost"
+                  circle
                   size="sm"
                   @nys-click=${() =>
                     !this.disabled && this._togglePasswordVisibility()}
                 >
                   <nys-icon
-                    slot="suffix-icon"
+                    slot="circle-icon"
                     size="2xl"
                     name=${this.showPassword ? "visibility_off" : "visibility"}
+                  ></nys-icon>
+                </nys-button>`
+              : ""}
+            ${this.type === "search" &&
+            this.value &&
+            !this.disabled &&
+            !this.readonly
+              ? html` <nys-button
+                  class="inline-icon"
+                  id="search-clear"
+                  ariaLabel="clear search"
+                  variant="ghost"
+                  circle
+                  size="sm"
+                  @nys-click=${() => this._clearSearch()}
+                >
+                  <nys-icon
+                    slot="circle-icon"
+                    size="2xl"
+                    name="close"
                   ></nys-icon>
                 </nys-button>`
               : ""}

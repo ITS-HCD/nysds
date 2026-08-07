@@ -13,6 +13,7 @@ export const NysCheckbox = forwardRef((props, forwardedRef) => {
     tile,
     other,
     showOtherError,
+    hideLabel,
     label,
     description,
     id,
@@ -22,6 +23,7 @@ export const NysCheckbox = forwardRef((props, forwardedRef) => {
     errorMessage,
     tooltip,
     size,
+    labelledby,
     ...filteredProps
   } = props;
 
@@ -54,6 +56,7 @@ export const NysCheckbox = forwardRef((props, forwardedRef) => {
       errorMessage: props.errorMessage,
       tooltip: props.tooltip,
       size: props.size,
+      labelledby: props.labelledby,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
@@ -67,6 +70,7 @@ export const NysCheckbox = forwardRef((props, forwardedRef) => {
       tile: props.tile ? true : undefined,
       other: props.other ? true : undefined,
       showOtherError: props.showOtherError ? true : undefined,
+      hideLabel: props.hideLabel ? true : undefined,
       style: { ...props.style },
     },
     props.children,

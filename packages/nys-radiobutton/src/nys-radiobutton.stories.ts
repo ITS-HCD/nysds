@@ -2,8 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-radiobutton";
 import "./nys-radiogroup";
-import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-label";
+import "@nysds/nys-table";
 import "@nysds/nys-textinput";
 
 const meta: Meta = {
@@ -37,6 +38,8 @@ export const Basic: Story = {
     value: "bronx",
     other: false,
     showOtherError: false,
+    labelledby: "",
+    hideLabel: false,
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md"] },
@@ -63,6 +66,8 @@ export const Basic: Story = {
           ?disabled=${args.disabled}
           ?other=${args.other}
           ?showOtherError=${args.showOtherError}
+          labelledby=${args.labelledby}
+          ?hideLabel=${args.hideLabel}
         ></nys-radiobutton>
         <nys-radiobutton
           name="borough"
@@ -353,22 +358,23 @@ export const Description: Story = {
 export const DescriptionSlot: Story = {
   render: () => {
     return html`
-      <nys-radiogroup label="Select borough">
-        <div slot="description">
-          Your primary
-          <strong>residence</strong>
-          in NYC.
-        </div>
-        <nys-radiobutton
-          name="borough"
-          value="bronx"
-          label="The Bronx"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          name="borough"
-          value="brooklyn"
-          label="Brooklyn"
-        ></nys-radiobutton>
+      <nys-radiogroup label="What is your primary work location?">
+        <label slot="description">
+          This is the location you use for your
+          <a href="https://www.ny.gov/" target="__blank">in office days.</a>
+        </label>
+        <nys-radiobutton name="office" label="Albany" value="albany">
+          <label slot="description">
+            A part of
+            <a href="https://www.ny.gov/" target="__blank">Upstate New York</a>
+          </label>
+        </nys-radiobutton>
+        <nys-radiobutton name="office" label="Manhattan" value="manhattan">
+          <label slot="description">
+            A part of
+            <a href="https://www.ny.gov/" target="__blank">New York City</a>
+          </label>
+        </nys-radiobutton>
       </nys-radiogroup>
     `;
   },
@@ -376,14 +382,23 @@ export const DescriptionSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup label="Select borough">
-  <div slot="description">
-    Your primary
-    <strong>residence</strong>
-    in NYC.
-  </div>
-  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
-  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+<nys-radiogroup label="What is your primary work location?">
+  <label slot="description">
+    This is the location you use for your
+    <a href="https://www.ny.gov/" target="__blank">in office days.</a>
+  </label>
+  <nys-radiobutton name="office" label="Albany" value="albany">
+    <label slot="description">
+      A part of
+      <a href="https://www.ny.gov/" target="__blank">Upstate New York</a>
+    </label>
+  </nys-radiobutton>
+  <nys-radiobutton name="office" label="Manhattan" value="manhattan">
+    <label slot="description">
+      A part of
+      <a href="https://www.ny.gov/" target="__blank">New York City</a>
+    </label>
+  </nys-radiobutton>
 </nys-radiogroup>`,
         type: "auto",
       },
@@ -417,6 +432,274 @@ export const Preselected: Story = {
   <nys-radiobutton name="borough" value="bronx" label="The Bronx" checked></nys-radiobutton>
   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
 </nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const NoGroup: Story = {
+  render: () => {
+    return html`
+      <nys-radiobutton
+        name="borough"
+        value="queens"
+        label="Queens"
+        checked
+        description="Includes Flushing and Astoria"
+      ></nys-radiobutton>
+      <nys-radiobutton
+        name="borough"
+        value="manhattan"
+        label="Manhattan"
+        checked
+      >
+        <span slot="description">
+          Home to
+          <strong>Central Park</strong>
+        </span>
+      </nys-radiobutton>
+      <nys-radiobutton
+        name="borough"
+        value="brooklyn"
+        label="Brooklyn"
+      ></nys-radiobutton>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiobutton
+  name="borough"
+  value="queens"
+  label="Queens"
+  checked
+  description="Includes Flushing and Astoria"
+></nys-radiobutton>
+<nys-radiobutton name="borough" value="manhattan" label="Manhattan" checked>
+  <span slot="description">
+    Home to
+    <strong>Central Park</strong>
+  </span>
+</nys-radiobutton>
+<nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const PreselectedAlt: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough">
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+          checked
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough">
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx" checked></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StandaloneOnePerTableRow: Story = {
+  render: () => {
+    return html`
+      <nys-table striped bordered>
+      <table>
+      <caption>
+      Select the highest priority application for review
+      </caption>
+      <tr>
+      <th>Application</th>
+      <th>Priority</th>
+      </tr>
+      <tr>
+      <td>SNAP Benefits</td>
+      <td>
+      <nys-radiobutton
+       name="priority-application"
+       value="snap"
+       label="Select SNAP Benefits"
+      ></nys-radiobutton>
+      </td>
+      </tr>
+      <tr>
+      <td>Child Care Assistance</td>
+      <td>
+      <nys-radiobutton
+       name="priority-application"
+       value="child-care"
+       label="Select Child Care Assistance"
+      ></nys-radiobutton>
+      </td>
+      </tr>
+      <tr>
+      <td>HEAP</td>
+      <td>
+      <label for="rg-bk1">Brooklyn</label>
+      <input id="rg-bk1" type="radio" name="group" value="Brooklyn"></input>
+      </td>
+      </tr>
+      <tr>
+      <td>Medicaid</td>
+      <td>
+      <label for="rg-bk2">Manhattan</label>
+      <input id="rg-bk2" type="radio" name="group" value="Manhattan"></input>
+      </td>
+      </tr>
+      </table>
+      </nys-table>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-table striped bordered>
+<table>
+<caption>
+Select the highest priority application for review
+</caption>
+<tr>
+<th>Application</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td>SNAP Benefits</td>
+<td>
+<nys-radiobutton
+ name="priority-application"
+ value="snap"
+ label="Select SNAP Benefits"
+></nys-radiobutton>
+</td>
+</tr>
+<tr>
+<td>Child Care Assistance</td>
+<td>
+<nys-radiobutton
+ name="priority-application"
+ value="child-care"
+ label="Select Child Care Assistance"
+></nys-radiobutton>
+</td>
+</tr>
+<tr>
+<td>HEAP</td>
+<td>
+<label for="rg-bk1">Brooklyn</label>
+<input id="rg-bk1" type="radio" name="group" value="Brooklyn"></input>
+</td>
+</tr>
+<tr>
+<td>Medicaid</td>
+<td>
+<label for="rg-bk2">Manhattan</label>
+<input id="rg-bk2" type="radio" name="group" value="Manhattan"></input>
+</td>
+</tr>
+</table>
+</nys-table>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const LabelledByATableRowHeader: Story = {
+  render: () => {
+    return html`
+      <nys-table striped bordered>
+        <table>
+          <caption>
+            Select the highest priority application for review
+          </caption>
+          <tr>
+            <th scope="col">Application</th>
+            <th scope="col">Priority</th>
+          </tr>
+          <tr>
+            <th scope="row" id="row-snap">SNAP Benefits</th>
+            <td>
+              <nys-radiobutton
+                name="priority-application"
+                value="snap"
+                labelledby="row-snap"
+                hideLabel
+              ></nys-radiobutton>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" id="row-heap">HEAP</th>
+            <td>
+              <nys-radiobutton
+                name="priority-application"
+                value="heap"
+                labelledby="row-heap"
+                hideLabel
+              ></nys-radiobutton>
+            </td>
+          </tr>
+        </table>
+      </nys-table>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-table striped bordered>
+  <table>
+    <caption>Select the highest priority application for review</caption>
+    <tr>
+      <th scope="col">Application</th>
+      <th scope="col">Priority</th>
+    </tr>
+    <tr>
+      <th scope="row" id="row-snap">SNAP Benefits</th>
+      <td>
+        <nys-radiobutton
+          name="priority-application"
+          value="snap"
+          labelledby="row-snap"
+          hideLabel
+        ></nys-radiobutton>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row" id="row-heap">HEAP</th>
+      <td>
+        <nys-radiobutton
+          name="priority-application"
+          value="heap"
+          labelledby="row-heap"
+          hideLabel
+        ></nys-radiobutton>
+      </td>
+    </tr>
+  </table>
+</nys-table>`,
         type: "auto",
       },
     },
