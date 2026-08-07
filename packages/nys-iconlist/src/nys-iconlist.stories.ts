@@ -49,6 +49,29 @@ export const Basic: Story = {
   },
 };
 
+export const AccessibleName: Story = {
+  render: () => {
+    return html`
+      <nys-iconlist id="event-details-labelled" aria-label="Event details">
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-iconlist id="event-details-labelled" aria-label="Event details">
+  <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+  <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+</nys-iconlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Divider: Story = {
   render: () => {
     return html`

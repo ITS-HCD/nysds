@@ -165,5 +165,5 @@ The following NYSDS components support `showError` and `errorMessage`:
 
 1. **Error summary links**: Include anchor links to fields for keyboard navigation
 2. **Focus management**: Move focus to error summary or first error field on validation failure
-3. **ARIA attributes**: NYSDS components automatically set `aria-invalid` and `aria-describedby`
+3. **ARIA attributes**: NYSDS form components automatically set `aria-invalid` on the control and associate the error message via `aria-errormessage`, and associate the visible `<nys-label>` with the control via `aria-labelledby` — no manual wiring needed
 4. **Clear error messages**: Use specific, actionable error text

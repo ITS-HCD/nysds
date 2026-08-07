@@ -1,4 +1,5 @@
 import { expect, html, fixture, nextFrame } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-card.js";
 import { NysCard } from "./nys-card.js";
 
@@ -19,6 +20,39 @@ describe("nys-card", () => {
 
     expect(el.id).to.not.be.empty;
     expect(el.id).to.match(/^nys-card-\d+-\d+$/);
+  });
+
+  // The id comes from NysElement (@nysds/internals), which prefixes it with the
+  // element's localName — the same `<tag>-<ts>-<n>` shape the component used to
+  // build by hand.
+  it("auto-generated id matches the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysCard>(html`<nys-card></nys-card>`);
+    await el.updateComplete;
+
+    expect(el.id).to.match(/^nys-card-\d+-\d+$/);
+  });
+
+  it("gives two cards distinct auto-generated ids", async () => {
+    const wrapper = await fixture(html`
+      <div>
+        <nys-card></nys-card>
+        <nys-card></nys-card>
+      </div>
+    `);
+    const [first, second] = Array.from(
+      wrapper.querySelectorAll<NysCard>("nys-card"),
+    );
+    await first.updateComplete;
+    await second.updateComplete;
+
+    expect(first.id).to.not.equal(second.id);
+  });
+
+  it("preserves an author-provided id", async () => {
+    const el = await fixture<NysCard>(html`<nys-card id="my-card"></nys-card>`);
+    await el.updateComplete;
+
+    expect(el.id).to.equal("my-card");
   });
 
   it("reflects attributes to properties", async () => {
@@ -344,6 +378,57 @@ describe("nys-card", () => {
       <nys-card heading="My Label" .onClick=${() => {}}></nys-card>
     `);
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card heading="My Label" description="Body"></nys-card>
+    `);
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
+  });
+
+  // ── Slotted content stays in the light DOM ────────────────
+  // The card projects slotted content through <slot>; it never moves it into the
+  // shadow tree. Light-DOM components (nys-iconlist and friends) style
+  // themselves from a stylesheet adopted on the document, which only reaches
+  // them while they remain in the document tree — so this is the invariant that
+  // keeps a slotted list styled inside a card.
+  const slottedRoot = (el: NysCard) => {
+    const slotted = el.querySelector("[data-slotted]") as HTMLElement;
+    return { slotted, root: slotted.getRootNode() };
+  };
+
+  it("keeps default-slotted content in the light DOM", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card heading="My Label">
+        <div data-slotted>Slotted body</div>
+      </nys-card>
+    `);
+    await el.updateComplete;
+
+    const { slotted, root } = slottedRoot(el);
+    expect(slotted.parentElement).to.equal(el);
+    expect(root).to.not.equal(el.shadowRoot);
+    expect(root).to.equal(el.getRootNode());
+
+    // It is still assigned to the card's default slot — projected, not orphaned.
+    const slot = el.shadowRoot?.querySelector(
+      "slot:not([name])",
+    ) as HTMLSlotElement;
+    expect(slot.assignedElements()).to.include(slotted);
+  });
+
+  it("keeps default-slotted content in the light DOM on a clickable card", async () => {
+    const el = await fixture<NysCard>(html`
+      <nys-card heading="My Label" href="https://www.ny.gov/">
+        <div data-slotted>Slotted body</div>
+      </nys-card>
+    `);
+    await el.updateComplete;
+
+    const { slotted, root } = slottedRoot(el);
+    expect(slotted.parentElement).to.equal(el);
+    expect(root).to.not.equal(el.shadowRoot);
   });
 
   // Other test to consider:

@@ -39,7 +39,7 @@ The user can still expand the trail by clicking the ellipsis. */
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysBreadcrumbsElement["id"];
 
-  /** Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+  /** Accessible label for the `<nav>` landmark. Defaults to "Breadcrumb" if not set.
 Override when multiple crumbs exist on the same page. */
   ariaLabel?: NysBreadcrumbsElement["ariaLabel"];
 

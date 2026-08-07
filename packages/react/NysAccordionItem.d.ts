@@ -33,6 +33,16 @@ export interface NysAccordionItemProps extends Pick<
   /** Heading text displayed in the clickable toggle button. */
   heading?: NysAccordionItemElement["heading"];
 
+  /** Heading element that wraps the toggle button (`h2` through `h6`).
+
+Pick the level that puts the trigger in the right place in the page
+outline — one level below the heading that introduces the accordion. Leave
+it empty to follow the `headingLevel` of the enclosing `nys-accordion`,
+which is the usual way to set it for a whole group; `h3` applies when
+neither is specified. `h1` is not offered because an accordion trigger is
+never the page title. */
+  headingLevel?: NysAccordionItemElement["headingLevel"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

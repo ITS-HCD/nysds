@@ -1,5 +1,9 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+// This element is rendered inside this component's shadow DOM (the error
+// icon), so it must be registered whenever nys-errormessage is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-errormessage.scss?inline";
 
@@ -23,6 +27,15 @@ let errorMessageIdCounter = 0;
  * ```html
  * <nys-errormessage showError errorMessage="This is an error message" showDivider></nys-errormessage>
  * ```
+ *
+ * Association contract for form controls:
+ * Chromium never surfaces `aria-errormessage` for a control inside a shadow root —
+ * verified against Blink's AX tree by `src/scripts/verify-a11y-names.mjs`, and true for
+ * the IDREF attribute and for `ariaErrorMessageElements` reflection alike.
+ * `aria-describedby` DOES resolve there. Form controls therefore reference this element
+ * with BOTH `aria-errormessage` (for engines that honor it) and `aria-describedby` (which
+ * is what actually reaches the AX tree today), alongside `aria-invalid` — which Blink
+ * requires before it will expose an error relation at all.
  */
 export class NysErrorMessage extends LitElement {
   static styles = unsafeCSS(styles);
@@ -39,6 +52,12 @@ export class NysErrorMessage extends LitElement {
   /** Shows a divider line above the error message. */
   @property({ type: Boolean, reflect: true }) showDivider = false;
 
+  // Expose the shadow-encapsulated error text as the host's own accessible name so
+  // aria-errormessage references resolve across engines. Guarded for SSR. The inner
+  // role="alert" live region is unchanged.
+  private _errInternals: ElementInternals | null =
+    typeof this.attachInternals === "function" ? this.attachInternals() : null;
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -47,6 +66,12 @@ export class NysErrorMessage extends LitElement {
     super();
     if (!this.id) {
       this.id = `nys-errormessage-${Date.now()}-${errorMessageIdCounter++}`;
+    }
+  }
+
+  updated() {
+    if (this._errInternals) {
+      this._errInternals.ariaLabel = this.errorMessage || null;
     }
   }
 

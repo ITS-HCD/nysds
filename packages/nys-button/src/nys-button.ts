@@ -1,16 +1,24 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM as the default
+// prefix/suffix/circle icon content, so it must be registered whenever
+// nys-button is used. Importing it here (intentional side effect) guarantees
+// it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-button.scss?inline";
-
-let buttonIdCounter = 0;
 
 /**
  * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
  *
  * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
  * `text` for inline. Set `href` to render as a navigation link.
+ *
+ * ARIA belongs on the component's props, not on the `<nys-button>` host. The host has no role,
+ * so attributes placed there are not mapped into the accessibility tree and never reach the
+ * internal `<button>`. For a disclosure trigger use `ariaExpanded` together with `ariaControls`.
  *
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
@@ -116,9 +124,18 @@ let buttonIdCounter = 0;
  * ```html
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
+ *
+ * @example Disclosure trigger
+ * ```html
+ * <nys-button
+ *   label="Here's how you know"
+ *   ariaExpanded="false"
+ *   ariaControls="trust-bar"
+ * ></nys-button>
+ * ```
  */
 
-export class NysButton extends LitElement {
+export class NysButton extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -170,8 +187,66 @@ export class NysButton extends LitElement {
 
   /**
    * ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
+   *
+   * Set this on `<nys-button>` rather than putting `aria-controls` on the host:
+   * the host has no role, so ARIA placed there is not mapped into the
+   * accessibility tree and never reaches the internal `<button>`.
    */
   @property({ type: String }) ariaControls = "";
+
+  /**
+   * Disclosure state for buttons that show/hide content. Sets `aria-expanded`
+   * on the internal `<button>`/`<a>`.
+   *
+   * Use `"false"` when the controlled content is collapsed and `"true"` when it
+   * is expanded, updating it every time the content toggles. Leave unset for
+   * buttons that are not disclosure triggers — an `aria-expanded` that never
+   * changes is worse than none. Pair with `ariaControls` pointing at the
+   * element being shown or hidden.
+   *
+   * Setting `aria-expanded` directly on the `<nys-button>` host does nothing:
+   * a custom element with no role does not map its ARIA attributes into the
+   * accessibility tree, and host ARIA does not cross into the shadow root.
+   *
+   * @example
+   * ```html
+   * <nys-button
+   *   label="Here's how you know"
+   *   ariaExpanded="false"
+   *   ariaControls="trust-bar"
+   * ></nys-button>
+   * ```
+   */
+  @property({ type: String }) ariaExpanded: "true" | "false" | "" = "";
+
+  /**
+   * Marks this button as the current item within a set of related controls — the current
+   * page of a pagination control, the current step of a wizard. Sets `aria-current` on the
+   * internal `<button>`/`<a>`.
+   *
+   * Use `"page"` inside a pagination landmark, `"step"` inside a step indicator, and
+   * `"true"` when no more specific token fits. Only one control in a set is ever current:
+   * leave the property unset on all the others rather than setting `"false"`, which the
+   * spec reads as "explicitly not current" and adds nothing.
+   *
+   * Setting `aria-current` directly on the `<nys-button>` host does nothing: a custom
+   * element with no role does not map its ARIA attributes into the accessibility tree,
+   * and host ARIA does not cross into the shadow root.
+   *
+   * @example
+   * ```html
+   * <nys-button label="3" ariaCurrent="page"></nys-button>
+   * ```
+   */
+  @property({ type: String }) ariaCurrent:
+    | "page"
+    | "step"
+    | "location"
+    | "date"
+    | "time"
+    | "true"
+    | "false"
+    | "" = "";
 
   /**
    * Material Symbol icon before label. Not shown for `circle` mode.
@@ -246,41 +321,18 @@ export class NysButton extends LitElement {
     | "_top"
     | "framename" = "_self";
 
-  private _internals: ElementInternals;
-
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
   @state() private _hasCircleSlot = false;
 
   /**
-   * Lifecycle methods
-   * --------------------------------------------------------------------------
-   */
-
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
-  }
-
-  /**
    * Functions
    * --------------------------------------------------------------------------
+   *
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals). super.connectedCallback() assigns
+   * an id when one is not provided (prefix = the element's localName).
    */
-
-  private _generateUniqueId() {
-    return `nys-button-${Date.now()}-${buttonIdCounter++}`;
-  }
 
   private _onPrefixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
@@ -304,7 +356,7 @@ export class NysButton extends LitElement {
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
-    const form = this._internals.form;
+    const form = this.internals?.form;
 
     if (form) {
       switch (this.type) {
@@ -434,6 +486,8 @@ export class NysButton extends LitElement {
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
                 aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+                aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
+                aria-current=${ifDefined(this.ariaCurrent || undefined)}
               >
                 <slot
                   name="prefix-icon"
@@ -491,7 +545,6 @@ export class NysButton extends LitElement {
               class="nys-button"
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
-              aria-disabled="${this.disabled ? "true" : "false"}"
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
@@ -502,6 +555,8 @@ export class NysButton extends LitElement {
               @keydown=${this._handleKeydown}
               @keyup=${this._handleKeyup}
               aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+              aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
+              aria-current=${ifDefined(this.ariaCurrent || undefined)}
             >
               <slot
                 name="prefix-icon"

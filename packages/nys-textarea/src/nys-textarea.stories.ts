@@ -37,6 +37,7 @@ export const Basic: Story = {
     resize: "vertical",
     showError: false,
     errorMessage: "",
+    ariaLabel: "",
   },
   argTypes: {
     width: { control: { type: "select" }, options: ["sm", "md", "lg", "full"] },
@@ -61,6 +62,7 @@ export const Basic: Story = {
         resize=${args.resize}
         ?showError=${args.showError}
         errorMessage=${args.errorMessage}
+        ariaLabel=${args.ariaLabel}
       ></nys-textarea>
     `;
   },
