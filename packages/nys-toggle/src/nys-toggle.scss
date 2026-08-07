@@ -41,7 +41,6 @@
     #081b2b
   );
   --_nys-toggle-color-ink-reverse: var(--nys-color-ink-reverse, #ffffff);
-  --_nys-toggle-color--disabled: var(--nys-color-neutral-500, #797c7f);
 }
 
 :host([inverted]) {
@@ -53,14 +52,8 @@
   display: flex;
   gap: var(--_nys-toggle-gap);
 
-  nys-label {
-    --_nys-label-font-weight: var(--nys-font-weight-semibold, 600);
-  }
-
   &:has(input:disabled) {
     nys-label {
-      --_nys-label-color: var(--_nys-toggle-color--disabled);
-
       cursor: not-allowed;
     }
   }

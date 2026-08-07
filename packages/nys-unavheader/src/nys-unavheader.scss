@@ -5,10 +5,6 @@
     --nys-color-surface,
     var(--nys-color-white, #ffffff)
   );
-  --_nys-unavheader-color: var(
-    --nys-color-text,
-    var(--nys-color-neutral-900, #1b1b1b)
-  );
   --_nys-unavheader-max-width--content: var(
     --nys-unavheader-max-width--content,
     1280px
@@ -58,34 +54,18 @@
      band and the alert can't drift apart. */
   &[data-type="info"] {
     --_nys-unavheader-alert-background-color: var(--nys-color-info, #004dd1);
-    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--hover: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--active: var(--nys-color-ink-reverse, #ffffff);
   }
 
   &[data-type="success"] {
     --_nys-unavheader-alert-background-color: var(--nys-color-success, #1e752e);
-    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--hover: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--active: var(--nys-color-ink-reverse, #ffffff);
   }
 
   &[data-type="warning"] {
     --_nys-unavheader-alert-background-color: var(--nys-color-warning, #face00);
-    --_nys-alert-color: var(--nys-color-ink, #1b1b1b);
-    --_nys-alert-color--link: var(--nys-color-ink, #1b1b1b);
-    --_nys-alert-color--link--hover: var(--nys-color-ink, #1b1b1b);
-    --_nys-alert-color--link--active: var(--nys-color-ink, #1b1b1b);
   }
 
   &[data-type="danger"] {
     --_nys-unavheader-alert-background-color: var(--nys-color-danger, #b52c2c);
-    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--hover: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--active: var(--nys-color-ink-reverse, #ffffff);
   }
 
   &[data-type="emergency"] {
@@ -93,18 +73,10 @@
       --nys-color-emergency,
       #721c1c
     );
-    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--hover: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--active: var(--nys-color-ink-reverse, #ffffff);
   }
 
   &[data-type="base"] {
     --_nys-unavheader-alert-background-color: var(--nys-color-base, #62666a);
-    --_nys-alert-color: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--hover: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-alert-color--link--active: var(--nys-color-ink-reverse, #ffffff);
   }
 
   /* The alert sits flush against the header, so square off its corners */
@@ -112,9 +84,6 @@
     --_nys-alert-background-color: var(
       --_nys-unavheader-alert-background-color
     );
-    --_nys-alert-border-radius: 0;
-    --_nys-alert-border-width: 0;
-    --_nys-alert-padding: var(--nys-space-250, 20px) 0;
 
     /* nys-alert's :host is inline by default; blockify so max-width/auto margins apply */
     display: block;
@@ -206,29 +175,6 @@ a#nys-unavheader__logolink {
   align-items: center;
   cursor: pointer;
   gap: var(--nys-space-50, 4px);
-
-  /* These props ARE NOT publicly overridable */
-  --_nys-button-padding--x: var(--nys-space-50, 4px);
-  --_nys-button-padding--y: var(--nys-space-2px, 2px);
-  --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
-  --_nys-button-border-radius: var(--nys-radius-md, 4px);
-  --_nys-button-border-width: 0px;
-
-  /* typography */
-  --_nys-button-font-size: var(--nys-font-size-ui-xs, 12px);
-  --_nys-button-font-weight: var(--nys-font-weight-regular, 400);
-  --_nys-button-line-height: var(--nys-font-lineheight-ui-xs, 20px);
-  --_nys-button-font-family: var(
-    --nys-font-family-ui,
-    var(
-      --nys-font-family-sans,
-      "Proxima Nova",
-      "Helvetica Neue",
-      "Helvetica",
-      "Arial",
-      sans-serif
-    )
-  );
 }
 
 .hide {
@@ -284,8 +230,6 @@ a#nys-unavheader__logolink {
 .nys-unavheader__search {
   max-width: var(--nys-form-width-md, 200px);
   transition: max-width 0.5s ease;
-
-  --_nys-textinput-gap: 0px;
 }
 
 /* Grow size on focus */
@@ -301,15 +245,6 @@ a#nys-unavheader__logolink {
   --nys-button-color: var(--nys-color-state-blue-700, #154973);
   --nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
   --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
-  --_nys-button-border-width: 0px;
-}
-
-.nys-unavheader__iconbutton {
-  /* These props ARE NOT publicly overridable */
-  --_nys-button-width: var(--nys-size-400, 32px);
-  --_nys-button-height: var(--nys-size-400, 32px);
-  --_nys-button-padding--y: 0;
-  --_nys-button-padding--x: 0;
 }
 
 .nys-unavheader__translatewrapper {
@@ -330,19 +265,9 @@ a#nys-unavheader__logolink {
 }
 
 .nys-unavheader__languagelink {
-  --_nys-button-padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
   --nys-button-color: var(--nys-color-state-blue-700, #154973);
   --nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
   --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
-  --_nys-button-border-radius: 0;
-  --_nys-button-justify-content: start;
-
-  /* Arrow keys move focus between options, so the focus ring is the only thing
-     showing which one is active. The options are full-bleed and stacked with no
-     gap, so an outward ring would be drawn over its neighbors — inset it instead.
-     Width and offset must stay equal and opposite. */
-  --_nys-button-outline-width: var(--nys-border-width-md, 2px);
-  --_nys-button-outline-offset: calc(-1 * var(--nys-border-width-md, 2px));
 }
 
 /* Breakpoints using NYSDS Grid Guidelines */
@@ -350,12 +275,6 @@ a#nys-unavheader__logolink {
   /* Mobile (XS) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
-  }
-
-  #nys-unavheader__know {
-    --_nys-button-padding--x: 0px;
-    --_nys-button-padding--y: 0px;
-    --_nys-button-height: var(--nys-space-200, 16px);
   }
 
   .nys-unavheader__trustbar > .content {

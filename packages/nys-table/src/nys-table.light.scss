@@ -67,12 +67,6 @@ nys-table th {
     width: -webkit-fill-available;
     width: fill-available;
     justify-content: space-between;
-
-    --_nys-button-border-width: 0;
-    --_nys-button-border-radius: 0;
-    --_nys-button-padding--x: var(--_nys-table-padding--cell--x);
-    --_nys-button-justify-content: space-between;
-    --_nys-button-outline-offset: -2px;
   }
 }
 

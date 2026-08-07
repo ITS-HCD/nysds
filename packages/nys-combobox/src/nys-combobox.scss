@@ -206,13 +206,6 @@
   right: var(--nys-space-150, 12px);
   gap: var(--nys-space-150, 12px);
 
-  nys-button {
-    --_nys-button-padding--y: var(--nys-space-50, 4px);
-    --_nys-button-padding--x: var(--nys-space-50, 4px);
-    --_nys-button-height: var(--nys-size-300, 32px);
-    --_nys-button-width: var(--nys-size-400, 32px);
-  }
-
   .nys-combobox__chevron {
     border-inline-start: solid var(--nys-color-neutral-200, #bec0c1)
       var(--nys-border-width-sm, 1px);

@@ -174,29 +174,8 @@
 }
 
 ::slotted(nys-button) {
-  /* These props ARE NOT publicly overridable */
-  --_nys-button-height: var(--_nys-textinput-height);
-  --_nys-button-border-radius: var(--_nys-textinput-border-radius);
-  --_nys-button-background-color--disabled: var(
-    --_nys-textinput-background-color--disabled
-  );
-  --_nys-button-border-color--disabled: var(--_nys-textinput-color--disabled);
-  --_nys-button-color--disabled: var(--_nys-textinput-color--disabled);
-  --_nys-button-border-width: var(--_nys-textinput-border-width);
-
-  z-index: 1;
-
   /* to make sure the button outline renders on top of the input */
-}
-
-.nys-textinput__buttoncontainer.has-start-button ::slotted(nys-button) {
-  --_nys-button-border-radius: var(--_nys-textinput-border-radius) 0 0
-    var(--_nys-textinput-border-radius);
-}
-
-.nys-textinput__buttoncontainer.has-end-button ::slotted(nys-button) {
-  --_nys-button-border-radius: 0 var(--_nys-textinput-border-radius)
-    var(--_nys-textinput-border-radius) 0;
+  z-index: 1;
 }
 
 .inline-icon {
@@ -211,15 +190,6 @@
   --nys-button-background-color: var(--_nys-textinput-background-color);
   --nys-button-background-color--hover: var(--_nys-textinput-background-color);
   --nys-button-background-color--active: var(--_nys-textinput-background-color);
-
-  /* These props ARE NOT publicly overridable */
-  --_nys-button-outline-focus: calc(var(--_nys-button-outline-width) * -1);
-
-  /* Needs to be negative of the offset width */
-  --_nys-button-padding--y: var(--nys-space-50, 4px);
-  --_nys-button-padding--x: var(--nys-space-50, 4px);
-  --_nys-button-height: var(--nys-size-300, 32px);
-  --_nys-button-width: var(--nys-size-400, 32px);
 }
 
 /* Hovered */
