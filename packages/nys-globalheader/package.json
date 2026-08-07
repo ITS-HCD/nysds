@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-globalheader",
-  "version": "1.19.4",
+  "version": "1.20.0",
   "description": "The Globalheader component from the NYS Design System.",
   "module": "dist/nys-globalheader.js",
   "types": "dist/index.d.ts",
@@ -23,10 +23,10 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.19.4"
+    "@nysds/nys-icon": "^1.20.0"
   },
   "devDependencies": {
-    "@nysds/internals": "^1.19.4",
+    "@nysds/internals": "^1.20.0",
     "lit": "^3.3.1",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
