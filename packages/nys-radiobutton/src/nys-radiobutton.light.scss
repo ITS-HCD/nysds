@@ -1,7 +1,6 @@
 nys-radiobutton {
   /* Global Radiobutton Styles */
   --_nys-radiobutton-size: var(--nys-size-400, 32px);
-  --_nys-radiobutton-border-radius: var(--nys-radius-md, 4px);
   --_nys-radiobutton-border-width: var(--nys-border-width-md, 2px);
   --_nys-radiobutton-outline-color: var(--nys-color-focus, #004dd1);
   --_nys-radiobutton-outline-width: var(--nys-border-width-md, 2px);
@@ -28,12 +27,6 @@ nys-radiobutton {
   --_nys-radiobutton-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-radiobutton-font-weight--label: var(--nys-font-weight-regular, 400);
   --_nys-radiobutton-line-height: var(--nys-font-lineheight-ui-md, 24px);
-
-  /* Global Radio Button Colors */
-  --_nys-radiobutton-color: var(
-    --nys-color-text,
-    var(--nys-color-neutral-900, #1b1b1b)
-  );
 
   /* Default (Empty) */
   --_nys-radiobutton-background-color: var(--nys-color-ink-reverse, #ffffff);
@@ -81,7 +74,6 @@ nys-radiobutton {
 /* Small Variant */
 nys-radiobutton[size="sm"] {
   --_nys-radiobutton-size: var(--nys-size-300, 24px);
-  --_nys-radiobutton-border-radius: var(--nys-radius-sm, 2px);
   --_nys-radiogroup-gap: var(--nys-space-100, 8px);
   --_nys-radiobutton-gap: var(--nys-space-100, 8px);
 }
@@ -89,7 +81,6 @@ nys-radiobutton[size="sm"] {
 /* Medium Variant */
 nys-radiobutton[size="md"] {
   --_nys-radiobutton-size: var(--nys-size-400, 32px);
-  --_nys-radiobutton-border-radius: var(--nys-radius-md, 4px);
   --_nys-radiogroup-gap: var(--nys-space-200, 16px);
   --_nys-radiobutton-gap: var(--nys-space-150, 12px);
 }
@@ -335,7 +326,6 @@ nys-radiobutton[tile] .nys-radiobutton__main-container > nys-label {
 
   --_nys-label-cursor: not-allowed;
   --_nys-label-color: var(--_nys-radiobutton-color--disabled);
-  --_nys-description-color: var(--_nys-radiobutton-color--disabled);
 
   color: var(--_nys-radiobutton-color--disabled);
 }

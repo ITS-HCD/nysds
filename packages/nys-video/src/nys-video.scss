@@ -2,11 +2,7 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Video Styles */
-  --_nys-video-width: fit-content;
-  --_nys-video-height: var(--nys-size-600, 48px);
   --_nys-video-radius: var(--nys-radius-lg, 8px);
-  --_nys-video-padding: var(--nys-space-100, 8px);
-  --_nys-video-gap: var(--nys-space-100, 8px);
 
   /* Typography */
   --_nys-video-font-size: var(--nys-font-size-ui-md, 16px);

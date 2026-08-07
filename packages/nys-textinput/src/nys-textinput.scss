@@ -212,9 +212,6 @@
   --nys-button-background-color--hover: var(--_nys-textinput-background-color);
   --nys-button-background-color--active: var(--_nys-textinput-background-color);
 
-  /* These props ARE NOT publicly overridable */
-  --_nys-button-outline-focus: calc(var(--_nys-button-outline-width) * -1);
-
   /* Needs to be negative of the offset width */
   --_nys-button-padding--y: var(--nys-space-50, 4px);
   --_nys-button-padding--x: var(--nys-space-50, 4px);

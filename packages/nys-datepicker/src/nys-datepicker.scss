@@ -1,10 +1,6 @@
 :host {
   /* Global Datepicker Styles */
-  --_nys-datepicker-width: fit-content;
   --_nys-datepicker-width--input: var(--nys-form-width-md, 200px);
-  --_nys-datepicker-gap: var(--nys-space-100, 8px);
-  --_nys-datepicker-height: var(--nys-size-600, 48px);
-  --_nys-datepicker-radius: var(--nys-radius-xl, 12px);
   --_nys-datepicker-color: var(
     --nys-color-text,
     var(--nys-color-neutral-900, #1b1b1b)

@@ -32,12 +32,6 @@
   --_nys-checkbox-font-weight--standalone: var(--nys-font-weight-semibold, 600);
   --_nys-checkbox-line-height: var(--nys-font-lineheight-ui-md, 24px);
 
-  /* Global Checkbox Colors */
-  --_nys-checkbox-color: var(
-    --nys-color-ink,
-    var(--nys-color-neutral-900, #1b1b1b)
-  );
-
   /* Default (Empty) */
   --_nys-checkbox-background-color: var(--nys-color-ink-reverse, #ffffff);
   --_nys-checkbox-border-color: var(--nys-color-neutral-600, #62666a);
