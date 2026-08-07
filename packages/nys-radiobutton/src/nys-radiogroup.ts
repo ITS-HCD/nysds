@@ -485,7 +485,7 @@ export class NysRadiogroup extends NysFormControlElement {
 
   private _forwardRadioDescriptions() {
     // Note to self: future rework to "eat our own dog food"
-    // for the new revamp radiobutton (1.19.4) will render this function useless.
+    // for the new revamp radiobutton (1.19..4) will render this function useless.
     this._radios.forEach((radiobtn) => {
       const slotted = radiobtn.querySelector<HTMLElement>(
         ':scope > [slot="description"]',
