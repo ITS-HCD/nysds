@@ -654,8 +654,6 @@ An explicit name replaces the reference to the visible heading. */
 };
 
 export type NysGlobalHeaderProps = {
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: string;
   /** Application name displayed prominently. */
   appName?: string;
   /** Agency name displayed below app name (or as main title if no appName). */
@@ -668,19 +666,6 @@ Enable only for internal, state-employee (back-office) applications that omit
 `nys-unavheader`. Any resident-facing app — even one requiring login — should
 keep `nys-unavheader` for trust and leave this off. */
   nysLogo?: boolean;
-  /** Accessible name for the `banner` landmark this header renders.
-
-Leave it unset and the banner is named after the visible `appName` or
-`agencyName`, which cannot drift out of sync and is translated with the rest
-of the page. Falls back to `"Site"` when there is no title to reference.
-
-Set this only when neither is right for your audience. A page pairing this
-with `nys-unavheader` carries two `banner` landmarks, so the name must stay
-distinct from that header's (`"New York State"` by default) or landmark
-navigation stops distinguishing them.
-
-An explicit name replaces the reference to the visible title. */
-  landmarkLabel?: string;
 };
 
 export type NysIconProps = {
