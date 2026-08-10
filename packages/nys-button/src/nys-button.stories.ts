@@ -25,15 +25,16 @@ export const Basic: Story = {
     variant: "filled",
     inverted: false,
     label: "Button",
-    ariaLabel: "",
     ariaControls: "",
+    ariaExpanded: "",
+    ariaCurrent: "",
     prefixIcon: "",
     suffixIcon: "",
     circle: false,
     icon: "",
     disabled: false,
     value: "",
-    ariaDescription: "",
+    ariaDescribedBy: "",
     type: "button",
     href: "",
     target: "_self",
@@ -43,6 +44,23 @@ export const Basic: Story = {
     variant: {
       control: { type: "select" },
       options: ["filled", "outline", "ghost", "text"],
+    },
+    ariaExpanded: {
+      control: { type: "select" },
+      options: ["true", "false", ""],
+    },
+    ariaCurrent: {
+      control: { type: "select" },
+      options: [
+        "page",
+        "step",
+        "location",
+        "date",
+        "time",
+        "true",
+        "false",
+        "",
+      ],
     },
     type: {
       control: { type: "select" },
@@ -62,15 +80,16 @@ export const Basic: Story = {
         variant=${args.variant}
         ?inverted=${args.inverted}
         label=${args.label}
-        ariaLabel=${args.ariaLabel}
         ariaControls=${args.ariaControls}
+        ariaExpanded=${args.ariaExpanded}
+        ariaCurrent=${args.ariaCurrent}
         prefixIcon=${args.prefixIcon}
         suffixIcon=${args.suffixIcon}
         ?circle=${args.circle}
         icon=${args.icon}
         ?disabled=${args.disabled}
         value=${args.value}
-        ariaDescription=${args.ariaDescription}
+        ariaDescribedBy=${args.ariaDescribedBy}
         type=${args.type}
         href=${args.href}
         target=${args.target}
@@ -336,6 +355,27 @@ export const Type: Story = {
       source: {
         code: `
 <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DisclosureTrigger: Story = {
+  render: () => {
+    return html`
+      <nys-button
+        label="Here's how you know"
+        ariaExpanded="false"
+        ariaControls="trust-bar"
+      ></nys-button>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button label="Here's how you know" ariaExpanded="false" ariaControls="trust-bar"></nys-button>`,
         type: "auto",
       },
     },

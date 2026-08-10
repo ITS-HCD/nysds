@@ -30,7 +30,17 @@ export interface NysAvatarProps extends Pick<
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysAvatarElement["id"];
 
-  /** Accessible label for screen readers. Required when no image `alt` is available. */
+  /** Accessible name for the avatar — who or what it represents ("Jane Smith"),
+not what it is ("avatar").
+
+Leave it unset for a decorative avatar and the whole thing is hidden from
+assistive tech, which is the right outcome next to a visible name. Set it
+whenever the avatar is the only thing identifying the person, and always when
+`interactive` is set: that renders a `<button>`, and a nameless button cannot
+be operated by screen reader or voice-control users (WCAG 4.1.2). An
+interactive avatar without a name logs a console warning.
+
+Whitespace-only values — including a non-breaking space — count as no name. */
   ariaLabel?: NysAvatarElement["ariaLabel"];
 
   /** Image URL. Takes priority over initials and icon. */

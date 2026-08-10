@@ -1,11 +1,17 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
+// These elements are rendered inside this component's shadow DOM, so they must
+// be registered whenever nys-table is used. Importing them here (intentional
+// side effect) guarantees the sort icons and download button always upgrade —
+// the download button's accessible name lands on nys-button's real inner
+// <button>, which only exists once nys-button renders.
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-table.light.scss?inline";
-
-let componentIdCounter = 0;
 
 let _lightSheet: CSSStyleSheet | null = null;
 // Injects the light-DOM styling for <nys-table> into a single constructed
@@ -105,8 +111,7 @@ function adoptLightStyles() {
  * </nys-table>
  * ```
  */
-
-export class NysTable extends LitElement {
+export class NysTable extends NysElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
@@ -130,13 +135,14 @@ export class NysTable extends LitElement {
     super();
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns a unique id
+    // (prefixed with the element's localName) when one is not provided. The host
+    // is a presentational wrapper: native table semantics live on the slotted
+    // <table>, enhanced in place, so this component keeps defaultRole = null and
+    // never moves a role onto the host.
     super.connectedCallback();
     adoptLightStyles();
-    if (!this.id) {
-      this.id = `nys-table-${Date.now()}-${componentIdCounter++}`;
-    }
   }
 
   firstUpdated() {
@@ -212,6 +218,12 @@ export class NysTable extends LitElement {
 
     this._withObserverPaused(table, () => {
       this._normalizeTableDOM(table);
+
+      // WCAG 1.3.1 (Info and Relationships): ensure column header cells carry
+      // scope="col" so assistive tech reliably associates each data cell with
+      // its header. Applied after normalization so it covers both
+      // pre-structured (thead/tbody) and auto-normalized tables.
+      this._applyHeaderScopes(table);
 
       if (this.sortable) {
         this._addSortIcons(table);
@@ -296,6 +308,20 @@ export class NysTable extends LitElement {
 
     table.appendChild(thead);
     table.appendChild(tbody);
+  }
+
+  /**
+   * Adds scope="col" to every column-header cell in the table head. Header cells
+   * inside the body (row headers) are left untouched so authors can still mark
+   * them scope="row" themselves; we only set a scope where one is missing.
+   */
+  private _applyHeaderScopes(table: HTMLTableElement) {
+    const headerCells = table.querySelectorAll("thead th");
+    headerCells.forEach((th) => {
+      if (!th.hasAttribute("scope")) {
+        th.setAttribute("scope", "col");
+      }
+    });
   }
 
   private _addSortIcons(table: HTMLTableElement) {
@@ -499,8 +525,7 @@ export class NysTable extends LitElement {
       ${this.download
         ? html` <nys-button
             id="${this.id}-download-button"
-            label="Download table"
-            aria-label=${this._captionText
+            label=${this._captionText
               ? `Download ${this._captionText}`
               : "Download table"}
             size="sm"

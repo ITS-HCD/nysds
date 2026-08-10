@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useEffect } from "react";
 import "../../dist/nysds.es.js";
-import { useEventListener } from "./react-utils.js";
+import { useEventListener, useProperties } from "./react-utils.js";
 
 export const NysRadiobutton = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
@@ -11,6 +11,7 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
     tile,
     other,
     showOtherError,
+    hideLabel,
     label,
     description,
     id,
@@ -18,6 +19,8 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
     value,
     form,
     size,
+    labelledby,
+    validity,
     ...filteredProps
   } = props;
 
@@ -26,6 +29,9 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
   useEventListener(ref, "nys-focus", props.onNysFocus);
   useEventListener(ref, "nys-blur", props.onNysBlur);
   useEventListener(ref, "nys-other-input", props.onNysOtherInput);
+
+  /** Properties - run whenever a property has changed */
+  useProperties(ref, "validity", props.validity);
 
   return React.createElement(
     "nys-radiobutton",
@@ -46,6 +52,7 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
       value: props.value,
       form: props.form,
       size: props.size,
+      labelledby: props.labelledby,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
@@ -57,6 +64,7 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
       tile: props.tile ? true : undefined,
       other: props.other ? true : undefined,
       showOtherError: props.showOtherError ? true : undefined,
+      hideLabel: props.hideLabel ? true : undefined,
       style: { ...props.style },
     },
     props.children,

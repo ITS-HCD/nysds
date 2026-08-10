@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+		"composite": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../internals" },
+    { "path": "../nys-badge" },
+    { "path": "../nys-button" },
+    { "path": "../nys-icon" },
+    { "path": "../nys-iconlist" }
+  ],
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "**/*.stories.ts",
+    "**/*.styles.ts",
+    "**/*.test.ts",
+    "packages",
+    "node_modules",
+    "dist"
+  ]
+}

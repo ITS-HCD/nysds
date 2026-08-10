@@ -1,10 +1,9 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 import "./nys-step";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-stepper.scss?inline";
-
-let stepperIdCounter = 0;
 
 /**
  * A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.
@@ -39,13 +38,17 @@ let stepperIdCounter = 0;
  *
  * ## id auto-generation
  * If no `id` is provided, a unique id is generated automatically in the form
- * `nys-stepper-{n}-{timestamp}`.
+ * `nys-stepper-{timestamp}-{n}`.
  *
  * ## Accessibility
  * - The compact counter is rendered as a `role="button"` with `aria-expanded` and a descriptive
  *   `aria-label` that announces the current step (e.g., "Expand step navigation. You are on Step 2 of 4").
  * - Keyboard: Enter or Space toggles the compact view.
- * - Each `nys-step` label is keyboard-focusable and activatable for navigable steps.
+ * - Steps are rendered inside an `<ol>` so assistive technology announces each step's position
+ *   and count (e.g. "2 of 4"). Each slotted `<nys-step>` carries `role="listitem"` since it
+ *   can't itself be a real `<li>`.
+ * - Navigable steps render as real `<button>` elements — keyboard-focusable and activatable
+ *   (Enter/Space) natively. Future (non-navigable) steps render as plain, non-interactive rows.
  * - Visual focus indicators are provided on all interactive elements.
  *
  * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
@@ -188,10 +191,10 @@ let stepperIdCounter = 0;
  * ```
  */
 
-export class NysStepper extends LitElement {
+export class NysStepper extends NysElement {
   static styles = unsafeCSS(styles);
 
-  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{timestamp}-{n}` if not provided. */
   @property({ type: String, reflect: true }) id = "";
 
   /** Name attribute for form association. */
@@ -209,20 +212,16 @@ export class NysStepper extends LitElement {
 
   private _stepsNumbered = false;
 
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto id when
+    // one is not provided, preserving the `nys-stepper-<ts>-<n>` shape. The
+    // landmark/navigation role lives on the inner <nav> element (so it groups the
+    // slotted steps), so this component keeps defaultRole = null and does not move
+    // a role onto the host.
     super.connectedCallback();
     this.addEventListener("nys-step-click", this._onStepClick);
     // Defer step validation to next tick to ensure children are upgraded
     requestAnimationFrame(() => this._validateSteps());
-
-    // Generate unique id if not provided
-    if (!this.id) {
-      this.id = `nys-stepper-${++stepperIdCounter}-${Date.now()}`;
-    }
   }
 
   disconnectedCallback() {
@@ -463,7 +462,16 @@ export class NysStepper extends LitElement {
             </div>
           </div>
         </div>
-        <slot class="nys-stepper__steps"></slot>
+        <nav
+          class="nys-stepper__nav"
+          aria-label=${this.label?.trim()
+            ? `${this.label} progress`
+            : "Progress"}
+        >
+          <ol class="nys-stepper__steps" role="list">
+            <slot></slot>
+          </ol>
+        </nav>
       </div>
     `;
   }

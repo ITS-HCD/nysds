@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },
+  "references": [{ "path": "../internals" }],
   "include": ["src/**/*"],
   "exclude": [
     "**/*.stories.ts",
