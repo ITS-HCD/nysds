@@ -10,6 +10,7 @@
 
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-border-radius--media: 0;
+  --_nys-card-border-color: var(--nys-color-neutral-200, #bec0c1);
   --_nys-card-padding--t: var(--nys-space-200, 16px);
   --_nys-card-padding--x: var(--nys-space-300, 24px);
   --_nys-card-padding--b: var(--nys-space-250, 20px);
@@ -96,8 +97,7 @@
   justify-content: center;
 
   border-radius: var(--_nys-card-border-radius);
-  border: var(--nys-border-width-sm, 1px) solid
-    var(--nys-color-neutral-200, #bec0c1);
+  border: var(--nys-border-width-sm, 1px) solid var(--_nys-card-border-color);
   background-color: var(--_nys-card-background-color);
 
   overflow: hidden;
