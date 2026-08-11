@@ -14,6 +14,7 @@
   --_nys-card-padding--t: var(--nys-space-200, 16px);
   --_nys-card-padding--x: var(--nys-space-300, 24px);
   --_nys-card-padding--b: var(--nys-space-250, 20px);
+  --_nys-card-padding-bottom--preheading: var(--nys-space-150, 12px);
   --_nys-card-background-color: var(--nys-color-surface, #ffffff);
   --_nys-card-gap: var(--nys-space-150, 12px);
 
@@ -193,6 +194,19 @@
     font-weight: 700;
     line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+  }
+
+  /* The slotted counterpart of &__preheading: content supplied through the
+     slot brings its own styling (a badge, for instance), so this only lays it
+     out — none of the text styles above apply to it. */
+  &__preheading-slot {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: var(--_nys-card-padding-bottom--preheading);
+
+    &[hidden] {
+      display: none;
+    }
   }
 
   &__heading {
