@@ -8622,6 +8622,16 @@
             },
             {
               "kind": "field",
+              "name": "landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `banner` landmark this header renders.\n\nLeave it unset and the banner is named after the visible `appName` or\n`agencyName`, which cannot drift out of sync and is translated with the rest\nof the page. Falls back to `\"Site\"` when there is no title to reference.\n\nSet this only when neither is right for your audience. A page pairing this\nwith `nys-unavheader` carries two `banner` landmarks, so the name must stay\ndistinct from that header's (`\"New York State\"` by default) or landmark\nnavigation stops distinguishing them.\n\nAn explicit name replaces the reference to the visible title.",
+              "attribute": "landmarkLabel"
+            },
+            {
+              "kind": "field",
               "name": "_isMobileMenuOpen",
               "type": {
                 "text": "boolean"
@@ -8639,6 +8649,22 @@
               "privacy": "private",
               "default": "false",
               "description": "Internal state to track if any navigation links are present in the slot."
+            },
+            {
+              "kind": "field",
+              "name": "_authorSetsCurrent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "True once the author has marked the current page themselves with `aria-current`.\n\nMatching `window.location.pathname` is only a default. An app that doesn't route\non the pathname — a hash-routed SPA, say — has to be able to say which link is\ncurrent, and the header must then leave that signal alone rather than clearing\nit and marking a link of its own choosing."
+            },
+            {
+              "kind": "field",
+              "name": "_desktopMedia",
+              "privacy": "private",
+              "description": "Watches for the viewport growing past the mobile breakpoint. The menu and its\ntoggle are `display: none` there, so an open menu that survived a resize would\nleave the focus trap guarding elements nobody can reach."
             },
             {
               "kind": "field",
@@ -8698,6 +8724,10 @@
                   "type": {
                     "text": "boolean"
                   }
+                },
+                {
+                  "name": "restoreFocus",
+                  "default": "false"
                 }
               ]
             },
@@ -8705,6 +8735,59 @@
               "kind": "method",
               "name": "_toggleMobileMenu",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_menuButton",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_focusableMenuElements",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              },
+              "description": "Toggle first, then the menu's own links — the tab order a sighted keyboard\nuser sees, so the trap cycles in the order the menu reads."
+            },
+            {
+              "kind": "method",
+              "name": "_activeMenuElement",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "focusable",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  }
+                }
+              ],
+              "description": "The focused element, but only when it is one of the menu's own stops.\n\n`document.activeElement` reports the host for anything focused inside this\nshadow root (the toggle button) or the links in the lightDOM."
+            },
+            {
+              "kind": "method",
+              "name": "_trapMobileMenuFocus",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ],
+              "description": "Keeps Tab / Shift+Tab inside the open mobile menu (#1101).\n\nThe open menu covers the page, so tabbing out of it silently moves focus to\ncontent the user cannot see (WCAG 2.4.3, 2.1.2). Wrapping at both ends keeps\nevery stop reachable, and Escape (handled alongside this) is the documented\nway out."
             },
             {
               "kind": "method",
@@ -8728,8 +8811,44 @@
             },
             {
               "kind": "field",
+              "name": "_boundBreakpointChange",
+              "privacy": "private",
+              "description": "Growing past the mobile breakpoint takes the menu off the page, so drop the\nopen state with it. No focus restore: the toggle is gone too, and the resize\nwas not a dismissal the user aimed at anything."
+            },
+            {
+              "kind": "field",
               "name": "_boundKeyDown",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_bannerLabelledBy",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "Id of the element that names the banner landmark, or undefined when this\nheader carries no title to point at.\n\nThe documented pairing puts this header below `nys-unavheader`, which leaves a\npage with two `banner` landmarks. Naming each one keeps landmark navigation\nuseful instead of announcing \"banner, banner\" (axe `landmark-unique`). The name\nreferences the visible title rather than repeating it in an `aria-label`, so it\ncannot drift out of sync and is translated along with the rest of the page.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_landmarkLabelOverride",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "The author's landmark name, or undefined when they gave none.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_bannerLabel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "description": "Literal name for the banner: the author's override, or the \"Site\" default when\nthere is no visible title to reference. Undefined whenever `_bannerLabelledBy`\nhas something to point at, so the landmark never carries both.",
+              "readonly": true
             }
           ],
           "attributes": [
@@ -8772,11 +8891,21 @@
               "description": "Displays the NYS brand mark in the header. Off by default.\n\nEnable only for internal, state-employee (back-office) applications that omit\n`nys-unavheader`. Any resident-facing app — even one requiring login — should\nkeep `nys-unavheader` for trust and leave this off.",
               "fieldName": "nysLogo",
               "propName": "nyslogo"
+            },
+            {
+              "name": "landmarkLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `banner` landmark this header renders.\n\nLeave it unset and the banner is named after the visible `appName` or\n`agencyName`, which cannot drift out of sync and is translated with the rest\nof the page. Falls back to `\"Site\"` when there is no title to reference.\n\nSet this only when neither is right for your audience. A page pairing this\nwith `nys-unavheader` carries two `banner` landmarks, so the name must stay\ndistinct from that header's (`\"New York State\"` by default) or landmark\nnavigation stops distinguishing them.\n\nAn explicit name replaces the reference to the visible title.",
+              "fieldName": "landmarkLabel",
+              "propName": "landmarklabel"
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-globalheader",
           "customElement": true,
@@ -8815,6 +8944,11 @@
             {
               "title": "With NYS Logo",
               "code": "<nys-globalheader nysLogo appName=\"Admin Dashboard\"></nys-globalheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom landmark label",
+              "code": "<!-- Names the banner landmark directly instead of from the visible title.\nKeep it distinct from nys-unavheader's (\"New York State\"). -->\n<nys-globalheader\nagencyName=\"Office of Information Technology Services\"\nlandmarkLabel=\"ITS\"\n></nys-globalheader>",
               "lang": "html"
             }
           ]

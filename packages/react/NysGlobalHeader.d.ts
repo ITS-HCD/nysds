@@ -34,6 +34,20 @@ keep `nys-unavheader` for trust and leave this off. */
   /** URL for the header title link. If empty, title is not clickable. */
   homepageLink?: NysGlobalHeaderElement["homepageLink"];
 
+  /** Accessible name for the `banner` landmark this header renders.
+
+Leave it unset and the banner is named after the visible `appName` or
+`agencyName`, which cannot drift out of sync and is translated with the rest
+of the page. Falls back to `"Site"` when there is no title to reference.
+
+Set this only when neither is right for your audience. A page pairing this
+with `nys-unavheader` carries two `banner` landmarks, so the name must stay
+distinct from that header's (`"New York State"` by default) or landmark
+navigation stops distinguishing them.
+
+An explicit name replaces the reference to the visible title. */
+  landmarkLabel?: NysGlobalHeaderElement["landmarkLabel"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 
