@@ -26,6 +26,8 @@ export const Basic: Story = {
     inverted: false,
     label: "Button",
     ariaControls: "",
+    ariaExpanded: "",
+    ariaCurrent: "",
     prefixIcon: "",
     suffixIcon: "",
     circle: false,
@@ -42,6 +44,23 @@ export const Basic: Story = {
     variant: {
       control: { type: "select" },
       options: ["filled", "outline", "ghost", "text"],
+    },
+    ariaExpanded: {
+      control: { type: "select" },
+      options: ["true", "false", ""],
+    },
+    ariaCurrent: {
+      control: { type: "select" },
+      options: [
+        "page",
+        "step",
+        "location",
+        "date",
+        "time",
+        "true",
+        "false",
+        "",
+      ],
     },
     type: {
       control: { type: "select" },
@@ -62,6 +81,8 @@ export const Basic: Story = {
         ?inverted=${args.inverted}
         label=${args.label}
         ariaControls=${args.ariaControls}
+        ariaExpanded=${args.ariaExpanded}
+        ariaCurrent=${args.ariaCurrent}
         prefixIcon=${args.prefixIcon}
         suffixIcon=${args.suffixIcon}
         ?circle=${args.circle}
@@ -334,6 +355,27 @@ export const Type: Story = {
       source: {
         code: `
 <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DisclosureTrigger: Story = {
+  render: () => {
+    return html`
+      <nys-button
+        label="Here's how you know"
+        ariaExpanded="false"
+        ariaControls="trust-bar"
+      ></nys-button>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button label="Here's how you know" ariaExpanded="false" ariaControls="trust-bar"></nys-button>`,
         type: "auto",
       },
     },

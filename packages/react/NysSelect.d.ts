@@ -49,6 +49,9 @@ export interface NysSelectProps extends Pick<
   /** Helper text below label. Use slot for custom HTML. */
   description?: NysSelectElement["description"];
 
+  /** Accessible label. Used as a fallback when `label` is not provided. */
+  ariaLabel?: NysSelectElement["ariaLabel"];
+
   /** Currently selected option value. */
   value?: NysSelectElement["value"];
 

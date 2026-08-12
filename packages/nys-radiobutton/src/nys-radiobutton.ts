@@ -1,10 +1,13 @@
-import { LitElement, html } from "lit";
+import { html, nothing } from "lit";
+import { NysFormControlElement } from "@nysds/internals";
 import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+// The input's accessible name is an aria-labelledby reference to this element
+// (intentional side-effect import). An un-upgraded <nys-label> exposes no name,
+// so the reference would resolve to nothing and leave the radio unnamed.
+import "@nysds/nys-label";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-radiobutton.light.scss?inline";
-
-let radiobuttonIdCounter = 0;
 
 let _lightSheet: CSSStyleSheet | null = null;
 // Injects the lightDOM styling for the scss for
@@ -111,15 +114,49 @@ function adoptLightStyles() {
  *   </table>
  * </nys-table>
  * ```
+ *
+ * @example Labelled by a table row header
+ * ```html
+ * <nys-table striped bordered>
+ *   <table>
+ *     <caption>
+ *       Select the highest priority application for review
+ *     </caption>
+ *     <tr>
+ *       <th scope="col">Application</th>
+ *       <th scope="col">Priority</th>
+ *     </tr>
+ *     <tr>
+ *       <th scope="row" id="row-snap">SNAP Benefits</th>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="snap"
+ *           labelledby="row-snap"
+ *           hideLabel
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <th scope="row" id="row-heap">HEAP</th>
+ *       <td>
+ *         <nys-radiobutton
+ *           name="priority-application"
+ *           value="heap"
+ *           labelledby="row-heap"
+ *           hideLabel
+ *         ></nys-radiobutton>
+ *       </td>
+ *     </tr>
+ *   </table>
+ * </nys-table>
+ * ```
  */
 
-export class NysRadiobutton extends LitElement {
-  // static styles = unsafeCSS(styles);
-  // static shadowRootOptions = {
-  //   ...LitElement.shadowRootOptions,
-  //   delegatesFocus: true,
-  // };
-
+// Light-DOM component: no shadow root (see createRenderRoot), so no static
+// styles / delegatesFocus. Form association, ElementInternals, validity
+// helpers, and id generation come from NysFormControlElement.
+export class NysRadiobutton extends NysFormControlElement {
   /** Whether this radio is selected. Only one per group can be checked. */
   @property({ type: Boolean, reflect: true }) checked = false;
 
@@ -158,32 +195,38 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
 
-  @query("input") private _inputEl!: HTMLInputElement;
+  /**
+   * Id of an element in the host's light-DOM tree to borrow the accessible name
+   * from (e.g. a table row `<th>`). Enables labelling a radio button that has no
+   * visible label of its own.
+   *
+   * Standalone radios only: inside a `nys-radiogroup` the group renders the
+   * native inputs and names them from the group's own labels.
+   */
+  @property({ type: String }) labelledby = "";
 
-  private _internals: ElementInternals;
+  /**
+   * Suppress the internal visible `<nys-label>` (use with `labelledby` for
+   * table cells). Without `labelledby` there is no visible element left to name
+   * the radio from, so the accessible name falls back to the `label` string —
+   * pair `hideLabel` with `labelledby` wherever a visible element exists.
+   */
+  @property({ type: Boolean }) hideLabel = false;
+
+  @query("input") private _inputEl!: HTMLInputElement;
 
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
-  static formAssociated = true;
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
 
   protected createRenderRoot() {
     return this; // render() output lands directly in light DOM, no shadow root at all
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback(); // assigns an auto id when none is provided
     adoptLightStyles();
-
-    if (!this.id) {
-      this.id = `nys-radiobutton-${Date.now()}-${radiobuttonIdCounter++}`;
-    }
   }
 
   disconnectedCallback() {
@@ -200,15 +243,15 @@ export class NysRadiobutton extends LitElement {
 
   updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has("checked")) {
-      this._internals.ariaChecked = String(this.checked);
+      this.setHostAria("ariaChecked", String(this.checked));
     }
 
     if (changedProperties.has("disabled")) {
-      this._internals.ariaDisabled = String(this.disabled);
+      this.setHostAria("ariaDisabled", String(this.disabled));
     }
 
     if (changedProperties.has("required")) {
-      this._internals.ariaRequired = String(this.required);
+      this.setHostAria("ariaRequired", String(this.required));
     }
 
     if (
@@ -217,9 +260,9 @@ export class NysRadiobutton extends LitElement {
       changedProperties.has("disabled")
     ) {
       if (this.checked && !this.disabled) {
-        this._internals.setFormValue(this.value);
+        this.setFormValue(this.value);
       } else {
-        this._internals.setFormValue(null);
+        this.setFormValue(null);
       }
     }
 
@@ -239,20 +282,12 @@ export class NysRadiobutton extends LitElement {
    * Public validation API (Form Association)
    * --------------------------------------------------------------------------
    */
-  get validity() {
-    return this._internals.validity;
+  get validity(): ValidityState | undefined {
+    return this.internals?.validity;
   }
 
   get validationMessage(): string {
-    return this._internals.validationMessage;
-  }
-
-  checkValidity(): boolean {
-    return this._internals.checkValidity();
-  }
-
-  reportValidity(): boolean {
-    return this._internals.reportValidity();
+    return this.internals?.validationMessage ?? "";
   }
 
   // Check if any radios in the individual "name" group is checked.
@@ -266,13 +301,13 @@ export class NysRadiobutton extends LitElement {
     if (this._isGrouped() || !this._inputEl) return;
 
     if (this.required && !this.disabled && !this._isGroupChecked()) {
-      this._internals.setValidity(
+      this.setValidityFromState(
         { valueMissing: true },
         "Please select an option.",
         this._inputEl,
       );
     } else {
-      this._internals.setValidity({});
+      this.clearValidity();
     }
   }
 
@@ -342,7 +377,7 @@ export class NysRadiobutton extends LitElement {
       this._uncheckOtherRadios(this);
     }
 
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: {
@@ -388,10 +423,64 @@ export class NysRadiobutton extends LitElement {
     }
   };
 
-  private _computeAccessibleLabel() {
-    const radioLabel = this.label || (this.other ? "Other" : "");
-    if (this._isGrouped()) return radioLabel;
-    return `${radioLabel}`;
+  /** The text the internal `<nys-label>` shows, and the last-resort name. */
+  private get _labelText(): string {
+    return this.label || (this.other ? "Other" : "");
+  }
+
+  /**
+   * This component renders into the light DOM (see createRenderRoot), so the
+   * native <input>, the internal <nys-label>, and any external labelling element
+   * all share one tree scope: a plain aria-labelledby IDREF resolves natively and
+   * needs none of the cross-shadow machinery (associateControlRefs) that
+   * nys-checkbox requires.
+   *
+   * When the referenced element is a <nys-label>, its text lives in ITS shadow
+   * root; the reference still names the input because nys-label mirrors `label`
+   * onto its host via ElementInternals.ariaLabel — do not remove that mirror.
+   * That mirror is also why the internal label must NOT be aria-hidden: the name
+   * is read from the element the user can see, which is the whole point.
+   */
+  private get _hasExternalLabel(): boolean {
+    return !!this.labelledby;
+  }
+
+  // The internal <nys-label> is dropped when hidden, when an external label
+  // supersedes it, or when there is nothing to label with. `nothing` (not a
+  // boolean) so lit never renders the literal string "false".
+  private get _renderInternalLabel(): boolean {
+    return !this.hideLabel && !this._hasExternalLabel && !!this._labelText;
+  }
+
+  /** Id of the internal `<nys-label>`, which is also what names the input. */
+  private get _internalLabelId(): string {
+    return `${this.id}-label`;
+  }
+
+  /**
+   * The `aria-labelledby` IDREF for the native input, resolved in priority order:
+   * an author-supplied `labelledby` first, then the visible internal label.
+   *
+   * Naming the input from the element the user can actually see is what keeps the
+   * accessible name and the visible text identical (WCAG 2.5.3 Label in Name).
+   * The old path built a separate `aria-label` string from the same `label` prop,
+   * which is a copy that can drift and that voice-control users cannot rely on
+   * (#1820). This component renders into the light DOM, so a plain IDREF resolves
+   * natively in one tree scope.
+   */
+  private get _labelledById(): string | undefined {
+    if (this._hasExternalLabel) return this.labelledby;
+    if (this._renderInternalLabel) return this._internalLabelId;
+    return undefined;
+  }
+
+  /**
+   * Last-resort accessible name, used only when `hideLabel` suppressed the visible
+   * label and no external `labelledby` was given. There is no element left to point
+   * at, and a nameless radio is worse than a duplicated string.
+   */
+  private get _fallbackAriaLabel(): string | undefined {
+    return this._labelledById ? undefined : this._labelText || undefined;
   }
 
   render() {
@@ -411,16 +500,17 @@ export class NysRadiobutton extends LitElement {
             @change="${this._handleChange}"
             @keydown="${this._handleKeydown}"
             @blur="${this._handleFocusOut}"
-            aria-label=${this._computeAccessibleLabel()}
+            aria-labelledby=${ifDefined(this._labelledById)}
+            aria-label=${ifDefined(this._fallbackAriaLabel)}
           />
-          ${(this.label || this.other) &&
-          html`<nys-label
-            aria-hidden="true"
-            id="${this.id}-label"
-            label="${this.label || (this.other ? "Other" : "")}"
-            description=${ifDefined(this.description || undefined)}
-          >
-          </nys-label>`}
+          ${this._renderInternalLabel
+            ? html`<nys-label
+                id="${this._internalLabelId}"
+                label="${this._labelText}"
+                description=${ifDefined(this.description || undefined)}
+              >
+              </nys-label>`
+            : nothing}
         </div>
       </div>
     `;

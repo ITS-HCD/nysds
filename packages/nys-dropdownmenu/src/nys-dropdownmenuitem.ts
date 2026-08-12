@@ -1,9 +1,12 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the prefix
+// icon), so it must be registered whenever nys-dropdownmenuitem is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-dropdownmenu.scss?inline";
-
-let dropdownMenuItemIdCounter = 0;
 
 /**
  * **Slotted component.** Displays an individual dropdown item within `nys-dropdown` with label.
@@ -14,8 +17,7 @@ let dropdownMenuItemIdCounter = 0;
  * @summary Dropdown item to display label and provide href link.
  * @element nys-dropdownmenuitem
  */
-
-export class NysDropdownMenuItem extends LitElement {
+export class NysDropdownMenuItem extends NysElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -29,12 +31,12 @@ export class NysDropdownMenuItem extends LitElement {
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) divider = "";
 
-  // Generate a unique ID if one is not provided
+  // super.connectedCallback() (NysElement) auto-assigns this.id when
+  // one is not provided (prefix = localName, i.e. "nys-dropdownmenuitem-<ts>-<n>").
+  // role="menuitem" intentionally stays on the inner <a>/<button>, so this
+  // component keeps defaultRole = null and does not move a role onto the host.
   connectedCallback() {
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-dropdownmenuitem-${Date.now()}-${dropdownMenuItemIdCounter++}`;
-    }
   }
 
   private _handleClick(e: Event) {

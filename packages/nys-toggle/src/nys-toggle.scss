@@ -227,8 +227,10 @@
   }
 }
 
+/* Must match the custom property `.knob`'s transition consumes
+   (--_nys-toggle-transition-duration); any other name is dead code. */
 @media (prefers-reduced-motion: reduce) {
   :host {
-    --toggle-transition-duration: 0s;
+    --_nys-toggle-transition-duration: 0s;
   }
 }

@@ -3,7 +3,11 @@
 
   /* Global Card Styles */
   --_nys-card-width: 100%;
-  --_nys-card-height: fit-content;
+  --_nys-card-height: var(
+    --nys-card-height,
+    fit-content
+  ); // set t0 100% for full height cards
+
   --_nys-card-border-radius: var(--nys-radius-xl, 12px);
   --_nys-card-border-radius--media: 0;
   --_nys-card-padding--t: var(--nys-space-200, 16px);
@@ -21,6 +25,14 @@
   --_nys-card-border-radius--media-accent: var(--nys-radius-xxl, 16px);
   --_nys-card-background-color--media-accent: var(--nys-color-accent, #face00);
 
+  /* Clickable */
+  --_nys-card-cursor: pointer;
+  --_nys-card-border-color--hover: var(--nys-color-neutral-700, #4a4d4f);
+  --_nys-card-border-color--active: var(--nys-color-neutral-900, #1b1b1b);
+  --_nys-card-outline-color: var(--nys-color-focus, #004dd1);
+  --_nys-card-outline-width: var(--nys-border-width-md, 2px);
+  --_nys-card-outline-offset: var(--nys-space-2px, 2px);
+
   /* Typography */
   --_nys-card-color: var(--nys-color-text-weak, #4a4d4f);
 
@@ -31,6 +43,18 @@
   --_nys-card-font-weight: 400;
   --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
   --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+
+  /* Width belongs on the host: it is the box the page lays out. As a flex item
+     the host is shrink-to-fit by default, and a percentage width inside the
+     shadow root cannot widen it — .nys-card only fills whatever lands here. */
+  display: block;
+  width: var(--_nys-card-width);
+  max-width: 100%;
+}
+
+/* The host's own `display` beats the `hidden` attribute's UA rule, so restore it. */
+:host([hidden]) {
+  display: none;
 }
 
 :host([inset]) {
@@ -64,7 +88,7 @@
   font-weight: var(--_nys-card-font-weight);
   line-height: var(--_nys-card-line-height);
   letter-spacing: var(--_nys-card-letter-spacing);
-  width: var(--_nys-card-width);
+  width: 100%;
   height: var(--_nys-card-height);
   display: flex;
   flex-direction: column;
@@ -84,9 +108,10 @@
     width: 100%;
     height: fit-content;
 
-    img {
+    ::slotted([slot="media"]) {
       display: block;
       max-width: 100%;
+      width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
       border-radius: var(--_nys-card-border-radius--media);
@@ -112,6 +137,10 @@
       font-family: var(--nys-font-family-ui, "Proxima Nova");
       font-style: normal;
       font-weight: 700;
+
+      &[hidden] {
+        display: none;
+      }
 
       &-month {
         padding: 0;
@@ -142,6 +171,10 @@
     display: flex;
     flex-direction: column;
     gap: var(--_nys-card-gap);
+
+    /* Absorb any height the card gains beyond its content, so the growth lands
+       at the default slot rather than below the footer. No-op at fit-content. */
+    flex: 1 1 auto;
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;
@@ -214,7 +247,39 @@
   }
 }
 
+/* The whole card is a single <button> or <a>: strip the UA styling so it still
+   looks like a card, and give it the interactive states a control needs. */
+.nys-card--clickable {
+  appearance: none;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  cursor: var(--_nys-card-cursor);
+
+  &:hover {
+    border-color: var(--_nys-card-border-color--hover);
+  }
+
+  &:active {
+    border-color: var(--_nys-card-border-color--active);
+  }
+
+  &:focus-visible {
+    outline: solid var(--_nys-card-outline-width) var(--_nys-card-outline-color);
+    outline-offset: var(--_nys-card-outline-offset);
+  }
+}
+
+::slotted([slot="preheading"]) {
+  display: flex;
+  flex-direction: row;
+}
+
 ::slotted([slot="footer"]) {
-  display: block;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: fill-available;
+  display: flex;
+  flex-direction: row;
   margin: 0 var(--_nys-card-padding--x) var(--nys-space-300);
 }

@@ -1,11 +1,18 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
 import type { NysRadiobutton } from "./nys-radiobutton";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-radiogroup is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+// nys-textinput renders the "other" free-text field for a checked "other" radio.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-textinput";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
-
-let radiogroupIdCounter = 0;
 
 /**
  * A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.
@@ -107,7 +114,7 @@ let radiogroupIdCounter = 0;
  * ```
  */
 
-export class NysRadiogroup extends LitElement {
+export class NysRadiogroup extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -165,27 +172,23 @@ export class NysRadiogroup extends LitElement {
 
   private _childObserver?: MutationObserver;
 
-  private _internals: ElementInternals;
-
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals). super.connectedCallback()
+   * assigns an id (prefix = localName) when one is not provided.
    */
 
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-    this._internals.role = "radiogroup";
+  // The host is the semantic grouping element: expose role="radiogroup" on the
+  // host's accessibility node via the shared ReflectsAriaMixin instead of a
+  // hand-attached ElementInternals.
+  protected get defaultRole(): string | null {
+    return "radiogroup";
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
-    }
 
     this._mobileQuery = window.matchMedia("(max-width: 479px)");
     this.isMobile = this._mobileQuery.matches;
@@ -245,7 +248,7 @@ export class NysRadiogroup extends LitElement {
    */
 
   private _setValue() {
-    this._internals.setFormValue(this.selectedValue);
+    this.setFormValue(this.selectedValue);
   }
 
   private _setRadioButtonRequire() {
@@ -268,14 +271,14 @@ export class NysRadiogroup extends LitElement {
         `#input-${(firstRadio as NysRadiobutton).id}`,
       );
       if (this.required && !this.selectedValue) {
-        this._internals.setValidity(
+        this.setValidityFromState(
           { valueMissing: true },
           message,
           shadowInput ?? firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
-        this._internals.setValidity({}, "", firstRadio);
+        this.clearValidity();
       }
     }
   }
@@ -293,7 +296,7 @@ export class NysRadiogroup extends LitElement {
     const checkedRadio = this.querySelector("nys-radiobutton[checked]");
     if (checkedRadio) {
       this.selectedValue = checkedRadio.getAttribute("value");
-      this._internals.setFormValue(this.selectedValue);
+      this.setFormValue(this.selectedValue);
     }
   }
 
@@ -390,10 +393,10 @@ export class NysRadiogroup extends LitElement {
     });
 
     this.selectedValue = null;
-    this._internals.setFormValue(null);
+    this.setFormValue(null);
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
+    this.clearValidity();
     this._hasUserInteracted = false;
     this.requestUpdate();
   }
@@ -446,8 +449,8 @@ export class NysRadiogroup extends LitElement {
 
     this.name = radiobtn.name;
     this.selectedValue = radiobtn.value;
-    this._internals.setFormValue(this.selectedValue);
-    this._internals.setValidity({});
+    this.setFormValue(this.selectedValue);
+    this.clearValidity();
     this.showError = false;
 
     this._updateGroupTabIndex();
@@ -482,7 +485,7 @@ export class NysRadiogroup extends LitElement {
 
   private _forwardRadioDescriptions() {
     // Note to self: future rework to "eat our own dog food"
-    // for the new revamp radiobutton (1.19.4) will render this function useless.
+    // for the new revamp radiobutton (1.19..4) will render this function useless.
     this._radios.forEach((radiobtn) => {
       const slotted = radiobtn.querySelector<HTMLElement>(
         ':scope > [slot="description"]',
@@ -542,7 +545,7 @@ export class NysRadiogroup extends LitElement {
       };
 
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -568,7 +571,7 @@ export class NysRadiogroup extends LitElement {
     const input = event.target as HTMLInputElement;
     radiobtn.value = input.value;
     this.selectedValue = input.value;
-    this._internals.setFormValue(input.value);
+    this.setFormValue(input.value);
 
     if (this._hasUserInteracted) {
       this._validateOtherAndEmitError(radiobtn);
@@ -603,7 +606,7 @@ export class NysRadiogroup extends LitElement {
     );
 
     if (isInvalid) {
-      this._internals.setValidity(
+      this.setValidityFromState(
         {
           customError: true,
         },
@@ -612,7 +615,7 @@ export class NysRadiogroup extends LitElement {
       );
       this.showError = true;
     } else {
-      this._internals.setValidity({});
+      this.clearValidity();
       this.showError = false;
     }
   }
@@ -708,15 +711,22 @@ export class NysRadiogroup extends LitElement {
                     .value=${radiobtn.value}
                     ?required=${this.required && index === 0}
                     form=${ifDefined(radiobtn.form || undefined)}
-                    aria-label="${radiobtn.label ||
-                    (radiobtn.other ? "Other" : "")}"
+                    aria-labelledby=${ifDefined(
+                      radiobtn.label || radiobtn.other
+                        ? `${radiobtn.id}-label`
+                        : undefined,
+                    )}
+                    aria-invalid=${this.showError ? "true" : "false"}
+                    aria-errormessage=${`${this.id}--error`}
+                    aria-describedby=${ifDefined(
+                      this.showError ? `${this.id}--error` : undefined,
+                    )}
                     @change=${() => this._selectRadio(radiobtn)}
                     @focus=${() => this._handleRadiobtnFocus(radiobtn)}
                     @blur=${() => this._handleRadiobtnBlur(radiobtn)}
                   />
                   ${(radiobtn.label || radiobtn.other) &&
                   html`<nys-label
-                    aria-hidden="true"
                     id="${radiobtn.id}-label"
                     label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
                     description=${ifDefined(radiobtn.description || undefined)}
@@ -750,8 +760,9 @@ export class NysRadiogroup extends LitElement {
           )}
         </div>
         <nys-errormessage
+          id="${this.id}--error"
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.internals!.validationMessage || this.errorMessage}
           .showDivider=${!this.tile}
         ></nys-errormessage>
       </fieldset>`;

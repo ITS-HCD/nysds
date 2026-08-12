@@ -39,6 +39,19 @@ export interface NysUnavHeaderProps extends Pick<
   /** The URL endpoint of the search, make sure to include the query param. */
   searchUrl?: NysUnavHeaderElement["searchUrl"];
 
+  /** Accessible name for the `banner` landmark this header renders.
+Defaults to `"New York State"`.
+
+A page pairing this header with `nys-globalheader` carries two `banner`
+landmarks; distinct names are what keep landmark navigation useful instead of
+announcing "banner, banner". Override only when your wording is clearer for
+your audience — and keep it distinct from the agency header's name, which
+comes from that header's visible title.
+
+A blank value falls back to the default rather than leaving the landmark
+unnamed. */
+  landmarkLabel?: NysUnavHeaderElement["landmarkLabel"];
+
   /** The list of languages this site can be translated to, default to use Smartling */
   languages?: NysUnavHeaderElement["languages"];
 
