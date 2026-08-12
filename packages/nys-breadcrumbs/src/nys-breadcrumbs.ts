@@ -1,11 +1,15 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
+// This element is created imperatively (document.createElement) for the
+// back-to-parent arrow, the trailing chevrons, and the collapsed-trail
+// ellipsis, so it must be registered whenever nys-breadcrumbs is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-breadcrumbs.scss?inline";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-breadcrumbs.light.scss?inline";
-
-let breadcrumbsIdCounter = 0;
 
 let _lightSheet: CSSStyleSheet | null = null;
 // Injects the lightDOM styling for the scss into the adopted/constructed stylesheet.
@@ -130,7 +134,7 @@ const INJECTED_ATTR = "data-nys-injected";
  * ```
  */
 
-export class NysBreadcrumbs extends LitElement {
+export class NysBreadcrumbs extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -139,7 +143,7 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: String, reflect: true }) id = "";
 
   /**
-   * Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+   * Accessible label for the `<nav>` landmark. Defaults to "Breadcrumb" if not set.
    * Override when multiple crumbs exist on the same page.
    */
   @property({ type: String }) ariaLabel = "";
@@ -190,12 +194,12 @@ export class NysBreadcrumbs extends LitElement {
     super();
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id when
+    // one is not provided (prefix = localName, shape "nys-breadcrumbs-<ts>-<n>").
+    // The breadcrumb's navigation role lives on the inner <nav> landmark (with an
+    // accessible name), so defaultRole stays null and no host role is reflected.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-breadcrumbs-${Date.now()}-${breadcrumbsIdCounter++}`;
-    }
 
     adoptLightStyles();
 
@@ -322,6 +326,8 @@ export class NysBreadcrumbs extends LitElement {
     li.classList.add("nys-breadcrumbitem");
 
     if (isCurrentPage) {
+      // WCAG 4.1.2 / WAI-ARIA breadcrumb pattern: the current page must be
+      // programmatically identified so assistive tech announces "current page".
       li.setAttribute("aria-current", "page");
       return;
     }
@@ -474,7 +480,7 @@ export class NysBreadcrumbs extends LitElement {
       class="nys-breadcrumbs ${this.backgroundBar
         ? "nys-breadcrumbs--background-bar"
         : ""}"
-      aria-label=${this.ariaLabel || "path to this page"}
+      aria-label=${this.ariaLabel || "Breadcrumb"}
     >
       <slot @slotchange=${this._handleSlotChange}></slot>
     </nav>`;

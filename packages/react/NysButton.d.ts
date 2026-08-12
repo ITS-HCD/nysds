@@ -24,7 +24,7 @@ export interface NysButtonProps extends Pick<
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
-  /** Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label. */
+  /** Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name. */
   circle?: boolean;
 
   /** Prevents interaction. Avoid disabling without explanation—show validation errors instead. */
@@ -42,14 +42,43 @@ export interface NysButtonProps extends Pick<
   /** Visual style: `filled` for primary (one per section), `outline` for secondary, `ghost` for tertiary, `text` for inline actions. Avoid `text` for navigation. */
   variant?: NysButtonElement["variant"];
 
-  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode. */
+  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: NysButtonElement["label"];
 
-  /** Screen reader label. Required for icon-only buttons if `label` is not set. */
-  ariaLabel?: NysButtonElement["ariaLabel"];
+  /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
 
-  /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
+Set this on `<nys-button>` rather than putting `aria-controls` on the host:
+the host has no role, so ARIA placed there is not mapped into the
+accessibility tree and never reaches the internal `<button>`. */
   ariaControls?: NysButtonElement["ariaControls"];
+
+  /** Disclosure state for buttons that show/hide content. Sets `aria-expanded`
+on the internal `<button>`/`<a>`.
+
+Use `"false"` when the controlled content is collapsed and `"true"` when it
+is expanded, updating it every time the content toggles. Leave unset for
+buttons that are not disclosure triggers — an `aria-expanded` that never
+changes is worse than none. Pair with `ariaControls` pointing at the
+element being shown or hidden.
+
+Setting `aria-expanded` directly on the `<nys-button>` host does nothing:
+a custom element with no role does not map its ARIA attributes into the
+accessibility tree, and host ARIA does not cross into the shadow root. */
+  ariaExpanded?: NysButtonElement["ariaExpanded"];
+
+  /** Marks this button as the current item within a set of related controls — the current
+page of a pagination control, the current step of a wizard. Sets `aria-current` on the
+internal `<button>`/`<a>`.
+
+Use `"page"` inside a pagination landmark, `"step"` inside a step indicator, and
+`"true"` when no more specific token fits. Only one control in a set is ever current:
+leave the property unset on all the others rather than setting `"false"`, which the
+spec reads as "explicitly not current" and adds nothing.
+
+Setting `aria-current` directly on the `<nys-button>` host does nothing: a custom
+element with no role does not map its ARIA attributes into the accessibility tree,
+and host ARIA does not cross into the shadow root. */
+  ariaCurrent?: NysButtonElement["ariaCurrent"];
 
   /** Material Symbol icon before label. Not shown for `circle` mode. */
   prefixIcon?: NysButtonElement["prefixIcon"];
@@ -66,8 +95,8 @@ export interface NysButtonProps extends Pick<
   /** Value submitted with form data. Only used when `type="submit"`. */
   value?: NysButtonElement["value"];
 
-  /** Additional screen reader description. Sets `aria-description`. */
-  ariaDescription?: NysButtonElement["ariaDescription"];
+  /** ID(s) of element(s) describing this button. Sets `aria-describedby`. */
+  ariaDescribedBy?: NysButtonElement["ariaDescribedBy"];
 
   /** Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions. */
   type?: NysButtonElement["type"];

@@ -1,5 +1,6 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-skipnav.scss?inline";
 
@@ -24,7 +25,7 @@ import styles from "./nys-skipnav.scss?inline";
  * ```
  */
 
-export class NysSkipnav extends LitElement {
+export class NysSkipnav extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -37,12 +38,12 @@ export class NysSkipnav extends LitElement {
     super();
   }
 
-  // Generate a unique ID if one is not provided
+  // super.connectedCallback() (NysElement) auto-assigns a unique id
+  // (prefix = localName) when one is not provided. The accessible "skip link"
+  // role lives on the inner native <a> element, so defaultRole stays null and no
+  // role is reflected onto the host.
   connectedCallback() {
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-skipnav-${Date.now()}`;
-    }
   }
 
   /**
@@ -71,7 +72,8 @@ export class NysSkipnav extends LitElement {
       // Make sure it's focusable for screen readers rather than just scrolling to it
       targetEl.setAttribute("tabindex", "-1");
       targetEl.focus();
-      // Remove the blue outline that is applied to focused elements since we don't want the blue outline on the main container
+      // Remove the blue outline that is applied to focused elements since we
+      // don't want the blue outline on the main container.
       targetEl.style.outline = "none";
     }
   }

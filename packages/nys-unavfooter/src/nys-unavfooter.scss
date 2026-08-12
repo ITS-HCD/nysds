@@ -13,7 +13,10 @@
     var(--nys-font-size-md, 16px)
   );
   --_nys-unavfooter-font-weight: var(--nys-font-weight-semibold, 600);
-  --_nys-unavfooter-max-width: var(--nys-max-content-width, 1280px);
+  --_nys-unavfooter-max-width--content: var(
+    --nys-unavfooter-max-width--content,
+    1280px
+  );
 
   /* Links */
   --_nys-unavfooter-row-gap: var(--nys-space-250, 20px);
@@ -97,7 +100,7 @@ a:active {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: var(--_nys-unavfooter-max-width);
+  max-width: var(--_nys-unavfooter-max-width--content);
   padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-padding--gutter);
   gap: var(--_nys-unavfooter-gap);
   box-sizing: border-box;

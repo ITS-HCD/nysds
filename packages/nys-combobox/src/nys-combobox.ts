@@ -1,10 +1,20 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-combobox is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render. It
+// also guarantees the clear/toggle nys-buttons upgrade, since their accessible
+// name lands on nys-button's real inner <button>, which only exists once
+// nys-button renders.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-combobox.scss?inline";
-
-let comboboxIdCounter = 0;
 
 interface ComboboxOption {
   value: string;
@@ -198,7 +208,7 @@ interface ComboboxOption {
  * </nys-combobox>
  * ```
  */
-export class NysCombobox extends LitElement {
+export class NysCombobox extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -234,27 +244,20 @@ export class NysCombobox extends LitElement {
 
   private _originalErrorMessage = "";
   private _hasUserInteracted = false;
-  private _internals: ElementInternals;
   private _selectedLabel = "";
   private _defaultValue = "";
+  private _hasResolvedSlottedValue = false;
 
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
-  static formAssociated = true;
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-combobox-${Date.now()}-${comboboxIdCounter++}`;
-    }
-
     this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
     document.addEventListener("click", this._handleDocumentClick);
@@ -267,50 +270,33 @@ export class NysCombobox extends LitElement {
   }
 
   firstUpdated() {
-    this._handleSlotChange();
-
-    // If a selected option was found and no explicit value was set, use it
-    const slot = this.shadowRoot?.querySelector(
-      'slot:not([name="description"])',
-    ) as HTMLSlotElement | null;
-
-    if (!this.value && slot) {
-      const assignedElements = slot.assignedElements({ flatten: true });
-      for (const node of assignedElements) {
-        if (node.tagName === "OPTION" && (node as HTMLOptionElement).selected) {
-          this.value = (node as HTMLOptionElement).value;
-          break;
-        } else if (node.tagName === "OPTGROUP") {
-          for (const child of (node as HTMLOptGroupElement).children) {
-            if (
-              child.tagName === "OPTION" &&
-              (child as HTMLOptionElement).selected
-            ) {
-              this.value = (child as HTMLOptionElement).value;
-              break;
-            }
-          }
-          if (this.value) break;
-        }
-      }
-    }
-
+    // Slotted options are read in `_handleSlotChange`, which the slot's
+    // `slotchange` event fires once its nodes are assigned. It also resolves an
+    // option marked `selected` into `value` and captures `_defaultValue`.
     this._setValue();
-    this._defaultValue = this.value; // ← capture after resolving selected option
+    this._defaultValue = this.value;
   }
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
+  // Derive display state from `value` before rendering, not after, so Lit
+  // doesn't have to schedule a second update (see lit.dev/msg/change-in-update).
+  willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has("value")) {
       const option = this._options.find((opt) => opt.value === this.value);
       this._selectedLabel = option ? option.label : "";
       this._filterText = this._selectedLabel;
+    }
+  }
 
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("value")) {
       this._setValue();
     }
 
     if (changedProperties.has("_isOpen") && this._isOpen) {
-      this._positionDropdown();
+      // Positioning measures the rendered listbox, so it has to wait for this
+      // update to settle before it may flip `_dropdownAbove`.
       this.updateComplete.then(() => {
+        this._positionDropdown();
         this._scrollToHighlighted();
       });
     }
@@ -329,6 +315,7 @@ export class NysCombobox extends LitElement {
 
     const assignedElements = slot.assignedElements({ flatten: true });
     const options: ComboboxOption[] = [];
+    let markupSelected = "";
 
     assignedElements.forEach((node) => {
       if (node.tagName === "OPTION") {
@@ -338,6 +325,9 @@ export class NysCombobox extends LitElement {
           label: option.textContent?.trim() || option.value,
           disabled: option.disabled,
         });
+        if (option.selected && !markupSelected) {
+          markupSelected = option.value;
+        }
       } else if (node.tagName === "OPTGROUP") {
         const group = node as HTMLOptGroupElement;
         const groupLabel = group.label;
@@ -351,6 +341,9 @@ export class NysCombobox extends LitElement {
               disabled: option.disabled || group.disabled,
               group: groupLabel,
             });
+            if (option.selected && !markupSelected) {
+              markupSelected = option.value;
+            }
           }
         });
       }
@@ -358,6 +351,17 @@ export class NysCombobox extends LitElement {
 
     this._options = options;
     this._filteredOptions = options;
+
+    // The first time options arrive, adopt an option marked `selected` unless
+    // an explicit value was already set, and use the result as the reset baseline.
+    if (!this._hasResolvedSlottedValue) {
+      this._hasResolvedSlottedValue = true;
+
+      if (!this.value && markupSelected) {
+        this.value = markupSelected;
+      }
+      this._defaultValue = this.value;
+    }
 
     // Set initial display text if value exists
     if (this.value) {
@@ -374,7 +378,7 @@ export class NysCombobox extends LitElement {
    * --------------------------------------------------------------------------
    */
   private _setValue() {
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this._manageRequire();
   }
 
@@ -384,11 +388,9 @@ export class NysCombobox extends LitElement {
       this.required && (!this.value || this.value?.trim() === "");
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true";
-      this._internals.setValidity({ valueMissing: true }, message, this._input);
+      this.setValidityFromState({ valueMissing: true }, message, this._input);
     } else {
-      this._internals.ariaInvalid = "false";
-      this._internals.setValidity({});
+      this.clearValidity();
       this._hasUserInteracted = false;
     }
   }
@@ -402,8 +404,15 @@ export class NysCombobox extends LitElement {
       this.errorMessage = message;
     }
 
-    const validityState = message ? { customError: true } : {};
-    this._internals.setValidity(validityState, this.errorMessage, this._input);
+    if (message) {
+      this.setValidityFromState(
+        { customError: true },
+        this.errorMessage,
+        this._input,
+      );
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -436,12 +445,12 @@ export class NysCombobox extends LitElement {
       this._input.value = this._filterText;
     }
 
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
 
     // Reset validation UI
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
+    this.clearValidity();
 
     this.requestUpdate();
   }
@@ -455,7 +464,7 @@ export class NysCombobox extends LitElement {
     this._validate();
 
     if (this._input) {
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -692,7 +701,7 @@ export class NysCombobox extends LitElement {
     this._filterText = "";
     this._selectedLabel = "";
     this._filterOptions("");
-    this._internals.setFormValue("");
+    this.setFormValue("");
     this._closeDropdown();
     this._input.focus();
 
@@ -712,7 +721,7 @@ export class NysCombobox extends LitElement {
     this.value = option.value;
     this._selectedLabel = option.label;
     this._filterText = option.label;
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this._input.focus();
     this._closeDropdown();
     this._filterOptions("");
@@ -804,6 +813,7 @@ export class NysCombobox extends LitElement {
     return html`
       <div class="nys-combobox">
         <nys-label
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -834,9 +844,17 @@ export class NysCombobox extends LitElement {
               ?required=${this.required}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
-              aria-label="${[this.label, this.description]
-                .filter(Boolean)
-                .join(" ")}"
+              aria-labelledby=${ifDefined(
+                this.label ? this.id + "--label" : undefined,
+              )}
+              aria-label=${ifDefined(
+                !this.label && this.description ? this.description : undefined,
+              )}
+              aria-invalid=${this.showError ? "true" : "false"}
+              aria-errormessage=${this.id + "--error"}
+              aria-describedby=${ifDefined(
+                this.showError ? this.id + "--error" : undefined,
+              )}
               .value=${this._filterText}
               form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
@@ -849,7 +867,7 @@ export class NysCombobox extends LitElement {
                 ? html`
                     <nys-button
                       class="nys-combobox__clear"
-                      ariaLabel="clear selection"
+                      label="Clear selection"
                       variant="ghost"
                       size="sm"
                       circle
@@ -866,7 +884,7 @@ export class NysCombobox extends LitElement {
                 : ""}
               <nys-button
                 class="nys-combobox__chevron"
-                ariaLabel="toggle dropdown"
+                label="Toggle dropdown"
                 variant="ghost"
                 size="sm"
                 circle
@@ -901,6 +919,7 @@ export class NysCombobox extends LitElement {
           @slotchange=${this._handleSlotChange}
         ></slot>
         <nys-errormessage
+          id=${this.id + "--error"}
           ?showError=${this.showError}
           errorMessage=${this.errorMessage}
         ></nys-errormessage>

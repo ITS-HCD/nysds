@@ -1,5 +1,10 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the button
+// itself), so it must be registered whenever nys-backtotop is used. Importing
+// it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-backtotop.scss?inline";
 
@@ -100,8 +105,11 @@ import styles from "./nys-backtotop.scss?inline";
  * </footer>
  * ```
  */
-export class NysBacktotop extends LitElement {
+export class NysBacktotop extends NysElement {
   static styles = unsafeCSS(styles);
+
+  /** Unique identifier. Auto-generated if not provided. */
+  @property({ type: String, reflect: true }) id = "";
 
   /** Horizontal position: `left` or `right`. */
   @property({ type: String }) position = "right";
@@ -163,9 +171,25 @@ export class NysBacktotop extends LitElement {
 
   private _scrollToTop() {
     if (typeof window === "undefined") return;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    // Move focus to the main content area or first heading after scroll
-    // Use a scroll event listener to detect when smooth scroll completes
+
+    // Respect the user's reduced-motion preference (WCAG 2.3.3): skip the
+    // smooth-scroll animation and jump instantly when motion is not wanted.
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth";
+
+    // If we are already at the top, no scroll event will fire, so move focus
+    // immediately rather than waiting on a scroll that never happens.
+    if (window.scrollY === 0) {
+      window.scrollTo({ top: 0, behavior });
+      this._moveFocusToTop();
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior });
+    // Move focus to the top after the scroll completes.
+    // Use a scroll event listener to detect when the scroll finishes.
     const handleScrollComplete = () => {
       window.removeEventListener("scroll", handleScrollComplete);
       this._moveFocusToTop();
@@ -197,7 +221,6 @@ export class NysBacktotop extends LitElement {
       .filter(Boolean)
       .join(" ");
     return html`<nys-button
-      id="nys-backtotop"
       prefixIcon="chevron_up"
       variant="outline"
       label="Back to top"

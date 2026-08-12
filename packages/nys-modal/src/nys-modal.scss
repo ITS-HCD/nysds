@@ -118,6 +118,9 @@ p {
 .nys-modal_header-inner {
   display: flex;
   align-items: center;
+
+  /* Keeps the dismiss button flush right when no heading is rendered. */
+  justify-content: space-between;
   width: 100%;
   font-weight: var(--_nys-modal-font-weight--header);
 }

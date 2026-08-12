@@ -5,6 +5,11 @@
 		"outDir": "./dist",
 		"rootDir": "./src"
 	},
+	"references": [
+		{ "path": "../internals" },
+		{ "path": "../nys-button" },
+		{ "path": "../nys-icon" }
+	],
 	"include": [
 		"src/**/*"
 	],

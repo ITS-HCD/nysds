@@ -5,6 +5,11 @@
 		"outDir": "./dist",
 		"rootDir": "./src"
 	},
+	"references": [
+		{ "path": "../internals" },
+		{ "path": "../nys-label" },
+		{ "path": "../nys-errormessage" }
+	],
 	"include": [
 		"src/**/*"
 	],

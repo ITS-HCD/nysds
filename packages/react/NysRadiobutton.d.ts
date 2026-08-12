@@ -1,7 +1,10 @@
 import React from "react";
-import { NysRadiobutton as NysRadiobuttonElement } from "../../dist/nysds.es.js";
+import {
+  NysRadiobutton as NysRadiobuttonElement,
+  CustomEvent,
+} from "../../dist/nysds.es.js";
 
-export type { NysRadiobuttonElement };
+export type { NysRadiobuttonElement, CustomEvent };
 
 export interface NysRadiobuttonProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -36,6 +39,12 @@ export interface NysRadiobuttonProps extends Pick<
   /** undefined */
   showOtherError?: boolean;
 
+  /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
+table cells). Without `labelledby` there is no visible element left to name
+the radio from, so the accessible name falls back to the `label` string —
+pair `hideLabel` with `labelledby` wherever a visible element exists. */
+  hideLabel?: boolean;
+
   /** Visible label text. Required for accessibility. */
   label?: NysRadiobuttonElement["label"];
 
@@ -56,6 +65,14 @@ export interface NysRadiobuttonProps extends Pick<
 
   /** Radio size: `sm` (24px) or `md` (32px, default). */
   size?: NysRadiobuttonElement["size"];
+
+  /** Id of an element in the host's light-DOM tree to borrow the accessible name
+from (e.g. a table row `<th>`). Enables labelling a radio button that has no
+visible label of its own.
+
+Standalone radios only: inside a `nys-radiogroup` the group renders the
+native inputs and names them from the group's own labels. */
+  labelledby?: NysRadiobuttonElement["labelledby"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -78,6 +95,10 @@ export interface NysRadiobuttonProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
+  /** Public validation API (Form Association)
+-------------------------------------------------------------------------- */
+  validity?: NysRadiobuttonElement["validity"];
+
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
   onNysChange?: (event: CustomEvent) => void;
 
@@ -92,7 +113,10 @@ export interface NysRadiobuttonProps extends Pick<
 }
 
 /**
- * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
+ * Radio button for single selection from mutually exclusive options.
+ * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
+ * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
+ * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
  * ---
  *
  *

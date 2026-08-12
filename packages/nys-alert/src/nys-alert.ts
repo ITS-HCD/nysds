@@ -1,10 +1,16 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
+// These elements are rendered inside this component's shadow DOM, so they must
+// be registered whenever nys-alert is used. Importing them here (intentional
+// side effect) guarantees the type icon and dismiss button always upgrade —
+// the dismiss button's accessible name lands on nys-button's real inner
+// <button>, which only exists once nys-button renders.
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-alert.scss?inline";
-
-let alertIdCounter = 0;
 
 /**
  * Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.
@@ -107,7 +113,7 @@ let alertIdCounter = 0;
  *```
  */
 
-export class NysAlert extends LitElement {
+export class NysAlert extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -141,7 +147,8 @@ export class NysAlert extends LitElement {
   @property({ type: String }) secondaryLabel = "Dismiss";
 
   /**
-   * Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region.
+   * Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use
+   * `role="alert"` (assertive live region); `base`/`info`/`success` use `role="status"` (polite).
    * @default "base"
    */
   @property({ type: String, reflect: true }) type:
@@ -156,37 +163,26 @@ export class NysAlert extends LitElement {
   @state() private _slotHasContent = true;
 
   /**
-   * Returns ARIA role and label based on alert type.
-   * - 'alert' => assertive live region (implied)
-   * - 'status' => polite live region
-   * - 'region' => generic, requires aria-label
+   * Returns the ARIA role and aria-live setting for the alert's live region based on type.
+   * - `warning`/`danger`/`emergency` => role="alert", aria-live="assertive" (urgent, interrupts)
+   * - `base`/`info`/`success` => role="status", aria-live="polite" (waits its turn)
+   *
+   * `aria-live` is set explicitly alongside `role` (rather than relying on the role's implicit
+   * live-region semantics) for more consistent behavior across browser/AT combinations.
    */
   get ariaAttributes(): {
-    role: "alert" | "status" | "region";
-    ariaLabel: string;
+    role: "alert" | "status";
+    ariaLive: "polite" | "assertive";
   } {
-    const ariaRole =
-      this.type === "danger" || this.type === "emergency"
-        ? "alert"
-        : this.type === "success"
-          ? "status"
-          : "region"; // Default role
+    const isUrgent =
+      this.type === "warning" ||
+      this.type === "danger" ||
+      this.type === "emergency";
 
-    // Set aria-label only for role="region"
-    const ariaLabel = ariaRole === "region" ? `${this.type} alert` : "";
-
-    return { role: ariaRole, ariaLabel };
-  }
-
-  /**
-   * Returns live-region type for screen readers if applicable.
-   * - 'polite' for status role
-   * - undefined for alert (since it's implicitly assertive) or region
-   */
-  get liveRegion(): "polite" | undefined {
-    const role = this.ariaAttributes.role;
-    if (role === "status") return "polite";
-    return undefined; // for region. No need to return "assertive" as role="alert" implies it
+    return {
+      role: isUrgent ? "alert" : "status",
+      ariaLive: isUrgent ? "assertive" : "polite",
+    };
   }
 
   /**
@@ -197,12 +193,15 @@ export class NysAlert extends LitElement {
   private _timeoutId: any = null;
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an id when one
+    // is not provided. The live-region role/aria-live/aria-atomic and the
+    // announced content they wrap must live on the SAME element
+    // (.nys-alert__texts) so the accessible name/role pairing is never split
+    // across nested elements (see nysds#1092). The dismiss button lives
+    // outside .nys-alert__texts as a sibling so it is never read as part of
+    // the announced content. This component intentionally keeps
+    // defaultRole = null and does not move role to the host.
     super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
 
     // For alerts that have durations, we set a timer to close them.
     if (this.duration > 0) {
@@ -227,10 +226,6 @@ export class NysAlert extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
-  private _generateUniqueId() {
-    return `nys-alert-${Date.now()}-${alertIdCounter++}`;
-  }
-
   private _resolveIconName() {
     return this.icon || this._checkAltNaming();
   }
@@ -287,7 +282,7 @@ export class NysAlert extends LitElement {
   }
 
   render() {
-    const { role, ariaLabel } = this.ariaAttributes;
+    const { role, ariaLive } = this.ariaAttributes;
 
     return html`
       ${!this._alertClosed
@@ -296,9 +291,6 @@ export class NysAlert extends LitElement {
             this.text?.trim().length > 0
               ? ""
               : "nys-alert--centered"}"
-            aria-label=${ifDefined(
-              ariaLabel.trim() !== "" ? ariaLabel : undefined,
-            )}
           >
             <div part="nys-alert__icon" class="nys-alert__icon">
               <nys-icon
@@ -310,7 +302,8 @@ export class NysAlert extends LitElement {
             <div
               class="nys-alert__texts"
               role=${role}
-              aria-live=${ifDefined(this.liveRegion)}
+              aria-live=${ariaLive}
+              aria-atomic="true"
             >
               ${this.heading?.trim()
                 ? html`<p class="nys-alert__header">${this.heading}</p>`
@@ -349,7 +342,7 @@ export class NysAlert extends LitElement {
                   icon="close"
                   size="sm"
                   ?inverted=${this.type === "emergency"}
-                  ariaLabel="${this.heading}, alert, Close"
+                  label="${this.heading}, alert, Close"
                   @nys-click=${this._closeAlert}
                   style=${ifDefined(
                     this.type === "emergency"

@@ -85,24 +85,22 @@ nys-button {
   &#next--mobile {
     display: none;
   }
-
-  &.spacer {
-    --nys-button-border-color: transparent;
-    --nys-button-border-color--hover: transparent;
-    --nys-button-border-color--active: transparent;
-    --nys-button-background-color: transparent;
-    --nys-button-background-color--hover: transparent;
-    --nys-button-background-color--active: transparent;
-    --nys-button-color: var(--nys-color-text, #1b1b1b);
-    --nys-button-color--hover: var(--nys-color-text, #1b1b1b);
-    --nys-button-color--active: var(--nys-color-text, #1b1b1b);
-    --_nys-button-padding--x: var(--nys-space-1px, 1px);
-    --_nys-button-cursor: default;
-  }
 }
 
-:host([currentPage="3"]) nys-button#first-spacer,
-:host([_twoBeforeLast]) nys-button#last-spacer {
+/* Gap between two non-adjacent page numbers. Not a control: it is inert text, sized
+   to line up with the page buttons on either side of it. */
+.nys-pagination__ellipsis {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_nys-pagination-height);
+  padding-inline: var(--nys-space-2px, 2px);
+  color: var(--nys-color-text, #1b1b1b);
+}
+
+:host([currentPage="3"]) #first-spacer,
+:host([_twoBeforeLast]) #last-spacer {
   display: none;
 }
 
@@ -116,9 +114,9 @@ nys-button {
   }
 
   /* Show spacer instead of 1 less and more than currentPage */
-  :host([currentPage="3"]) nys-button#first-spacer,
-  :host([_twoBeforeLast]) nys-button#last-spacer {
-    display: block;
+  :host([currentPage="3"]) #first-spacer,
+  :host([_twoBeforeLast]) #last-spacer {
+    display: flex;
   }
 
   /* Swap to icon only previous and next buttons */
@@ -131,4 +129,19 @@ nys-button {
   nys-button#next {
     display: none;
   }
+}
+
+/* Visually hidden text projected into the icon-only mobile prev/next
+   nys-buttons so the real <button> has a discernible accessible name
+   (axe: button-name). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

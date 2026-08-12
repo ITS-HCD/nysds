@@ -1,6 +1,7 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import { NysTooltip } from "./nys-tooltip";
 import "../dist/nys-tooltip.js";
+import "@nysds/nys-button";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-tooltip", () => {
@@ -55,6 +56,57 @@ describe("nys-tooltip", () => {
     expect(tooltip).to.exist;
   });
 
+  it("auto-generated id matches the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysTooltip>(html`<nys-tooltip></nys-tooltip>`);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-tooltip-\d+-\d+$/);
+  });
+
+  it("the role=tooltip element carries the host id (describedby target)", async () => {
+    const el = await fixture<NysTooltip>(
+      html`<nys-tooltip text="Info"></nys-tooltip>`,
+    );
+    await el.updateComplete;
+    const tooltip = el.shadowRoot?.querySelector('[role="tooltip"]');
+    expect(tooltip).to.exist;
+    expect(tooltip?.getAttribute("id")).to.equal(el.id);
+  });
+
+  it("associates the trigger via aria-describedby pointing at the tooltip", async () => {
+    const el = await fixture(html`
+      <div>
+        <button id="trigger-btn">Trigger</button>
+        <nys-tooltip for="trigger-btn" text="Helpful hint"></nys-tooltip>
+      </div>
+    `);
+
+    const button = el.querySelector("#trigger-btn") as HTMLElement;
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+
+    const describedby = button.getAttribute("aria-describedby");
+    expect(describedby).to.exist;
+    expect(describedby?.split(/\s+/)).to.include(tooltip.id);
+  });
+
+  it("preserves an existing aria-describedby token on the trigger", async () => {
+    const el = await fixture(html`
+      <div>
+        <span id="existing-desc">existing</span>
+        <button id="trigger2" aria-describedby="existing-desc">Trigger</button>
+        <nys-tooltip for="trigger2" text="Extra hint"></nys-tooltip>
+      </div>
+    `);
+
+    const button = el.querySelector("#trigger2") as HTMLElement;
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+
+    const tokens = (button.getAttribute("aria-describedby") || "").split(/\s+/);
+    expect(tokens).to.include("existing-desc");
+    expect(tokens).to.include(tooltip.id);
+  });
+
   it("links tooltip to nys-icon and passes tooltip text to the icon", async () => {
     const el = await fixture(html`
       <div>
@@ -68,6 +120,36 @@ describe("nys-tooltip", () => {
 
     expect(tooltip.for).to.equal("my-icon");
     expect(icon.getAttribute("ariaLabel")).to.equal("Hint: Hello World");
+  });
+
+  it("links tooltip to nys-button via a working aria-describedby, not a dead ariaDescription attribute", async () => {
+    const el = await fixture(html`
+      <div>
+        <nys-button id="my-button" label="Save"></nys-button>
+        <nys-tooltip for="my-button" text="Hello World"></nys-tooltip>
+      </div>
+    `);
+
+    const button = el.querySelector("nys-button") as HTMLElement;
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+    await (button as unknown as { updateComplete: Promise<unknown> })
+      .updateComplete;
+
+    // nys-button has no ariaDescription prop, so setAttribute would land on
+    // an inert host attribute. There must be no such dead attribute...
+    expect(button.hasAttribute("ariaDescription")).to.be.false;
+
+    // ...and the real ariaDescribedBy *property* must point at the tooltip's
+    // own id, which nys-button renders as a working aria-describedby on its
+    // internal <button>.
+    expect(
+      (button as unknown as { ariaDescribedBy?: string }).ariaDescribedBy,
+    ).to.include(tooltip.id);
+    const innerButton = button.shadowRoot?.querySelector("button");
+    expect(innerButton?.getAttribute("aria-describedby")).to.include(
+      tooltip.id,
+    );
   });
 
   it("closes tooltip when Escape key is pressed", async () => {
