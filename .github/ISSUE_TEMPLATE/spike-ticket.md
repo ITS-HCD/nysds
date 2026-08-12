@@ -1,7 +1,7 @@
 ---
 name: Spike Ticket
 about: Where Management fleshes out the component proposal before handoff to Dev&Design
-title: "[SPIKE]: Proposal Guidance for COMPONENT_NAME"
+title: 'SPIKE: {{NAME}}'
 labels: Research, subtask
 assignees: esteinborn, plasticmind
 

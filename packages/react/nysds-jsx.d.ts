@@ -67,6 +67,15 @@ export type NysAccordionProps = {
   singleSelect?: boolean;
   /** Adds borders around each accordion item. Propagates to all children. */
   bordered?: boolean;
+  /** Heading element wrapping every item's toggle button (`h2` through `h6`).
+
+Each item's trigger is a real heading, so this is what places the accordion
+in the page outline: choose one level below the heading that introduces the
+accordion (an accordion under an `h2` section heading uses the `h3`
+default). An individual `nys-accordionitem` can override it with its own
+`headingLevel`. `h1` is not offered because an accordion trigger is never
+the page title. */
+  headingLevel?: "h2" | "h3" | "h4" | "h5" | "h6";
 };
 
 export type NysAccordionItemProps = {
@@ -74,6 +83,15 @@ export type NysAccordionItemProps = {
   id?: string;
   /** Heading text displayed in the clickable toggle button. */
   heading?: string;
+  /** Heading element that wraps the toggle button (`h2` through `h6`).
+
+Pick the level that puts the trigger in the right place in the page
+outline — one level below the heading that introduces the accordion. Leave
+it empty to follow the `headingLevel` of the enclosing `nys-accordion`,
+which is the usual way to set it for a whole group; `h3` applies when
+neither is specified. `h1` is not offered because an accordion trigger is
+never the page title. */
+  headingLevel?: "h2" | "h3" | "h4" | "h5" | "h6" | "";
   /** Whether the content panel is visible. Toggle via click or keyboard. */
   expanded?: boolean;
   /** Adds border styling. Set by parent `nys-accordion`, not directly. */
@@ -104,20 +122,19 @@ export type NysAlertProps = {
   primaryLabel?: string;
   /** Label text for secondary action link. */
   secondaryLabel?: string;
-  /** Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region. */
+  /** Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use
+`role="alert"` (assertive live region); `base`/`info`/`success` use `role="status"` (polite). */
   type?: "base" | "info" | "success" | "warning" | "danger" | "emergency";
-  /** Returns ARIA role and label based on alert type.
-- 'alert' => assertive live region (implied)
-- 'status' => polite live region
-- 'region' => generic, requires aria-label */
+  /** Returns the ARIA role and aria-live setting for the alert's live region based on type.
+- `warning`/`danger`/`emergency` => role="alert", aria-live="assertive" (urgent, interrupts)
+- `base`/`info`/`success` => role="status", aria-live="polite" (waits its turn)
+
+`aria-live` is set explicitly alongside `role` (rather than relying on the role's implicit
+live-region semantics) for more consistent behavior across browser/AT combinations. */
   ariaAttributes?: {
-    role: "alert" | "status" | "region";
-    ariaLabel: string;
+    role: "alert" | "status";
+    ariaLive: "polite" | "assertive";
   };
-  /** Returns live-region type for screen readers if applicable.
-- 'polite' for status role
-- undefined for alert (since it's implicitly assertive) or region */
-  liveRegion?: "polite" | undefined;
   /** Fired when alert is dismissed. Detail: `{id, type, label}`. */
   "onnys-close"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -125,7 +142,17 @@ export type NysAlertProps = {
 export type NysAvatarProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /** Accessible label for screen readers. Required when no image `alt` is available. */
+  /** Accessible name for the avatar — who or what it represents ("Jane Smith"),
+not what it is ("avatar").
+
+Leave it unset for a decorative avatar and the whole thing is hidden from
+assistive tech, which is the right outcome next to a visible name. Set it
+whenever the avatar is the only thing identifying the person, and always when
+`interactive` is set: that renders a `<button>`, and a nameless button cannot
+be operated by screen reader or voice-control users (WCAG 4.1.2). An
+interactive avatar without a name logs a console warning.
+
+Whitespace-only values — including a non-breaking space — count as no name. */
   ariaLabel?: string;
   /** Image URL. Takes priority over initials and icon. */
   image?: string;
@@ -144,6 +171,8 @@ export type NysAvatarProps = {
 };
 
 export type NysBacktotopProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Horizontal position: `left` or `right`. */
   position?: string;
   /** Force button visibility. Overrides auto-show scroll behavior. */
@@ -176,7 +205,7 @@ export type NysBadgeProps = {
 export type NysBreadcrumbsProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /** Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+  /** Accessible label for the `<nav>` landmark. Defaults to "Breadcrumb" if not set.
 Override when multiple crumbs exist on the same page. */
   ariaLabel?: string;
   /** Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use. */
@@ -212,17 +241,45 @@ export type NysButtonProps = {
   variant?: "filled" | "outline" | "ghost" | "text";
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
-  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode. */
+  /** Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name. */
   label?: string;
-  /** Screen reader label. Required for icon-only buttons if `label` is not set. */
-  ariaLabel?: string;
-  /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
+  /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
+
+Set this on `<nys-button>` rather than putting `aria-controls` on the host:
+the host has no role, so ARIA placed there is not mapped into the
+accessibility tree and never reaches the internal `<button>`. */
   ariaControls?: string;
+  /** Disclosure state for buttons that show/hide content. Sets `aria-expanded`
+on the internal `<button>`/`<a>`.
+
+Use `"false"` when the controlled content is collapsed and `"true"` when it
+is expanded, updating it every time the content toggles. Leave unset for
+buttons that are not disclosure triggers — an `aria-expanded` that never
+changes is worse than none. Pair with `ariaControls` pointing at the
+element being shown or hidden.
+
+Setting `aria-expanded` directly on the `<nys-button>` host does nothing:
+a custom element with no role does not map its ARIA attributes into the
+accessibility tree, and host ARIA does not cross into the shadow root. */
+  ariaExpanded?: "true" | "false" | "";
+  /** Marks this button as the current item within a set of related controls — the current
+page of a pagination control, the current step of a wizard. Sets `aria-current` on the
+internal `<button>`/`<a>`.
+
+Use `"page"` inside a pagination landmark, `"step"` inside a step indicator, and
+`"true"` when no more specific token fits. Only one control in a set is ever current:
+leave the property unset on all the others rather than setting `"false"`, which the
+spec reads as "explicitly not current" and adds nothing.
+
+Setting `aria-current` directly on the `<nys-button>` host does nothing: a custom
+element with no role does not map its ARIA attributes into the accessibility tree,
+and host ARIA does not cross into the shadow root. */
+  ariaCurrent?: "page" | "step" | "location" | "date" | "time" | "true" | "false" | "";
   /** Material Symbol icon before label. Not shown for `circle` mode. */
   prefixIcon?: string;
   /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode. */
   suffixIcon?: string;
-  /** Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label. */
+  /** Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name. */
   circle?: boolean;
   /** Icon for circle mode. Required when `circle` is true. Scales with size (sm=24px, md=32px, lg=40px). */
   icon?: string;
@@ -232,8 +289,8 @@ export type NysButtonProps = {
   form?: string | null;
   /** Value submitted with form data. Only used when `type="submit"`. */
   value?: string;
-  /** Additional screen reader description. Sets `aria-description`. */
-  ariaDescription?: string;
+  /** ID(s) of element(s) describing this button. Sets `aria-describedby`. */
+  ariaDescribedBy?: string;
   /** Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions. */
   type?: "submit" | "reset" | "button";
   /** URL to navigate to. Renders as `<a>` tag. Omit for action buttons. */
@@ -248,6 +305,42 @@ export type NysButtonProps = {
   "onnys-blur"?: (e: CustomEvent<Event>) => void;
   /** Fired when the button is clicked (mouse or keyboard). Not fired when disabled. */
   "onnys-click"?: (e: CustomEvent<Event>) => void;
+};
+
+export type NysCardProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Appears above the heading text. */
+  preheading?: string;
+  /** Heading text in the card. */
+  heading?: string;
+  /** Heading level used for the card heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
+  /** Appears below the heading text. */
+  subheading?: string;
+  /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
+  description?: string;
+  /** When true, adds padding around the media to visually contain it. */
+  inset?: boolean;
+  /** When true, adds a drop shadow to the card, giving it a raised appearance. */
+  elevated?: boolean;
+  /** URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots
+free of other interactive elements when using this — nesting them inside the
+card control is invalid HTML and unreachable for keyboard and screen reader users. */
+  href?: string;
+  /** Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`. */
+  target?: "_self" | "_blank" | "_parent" | "_top" | "framename";
+  /** Click handler. Makes the whole card a single `<button>`. Use instead of
+`@click` to ensure keyboard accessibility. Keep the card's slots free of
+other interactive elements when using this — nesting them inside the card
+control is invalid HTML and unreachable for keyboard and screen reader users. */
+  onClick?: ((event: Event) => void) | null;
+  /** Fired when an interactive card is activated (mouse or keyboard). */
+  "onnys-click"?: (e: CustomEvent<Event>) => void;
+  /** Fired when an interactive card receives focus. */
+  "onnys-focus"?: (e: CustomEvent<Event>) => void;
+  /** Fired when an interactive card loses focus. */
+  "onnys-blur"?: (e: CustomEvent<Event>) => void;
 };
 
 export type NysCheckboxProps = {
@@ -285,6 +378,13 @@ export type NysCheckboxProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
+  /** Id of an element in the host's light-DOM tree to borrow the accessible name
+from (e.g. a table column `<th>`). Enables labelling a checkbox that has no
+visible label of its own. */
+  labelledby?: string;
+  /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
+table cells). */
+  hideLabel?: boolean;
   /**  */
   _hasDescription?: string;
   /**  */
@@ -430,7 +530,9 @@ export type NysDropdownMenuProps = {
   for?: string;
   /**  */
   showDropdown?: boolean;
-  /** Accessible label for the menu. Used as `aria-label` on the `<ul role="menu">` element. */
+  /** Accessible label for the menu (`role="menu"`) container. Used as `aria-label`
+on the `<ul role="menu">` element. When empty, falls back to "Menu" so the
+menu always has an accessible name for screen readers. */
   label?: string;
   /** Preferred position relative to trigger. */
   position?: Position | null;
@@ -528,15 +630,32 @@ export type NysFileItemProps = {
 };
 
 export type NysGlobalFooterProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Agency name displayed as the footer heading. */
   agencyName?: string;
   /** Optional subheading displayed below the agency name. */
   agencySubheading?: string;
   /** URL for the agency name link. If empty, name is not clickable. */
   homepageLink?: string;
+  /** Accessible name for the `contentinfo` landmark this footer renders.
+
+Leave it unset and the landmark is named after the visible `agencyName`
+heading, which cannot drift out of sync and is translated with the rest of
+the page. Falls back to `"Site"` when there is no agency name to reference.
+
+Set this only when the agency name is not right for your audience. A page
+pairing this with `nys-unavfooter` carries two `contentinfo` landmarks, so
+the name must stay distinct from that footer's (`"New York State"` by
+default) or landmark navigation stops distinguishing them.
+
+An explicit name replaces the reference to the visible heading. */
+  landmarkLabel?: string;
 };
 
 export type NysGlobalHeaderProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Application name displayed prominently. */
   appName?: string;
   /** Agency name displayed below app name (or as main title if no appName). */
@@ -549,6 +668,19 @@ Enable only for internal, state-employee (back-office) applications that omit
 `nys-unavheader`. Any resident-facing app — even one requiring login — should
 keep `nys-unavheader` for trust and leave this off. */
   nysLogo?: boolean;
+  /** Accessible name for the `banner` landmark this header renders.
+
+Leave it unset and the banner is named after the visible `appName` or
+`agencyName`, which cannot drift out of sync and is translated with the rest
+of the page. Falls back to `"Site"` when there is no title to reference.
+
+Set this only when neither is right for your audience. A page pairing this
+with `nys-unavheader` carries two `banner` landmarks, so the name must stay
+distinct from that header's (`"New York State"` by default) or landmark
+navigation stops distinguishing them.
+
+An explicit name replaces the reference to the visible title. */
+  landmarkLabel?: string;
 };
 
 export type NysIconProps = {
@@ -588,6 +720,21 @@ export type NysIconProps = {
   updateComplete?: Promise<boolean>;
 };
 
+export type NysIconlistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Draws a divider between items. No divider is drawn after the last item. */
+  divider?: boolean;
+};
+
+export type NysIconlistitemProps = {
+  /** Material Symbols icon name passed to `<nys-icon>`. */
+  icon?: string;
+  /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
+set directly. */
+  divider?: boolean;
+};
+
 export type NysLabelProps = {
   /** The ID of the label. */
   id?: string;
@@ -601,7 +748,8 @@ export type NysLabelProps = {
   inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon next to label. */
   tooltip?: string;
-
+  /**  */
+  _hasDescription?: string;
   /**  */
   "onnys-label-click"?: (e: CustomEvent<CustomEvent>) => void;
 };
@@ -609,8 +757,14 @@ export type NysLabelProps = {
 export type NysModalProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /** Modal heading text. Required for accessibility. */
+  /** Modal heading text. Required for accessibility — it becomes the dialog's
+accessible name via `aria-labelledby`. */
   heading?: string;
+  /** Accessible name for the dialog, used only when no `heading` is set.
+Prefer a visible `heading`: a visible label satisfies WCAG 2.5.3 (Label in
+Name) and gives sighted users the same information. Use `ariaLabel` for the
+rare headless dialog so it still exposes a name (WCAG 4.1.2). */
+  ariaLabel?: string;
   /** Secondary heading below the main heading. */
   subheading?: string;
   /** Controls modal visibility. Set to `true` to show. */
@@ -642,6 +796,31 @@ export type NysPaginationProps = {
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
+export type NysProcesslistProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
+  /** Renders each step number in a bolder, higher-emphasis color. */
+  strong?: boolean;
+  /** Renders each step number using neutral (grayscale) coloring instead of the theme color. */
+  neutral?: boolean;
+  /** Step marker size: `sm` (smaller) or `md` (default). */
+  size?: "md" | "sm";
+  /** Number given to the first step. Subsequent steps count up from it. Use this when one
+process is split across several lists so the later lists continue the count instead of
+restarting at 1. */
+  initialStep?: number;
+};
+
+export type NysProcesslistitemProps = {
+  /** Step heading text. */
+  label?: string;
+  /** Supporting information displayed below the label. Use the `description` slot for rich text. */
+  description?: string;
+  /** A description is shown when either the property or the slot has content, so an item with
+neither renders no empty paragraph. */
+  _hasDescription?: string;
+};
+
 export type NysRadiobuttonProps = {
   /** Whether this radio is selected. Only one per group can be checked. */
   checked?: boolean;
@@ -669,9 +848,25 @@ export type NysRadiobuttonProps = {
   other?: boolean;
   /**  */
   showOtherError?: boolean;
+  /** Id of an element in the host's light-DOM tree to borrow the accessible name
+from (e.g. a table row `<th>`). Enables labelling a radio button that has no
+visible label of its own.
 
+Standalone radios only: inside a `nys-radiogroup` the group renders the
+native inputs and names them from the group's own labels. */
+  labelledby?: string;
+  /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
+table cells). Without `labelledby` there is no visible element left to name
+the radio from, so the accessible name falls back to the `label` string —
+pair `hideLabel` with `labelledby` wherever a visible element exists. */
+  hideLabel?: boolean;
+  /** Public validation API (Form Association)
+-------------------------------------------------------------------------- */
+  validity?: ValidityState | undefined;
+  /**  */
+  validationMessage?: string;
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
-  "onnys-change"?: (e: CustomEvent<never>) => void;
+  "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when radio gains focus. */
   "onnys-focus"?: (e: CustomEvent<never>) => void;
   /** Fired when radio loses focus. */
@@ -736,6 +931,8 @@ export type NysSelectProps = {
   label?: string;
   /** Helper text below label. Use slot for custom HTML. */
   description?: string;
+  /** Accessible label. Used as a fallback when `label` is not provided. */
+  ariaLabel?: string;
   /** Currently selected option value. */
   value?: string;
   /** Prevents interaction. */
@@ -792,7 +989,7 @@ Omit for SPA/framework routing and handle navigation in the event listener inste
 };
 
 export type NysStepperProps = {
-  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{timestamp}-{n}` if not provided. */
   id?: string;
   /** Name attribute for form association. */
   name?: string;
@@ -902,6 +1099,8 @@ export type NysTextareaProps = {
   showError?: boolean;
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: string;
+  /** Accessible label used only when no visible `label` is provided. */
+  ariaLabel?: string;
 
   /** Fired on input change. Detail: `{id, value}`. */
   "onnys-input"?: (e: CustomEvent<CustomEvent>) => void;
@@ -1016,7 +1215,20 @@ export type NysTooltipProps = {
   position?: string;
 };
 
-export type NysUnavFooterProps = {};
+export type NysUnavFooterProps = {
+  /** Accessible name for the `contentinfo` landmark this footer renders.
+Defaults to `"New York State"`.
+
+A page pairing this footer with `nys-globalfooter` carries two `contentinfo`
+landmarks; distinct names are what keep landmark navigation useful instead of
+announcing "content information" twice. Override only when your wording is
+clearer for your audience — and keep it distinct from the agency footer's
+name, which comes from that footer's visible heading.
+
+A blank value falls back to the default rather than leaving the landmark
+unnamed. */
+  landmarkLabel?: string;
+};
 
 export type NysUnavHeaderProps = {
   /** Internal: Whether trust bar panel is expanded. */
@@ -1033,6 +1245,18 @@ export type NysUnavHeaderProps = {
   hideSearch?: boolean;
   /** The URL endpoint of the search, make sure to include the query param. */
   searchUrl?: string;
+  /** Accessible name for the `banner` landmark this header renders.
+Defaults to `"New York State"`.
+
+A page pairing this header with `nys-globalheader` carries two `banner`
+landmarks; distinct names are what keep landmark navigation useful instead of
+announcing "banner, banner". Override only when your wording is clearer for
+your audience — and keep it distinct from the agency header's name, which
+comes from that header's visible title.
+
+A blank value falls back to the default rather than leaving the landmark
+unnamed. */
+  landmarkLabel?: string;
   /** The list of languages this site can be translated to, default to use Smartling */
   languages?: Language[];
 
@@ -1040,6 +1264,37 @@ export type NysUnavHeaderProps = {
   "onnys-language-select"?: (e: CustomEvent<never>) => void;
   /** Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect. */
   "onnys-search-submit"?: (e: CustomEvent<never>) => void;
+};
+
+export type NysVerticalnavProps = {
+  /** ID for the navigation. Generated automatically if not provided. */
+  id?: string;
+  /** Heading text displayed at the top of the navigation. Defaults to "Page navigation". */
+  heading?: string;
+  /** Hides the visible heading while keeping an accessible label for the navigation. */
+  hideHeading?: boolean;
+  /** Heading level used for the navigation heading (`h1` through `h6`). */
+  headingLevel?: HeadingLevel;
+  /** Expands or collapses the navigation on mobile. */
+  expanded?: boolean;
+};
+
+export type NysVerticalnavGroupProps = {
+  /**  */
+  id?: string;
+  /**  */
+  label?: string;
+  /**  */
+  expanded?: boolean;
+  /**  */
+  disabled?: boolean;
+  /**  */
+  active?: boolean;
+
+  /**  */
+  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-verticalnavgroup-toggle"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
 export type NysVideoProps = {
@@ -1176,6 +1431,28 @@ export type CustomElements = {
    * - **--nys-button-border-color--active** - Border color when active/pressed. _(default: undefined)_
    */
   "nys-button": Partial<NysButtonProps & BaseProps & BaseEvents>;
+
+  /**
+   * Flexible container that groups related content and actions about a single subject.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-click** - Fired when an interactive card is activated (mouse or keyboard).
+   * - **nys-focus** - Fired when an interactive card receives focus.
+   * - **nys-blur** - Fired when an interactive card loses focus.
+   *
+   * ### **Slots:**
+   *  - **preheading** - Content rendered above the heading block (e.g. a badge or label).
+   * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
+   * - **footer** - Content rendered at the footer of the card, typically actions like buttons or links.
+   * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
+   * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-card-height** - Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`). _(default: fit-content)_
+   */
+  "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 
   /**
    * Checkbox for binary choices or multi-select options.
@@ -1347,6 +1624,24 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
+   * A scannable list of icon + text items, with an optional divider between rows.
+   * ---
+   *
+   */
+  "nys-iconlist": Partial<NysIconlistProps & BaseProps & BaseEvents>;
+
+  /**
+   * An icon-paired list item for use inside `<nys-iconlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Primary label text.
+   * - **secondary** - Optional second line of text rendered below the primary label.
+   */
+  "nys-iconlistitem": Partial<NysIconlistitemProps & BaseProps & BaseEvents>;
+
+  /**
    * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
    *
    * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
@@ -1388,7 +1683,27 @@ export type CustomElements = {
   "nys-pagination": Partial<NysPaginationProps & BaseProps & BaseEvents>;
 
   /**
-   * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
+   * An ordered list of numbered process steps.
+   * ---
+   *
+   */
+  "nys-processlist": Partial<NysProcesslistProps & BaseProps & BaseEvents>;
+
+  /**
+   * A numbered step for use inside `<nys-processlist>`.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - **description** - Custom HTML description content below the label. Overrides the `description` property.
+   */
+  "nys-processlistitem": Partial<NysProcesslistitemProps & BaseProps & BaseEvents>;
+
+  /**
+   * Radio button for single selection from mutually exclusive options.
+   * This is a READONLY data component when there is no `nys-radiogroup` wrapping the `nys-radiobutton`.
+   * Otherwise this radiobutton mockup the native grouping of radio buttons via "name" attribute.
+   * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
    * ---
    *
    *
@@ -1646,6 +1961,28 @@ export type CustomElements = {
    * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
+
+  /**
+   * Responsive navigation that becomes an accordion on smaller screens.
+   * ---
+   *
+   *
+   * ### **Methods:**
+   *  - **open()** - Public API for controlling the mobile accordion from outside the component
+   * --------------------------------------------------------------------------
+   */
+  "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
+
+  /**
+   * Collapsible link group for use within `<nys-verticalnav>`.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-child-resize**
+   * - **nys-verticalnavgroup-toggle**
+   */
+  "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
   /**
    * YouTube video player with thumbnail preview and accessibility announcements.

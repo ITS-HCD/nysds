@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysGlobalFooter } from "./nys-globalfooter";
 import "../dist/nys-globalfooter.js";
 
@@ -46,5 +47,143 @@ describe("nys-globalfooter", () => {
 
     expect(link).to.exist;
     expect(link.href).to.include("https://ny.gov");
+  });
+
+  it("supports slot content", async () => {
+    const el = await fixture<NysGlobalFooter>(html`
+      <nys-globalfooter agencyName="Office of Information Technology Services">
+        <ul class="test-slot">
+          <li><a href="https://its.ny.gov">ITS Home</a></li>
+          <li><a href="https://its.ny.gov/about">About ITS</a></li>
+        </ul>
+      </nys-globalfooter>
+    `);
+
+    await el.updateComplete;
+
+    const testSlot = el.querySelector(".test-slot");
+    expect(testSlot).to.exist;
+    expect(testSlot?.textContent).to.include("ITS Home");
+  });
+
+  // --- Regression: #1795 — paired global + unav footers need distinct
+  // contentinfo names so landmark navigation isn't "content information" twice.
+  it("names the contentinfo landmark from the visible agency heading", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Department of Health"
+      ></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer).to.exist;
+    // The inner <footer> is the contentinfo landmark. It points at the visible
+    // heading rather than repeating the name, so the two cannot drift apart.
+    const heading = el.shadowRoot?.querySelector(".nys-globalfooter__name");
+    expect(heading?.id).to.equal(`${el.id}-name`);
+    expect(footer?.getAttribute("aria-labelledby")).to.equal(heading?.id);
+    expect(footer?.hasAttribute("aria-label")).to.be.false;
+    expect(heading?.textContent?.trim()).to.equal("Department of Health");
+  });
+
+  it("keeps the heading reference when the agency name is a link", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Department of Health"
+        homepageLink="https://health.ny.gov"
+      ></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    const heading = el.shadowRoot?.querySelector("a .nys-globalfooter__name");
+    expect(heading, "the heading should render inside the link").to.exist;
+    expect(footer?.getAttribute("aria-labelledby")).to.equal(`${el.id}-name`);
+    expect(heading?.id).to.equal(`${el.id}-name`);
+  });
+
+  it("falls back to a default contentinfo name when no agency name is given", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer).to.exist;
+    // Nothing visible to point at, so the landmark still needs a name of its own
+    // to stay distinguishable from the statewide footer.
+    expect(footer?.hasAttribute("aria-labelledby")).to.be.false;
+    expect(footer?.getAttribute("aria-label")).to.equal("Site");
+  });
+
+  // --- #1795 — the paired landmark names must be author-overridable. ---
+  it("lets the author name the contentinfo landmark directly", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Department of Health"
+        landmarkLabel="Health"
+      ></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-label")).to.equal("Health");
+    // Never both: aria-labelledby would win and the override would do nothing.
+    expect(footer?.hasAttribute("aria-labelledby")).to.be.false;
+  });
+
+  it("overrides the default contentinfo name when no agency name is given", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter landmarkLabel="Portal"></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-label")).to.equal("Portal");
+  });
+
+  it("ignores a blank landmarkLabel and keeps naming from the agency heading", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Department of Health"
+        landmarkLabel="   "
+      ></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer?.getAttribute("aria-labelledby")).to.equal(`${el.id}-name`);
+    expect(footer?.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("auto-generates a valid id when none is provided", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter></nys-globalfooter>`,
+    );
+
+    expect(el.id).to.match(/^nys-globalfooter-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter id="my-footer"></nys-globalfooter>`,
+    );
+
+    expect(el.id).to.equal("my-footer");
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    // A <span> column heading triggers the nys-divider inserted after each
+    // one (see _handleSlotChange).
+    const el = await fixture<NysGlobalFooter>(html`
+      <nys-globalfooter agencyName="Test">
+        <ul>
+          <li>
+            <span>About</span>
+            <ul>
+              <li><a href="https://its.ny.gov">Home</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nys-globalfooter>
+    `);
+    await el.updateComplete;
+
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

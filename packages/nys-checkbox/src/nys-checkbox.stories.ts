@@ -38,6 +38,8 @@ export const Basic: Story = {
     value: "adirondacks",
     other: false,
     showOtherError: false,
+    labelledby: "",
+    hideLabel: false,
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md"] },
@@ -64,6 +66,8 @@ export const Basic: Story = {
           ?disabled=${args.disabled}
           ?other=${args.other}
           ?showOtherError=${args.showOtherError}
+          labelledby=${args.labelledby}
+          ?hideLabel=${args.hideLabel}
         ></nys-checkbox>
         <nys-checkbox
           name="landmarks"

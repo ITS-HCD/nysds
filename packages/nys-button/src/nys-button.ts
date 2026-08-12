@@ -1,16 +1,24 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM as the default
+// prefix/suffix/circle icon content, so it must be registered whenever
+// nys-button is used. Importing it here (intentional side effect) guarantees
+// it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-button.scss?inline";
-
-let buttonIdCounter = 0;
 
 /**
  * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
  *
  * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
  * `text` for inline. Set `href` to render as a navigation link.
+ *
+ * ARIA belongs on the component's props, not on the `<nys-button>` host. The host has no role,
+ * so attributes placed there are not mapped into the accessibility tree and never reach the
+ * internal `<button>`. For a disclosure trigger use `ariaExpanded` together with `ariaControls`.
  *
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
@@ -116,9 +124,18 @@ let buttonIdCounter = 0;
  * ```html
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
+ *
+ * @example Disclosure trigger
+ * ```html
+ * <nys-button
+ *   label="Here's how you know"
+ *   ariaExpanded="false"
+ *   ariaControls="trust-bar"
+ * ></nys-button>
+ * ```
  */
 
-export class NysButton extends LitElement {
+export class NysButton extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -164,19 +181,72 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) inverted = false;
 
   /**
-   * Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode.
+   * Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). In `circle` mode it is visually hidden but still exposed to assistive tech as the accessible name.
    */
   @property({ type: String }) label = "";
 
   /**
-   * Screen reader label. Required for icon-only buttons if `label` is not set.
-   */
-  @property({ type: String }) ariaLabel = "";
-
-  /**
    * ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
+   *
+   * Set this on `<nys-button>` rather than putting `aria-controls` on the host:
+   * the host has no role, so ARIA placed there is not mapped into the
+   * accessibility tree and never reaches the internal `<button>`.
    */
   @property({ type: String }) ariaControls = "";
+
+  /**
+   * Disclosure state for buttons that show/hide content. Sets `aria-expanded`
+   * on the internal `<button>`/`<a>`.
+   *
+   * Use `"false"` when the controlled content is collapsed and `"true"` when it
+   * is expanded, updating it every time the content toggles. Leave unset for
+   * buttons that are not disclosure triggers — an `aria-expanded` that never
+   * changes is worse than none. Pair with `ariaControls` pointing at the
+   * element being shown or hidden.
+   *
+   * Setting `aria-expanded` directly on the `<nys-button>` host does nothing:
+   * a custom element with no role does not map its ARIA attributes into the
+   * accessibility tree, and host ARIA does not cross into the shadow root.
+   *
+   * @example
+   * ```html
+   * <nys-button
+   *   label="Here's how you know"
+   *   ariaExpanded="false"
+   *   ariaControls="trust-bar"
+   * ></nys-button>
+   * ```
+   */
+  @property({ type: String }) ariaExpanded: "true" | "false" | "" = "";
+
+  /**
+   * Marks this button as the current item within a set of related controls — the current
+   * page of a pagination control, the current step of a wizard. Sets `aria-current` on the
+   * internal `<button>`/`<a>`.
+   *
+   * Use `"page"` inside a pagination landmark, `"step"` inside a step indicator, and
+   * `"true"` when no more specific token fits. Only one control in a set is ever current:
+   * leave the property unset on all the others rather than setting `"false"`, which the
+   * spec reads as "explicitly not current" and adds nothing.
+   *
+   * Setting `aria-current` directly on the `<nys-button>` host does nothing: a custom
+   * element with no role does not map its ARIA attributes into the accessibility tree,
+   * and host ARIA does not cross into the shadow root.
+   *
+   * @example
+   * ```html
+   * <nys-button label="3" ariaCurrent="page"></nys-button>
+   * ```
+   */
+  @property({ type: String }) ariaCurrent:
+    | "page"
+    | "step"
+    | "location"
+    | "date"
+    | "time"
+    | "true"
+    | "false"
+    | "" = "";
 
   /**
    * Material Symbol icon before label. Not shown for `circle` mode.
@@ -189,7 +259,7 @@ export class NysButton extends LitElement {
   @property({ type: String }) suffixIcon = "";
 
   /**
-   * Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.
+   * Renders circular icon-only button. Requires `icon` prop. `label` is rendered as visually-hidden text for the accessible name.
    * @default false
    */
   @property({ type: Boolean, reflect: true }) circle = false;
@@ -216,9 +286,9 @@ export class NysButton extends LitElement {
   @property({ type: String }) value = "";
 
   /**
-   * Additional screen reader description. Sets `aria-description`.
+   * ID(s) of element(s) describing this button. Sets `aria-describedby`.
    */
-  @property({ type: String }) ariaDescription = "";
+  @property({ type: String }) ariaDescribedBy = "";
 
   /**
    * Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.
@@ -251,41 +321,18 @@ export class NysButton extends LitElement {
     | "_top"
     | "framename" = "_self";
 
-  private _internals: ElementInternals;
-
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
   @state() private _hasCircleSlot = false;
 
   /**
-   * Lifecycle methods
-   * --------------------------------------------------------------------------
-   */
-
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
-  }
-
-  /**
    * Functions
    * --------------------------------------------------------------------------
+   *
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals). super.connectedCallback() assigns
+   * an id when one is not provided (prefix = the element's localName).
    */
-
-  private _generateUniqueId() {
-    return `nys-button-${Date.now()}-${buttonIdCounter++}`;
-  }
 
   private _onPrefixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
@@ -309,7 +356,7 @@ export class NysButton extends LitElement {
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
-    const form = this._internals.form;
+    const form = this.internals?.form;
 
     if (form) {
       switch (this.type) {
@@ -438,14 +485,9 @@ export class NysButton extends LitElement {
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
-                tabindex="${this.disabled ? -1 : 0}"
-                aria-label=${ifDefined(
-                  this.ariaLabel ||
-                    this.label ||
-                    (this.circle ? this.icon : null) ||
-                    "button",
-                )}
-                aria-description=${ifDefined(this.ariaDescription || undefined)}
+                aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+                aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
+                aria-current=${ifDefined(this.ariaCurrent || undefined)}
               >
                 <slot
                   name="prefix-icon"
@@ -459,11 +501,13 @@ export class NysButton extends LitElement {
                       ></nys-icon>`
                     : ""}
                 </slot>
-                ${!this.circle
-                  ? this.label
+                ${this.circle
+                  ? html`<div class="nys-button__text sr-only">
+                      ${this.label}
+                    </div>`
+                  : this.label
                     ? html`<div class="nys-button__text">${this.label}</div>`
-                    : html` <slot class="nys-button__default-slot"></slot> `
-                  : ""}
+                    : html` <slot class="nys-button__default-slot"></slot> `}
                 <slot
                   name="suffix-icon"
                   @slotchange=${this._onSuffixSlotChange}
@@ -501,27 +545,18 @@ export class NysButton extends LitElement {
               class="nys-button"
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
-              aria-disabled="${this.disabled ? "true" : "false"}"
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
               aria-controls=${ifDefined(this.ariaControls || undefined)}
               @click=${this._handleClick}
-              @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
-              @keydown="${this._handleKeydown}"
-              @keyup="${this._handleKeyup}"
-              tabindex="${this.disabled ? -1 : 0}"
-              aria-label=${ifDefined(
-                this.ariaLabel ||
-                  this.label ||
-                  (this.circle ? this.icon : null) ||
-                  this.prefixIcon ||
-                  this.suffixIcon ||
-                  "button",
-              )}
-              aria-description=${ifDefined(this.ariaDescription || undefined)}
-              role="button"
+              @focus=${this._handleFocus}
+              @blur=${this._handleBlur}
+              @keydown=${this._handleKeydown}
+              @keyup=${this._handleKeyup}
+              aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+              aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
+              aria-current=${ifDefined(this.ariaCurrent || undefined)}
             >
               <slot
                 name="prefix-icon"
@@ -535,11 +570,13 @@ export class NysButton extends LitElement {
                     ></nys-icon>`
                   : ""}
               </slot>
-              ${!this.circle
-                ? this.label
+              ${this.circle
+                ? html`<div class="nys-button__text sr-only">
+                    ${this.label}
+                  </div>`
+                : this.label
                   ? html`<div class="nys-button__text">${this.label}</div>`
-                  : html` <slot class="nys-button__default-slot"></slot> `
-                : ""}
+                  : html` <slot class="nys-button__default-slot"></slot> `}
               <slot
                 name="suffix-icon"
                 @slotchange=${this._onSuffixSlotChange}

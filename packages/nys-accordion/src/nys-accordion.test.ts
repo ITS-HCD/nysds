@@ -1,4 +1,12 @@
-import { expect, html, fixture, oneEvent, nextFrame } from "@open-wc/testing";
+import {
+  expect,
+  html,
+  fixture,
+  oneEvent,
+  nextFrame,
+  aTimeout,
+} from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-accordion.js";
 import { NysAccordionItem } from "./nys-accordionitem";
 import { NysAccordion } from "./nys-accordion.js";
@@ -248,5 +256,258 @@ describe("nys-accordionitem", () => {
       html`<nys-accordionitem heading="My Label"></nys-accordionitem>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  // --- Accessibility regression tests (WAI-ARIA Accordion pattern) ---
+
+  it("auto-generates an id on the accordion container in the <tag>-n-n format", async () => {
+    const el = await fixture<NysAccordion>(
+      html`<nys-accordion></nys-accordion>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-accordion-\d+-\d+$/);
+  });
+
+  it("auto-generates an id on the accordion item in the <tag>-n-n format", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.match(/^nys-accordionitem-\d+-\d+$/);
+  });
+
+  it("wraps the toggle button in a real h3 heading by default", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Heading test"></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const heading = el.shadowRoot?.querySelector(".nys-accordionitem__title");
+    expect(heading, "heading wrapper exists").to.exist;
+    expect(heading?.tagName).to.equal("H3");
+
+    // No ARIA stand-in: the element itself carries the heading semantics.
+    expect(heading?.hasAttribute("role")).to.be.false;
+    expect(heading?.hasAttribute("aria-level")).to.be.false;
+
+    // The button must be contained within the heading element.
+    const button = heading?.querySelector(".nys-accordionitem__heading");
+    expect(button, "button is inside the heading element").to.exist;
+  });
+
+  it("honors a headingLevel set on the item", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem
+        heading="Heading test"
+        headingLevel="h2"
+      ></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const heading = el.shadowRoot?.querySelector(".nys-accordionitem__title");
+    expect(heading?.tagName).to.equal("H2");
+  });
+
+  it("renders every supported heading level", async () => {
+    for (const level of ["h2", "h3", "h4", "h5", "h6"]) {
+      const el = await fixture<NysAccordionItem>(
+        html`<nys-accordionitem heading="Level" .headingLevel=${level as any}>
+        </nys-accordionitem>`,
+      );
+      await el.updateComplete;
+
+      const heading = el.shadowRoot?.querySelector(".nys-accordionitem__title");
+      expect(heading?.tagName.toLowerCase()).to.equal(level);
+    }
+  });
+
+  it("falls back to h3 when headingLevel is out of range", async () => {
+    // h1 and h7+ are outside the pattern's range; markup can still ask for them.
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem
+        heading="Heading test"
+        .headingLevel=${"h9" as any}
+      ></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const heading = el.shadowRoot?.querySelector(".nys-accordionitem__title");
+    expect(heading?.tagName).to.equal("H3");
+
+    // h1 is excluded on purpose: an accordion trigger is not the page title.
+    const h1 = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem
+        heading="Heading test"
+        .headingLevel=${"h1" as any}
+      ></nys-accordionitem>`,
+    );
+    await h1.updateComplete;
+
+    expect(
+      h1.shadowRoot?.querySelector(".nys-accordionitem__title")?.tagName,
+    ).to.equal("H3");
+  });
+
+  it("inherits headingLevel from the parent nys-accordion", async () => {
+    const el = await fixture<NysAccordion>(html`
+      <nys-accordion headingLevel="h4">
+        <nys-accordionitem heading="Item 1"></nys-accordionitem>
+        <nys-accordionitem heading="Item 2"></nys-accordionitem>
+      </nys-accordion>
+    `);
+    await el.updateComplete;
+
+    const items = el.querySelectorAll("nys-accordionitem");
+    for (const item of items) {
+      await (item as any).updateComplete;
+      const heading = item.shadowRoot?.querySelector(
+        ".nys-accordionitem__title",
+      );
+      expect(heading?.tagName).to.equal("H4");
+    }
+  });
+
+  it("lets an item override the group's headingLevel", async () => {
+    const el = await fixture<NysAccordion>(html`
+      <nys-accordion headingLevel="h2">
+        <nys-accordionitem heading="Follows the group"></nys-accordionitem>
+        <nys-accordionitem
+          heading="Sets its own"
+          headingLevel="h5"
+        ></nys-accordionitem>
+      </nys-accordion>
+    `);
+    await el.updateComplete;
+
+    const items = el.querySelectorAll("nys-accordionitem");
+    await (items[0] as any).updateComplete;
+    await (items[1] as any).updateComplete;
+
+    expect(
+      items[0].shadowRoot?.querySelector(".nys-accordionitem__title")?.tagName,
+    ).to.equal("H2");
+    expect(
+      items[1].shadowRoot?.querySelector(".nys-accordionitem__title")?.tagName,
+    ).to.equal("H5");
+  });
+
+  it("re-levels its items when the group's headingLevel changes", async () => {
+    const el = await fixture<NysAccordion>(html`
+      <nys-accordion>
+        <nys-accordionitem heading="Item 1"></nys-accordionitem>
+      </nys-accordion>
+    `);
+    await el.updateComplete;
+
+    const item = el.querySelector("nys-accordionitem") as NysAccordionItem;
+    await item.updateComplete;
+    expect(
+      item.shadowRoot?.querySelector(".nys-accordionitem__title")?.tagName,
+    ).to.equal("H3");
+
+    el.headingLevel = "h6";
+    await el.updateComplete;
+    await item.updateComplete;
+
+    expect(
+      item.shadowRoot?.querySelector(".nys-accordionitem__title")?.tagName,
+    ).to.equal("H6");
+  });
+
+  it("defaults the group's headingLevel to h3 and reflects it", async () => {
+    const el = await fixture<NysAccordion>(
+      html`<nys-accordion headingLevel="h4"></nys-accordion>`,
+    );
+    await el.updateComplete;
+
+    expect(el.headingLevel).to.equal("h4");
+    expect(el.getAttribute("headinglevel")).to.equal("h4");
+
+    const bare = await fixture<NysAccordion>(
+      html`<nys-accordion></nys-accordion>`,
+    );
+    expect(bare.headingLevel).to.equal("h3");
+  });
+
+  it("labels the region panel via aria-labelledby pointing at the toggle button", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Region label"></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const region = el.shadowRoot?.querySelector('[role="region"]');
+    const button = el.shadowRoot?.querySelector(".nys-accordionitem__heading");
+
+    expect(region, "region exists").to.exist;
+    expect(button?.id, "button has an id").to.not.be.empty;
+
+    const labelledby = region?.getAttribute("aria-labelledby");
+    expect(labelledby).to.equal(button?.id);
+  });
+
+  it("names the region with the trigger's own text", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem
+        heading="Who needs a license?"
+      ></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const region = el.shadowRoot?.querySelector('[role="region"]');
+    const labelledby = region?.getAttribute("aria-labelledby") ?? "";
+    const target = el.shadowRoot?.getElementById(labelledby);
+
+    // A dangling IDREF would leave the landmark unnamed, so resolve it and
+    // check the text a user agent would compute the name from.
+    expect(target, "aria-labelledby resolves in the same root").to.exist;
+    expect(target?.textContent?.trim()).to.equal("Who needs a license?");
+  });
+
+  it("keeps a collapsed panel out of the accessibility tree", async () => {
+    // Landmark proliferation is bounded because collapsed panels are hidden:
+    // only panels the user has opened contribute a region to the landmark list.
+    const el = await fixture<NysAccordionItem>(html`
+      <nys-accordionitem heading="Collapsed">
+        <p>Panel content</p>
+      </nys-accordionitem>
+    `);
+    await el.updateComplete;
+    await nextFrame();
+
+    const region = el.shadowRoot?.querySelector(
+      '[role="region"]',
+    ) as HTMLElement;
+    expect(getComputedStyle(region).visibility).to.equal("hidden");
+
+    el.expanded = true;
+    await el.updateComplete;
+    // Visibility is part of the panel's 300ms transition, so wait it out rather
+    // than sampling a frame that may still be at progress 0.
+    await aTimeout(400);
+
+    expect(getComputedStyle(region).visibility).to.equal("visible");
+  });
+
+  it("keeps aria-controls on the button wired to the region panel id", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Controls test"></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const button = el.shadowRoot?.querySelector(".nys-accordionitem__heading");
+    const region = el.shadowRoot?.querySelector('[role="region"]');
+
+    const controls = button?.getAttribute("aria-controls");
+    expect(controls).to.equal(region?.id);
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Test"></nys-accordionitem>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

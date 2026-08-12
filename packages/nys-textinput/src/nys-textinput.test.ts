@@ -1,10 +1,14 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysTextinput } from "./nys-textinput";
+// nys-textinput.ts imports nys-button and nys-icon itself as a side effect
+// (the password-visibility toggle and search-clear controls) — do not
+// re-import them here. A test-file-only import would mask a regression where
+// that self-import is removed from the component (see #1819 /
+// findUnregisteredChildren below).
 import "../dist/nys-textinput.js";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-button";
-import "@nysds/nys-icon";
 /**
  * Test Tips (Official WTR Doc): Defaults, interactivity, customization, and accessibility, form a great baseline for testing most web UI.
  * When testing web UI it is important to think of your test inputs as a future visitor interacting with your web component or a future developer building with your web component.
@@ -82,6 +86,69 @@ describe("nys-textinput", () => {
     nativeButton.click();
     await el.updateComplete;
     expect(input?.type).to.equal("password");
+  });
+
+  it("only shows the search clear button when type is search and a value exists", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput type="search"></nys-textinput>`,
+    );
+    expect(el.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+
+    el.value = "albany";
+    await el.updateComplete;
+    expect(el.shadowRoot?.querySelector("#search-clear")).to.exist;
+
+    // not offered on other types
+    const textEl = await fixture<NysTextinput>(
+      html`<nys-textinput value="albany"></nys-textinput>`,
+    );
+    expect(textEl.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+  });
+
+  it("hides the search clear button when disabled or readonly", async () => {
+    const disabled = await fixture<NysTextinput>(
+      html`<nys-textinput
+        type="search"
+        value="albany"
+        disabled
+      ></nys-textinput>`,
+    );
+    expect(disabled.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+
+    const readonly = await fixture<NysTextinput>(
+      html`<nys-textinput
+        type="search"
+        value="albany"
+        readonly
+      ></nys-textinput>`,
+    );
+    expect(readonly.shadowRoot?.querySelector("#search-clear")).to.not.exist;
+  });
+
+  it("clears the value, refocuses the input, and fires nys-input when the search clear button is clicked", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput type="search" value="albany"></nys-textinput>`,
+    );
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    const clearButton = el.shadowRoot?.querySelector(
+      "#search-clear",
+    ) as HTMLElement;
+    const nativeButton = clearButton.shadowRoot?.querySelector(
+      "button",
+    ) as HTMLButtonElement;
+
+    const listener = oneEvent(el, "nys-input");
+    nativeButton.click();
+    const event = await listener;
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+    expect(input.value).to.equal("");
+    expect(event.detail.value).to.equal("");
+    expect(event.detail.id).to.equal(el.id);
+    // focus returns to the input, and the button removes itself once empty
+    expect(el.shadowRoot?.activeElement).to.equal(input);
+    expect(el.shadowRoot?.querySelector("#search-clear")).to.not.exist;
   });
 
   it("displays an error message when required field is empty", async () => {
@@ -295,7 +362,7 @@ describe("nys-textinput", () => {
     expect(el.showError).to.be.false;
     expect(el.errorMessage).to.equal("");
     expect((el as any).showPassword).to.be.false;
-    expect((el as any)._internals.validity.valid).to.be.true;
+    expect((el as any).internals.validity.valid).to.be.true;
   });
 
   it("resets telephone mask to initial state when form is reset", async () => {
@@ -584,5 +651,100 @@ describe("nys-textinput", () => {
       html`<nys-textinput label="First Name"></nys-textinput>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("associates the input with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput label="First Name" id="fn"></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Name comes from the real visible <nys-label>, not a duplicated string.
+    expect(input.getAttribute("aria-labelledby")).to.equal("fn--label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot!.getElementById("fn--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("falls back to aria-label only when no visible label is provided", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput ariaLabel="Search"></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-label")).to.equal("Search");
+    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("associates the error message with the input via aria-errormessage", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput
+        label="Email"
+        id="em"
+        showError
+        errorMessage="Required"
+      ></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-errormessage")).to.equal("em--error");
+    expect(el.shadowRoot!.getElementById("em--error")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form>
+        <nys-textinput name="field" label="Name"></nys-textinput>
+      </form>`,
+    );
+    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    el.value = "Ada";
+    await el.updateComplete;
+    expect(new FormData(form).get("field")).to.equal("Ada");
+    expect(Array.from(form.elements)).to.include(el);
+  });
+});
+
+describe("nys-textinput error association", () => {
+  // Chromium never surfaces aria-errormessage for a control inside a shadow root, so the
+  // error must also be reachable via aria-describedby. See scripts/verify-a11y-names.mjs,
+  // which asserts the resulting accessible description in Blink's real AX tree.
+  it("describes the input with the error message when showError is set", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput
+        id="ti"
+        label="Name"
+        showError
+        errorMessage="Required field"
+      ></nys-textinput>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("true");
+    expect(input.getAttribute("aria-errormessage")).to.equal("ti--error");
+    expect(input.getAttribute("aria-describedby")).to.equal("ti--error");
+  });
+
+  it("does not describe the input when there is no error", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput id="ti" label="Name"></nys-textinput>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).to.equal("false");
+    expect(input.hasAttribute("aria-describedby")).to.equal(false);
+  });
+});
+
+describe("nys-textinput self-registration", () => {
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput label="Password" type="password"></nys-textinput>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

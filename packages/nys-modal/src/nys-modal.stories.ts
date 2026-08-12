@@ -20,6 +20,7 @@ type Story = StoryObj;
 export const Basic: Story = {
   args: {
     heading: "Update Available",
+    ariaLabel: "",
     subheading: "",
     open: false,
     mandatory: false,
@@ -42,6 +43,7 @@ export const Basic: Story = {
           class="modal1"
           id="modal1"
           heading=${args.heading}
+          ariaLabel=${args.ariaLabel}
           subheading=${args.subheading}
           ?open=${args.open}
           ?mandatory=${args.mandatory}
