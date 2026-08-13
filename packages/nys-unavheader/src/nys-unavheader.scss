@@ -294,8 +294,7 @@ a#nys-unavheader__logolink {
   max-width: var(--nys-form-width-lg, 384px);
 }
 
-#nys-unavheader__translate--desktop,
-#nys-unavheader__translate--mobile,
+#nys-unavheader__translate,
 #nys-unavheader__searchbutton {
   /* These props ARE publicly overridable */
   --nys-button-color: var(--nys-color-state-blue-700, #154973);
@@ -378,7 +377,6 @@ a#nys-unavheader__logolink {
     flex-direction: column;
   }
 
-  #nys-unavheader__translate--desktop,
   #nys-unavheader__searchbar {
     display: none;
   }
@@ -398,7 +396,6 @@ a#nys-unavheader__logolink {
     flex-direction: column;
   }
 
-  #nys-unavheader__translate--desktop,
   #nys-unavheader__searchbar {
     display: none;
   }
@@ -414,7 +411,6 @@ a#nys-unavheader__logolink {
     display: none;
   }
 
-  #nys-unavheader__translate--desktop,
   #nys-unavheader__searchbar {
     display: none;
   }
@@ -434,7 +430,6 @@ a#nys-unavheader__logolink {
     display: none;
   }
 
-  #nys-unavheader__translate--mobile,
   #nys-unavheader__searchbutton[circle] {
     display: none;
   }
@@ -462,7 +457,6 @@ a#nys-unavheader__logolink {
     display: none;
   }
 
-  #nys-unavheader__translate--mobile,
   #nys-unavheader__searchbutton[circle] {
     display: none;
   }

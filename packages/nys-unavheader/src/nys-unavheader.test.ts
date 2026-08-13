@@ -97,7 +97,7 @@ describe("nys-unavheader", () => {
     );
 
     const translateButton = el.shadowRoot?.querySelector(
-      "#nys-unavheader__translate--desktop",
+      "#nys-unavheader__translate",
     ) as HTMLElement;
 
     const langList = el.shadowRoot?.querySelector(
@@ -761,8 +761,7 @@ describe("nys-unavheader", () => {
   // reader affordances, and its options need language semantics. ---
   describe("translate menu", () => {
     const triggerIds = [
-      "nys-unavheader__translate--desktop",
-      "nys-unavheader__translate--mobile",
+      "nys-unavheader__translate",
     ];
 
     // nys-button renders the real <button> in its own shadow root, so that is the
@@ -770,7 +769,7 @@ describe("nys-unavheader", () => {
     const innerButton = (el: NysUnavHeader, id: string) =>
       el.shadowRoot?.getElementById(id)?.shadowRoot?.querySelector("button");
 
-    it("points aria-controls at the language menu from both triggers", async () => {
+    it("points aria-controls at the language menu from the trigger", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader></nys-unavheader>`,
       );
@@ -789,7 +788,7 @@ describe("nys-unavheader", () => {
       }
     });
 
-    it("reflects aria-expanded on the real trigger buttons as the menu opens", async () => {
+    it("reflects aria-expanded on the real trigger button as the menu opens", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader></nys-unavheader>`,
       );
@@ -816,20 +815,20 @@ describe("nys-unavheader", () => {
       }
     });
 
-    it("gives the icon-only trigger an accessible name", async () => {
+    it("gives the trigger an accessible name", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader></nys-unavheader>`,
       );
       await el.updateComplete;
       await aTimeout(0);
 
-      const mobile = el.shadowRoot?.getElementById(
-        "nys-unavheader__translate--mobile",
+      const trigger = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate",
       );
 
       // The name has to be inside the button, not an aria-label on the host that
       // nys-button never forwards.
-      const text = mobile?.shadowRoot?.querySelector(
+      const text = trigger?.shadowRoot?.querySelector(
         "button .nys-button__text",
       );
       expect(text?.textContent?.trim()).to.equal("Translate");
@@ -861,7 +860,7 @@ describe("nys-unavheader", () => {
       await el.updateComplete;
 
       const trigger = el.shadowRoot?.getElementById(
-        "nys-unavheader__translate--desktop",
+        "nys-unavheader__translate",
       ) as HTMLElement;
 
       // Probe: some runner environments (concurrent/backgrounded test pages)
@@ -896,7 +895,7 @@ describe("nys-unavheader", () => {
       // serialize the whole Lit component graph, which freezes the test page.
       if (canFocus) {
         expect(el.shadowRoot?.activeElement?.id).to.equal(
-          "nys-unavheader__translate--desktop",
+          "nys-unavheader__translate",
         );
       }
     });
@@ -1042,7 +1041,7 @@ describe("nys-unavheader", () => {
       await settle(el);
 
       const trigger = el.shadowRoot?.getElementById(
-        "nys-unavheader__translate--desktop",
+        "nys-unavheader__translate",
       ) as HTMLElement;
       await press(el, trigger, "ArrowDown");
 
@@ -1057,7 +1056,7 @@ describe("nys-unavheader", () => {
       await settle(el);
 
       const trigger = el.shadowRoot?.getElementById(
-        "nys-unavheader__translate--mobile",
+        "nys-unavheader__translate",
       ) as HTMLElement;
       await press(el, trigger, "ArrowUp");
 

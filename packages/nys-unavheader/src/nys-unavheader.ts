@@ -121,11 +121,8 @@ const LANGUAGE_MENU_LABEL = "Translate";
 /** Marks each language option, so the menu can collect them for roving focus. */
 const LANGUAGE_OPTION_CLASS = "nys-unavheader__languagelink";
 
-/** Both translate triggers — only one is visible at a time, depending on width. */
-const TRANSLATE_TRIGGER_IDS = [
-  "nys-unavheader__translate--desktop",
-  "nys-unavheader__translate--mobile",
-] as const;
+/** The single translate trigger ID. */
+const TRANSLATE_TRIGGER_ID = "nys-unavheader__translate";
 
 /**
  * A rendered `nys-button`. Its real `<button>` — the element that actually carries
@@ -411,7 +408,7 @@ export class NysUnavHeader extends NysElement {
    */
 
   /** Which translate trigger opened the menu, so Escape can return focus to it. */
-  private _translateTrigger: string = TRANSLATE_TRIGGER_IDS[0];
+  private _translateTrigger: string = TRANSLATE_TRIGGER_ID;
 
   /** Index of the option holding the menu's single tab stop. */
   private _activeOption = 0;
@@ -443,9 +440,7 @@ export class NysUnavHeader extends NysElement {
     this.languageVisible = false;
 
     this.updateComplete.then(() => {
-      const trigger =
-        this.shadowRoot?.getElementById(this._translateTrigger) ??
-        this.shadowRoot?.getElementById(TRANSLATE_TRIGGER_IDS[1]);
+      const trigger = this.shadowRoot?.getElementById(this._translateTrigger);
       trigger?.focus();
     });
   }
@@ -458,18 +453,16 @@ export class NysUnavHeader extends NysElement {
    * trigger (WCAG 4.1.2).
    */
   private async _syncTranslateTriggerAria() {
-    for (const id of TRANSLATE_TRIGGER_IDS) {
-      const trigger = this.shadowRoot?.getElementById(
-        id,
-      ) as ButtonElement | null;
-      if (!trigger) continue;
+    const trigger = this.shadowRoot?.getElementById(
+      TRANSLATE_TRIGGER_ID,
+    ) as ButtonElement | null;
+    if (!trigger) return;
 
-      // The inner button only exists once nys-button has rendered. aria-expanded
-      // and aria-controls travel through nys-button's ariaExpanded/ariaControls
-      // props; only aria-haspopup has no prop equivalent yet.
-      await trigger.updateComplete;
-      innerControl(trigger).setAttribute("aria-haspopup", "menu");
-    }
+    // The inner button only exists once nys-button has rendered. aria-expanded
+    // and aria-controls travel through nys-button's ariaExpanded/ariaControls
+    // props; only aria-haspopup has no prop equivalent yet.
+    await trigger.updateComplete;
+    innerControl(trigger).setAttribute("aria-haspopup", "menu");
   }
 
   /** The language options, in the order they are rendered. */
@@ -579,7 +572,7 @@ export class NysUnavHeader extends NysElement {
       return;
     }
 
-    if ((TRANSLATE_TRIGGER_IDS as readonly string[]).includes(target.id)) {
+    if (target.id === TRANSLATE_TRIGGER_ID) {
       this._handleTriggerKeydown(e, target.id);
     } else if (target.classList.contains(LANGUAGE_OPTION_CLASS)) {
       this._handleOptionKeydown(e);
@@ -959,23 +952,6 @@ export class NysUnavHeader extends NysElement {
                   @keydown=${this._handleTranslateKeydown}
                   @focusout=${this._handleTranslateFocusout}
                 >
-                  <nys-button
-                    variant="ghost"
-                    circle
-                    label="Translate"
-                    ariaControls="${LANGUAGE_LIST_ID}"
-                    ariaExpanded="${this.languageVisible}"
-                    id="nys-unavheader__translate--mobile"
-                    class="nys-unavheader__iconbutton"
-                    @nys-click=${() =>
-                      this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
-                  >
-                    <nys-icon
-                      slot="circle-icon"
-                      name="language"
-                      size="16"
-                    ></nys-icon>
-                  </nys-button>
                   ${!this.isSearchFocused
                     ? html`
                         <nys-button
@@ -988,9 +964,9 @@ export class NysUnavHeader extends NysElement {
                           suffixIcon=${this.languageVisible
                             ? "chevron_up"
                             : "chevron_down"}
-                          id="nys-unavheader__translate--desktop"
+                          id="nys-unavheader__translate"
                           @nys-click="${() =>
-                            this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
+                            this._toggleLanguageList(TRANSLATE_TRIGGER_ID)}"
                         ></nys-button>
                       `
                     : null}
