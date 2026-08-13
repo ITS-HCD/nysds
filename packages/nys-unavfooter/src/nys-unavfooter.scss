@@ -40,6 +40,12 @@
   --_nys-unavfooter-text-decoration-thickness: var(--nys-size-2px, 2px);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 /* Slotted content (menu links) basic resets */
 ul {
   list-style-type: none;
@@ -77,20 +83,17 @@ a:active {
 }
 
 .nys-unavfooter {
-  display: flex;
-  flex-direction: column;
-  gap: var(--_nys-unavfooter-gap);
-  align-items: flex-start;
   background-color: var(--_nys-unavfooter-background-color);
   width: 100%;
-  box-sizing: border-box;
+  padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-padding--gutter);
 }
 
 /* Main container */
 .nys-unavfooter__main-container {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  max-width: var(--_nys-unavfooter-max-width--content);
+
+  margin: auto;
 }
 
 /* Top level container for the footer (NYS Logo and Menu links) */
@@ -101,9 +104,7 @@ a:active {
   align-items: center;
   width: 100%;
   max-width: var(--_nys-unavfooter-max-width--content);
-  padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-padding--gutter);
   gap: var(--_nys-unavfooter-gap);
-  box-sizing: border-box;
 }
 
 .nys-unavfooter__logo a {

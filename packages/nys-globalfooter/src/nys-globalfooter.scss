@@ -69,7 +69,6 @@
   display: flex;
   padding: var(--_nys-globalfooter-padding--y)
     var(--_nys-globalfooter-padding--gutter);
-  justify-content: center;
   background-color: var(--_nys-globalfooter-background-color);
   color: var(--_nys-globalfooter-color);
   width: 100%;
@@ -79,6 +78,7 @@
   .nys-globalfooter__main-container {
     display: flex;
     flex-direction: column;
+    margin: auto;
     gap: var(--_nys-globalfooter-gap);
     width: 100%;
     max-width: var(--_nys-globalfooter-max-width--content);
