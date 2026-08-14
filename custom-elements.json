@@ -17396,7 +17396,7 @@
                 "text": "string"
               },
               "privacy": "private",
-              "default": "TRANSLATE_TRIGGER_IDS[0]",
+              "default": "\"nys-unavheader__translate\"",
               "description": "Which translate trigger opened the menu, so Escape can return focus to it."
             },
             {

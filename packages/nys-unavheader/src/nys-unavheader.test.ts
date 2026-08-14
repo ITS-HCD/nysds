@@ -760,9 +760,7 @@ describe("nys-unavheader", () => {
   // --- Regression: #1412 — the Translate control needs keyboard and screen
   // reader affordances, and its options need language semantics. ---
   describe("translate menu", () => {
-    const triggerIds = [
-      "nys-unavheader__translate",
-    ];
+    const triggerIds = ["nys-unavheader__translate"];
 
     // nys-button renders the real <button> in its own shadow root, so that is the
     // element the state has to land on — aria-expanded on the host reaches nothing.
