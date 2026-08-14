@@ -112,18 +112,6 @@ const FEED_ICONS: Record<string, string> = {
 /** `true` only for the feed's explicit "on" switch. */
 const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
 
-/** The element the translate menu is rendered into, referenced by `aria-controls`. */
-const LANGUAGE_LIST_ID = "nys-unavheader__languagelist";
-
-/** Accessible name of the menu, matching the name of the trigger that opens it. */
-const LANGUAGE_MENU_LABEL = "Translate";
-
-/** Marks each language option, so the menu can collect them for roving focus. */
-const LANGUAGE_OPTION_CLASS = "nys-unavheader__languagelink";
-
-/** The single translate trigger ID. */
-const TRANSLATE_TRIGGER_ID = "nys-unavheader__translate";
-
 /**
  * A rendered `nys-button`. Its real `<button>` — the element that actually carries
  * the button role, the tab stop, and any ARIA — lives in its own shadow root.
@@ -408,7 +396,7 @@ export class NysUnavHeader extends NysElement {
    */
 
   /** Which translate trigger opened the menu, so Escape can return focus to it. */
-  private _translateTrigger: string = TRANSLATE_TRIGGER_ID;
+  private _translateTrigger: string = "nys-unavheader__translate";
 
   /** Index of the option holding the menu's single tab stop. */
   private _activeOption = 0;
@@ -454,7 +442,7 @@ export class NysUnavHeader extends NysElement {
    */
   private async _syncTranslateTriggerAria() {
     const trigger = this.shadowRoot?.getElementById(
-      TRANSLATE_TRIGGER_ID,
+      "nys-unavheader__translate",
     ) as ButtonElement | null;
     if (!trigger) return;
 
@@ -469,7 +457,7 @@ export class NysUnavHeader extends NysElement {
   private _languageOptions(): ButtonElement[] {
     return Array.from(
       this.shadowRoot?.querySelectorAll<ButtonElement>(
-        `.${LANGUAGE_OPTION_CLASS}`,
+        "nys-unavheader__languagelink",
       ) ?? [],
     );
   }
@@ -572,9 +560,9 @@ export class NysUnavHeader extends NysElement {
       return;
     }
 
-    if (target.id === TRANSLATE_TRIGGER_ID) {
+    if (target.id === "nys-unavheader__translate") {
       this._handleTriggerKeydown(e, target.id);
-    } else if (target.classList.contains(LANGUAGE_OPTION_CLASS)) {
+    } else if (target.classList.contains("nys-unavheader__languagelink")) {
       this._handleOptionKeydown(e);
     }
   }
@@ -957,7 +945,7 @@ export class NysUnavHeader extends NysElement {
                         <nys-button
                           variant="ghost"
                           label="Translate"
-                          ariaControls="${LANGUAGE_LIST_ID}"
+                          ariaControls="nys-unavheader__languagelist"
                           ariaExpanded="${this.languageVisible}"
                           size="sm"
                           prefixIcon="language"
@@ -966,14 +954,16 @@ export class NysUnavHeader extends NysElement {
                             : "chevron_down"}
                           id="nys-unavheader__translate"
                           @nys-click="${() =>
-                            this._toggleLanguageList(TRANSLATE_TRIGGER_ID)}"
+                            this._toggleLanguageList(
+                              "nys-unavheader__translate",
+                            )}"
                         ></nys-button>
                       `
                     : null}
                   <div
-                    id="${LANGUAGE_LIST_ID}"
+                    id="nys-unavheader__languagelist"
                     role="menu"
-                    aria-label="${LANGUAGE_MENU_LABEL}"
+                    aria-label="Translate"
                     class="nys-unavheader__languagelist ${this.languageVisible
                       ? "show"
                       : "hide"}"
@@ -991,7 +981,7 @@ export class NysUnavHeader extends NysElement {
                           fullWidth
                           lang="${languageTag(lang.code)}"
                           label="${lang.label}"
-                          class="${LANGUAGE_OPTION_CLASS}"
+                          class="nys-unavheader__languagelink"
                           @click="${() => this._handleLanguageSelect(lang)}"
                         ></nys-button>`,
                     )}
