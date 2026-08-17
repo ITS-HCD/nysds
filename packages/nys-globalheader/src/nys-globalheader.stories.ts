@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalheader";
 import "@nysds/nys-avatar";
 import "@nysds/nys-button";
+import "@nysds/nys-breadcrumbs";
 import "@nysds/nys-unavheader";
 import "@nysds/nys-unavfooter";
 import "@nysds/nys-globalfooter";
@@ -292,6 +293,14 @@ export const TEST: Story = {
           <li><a href="https://its.ny.gov/about-us">About Us</a></li>
         </ul>
       </nys-globalheader>
+      <nys-breadcrumbs backgroundBar>
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/tickets">Ticket System</a></li>
+    <li>Del Water Gap</li>
+  </ol>
+</nys-breadcrumbs>
       <main role="main" id="main-content">
   <div class="nys-grid-container-widescreen">
     <div class="nys-grid-row nys-grid-gap">
