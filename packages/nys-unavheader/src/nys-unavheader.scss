@@ -315,6 +315,10 @@ a#nys-unavheader__logolink {
   position: relative;
 }
 
+.nys-unavheader__translate-text--large {
+  display: inline;
+}
+
 .nys-unavheader__languagelist.show {
   position: absolute;
   display: flex;
@@ -377,7 +381,8 @@ a#nys-unavheader__logolink {
     flex-direction: column;
   }
 
-  #nys-unavheader__searchbar {
+  #nys-unavheader__searchbar,
+  .nys-unavheader__translate-text--large {
     display: none;
   }
 }
@@ -396,7 +401,8 @@ a#nys-unavheader__logolink {
     flex-direction: column;
   }
 
-  #nys-unavheader__searchbar {
+  #nys-unavheader__searchbar,
+  .nys-unavheader__translate-text--large {
     display: none;
   }
 }
@@ -411,7 +417,8 @@ a#nys-unavheader__logolink {
     display: none;
   }
 
-  #nys-unavheader__searchbar {
+  #nys-unavheader__searchbar,
+  .nys-unavheader__translate-text--large {
     display: none;
   }
 
