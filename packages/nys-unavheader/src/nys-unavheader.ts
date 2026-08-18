@@ -944,20 +944,26 @@ export class NysUnavHeader extends NysElement {
                     ? html`
                         <nys-button
                           variant="ghost"
-                          label="Translate"
                           ariaControls="nys-unavheader__languagelist"
                           ariaExpanded="${this.languageVisible}"
                           size="sm"
                           prefixIcon="language"
-                          suffixIcon=${this.languageVisible
-                            ? "chevron_up"
-                            : "chevron_down"}
                           id="nys-unavheader__translate"
                           @nys-click="${() =>
                             this._toggleLanguageList(
                               "nys-unavheader__translate",
                             )}"
-                        ></nys-button>
+                        >
+                          <span class="nys-unavheader__translate-text--large"
+                            >Translate
+                            <nys-icon
+                              size="16"
+                              name="${this.languageVisible
+                                ? "chevron_up"
+                                : "chevron_down"}"
+                            ></nys-icon>
+                          </span>
+                        </nys-button>
                       `
                     : null}
                   <div
