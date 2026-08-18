@@ -147,10 +147,11 @@
 
 // Horizontal only
 .nys-grid-row.nys-grid-gap-x {
-  column-gap: 0.5rem;
+  --nys-grid-gap-x: 0.5rem;
+  column-gap: var(--nys-grid-gap-x);
 
   @media all and (width >= 64em) {
-    column-gap: 1rem;
+    --nys-grid-gap-x: 1rem;
   }
 }
 
@@ -193,10 +194,11 @@
 
 // Both horizontal + vertical
 .nys-grid-row.nys-grid-gap {
-  gap: 1rem;
+  --nys-grid-gap-x: 1rem;
+  gap: var(--nys-grid-gap-x);
 
   @media all and (width >= 64em) {
-    gap: 2rem;
+    --nys-grid-gap-x: 2rem;
   }
 }
 
@@ -225,7 +227,8 @@
 // Sized gaps (compound selectors)
 @each $suffix, $value in $spacing {
   .nys-grid-row.nys-grid-gap-x-#{$suffix} {
-    column-gap: $value;
+    --nys-grid-gap-x: #{$value};
+    column-gap: var(--nys-grid-gap-x);
   }
 
   .nys-grid-row.nys-grid-gap-y-#{$suffix} {
@@ -233,7 +236,8 @@
   }
 
   .nys-grid-row.nys-grid-gap-#{$suffix} {
-    gap: $value;
+    --nys-grid-gap-x: #{$value};
+    gap: var(--nys-grid-gap-x);
   }
 }
 
@@ -337,7 +341,8 @@
   @media all and (min-width: #{$bp-value}) {
     @each $suffix, $value in $spacing {
       .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
-        column-gap: $value;
+        --nys-grid-gap-x: #{$value};
+        column-gap: var(--nys-grid-gap-x);
       }
 
       .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
@@ -446,7 +451,12 @@
 @for $i from 1 through 12 {
   .nys-grid-col-#{$i} {
     flex: 0 1 auto;
-    width: math.percentage(math.div($i, 12));
+
+    // width: math.percentage(math.div($i, 12));
+    width: calc(
+      #{math.percentage(math.div($i, 12))} - var(--nys-grid-gap-x, 0px) *
+        #{math.div(12 - $i, 12)}
+    );
   }
 }
 
@@ -476,7 +486,12 @@
     @for $i from 1 through 12 {
       .nys-#{$bp-name}\:nys-grid-col-#{$i} {
         flex: 0 1 auto;
-        width: math.percentage(math.div($i, 12));
+
+        // width: math.percentage(math.div($i, 12));
+        width: calc(
+          #{math.percentage(math.div($i, 12))} - var(--nys-grid-gap-x, 0px) *
+            #{math.div(12 - $i, 12)}
+        );
       }
     }
 
