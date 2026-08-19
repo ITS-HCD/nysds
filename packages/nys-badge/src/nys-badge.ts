@@ -38,9 +38,9 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *
- * @example Strong Neutral
+ * @example Strong Base
  * ```html
- * <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+ * <nys-badge variant="strong" label="Base" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Error
@@ -95,14 +95,14 @@ export class NysBadge extends NysElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
-   * Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.
-   * @default "neutral"
+   * Semantic intent affecting color: `base`, `error`, `success`, or `warning`.
+   * @default "base"
    */
   @property({ type: String, reflect: true }) intent:
-    | "neutral"
+    | "base"
     | "error"
     | "success"
-    | "warning" = "neutral";
+    | "warning" = "base";
 
   /** Secondary label displayed before the main label. */
   @property({ type: String }) prefixLabel = "";
@@ -177,7 +177,7 @@ export class NysBadge extends NysElement {
 
   // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
-    neutral: "info",
+    base: "info",
     error: "emergency_home",
     success: "check_circle",
     warning: "warning",
@@ -185,7 +185,7 @@ export class NysBadge extends NysElement {
 
   // WCAG 1.4.1 (Use of Color): intent is otherwise conveyed only by color and a
   // decorative (aria-hidden) icon. Provide a screen-reader-only text alternative
-  // so the semantic meaning is not color-only. Skipped for "neutral" (no
+  // so the semantic meaning is not color-only. Skipped for "base" (no
   // semantic meaning) and when the author supplies their own srText override.
   private static readonly INTENT_SR_TEXT: Record<string, string> = {
     error: "Error",

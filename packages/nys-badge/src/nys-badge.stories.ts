@@ -21,7 +21,7 @@ export const Basic: Story = {
   args: {
     name: "",
     size: "md",
-    intent: "neutral",
+    intent: "base",
     prefixLabel: "",
     label: "Basic badge",
     srText: "",
@@ -31,7 +31,7 @@ export const Basic: Story = {
     size: { control: { type: "select" }, options: ["sm", "md"] },
     intent: {
       control: { type: "select" },
-      options: ["neutral", "error", "success", "warning"],
+      options: ["base", "error", "success", "warning"],
     },
     variant: { control: { type: "select" }, options: ["strong", ""] },
   },
@@ -110,17 +110,17 @@ export const SuccessIntent: Story = {
   },
 };
 
-export const StrongNeutral: Story = {
+export const StrongBase: Story = {
   render: () => {
     return html`
-      <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+      <nys-badge variant="strong" label="Base" prefixIcon></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>`,
+<nys-badge variant="strong" label="Base" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },

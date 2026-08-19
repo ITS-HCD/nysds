@@ -39,7 +39,7 @@
 }
 
 /* Intent */
-:host([intent="neutral"]) {
+:host([intent="base"]) {
   --_nys-badge-background-color: var(--nys-color-base-weak, #f6f6f6);
   --_nys-badge-border-color: var(--nys-color-base, #62666a);
 }

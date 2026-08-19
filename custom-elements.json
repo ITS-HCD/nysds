@@ -1463,10 +1463,10 @@
               "kind": "field",
               "name": "intent",
               "type": {
-                "text": "| \"neutral\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
               },
-              "default": "\"neutral\"",
-              "description": "Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.",
+              "default": "\"base\"",
+              "description": "Semantic intent affecting color: `base`, `error`, `success`, or `warning`.",
               "attribute": "intent",
               "reflects": true
             },
@@ -1553,7 +1553,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ neutral: \"info\", error: \"emergency_home\", success: \"check_circle\", warning: \"warning\", }",
+              "default": "{ base: \"info\", error: \"emergency_home\", success: \"check_circle\", warning: \"warning\", }",
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
@@ -1633,10 +1633,10 @@
             {
               "name": "intent",
               "type": {
-                "text": "| \"neutral\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
               },
-              "default": "\"neutral\"",
-              "description": "Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.",
+              "default": "\"base\"",
+              "description": "Semantic intent affecting color: `base`, `error`, `success`, or `warning`.",
               "fieldName": "intent",
               "propName": "intent"
             },
@@ -1725,8 +1725,8 @@
               "lang": "html"
             },
             {
-              "title": "Strong Neutral",
-              "code": "<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>",
+              "title": "Strong Base",
+              "code": "<nys-badge variant=\"strong\" label=\"Base\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {

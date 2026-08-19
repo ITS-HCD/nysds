@@ -41,13 +41,13 @@ describe("nys-badge", () => {
     expect(el.suffixIcon).to.be.true;
   });
 
-  it("default intent is neutral", async () => {
+  it("default intent is base", async () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge label="My Label"></nys-badge>`,
     );
     await el.updateComplete;
 
-    expect(el.intent).to.equal("neutral");
+    expect(el.intent).to.equal("base");
 
     const computed = getComputedStyle(el);
     const backgroundColor = computed.getPropertyValue(
@@ -134,7 +134,7 @@ describe("nys-badge", () => {
 
   // WCAG 1.4.1 Use of Color: semantic intent must not be conveyed by color
   // (and a decorative aria-hidden icon) alone. A screen-reader-only text
-  // alternative is rendered for non-neutral intents.
+  // alternative is rendered for non-base intents.
   it("renders a screen-reader-only intent label for error intent", async () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge label="Payment failed" intent="error"></nys-badge>`,
@@ -165,9 +165,9 @@ describe("nys-badge", () => {
     expect(srOnly!.textContent).to.equal("Warning: ");
   });
 
-  it("does not render an intent label for neutral intent", async () => {
+  it("does not render an intent label for base intent", async () => {
     const el = await fixture<NysBadge>(
-      html`<nys-badge label="Draft" intent="neutral"></nys-badge>`,
+      html`<nys-badge label="Draft" intent="base"></nys-badge>`,
     );
     await el.updateComplete;
     const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
@@ -189,7 +189,7 @@ describe("nys-badge", () => {
     expect(srOnly[0].textContent).to.equal(": action required");
   });
 
-  it("passes the a11y audit with a non-neutral intent", async () => {
+  it("passes the a11y audit with a non-base intent", async () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge
         label="Approved"

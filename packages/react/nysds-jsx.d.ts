@@ -186,8 +186,8 @@ export type NysBadgeProps = {
   name?: string;
   /** Badge size: `sm` (smaller text) or `md` (default). */
   size?: "sm" | "md";
-  /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
-  intent?: "neutral" | "error" | "success" | "warning";
+  /** Semantic intent affecting color: `base`, `error`, `success`, or `warning`. */
+  intent?: "base" | "error" | "success" | "warning";
   /** Secondary label displayed before the main label. */
   prefixLabel?: string;
   /** Primary label text displayed in the badge. */

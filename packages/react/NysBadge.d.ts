@@ -33,7 +33,7 @@ export interface NysBadgeProps extends Pick<
   /** Badge size: `sm` (smaller text) or `md` (default). */
   size?: NysBadgeElement["size"];
 
-  /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
+  /** Semantic intent affecting color: `base`, `error`, `success`, or `warning`. */
   intent?: NysBadgeElement["intent"];
 
   /** Secondary label displayed before the main label. */
