@@ -47,30 +47,6 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-        <nys-video videourl="https://www.youtube.com/watch?v=EmM70a3x0jE" titletext="OMH is sharing stories of everyday New Yorkers with lived experience who prove that recovery is possible. Meet Kurt Warner, a licensed clinical social worker and therapist in Cortland County. From struggling with severe obsessive-compulsive disorder and then a traumatic brain injury, he used his love of literature to empower his recovery and become a published author." id="nys-video-1787160964740-3" size=""><template shadowrootmode="open"><!---->
-        <div class="nys-video nys-video--md ">
-          <!--?lit$204353189$-->
-      <div aria-live="assertive" aria-atomic="true" class="nys-video__announcer sr-only">
-        <!--?lit$204353189$-->
-      </div>
-    
-          <div class="nys-video__ratio-box">
-            <div class="nys-video__thumbnail">
-              <img alt="" src="https://img.youtube.com/vi/EmM70a3x0jE/maxresdefault.jpg">
-              <button class="nys-video__play-icon" aria-label="Play OMH is sharing stories of everyday New Yorkers with lived experience who prove that recovery is possible. Meet Kurt Warner, a licensed clinical social worker and therapist in Cortland County. From struggling with severe obsessive-compulsive disorder and then a traumatic brain injury, he used his love of literature to empower his recovery and become a published author.">
-                <span class="nys-video__play-badge">
-                  <!--?lit$204353189$--><svg aria-hidden="true" width="31" height="35" viewBox="0 0 31 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z" fill="white"></path>
-        </svg>
-                </span>
-              </button>
-            </div>
-          </div>
-          <!--?lit$204353189$--><div class="nys-video__title-text">
-            <p><!--?lit$204353189$-->OMH is sharing stories of everyday New Yorkers with lived experience who prove that recovery is possible. Meet Kurt Warner, a licensed clinical social worker and therapist in Cortland County. From struggling with severe obsessive-compulsive disorder and then a traumatic brain injury, he used his love of literature to empower his recovery and become a published author.</p>
-          </div>
-        </div>
-      </template></nys-video>
 <nys-video
   videourl="https://www.youtube.com/watch?v=TBfFzt0150Q"
   titleText="IT'S a Tech Podcast, Episode 3: Human-Centered Design"
