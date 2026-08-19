@@ -429,8 +429,12 @@ export class NysCard extends NysElement {
 
   render() {
     const hasMediaAccent = !!(this._accentMonth || this._accentDay);
-    // The preheading block accepts either the property or slotted rich content.
-    const hasPreheading = !!this.preheading || this._hasPreheadingSlot;
+    // Preheading text and slotted preheading content render as separate
+    // elements, so each can be styled on its own: the property gets the styled
+    // <p>, slotted markup (a badge, say) gets the bare slot. Slotted content
+    // still wins over the property, as it did when it was the slot's fallback,
+    // and neither element is rendered when there is nothing to show.
+    const showPreheadingText = !!this.preheading && !this._hasPreheadingSlot;
 
     // The card's inner markup is identical in all three cases; only the element
     // wrapping it changes based on how the card was made interactive.
@@ -454,13 +458,15 @@ export class NysCard extends NysElement {
       </div>
       <div class="nys-card__main-content">
         <div>
-          <p class="nys-card__preheading" ?hidden=${!hasPreheading}>
-            <slot
-              name="preheading"
-              @slotchange=${this.handlePreheadingSlotChange}
-              >${this.preheading}</slot
-            >
-          </p>
+          ${showPreheadingText
+            ? html`<p class="nys-card__preheading">${this.preheading}</p>`
+            : ""}
+          <slot
+            name="preheading"
+            class="nys-card__preheading-slot"
+            ?hidden=${!this._hasPreheadingSlot}
+            @slotchange=${this.handlePreheadingSlotChange}
+          ></slot>
           ${this.renderHeading()}
           ${this.subheading
             ? html`<p class="nys-card__subheading">${this.subheading}</p>`
