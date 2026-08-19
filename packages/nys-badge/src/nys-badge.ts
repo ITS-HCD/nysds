@@ -40,22 +40,22 @@ import styles from "./nys-badge.scss?inline";
  *
  * @example Strong Base
  * ```html
- * <nys-badge variant="strong" label="Base" prefixIcon></nys-badge>
+ * <nys-badge strong label="Base" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Error
  * ```html
- * <nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
+ * <nys-badge strong label="Error" intent="error" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Warning
  * ```html
- * <nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
+ * <nys-badge strong label="Warning" intent="warning" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Success
  * ```html
- * <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
+ * <nys-badge strong label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *
  * @example Custom Prefix Icon
@@ -113,7 +113,8 @@ export class NysBadge extends NysElement {
   /** Screen reader text appended after the label for additional context. */
   @property({ type: String }) srText = "";
 
-  @property({ type: String, reflect: true }) variant: "strong" | "" = "";
+  /** Strong visual with bolder text and background. */
+  @property({ type: Boolean, reflect: true }) strong = false;
 
   // Icons (string or boolean)
   private _prefixIcon: string | boolean = "";

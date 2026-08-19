@@ -63,7 +63,7 @@ describe("nys-badge", () => {
       html`<nys-badge
         label="My Label"
         intent="success"
-        variant="strong"
+        strong
         prefixIcon
       ></nys-badge>`,
     );

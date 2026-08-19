@@ -8,10 +8,6 @@ figma.connect("<FIGMA_BADGE>", {
       "🟡 Warning": "warning",
       "🔴 Error": "error",
     }),
-    variant: figma.enum("Variant", {
-      Default: "",
-      Strong: "strong",
-    }),
     size: figma.enum("Size", {
       sm: "sm",
       md: "md",
@@ -28,7 +24,6 @@ figma.connect("<FIGMA_BADGE>", {
     <nys-badge
       label=${props.label}
       intent=${props.intent}
-      variant=${props.variant}
       size=${props.size}
       prefixIcon=${props.prefixIcon}
       suffixIcon=${props.suffixIcon}
