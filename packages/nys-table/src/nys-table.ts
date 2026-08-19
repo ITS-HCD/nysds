@@ -264,18 +264,6 @@ export class NysTable extends NysElement {
     } else {
       const headerRow = rows[headerRowIndex];
 
-      // Wrap text nodes in <p> for each <th>
-      headerRow.querySelectorAll("th").forEach((th) => {
-        // Only wrap text nodes, leave icons or other children
-        Array.from(th.childNodes).forEach((node) => {
-          if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
-            const p = document.createElement("p");
-            p.textContent = node.textContent;
-            th.replaceChild(p, node);
-          }
-        });
-      });
-
       thead.appendChild(headerRow);
 
       // Move remaining rows to tbody
