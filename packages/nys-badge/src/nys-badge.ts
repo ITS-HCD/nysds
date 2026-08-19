@@ -28,6 +28,11 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
  * ```
  *
+ * @example Info Intent
+ * ```html
+ * <nys-badge label="Info" intent="info" prefixIcon></nys-badge>
+ * ```
+ *
  * @example Warning Intent
  * ```html
  * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
@@ -46,6 +51,11 @@ import styles from "./nys-badge.scss?inline";
  * @example Strong Error
  * ```html
  * <nys-badge strong label="Error" intent="error" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Info
+ * ```html
+ * <nys-badge strong label="Info" intent="info" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Warning
@@ -95,12 +105,13 @@ export class NysBadge extends NysElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
-   * Semantic intent affecting color: `base`, `error`, `success`, or `warning`.
-   * @default "base"
+   * Semantic intent affecting color: `base`, `error`, `info`, `success`, or `warning`.
+   * @default "info"
    */
   @property({ type: String, reflect: true }) intent:
     | "base"
     | "error"
+    | "info"
     | "success"
     | "warning" = "base";
 
@@ -113,7 +124,7 @@ export class NysBadge extends NysElement {
   /** Screen reader text appended after the label for additional context. */
   @property({ type: String }) srText = "";
 
-  /** Strong visual with bolder text and background. */
+  /** Strong visual intent with bolder text and background. */
   @property({ type: Boolean, reflect: true }) strong = false;
 
   // Icons (string or boolean)
@@ -180,6 +191,7 @@ export class NysBadge extends NysElement {
   private static readonly DEFAULT_ICONS: Record<string, string> = {
     base: "info",
     error: "emergency_home",
+    info: "info",
     success: "check_circle",
     warning: "warning",
   };
@@ -190,6 +202,7 @@ export class NysBadge extends NysElement {
   // semantic meaning) and when the author supplies their own srText override.
   private static readonly INTENT_SR_TEXT: Record<string, string> = {
     error: "Error",
+    info: "Info",
     success: "Success",
     warning: "Warning",
   };

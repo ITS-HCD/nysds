@@ -1463,10 +1463,10 @@
               "kind": "field",
               "name": "intent",
               "type": {
-                "text": "| \"base\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"error\"\n    | \"info\"\n    | \"success\"\n    | \"warning\""
               },
               "default": "\"base\"",
-              "description": "Semantic intent affecting color: `base`, `error`, `success`, or `warning`.",
+              "description": "Semantic intent affecting color: `base`, `error`, `info`, `success`, or `warning`.",
               "attribute": "intent",
               "reflects": true
             },
@@ -1502,12 +1502,13 @@
             },
             {
               "kind": "field",
-              "name": "variant",
+              "name": "strong",
               "type": {
-                "text": "\"strong\" | \"\""
+                "text": "boolean"
               },
-              "default": "\"\"",
-              "attribute": "variant",
+              "default": "false",
+              "description": "Strong visual intent with bolder text and background.",
+              "attribute": "strong",
               "reflects": true
             },
             {
@@ -1553,7 +1554,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ base: \"info\", error: \"emergency_home\", success: \"check_circle\", warning: \"warning\", }",
+              "default": "{ base: \"info\", error: \"emergency_home\", info: \"info\", success: \"check_circle\", warning: \"warning\", }",
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
@@ -1565,7 +1566,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ error: \"Error\", success: \"Success\", warning: \"Warning\", }"
+              "default": "{ error: \"Error\", info: \"Info\", success: \"Success\", warning: \"Warning\", }"
             },
             {
               "kind": "method",
@@ -1633,10 +1634,10 @@
             {
               "name": "intent",
               "type": {
-                "text": "| \"base\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"error\"\n    | \"info\"\n    | \"success\"\n    | \"warning\""
               },
               "default": "\"base\"",
-              "description": "Semantic intent affecting color: `base`, `error`, `success`, or `warning`.",
+              "description": "Semantic intent affecting color: `base`, `error`, `info`, `success`, or `warning`.",
               "fieldName": "intent",
               "propName": "intent"
             },
@@ -1671,13 +1672,14 @@
               "propName": "srtext"
             },
             {
-              "name": "variant",
+              "name": "strong",
               "type": {
-                "text": "\"strong\" | \"\""
+                "text": "boolean"
               },
-              "default": "\"\"",
-              "fieldName": "variant",
-              "propName": "variant"
+              "default": "false",
+              "description": "Strong visual intent with bolder text and background.",
+              "fieldName": "strong",
+              "propName": "strong"
             },
             {
               "name": "prefixicon",
@@ -1715,6 +1717,11 @@
               "lang": "html"
             },
             {
+              "title": "Info Intent",
+              "code": "<nys-badge label=\"Info\" intent=\"info\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
               "title": "Warning Intent",
               "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
               "lang": "html"
@@ -1726,22 +1733,27 @@
             },
             {
               "title": "Strong Base",
-              "code": "<nys-badge variant=\"strong\" label=\"Base\" prefixIcon></nys-badge>",
+              "code": "<nys-badge strong label=\"Base\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
               "title": "Strong Error",
-              "code": "<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "code": "<nys-badge strong label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Info",
+              "code": "<nys-badge strong label=\"Info\" intent=\"info\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
               "title": "Strong Warning",
-              "code": "<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "code": "<nys-badge strong label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
               "title": "Strong Success",
-              "code": "<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "code": "<nys-badge strong label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
