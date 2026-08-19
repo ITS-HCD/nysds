@@ -3,7 +3,7 @@ import figma, { html } from "@figma/code-connect/html";
 figma.connect("<FIGMA_BADGE>", {
   props: {
     intent: figma.enum("Intent", {
-      "🔘 Neutral": "neutral",
+      "🔘 Base": "base",
       "🟢 Success": "success",
       "🟡 Warning": "warning",
       "🔴 Error": "error",
