@@ -39,6 +39,7 @@
 
   > .nys-grid-row {
     box-sizing: border-box;
+
     // width: calc(min(100%, #{$max-width}) + var(--_nys-grid-gap-x, 0px));
     margin-inline: calc(
       max(0px, calc((100% - #{$max-width}) / 2)) - var(--_nys-grid-gap-x, 0px) /
@@ -47,6 +48,7 @@
 
     width: 100%;
     max-width: $max-width;
+
     // margin-left: auto;
     // margin-right: auto;
     // margin-inline: auto;
