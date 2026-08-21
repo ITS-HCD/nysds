@@ -44,9 +44,9 @@
   --_nys-badge-border-color: var(--nys-color-base, #62666a);
 }
 
-:host([intent="emergency"]) {
-  --_nys-badge-background-color: var(--nys-color-emergency-weak, #f7eaea);
-  --_nys-badge-border-color: var(--nys-color-emergency, #721c1c);
+:host([intent="danger"]) {
+  --_nys-badge-background-color: var(--nys-color-danger-weak, #f7eaea);
+  --_nys-badge-border-color: var(--nys-color-danger-strong, #721c1c);
 }
 
 :host([intent="info"]) {

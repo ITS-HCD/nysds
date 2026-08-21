@@ -1463,10 +1463,10 @@
               "kind": "field",
               "name": "intent",
               "type": {
-                "text": "| \"base\"\n    | \"emergency\"\n    | \"info\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"danger\"\n    | \"info\"\n    | \"success\"\n    | \"warning\""
               },
               "default": "\"base\"",
-              "description": "Semantic intent affecting color: `base`, `emergency`, `info`, `success`, or `warning`.",
+              "description": "Semantic intent affecting color: `base`, `danger`, `info`, `success`, or `warning`.",
               "attribute": "intent",
               "reflects": true
             },
@@ -1554,7 +1554,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ base: \"info\", emergency: \"emergency_home\", info: \"info\", success: \"check_circle\", warning: \"warning\", }",
+              "default": "{ base: \"info\", danger: \"error\", info: \"info\", success: \"check_circle\", warning: \"warning\", }",
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
@@ -1566,7 +1566,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ emergency: \"Emergency\", info: \"Info\", success: \"Success\", warning: \"Warning\", }"
+              "default": "{ danger: \"Danger\", info: \"Info\", success: \"Success\", warning: \"Warning\", }"
             },
             {
               "kind": "method",
@@ -1634,10 +1634,10 @@
             {
               "name": "intent",
               "type": {
-                "text": "| \"base\"\n    | \"emergency\"\n    | \"info\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"danger\"\n    | \"info\"\n    | \"success\"\n    | \"warning\""
               },
               "default": "\"base\"",
-              "description": "Semantic intent affecting color: `base`, `emergency`, `info`, `success`, or `warning`.",
+              "description": "Semantic intent affecting color: `base`, `danger`, `info`, `success`, or `warning`.",
               "fieldName": "intent",
               "propName": "intent"
             },
@@ -1727,8 +1727,8 @@
               "lang": "html"
             },
             {
-              "title": "Emergency Intent",
-              "code": "<nys-badge label=\"Emergency\" intent=\"emergency\" prefixIcon></nys-badge>",
+              "title": "Danger Intent",
+              "code": "<nys-badge label=\"Danger\" intent=\"danger\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
@@ -1752,8 +1752,8 @@
               "lang": "html"
             },
             {
-              "title": "Strong Emergency",
-              "code": "<nys-badge strong label=\"Emergency\" intent=\"emergency\" prefixIcon></nys-badge>",
+              "title": "Strong Danger",
+              "code": "<nys-badge strong label=\"Danger\" intent=\"danger\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {

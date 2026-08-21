@@ -135,14 +135,14 @@ describe("nys-badge", () => {
   // WCAG 1.4.1 Use of Color: semantic intent must not be conveyed by color
   // (and a decorative aria-hidden icon) alone. A screen-reader-only text
   // alternative is rendered for non-base intents.
-  it("renders a screen-reader-only intent label for emergency intent", async () => {
+  it("renders a screen-reader-only intent label for danger intent", async () => {
     const el = await fixture<NysBadge>(
-      html`<nys-badge label="Payment failed" intent="emergency"></nys-badge>`,
+      html`<nys-badge label="Payment failed" intent="danger"></nys-badge>`,
     );
     await el.updateComplete;
     const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
     expect(srOnly).to.exist;
-    expect(srOnly!.textContent).to.equal("Emergency: ");
+    expect(srOnly!.textContent).to.equal("Danger: ");
   });
 
   it("renders a screen-reader-only intent label for success intent", async () => {
@@ -178,7 +178,7 @@ describe("nys-badge", () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge
         label="Payment failed"
-        intent="emergency"
+        intent="danger"
         srText="action required"
       ></nys-badge>`,
     );

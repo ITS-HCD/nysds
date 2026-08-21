@@ -7,7 +7,7 @@ figma.connect("<FIGMA_BADGE>", {
       "🔵 Info": "info",
       "🟢 Success": "success",
       "🟡 Warning": "warning",
-      "🔴 Emergency": "emergency",
+      "🔴 Danger": "danger",
     }),
     size: figma.enum("Size", {
       sm: "sm",
