@@ -1712,18 +1712,8 @@
               "lang": "html"
             },
             {
-              "title": "Error Intent",
-              "code": "<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
-              "lang": "html"
-            },
-            {
               "title": "Info Intent",
               "code": "<nys-badge label=\"Info\" intent=\"info\" prefixIcon></nys-badge>",
-              "lang": "html"
-            },
-            {
-              "title": "Warning Intent",
-              "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
@@ -1732,13 +1722,18 @@
               "lang": "html"
             },
             {
-              "title": "Strong Base",
-              "code": "<nys-badge strong label=\"Base\" prefixIcon></nys-badge>",
+              "title": "Warning Intent",
+              "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
-              "title": "Strong Error",
-              "code": "<nys-badge strong label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "title": "Error Intent",
+              "code": "<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Base",
+              "code": "<nys-badge strong label=\"Base\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
@@ -1747,13 +1742,18 @@
               "lang": "html"
             },
             {
+              "title": "Strong Success",
+              "code": "<nys-badge strong label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
               "title": "Strong Warning",
               "code": "<nys-badge strong label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
-              "title": "Strong Success",
-              "code": "<nys-badge strong label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "title": "Strong Error",
+              "code": "<nys-badge strong label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {

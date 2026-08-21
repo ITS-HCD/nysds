@@ -23,19 +23,9 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge label="Basic badge"></nys-badge>
  * ```
  *
- * @example Error Intent
- * ```html
- * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
- * ```
- *
  * @example Info Intent
  * ```html
  * <nys-badge label="Info" intent="info" prefixIcon></nys-badge>
- * ```
- *
- * @example Warning Intent
- * ```html
- * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
  * ```
  *
  * @example Success Intent
@@ -43,14 +33,19 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *
+ * @example Warning Intent
+ * ```html
+ * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Error Intent
+ * ```html
+ * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+ * ```
+ *
  * @example Strong Base
  * ```html
  * <nys-badge strong label="Base" prefixIcon></nys-badge>
- * ```
- *
- * @example Strong Error
- * ```html
- * <nys-badge strong label="Error" intent="error" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Info
@@ -58,14 +53,19 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge strong label="Info" intent="info" prefixIcon></nys-badge>
  * ```
  *
+ * @example Strong Success
+ * ```html
+ * <nys-badge strong label="Success" intent="success" prefixIcon></nys-badge>
+ * ```
+ *
  * @example Strong Warning
  * ```html
  * <nys-badge strong label="Warning" intent="warning" prefixIcon></nys-badge>
  * ```
  *
- * @example Strong Success
+ * @example Strong Error
  * ```html
- * <nys-badge strong label="Success" intent="success" prefixIcon></nys-badge>
+ * <nys-badge strong label="Error" intent="error" prefixIcon></nys-badge>
  * ```
  *
  * @example Custom Prefix Icon
