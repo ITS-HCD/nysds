@@ -38,9 +38,9 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
  * ```
  *
- * @example Error Intent
+ * @example Emergency Intent
  * ```html
- * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+ * <nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Base
@@ -63,9 +63,9 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge strong label="Warning" intent="warning" prefixIcon></nys-badge>
  * ```
  *
- * @example Strong Error
+ * @example Strong Emergency
  * ```html
- * <nys-badge strong label="Error" intent="error" prefixIcon></nys-badge>
+ * <nys-badge strong label="Emergency" intent="emergency" prefixIcon></nys-badge>
  * ```
  *
  * @example Custom Prefix Icon
@@ -105,12 +105,12 @@ export class NysBadge extends NysElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
-   * Semantic intent affecting color: `base`, `error`, `info`, `success`, or `warning`.
+   * Semantic intent affecting color: `base`, `emergency`, `info`, `success`, or `warning`.
    * @default "info"
    */
   @property({ type: String, reflect: true }) intent:
     | "base"
-    | "error"
+    | "emergency"
     | "info"
     | "success"
     | "warning" = "base";
@@ -190,7 +190,7 @@ export class NysBadge extends NysElement {
   // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
     base: "info",
-    error: "emergency_home",
+    emergency: "emergency_home",
     info: "info",
     success: "check_circle",
     warning: "warning",
@@ -201,7 +201,7 @@ export class NysBadge extends NysElement {
   // so the semantic meaning is not color-only. Skipped for "base" (no
   // semantic meaning) and when the author supplies their own srText override.
   private static readonly INTENT_SR_TEXT: Record<string, string> = {
-    error: "Error",
+    emergency: "Emergency",
     info: "Info",
     success: "Success",
     warning: "Warning",

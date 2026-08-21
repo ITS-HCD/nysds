@@ -31,7 +31,7 @@ export const Basic: Story = {
     size: { control: { type: "select" }, options: ["sm", "md"] },
     intent: {
       control: { type: "select" },
-      options: ["base", "error", "info", "success", "warning"],
+      options: ["base", "emergency", "info", "success", "warning"],
     },
   },
   render: (args) => {
@@ -109,17 +109,17 @@ export const WarningIntent: Story = {
   },
 };
 
-export const ErrorIntent: Story = {
+export const EmergencyIntent: Story = {
   render: () => {
     return html`
-      <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+      <nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge label="Error" intent="error" prefixIcon></nys-badge>`,
+<nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },
@@ -192,17 +192,22 @@ export const StrongWarning: Story = {
   },
 };
 
-export const StrongError: Story = {
+export const StrongEmergency: Story = {
   render: () => {
     return html`
-      <nys-badge strong label="Error" intent="error" prefixIcon></nys-badge>
+      <nys-badge
+        strong
+        label="Emergency"
+        intent="emergency"
+        prefixIcon
+      ></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge strong label="Error" intent="error" prefixIcon></nys-badge>`,
+<nys-badge strong label="Emergency" intent="emergency" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },

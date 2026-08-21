@@ -4,9 +4,10 @@ figma.connect("<FIGMA_BADGE>", {
   props: {
     intent: figma.enum("Intent", {
       "🔘 Base": "base",
+      "🔵 Info": "info",
       "🟢 Success": "success",
       "🟡 Warning": "warning",
-      "🔴 Error": "error",
+      "🔴 Emergency": "emergency",
     }),
     size: figma.enum("Size", {
       sm: "sm",
