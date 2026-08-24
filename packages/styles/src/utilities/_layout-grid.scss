@@ -46,7 +46,6 @@
         2
     );
 
-    width: 100%;
     max-width: $max-width;
 
     // margin-left: auto;
@@ -187,9 +186,9 @@
   --_nys-grid-gap-y: #{$gap};
 }
 
-@mixin grid-gap($gap) {
-  --_nys-grid-gap-x: #{$gap};
-  --_nys-grid-gap-y: #{$gap};
+@mixin grid-gap($gap-x, $gap-y) {
+  --_nys-grid-gap-x: #{$gap-x};
+  --_nys-grid-gap-y: #{$gap-y};
 
   > * {
     padding-inline: calc(var(--_nys-grid-gap-x) / 2);
@@ -254,10 +253,10 @@
 
 // Both horizontal + vertical
 .nys-grid-row.nys-grid-gap {
-  @include grid-gap(0.5rem);
+  @include grid-gap(0.5rem, 1rem);
 
   @media (width >= 64em) {
-    @include grid-gap(1rem);
+    @include grid-gap(1rem, 2rem);
   }
 }
 
