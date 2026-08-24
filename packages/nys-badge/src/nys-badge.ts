@@ -43,6 +43,11 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge label="Danger" intent="danger" prefixIcon></nys-badge>
  * ```
  *
+ * @example Emergency Intent
+ * ```html
+ * <nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>
+ * ```
+ *
  * @example Strong Base
  * ```html
  * <nys-badge strong label="Base" prefixIcon></nys-badge>
@@ -105,15 +110,16 @@ export class NysBadge extends NysElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
-   * Semantic intent affecting color: `base`, `danger`, `info`, `success`, or `warning`.
+   * Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`.
    * @default "info"
    */
   @property({ type: String, reflect: true }) intent:
     | "base"
-    | "danger"
     | "info"
     | "success"
-    | "warning" = "base";
+    | "warning"
+    | "danger"
+    | "emergency" = "base";
 
   /** Secondary label displayed before the main label. */
   @property({ type: String }) prefixLabel = "";
@@ -190,10 +196,11 @@ export class NysBadge extends NysElement {
   // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
     base: "info",
-    danger: "error",
     info: "info",
     success: "check_circle",
     warning: "warning",
+    danger: "error",
+    emergency: "emergency_home",
   };
 
   // WCAG 1.4.1 (Use of Color): intent is otherwise conveyed only by color and a
@@ -201,10 +208,11 @@ export class NysBadge extends NysElement {
   // so the semantic meaning is not color-only. Skipped for "base" (no
   // semantic meaning) and when the author supplies their own srText override.
   private static readonly INTENT_SR_TEXT: Record<string, string> = {
-    danger: "Danger",
     info: "Info",
     success: "Success",
     warning: "Warning",
+    danger: "Danger",
+    emergency: "Emergency",
   };
 
   /**

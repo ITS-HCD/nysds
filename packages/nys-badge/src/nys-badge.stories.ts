@@ -31,7 +31,7 @@ export const Basic: Story = {
     size: { control: { type: "select" }, options: ["sm", "md"] },
     intent: {
       control: { type: "select" },
-      options: ["base", "danger", "info", "success", "warning"],
+      options: ["base", "info", "success", "warning", "danger", "emergency"],
     },
   },
   render: (args) => {
@@ -120,6 +120,23 @@ export const DangerIntent: Story = {
       source: {
         code: `
 <nys-badge label="Danger" intent="danger" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const EmergencyIntent: Story = {
+  render: () => {
+    return html`
+      <nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },

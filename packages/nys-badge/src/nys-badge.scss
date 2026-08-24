@@ -49,6 +49,16 @@
   --_nys-badge-border-color: var(--nys-color-danger-strong, #721c1c);
 }
 
+:host([intent="emergency"]) {
+  --_nys-badge-background-color: var(--nys-color-emergency, #721c1c);
+  --_nys-badge-border-color: var(--nys-color-danger-strong, #721c1c);
+  --_nys-badge-color: var(--nys-color-white, #ffffff);
+
+  .nys-badge {
+    --nys-icon-color: var(--nys-color-white, #ffffff);
+  }
+}
+
 :host([intent="info"]) {
   --_nys-badge-background-color: var(--nys-color-info-weak, #e5effa);
   --_nys-badge-border-color: var(--nys-color-info-strong, #002971);
@@ -84,6 +94,10 @@
 
 :host([strong][intent="danger"]) {
   --_nys-badge-border-color: var(--nys-color-danger, #b52c2c);
+}
+
+:host([strong][intent="emergency"]) {
+  --_nys-badge-border-color: var(--nys-color-emergency, #721c1c);
 }
 
 :host([strong][intent="warning"]) {
