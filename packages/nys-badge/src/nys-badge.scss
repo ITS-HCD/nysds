@@ -82,6 +82,10 @@
   --_nys-badge-border-color: var(--nys-color-success, #1e752e);
 }
 
+:host([strong][intent="danger"]) {
+  --_nys-badge-border-color: var(--nys-color-danger, #b52c2c);
+}
+
 :host([strong][intent="warning"]) {
   --_nys-badge-border-color: var(--nys-color-warning, #face00);
   --_nys-badge-color: var(--nys-color-ink, #000000);
