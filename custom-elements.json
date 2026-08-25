@@ -1463,10 +1463,10 @@
               "kind": "field",
               "name": "intent",
               "type": {
-                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"emergency\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"error\"\n    | \"emergency\""
               },
               "default": "\"base\"",
-              "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`.",
+              "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead",
               "attribute": "intent",
               "reflects": true
             },
@@ -1554,7 +1554,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ base: \"info\", info: \"info\", success: \"check_circle\", warning: \"warning\", danger: \"error\", emergency: \"emergency_home\", }",
+              "default": "{ base: \"info\", info: \"info\", success: \"check_circle\", warning: \"warning\", danger: \"error\", error: \"error\", emergency: \"emergency_home\", }",
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
@@ -1566,7 +1566,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ info: \"Info\", success: \"Success\", warning: \"Warning\", danger: \"Danger\", emergency: \"Emergency\", }"
+              "default": "{ info: \"Info\", success: \"Success\", warning: \"Warning\", danger: \"Danger\", error: \"Danger\", emergency: \"Emergency\", }"
             },
             {
               "kind": "method",
@@ -1634,10 +1634,10 @@
             {
               "name": "intent",
               "type": {
-                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"emergency\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"error\"\n    | \"emergency\""
               },
               "default": "\"base\"",
-              "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`.",
+              "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead",
               "fieldName": "intent",
               "propName": "intent"
             },

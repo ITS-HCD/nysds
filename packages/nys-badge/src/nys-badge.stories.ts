@@ -31,7 +31,15 @@ export const Basic: Story = {
     size: { control: { type: "select" }, options: ["sm", "md"] },
     intent: {
       control: { type: "select" },
-      options: ["base", "info", "success", "warning", "danger", "emergency"],
+      options: [
+        "base",
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "error",
+        "emergency",
+      ],
     },
   },
   render: (args) => {
