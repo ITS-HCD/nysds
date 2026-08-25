@@ -110,7 +110,7 @@ export class NysBadge extends NysElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
-   * Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`.
+   * Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead
    * @default "info"
    */
   @property({ type: String, reflect: true }) intent:
@@ -119,6 +119,7 @@ export class NysBadge extends NysElement {
     | "success"
     | "warning"
     | "danger"
+    | "error"
     | "emergency" = "base";
 
   /** Secondary label displayed before the main label. */
@@ -200,6 +201,7 @@ export class NysBadge extends NysElement {
     success: "check_circle",
     warning: "warning",
     danger: "error",
+    error: "error",
     emergency: "emergency_home",
   };
 
@@ -212,6 +214,7 @@ export class NysBadge extends NysElement {
     success: "Success",
     warning: "Warning",
     danger: "Danger",
+    error: "Danger",
     emergency: "Emergency",
   };
 

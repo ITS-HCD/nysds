@@ -44,7 +44,8 @@
   --_nys-badge-border-color: var(--nys-color-base, #62666a);
 }
 
-:host([intent="danger"]) {
+:host([intent="danger"]),
+:host([intent="error"]) {
   --_nys-badge-background-color: var(--nys-color-danger-weak, #f7eaea);
   --_nys-badge-border-color: var(--nys-color-danger-strong, #721c1c);
 }
@@ -92,7 +93,8 @@
   --_nys-badge-border-color: var(--nys-color-success, #1e752e);
 }
 
-:host([strong][intent="danger"]) {
+:host([strong][intent="danger"]),
+:host([strong][intent="error"]) {
   --_nys-badge-border-color: var(--nys-color-danger, #b52c2c);
 }
 
