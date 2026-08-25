@@ -98,10 +98,24 @@ export class NysBadge extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. */
-  @property({ type: String, reflect: true }) id = "";
+  @property({
+    type: String,
+    reflect: true,
+    converter: {
+      toAttribute: (value: string) => (value ? value : undefined),
+    },
+  })
+  id = "";
 
   /** Name attribute for form association. */
-  @property({ type: String, reflect: true }) name = "";
+  @property({
+    type: String,
+    reflect: true,
+    converter: {
+      toAttribute: (value: string) => (value ? value : undefined),
+    },
+  })
+  name = "";
 
   /**
    * Badge size: `sm` (smaller text) or `md` (default).
