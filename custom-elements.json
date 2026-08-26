@@ -17841,7 +17841,7 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-unavheader></nys-unavheader>",
+              "code": "<nys-unavheader localizeKey=\"NEf4Y5qMb9PGP\"></nys-unavheader>",
               "lang": "html"
             },
             {

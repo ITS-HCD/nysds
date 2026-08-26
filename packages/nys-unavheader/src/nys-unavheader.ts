@@ -198,7 +198,7 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  *
  * @example Basic
  * ```html
- * <nys-unavheader></nys-unavheader>
+ * <nys-unavheader localizeKey="NEf4Y5qMb9PGP"></nys-unavheader>
  * ```
  *
  * @example Hide search
@@ -339,6 +339,8 @@ export class NysUnavHeader extends NysElement {
 
     if (changed.has("localizeKey")) {
       this._initLocalize();
+    } else {
+      console.log("Unable to translate. No key given");
     }
 
     // Both of these write ARIA into nys-button's shadow root, so they have to run
