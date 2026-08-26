@@ -1372,13 +1372,13 @@
               "title": "Basic",
               "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
               "lang": "html",
-              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             },
             {
               "title": "Left",
               "code": "<footer>\n<nys-backtotop position=\"left\"></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
               "lang": "html",
-              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             }
           ]
         }
@@ -17351,6 +17351,16 @@
             },
             {
               "kind": "field",
+              "name": "localizeKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Localize project key. If provided, the component will load and initialize LocalizeJS automatically.",
+              "attribute": "localizeKey"
+            },
+            {
+              "kind": "field",
               "name": "landmarkLabel",
               "default": "\"New York State\"",
               "description": "Accessible name for the `banner` landmark this header renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this header with `nys-globalheader` carries two `banner`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"banner, banner\". Override only when your wording is clearer for\nyour audience — and keep it distinct from the agency header's name, which\ncomes from that header's visible title.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
@@ -17366,7 +17376,7 @@
                 "text": "Language[]"
               },
               "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
-              "description": "The list of languages this site can be translated to, default to use Smartling",
+              "description": "The list of languages this site can be translated to, default to use Localize",
               "attribute": "languages"
             },
             {
@@ -17475,6 +17485,11 @@
                 }
               ],
               "description": "Moves both focus and the tab stop to an option, wrapping at either end. Index\n-1 is the last option, so \"previous from the first\" and \"End\" are the same call."
+            },
+            {
+              "kind": "method",
+              "name": "_initLocalize",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -17709,7 +17724,7 @@
           ],
           "events": [
             {
-              "description": "Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.",
+              "description": "Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.",
               "name": "nys-language-select"
             },
             {
@@ -17789,6 +17804,16 @@
               "propName": "searchurl"
             },
             {
+              "name": "localizeKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Localize project key. If provided, the component will load and initialize LocalizeJS automatically.",
+              "fieldName": "localizeKey",
+              "propName": "localizekey"
+            },
+            {
               "name": "landmarkLabel",
               "default": "DEFAULT_LANDMARK_LABEL",
               "description": "Accessible name for the `banner` landmark this header renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this header with `nys-globalheader` carries two `banner`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"banner, banner\". Override only when your wording is clearer for\nyour audience — and keep it distinct from the agency header's name, which\ncomes from that header's visible title.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
@@ -17801,7 +17826,7 @@
                 "text": "Language[]"
               },
               "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
-              "description": "The list of languages this site can be translated to, default to use Smartling",
+              "description": "The list of languages this site can be translated to, default to use Localize",
               "fieldName": "languages",
               "propName": "languages"
             }

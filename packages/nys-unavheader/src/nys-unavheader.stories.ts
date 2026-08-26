@@ -25,6 +25,7 @@ export const Basic: Story = {
     hideTranslate: false,
     hideSearch: false,
     searchUrl: "",
+    localizeKey: "",
     landmarkLabel: "New York State",
   },
   render: (args) => {
@@ -33,6 +34,7 @@ export const Basic: Story = {
         ?hideTranslate=${args.hideTranslate}
         ?hideSearch=${args.hideSearch}
         searchUrl=${args.searchUrl}
+        localizeKey=${args.localizeKey}
         landmarkLabel=${args.landmarkLabel}
       ></nys-unavheader>
     `;

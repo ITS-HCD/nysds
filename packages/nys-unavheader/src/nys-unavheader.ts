@@ -140,7 +140,7 @@ const innerControl = (button: ButtonElement): HTMLElement =>
 /**
  * Language code → BCP 47 tag for the option's `lang` attribute.
  *
- * The codes double as Smartling subdomains, so they aren't all valid language tags.
+ * The codes double as Localize language codes, so they aren't all valid language tags.
  * Only the ones that differ need an entry; everything else already is a valid tag
  * and is used as written. Without a correct `lang`, a screen reader reads each
  * option in the page's own voice — "Español" announced as English.
@@ -193,7 +193,7 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * reaches every NYS site with no per-site work. If the endpoint is unreachable or nothing
  * is published, the header renders normally. It takes no children.
  *
- * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+ * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.
  * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  *
  * @example Basic
@@ -271,6 +271,9 @@ export class NysUnavHeader extends NysElement {
   /** The URL endpoint of the search, make sure to include the query param. */
   @property({ type: String }) searchUrl = "";
 
+  /** Localize project key. If provided, the component will load and initialize LocalizeJS automatically. */
+  @property({ type: String }) localizeKey = "";
+
   /**
    * Accessible name for the `banner` landmark this header renders.
    * Defaults to `"New York State"`.
@@ -288,7 +291,7 @@ export class NysUnavHeader extends NysElement {
    */
   @property({ type: String }) landmarkLabel = DEFAULT_LANDMARK_LABEL;
 
-  /** The list of languages this site can be translated to, default to use Smartling */
+  /** The list of languages this site can be translated to, default to use Localize */
   @property({ type: Array })
   languages: Language[] = [
     { code: "en", label: "English" },
@@ -320,6 +323,7 @@ export class NysUnavHeader extends NysElement {
     super.connectedCallback();
     // Also covers re-attachment, where the pending request was aborted on the way out
     this._loadAlerts();
+    this._initLocalize();
   }
 
   disconnectedCallback() {
@@ -332,6 +336,10 @@ export class NysUnavHeader extends NysElement {
   protected updated(changed: PropertyValues) {
     super.updated(changed);
     if (this.hideTranslate) return;
+
+    if (changed.has("localizeKey")) {
+      this._initLocalize();
+    }
 
     // Both of these write ARIA into nys-button's shadow root, so they have to run
     // after every render — a new `languages` array renders brand new buttons.
@@ -521,6 +529,34 @@ export class NysUnavHeader extends NysElement {
     options[this._activeOption]?.focus();
   }
 
+  private _initLocalize() {
+    if (!this.localizeKey || this.hideTranslate) return;
+
+    const setup = () => {
+      if (typeof (window as any).Localize !== "undefined") {
+        (window as any).Localize.initialize({
+          key: this.localizeKey,
+          rememberLanguage: true,
+        });
+      }
+    };
+
+    if (typeof (window as any).Localize !== "undefined") {
+      setup();
+    } else {
+      let script = document.getElementById(
+        "nys-localize-api",
+      ) as HTMLScriptElement;
+      if (!script) {
+        script = document.createElement("script");
+        script.id = "nys-localize-api";
+        script.src = "https://global.localizecdn.com/localize.js";
+        document.head.appendChild(script);
+      }
+      script.addEventListener("load", setup);
+    }
+  }
+
   private _toggleSearchDropdown() {
     this.searchDropdownVisible = !this.searchDropdownVisible;
     if (this.searchDropdownVisible) {
@@ -548,9 +584,38 @@ export class NysUnavHeader extends NysElement {
         // Use the provided URL override
         window.location.href = language.url;
       } else {
-        // Default behavior: redirect to Smartling subdomain
-        const subdomain = language.code === "en" ? "" : `${language.code}.`;
-        window.location.href = `https://${subdomain}${window.location.hostname}`;
+        // Default behavior: use Localize API instead of subdomain redirect
+        if (typeof (window as any).Localize !== "undefined") {
+          (window as any).Localize.setLanguage(language.code);
+        }
+
+        // Remove any existing translate disclaimer to prevent piling up
+        const existingDisclaimer = document.body.querySelector(
+          "nys-alert[data-translate-disclaimer='true']",
+        );
+        if (existingDisclaimer) {
+          existingDisclaimer.remove();
+        }
+
+        // Show disclaimer only for non-English languages
+        if (language.code !== "en") {
+          const translateDisclaimer = document.createElement("nys-alert");
+          translateDisclaimer.setAttribute("heading", "Translation Alert!");
+          translateDisclaimer.setAttribute("notranslate", "true");
+          translateDisclaimer.setAttribute("dismissible", "true");
+          translateDisclaimer.setAttribute("data-translate-disclaimer", "true");
+          translateDisclaimer.innerHTML = `
+            <p>Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href="https://ny.gov/web-translation-services" target ="_blank">Lea la exención de responsabilidad completa</a></p>
+          `;
+          Object.assign(translateDisclaimer.style, {
+            position: "fixed",
+            bottom: "0",
+            left: "0",
+            width: "100%",
+            zIndex: "9999",
+          });
+          document.body.appendChild(translateDisclaimer);
+        }
       }
     }
   }

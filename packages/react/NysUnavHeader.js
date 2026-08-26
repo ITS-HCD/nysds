@@ -12,6 +12,7 @@ export const NysUnavHeader = forwardRef((props, forwardedRef) => {
     hideTranslate,
     hideSearch,
     searchUrl,
+    localizeKey,
     landmarkLabel,
     languages,
     ...filteredProps
@@ -34,6 +35,7 @@ export const NysUnavHeader = forwardRef((props, forwardedRef) => {
       },
       ...filteredProps,
       searchUrl: props.searchUrl,
+      localizeKey: props.localizeKey,
       landmarkLabel: props.landmarkLabel,
       languages: props.languages,
       class: props.className,

@@ -39,6 +39,9 @@ export interface NysUnavHeaderProps extends Pick<
   /** The URL endpoint of the search, make sure to include the query param. */
   searchUrl?: NysUnavHeaderElement["searchUrl"];
 
+  /** Localize project key. If provided, the component will load and initialize LocalizeJS automatically. */
+  localizeKey?: NysUnavHeaderElement["localizeKey"];
+
   /** Accessible name for the `banner` landmark this header renders.
 Defaults to `"New York State"`.
 
@@ -52,7 +55,7 @@ A blank value falls back to the default rather than leaving the landmark
 unnamed. */
   landmarkLabel?: NysUnavHeaderElement["landmarkLabel"];
 
-  /** The list of languages this site can be translated to, default to use Smartling */
+  /** The list of languages this site can be translated to, default to use Localize */
   languages?: NysUnavHeaderElement["languages"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
@@ -76,7 +79,7 @@ unnamed. */
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect. */
+  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration. */
   onNysLanguageSelect?: (event: CustomEvent) => void;
 
   /** Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect. */
@@ -89,7 +92,7 @@ unnamed. */
  *
  *
  * ### **Events:**
- *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+ *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.
  * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  */
 export const NysUnavHeader: React.ForwardRefExoticComponent<NysUnavHeaderProps>;
