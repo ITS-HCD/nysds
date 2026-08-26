@@ -333,6 +333,22 @@ export class NysUnavHeader extends NysElement {
     this._alertRequest = null;
   }
 
+  willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
+
+    if (!this.localizeKey) {
+      this.hideTranslate = true;
+    } else {
+      if (
+        changedProperties.has("localizeKey") &&
+        !this.hasAttribute("hideTranslate") &&
+        !changedProperties.has("hideTranslate")
+      ) {
+        this.hideTranslate = false;
+      }
+    }
+  }
+
   protected updated(changed: PropertyValues) {
     super.updated(changed);
     if (this.hideTranslate) return;
@@ -532,7 +548,12 @@ export class NysUnavHeader extends NysElement {
   }
 
   private _initLocalize() {
-    if (!this.localizeKey || this.hideTranslate) return;
+    if (this.hideTranslate) return;
+
+    if (!this.localizeKey) {
+      this.hideTranslate = true;
+      return;
+    }
 
     const setup = () => {
       if (typeof (window as any).Localize !== "undefined") {
