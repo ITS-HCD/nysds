@@ -40,7 +40,7 @@ export interface NysUnavHeaderProps extends Pick<
   searchUrl?: NysUnavHeaderElement["searchUrl"];
 
   /** Localize project key. If provided, the component will load and initialize LocalizeJS automatically. */
-  localizeKey?: NysUnavHeaderElement["localizeKey"];
+  translateKey?: NysUnavHeaderElement["translateKey"];
 
   /** Accessible name for the `banner` landmark this header renders.
 Defaults to `"New York State"`.

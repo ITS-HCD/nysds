@@ -198,7 +198,7 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  *
  * @example Basic
  * ```html
- * <nys-unavheader localizeKey="NEf4Y5qMb9PGP"></nys-unavheader>
+ * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
  * ```
  *
  * @example Hide search
@@ -272,7 +272,7 @@ export class NysUnavHeader extends NysElement {
   @property({ type: String }) searchUrl = "";
 
   /** Localize project key. If provided, the component will load and initialize LocalizeJS automatically. */
-  @property({ type: String }) localizeKey = "";
+  @property({ type: String }) translateKey = "";
 
   /**
    * Accessible name for the `banner` landmark this header renders.
@@ -336,11 +336,11 @@ export class NysUnavHeader extends NysElement {
   willUpdate(changedProperties: PropertyValues) {
     super.willUpdate(changedProperties);
 
-    if (!this.localizeKey) {
+    if (!this.translateKey) {
       this.hideTranslate = true;
     } else {
       if (
-        changedProperties.has("localizeKey") &&
+        changedProperties.has("translateKey") &&
         !this.hasAttribute("hideTranslate") &&
         !changedProperties.has("hideTranslate")
       ) {
@@ -353,7 +353,7 @@ export class NysUnavHeader extends NysElement {
     super.updated(changed);
     if (this.hideTranslate) return;
 
-    if (changed.has("localizeKey")) {
+    if (changed.has("translateKey")) {
       this._initLocalize();
     } else {
       console.log("Unable to translate. No key given");
@@ -550,7 +550,7 @@ export class NysUnavHeader extends NysElement {
   private _initLocalize() {
     if (this.hideTranslate) return;
 
-    if (!this.localizeKey) {
+    if (!this.translateKey) {
       this.hideTranslate = true;
       return;
     }
@@ -558,7 +558,7 @@ export class NysUnavHeader extends NysElement {
     const setup = () => {
       if (typeof (window as any).Localize !== "undefined") {
         (window as any).Localize.initialize({
-          key: this.localizeKey,
+          key: this.translateKey,
           rememberLanguage: true,
         });
       }

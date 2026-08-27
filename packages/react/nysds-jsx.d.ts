@@ -1246,7 +1246,7 @@ export type NysUnavHeaderProps = {
   /** The URL endpoint of the search, make sure to include the query param. */
   searchUrl?: string;
   /** Localize project key. If provided, the component will load and initialize LocalizeJS automatically. */
-  localizeKey?: string;
+  translateKey?: string;
   /** Accessible name for the `banner` landmark this header renders.
 Defaults to `"New York State"`.
 
