@@ -221,6 +221,22 @@ describe("nys-combobox", () => {
     expect(input?.hasAttribute("required")).to.be.false;
   });
 
+  it("does not trigger validation error on blur when required is not set and value is empty", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
+    expect(errorMessage?.hasAttribute("showError")).to.be.false;
+    expect(el.showError).to.be.false;
+  });
+
   // Width tests (Width story)
   it("defaults to full width when width is unset", async () => {
     const el = await fixture<NysCombobox>(html`<nys-combobox></nys-combobox>`);
