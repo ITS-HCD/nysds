@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-tab";
 import { useEventListener } from "./react-utils.js";
 
 export const NysTab = forwardRef((props, forwardedRef) => {

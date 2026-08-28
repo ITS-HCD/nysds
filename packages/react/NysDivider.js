@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-divider";
 
 export const NysDivider = forwardRef((props, forwardedRef) => {
   const { inverted, subtle, ...filteredProps } = props;

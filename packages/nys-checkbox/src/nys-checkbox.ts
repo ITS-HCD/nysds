@@ -507,7 +507,9 @@ export class NysCheckbox extends NysFormControlElement {
               id=${this.id + "--native"}
               class="nys-checkbox__checkbox"
               type="checkbox"
-              name="${ifDefined(this.name ? this.name : undefined)}"
+              name="${ifDefined(
+                this.name && !this.groupExist ? this.name : undefined,
+              )}"
               .checked=${this.checked}
               ?disabled=${this.disabled}
               .value=${this.value}

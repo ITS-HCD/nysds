@@ -1,5 +1,5 @@
 import React from "react";
-import { NysAccordion as NysAccordionElement } from "../../dist/nysds.es.js";
+import { NysAccordion as NysAccordionElement } from "@nysds/nys-accordion";
 
 export type { NysAccordionElement };
 

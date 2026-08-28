@@ -3,7 +3,7 @@ import {
   NysTextinput as NysTextinputElement,
   CustomEvent,
   Event,
-} from "../../dist/nysds.es.js";
+} from "@nysds/nys-textinput";
 
 export type { NysTextinputElement, CustomEvent, Event };
 

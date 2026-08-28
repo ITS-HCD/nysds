@@ -1,5 +1,5 @@
 import React from "react";
-import { NysTabpanel as NysTabpanelElement } from "../../dist/nysds.es.js";
+import { NysTabpanel as NysTabpanelElement } from "@nysds/nys-tab";
 
 export type { NysTabpanelElement };
 

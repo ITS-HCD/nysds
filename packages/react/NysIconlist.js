@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-iconlist";
 
 export const NysIconlist = forwardRef((props, forwardedRef) => {
   const { divider, id, ...filteredProps } = props;

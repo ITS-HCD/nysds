@@ -1,5 +1,5 @@
 import React from "react";
-import { NysStep as NysStepElement } from "../../dist/nysds.es.js";
+import { NysStep as NysStepElement } from "@nysds/nys-stepper";
 
 export type { NysStepElement };
 

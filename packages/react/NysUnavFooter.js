@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-unavfooter";
 
 export const NysUnavFooter = forwardRef((props, forwardedRef) => {
   const { landmarkLabel, ...filteredProps } = props;

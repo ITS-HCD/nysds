@@ -1,5 +1,5 @@
 import React from "react";
-import { NysTabgroup as NysTabgroupElement } from "../../dist/nysds.es.js";
+import { NysTabgroup as NysTabgroupElement } from "@nysds/nys-tab";
 
 export type { NysTabgroupElement };
 

@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-verticalnav";
 
 export const NysVerticalnav = forwardRef((props, forwardedRef) => {
   const { hideHeading, expanded, id, heading, headingLevel, ...filteredProps } =

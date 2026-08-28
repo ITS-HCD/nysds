@@ -1,5 +1,5 @@
 import React from "react";
-import { NysCard as NysCardElement, Event } from "../../dist/nysds.es.js";
+import { NysCard as NysCardElement, Event } from "@nysds/nys-card";
 
 export type { NysCardElement, Event };
 

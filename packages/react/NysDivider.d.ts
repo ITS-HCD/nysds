@@ -1,5 +1,5 @@
 import React from "react";
-import { NysDivider as NysDividerElement } from "../../dist/nysds.es.js";
+import { NysDivider as NysDividerElement } from "@nysds/nys-divider";
 
 export type { NysDividerElement };
 

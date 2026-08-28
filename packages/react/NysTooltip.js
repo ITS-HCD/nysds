@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-tooltip";
 
 export const NysTooltip = forwardRef((props, forwardedRef) => {
   const { inverted, id, text, position, ...filteredProps } = props;

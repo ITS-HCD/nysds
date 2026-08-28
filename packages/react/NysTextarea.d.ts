@@ -3,7 +3,7 @@ import {
   NysTextarea as NysTextareaElement,
   CustomEvent,
   Event,
-} from "../../dist/nysds.es.js";
+} from "@nysds/nys-textarea";
 
 export type { NysTextareaElement, CustomEvent, Event };
 

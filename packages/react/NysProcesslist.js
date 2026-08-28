@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-processlist";
 
 export const NysProcesslist = forwardRef((props, forwardedRef) => {
   const { strong, neutral, id, size, initialStep, ...filteredProps } = props;

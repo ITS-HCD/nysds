@@ -3,7 +3,7 @@ import {
   NysToggle as NysToggleElement,
   CustomEvent,
   Event,
-} from "../../dist/nysds.es.js";
+} from "@nysds/nys-toggle";
 
 export type { NysToggleElement, CustomEvent, Event };
 

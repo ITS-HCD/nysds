@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-verticalnav";
 import { useEventListener } from "./react-utils.js";
 
 export const NysVerticalnavGroup = forwardRef((props, forwardedRef) => {
