@@ -17375,7 +17375,7 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
+              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español (Spanish)\" }, { code: \"zh\", label: \"中文 (Chinese)\" }, { code: \"zh-traditional\", label: \"繁體中文 (Trad. Chinese)\" }, { code: \"yi\", label: \"יידיש (Yiddish)\" }, { code: \"ru\", label: \"Русский (Russian)\" }, { code: \"bn\", label: \"বাংলা (Bengali)\" }, { code: \"ko\", label: \"한국어 (Korean)\" }, { code: \"ht\", label: \"Kreyòl Ayisyen (Haitian Creole)\" }, { code: \"it\", label: \"Italiano (Italian)\" }, { code: \"ar\", label: \"العربية (Arabic)\" }, { code: \"pl\", label: \"Polski (Polish)\" }, { code: \"fr\", label: \"Français (French)\" }, { code: \"ur\", label: \"اردو (Urdu)\" }, ]",
               "description": "The list of languages this site can be translated to, default to use Localize",
               "attribute": "languages"
             },
@@ -17495,6 +17495,20 @@
               "kind": "method",
               "name": "_toggleSearchDropdown",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_updateTranslateDisclaimer",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "languageCode",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Shows, replaces, or removes the translation disclaimer banner for the given\nlanguage code. Called from the Localize \"setLanguage\" listener — which also\nfires on page load for a remembered language — and directly from\n`_handleLanguageSelect` when the Localize API isn't available."
             },
             {
               "kind": "method",
@@ -17825,7 +17839,7 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
+              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español (Spanish)\" }, { code: \"zh\", label: \"中文 (Chinese)\" }, { code: \"zh-traditional\", label: \"繁體中文 (Trad. Chinese)\" }, { code: \"yi\", label: \"יידיש (Yiddish)\" }, { code: \"ru\", label: \"Русский (Russian)\" }, { code: \"bn\", label: \"বাংলা (Bengali)\" }, { code: \"ko\", label: \"한국어 (Korean)\" }, { code: \"ht\", label: \"Kreyòl Ayisyen (Haitian Creole)\" }, { code: \"it\", label: \"Italiano (Italian)\" }, { code: \"ar\", label: \"العربية (Arabic)\" }, { code: \"pl\", label: \"Polski (Polish)\" }, { code: \"fr\", label: \"Français (French)\" }, { code: \"ur\", label: \"اردو (Urdu)\" }, ]",
               "description": "The list of languages this site can be translated to, default to use Localize",
               "fieldName": "languages",
               "propName": "languages"
