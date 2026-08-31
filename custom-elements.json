@@ -4,6 +4,834 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "findConfigUpwards",
+          "return": {
+            "type": {
+              "text": "string | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "rootDir",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "findPackageData",
+          "return": {
+            "type": {
+              "text": "Handler<FilePackageData>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "filepath",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "findRelativeConfig",
+          "return": {
+            "type": {
+              "text": "Handler<RelativeConfig>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "pkgData",
+              "type": {
+                "text": "FilePackageData"
+              }
+            },
+            {
+              "name": "envName",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "caller",
+              "type": {
+                "text": "CallerMetadata | undefined"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "findRootConfig",
+          "return": {
+            "type": {
+              "text": "Handler<ConfigFile | null>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "dirname",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "envName",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "caller",
+              "type": {
+                "text": "CallerMetadata | undefined"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "loadConfig",
+          "return": {
+            "type": {
+              "text": "Handler<ConfigFile>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "dirname",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "envName",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "caller",
+              "type": {
+                "text": "CallerMetadata | undefined"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "loadPlugin",
+          "return": {
+            "type": {
+              "text": "Handler<{\n  filepath: string;\n  value: unknown;\n}>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "dirname",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "loadPreset",
+          "return": {
+            "type": {
+              "text": "Handler<{\n  filepath: string;\n  value: unknown;\n}>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "dirname",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolvePlugin",
+          "return": {
+            "type": {
+              "text": "string | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "dirname",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolvePreset",
+          "return": {
+            "type": {
+              "text": "string | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "dirname",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveShowConfigPath",
+          "return": {
+            "type": {
+              "text": "Handler<string | null>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "dirname",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "variable",
+          "name": "ROOT_CONFIG_FILENAMES",
+          "type": {
+            "text": "string[]"
+          },
+          "default": "[]"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ConfigFile",
+          "declaration": {
+            "name": "ConfigFile",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilePackageData",
+          "declaration": {
+            "name": "FilePackageData",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findConfigUpwards",
+          "declaration": {
+            "name": "findConfigUpwards",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findPackageData",
+          "declaration": {
+            "name": "findPackageData",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findRelativeConfig",
+          "declaration": {
+            "name": "findRelativeConfig",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findRootConfig",
+          "declaration": {
+            "name": "findRootConfig",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IgnoreFile",
+          "declaration": {
+            "name": "IgnoreFile",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadConfig",
+          "declaration": {
+            "name": "loadConfig",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadPlugin",
+          "declaration": {
+            "name": "loadPlugin",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadPreset",
+          "declaration": {
+            "name": "loadPreset",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RelativeConfig",
+          "declaration": {
+            "name": "RelativeConfig",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolvePlugin",
+          "declaration": {
+            "name": "resolvePlugin",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolvePreset",
+          "declaration": {
+            "name": "resolvePreset",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveShowConfigPath",
+          "declaration": {
+            "name": "resolveShowConfigPath",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ROOT_CONFIG_FILENAMES",
+          "declaration": {
+            "name": "ROOT_CONFIG_FILENAMES",
+            "module": "packages/angular/node_modules/@babel/core/src/config/files/index-browser.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/angular/node_modules/@babel/core/src/config/files/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ConfigFile",
+          "declaration": {
+            "name": "ConfigFile",
+            "module": "./types.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilePackageData",
+          "declaration": {
+            "name": "FilePackageData",
+            "module": "./types.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findConfigUpwards",
+          "declaration": {
+            "name": "findConfigUpwards",
+            "module": "./configuration.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findPackageData",
+          "declaration": {
+            "name": "findPackageData",
+            "module": "./package.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findRelativeConfig",
+          "declaration": {
+            "name": "findRelativeConfig",
+            "module": "./configuration.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findRootConfig",
+          "declaration": {
+            "name": "findRootConfig",
+            "module": "./configuration.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IgnoreFile",
+          "declaration": {
+            "name": "IgnoreFile",
+            "module": "./types.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadConfig",
+          "declaration": {
+            "name": "loadConfig",
+            "module": "./configuration.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadPlugin",
+          "declaration": {
+            "name": "loadPlugin",
+            "module": "./plugins.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadPreset",
+          "declaration": {
+            "name": "loadPreset",
+            "module": "./plugins.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RelativeConfig",
+          "declaration": {
+            "name": "RelativeConfig",
+            "module": "./types.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolvePlugin",
+          "declaration": {
+            "name": "resolvePlugin",
+            "module": "./plugins.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolvePreset",
+          "declaration": {
+            "name": "resolvePreset",
+            "module": "./plugins.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveShowConfigPath",
+          "declaration": {
+            "name": "resolveShowConfigPath",
+            "module": "./configuration.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ROOT_CONFIG_FILENAMES",
+          "declaration": {
+            "name": "ROOT_CONFIG_FILENAMES",
+            "module": "./configuration.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/angular/node_modules/@babel/core/src/config/resolve-targets-browser.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "resolveBrowserslistConfigFile",
+          "return": {
+            "type": {
+              "text": "string | void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "browserslistConfigFile",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "configFilePath",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveTargets",
+          "return": {
+            "type": {
+              "text": "Targets"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "ValidatedOptions"
+              }
+            },
+            {
+              "name": "root",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "resolveBrowserslistConfigFile",
+          "declaration": {
+            "name": "resolveBrowserslistConfigFile",
+            "module": "packages/angular/node_modules/@babel/core/src/config/resolve-targets-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveTargets",
+          "declaration": {
+            "name": "resolveTargets",
+            "module": "packages/angular/node_modules/@babel/core/src/config/resolve-targets-browser.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/angular/node_modules/@babel/core/src/config/resolve-targets.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "resolveBrowserslistConfigFile",
+          "return": {
+            "type": {
+              "text": "string | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "browserslistConfigFile",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "configFileDir",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveTargets",
+          "return": {
+            "type": {
+              "text": "Targets"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "ValidatedOptions"
+              }
+            },
+            {
+              "name": "root",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "resolveBrowserslistConfigFile",
+          "declaration": {
+            "name": "resolveBrowserslistConfigFile",
+            "module": "packages/angular/node_modules/@babel/core/src/config/resolve-targets.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveTargets",
+          "declaration": {
+            "name": "resolveTargets",
+            "module": "packages/angular/node_modules/@babel/core/src/config/resolve-targets.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/angular/node_modules/@babel/core/src/transform-file-browser.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "transformFile",
+          "type": {
+            "text": "TransformFile"
+          },
+          "default": "function transformFile( filename, opts, callback?: (error: Error, file: null) => void, ) { if (typeof opts === \"function\") { callback = opts; } callback(new Error(\"Transforming files is not supported in browsers\"), null); }"
+        },
+        {
+          "kind": "function",
+          "name": "transformFileAsync"
+        },
+        {
+          "kind": "function",
+          "name": "transformFileSync",
+          "return": {
+            "type": {
+              "text": "never"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "transformFile",
+          "declaration": {
+            "name": "transformFile",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "transformFileAsync",
+          "declaration": {
+            "name": "transformFileAsync",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file-browser.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "transformFileSync",
+          "declaration": {
+            "name": "transformFileSync",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file-browser.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/angular/node_modules/@babel/core/src/transform-file.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "transformFile",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "filename",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "callback",
+              "type": {
+                "text": "FileResultCallback"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "transformFile",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "filename",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "opts",
+              "type": {
+                "text": "InputOptions | undefined | null"
+              }
+            },
+            {
+              "name": "callback",
+              "type": {
+                "text": "FileResultCallback"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "transformFile",
+          "parameters": [
+            {
+              "name": "args",
+              "type": {
+                "text": "Parameters<typeof transformFileRunner.errback>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "transformFileAsync",
+          "parameters": [
+            {
+              "name": "args",
+              "type": {
+                "text": "Parameters<typeof transformFileRunner.async>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "transformFileSync",
+          "parameters": [
+            {
+              "name": "args",
+              "type": {
+                "text": "Parameters<typeof transformFileRunner.sync>"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "transformFile",
+          "declaration": {
+            "name": "transformFile",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "transformFile",
+          "declaration": {
+            "name": "transformFile",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "transformFile",
+          "declaration": {
+            "name": "transformFile",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "transformFileAsync",
+          "declaration": {
+            "name": "transformFileAsync",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "transformFileSync",
+          "declaration": {
+            "name": "transformFileSync",
+            "module": "packages/angular/node_modules/@babel/core/src/transform-file.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-accordion/src/index.ts",
       "declarations": [],
       "exports": [
