@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-toggle is used. Importing them here
 // (intentional side effect) guarantees the visible label — which the
@@ -12,20 +16,44 @@ import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-toggle.scss?inline";
 
+/** Detail for the `nys-change` event. */
+export interface NysToggleChangeDetail {
+  /** The component's `id`. */
+  id: string;
+  /** The component's `name`. */
+  name: string;
+  /** Whether the toggle is on. */
+  checked: boolean;
+  /** The component's `value` (submitted when the toggle is on). */
+  value: string;
+}
+
+/** Fired when the user toggles the switch. */
+export type NysToggleChangeEvent = CustomEvent<NysToggleChangeDetail>;
+
 /**
  * A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.
  *
  * Use when changing a setting takes effect immediately (e.g., dark mode, notifications).
  * For binary choices in forms that submit later, use `nys-checkbox` instead.
  *
+ * A toggle has no validation surface: it exposes no `required`, `showError`,
+ * or `errorMessage` and never reports invalid state. Framework adapters (for
+ * example an Angular ControlValueAccessor) must not try to sync errors to it.
+ *
+ * Setting `checked` programmatically updates the form value but does not fire
+ * `nys-change`; the event fires only on user interaction.
+ *
  * @summary Toggle switch for binary settings with immediate effect.
  * @element nys-toggle
  *
+ * @formControl checked nys-change
+ *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired when toggle state changes. Detail: `{id, checked}`.
- * @fires nys-focus - Fired when toggle gains focus.
- * @fires nys-blur - Fired when toggle loses focus.
+ * @fires nys-change {NysToggleChangeEvent} Fired when the user toggles the switch. Detail: `{id, name, checked, value}`.
+ * @fires nys-focus {Event} Fired when toggle gains focus.
+ * @fires nys-blur {Event} Fired when toggle loses focus.
  *
  * @example Basic
  * ```html
@@ -130,7 +158,9 @@ export class NysToggle extends NysFormControlElement {
    * --------------------------------------------------------------------------
    */
 
-  // Update the internals whenever `checked` or `value` changes.
+  // Update the internals whenever `checked` or `value` changes. This is an
+  // ElementInternals side effect, not derived reactive state, so it belongs in
+  // updated() (it sets no reactive property, so no second update is scheduled).
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("checked") || changedProperties.has("value")) {
       this.setFormValue(this.checked ? this.value : null);
@@ -152,27 +182,22 @@ export class NysToggle extends NysFormControlElement {
    */
 
   private _emitChangeEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: { id: this.id, checked: this.checked },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysToggleChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      checked: this.checked,
+      value: this.value,
+    });
   }
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "focus");
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "blur");
   }
 
   private _handleClick() {
