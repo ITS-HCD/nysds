@@ -975,3 +975,292 @@ describe("nys-checkbox self-registration", () => {
     expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });
+
+describe("nys-checkbox event contract", () => {
+  it("nys-focus and nys-blur bubble out of the component (regression)", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div><nys-checkbox label="Bubble test"></nys-checkbox></div>
+    `);
+    const el = wrapper.querySelector("nys-checkbox") as NysCheckbox;
+    const events: Event[] = [];
+    wrapper.addEventListener("nys-focus", (e) => events.push(e));
+    wrapper.addEventListener("nys-blur", (e) => events.push(e));
+
+    const input = await el.getInputElement();
+    input!.dispatchEvent(new FocusEvent("focus"));
+    el.dispatchEvent(new FocusEvent("blur"));
+
+    expect(events.map((e) => e.type)).to.deep.equal(["nys-focus", "nys-blur"]);
+    events.forEach((e) => {
+      expect(e.bubbles).to.be.true;
+      expect(e.composed).to.be.true;
+    });
+  });
+
+  it("nys-change bubbles, composes, and carries {id, checked, name, value}", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <nys-checkbox
+          id="cb1"
+          name="pets"
+          value="dog"
+          label="Dog"
+        ></nys-checkbox>
+      </div>
+    `);
+    const el = wrapper.querySelector("nys-checkbox") as NysCheckbox;
+    const received: CustomEvent[] = [];
+    wrapper.addEventListener("nys-change", (e) =>
+      received.push(e as CustomEvent),
+    );
+
+    const input = await el.getInputElement();
+    input!.click();
+    await el.updateComplete;
+
+    expect(received).to.have.length(1);
+    const event = received[0];
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
+    expect(event.detail).to.deep.equal({
+      id: "cb1",
+      checked: true,
+      name: "pets",
+      value: "dog",
+    });
+  });
+
+  it("does not fire nys-change when checked is set programmatically", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox name="pets" value="dog" label="Dog"></nys-checkbox>`,
+    );
+    let count = 0;
+    el.addEventListener("nys-change", () => count++);
+
+    el.checked = true;
+    await el.updateComplete;
+    el.checked = false;
+    await el.updateComplete;
+
+    expect(count).to.equal(0);
+  });
+
+  it("updates the form value when checked is set programmatically", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-checkbox name="agree" value="yes" label="Agree"></nys-checkbox>
+      </form>
+    `);
+    const el = form.querySelector("nys-checkbox") as NysCheckbox;
+    await el.updateComplete;
+
+    el.checked = true;
+    await el.updateComplete;
+    expect(new FormData(form).get("agree")).to.equal("yes");
+
+    el.checked = false;
+    await el.updateComplete;
+    expect(new FormData(form).get("agree")).to.equal(null);
+  });
+
+  it("keeps a consumer-supplied errorMessage through validation", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox
+        required
+        errorMessage="Custom message"
+        label="Agree"
+      ></nys-checkbox>
+    `);
+    await el.updateComplete;
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.errorMessage).to.equal("Custom message");
+    expect(el.showError).to.be.true;
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage") as any;
+    expect(errorEl.errorMessage).to.equal("Custom message");
+  });
+});
+
+describe("nys-checkboxgroup event contract", () => {
+  it("derives value from checked children", async () => {
+    const el = await fixture<NysCheckboxgroup>(html`
+      <nys-checkboxgroup label="Pick">
+        <nys-checkbox name="p" value="a" label="A" checked></nys-checkbox>
+        <nys-checkbox name="p" value="b" label="B"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r, 0)); // let slotchange run
+
+    expect(el.value).to.deep.equal(["a"]);
+  });
+
+  it("fires a group nys-change with a string[] detail when a child changes, alongside the child's event", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <nys-checkboxgroup id="grp" name="p" label="Pick">
+          <nys-checkbox name="p" value="a" label="A"></nys-checkbox>
+          <nys-checkbox name="p" value="b" label="B" checked></nys-checkbox>
+        </nys-checkboxgroup>
+      </div>
+    `);
+    const group = wrapper.querySelector(
+      "nys-checkboxgroup",
+    ) as NysCheckboxgroup;
+    await group.updateComplete;
+    await new Promise((r) => setTimeout(r, 0));
+
+    const received: CustomEvent[] = [];
+    wrapper.addEventListener("nys-change", (e) =>
+      received.push(e as CustomEvent),
+    );
+
+    const first = group.querySelector("nys-checkbox") as NysCheckbox;
+    const input = await first.getInputElement();
+    input!.click();
+    await group.updateComplete;
+
+    // The child's own event still bubbles past the group.
+    const childEvents = received.filter((e) => "checked" in e.detail);
+    expect(childEvents).to.have.length(1);
+
+    const groupEvents = received.filter((e) => Array.isArray(e.detail.value));
+    expect(groupEvents).to.have.length(1);
+    const groupEvent = groupEvents[0];
+    expect(groupEvent.target).to.equal(group);
+    expect(groupEvent.bubbles).to.be.true;
+    expect(groupEvent.composed).to.be.true;
+    expect(groupEvent.detail).to.deep.equal({
+      id: "grp",
+      name: "p",
+      value: ["a", "b"],
+    });
+    expect(group.value).to.deep.equal(["a", "b"]);
+  });
+
+  it("does not fire nys-change when value is set programmatically", async () => {
+    const el = await fixture<NysCheckboxgroup>(html`
+      <nys-checkboxgroup name="p" label="Pick">
+        <nys-checkbox name="p" value="a" label="A" checked></nys-checkbox>
+        <nys-checkbox name="p" value="b" label="B"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r, 0));
+
+    let count = 0;
+    el.addEventListener("nys-change", () => count++);
+
+    el.value = ["b"];
+    await el.updateComplete;
+
+    expect(count).to.equal(0);
+    const checkboxes = Array.from(
+      el.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+    expect(checkboxes[0].checked).to.be.false;
+    expect(checkboxes[1].checked).to.be.true;
+    expect(el.value).to.deep.equal(["b"]);
+  });
+
+  it("updates FormData when value is set programmatically", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-checkboxgroup name="p" label="Pick">
+          <nys-checkbox name="p" value="a" label="A"></nys-checkbox>
+          <nys-checkbox name="p" value="b" label="B"></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+    const group = form.querySelector("nys-checkboxgroup") as NysCheckboxgroup;
+    await group.updateComplete;
+    await new Promise((r) => setTimeout(r, 0));
+
+    group.value = ["a", "b"];
+    await group.updateComplete;
+
+    expect(new FormData(form).getAll("p")).to.include("a, b");
+  });
+
+  it("fires nys-focus when focus enters and nys-blur when it leaves, not when moving between children", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <button id="outside">outside</button>
+        <nys-checkboxgroup label="Pick">
+          <nys-checkbox name="p" value="a" label="A"></nys-checkbox>
+          <nys-checkbox name="p" value="b" label="B"></nys-checkbox>
+        </nys-checkboxgroup>
+      </div>
+    `);
+    const group = wrapper.querySelector(
+      "nys-checkboxgroup",
+    ) as NysCheckboxgroup;
+    const outside = wrapper.querySelector("#outside") as HTMLButtonElement;
+    const checkboxes = Array.from(
+      group.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+    const [first, second] = checkboxes;
+
+    const events: string[] = [];
+    group.addEventListener("nys-focus", (e) => {
+      if (e.target === group) events.push("focus");
+    });
+    group.addEventListener("nys-blur", (e) => {
+      if (e.target === group) events.push("blur");
+    });
+
+    // Focus enters the group from outside.
+    first.dispatchEvent(
+      new FocusEvent("focusin", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: outside,
+      }),
+    );
+    // Focus moves between children: no group events.
+    first.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: second,
+      }),
+    );
+    second.dispatchEvent(
+      new FocusEvent("focusin", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: first,
+      }),
+    );
+    // Focus leaves the group.
+    second.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: outside,
+      }),
+    );
+
+    expect(events).to.deep.equal(["focus", "blur"]);
+  });
+
+  it("keeps a consumer-supplied errorMessage when a validation error renders", async () => {
+    const el = await fixture<NysCheckboxgroup>(html`
+      <nys-checkboxgroup required errorMessage="Pick at least one" label="Pick">
+        <nys-checkbox name="p" value="a" label="A"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    await el.updateComplete;
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await new Promise((r) => setTimeout(r, 0));
+    await el.updateComplete;
+
+    expect(el.errorMessage).to.equal("Pick at least one");
+    expect(el.showError).to.be.true;
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage") as any;
+    expect(errorEl.errorMessage).to.equal("Pick at least one");
+  });
+});
