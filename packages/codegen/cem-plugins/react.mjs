@@ -50,11 +50,18 @@ function renderReactWrapper(component) {
   const elementAlias = `${className}Element`;
 
   const typeImports = new Set();
-  const eventLines = events.map((event) => {
+  const eventLines = [];
+  const seenProps = new Set();
+  for (const event of events) {
+    // Two event names can map to one React prop (a deprecated camelCase
+    // alias like `nys-fileRemove` next to `nys-file-remove`). Keep the
+    // first, which is the canonical name in manifest order.
+    if (seenProps.has(event.reactProp)) continue;
+    seenProps.add(event.reactProp);
     const { text, importName } = resolveEventType(event.typeText);
     if (importName) typeImports.add(importName);
-    return `    ${event.reactProp}: "${event.name}" as EventName<${text}>,`;
-  });
+    eventLines.push(`    ${event.reactProp}: "${event.name}" as EventName<${text}>,`);
+  }
 
   const lines = [];
   lines.push(`"use client";`);

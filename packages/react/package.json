@@ -1,0 +1,298 @@
+{
+  "name": "@nysds/react",
+  "version": "1.20.1",
+  "description": "React components for the New York State Design System, generated from the NYSDS web components.",
+  "type": "module",
+  "license": "MIT",
+  "author": "New York State Design System Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/its-hcd/nysds.git",
+    "directory": "packages/react"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "react",
+    "web-components",
+    "lit",
+    "nys"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "./dist/generated/*.js",
+    "./dist/overrides/*.js"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./accordion": {
+      "types": "./dist/generated/NysAccordion.d.ts",
+      "import": "./dist/generated/NysAccordion.js"
+    },
+    "./accordionitem": {
+      "types": "./dist/generated/NysAccordionItem.d.ts",
+      "import": "./dist/generated/NysAccordionItem.js"
+    },
+    "./alert": {
+      "types": "./dist/generated/NysAlert.d.ts",
+      "import": "./dist/generated/NysAlert.js"
+    },
+    "./avatar": {
+      "types": "./dist/generated/NysAvatar.d.ts",
+      "import": "./dist/generated/NysAvatar.js"
+    },
+    "./backtotop": {
+      "types": "./dist/generated/NysBacktotop.d.ts",
+      "import": "./dist/generated/NysBacktotop.js"
+    },
+    "./badge": {
+      "types": "./dist/generated/NysBadge.d.ts",
+      "import": "./dist/generated/NysBadge.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/generated/NysBreadcrumbs.d.ts",
+      "import": "./dist/generated/NysBreadcrumbs.js"
+    },
+    "./button": {
+      "types": "./dist/generated/NysButton.d.ts",
+      "import": "./dist/generated/NysButton.js"
+    },
+    "./card": {
+      "types": "./dist/generated/NysCard.d.ts",
+      "import": "./dist/generated/NysCard.js"
+    },
+    "./checkbox": {
+      "types": "./dist/generated/NysCheckbox.d.ts",
+      "import": "./dist/generated/NysCheckbox.js"
+    },
+    "./checkboxgroup": {
+      "types": "./dist/generated/NysCheckboxgroup.d.ts",
+      "import": "./dist/generated/NysCheckboxgroup.js"
+    },
+    "./combobox": {
+      "types": "./dist/generated/NysCombobox.d.ts",
+      "import": "./dist/generated/NysCombobox.js"
+    },
+    "./datepicker": {
+      "types": "./dist/generated/NysDatepicker.d.ts",
+      "import": "./dist/generated/NysDatepicker.js"
+    },
+    "./divider": {
+      "types": "./dist/generated/NysDivider.d.ts",
+      "import": "./dist/generated/NysDivider.js"
+    },
+    "./dropdownmenu": {
+      "types": "./dist/generated/NysDropdownMenu.d.ts",
+      "import": "./dist/generated/NysDropdownMenu.js"
+    },
+    "./dropdownmenuitem": {
+      "types": "./dist/generated/NysDropdownMenuItem.d.ts",
+      "import": "./dist/generated/NysDropdownMenuItem.js"
+    },
+    "./errormessage": {
+      "types": "./dist/generated/NysErrorMessage.d.ts",
+      "import": "./dist/generated/NysErrorMessage.js"
+    },
+    "./fileinput": {
+      "types": "./dist/generated/NysFileinput.d.ts",
+      "import": "./dist/generated/NysFileinput.js"
+    },
+    "./fileitem": {
+      "types": "./dist/generated/NysFileItem.d.ts",
+      "import": "./dist/generated/NysFileItem.js"
+    },
+    "./globalfooter": {
+      "types": "./dist/generated/NysGlobalFooter.d.ts",
+      "import": "./dist/generated/NysGlobalFooter.js"
+    },
+    "./globalheader": {
+      "types": "./dist/generated/NysGlobalHeader.d.ts",
+      "import": "./dist/generated/NysGlobalHeader.js"
+    },
+    "./icon": {
+      "types": "./dist/generated/NysIcon.d.ts",
+      "import": "./dist/generated/NysIcon.js"
+    },
+    "./iconlist": {
+      "types": "./dist/generated/NysIconlist.d.ts",
+      "import": "./dist/generated/NysIconlist.js"
+    },
+    "./iconlistitem": {
+      "types": "./dist/generated/NysIconlistitem.d.ts",
+      "import": "./dist/generated/NysIconlistitem.js"
+    },
+    "./label": {
+      "types": "./dist/generated/NysLabel.d.ts",
+      "import": "./dist/generated/NysLabel.js"
+    },
+    "./modal": {
+      "types": "./dist/generated/NysModal.d.ts",
+      "import": "./dist/generated/NysModal.js"
+    },
+    "./option": {
+      "types": "./dist/generated/NysOption.d.ts",
+      "import": "./dist/generated/NysOption.js"
+    },
+    "./pagination": {
+      "types": "./dist/generated/NysPagination.d.ts",
+      "import": "./dist/generated/NysPagination.js"
+    },
+    "./processlist": {
+      "types": "./dist/generated/NysProcesslist.d.ts",
+      "import": "./dist/generated/NysProcesslist.js"
+    },
+    "./processlistitem": {
+      "types": "./dist/generated/NysProcesslistitem.d.ts",
+      "import": "./dist/generated/NysProcesslistitem.js"
+    },
+    "./radiobutton": {
+      "types": "./dist/generated/NysRadiobutton.d.ts",
+      "import": "./dist/generated/NysRadiobutton.js"
+    },
+    "./radiogroup": {
+      "types": "./dist/generated/NysRadiogroup.d.ts",
+      "import": "./dist/generated/NysRadiogroup.js"
+    },
+    "./select": {
+      "types": "./dist/generated/NysSelect.d.ts",
+      "import": "./dist/generated/NysSelect.js"
+    },
+    "./skipnav": {
+      "types": "./dist/generated/NysSkipnav.d.ts",
+      "import": "./dist/generated/NysSkipnav.js"
+    },
+    "./step": {
+      "types": "./dist/generated/NysStep.d.ts",
+      "import": "./dist/generated/NysStep.js"
+    },
+    "./stepper": {
+      "types": "./dist/generated/NysStepper.d.ts",
+      "import": "./dist/generated/NysStepper.js"
+    },
+    "./tab": {
+      "types": "./dist/generated/NysTab.d.ts",
+      "import": "./dist/generated/NysTab.js"
+    },
+    "./tabgroup": {
+      "types": "./dist/generated/NysTabgroup.d.ts",
+      "import": "./dist/generated/NysTabgroup.js"
+    },
+    "./table": {
+      "types": "./dist/generated/NysTable.d.ts",
+      "import": "./dist/generated/NysTable.js"
+    },
+    "./tabpanel": {
+      "types": "./dist/generated/NysTabpanel.d.ts",
+      "import": "./dist/generated/NysTabpanel.js"
+    },
+    "./textarea": {
+      "types": "./dist/generated/NysTextarea.d.ts",
+      "import": "./dist/generated/NysTextarea.js"
+    },
+    "./textinput": {
+      "types": "./dist/generated/NysTextinput.d.ts",
+      "import": "./dist/generated/NysTextinput.js"
+    },
+    "./toggle": {
+      "types": "./dist/generated/NysToggle.d.ts",
+      "import": "./dist/generated/NysToggle.js"
+    },
+    "./tooltip": {
+      "types": "./dist/generated/NysTooltip.d.ts",
+      "import": "./dist/generated/NysTooltip.js"
+    },
+    "./unavfooter": {
+      "types": "./dist/generated/NysUnavFooter.d.ts",
+      "import": "./dist/generated/NysUnavFooter.js"
+    },
+    "./unavheader": {
+      "types": "./dist/generated/NysUnavHeader.d.ts",
+      "import": "./dist/generated/NysUnavHeader.js"
+    },
+    "./verticalnav": {
+      "types": "./dist/generated/NysVerticalnav.d.ts",
+      "import": "./dist/generated/NysVerticalnav.js"
+    },
+    "./verticalnavgroup": {
+      "types": "./dist/generated/NysVerticalnavGroup.d.ts",
+      "import": "./dist/generated/NysVerticalnavGroup.js"
+    },
+    "./video": {
+      "types": "./dist/generated/NysVideo.d.ts",
+      "import": "./dist/generated/NysVideo.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc --emitDeclarationOnly && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:react18": "npm install --prefix test/react18 --no-audit --no-fund && cross-env REACT_VERSION=18 vitest run",
+    "test:consumer": "tsc -p test/consumer/tsconfig.json"
+  },
+  "dependencies": {
+    "@lit/react": "^1.0.8",
+    "@nysds/nys-accordion": "1.20.1",
+    "@nysds/nys-alert": "1.20.1",
+    "@nysds/nys-avatar": "1.20.1",
+    "@nysds/nys-backtotop": "1.20.1",
+    "@nysds/nys-badge": "1.20.1",
+    "@nysds/nys-breadcrumbs": "1.20.1",
+    "@nysds/nys-button": "1.20.1",
+    "@nysds/nys-card": "1.20.1",
+    "@nysds/nys-checkbox": "1.20.1",
+    "@nysds/nys-combobox": "1.20.1",
+    "@nysds/nys-datepicker": "1.20.1",
+    "@nysds/nys-divider": "1.20.1",
+    "@nysds/nys-dropdownmenu": "1.20.1",
+    "@nysds/nys-errormessage": "1.20.1",
+    "@nysds/nys-fileinput": "1.20.1",
+    "@nysds/nys-globalfooter": "1.20.1",
+    "@nysds/nys-globalheader": "1.20.1",
+    "@nysds/nys-icon": "1.20.1",
+    "@nysds/nys-iconlist": "1.20.1",
+    "@nysds/nys-label": "1.20.1",
+    "@nysds/nys-modal": "1.20.1",
+    "@nysds/nys-pagination": "1.20.1",
+    "@nysds/nys-processlist": "1.20.1",
+    "@nysds/nys-radiobutton": "1.20.1",
+    "@nysds/nys-select": "1.20.1",
+    "@nysds/nys-skipnav": "1.20.1",
+    "@nysds/nys-stepper": "1.20.1",
+    "@nysds/nys-tab": "1.20.1",
+    "@nysds/nys-table": "1.20.1",
+    "@nysds/nys-textarea": "1.20.1",
+    "@nysds/nys-textinput": "1.20.1",
+    "@nysds/nys-toggle": "1.20.1",
+    "@nysds/nys-tooltip": "1.20.1",
+    "@nysds/nys-unavfooter": "1.20.1",
+    "@nysds/nys-unavheader": "1.20.1",
+    "@nysds/nys-verticalnav": "1.20.1",
+    "@nysds/nys-video": "1.20.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "@nysds/components": "^1.20.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitest/browser": "^3.2.4",
+    "playwright": "^1.61.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^3.2.4"
+  }
+}
