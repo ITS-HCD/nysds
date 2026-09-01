@@ -429,24 +429,32 @@ describe("nys-combobox", () => {
     );
   });
 
-  it("sets custom validity message and showError flag", async () => {
+  it("sets custom validity message and showError flag without touching errorMessage", async () => {
     const el = await fixture<NysCombobox>(html`<nys-combobox></nys-combobox>`);
     (el as any)._setValidityMessage("Something is wrong");
+    await el.updateComplete;
+
     expect(el.showError).to.be.true;
-    expect(el.errorMessage).to.include("Something is wrong");
+    // The component's own validation text renders, but the public
+    // errorMessage property is never overwritten.
+    expect(el.errorMessage).to.equal("");
+    const errorEl = el.shadowRoot?.querySelector("nys-errormessage");
+    expect(errorEl?.getAttribute("errorMessage")).to.equal(
+      "Something is wrong",
+    );
   });
 
   // Value change and events tests
   it("updates value and emits nys-change event when user selects an option", async () => {
     const el = await fixture<NysCombobox>(html`
-      <nys-combobox>
+      <nys-combobox name="fruit">
         <option value="apple">Apple</option>
         <option value="banana">Banana</option>
       </nys-combobox>
     `);
 
-    let eventDetail: any = null;
-    el.addEventListener("nys-change", (e: any) => (eventDetail = e.detail));
+    let changeEvent: any = null;
+    el.addEventListener("nys-change", (e: any) => (changeEvent = e));
 
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
@@ -464,8 +472,14 @@ describe("nys-combobox", () => {
     await el.updateComplete;
 
     expect(el.value).to.equal("apple");
-    expect(eventDetail).to.exist;
-    expect(eventDetail.value).to.equal("apple");
+    expect(changeEvent).to.exist;
+    expect(changeEvent.detail).to.deep.equal({
+      id: el.id,
+      name: "fruit",
+      value: "apple",
+    });
+    expect(changeEvent.bubbles).to.be.true;
+    expect(changeEvent.composed).to.be.true;
   });
 
   // Focus and blur tests
@@ -1253,14 +1267,14 @@ describe("nys-combobox", () => {
 
   it("_handleInput emits nys-input with correct detail", async () => {
     const el = await fixture<NysCombobox>(html`
-      <nys-combobox>
+      <nys-combobox name="fruit">
         <option value="apple">Apple</option>
         <option value="banana">Banana</option>
       </nys-combobox>
     `);
 
-    let eventDetail: any = null;
-    el.addEventListener("nys-input", (e: any) => (eventDetail = e.detail));
+    let inputEvent: any = null;
+    el.addEventListener("nys-input", (e: any) => (inputEvent = e));
 
     const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
     Object.defineProperty(input, "value", {
@@ -1271,9 +1285,93 @@ describe("nys-combobox", () => {
     input.dispatchEvent(new Event("input", { bubbles: true }));
     await el.updateComplete;
 
-    expect(eventDetail).to.exist;
-    expect(eventDetail.value).to.equal("app");
-    expect(eventDetail.id).to.equal(el.id);
+    expect(inputEvent).to.exist;
+    // `value` is the committed value (nothing selected yet), never the
+    // filter text; the filter text travels in `query`.
+    expect(inputEvent.detail).to.deep.equal({
+      id: el.id,
+      name: "fruit",
+      value: "",
+      query: "app",
+    });
+    expect(inputEvent.bubbles).to.be.true;
+    expect(inputEvent.composed).to.be.true;
+  });
+
+  it("nys-input keeps the committed value while the user types a new filter", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox name="fruit">
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `);
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+
+    // Commit "apple" first.
+    input.value = "apple";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+    );
+    await el.updateComplete;
+    expect(el.value).to.equal("apple");
+
+    let inputEvent: any = null;
+    el.addEventListener("nys-input", (e: any) => (inputEvent = e));
+
+    // Type a new filter without committing a selection.
+    input.value = "ban";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(inputEvent.detail.value).to.equal("apple");
+    expect(inputEvent.detail.query).to.equal("ban");
+  });
+
+  it("programmatically setting value fires no nys-change or nys-input", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox name="fruit">
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+
+    let fired = 0;
+    el.addEventListener("nys-change", () => fired++);
+    el.addEventListener("nys-input", () => fired++);
+
+    el.value = "apple";
+    await el.updateComplete;
+    el.value = "";
+    await el.updateComplete;
+
+    expect(fired).to.equal(0);
+  });
+
+  it("consumer-supplied errorMessage survives validation and form reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-combobox required errorMessage="Custom message">
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      </form>
+    `);
+    const el = form.querySelector<NysCombobox>("nys-combobox")!;
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+
+    // Blur with no selection triggers required validation.
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    // The consumer's message wins over the internal validation text.
+    expect(el.errorMessage).to.equal("Custom message");
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage");
+    expect(errorEl?.getAttribute("errorMessage")).to.equal("Custom message");
+
+    form.reset();
+    await el.updateComplete;
+    expect(el.errorMessage).to.equal("Custom message");
   });
 
   // -------------------------------------------------------------------------
