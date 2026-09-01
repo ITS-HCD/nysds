@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 import { NysOption } from "./nys-option";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-select is used. Importing them here
@@ -13,6 +17,16 @@ import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-select.scss?inline";
+
+/** Detail payload for the `nys-change` event. */
+export interface NysSelectChangeDetail {
+  id: string;
+  name: string;
+  value: string;
+}
+
+/** The `nys-change` event, fired when the selection changes. */
+export type NysSelectChangeEvent = CustomEvent<NysSelectChangeDetail>;
 
 /**
  * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
@@ -27,9 +41,11 @@ import styles from "./nys-select.scss?inline";
  * @slot - Default slot for `<option>` and `<optgroup>` elements.
  * @slot description - Custom HTML description content below the label.
  *
- * @fires nys-change - Fired when selection changes. Detail: `{id, value}`.
- * @fires nys-focus - Fired when select gains focus.
- * @fires nys-blur - Fired when select loses focus. Triggers validation.
+ * @formControl value nys-change
+ *
+ * @fires nys-change {NysSelectChangeEvent} - Fired when the selection changes. Detail: `{id, name, value}`.
+ * @fires nys-focus {Event} - Fired when the select gains focus.
+ * @fires nys-blur {Event} - Fired when the select loses focus. Triggers validation.
  *
  * @example Basic
  * ```html
@@ -241,8 +257,6 @@ export class NysSelect extends NysFormControlElement {
     | "lg"
     | "full" = "full";
 
-  private _originalErrorMessage = "";
-
   private _hasUserInteracted = false; // need this flag for "eager mode"
 
   /**
@@ -256,7 +270,6 @@ export class NysSelect extends NysFormControlElement {
     // super.connectedCallback() (NysFormControlElement) assigns an id when one
     // is not provided and reflects default semantics.
     super.connectedCallback();
-    this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -379,12 +392,17 @@ export class NysSelect extends NysFormControlElement {
     const select = this.shadowRoot?.querySelector("select");
     if (!select) return;
 
-    const message = this.errorMessage || "This field is required.";
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this.setValidityFromState({ valueMissing: true }, message, select);
+      this.internalValidationMessage = "This field is required.";
+      this.setValidityFromState(
+        { valueMissing: true },
+        this.resolvedErrorMessage(),
+        select,
+      );
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
       this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
@@ -396,18 +414,14 @@ export class NysSelect extends NysFormControlElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
-
-    // If user sets errorMessage, this will always override the native validation message
-    if (this._originalErrorMessage?.trim() && message !== "") {
-      this.errorMessage = this._originalErrorMessage;
-    } else {
-      this.errorMessage = message;
-    }
+    // Store the component's own validation text; a consumer-supplied
+    // errorMessage always wins via resolvedErrorMessage().
+    this.internalValidationMessage = message;
 
     if (message) {
       this.setValidityFromState(
         { customError: true },
-        this.errorMessage,
+        this.resolvedErrorMessage(),
         select,
       );
     } else {
@@ -435,9 +449,10 @@ export class NysSelect extends NysFormControlElement {
       Array.from(select.options).forEach((other) => (other.selected = false));
     }
 
-    // Reset validation UI
+    // Reset validation UI. Clears only the component's own validation text;
+    // a consumer-supplied errorMessage is never touched.
     this.showError = false;
-    this.errorMessage = "";
+    this.internalValidationMessage = "";
     this.clearValidity();
 
     // Re-render UI
@@ -498,7 +513,7 @@ export class NysSelect extends NysFormControlElement {
     // Clear error immediately if value is now valid
     if (this.required && this.value) {
       this.showError = false;
-      this.errorMessage = "";
+      this.internalValidationMessage = "";
       this.clearValidity();
     }
 
@@ -507,20 +522,16 @@ export class NysSelect extends NysFormControlElement {
       this._validate();
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysSelectChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "focus");
   }
 
   // Handle blur event
@@ -529,9 +540,7 @@ export class NysSelect extends NysFormControlElement {
       this._hasUserInteracted = true;
     }
     this._validate();
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "blur");
   }
 
   // Check if the current value matches any option, and if so, set it as selected
@@ -601,7 +610,7 @@ export class NysSelect extends NysFormControlElement {
         <nys-errormessage
           id=${this.id + "--error"}
           ?showError=${this.showError}
-          errorMessage=${this.errorMessage}
+          errorMessage=${this.resolvedErrorMessage()}
         ></nys-errormessage>
       </div>
     `;

@@ -272,17 +272,20 @@ describe("nys-select", () => {
     expect(el.errorMessage).to.equal("");
   });
 
-  it("_setValidityMessage uses _originalErrorMessage when set", async () => {
+  it("consumer errorMessage survives validation and wins over the internal message", async () => {
     const el = await fixture<NysSelect>(html`
       <nys-select errorMessage="Custom error"></nys-select>
     `);
     await el.updateComplete;
 
-    // _originalErrorMessage is captured in connectedCallback
     (el as any)._setValidityMessage("Native validation message");
     await el.updateComplete;
 
+    // The component never overwrites a consumer-supplied errorMessage; it
+    // stores its own validation text separately and renders errorMessage first.
     expect(el.errorMessage).to.equal("Custom error");
+    const errEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errEl.getAttribute("errorMessage")).to.equal("Custom error");
   });
 
   // -------------------------------------------------------------------------
@@ -327,7 +330,7 @@ describe("nys-select", () => {
   // formResetCallback — full state reset
   // -------------------------------------------------------------------------
 
-  it("formResetCallback resets native select options and clears showError and errorMessage", async () => {
+  it("formResetCallback resets native select options and clears showError, keeping consumer errorMessage", async () => {
     const el = await fixture<NysSelect>(html`
       <nys-select showError errorMessage="Pick one" required>
         <option value="a">A</option>
@@ -344,7 +347,9 @@ describe("nys-select", () => {
 
     expect(el.value).to.equal("");
     expect(el.showError).to.be.false;
-    expect(el.errorMessage).to.equal("");
+    // A consumer-supplied errorMessage survives reset; only the component's
+    // own validation text is cleared.
+    expect(el.errorMessage).to.equal("Pick one");
 
     const select = el.shadowRoot!.querySelector("select")!;
     const anySelected = Array.from(select.options).some(
@@ -667,24 +672,45 @@ describe("nys-select", () => {
     expect(count).to.equal(1);
   });
 
-  it("nys-change event detail includes the component id", async () => {
+  it("nys-change detail carries {id, name, value} and bubbles composed", async () => {
     const el = await fixture<NysSelect>(html`
-      <nys-select id="my-select">
+      <nys-select id="my-select" name="borough">
         <option value="x">X</option>
       </nys-select>
     `);
     await el.updateComplete;
 
-    let detail: any = null;
-    el.addEventListener("nys-change", (e: any) => (detail = e.detail));
+    let event: CustomEvent | null = null;
+    el.addEventListener("nys-change", (e) => (event = e as CustomEvent));
     const select = el.shadowRoot!.querySelector("select")!;
     select.value = "x";
     select.dispatchEvent(new Event("change"));
     await el.updateComplete;
 
-    expect(detail).to.exist;
-    expect(detail.id).to.equal("my-select");
-    expect(detail.value).to.equal("x");
+    expect(event).to.exist;
+    expect(event!.bubbles).to.be.true;
+    expect(event!.composed).to.be.true;
+    expect(event!.detail.id).to.equal("my-select");
+    expect(event!.detail.name).to.equal("borough");
+    expect(event!.detail.value).to.equal("x");
+  });
+
+  it("setting value programmatically does not fire nys-change", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select>
+        <option value="a">A</option>
+        <option value="b">B</option>
+      </nys-select>
+    `);
+    await el.updateComplete;
+
+    let count = 0;
+    el.addEventListener("nys-change", () => count++);
+    el.value = "b";
+    await el.updateComplete;
+
+    expect(count).to.equal(0);
+    expect(el.shadowRoot!.querySelector("select")!.value).to.equal("b");
   });
 
   // -------------------------------------------------------------------------
@@ -743,18 +769,47 @@ describe("nys-select", () => {
   });
 
   // -------------------------------------------------------------------------
-  // _setValidityMessage — else branch: no _originalErrorMessage
+  // _setValidityMessage — renders internal message without touching errorMessage
   // -------------------------------------------------------------------------
 
-  it("_setValidityMessage sets errorMessage from argument when no originalErrorMessage", async () => {
+  it("_setValidityMessage renders the internal message without writing errorMessage", async () => {
     const el = await fixture<NysSelect>(html`<nys-select></nys-select>`);
     await el.updateComplete;
 
     (el as any)._setValidityMessage("Validation failed");
     await el.updateComplete;
 
-    expect(el.errorMessage).to.equal("Validation failed");
+    expect(el.errorMessage).to.equal("");
     expect(el.showError).to.be.true;
+    const errEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errEl.getAttribute("errorMessage")).to.equal("Validation failed");
+  });
+
+  it("consumer errorMessage survives blur validation and form reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-select name="item" required errorMessage="Pick a borough">
+          <option value="a">A</option>
+        </nys-select>
+      </form>
+    `);
+    const el = form.querySelector<NysSelect>("nys-select")!;
+    await el.updateComplete;
+
+    const select = el.shadowRoot!.querySelector("select")!;
+    select.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(el.errorMessage).to.equal("Pick a borough");
+    const errEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errEl.getAttribute("errorMessage")).to.equal("Pick a borough");
+
+    form.reset();
+    await el.updateComplete;
+
+    expect(el.errorMessage).to.equal("Pick a borough");
+    expect(el.showError).to.be.false;
   });
 
   // -------------------------------------------------------------------------
