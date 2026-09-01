@@ -68,10 +68,10 @@ export type NysComboboxChangeEvent = CustomEvent<NysComboboxChangeDetail>;
  *
  * @formControl value nys-change nys-input
  *
- * @fires nys-change {NysComboboxChangeEvent} - Fired when a selection is committed (option chosen or cleared). Detail: `{id, name, value}`.
- * @fires nys-input {NysComboboxInputEvent} - Fired on each keystroke while filtering. Detail: `{id, name, value, query}`. `value` is the committed value; `query` is the current filter text.
- * @fires nys-focus {Event} - Fired when the combobox gains focus.
- * @fires nys-blur {Event} - Fired when the combobox loses focus. Triggers validation.
+ * @fires {NysComboboxChangeEvent} nys-change - Fired when a selection is committed (option chosen or cleared). Detail: `{id, name, value}`.
+ * @fires {NysComboboxInputEvent} nys-input - Fired on each keystroke while filtering. Detail: `{id, name, value, query}`. `value` is the committed value; `query` is the current filter text.
+ * @fires {Event} nys-focus - Fired when the combobox gains focus.
+ * @fires {Event} nys-blur - Fired when the combobox loses focus. Triggers validation.
  *
  * @example Basic
  * ```html

@@ -42,9 +42,9 @@ import styles from "./nys-button.scss?inline";
  * @cssprop [--nys-button-border-color--hover] - Border color when hovered.
  * @cssprop [--nys-button-border-color--active] - Border color when active/pressed.
  *
- * @fires nys-click {Event} - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
- * @fires nys-focus {Event} - Fired when the button receives focus.
- * @fires nys-blur {Event} - Fired when the button loses focus.
+ * @fires {Event} nys-click - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
+ * @fires {Event} nys-focus - Fired when the button receives focus.
+ * @fires {Event} nys-blur - Fired when the button loses focus.
  *
  * @example Basic
  * ```html

@@ -34,8 +34,8 @@ export type NysFileitemFileRemoveEvent =
  * @summary Internal file item display with status, progress bar, and remove action.
  * @element nys-fileitem
  *
- * @fires nys-file-remove {NysFileitemFileRemoveEvent} Fired when the remove button is clicked. Detail: `{ filename }`.
- * @fires nys-fileRemove {NysFileitemFileRemoveEvent} @deprecated 1.x alias of `nys-file-remove`, fired
+ * @fires {NysFileitemFileRemoveEvent} nys-file-remove Fired when the remove button is clicked. Detail: `{ filename }`.
+ * @fires {NysFileitemFileRemoveEvent} nys-fileRemove @deprecated 1.x alias of `nys-file-remove`, fired
  * alongside it. Listen for `nys-file-remove` instead; this name goes away in 2.0.
  */
 export class NysFileItem extends NysElement {

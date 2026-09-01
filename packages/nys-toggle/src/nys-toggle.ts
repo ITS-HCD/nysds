@@ -51,9 +51,9 @@ export type NysToggleChangeEvent = CustomEvent<NysToggleChangeDetail>;
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change {NysToggleChangeEvent} Fired when the user toggles the switch. Detail: `{id, name, checked, value}`.
- * @fires nys-focus {Event} Fired when toggle gains focus.
- * @fires nys-blur {Event} Fired when toggle loses focus.
+ * @fires {NysToggleChangeEvent} nys-change Fired when the user toggles the switch. Detail: `{id, name, checked, value}`.
+ * @fires {Event} nys-focus Fired when toggle gains focus.
+ * @fires {Event} nys-blur Fired when toggle loses focus.
  *
  * @example Basic
  * ```html

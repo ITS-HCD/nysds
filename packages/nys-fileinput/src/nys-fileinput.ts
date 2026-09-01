@@ -58,14 +58,14 @@ export type NysFileinputChangeEvent = CustomEvent<NysFileinputChangeDetail>;
  *
  * @formControl files nys-change
  *
- * @fires nys-change {NysFileinputChangeEvent} Fired once per user action (file selection, drop, or removal).
+ * @fires {NysFileinputChangeEvent} nys-change Fired once per user action (file selection, drop, or removal).
  * Detail: `{ id, name, files, items, changedFiles }`. `files` is the full current selection as raw
  * `File` objects (matches the `files` property). `items` is the same selection with progress metadata,
  * and `changedFiles` is the entries this action added or removed. Entries in `items` and `changedFiles`
  * are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
  *
- * @fires nys-focus {Event} Fired when focus enters the component from outside.
- * @fires nys-blur {Event} Fired when focus leaves the component. Triggers validation.
+ * @fires {Event} nys-focus Fired when focus enters the component from outside.
+ * @fires {Event} nys-blur Fired when focus leaves the component. Triggers validation.
  *
  * @example Basic
  * ```html

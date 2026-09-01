@@ -356,7 +356,7 @@
             {
               "name": "nys-accordionitem-toggle",
               "type": {
-                "text": "CustomEvent"
+                "text": "NysAccordionitemToggleEvent"
               },
               "description": "Fired when expanded state changes. Detail: `{id, heading, expanded}`."
             }
@@ -661,7 +661,7 @@
             {
               "name": "nys-close",
               "type": {
-                "text": "CustomEvent"
+                "text": "NysAlertCloseEvent"
               },
               "description": "Fired when alert is dismissed. Detail: `{id, type, label}`."
             }
@@ -2049,12 +2049,9 @@
             {
               "name": "nys-expand",
               "type": {
-                "text": "CustomEvent"
-              }
-            },
-            {
-              "description": "Fired when the user clicks the ellipsis to expand the trail.",
-              "name": "nys-breadcrumbs-expand"
+                "text": "NysBreadcrumbsExpandEvent"
+              },
+              "description": "Fired when the user clicks the ellipsis to expand the trail. Detail: `{id}`."
             }
           ],
           "attributes": [
@@ -2676,15 +2673,24 @@
           ],
           "events": [
             {
-              "description": "{Event} - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the button is clicked (mouse or keyboard). Not fired when disabled.",
               "name": "nys-click"
             },
             {
-              "description": "{Event} - Fired when the button receives focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the button receives focus.",
               "name": "nys-focus"
             },
             {
-              "description": "{Event} - Fired when the button loses focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the button loses focus.",
               "name": "nys-blur"
             }
           ],
@@ -3571,8 +3577,657 @@
     {
       "kind": "javascript-module",
       "path": "packages/nys-checkbox/src/nys-checkbox.ts",
-      "declarations": [],
-      "exports": []
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.\nForm-associated with validation via ElementInternals.\n\nUse for binary decisions (agree/disagree) or selecting multiple options from a list.\nFor single selection from 2-6 options, use `nys-radiobutton`. For immediate state changes, use `nys-toggle`.",
+          "name": "NysCheckbox",
+          "slots": [
+            {
+              "description": "Custom HTML description content.",
+              "name": "description"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether checkbox is checked.",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents interaction.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Marks as required. Validates that checkbox is checked.",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visible label text. Required for accessibility.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Helper text below label. Use slot for custom HTML.",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name for form submission. Use same name for grouped checkboxes.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value submitted when checked.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Form `id` to associate with when checkbox is outside form element.",
+              "attribute": "form",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows error message when true.",
+              "attribute": "showError",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Error message text. Shown only when `showError` is true.",
+              "attribute": "errorMessage"
+            },
+            {
+              "kind": "field",
+              "name": "tile",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders as tile with larger clickable area. Apply to group for consistency.",
+              "attribute": "tile",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Tooltip text shown on hover/focus of info icon.",
+              "attribute": "tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\""
+              },
+              "default": "\"md\"",
+              "description": "Checkbox size: `sm` (24px) or `md` (32px, default).",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders an additional free-text input when checked (\"Other\" option).",
+              "attribute": "other",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Id of an element in the host's light-DOM tree to borrow the accessible name\nfrom (e.g. a table column `<th>`). Enables labelling a checkbox that has no\nvisible label of its own.",
+              "attribute": "labelledby"
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells).",
+              "attribute": "hideLabel"
+            },
+            {
+              "kind": "field",
+              "name": "_mobileQuery",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "method",
+              "name": "getInputElement",
+              "privacy": "public",
+              "return": {
+                "type": {
+                  "text": "Promise<HTMLInputElement | null>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_syncExternalLabel",
+              "privacy": "private",
+              "description": "Point the native <input> at a light-DOM element that IDREF attributes cannot\nreach across the shadow boundary. associateControlRefs sets the control's own\nariaLabelledByElements (honored in Chromium) plus a string aria-label fallback\nfor engines that do not yet resolve element references.\n\nOnly ever called with an external labelledby set: with no external target the\nnative input keeps the internal same-root aria-labelledby IDREF that render()\nemits, and must not be touched."
+            },
+            {
+              "kind": "method",
+              "name": "_setValue",
+              "privacy": "private",
+              "description": "Form Integration\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_manageRequire",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setValidityMessage",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "message",
+                  "default": "\"\"",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_validate",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleInvalid",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_manageLabelClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasDescription",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_isStandalone",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_handleMobileQuery",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_emitChangeEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_emitOtherInputEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInputBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_validateOtherAndEmitError",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchClearError",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "NysCheckboxChangeEvent"
+              },
+              "description": "Fired when checked state changes. Detail: `{id, checked, name, value}`. Bubbles and composed.",
+              "name": "nys-change"
+            },
+            {
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when checkbox gains focus. Bubbles and composed.",
+              "name": "nys-focus"
+            },
+            {
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when checkbox loses focus. Bubbles and composed.",
+              "name": "nys-blur"
+            },
+            {
+              "type": {
+                "text": "NysCheckboxOtherInputEvent"
+              },
+              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`.",
+              "name": "nys-other-input"
+            },
+            {
+              "type": {
+                "text": "NysCheckboxErrorEvent"
+              },
+              "description": "Internal group coordination: reports an empty \"other\" field to the parent `nys-checkboxgroup`. Not part of the public API.",
+              "name": "nys-error"
+            },
+            {
+              "type": {
+                "text": "NysCheckboxErrorClearEvent"
+              },
+              "description": "Internal group coordination: clears a previously reported \"other\" field error. Not part of the public API.",
+              "name": "nys-error-clear"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether checkbox is checked.",
+              "fieldName": "checked",
+              "propName": "checked"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents interaction.",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Marks as required. Validates that checkbox is checked.",
+              "fieldName": "required",
+              "propName": "required"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visible label text. Required for accessibility.",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Helper text below label. Use slot for custom HTML.",
+              "fieldName": "description",
+              "propName": "description"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name for form submission. Use same name for grouped checkboxes.",
+              "fieldName": "name",
+              "propName": "name"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value submitted when checked.",
+              "fieldName": "value",
+              "propName": "value"
+            },
+            {
+              "name": "form",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Form `id` to associate with when checkbox is outside form element.",
+              "fieldName": "form",
+              "propName": "form"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows error message when true.",
+              "fieldName": "showError",
+              "propName": "showerror"
+            },
+            {
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Error message text. Shown only when `showError` is true.",
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
+            },
+            {
+              "name": "tile",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders as tile with larger clickable area. Apply to group for consistency.",
+              "fieldName": "tile",
+              "propName": "tile"
+            },
+            {
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Tooltip text shown on hover/focus of info icon.",
+              "fieldName": "tooltip",
+              "propName": "tooltip"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\""
+              },
+              "default": "\"md\"",
+              "description": "Checkbox size: `sm` (24px) or `md` (32px, default).",
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders an additional free-text input when checked (\"Other\" option).",
+              "fieldName": "other",
+              "propName": "other"
+            },
+            {
+              "name": "labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Id of an element in the host's light-DOM tree to borrow the accessible name\nfrom (e.g. a table column `<th>`). Enables labelling a checkbox that has no\nvisible label of its own.",
+              "fieldName": "labelledby",
+              "propName": "labelledby"
+            },
+            {
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Suppress the internal visible `<nys-label>` (use with `labelledby` for\ntable cells).",
+              "fieldName": "hideLabel",
+              "propName": "hidelabel"
+            }
+          ],
+          "superclass": {
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
+          },
+          "tagName": "nys-checkbox",
+          "customElement": true,
+          "summary": "Checkbox for binary choices or multi-select options.",
+          "examples": [
+            {
+              "title": "Single",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\"></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Preselected",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" checked></nys-checkbox>",
+              "lang": "html"
+            }
+          ],
+          "formControl": {
+            "kind": "checked",
+            "changeEvent": "nys-change"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-checkbox",
+          "declaration": {
+            "name": "NysCheckbox",
+            "module": "packages/nys-checkbox/src/nys-checkbox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCheckbox",
+          "declaration": {
+            "name": "NysCheckbox",
+            "module": "packages/nys-checkbox/src/nys-checkbox.ts"
+          }
+        }
+      ]
     },
     {
       "kind": "javascript-module",
@@ -4745,19 +5400,31 @@
           ],
           "events": [
             {
-              "description": "{NysComboboxChangeEvent} - Fired when a selection is committed (option chosen or cleared). Detail: `{id, name, value}`.",
+              "type": {
+                "text": "NysComboboxChangeEvent"
+              },
+              "description": "Fired when a selection is committed (option chosen or cleared). Detail: `{id, name, value}`.",
               "name": "nys-change"
             },
             {
-              "description": "{NysComboboxInputEvent} - Fired on each keystroke while filtering. Detail: `{id, name, value, query}`. `value` is the committed value; `query` is the current filter text.",
+              "type": {
+                "text": "NysComboboxInputEvent"
+              },
+              "description": "Fired on each keystroke while filtering. Detail: `{id, name, value, query}`. `value` is the committed value; `query` is the current filter text.",
               "name": "nys-input"
             },
             {
-              "description": "{Event} - Fired when the combobox gains focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the combobox gains focus.",
               "name": "nys-focus"
             },
             {
-              "description": "{Event} - Fired when the combobox loses focus. Triggers validation.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the combobox loses focus. Triggers validation.",
               "name": "nys-blur"
             }
           ],
@@ -5605,18 +6272,30 @@
           ],
           "events": [
             {
-              "description": "{NysDatepickerInputEvent} - Fired as the date value updates (valid typed date, calendar pick, Today, Clear). Detail: `{id, name, value}` where `value` is the current `value` property.",
+              "type": {
+                "text": "NysDatepickerInputEvent"
+              },
+              "description": "Fired as the date value updates (valid typed date, calendar pick, Today, Clear). Detail: `{id, name, value}` where `value` is the current `value` property.",
               "name": "nys-input"
             },
             {
-              "description": "{NysDatepickerChangeEvent} - Fired on committed selection: calendar pick, valid typed date on blur, Today, Clear. Detail: `{id, name, value}` where `value` is always the `YYYY-MM-DD` string, empty string when cleared.",
+              "type": {
+                "text": "NysDatepickerChangeEvent"
+              },
+              "description": "Fired on committed selection: calendar pick, valid typed date on blur, Today, Clear. Detail: `{id, name, value}` where `value` is always the `YYYY-MM-DD` string, empty string when cleared.",
               "name": "nys-change"
             },
             {
-              "description": "{Event} - Fired when focus enters the component from outside.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when focus enters the component from outside.",
               "name": "nys-focus"
             },
             {
+              "type": {
+                "text": "Event"
+              },
               "description": "Fired when input or calendar loses focus. Triggers validation.",
               "name": "nys-blur"
             }
@@ -6569,8 +7248,9 @@
             {
               "name": "nys-click",
               "type": {
-                "text": "CustomEvent"
-              }
+                "text": "NysDropdownmenuitemClickEvent"
+              },
+              "description": "Fired when the item is activated (unless disabled). Detail: `{id, label, href?}` — `href` is present only when set. Bubbles and composed."
             }
           ],
           "attributes": [
@@ -7357,15 +8037,24 @@
           ],
           "events": [
             {
-              "description": "{NysFileinputChangeEvent} Fired once per user action (file selection, drop, or removal). Detail: `{ id, name, files, items, changedFiles }`. `files` is the full current selection as raw `File` objects (matches the `files` property). `items` is the same selection with progress metadata, and `changedFiles` is the entries this action added or removed. Entries in `items` and `changedFiles` are `{ file: File, progress: number, status: \"pending\" | \"processing\" | \"done\" | \"error\", errorMsg?: string }`.",
+              "type": {
+                "text": "NysFileinputChangeEvent"
+              },
+              "description": "Fired once per user action (file selection, drop, or removal). Detail: `{ id, name, files, items, changedFiles }`. `files` is the full current selection as raw `File` objects (matches the `files` property). `items` is the same selection with progress metadata, and `changedFiles` is the entries this action added or removed. Entries in `items` and `changedFiles` are `{ file: File, progress: number, status: \"pending\" | \"processing\" | \"done\" | \"error\", errorMsg?: string }`.",
               "name": "nys-change"
             },
             {
-              "description": "{Event} Fired when focus enters the component from outside.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when focus enters the component from outside.",
               "name": "nys-focus"
             },
             {
-              "description": "{Event} Fired when focus leaves the component. Triggers validation.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when focus leaves the component. Triggers validation.",
               "name": "nys-blur"
             }
           ],
@@ -7719,11 +8408,17 @@
           ],
           "events": [
             {
-              "description": "{NysFileitemFileRemoveEvent} Fired when the remove button is clicked. Detail: `{ filename }`.",
+              "type": {
+                "text": "NysFileitemFileRemoveEvent"
+              },
+              "description": "Fired when the remove button is clicked. Detail: `{ filename }`.",
               "name": "nys-file-remove"
             },
             {
-              "description": "{NysFileitemFileRemoveEvent} @deprecated 1.x alias of `nys-file-remove`, fired alongside it. Listen for `nys-file-remove` instead; this name goes away in 2.0.",
+              "type": {
+                "text": "NysFileitemFileRemoveEvent"
+              },
+              "description": "@deprecated 1.x alias of `nys-file-remove`, fired alongside it. Listen for `nys-file-remove` instead; this name goes away in 2.0.",
               "name": "nys-fileRemove"
             }
           ],
@@ -9502,6 +10197,7 @@
             {
               "kind": "field",
               "name": "_hasDescription",
+              "privacy": "private",
               "readonly": true
             },
             {
@@ -9515,8 +10211,9 @@
             {
               "name": "nys-label-click",
               "type": {
-                "text": "CustomEvent"
-              }
+                "text": "Event"
+              },
+              "description": "Fired when the label is clicked. Bubbles and composed. Listened for by form components (for example nys-fileinput and nys-toggle) that need label-activation behavior."
             }
           ],
           "attributes": [
@@ -9883,14 +10580,14 @@
             {
               "name": "nys-open",
               "type": {
-                "text": "CustomEvent"
+                "text": "NysModalOpenEvent"
               },
               "description": "Fired when modal opens. Detail: `{id}`."
             },
             {
               "name": "nys-close",
               "type": {
-                "text": "CustomEvent"
+                "text": "NysModalCloseEvent"
               },
               "description": "Fired when modal closes. Detail: `{id}`."
             }
@@ -10091,17 +10788,6 @@
             },
             {
               "kind": "field",
-              "name": "_twoBeforeLast",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal state for layout adjustments near the end.",
-              "attribute": "_twoBeforeLast",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "_focusKeyBeforeUpdate",
               "type": {
                 "text": "string | null"
@@ -10245,7 +10931,7 @@
             {
               "name": "nys-change",
               "type": {
-                "text": "CustomEvent"
+                "text": "NysPaginationChangeEvent"
               },
               "description": "Fired when page changes. Detail: `{page}`."
             }
@@ -10290,16 +10976,6 @@
               "description": "Total number of pages. Must be at least 1.",
               "fieldName": "totalPages",
               "propName": "totalpages"
-            },
-            {
-              "name": "_twoBeforeLast",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal state for layout adjustments near the end.",
-              "fieldName": "_twoBeforeLast",
-              "propName": "_twobeforelast"
             }
           ],
           "superclass": {
@@ -10632,6 +11308,7 @@
             {
               "kind": "field",
               "name": "_hasDescription",
+              "privacy": "private",
               "description": "A description is shown when either the property or the slot has content, so an item with\nneither renders no empty paragraph.",
               "readonly": true
             }
@@ -12500,15 +13177,24 @@
           ],
           "events": [
             {
-              "description": "{NysSelectChangeEvent} - Fired when the selection changes. Detail: `{id, name, value}`.",
+              "type": {
+                "text": "NysSelectChangeEvent"
+              },
+              "description": "Fired when the selection changes. Detail: `{id, name, value}`.",
               "name": "nys-change"
             },
             {
-              "description": "{Event} - Fired when the select gains focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the select gains focus.",
               "name": "nys-focus"
             },
             {
-              "description": "{Event} - Fired when the select loses focus. Triggers validation.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the select loses focus. Triggers validation.",
               "name": "nys-blur"
             }
           ],
@@ -12989,6 +13675,9 @@
           ],
           "events": [
             {
+              "type": {
+                "text": "NysStepClickEvent"
+              },
               "description": "Fired when a navigable (`previous` or `current`) non-selected step is clicked or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call `e.preventDefault()` to suppress `window.location.href` navigation.",
               "name": "nys-step-click"
             }
@@ -13434,15 +14123,21 @@
             {
               "name": "nys-tab-select",
               "type": {
-                "text": "CustomEvent"
+                "text": "NysTabSelectEvent"
               },
               "description": "Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }`"
             },
             {
+              "type": {
+                "text": "NysTabFocusEvent"
+              },
               "description": "Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`",
               "name": "nys-tab-focus"
             },
             {
+              "type": {
+                "text": "NysTabBlurEvent"
+              },
               "description": "Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`",
               "name": "nys-tab-blur"
             }
@@ -14236,10 +14931,16 @@
           ],
           "events": [
             {
+              "type": {
+                "text": "Event"
+              },
               "description": "Fired when the download button or sortable headers are clicked.",
               "name": "nys-click"
             },
             {
+              "type": {
+                "text": "NysTableColumnSortEvent"
+              },
               "description": "Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: \"asc\" | \"desc\" | \"none\" }",
               "name": "nys-column-sort"
             }
@@ -14737,27 +15438,45 @@
           ],
           "events": [
             {
-              "description": "{NysTextareaInputEvent} - Fired on each input. Detail: `{id, name, value}`.",
+              "type": {
+                "text": "NysTextareaInputEvent"
+              },
+              "description": "Fired on each input. Detail: `{id, name, value}`.",
               "name": "nys-input"
             },
             {
-              "description": "{NysTextareaChangeEvent} - Fired when the value is committed (native `change`). Detail: `{id, name, value}`.",
+              "type": {
+                "text": "NysTextareaChangeEvent"
+              },
+              "description": "Fired when the value is committed (native `change`). Detail: `{id, name, value}`.",
               "name": "nys-change"
             },
             {
-              "description": "{Event} - Fired when the textarea gains focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the textarea gains focus.",
               "name": "nys-focus"
             },
             {
-              "description": "{Event} - Fired when the textarea loses focus. Triggers validation.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the textarea loses focus. Triggers validation.",
               "name": "nys-blur"
             },
             {
-              "description": "{NysTextareaSelectEvent} - Fired when the user selects text. Detail: `{id, value}`.",
+              "type": {
+                "text": "NysTextareaSelectEvent"
+              },
+              "description": "Fired when the user selects text. Detail: `{id, value}`.",
               "name": "nys-select"
             },
             {
-              "description": "{NysTextareaSelectionchangeEvent} - Fired when the text selection changes. Detail: `{id, value}`.",
+              "type": {
+                "text": "NysTextareaSelectionchangeEvent"
+              },
+              "description": "Fired when the text selection changes. Detail: `{id, value}`.",
               "name": "nys-selectionchange"
             }
           ],
@@ -15537,19 +16256,31 @@
           ],
           "events": [
             {
-              "description": "{NysTextinputInputEvent} - Fired once per user input. Detail: `{id, name, value}`.",
+              "type": {
+                "text": "NysTextinputInputEvent"
+              },
+              "description": "Fired once per user input. Detail: `{id, name, value}`.",
               "name": "nys-input"
             },
             {
-              "description": "{NysTextinputChangeEvent} - Fired when the value is committed, on blur or Enter. Detail: `{id, name, value}`.",
+              "type": {
+                "text": "NysTextinputChangeEvent"
+              },
+              "description": "Fired when the value is committed, on blur or Enter. Detail: `{id, name, value}`.",
               "name": "nys-change"
             },
             {
-              "description": "{Event} - Fired when the input gains focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the input gains focus.",
               "name": "nys-focus"
             },
             {
-              "description": "{Event} - Fired when the input loses focus. Triggers validation.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the input loses focus. Triggers validation.",
               "name": "nys-blur"
             }
           ],
@@ -16101,15 +16832,24 @@
           ],
           "events": [
             {
-              "description": "{NysToggleChangeEvent} Fired when the user toggles the switch. Detail: `{id, name, checked, value}`.",
+              "type": {
+                "text": "NysToggleChangeEvent"
+              },
+              "description": "Fired when the user toggles the switch. Detail: `{id, name, checked, value}`.",
               "name": "nys-change"
             },
             {
-              "description": "{Event} Fired when toggle gains focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when toggle gains focus.",
               "name": "nys-focus"
             },
             {
-              "description": "{Event} Fired when toggle loses focus.",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when toggle loses focus.",
               "name": "nys-blur"
             }
           ],
@@ -17296,10 +18036,16 @@
           ],
           "events": [
             {
+              "type": {
+                "text": "NysUnavheaderLanguageSelectEvent"
+              },
               "description": "Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.",
               "name": "nys-language-select"
             },
             {
+              "type": {
+                "text": "NysUnavheaderSearchSubmitEvent"
+              },
               "description": "Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.",
               "name": "nys-search-submit"
             }
@@ -17857,14 +18603,16 @@
             {
               "name": "nys-child-resize",
               "type": {
-                "text": "CustomEvent"
-              }
+                "text": "Event"
+              },
+              "description": "Fired when the group toggles so ancestor containers (for example nys-accordionitem) can resize. No detail. Bubbles and composed."
             },
             {
               "name": "nys-verticalnavgroup-toggle",
               "type": {
-                "text": "CustomEvent"
-              }
+                "text": "NysVerticalnavgroupToggleEvent"
+              },
+              "description": "Fired when the group is expanded or collapsed. Detail: `{id, label, expanded}`. Bubbles and composed."
             }
           ],
           "attributes": [
@@ -18137,12 +18885,6 @@
               "kind": "method",
               "name": "_renderPlayIcon",
               "privacy": "private"
-            }
-          ],
-          "events": [
-            {
-              "description": "Fired when the user clicks the thumbnail to load the player.",
-              "name": "nys-video-play"
             }
           ],
           "attributes": [

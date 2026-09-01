@@ -61,10 +61,10 @@ export type NysTextinputChangeEvent = CustomEvent<NysTextinputChangeDetail>;
  *
  * @formControl value nys-change nys-input
  *
- * @fires nys-input {NysTextinputInputEvent} - Fired once per user input. Detail: `{id, name, value}`.
- * @fires nys-change {NysTextinputChangeEvent} - Fired when the value is committed, on blur or Enter. Detail: `{id, name, value}`.
- * @fires nys-focus {Event} - Fired when the input gains focus.
- * @fires nys-blur {Event} - Fired when the input loses focus. Triggers validation.
+ * @fires {NysTextinputInputEvent} nys-input - Fired once per user input. Detail: `{id, name, value}`.
+ * @fires {NysTextinputChangeEvent} nys-change - Fired when the value is committed, on blur or Enter. Detail: `{id, name, value}`.
+ * @fires {Event} nys-focus - Fired when the input gains focus.
+ * @fires {Event} nys-blur - Fired when the input loses focus. Triggers validation.
  *
  * @example Basic
  * ```html

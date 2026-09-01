@@ -68,12 +68,12 @@ export type NysTextareaSelectionchangeEvent =
  *
  * @formControl value nys-change nys-input
  *
- * @fires nys-input {NysTextareaInputEvent} - Fired on each input. Detail: `{id, name, value}`.
- * @fires nys-change {NysTextareaChangeEvent} - Fired when the value is committed (native `change`). Detail: `{id, name, value}`.
- * @fires nys-focus {Event} - Fired when the textarea gains focus.
- * @fires nys-blur {Event} - Fired when the textarea loses focus. Triggers validation.
- * @fires nys-select {NysTextareaSelectEvent} - Fired when the user selects text. Detail: `{id, value}`.
- * @fires nys-selectionchange {NysTextareaSelectionchangeEvent} - Fired when the text selection changes. Detail: `{id, value}`.
+ * @fires {NysTextareaInputEvent} nys-input - Fired on each input. Detail: `{id, name, value}`.
+ * @fires {NysTextareaChangeEvent} nys-change - Fired when the value is committed (native `change`). Detail: `{id, name, value}`.
+ * @fires {Event} nys-focus - Fired when the textarea gains focus.
+ * @fires {Event} nys-blur - Fired when the textarea loses focus. Triggers validation.
+ * @fires {NysTextareaSelectEvent} nys-select - Fired when the user selects text. Detail: `{id, value}`.
+ * @fires {NysTextareaSelectionchangeEvent} nys-selectionchange - Fired when the text selection changes. Detail: `{id, value}`.
  *
  * @example Basic
  * ```html

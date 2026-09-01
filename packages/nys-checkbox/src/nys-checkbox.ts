@@ -93,8 +93,8 @@ export type NysCheckboxErrorClearEvent =
  * @fires {Event} nys-focus - Fired when checkbox gains focus. Bubbles and composed.
  * @fires {Event} nys-blur - Fired when checkbox loses focus. Bubbles and composed.
  * @fires {NysCheckboxOtherInputEvent} nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
- * @fires {NysCheckboxErrorEvent} nys-error - @internal Group coordination: reports an empty "other" field to the parent `nys-checkboxgroup`. Not part of the public API.
- * @fires {NysCheckboxErrorClearEvent} nys-error-clear - @internal Group coordination: clears a previously reported "other" field error. Not part of the public API.
+ * @fires {NysCheckboxErrorEvent} nys-error - Internal group coordination: reports an empty "other" field to the parent `nys-checkboxgroup`. Not part of the public API.
+ * @fires {NysCheckboxErrorClearEvent} nys-error-clear - Internal group coordination: clears a previously reported "other" field error. Not part of the public API.
  *
  * @example Single
  * ```html
@@ -426,13 +426,13 @@ export class NysCheckbox extends NysFormControlElement {
     });
   };
 
-  get _hasDescription() {
+  private get _hasDescription() {
     // This accounts for both description prop or slotted content. Used for styling text alignment.
     const slot = this.querySelector('[slot="description"]');
     return !!this.description || !!slot;
   }
 
-  get _isStandalone() {
+  private get _isStandalone() {
     return this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup";
   }
 

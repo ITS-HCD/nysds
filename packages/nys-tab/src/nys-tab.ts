@@ -4,6 +4,31 @@ import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tab.scss?inline";
 
+/** Detail payload for the `nys-tab-select` event fired by `nys-tab`. */
+export interface NysTabSelectDetail {
+  id: string;
+  label: string;
+}
+
+/** The `nys-tab-select` event fired by `nys-tab`. */
+export type NysTabSelectEvent = CustomEvent<NysTabSelectDetail>;
+
+/** Detail payload for the `nys-tab-focus` event fired by `nys-tab`. */
+export interface NysTabFocusDetail {
+  id: string;
+}
+
+/** The `nys-tab-focus` event fired by `nys-tab`. */
+export type NysTabFocusEvent = CustomEvent<NysTabFocusDetail>;
+
+/** Detail payload for the `nys-tab-blur` event fired by `nys-tab`. */
+export interface NysTabBlurDetail {
+  id: string;
+}
+
+/** The `nys-tab-blur` event fired by `nys-tab`. */
+export type NysTabBlurEvent = CustomEvent<NysTabBlurDetail>;
+
 /**
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
  *
@@ -15,12 +40,12 @@ import styles from "./nys-tab.scss?inline";
  *
  * @element nys-tab
  *
- * @fires nys-tab-select - Dispatched when the tab is activated via click or
+ * @fires {NysTabSelectEvent} nys-tab-select - Dispatched when the tab is activated via click or
  *   Enter / Space. Bubbles and crosses shadow DOM boundaries.
  *   `detail: { id: string, label: string }`
- * @fires nys-tab-focus - Dispatched when the host receives focus. Bubbles and
+ * @fires {NysTabFocusEvent} nys-tab-focus - Dispatched when the host receives focus. Bubbles and
  *   crosses shadow DOM boundaries. `detail: { id: string }`
- * @fires nys-tab-blur - Dispatched when the host loses focus. Bubbles and
+ * @fires {NysTabBlurEvent} nys-tab-blur - Dispatched when the host loses focus. Bubbles and
  *   crosses shadow DOM boundaries. `detail: { id: string }`
  *
  * @slot - No slots; content is derived from the `label` property.

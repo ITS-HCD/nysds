@@ -43,9 +43,9 @@ export type NysSelectChangeEvent = CustomEvent<NysSelectChangeDetail>;
  *
  * @formControl value nys-change
  *
- * @fires nys-change {NysSelectChangeEvent} - Fired when the selection changes. Detail: `{id, name, value}`.
- * @fires nys-focus {Event} - Fired when the select gains focus.
- * @fires nys-blur {Event} - Fired when the select loses focus. Triggers validation.
+ * @fires {NysSelectChangeEvent} nys-change - Fired when the selection changes. Detail: `{id, name, value}`.
+ * @fires {Event} nys-focus - Fired when the select gains focus.
+ * @fires {Event} nys-blur - Fired when the select loses focus. Triggers validation.
  *
  * @example Basic
  * ```html

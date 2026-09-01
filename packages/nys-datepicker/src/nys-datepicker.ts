@@ -58,10 +58,10 @@ export type NysDatepickerChangeEvent = CustomEvent<NysDatepickerChangeDetail>;
  *
  * @formControl value nys-change nys-input
  *
- * @fires nys-input {NysDatepickerInputEvent} - Fired as the date value updates (valid typed date, calendar pick, Today, Clear). Detail: `{id, name, value}` where `value` is the current `value` property.
- * @fires nys-change {NysDatepickerChangeEvent} - Fired on committed selection: calendar pick, valid typed date on blur, Today, Clear. Detail: `{id, name, value}` where `value` is always the `YYYY-MM-DD` string, empty string when cleared.
- * @fires nys-focus {Event} - Fired when focus enters the component from outside.
- * @fires nys-blur - Fired when input or calendar loses focus. Triggers validation.
+ * @fires {NysDatepickerInputEvent} nys-input - Fired as the date value updates (valid typed date, calendar pick, Today, Clear). Detail: `{id, name, value}` where `value` is the current `value` property.
+ * @fires {NysDatepickerChangeEvent} nys-change - Fired on committed selection: calendar pick, valid typed date on blur, Today, Clear. Detail: `{id, name, value}` where `value` is always the `YYYY-MM-DD` string, empty string when cleared.
+ * @fires {Event} nys-focus - Fired when focus enters the component from outside.
+ * @fires {Event} nys-blur - Fired when input or calendar loses focus. Triggers validation.
  *
  * @example Basic
  * ```html
