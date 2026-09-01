@@ -1,7 +1,7 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysElement } from "@nysds/internals";
+import { NysElement, dispatchNysEvent } from "@nysds/internals";
 // These elements are rendered inside this component's shadow DOM, so they must
 // be registered whenever nys-fileitem is used. Importing them here (intentional
 // side effect) guarantees the remove button and its icon always upgrade — the
@@ -11,6 +11,15 @@ import "@nysds/nys-icon";
 import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileitem.scss?inline";
+
+/** Detail payload for the `nys-file-remove` event (and its deprecated `nys-fileRemove` alias). */
+export interface NysFileitemFileRemoveDetail {
+  filename: string;
+}
+
+/** The `nys-file-remove` event dispatched by `nys-fileitem`. */
+export type NysFileitemFileRemoveEvent =
+  CustomEvent<NysFileitemFileRemoveDetail>;
 
 /**
  * **Internal component.** Displays an individual file within `nys-fileinput` with status and progress.
@@ -25,7 +34,9 @@ import styles from "./nys-fileitem.scss?inline";
  * @summary Internal file item display with status, progress bar, and remove action.
  * @element nys-fileitem
  *
- * @fires nys-fileRemove - Fired when remove button is clicked. Detail: `{filename}`.
+ * @fires nys-file-remove {NysFileitemFileRemoveEvent} Fired when the remove button is clicked. Detail: `{ filename }`.
+ * @fires nys-fileRemove {NysFileitemFileRemoveEvent} @deprecated 1.x alias of `nys-file-remove`, fired
+ * alongside it. Listen for `nys-file-remove` instead; this name goes away in 2.0.
  */
 export class NysFileItem extends NysElement {
   static styles = unsafeCSS(styles);
@@ -78,13 +89,10 @@ export class NysFileItem extends NysElement {
   }
 
   private _handleRemove() {
-    this.dispatchEvent(
-      new CustomEvent("nys-fileRemove", {
-        detail: { filename: this.filename },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    const detail: NysFileitemFileRemoveDetail = { filename: this.filename };
+    dispatchNysEvent(this, "nys-file-remove", detail);
+    // Deprecated alias kept for 1.x listeners; remove in 2.0.
+    dispatchNysEvent(this, "nys-fileRemove", detail);
   }
 
   private splitFilename(filename: string) {

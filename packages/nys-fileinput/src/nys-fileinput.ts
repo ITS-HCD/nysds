@@ -1,7 +1,12 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement, associateControlRefs } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  associateControlRefs,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 import { validateFileHeader } from "./validateFileHeader";
 import "./nys-fileitem";
 // These internal elements are rendered inside this component's shadow DOM, so
@@ -13,12 +18,28 @@ import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileinput.scss?inline";
 
-interface FileWithProgress {
+/** A selected file plus the component's processing metadata for it. */
+export interface FileWithProgress {
   file: File;
   progress: number;
   status: "pending" | "processing" | "done" | "error";
   errorMsg?: string;
 }
+
+/** Detail payload for the `nys-change` event. */
+export interface NysFileinputChangeDetail {
+  id: string;
+  name: string;
+  /** The full current selection as raw `File` objects (matches the `files` property). */
+  files: File[];
+  /** The full current selection with progress and status metadata. */
+  items: FileWithProgress[];
+  /** The entries this action added or removed, with progress and status metadata. */
+  changedFiles: FileWithProgress[];
+}
+
+/** The `nys-change` event dispatched by `nys-fileinput`. */
+export type NysFileinputChangeEvent = CustomEvent<NysFileinputChangeDetail>;
 
 /**
  * A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.
@@ -35,12 +56,16 @@ interface FileWithProgress {
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired once per user action (file selection, drop, or removal).
- * Detail: `{id, files, changedFiles}`. The `files` is the full current selection
- * Whereas `changedFiles` is the entries this action added or removed.
- * Both `changedFiles` and each entry in `files` are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
+ * @formControl files nys-change
  *
- * @fires nys-blur - Fired when focus leaves the component. Triggers validation.
+ * @fires nys-change {NysFileinputChangeEvent} Fired once per user action (file selection, drop, or removal).
+ * Detail: `{ id, name, files, items, changedFiles }`. `files` is the full current selection as raw
+ * `File` objects (matches the `files` property). `items` is the same selection with progress metadata,
+ * and `changedFiles` is the entries this action added or removed. Entries in `items` and `changedFiles`
+ * are `{ file: File, progress: number, status: "pending" | "processing" | "done" | "error", errorMsg?: string }`.
+ *
+ * @fires nys-focus {Event} Fired when focus enters the component from outside.
+ * @fires nys-blur {Event} Fired when focus leaves the component. Triggers validation.
  *
  * @example Basic
  * ```html
@@ -351,7 +376,7 @@ export class NysFileinput extends NysFormControlElement {
     // <p> is plain text, so its portion is already correct. Rebuild the full
     // fallback string here so neither part clobbers the other. aria-describedby
     // wins wherever the element reference is honored.
-    const message = this.internals?.validationMessage || this.errorMessage;
+    const message = this.resolvedErrorMessage();
     const descriptionParts = [
       hintEl?.textContent?.trim() || undefined,
       errorEl && message ? message : undefined,
@@ -400,30 +425,41 @@ export class NysFileinput extends NysFormControlElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    const message = this.errorMessage || "Please upload a file.";
     const isInvalid = this.required && this._selectedFiles.length == 0;
 
     if (isInvalid) {
-      this.setValidityFromState({ valueMissing: true }, message, input);
+      this.internalValidationMessage = "Please upload a file.";
+      this.setValidityFromState(
+        { valueMissing: true },
+        this.resolvedErrorMessage(),
+        input,
+      );
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
     }
   }
 
-  private _setValidityMessage(message: string = "") {
+  private _setValidityMessage(
+    message: string = "",
+    showComponentError: boolean = message !== "",
+  ) {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    // Toggle the HTML <div> tag error message
-    this.showError = message === (this.errorMessage || "Please upload a file.");
+    // Component-owned validation text. A consumer-supplied `errorMessage`
+    // always wins at render time via resolvedErrorMessage().
+    this.internalValidationMessage = message;
 
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
-    }
+    // Toggle the component-level error message UI
+    this.showError = showComponentError;
 
     if (message) {
-      this.setValidityFromState({ customError: true }, message, input);
+      this.setValidityFromState(
+        { customError: true },
+        this.resolvedErrorMessage(),
+        input,
+      );
     } else {
       this.clearValidity();
     }
@@ -437,12 +473,14 @@ export class NysFileinput extends NysFormControlElement {
 
     let message = "";
     if (isEmpty) {
-      message = this.errorMessage || "Please upload a file.";
+      message = "Please upload a file.";
     } else if (hasErrorFiles) {
       message = "One or more files are invalid.";
     }
 
-    this._setValidityMessage(message);
+    // The component-level error UI shows only for the required-empty case;
+    // per-file errors surface on each <nys-fileitem> instead.
+    this._setValidityMessage(message, isEmpty);
   }
 
   // This helper function is called to perform the element's native validation.
@@ -464,9 +502,10 @@ export class NysFileinput extends NysFormControlElement {
 
     this.setFormValue(null);
 
-    // Reset validation UI
+    // Reset validation UI. Clears only the component's own validation text —
+    // a consumer-supplied errorMessage is never overwritten.
     this.showError = false;
-    this.errorMessage = "";
+    this.internalValidationMessage = "";
     this.clearValidity();
 
     // Re-render UI
@@ -576,30 +615,37 @@ export class NysFileinput extends NysFormControlElement {
     }
   }
 
+  // True when the node is part of this component: its shadow DOM or its
+  // slotted light-DOM content (e.g. a link in the description slot).
+  private _containsFocus(node: Node | null): boolean {
+    return !!node && (this.renderRoot.contains(node) || this.contains(node));
+  }
+
+  // Fire nys-focus only when focus enters the component from outside, not when
+  // it moves between internal controls. Uses focusin (bubbles) since focus
+  // does not.
+  private _handleFocusIn(e: FocusEvent) {
+    if (this._containsFocus(e.relatedTarget as Node | null)) return;
+    dispatchNysFocusBlur(this, "focus");
+  }
+
   // Fire nys-blur only when focus leaves the whole component, not when it
   // moves between internal controls (the button, remove buttons, etc.).
   // Uses focusout (bubbles) since blur does not.
   private _handleBlur(e: FocusEvent) {
-    const next = e.relatedTarget as Node | null;
-    if (next && this.renderRoot.contains(next)) return;
+    if (this._containsFocus(e.relatedTarget as Node | null)) return;
     this._validate();
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "blur");
   }
 
   private _dispatchChangeEvent(changedFiles: FileWithProgress[]) {
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: {
-          id: this.id,
-          files: this._selectedFiles,
-          changedFiles,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysFileinputChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      files: this.files,
+      items: this._selectedFiles,
+      changedFiles,
+    });
   }
 
   private _openFileDialog() {
@@ -740,7 +786,8 @@ export class NysFileinput extends NysFormControlElement {
   render() {
     return html`<div
       class="nys-fileinput"
-      @nys-fileRemove=${this._handleFileRemove}
+      @nys-file-remove=${this._handleFileRemove}
+      @focusin=${this._handleFocusIn}
       @focusout=${this._handleBlur}
     >
       <nys-label
@@ -839,8 +886,7 @@ export class NysFileinput extends NysFormControlElement {
             <nys-errormessage
               id=${this.id + "--error"}
               ?showError=${this.showError}
-              errorMessage=${this.internals?.validationMessage ||
-              this.errorMessage}
+              errorMessage=${this.resolvedErrorMessage()}
             ></nys-errormessage>
           `
         : null}
