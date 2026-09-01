@@ -171,7 +171,16 @@ export default {
     "**/packages/styles/**",
     "**/packages/internals/**",
     "**/packages/mcp-server/**",
-    "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
+    // Keep dependencies, generated framework output, and example apps out of
+    // the manifest. A prior branch shipped a manifest polluted with
+    // packages/angular/node_modules paths; these guards prevent a repeat.
+    // packages/react/** also covers the generated nysds-jsx.d.ts, which used
+    // to cause circular references when analyzed.
+    "**/node_modules/**",
+    "**/packages/react/**",
+    "**/packages/angular/**",
+    "**/packages/codegen/**",
+    "**/examples/**",
   ],
   /** Directory to output CEM to */
   outdir: "./",

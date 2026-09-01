@@ -1,0 +1,87 @@
+# Framework package CI (framework-support plan, WS0 task 0.6).
+#
+# Builds the monorepo and checks the framework packages (@nysds/react,
+# @nysds/angular) on PRs that touch package, example, or build-script code.
+# Steps that target packages/react or packages/angular skip themselves until
+# WS3 and WS4 turn those directories into real workspace packages. The
+# example-app matrix stays disabled until WS5 flips it on.
+
+name: Frameworks
+
+on:
+  pull_request:
+    branches:
+      - 'develop'
+      - 'main'
+    paths:
+      - 'packages/**'
+      - 'examples/**'
+      - 'src/scripts/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and check framework packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.17.0'
+      - name: Install dependencies
+        # npm ci causes recurring trouble in this repo; keep npm i
+        # (see test-node-js.yaml).
+        run: npm i
+      - name: Build packages
+        run: npm run build:all
+      - name: Typecheck @nysds/react
+        run: |
+          if [ -f packages/react/package.json ]; then
+            npm run typecheck -w @nysds/react
+          else
+            echo "Skipped: packages/react is not a workspace package until WS3."
+          fi
+      - name: Build @nysds/angular
+        run: |
+          if [ -f packages/angular/package.json ]; then
+            npm run build -w @nysds/angular
+          else
+            echo "Skipped: packages/angular is not a workspace package until WS4."
+          fi
+      - name: Guard framework tarball contents
+        # The @nysds/angular@1.18.2 publish shipped src/, demo/,
+        # integration-test/, .turbo/, and a lockfile instead of the built
+        # output. Fail any pack whose file list contains those paths.
+        run: |
+          status=0
+          for w in @nysds/react @nysds/angular; do
+            dir="packages/${w#@nysds/}"
+            if [ ! -f "$dir/package.json" ]; then
+              echo "Skipped $w: not a workspace package yet."
+              continue
+            fi
+            files=$(npm pack --dry-run --json -w "$w" \
+              | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{for(const p of JSON.parse(d))for(const f of p.files)console.log(f.path)})")
+            echo "$w tarball contents:"
+            echo "$files"
+            if echo "$files" | grep -qE '^(src/|demo/|integration-test/|\.turbo/|package-lock\.json$)'; then
+              echo "::error::$w tarball contains files that must not be published (src/, demo/, integration-test/, .turbo/, or package-lock.json)."
+              status=1
+            fi
+          done
+          exit "$status"
+
+  # WS5 placeholder: example-app build + Playwright smoke tests per app.
+  # WS5 removes the `if: false` and fills in the steps.
+  examples:
+    name: Example apps (disabled until WS5)
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [react-vite, next-app, angular-app]
+    steps:
+      - run: echo "Enabled by WS5. Builds examples/${{ matrix.app }} and runs its Playwright smoke tests."

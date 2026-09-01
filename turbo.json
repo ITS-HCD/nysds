@@ -9,11 +9,18 @@
         "src/**/*.json",
         "vite.config.js",
         "tsconfig.json",
-        "terrazzo.config.js"
+        "terrazzo.config.js",
+        // Framework wrappers are generated from the manifest; a manifest
+        // change must invalidate their build cache (framework-support WS0).
+        "$TURBO_ROOT$/custom-elements.json"
       ],
       "outputs": ["dist/**", ".tsbuildinfo"],
       "env": ["NODE_ENV", "BUILD_FORMAT"],
       "outputLogs": "new-only"
+    },
+    "generate": {
+      "dependsOn": ["^build"],
+      "cache": false
     },
     "dev": {
       "cache": false,

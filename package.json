@@ -4,7 +4,8 @@
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "files": [
     "dist/",
@@ -36,7 +37,8 @@
     "tsc:packages": "tsc -b tsconfig.build.json",
     "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --log-order=grouped",
     "build:root": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd",
-    "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run gen-stories && npm run build:mcp && npm run lint:fix",
+    "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run build:frameworks && npm run gen-stories && npm run build:mcp && npm run lint:fix",
+    "build:frameworks": "turbo run build --filter=@nysds/codegen* --filter=@nysds/react* --filter=@nysds/angular*",
     "build:mcp": "npm run build -w @nysds/mcp-server",
     "build:link": "npm run build:all && npm link && cd packages/styles && npm link",
     "lint": "eslint --cache --cache-strategy=content --cache-location node_modules/.cache/eslint && (stylelint \"**/*.scss\" || true)",
@@ -66,7 +68,7 @@
     "clean:cache": "rm -rf node_modules/.cache",
     "clean:all": "npm run clean:dist && npm run clean:node && npm run clean:cache && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js",
+    "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && mkdir -p dist && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js",
     "verify:a11y-names": "node src/scripts/verify-a11y-names.mjs"
   },
   "repository": {
