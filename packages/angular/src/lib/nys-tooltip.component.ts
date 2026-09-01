@@ -6,6 +6,13 @@ import "@nysds/nys-tooltip";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[text]": "text",
+    "[inverted]": "inverted",
+    "[for]": "for",
+    "[position]": "position",
+  },
 })
 export class NysTooltipComponent {
   @Input() id: any;

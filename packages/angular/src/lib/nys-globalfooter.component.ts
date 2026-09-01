@@ -6,6 +6,13 @@ import "@nysds/nys-globalfooter";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[agencyName]": "agencyName",
+    "[agencySubheading]": "agencySubheading",
+    "[homepageLink]": "homepageLink",
+    "[landmarkLabel]": "landmarkLabel",
+  },
 })
 export class NysGlobalFooterComponent {
   @Input() id: any;

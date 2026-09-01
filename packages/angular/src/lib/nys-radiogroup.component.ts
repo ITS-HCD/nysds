@@ -12,6 +12,22 @@ import "@nysds/nys-radiobutton";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[required]": "required",
+    "[optional]": "optional",
+    "[showError]": "showError",
+    "[errorMessage]": "errorMessage",
+    "[label]": "label",
+    "[description]": "description",
+    "[tile]": "tile",
+    "[tooltip]": "tooltip",
+    "[form]": "form",
+    "[size]": "size",
+    "[_showOtherError]": "_showOtherError",
+    "[defaultRole]": "defaultRole",
+  },
 })
 export class NysRadiogroupComponent {
   @Input() id: any;

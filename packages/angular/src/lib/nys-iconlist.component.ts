@@ -6,6 +6,10 @@ import "@nysds/nys-iconlist";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[divider]": "divider",
+  },
 })
 export class NysIconlistComponent {
   @Input() id: any;

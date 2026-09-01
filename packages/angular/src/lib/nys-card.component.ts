@@ -12,6 +12,19 @@ import "@nysds/nys-card";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[preheading]": "preheading",
+    "[heading]": "heading",
+    "[headingLevel]": "headingLevel",
+    "[subheading]": "subheading",
+    "[description]": "description",
+    "[inset]": "inset",
+    "[elevated]": "elevated",
+    "[href]": "href",
+    "[target]": "target",
+    "[onClick]": "onClick",
+  },
 })
 export class NysCardComponent {
   @Input() id: any;

@@ -6,6 +6,11 @@ import "@nysds/nys-divider";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[inverted]": "inverted",
+    "[subtle]": "subtle",
+    "[defaultRole]": "defaultRole",
+  },
 })
 export class NysDividerComponent {
   @Input() inverted: any;

@@ -6,6 +6,18 @@ import "@nysds/nys-badge";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[size]": "size",
+    "[intent]": "intent",
+    "[prefixLabel]": "prefixLabel",
+    "[label]": "label",
+    "[srText]": "srText",
+    "[variant]": "variant",
+    "[prefixIcon]": "prefixIcon",
+    "[suffixIcon]": "suffixIcon",
+  },
 })
 export class NysBadgeComponent {
   @Input() id: any;

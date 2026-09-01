@@ -16,6 +16,19 @@ import "@nysds/nys-toggle";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[value]": "value",
+    "[label]": "label",
+    "[description]": "description",
+    "[form]": "form",
+    "[checked]": "checked",
+    "[disabled]": "disabled",
+    "[noIcon]": "noIcon",
+    "[inverted]": "inverted",
+    "[size]": "size",
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

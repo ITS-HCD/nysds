@@ -12,6 +12,17 @@ import "@nysds/nys-unavheader";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[trustbarVisible]": "trustbarVisible",
+    "[searchDropdownVisible]": "searchDropdownVisible",
+    "[languageVisible]": "languageVisible",
+    "[isSearchFocused]": "isSearchFocused",
+    "[hideTranslate]": "hideTranslate",
+    "[hideSearch]": "hideSearch",
+    "[searchUrl]": "searchUrl",
+    "[landmarkLabel]": "landmarkLabel",
+    "[languages]": "languages",
+  },
 })
 export class NysUnavHeaderComponent {
   @Input() trustbarVisible: any;

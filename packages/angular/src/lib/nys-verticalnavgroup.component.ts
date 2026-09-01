@@ -12,6 +12,13 @@ import "@nysds/nys-verticalnav";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[label]": "label",
+    "[expanded]": "expanded",
+    "[disabled]": "disabled",
+    "[active]": "active",
+  },
 })
 export class NysVerticalnavGroupComponent {
   @Input() id: any;

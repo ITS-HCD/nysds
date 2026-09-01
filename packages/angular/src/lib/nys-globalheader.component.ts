@@ -6,6 +6,14 @@ import "@nysds/nys-globalheader";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[appName]": "appName",
+    "[agencyName]": "agencyName",
+    "[homepageLink]": "homepageLink",
+    "[nysLogo]": "nysLogo",
+    "[landmarkLabel]": "landmarkLabel",
+  },
 })
 export class NysGlobalHeaderComponent {
   @Input() id: any;

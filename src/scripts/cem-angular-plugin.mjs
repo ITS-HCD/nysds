@@ -50,6 +50,10 @@ export function angularWrapperPlugin(options = {}) {
           const inputs = props.map((p) => `  @Input() ${p.name}: any;`).join("\n");
           const outputs = events.map((e) => `  @Output() "${e.name}" = new EventEmitter<CustomEvent<any>>();`).join("\n");
 
+          // Build host property bindings so inputs actually sync directly to the host DOM element properties
+          const hostBindings = props.map((p) => `    '[${p.name}]': '${p.name}'`).join(",\n");
+          const hostStr = hostBindings ? `,\n  host: {\n${hostBindings}\n  }` : "";
+
           // Build Dynamic Angular core imports to avoid TS unused variable errors
           const coreImports = ["Component", "Input", "ChangeDetectionStrategy"];
           const formImports = [];
@@ -121,7 +125,7 @@ ${formImportStr}import "${resolvedPackage}";
   selector: '${tagName}',
   template: '<ng-content></ng-content>',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush${cvaProviders}
+  changeDetection: ChangeDetectionStrategy.OnPush${hostStr}${cvaProviders}
 })
 export class ${className}Component${formConfig ? " implements ControlValueAccessor" : ""} {
 ${inputs}

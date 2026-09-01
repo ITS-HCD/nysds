@@ -16,6 +16,22 @@ import "@nysds/nys-combobox";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[label]": "label",
+    "[description]": "description",
+    "[value]": "value",
+    "[disabled]": "disabled",
+    "[required]": "required",
+    "[optional]": "optional",
+    "[tooltip]": "tooltip",
+    "[form]": "form",
+    "[width]": "width",
+    "[inverted]": "inverted",
+    "[showError]": "showError",
+    "[errorMessage]": "errorMessage",
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -6,6 +6,13 @@ import "@nysds/nys-processlist";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[strong]": "strong",
+    "[neutral]": "neutral",
+    "[size]": "size",
+    "[initialStep]": "initialStep",
+  },
 })
 export class NysProcesslistComponent {
   @Input() id: any;

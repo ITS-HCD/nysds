@@ -6,6 +6,10 @@ import "@nysds/nys-skipnav";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[href]": "href",
+  },
 })
 export class NysSkipnavComponent {
   @Input() id: any;

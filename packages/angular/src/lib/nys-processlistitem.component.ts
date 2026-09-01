@@ -6,6 +6,11 @@ import "@nysds/nys-processlist";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[label]": "label",
+    "[description]": "description",
+    "[_hasDescription]": "_hasDescription",
+  },
 })
 export class NysProcesslistitemComponent {
   @Input() label: any;

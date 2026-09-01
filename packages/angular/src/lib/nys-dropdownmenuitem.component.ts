@@ -12,6 +12,14 @@ import "@nysds/nys-dropdownmenu";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[label]": "label",
+    "[href]": "href",
+    "[disabled]": "disabled",
+    "[target]": "target",
+    "[prefixIcon]": "prefixIcon",
+    "[divider]": "divider",
+  },
 })
 export class NysDropdownMenuItemComponent {
   @Input() label: any;

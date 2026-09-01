@@ -12,6 +12,15 @@ import "@nysds/nys-breadcrumbs";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[ariaLabel]": "ariaLabel",
+    "[size]": "size",
+    "[backToParent]": "backToParent",
+    "[collapsed]": "collapsed",
+    "[backgroundBar]": "backgroundBar",
+    "[disabled]": "disabled",
+  },
 })
 export class NysBreadcrumbsComponent {
   @Input() id: any;

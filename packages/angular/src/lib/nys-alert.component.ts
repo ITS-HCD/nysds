@@ -12,6 +12,20 @@ import "@nysds/nys-alert";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[heading]": "heading",
+    "[icon]": "icon",
+    "[dismissible]": "dismissible",
+    "[duration]": "duration",
+    "[text]": "text",
+    "[primaryAction]": "primaryAction",
+    "[secondaryAction]": "secondaryAction",
+    "[primaryLabel]": "primaryLabel",
+    "[secondaryLabel]": "secondaryLabel",
+    "[type]": "type",
+    "[ariaAttributes]": "ariaAttributes",
+  },
 })
 export class NysAlertComponent {
   @Input() id: any;

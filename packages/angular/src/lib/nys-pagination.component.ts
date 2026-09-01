@@ -12,6 +12,13 @@ import "@nysds/nys-pagination";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[currentPage]": "currentPage",
+    "[totalPages]": "totalPages",
+    "[_twoBeforeLast]": "_twoBeforeLast",
+  },
 })
 export class NysPaginationComponent {
   @Input() id: any;

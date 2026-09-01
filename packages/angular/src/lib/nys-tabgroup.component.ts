@@ -6,6 +6,10 @@ import "@nysds/nys-tab";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+  },
 })
 export class NysTabgroupComponent {
   @Input() id: any;

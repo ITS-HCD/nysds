@@ -12,6 +12,13 @@ import "@nysds/nys-stepper";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[selected]": "selected",
+    "[current]": "current",
+    "[label]": "label",
+    "[href]": "href",
+    "[onClick]": "onClick",
+  },
 })
 export class NysStepComponent {
   @Input() selected: any;

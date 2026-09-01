@@ -12,6 +12,15 @@ import "@nysds/nys-label";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[label]": "label",
+    "[description]": "description",
+    "[flag]": "flag",
+    "[inverted]": "inverted",
+    "[tooltip]": "tooltip",
+    "[_hasDescription]": "_hasDescription",
+  },
 })
 export class NysLabelComponent {
   @Input() id: any;

@@ -12,6 +12,15 @@ import "@nysds/nys-modal";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[heading]": "heading",
+    "[ariaLabel]": "ariaLabel",
+    "[subheading]": "subheading",
+    "[open]": "open",
+    "[mandatory]": "mandatory",
+    "[width]": "width",
+  },
 })
 export class NysModalComponent {
   @Input() id: any;

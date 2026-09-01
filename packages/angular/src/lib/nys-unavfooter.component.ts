@@ -6,6 +6,9 @@ import "@nysds/nys-unavfooter";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[landmarkLabel]": "landmarkLabel",
+  },
 })
 export class NysUnavFooterComponent {
   @Input() landmarkLabel: any;

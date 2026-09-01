@@ -6,6 +6,13 @@ import "@nysds/nys-stepper";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[label]": "label",
+    "[counterText]": "counterText",
+    "[isCompactExpanded]": "isCompactExpanded",
+  },
 })
 export class NysStepperComponent {
   @Input() id: any;

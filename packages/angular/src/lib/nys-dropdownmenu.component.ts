@@ -6,6 +6,12 @@ import "@nysds/nys-dropdownmenu";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[for]": "for",
+    "[showDropdown]": "showDropdown",
+    "[label]": "label",
+    "[position]": "position",
+  },
 })
 export class NysDropdownMenuComponent {
   @Input() for: any;

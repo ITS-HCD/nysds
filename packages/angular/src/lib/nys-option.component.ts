@@ -6,6 +6,13 @@ import "@nysds/nys-select";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[disabled]": "disabled",
+    "[selected]": "selected",
+    "[value]": "value",
+    "[label]": "label",
+    "[hidden]": "hidden",
+  },
 })
 export class NysOptionComponent {
   @Input() disabled: any;

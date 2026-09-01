@@ -6,6 +6,12 @@ import "@nysds/nys-errormessage";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[showError]": "showError",
+    "[errorMessage]": "errorMessage",
+    "[showDivider]": "showDivider",
+  },
 })
 export class NysErrorMessageComponent {
   @Input() id: any;

@@ -12,6 +12,12 @@ import "@nysds/nys-tab";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[label]": "label",
+    "[selected]": "selected",
+    "[disabled]": "disabled",
+  },
 })
 export class NysTabComponent {
   @Input() id: any;

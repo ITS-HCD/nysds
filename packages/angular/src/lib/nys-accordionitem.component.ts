@@ -12,6 +12,13 @@ import "@nysds/nys-accordion";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[heading]": "heading",
+    "[headingLevel]": "headingLevel",
+    "[expanded]": "expanded",
+    "[bordered]": "bordered",
+  },
 })
 export class NysAccordionItemComponent {
   @Input() id: any;

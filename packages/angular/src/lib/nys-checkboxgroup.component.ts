@@ -6,6 +6,20 @@ import "@nysds/nys-checkbox";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[required]": "required",
+    "[optional]": "optional",
+    "[showError]": "showError",
+    "[errorMessage]": "errorMessage",
+    "[label]": "label",
+    "[description]": "description",
+    "[tile]": "tile",
+    "[tooltip]": "tooltip",
+    "[form]": "form",
+    "[size]": "size",
+  },
 })
 export class NysCheckboxgroupComponent {
   @Input() id: any;

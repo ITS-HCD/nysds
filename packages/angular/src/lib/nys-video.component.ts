@@ -12,6 +12,17 @@ import "@nysds/nys-video";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[titleText]": "titleText",
+    "[videourl]": "videourl",
+    "[size]": "size",
+    "[loading]": "loading",
+    "[starttime]": "starttime",
+    "[thumbnail]": "thumbnail",
+    "[autoplay]": "autoplay",
+    "[disabled]": "disabled",
+  },
 })
 export class NysVideoComponent {
   @Input() id: any;

@@ -6,6 +6,17 @@ import "@nysds/nys-avatar";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[ariaLabel]": "ariaLabel",
+    "[image]": "image",
+    "[initials]": "initials",
+    "[icon]": "icon",
+    "[color]": "color",
+    "[interactive]": "interactive",
+    "[disabled]": "disabled",
+    "[lazy]": "lazy",
+  },
 })
 export class NysAvatarComponent {
   @Input() id: any;

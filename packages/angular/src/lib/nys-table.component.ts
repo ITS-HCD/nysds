@@ -12,6 +12,14 @@ import "@nysds/nys-table";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[striped]": "striped",
+    "[sortable]": "sortable",
+    "[bordered]": "bordered",
+    "[download]": "download",
+  },
 })
 export class NysTableComponent {
   @Input() id: any;

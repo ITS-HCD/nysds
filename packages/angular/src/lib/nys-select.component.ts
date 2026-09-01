@@ -16,6 +16,23 @@ import "@nysds/nys-select";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[id]": "id",
+    "[name]": "name",
+    "[label]": "label",
+    "[description]": "description",
+    "[ariaLabel]": "ariaLabel",
+    "[value]": "value",
+    "[disabled]": "disabled",
+    "[required]": "required",
+    "[optional]": "optional",
+    "[tooltip]": "tooltip",
+    "[form]": "form",
+    "[inverted]": "inverted",
+    "[showError]": "showError",
+    "[errorMessage]": "errorMessage",
+    "[width]": "width",
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

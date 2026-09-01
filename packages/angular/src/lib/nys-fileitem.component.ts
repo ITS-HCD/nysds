@@ -12,6 +12,12 @@ import "@nysds/nys-fileinput";
   template: "<ng-content></ng-content>",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[filename]": "filename",
+    "[status]": "status",
+    "[progress]": "progress",
+    "[errorMessage]": "errorMessage",
+  },
 })
 export class NysFileItemComponent {
   @Input() filename: any;
