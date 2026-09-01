@@ -5,9 +5,18 @@
   "module": "dist/nys-select.js",
   "exports": {
     ".": {
-      "import": "./dist/nys-select.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-select.js"
+    },
+    "./nys-option": {
+      "types": "./dist/nys-option.d.ts",
+      "import": "./dist/nys-option.js"
+    },
+    "./nys-select": {
+      "types": "./dist/nys-select.d.ts",
+      "import": "./dist/nys-select.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

@@ -37,6 +37,7 @@
     { "path": "packages/nys-tooltip" },
     { "path": "packages/nys-unavfooter" },
     { "path": "packages/nys-unavheader" },
+    { "path": "packages/nys-verticalnav" },
     { "path": "packages/nys-video" }
   ]
 }

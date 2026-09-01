@@ -160,12 +160,15 @@ const reactOpts = {
   outdir: "./packages/react",
   // ssrSafe: true, // Commented out but kept here in case we run into any issues with SSR
   /**
-   * Reconfigured to resolve each component directly to its own parent npm package dependency.
-   * e.g. imported as `@nysds/nys-verticalnav` instead of non-existent `@nysds/nys-verticalnavgroup`.
+   * Resolve each component to its own module. Child elements use the parent
+   * package's per-element subpath export (e.g.
+   * `@nysds/nys-verticalnav/nys-verticalnavgroup`) — kept in sync by
+   * src/scripts/sync-package-exports.mjs — so each wrapper loads only the
+   * element it wraps; package-named elements use the package root.
    */
   modulePath: (className, tagName) => {
-    const parentFolder = tagToPackageMap[tagName] || tagName;
-    return `@nysds/${parentFolder}`;
+    const parentFolder = tagToPackageMap[tagName];
+    return parentFolder ? `@nysds/${parentFolder}/${tagName}` : `@nysds/${tagName}`;
   }
 };
 
@@ -193,6 +196,8 @@ export default {
     "**/packages/styles/**",
     "**/packages/internals/**",
     "**/packages/mcp-server/**",
+    "**/packages/angular/**", // Generated Angular wrappers — not custom elements
+    "**/packages/react/demo/**", // Demo apps consume components; nothing to analyze
     "**/packages/react/nysds-jsx.d.ts", // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],
   /** Directory to output CEM to */

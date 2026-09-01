@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "@nysds/nys-accordion";
+import "@nysds/nys-accordion/nys-accordionitem";
 import { useEventListener } from "./react-utils.js";
 
 export const NysAccordionItem = forwardRef((props, forwardedRef) => {

@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-iconlist.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-iconlist.js"
+    },
+    "./nys-iconlist": {
+      "types": "./dist/nys-iconlist.d.ts",
+      "import": "./dist/nys-iconlist.js"
+    },
+    "./nys-iconlistitem": {
+      "types": "./dist/nys-iconlistitem.d.ts",
+      "import": "./dist/nys-iconlistitem.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "sideEffects": true,

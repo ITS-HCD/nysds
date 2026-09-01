@@ -1,5 +1,5 @@
 import React from "react";
-import { NysCheckboxgroup as NysCheckboxgroupElement } from "@nysds/nys-checkbox";
+import { NysCheckboxgroup as NysCheckboxgroupElement } from "@nysds/nys-checkbox/nys-checkboxgroup";
 
 export type { NysCheckboxgroupElement };
 

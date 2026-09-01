@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysVerticalnavGroup as NysVerticalnavGroupElement,
   CustomEvent,
-} from "@nysds/nys-verticalnav";
+} from "@nysds/nys-verticalnav/nys-verticalnavgroup";
 
 export type { NysVerticalnavGroupElement, CustomEvent };
 

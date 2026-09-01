@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-dropdownmenu.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-dropdownmenu.js"
+    },
+    "./nys-dropdownmenu": {
+      "types": "./dist/nys-dropdownmenu.d.ts",
+      "import": "./dist/nys-dropdownmenu.js"
+    },
+    "./nys-dropdownmenuitem": {
+      "types": "./dist/nys-dropdownmenuitem.d.ts",
+      "import": "./dist/nys-dropdownmenuitem.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

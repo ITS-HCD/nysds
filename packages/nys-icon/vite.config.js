@@ -1,5 +1,4 @@
-import { mergeConfig } from "vite";
-import { defaultConfig, copyIconAssets, extractIcons } from "../../vite.config.js";
+import { definePackageConfig, copyIconAssets, extractIcons } from "../../vite.config.js";
 import { version } from "./package.json";
 
 // Banner to put at the top of the generated files
@@ -16,17 +15,7 @@ const banner = `
 */
 `;
 
-const overrideConfig = {
-  build: {
-    lib: {
-      fileName: () => "nys-icon.js",
-    },
-    
-    rollupOptions: {
-      output: { banner },
-      plugins: [extractIcons(), copyIconAssets()],
-    },
-  },
-};
-
-export default mergeConfig(defaultConfig, overrideConfig);
+export default definePackageConfig(import.meta.url, {
+  banner,
+  rollupPlugins: [extractIcons(), copyIconAssets()],
+});

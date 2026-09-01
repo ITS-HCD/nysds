@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "@nysds/nys-fileinput";
+import "@nysds/nys-fileinput/nys-fileitem";
 import { useEventListener } from "./react-utils.js";
 
 export const NysFileItem = forwardRef((props, forwardedRef) => {

@@ -8,7 +8,9 @@
         "src/**/*.scss",
         "src/**/*.json",
         "vite.config.js",
+        "ng-packagr.json",
         "tsconfig.json",
+        "tsconfig.lib.json",
         "terrazzo.config.js"
       ],
       "outputs": ["dist/**", ".turbo/**/*.xml"],

@@ -1,0 +1,48 @@
+/* Resolves through the npm workspace to packages/styles/dist/nysds.min.css */
+@import "@nysds/styles";
+
+body {
+  margin: 0;
+  font-family: var(--nys-font-family-body, "Proxima Nova", sans-serif);
+  color: var(--nys-color-text, #1b1b1b);
+  background: var(--nys-color-surface, #fff);
+}
+
+.demo-main {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 4rem;
+}
+
+.demo-section {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--nys-color-neutral-100, #d0d0ce);
+}
+
+.demo-section > h2 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 30rem;
+}
+
+.demo-event-log,
+.demo-form-value {
+  margin-top: 0.75rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--nys-color-neutral-600, #62615f);
+  white-space: pre-wrap;
+}

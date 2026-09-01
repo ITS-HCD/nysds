@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "@nysds/nys-tab";
+import "@nysds/nys-tab/nys-tabgroup";
 
 export const NysTabgroup = forwardRef((props, forwardedRef) => {
   const { id, name, ...filteredProps } = props;

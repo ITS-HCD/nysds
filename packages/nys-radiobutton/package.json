@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-radiobutton.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-radiobutton.js"
+    },
+    "./nys-radiobutton": {
+      "types": "./dist/nys-radiobutton.d.ts",
+      "import": "./dist/nys-radiobutton.js"
+    },
+    "./nys-radiogroup": {
+      "types": "./dist/nys-radiogroup.d.ts",
+      "import": "./dist/nys-radiogroup.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

@@ -1,5 +1,5 @@
 import React from "react";
-import { NysOption as NysOptionElement } from "@nysds/nys-select";
+import { NysOption as NysOptionElement } from "@nysds/nys-select/nys-option";
 
 export type { NysOptionElement };
 

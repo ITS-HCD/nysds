@@ -55,5 +55,9 @@
     "@nysds/nys-unavheader": "^1.20.1",
     "@nysds/nys-verticalnav": "^1.20.1",
     "@nysds/nys-video": "^1.20.1"
-  }
+  },
+  "files": [
+    "*.js",
+    "*.d.ts"
+  ]
 }

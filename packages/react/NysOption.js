@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "@nysds/nys-select";
+import "@nysds/nys-select/nys-option";
 
 export const NysOption = forwardRef((props, forwardedRef) => {
   const { disabled, selected, hidden, value, label, ...filteredProps } = props;

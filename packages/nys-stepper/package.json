@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-stepper.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-stepper.js"
+    },
+    "./nys-step": {
+      "types": "./dist/nys-step.d.ts",
+      "import": "./dist/nys-step.js"
+    },
+    "./nys-stepper": {
+      "types": "./dist/nys-stepper.d.ts",
+      "import": "./dist/nys-stepper.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

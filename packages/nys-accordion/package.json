@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-accordion.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-accordion.js"
+    },
+    "./nys-accordion": {
+      "types": "./dist/nys-accordion.d.ts",
+      "import": "./dist/nys-accordion.js"
+    },
+    "./nys-accordionitem": {
+      "types": "./dist/nys-accordionitem.d.ts",
+      "import": "./dist/nys-accordionitem.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

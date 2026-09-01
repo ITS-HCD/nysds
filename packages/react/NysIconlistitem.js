@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "@nysds/nys-iconlist";
+import "@nysds/nys-iconlist/nys-iconlistitem";
 
 export const NysIconlistitem = forwardRef((props, forwardedRef) => {
   const { divider, icon, ...filteredProps } = props;

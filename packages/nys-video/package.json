@@ -6,9 +6,14 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-video.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-video.js"
+    },
+    "./nys-video": {
+      "types": "./dist/nys-video.d.ts",
+      "import": "./dist/nys-video.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

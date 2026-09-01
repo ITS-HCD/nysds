@@ -55,3 +55,6 @@ CLAUDE.md
 .claude/
 .gemini/
 docs/
+
+# open-design-system-bench clone (its own git repo; configured for NYSDS)
+bench/

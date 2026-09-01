@@ -6,9 +6,14 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-table.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-table.js"
+    },
+    "./nys-table": {
+      "types": "./dist/nys-table.d.ts",
+      "import": "./dist/nys-table.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

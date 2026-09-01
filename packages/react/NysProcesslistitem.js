@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "@nysds/nys-processlist";
+import "@nysds/nys-processlist/nys-processlistitem";
 import { useProperties } from "./react-utils.js";
 
 export const NysProcesslistitem = forwardRef((props, forwardedRef) => {

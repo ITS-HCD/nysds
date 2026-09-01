@@ -6,9 +6,14 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-datepicker.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-datepicker.js"
+    },
+    "./nys-datepicker": {
+      "types": "./dist/nys-datepicker.d.ts",
+      "import": "./dist/nys-datepicker.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

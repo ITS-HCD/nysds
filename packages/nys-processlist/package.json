@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-processlist.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-processlist.js"
+    },
+    "./nys-processlist": {
+      "types": "./dist/nys-processlist.d.ts",
+      "import": "./dist/nys-processlist.js"
+    },
+    "./nys-processlistitem": {
+      "types": "./dist/nys-processlistitem.d.ts",
+      "import": "./dist/nys-processlistitem.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "sideEffects": true,

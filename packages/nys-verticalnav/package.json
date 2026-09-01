@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-verticalnav.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-verticalnav.js"
+    },
+    "./nys-verticalnav": {
+      "types": "./dist/nys-verticalnav.d.ts",
+      "import": "./dist/nys-verticalnav.js"
+    },
+    "./nys-verticalnavgroup": {
+      "types": "./dist/nys-verticalnavgroup.d.ts",
+      "import": "./dist/nys-verticalnavgroup.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

@@ -6,9 +6,14 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-skipnav.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-skipnav.js"
+    },
+    "./nys-skipnav": {
+      "types": "./dist/nys-skipnav.d.ts",
+      "import": "./dist/nys-skipnav.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

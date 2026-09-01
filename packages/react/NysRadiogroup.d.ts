@@ -2,7 +2,7 @@ import React from "react";
 import {
   NysRadiogroup as NysRadiogroupElement,
   CustomEvent,
-} from "@nysds/nys-radiobutton";
+} from "@nysds/nys-radiobutton/nys-radiogroup";
 
 export type { NysRadiogroupElement, CustomEvent };
 

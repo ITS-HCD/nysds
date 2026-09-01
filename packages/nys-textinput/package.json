@@ -5,9 +5,14 @@
   "module": "dist/nys-textinput.js",
   "exports": {
     ".": {
-      "import": "./dist/nys-textinput.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-textinput.js"
+    },
+    "./nys-textinput": {
+      "types": "./dist/nys-textinput.d.ts",
+      "import": "./dist/nys-textinput.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

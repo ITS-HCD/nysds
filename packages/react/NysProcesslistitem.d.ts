@@ -1,5 +1,5 @@
 import React from "react";
-import { NysProcesslistitem as NysProcesslistitemElement } from "@nysds/nys-processlist";
+import { NysProcesslistitem as NysProcesslistitemElement } from "@nysds/nys-processlist/nys-processlistitem";
 
 export type { NysProcesslistitemElement };
 

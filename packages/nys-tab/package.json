@@ -6,9 +6,22 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-tab.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-tab.js"
+    },
+    "./nys-tab": {
+      "types": "./dist/nys-tab.d.ts",
+      "import": "./dist/nys-tab.js"
+    },
+    "./nys-tabgroup": {
+      "types": "./dist/nys-tabgroup.d.ts",
+      "import": "./dist/nys-tabgroup.js"
+    },
+    "./nys-tabpanel": {
+      "types": "./dist/nys-tabpanel.d.ts",
+      "import": "./dist/nys-tabpanel.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

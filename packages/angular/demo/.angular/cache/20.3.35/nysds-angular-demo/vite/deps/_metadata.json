@@ -1,0 +1,49 @@
+{
+  "hash": "6cda5f85",
+  "configHash": "9cf9fd6b",
+  "lockfileHash": "9f70fcf8",
+  "browserHash": "22bdb4fa",
+  "optimized": {
+    "@angular/core": {
+      "src": "../../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "33e602bd",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "c10e7853",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "92492ad7",
+      "needsInterop": false
+    },
+    "@nysds/angular": {
+      "src": "../../../../../../../dist/fesm2022/nysds-angular.mjs",
+      "file": "@nysds_angular.js",
+      "fileHash": "6deb89bc",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-XFHZKU4L": {
+      "file": "chunk-XFHZKU4L.js"
+    },
+    "chunk-AYJ7DGUS": {
+      "file": "chunk-AYJ7DGUS.js"
+    },
+    "chunk-OWKVKWGP": {
+      "file": "chunk-OWKVKWGP.js"
+    },
+    "nys-icon.library-DHBltclg-XIZ5WYDD": {
+      "file": "nys-icon__library-DHBltclg-XIZ5WYDD.js"
+    },
+    "chunk-GOMI4DH3": {
+      "file": "chunk-GOMI4DH3.js"
+    }
+  }
+}

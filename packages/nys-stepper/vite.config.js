@@ -1,5 +1,4 @@
-import { mergeConfig } from "vite";
-import { defaultConfig } from "../../vite.config.js";
+import { definePackageConfig } from "../../vite.config.js";
 import { version } from "./package.json";
 
 // Banner to put at the top of the generated files
@@ -16,16 +15,4 @@ const banner = `
 */
 `;
 
-const overrideConfig = {
-  build: {
-    lib: {
-      fileName: () => "nys-stepper.js",
-    },
-    
-    rollupOptions: {
-      output: { banner },
-    },
-  },
-};
-
-export default mergeConfig(defaultConfig, overrideConfig);
+export default definePackageConfig(import.meta.url, { banner });

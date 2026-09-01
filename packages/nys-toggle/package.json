@@ -5,9 +5,14 @@
   "module": "dist/nys-toggle.js",
   "exports": {
     ".": {
-      "import": "./dist/nys-toggle.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-toggle.js"
+    },
+    "./nys-toggle": {
+      "types": "./dist/nys-toggle.d.ts",
+      "import": "./dist/nys-toggle.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [

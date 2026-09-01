@@ -156,6 +156,60 @@ export const defaultConfig = {
   },
 };
 
+// One rollup entry per custom-element source file in a component package.
+// The entry named after the package builds from src/index.ts, so the package's
+// "." export (dist/<package>.js) keeps its historical file name and still
+// registers every element in the package. Sibling element files (e.g.
+// nys-accordionitem.ts) become their own entries so each element is
+// individually importable via the package.json "exports" subpaths
+// (kept in sync by src/scripts/sync-package-exports.mjs).
+export function packageEntries(pkgDir) {
+  const pkgName = path.basename(pkgDir); // e.g. "nys-accordion"
+  const srcDir = path.join(pkgDir, "src");
+  const entries = {};
+
+  const indexFile = path.join(srcDir, "index.ts");
+  entries[pkgName] = fs.existsSync(indexFile)
+    ? indexFile
+    : path.join(srcDir, `${pkgName}.ts`);
+
+  for (const file of fs.readdirSync(srcDir)) {
+    // Matches nys-<element>.ts only — the single dot in ".ts$" excludes
+    // .test.ts / .stories.ts / .figma.ts / *.logo.ts partials.
+    const match = file.match(/^(nys-[a-z0-9-]+)\.ts$/);
+    if (!match || match[1] === pkgName) continue;
+    entries[match[1]] = path.join(srcDir, file);
+  }
+
+  return entries;
+}
+
+// Full config for a component package build. Replaces the old per-package
+// mergeConfig(defaultConfig, { build: { lib: { fileName } } }) pattern:
+// build.lib is assigned after the merge because vite's mergeConfig
+// concatenates arrays, which would corrupt the multi-entry object with
+// defaultConfig's entry array.
+export function definePackageConfig(pkgConfigUrl, { banner = "", rollupPlugins = [] } = {}) {
+  const pkgDir = dirname(fileURLToPath(pkgConfigUrl));
+  const merged = mergeConfig(defaultConfig, {
+    build: {
+      rollupOptions: {
+        output: {
+          banner,
+          chunkFileNames: "chunks/[name]-[hash].js",
+        },
+        plugins: rollupPlugins,
+      },
+    },
+  });
+  merged.build.lib = {
+    entry: packageEntries(pkgDir),
+    fileName: (_format, entryName) => `${entryName}.js`,
+    formats: ["es"],
+  };
+  return merged;
+}
+
 // Root build: switch between ES and UMD via BUILD_FORMAT env var.
 // UMD config is constructed explicitly (not via mergeConfig) to avoid
 // array-merging pitfalls with plugins and external.

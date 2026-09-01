@@ -1,0 +1,373 @@
+<nys-skipnav href="#main-content"></nys-skipnav>
+<nys-unavheader [hideTranslate]="true" [hideSearch]="true"></nys-unavheader>
+<nys-globalheader appName="Kitchen Sink" agencyName="NYS Design System" homepageLink="/"></nys-globalheader>
+
+<main id="main-content" class="demo-main">
+  <h1>&#64;nysds/angular kitchen sink</h1>
+  <p>
+    Every NYSDS component, rendered through the generated Angular wrappers
+    against the local <code>dist</code> builds. Booleans are property-bound
+    (<code>[bordered]="true"</code>) so the underlying element receives real
+    booleans, and forms run through the generated ControlValueAccessors.
+  </p>
+
+  <section class="demo-section">
+    <h2>Accordion</h2>
+    <nys-accordion [bordered]="true" [singleSelect]="true" headingLevel="h3">
+      <nys-accordionitem heading="What is NYSDS?" [expanded]="true">
+        The New York State Design System — accessible web components for state
+        digital products.
+      </nys-accordionitem>
+      <nys-accordionitem
+        heading="Which frameworks are supported?"
+        (nys-accordionitem-toggle)="log('nys-accordionitem-toggle fired')"
+      >
+        Plain HTML, React via &#64;nysds/react, and Angular via &#64;nysds/angular.
+      </nys-accordionitem>
+    </nys-accordion>
+  </section>
+
+  <section class="demo-section">
+    <h2>Alert</h2>
+    <div class="demo-stack">
+      <nys-alert type="info" heading="Heads up" text="This demo runs against the local packages."></nys-alert>
+      <nys-alert type="success" heading="Build complete" [dismissible]="true" text="All packages compiled from source."></nys-alert>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Avatar</h2>
+    <div class="demo-row">
+      <nys-avatar ariaLabel="User avatar" initials="NY" color="#154973"></nys-avatar>
+      <nys-avatar ariaLabel="Icon avatar" icon="account_circle"></nys-avatar>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Badge</h2>
+    <div class="demo-row">
+      <nys-badge label="Base" intent="base"></nys-badge>
+      <nys-badge label="Success" intent="success"></nys-badge>
+      <nys-badge label="Warning" intent="warning"></nys-badge>
+      <nys-badge label="Error" intent="error" prefixIcon="error"></nys-badge>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Breadcrumbs</h2>
+    <nys-breadcrumbs ariaLabel="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/services/demo">Demo</a></li>
+      </ol>
+    </nys-breadcrumbs>
+  </section>
+
+  <section class="demo-section">
+    <h2>Button</h2>
+    <div class="demo-row">
+      <nys-button label="Filled" (nys-click)="log('nys-click: filled button')"></nys-button>
+      <nys-button label="Outline" variant="outline"></nys-button>
+      <nys-button label="Ghost" variant="ghost"></nys-button>
+      <nys-button label="Text" variant="text"></nys-button>
+      <nys-button label="Small" size="sm"></nys-button>
+      <nys-button label="With icon" prefixIcon="download"></nys-button>
+      <nys-button label="Disabled" [disabled]="true"></nys-button>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Card</h2>
+    <nys-card
+      heading="Adirondack High Peaks"
+      subheading="46 summits"
+      description="Marcy, Algonquin, Haystack and 43 more over 4,000 feet."
+    >
+      <div slot="footer">
+        <nys-button label="Plan a hike" variant="outline" size="sm"></nys-button>
+      </div>
+    </nys-card>
+  </section>
+
+  <section class="demo-section">
+    <h2>Checkbox group</h2>
+    <nys-checkboxgroup label="Which parks have you visited?" description="Select all that apply.">
+      <nys-checkbox name="parks" value="adirondack" label="Adirondack Park" [checked]="true"></nys-checkbox>
+      <nys-checkbox name="parks" value="catskill" label="Catskill Park"></nys-checkbox>
+      <nys-checkbox
+        name="parks"
+        value="letchworth"
+        label="Letchworth State Park"
+        (nys-change)="log('nys-change: letchworth checkbox')"
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  </section>
+
+  <section class="demo-section">
+    <h2>Combobox</h2>
+    <nys-combobox
+      label="Favorite trail"
+      name="trail"
+      [description]="favoriteTrail ? 'Selected: ' + favoriteTrail : 'Start typing to filter.'"
+      [(ngModel)]="favoriteTrail"
+    >
+      <option value="van-hoevenberg">Van Hoevenberg Trail</option>
+      <option value="northeast">Northeast Trail</option>
+      <option value="range">Great Range Traverse</option>
+    </nys-combobox>
+  </section>
+
+  <section class="demo-section">
+    <h2>Divider</h2>
+    <nys-divider></nys-divider>
+  </section>
+
+  <section class="demo-section">
+    <h2>Dropdown menu</h2>
+    <div class="demo-row">
+      <nys-button id="demo-dropdown-trigger" label="Open menu" suffixIcon="chevron_down"></nys-button>
+      <nys-dropdownmenu for="demo-dropdown-trigger" label="Account menu">
+        <nys-dropdownmenuitem label="Profile" href="#profile" prefixIcon="account_circle"></nys-dropdownmenuitem>
+        <nys-dropdownmenuitem label="Settings" href="#settings" prefixIcon="settings"></nys-dropdownmenuitem>
+        <nys-dropdownmenuitem label="Sign out" href="#signout" divider="top"></nys-dropdownmenuitem>
+      </nys-dropdownmenu>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Error message</h2>
+    <nys-errormessage [showError]="true" errorMessage="This field is required."></nys-errormessage>
+  </section>
+
+  <section class="demo-section">
+    <h2>File input + file item</h2>
+    <div class="demo-stack">
+      <nys-fileinput label="Upload supporting documents" name="docs" [multiple]="true" [dropzone]="true" accept=".pdf,.png"></nys-fileinput>
+      <nys-fileitem filename="site-plan.pdf" status="done"></nys-fileitem>
+      <nys-fileitem filename="permit-scan.png" status="processing" [progress]="64"></nys-fileitem>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Icon</h2>
+    <div class="demo-row">
+      <nys-icon name="check_circle" size="2xl" color="#2e7d32" ariaLabel="Success icon"></nys-icon>
+      <nys-icon name="warning" size="2xl" color="#b45309" ariaLabel="Warning icon"></nys-icon>
+      <nys-icon name="download" size="2xl" ariaLabel="Download icon"></nys-icon>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Icon list</h2>
+    <nys-iconlist [divider]="true">
+      <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+      <nys-iconlistitem icon="schedule">5:00 PM</nys-iconlistitem>
+      <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
+    </nys-iconlist>
+  </section>
+
+  <section class="demo-section">
+    <h2>Label</h2>
+    <nys-label label="Mailing address" description="Where should we send your permit?"></nys-label>
+  </section>
+
+  <section class="demo-section">
+    <h2>Modal</h2>
+    <nys-button label="Open modal" (nys-click)="modalOpen.set(true)"></nys-button>
+    <nys-modal
+      heading="Confirm submission"
+      subheading="This closes on Escape or the X button."
+      [open]="modalOpen()"
+      (nys-close)="modalOpen.set(false)"
+    >
+      <p>Your application will be submitted to the reviewing agency.</p>
+      <div slot="actions">
+        <nys-button label="Cancel" variant="outline" (nys-click)="modalOpen.set(false)"></nys-button>
+        <nys-button label="Submit" (nys-click)="modalOpen.set(false)"></nys-button>
+      </div>
+    </nys-modal>
+  </section>
+
+  <section class="demo-section">
+    <h2>Pagination</h2>
+    <nys-pagination [currentPage]="page()" [totalPages]="10" (nys-change)="onPageChange($event)"></nys-pagination>
+  </section>
+
+  <section class="demo-section">
+    <h2>Process list</h2>
+    <nys-processlist>
+      <nys-processlistitem label="Create an account">
+        Register with your email address.
+      </nys-processlistitem>
+      <nys-processlistitem label="Complete the application">
+        Fill in every required field.
+      </nys-processlistitem>
+      <nys-processlistitem label="Submit for review">
+        An agency reviewer responds within 10 business days.
+      </nys-processlistitem>
+    </nys-processlist>
+  </section>
+
+  <section class="demo-section">
+    <h2>Stepper</h2>
+    <nys-stepper label="Permit application" counterText="Step">
+      <nys-step label="Personal details" [selected]="true"></nys-step>
+      <nys-step label="Site information" [current]="true"></nys-step>
+      <nys-step label="Documents"></nys-step>
+      <nys-step label="Review & submit"></nys-step>
+    </nys-stepper>
+  </section>
+
+  <section class="demo-section">
+    <h2>Tabs</h2>
+    <nys-tabgroup name="peaks">
+      <nys-tab label="Marcy" [selected]="true"></nys-tab>
+      <nys-tab label="Algonquin"></nys-tab>
+      <nys-tab label="Haystack" [disabled]="true"></nys-tab>
+      <nys-tabpanel>Mount Marcy is the tallest peak in the Adirondacks at 5,344 feet.</nys-tabpanel>
+      <nys-tabpanel>Algonquin Peak is the second tallest at 5,114 feet.</nys-tabpanel>
+      <nys-tabpanel>Mount Haystack is the third tallest at 4,960 feet.</nys-tabpanel>
+    </nys-tabgroup>
+  </section>
+
+  <section class="demo-section">
+    <h2>Table</h2>
+    <nys-table [striped]="true" [sortable]="true">
+      <table>
+        <caption>New York State High Peaks</caption>
+        <thead>
+          <tr>
+            <th>Mountain</th>
+            <th>Height (ft)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Marcy</td><td>5,344</td></tr>
+          <tr><td>Algonquin</td><td>5,114</td></tr>
+          <tr><td>Haystack</td><td>4,960</td></tr>
+        </tbody>
+      </table>
+    </nys-table>
+  </section>
+
+  <section class="demo-section">
+    <h2>Tooltip</h2>
+    <nys-tooltip text="Tooltips describe icons and terse controls." for="tooltip-target">
+      <nys-button id="tooltip-target" label="Hover me" variant="outline"></nys-button>
+    </nys-tooltip>
+  </section>
+
+  <section class="demo-section">
+    <h2>Vertical navigation</h2>
+    <nys-verticalnav heading="Fishing" headingLevel="h3">
+      <ul>
+        <li><a href="#">Places to fish</a></li>
+        <li><a href="#">Learn to fish</a></li>
+      </ul>
+      <nys-verticalnavgroup label="Regulations" [expanded]="true">
+        <ul>
+          <li><a href="#">Freshwater</a></li>
+          <li><a href="#">Saltwater</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+    </nys-verticalnav>
+  </section>
+
+  <section class="demo-section">
+    <h2>Video</h2>
+    <nys-video
+      titleText="I LOVE NY"
+      videourl="https://www.youtube.com/embed/aqz-KE-bpKQ"
+      size="md"
+      loading="lazy"
+    ></nys-video>
+  </section>
+
+  <section class="demo-section">
+    <h2>Template-driven forms ([(ngModel)])</h2>
+    <div class="demo-stack">
+      <nys-textinput
+        label="First name"
+        name="first-name"
+        [description]="firstName ? 'Hello, ' + firstName + '!' : 'Two-way bound with ngModel.'"
+        [(ngModel)]="firstName"
+      ></nys-textinput>
+      <nys-radiogroup label="Preferred contact method" [description]="'Current selection: ' + contactMethod">
+        <nys-radiobutton name="contact" value="email" label="Email" [(ngModel)]="contactMethod"></nys-radiobutton>
+        <nys-radiobutton name="contact" value="phone" label="Phone" [(ngModel)]="contactMethod"></nys-radiobutton>
+        <nys-radiobutton name="contact" value="mail" label="Mail" [(ngModel)]="contactMethod"></nys-radiobutton>
+      </nys-radiogroup>
+      <nys-toggle
+        label="Email notifications"
+        name="notifications"
+        [description]="toggleOn() ? 'Notifications on' : 'Notifications off'"
+        [ngModel]="toggleOn()"
+        (ngModelChange)="toggleOn.set($event)"
+      ></nys-toggle>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Reactive form (formControlName)</h2>
+    <form [formGroup]="permitForm" (ngSubmit)="submitPermitForm()">
+      <div class="demo-stack">
+        <nys-textinput
+          label="Applicant name"
+          [required]="true"
+          formControlName="applicant"
+          [showError]="permitForm.controls.applicant.touched && permitForm.controls.applicant.invalid"
+          errorMessage="Applicant name is required."
+        ></nys-textinput>
+        <nys-select label="County" formControlName="county">
+          <nys-option value="albany" label="Albany"></nys-option>
+          <nys-option value="erie" label="Erie"></nys-option>
+          <nys-option value="kings" label="Kings"></nys-option>
+          <nys-option value="monroe" label="Monroe"></nys-option>
+        </nys-select>
+        <nys-datepicker label="Permit start date" formControlName="startDate"></nys-datepicker>
+        <nys-textarea label="Notes" [rows]="3" [maxlength]="280" formControlName="notes"></nys-textarea>
+        <nys-radiogroup label="Contact method">
+          <nys-radiobutton name="contact-reactive" value="email" label="Email" formControlName="contact"></nys-radiobutton>
+          <nys-radiobutton name="contact-reactive" value="phone" label="Phone" formControlName="contact"></nys-radiobutton>
+        </nys-radiogroup>
+        <nys-toggle label="Subscribe to updates" formControlName="subscribed"></nys-toggle>
+        <nys-checkbox
+          label="I accept the terms of service"
+          formControlName="terms"
+          [showError]="permitForm.controls.terms.touched && permitForm.controls.terms.invalid"
+          errorMessage="You must accept the terms."
+        ></nys-checkbox>
+        <div class="demo-row">
+          <nys-button type="submit" label="Submit application"></nys-button>
+          <nys-button type="button" variant="outline" label="Reset" (nys-click)="permitForm.reset({ county: 'albany', contact: 'email', subscribed: true, terms: false })"></nys-button>
+        </div>
+      </div>
+    </form>
+    @if (submittedValue(); as value) {
+      <div class="demo-form-value">{{ value }}</div>
+    }
+  </section>
+
+  <section class="demo-section">
+    <h2>Event log</h2>
+    <p>The five most recent component events:</p>
+    <div class="demo-event-log">
+      @if (eventLog().length === 0) {
+        <div>(interact with the components above)</div>
+      }
+      @for (entry of eventLog(); track $index) {
+        <div>{{ entry }}</div>
+      }
+    </div>
+  </section>
+</main>
+
+<nys-backtotop></nys-backtotop>
+<nys-globalfooter agencyName="NYS Design System" homepageLink="/">
+  <ul>
+    <li><a href="https://designsystem.ny.gov/">Documentation</a></li>
+    <li><a href="https://github.com/its-hcd/nysds">GitHub</a></li>
+  </ul>
+</nys-globalfooter>
+<nys-unavfooter></nys-unavfooter>

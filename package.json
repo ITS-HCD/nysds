@@ -5,6 +5,8 @@
   "type": "module",
   "workspaces": [
     "packages/*",
+    "packages/react/demo",
+    "packages/angular/demo",
     "examples/*"
   ],
   "files": [
@@ -34,7 +36,8 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "build:umd": "cross-env BUILD_FORMAT=umd vite build",
     "tsc:packages": "tsc -b tsconfig.build.json",
-    "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --log-order=grouped",
+    "sync:exports": "node src/scripts/sync-package-exports.mjs",
+    "build:packages": "npm run sync:exports && npm run tsc:packages && turbo run build --filter='./packages/*' --log-order=grouped",
     "build:root": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd",
     "build:all": "npm run clean:dist && npm run lit-analyze || true && npm run cem && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run gen-stories && npm run build:mcp && npm run lint:fix",
     "build:mcp": "npm run build -w @nysds/mcp-server",

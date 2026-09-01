@@ -6,9 +6,18 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-fileinput.js",
-      "types": "./dist/index.d.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-fileinput.js"
+    },
+    "./nys-fileinput": {
+      "types": "./dist/nys-fileinput.d.ts",
+      "import": "./dist/nys-fileinput.js"
+    },
+    "./nys-fileitem": {
+      "types": "./dist/nys-fileitem.d.ts",
+      "import": "./dist/nys-fileitem.js"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "files": [
