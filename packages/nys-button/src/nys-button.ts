@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 // This element is rendered inside this component's shadow DOM as the default
 // prefix/suffix/circle icon content, so it must be registered whenever
 // nys-button is used. Importing it here (intentional side effect) guarantees
@@ -38,9 +42,9 @@ import styles from "./nys-button.scss?inline";
  * @cssprop [--nys-button-border-color--hover] - Border color when hovered.
  * @cssprop [--nys-button-border-color--active] - Border color when active/pressed.
  *
- * @fires nys-click - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
- * @fires nys-focus - Fired when the button receives focus.
- * @fires nys-blur - Fired when the button loses focus.
+ * @fires nys-click {Event} - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
+ * @fires nys-focus {Event} - Fired when the button receives focus.
+ * @fires nys-blur {Event} - Fired when the button loses focus.
  *
  * @example Basic
  * ```html
@@ -281,7 +285,18 @@ export class NysButton extends NysFormControlElement {
   @property({ type: String, reflect: true }) form: string | null = null;
 
   /**
-   * Value submitted with form data. Only used when `type="submit"`.
+   * Value submitted with the form data, mirroring a native submit button.
+   *
+   * When `type="submit"` and both `name` and `value` are set, the entry
+   * `name=value` is included in the form's data only for submissions this
+   * button triggers. It is not included when the form is submitted another
+   * way (Enter in a text field, another button, `form.requestSubmit()`),
+   * and it is not readable from `new FormData(form)` outside a submission,
+   * matching native submitter semantics.
+   *
+   * A form-associated custom element cannot act as a native submitter, so
+   * the value is staged through `ElementInternals.setFormValue()` for the
+   * duration of the submission and cleared afterward.
    */
   @property({ type: String }) value = "";
 
@@ -301,6 +316,11 @@ export class NysButton extends NysFormControlElement {
 
   /**
    * Click handler. Use instead of `@click` to ensure keyboard accessibility.
+   *
+   * @deprecated Listen for the `nys-click` event instead. `nys-click`
+   * bubbles, is composed, and fires for both mouse and keyboard activation
+   * but never while disabled. This property still works but is excluded
+   * from generated framework wrappers and goes away in 2.0.
    */
   @property({ attribute: false }) onClick: ((event: Event) => void) | null =
     null;
@@ -360,9 +380,28 @@ export class NysButton extends NysFormControlElement {
 
     if (form) {
       switch (this.type) {
-        case "submit":
-          form.requestSubmit();
+        case "submit": {
+          // A form-associated custom element cannot act as a native
+          // submitter (requestSubmit() rejects anything that is not a
+          // native submit button), so requestSubmit() stays argument-less.
+          // To still contribute name=value like a native submit button,
+          // stage the value through ElementInternals only for the duration
+          // of this submission: the entry list is constructed synchronously
+          // inside requestSubmit(), and clearing afterward keeps the value
+          // out of submissions this button did not trigger.
+          const contributesValue = this.name !== "" && this.value !== "";
+          if (contributesValue) {
+            this.setFormValue(this.value);
+          }
+          try {
+            form.requestSubmit();
+          } finally {
+            if (contributesValue) {
+              this.setFormValue(null);
+            }
+          }
           break;
+        }
         case "reset":
           form.reset();
           break;
@@ -377,17 +416,13 @@ export class NysButton extends NysFormControlElement {
    */
 
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "focus");
   }
 
   private _handleBlur() {
     const button = this.shadowRoot?.querySelector(".nys-button");
     button?.classList.remove("active-focus");
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "blur");
   }
 
   private _handleClick(event: Event) {
@@ -396,9 +431,7 @@ export class NysButton extends NysFormControlElement {
       return;
     }
     this._manageFormAction();
-    this.dispatchEvent(
-      new Event("nys-click", { bubbles: true, composed: true }),
-    );
+    dispatchNysEvent(this, "nys-click", undefined);
   }
 
   private _handleKeydown(e: KeyboardEvent) {
