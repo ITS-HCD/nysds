@@ -16,14 +16,14 @@ Read `README.md` sections 2.1–2.3 first. Two prior attempts left artifacts in 
 Cherry-pick, or re-apply by hand, only these:
 
 1. `packages/nys-select/src/nys-option.ts`: guard the define call with `if (!customElements.get("nys-option"))`. Every other component already has this guard.
-2. `PRDFRAMEWORKS.md` from the branch root → `plans/framework-support/prior-art/PRDFRAMEWORKS.md`. Add a one-paragraph header saying which of its decisions this plan keeps (D1, D2, D3-as-revised, D7, D9) and which it supersedes (D5, D8).
+2. `PRDFRAMEWORKS.md` from the branch root → `.claude/plans/framework-support/prior-art/PRDFRAMEWORKS.md`. Add a one-paragraph header saying which of its decisions this plan keeps (D1, D2, D3-as-revised, D7, D9) and which it supersedes (D5, D8).
 3. The `modulePath` idea (per-component imports). Don't cherry-pick the code; WS2 reimplements it without the `tagToPackageMap` table. Record it in the prior-art header.
 
 Don't take: the Angular output, `packages/react/package.json`, the `files` change, the `turbo.json` change, `examples/react-app/package.json`, the polluted `custom-elements.json`, the `package-lock.json`.
 
 ### 0.2 Copy reference material from `feature/angular-support`
 
-Into `plans/framework-support/prior-art/angular-support/` (read-only reference for WS4, not compiled):
+Into `.claude/plans/framework-support/prior-art/angular-support/` (read-only reference for WS4, not compiled):
 
 - `packages/angular/src/lib/shared/nys-control-value-accessor.base.ts`
 - `packages/angular/src/lib/shared/nys-event.types.ts`
@@ -98,7 +98,7 @@ Ask the agency teams that reported Angular problems which Angular major they're 
 - [ ] `npm run cem` produces a manifest with no `node_modules` or `packages/angular` paths
 - [ ] `npm run build:all` succeeds on `develop` + this branch with `@nysds/components/react` still importable (interim)
 - [ ] `frameworks.yaml` runs green with the WS5 matrix disabled
-- [ ] `plans/framework-support/prior-art/` contains the PRD and the Angular reference files with provenance headers
+- [ ] `.claude/plans/framework-support/prior-art/` contains the PRD and the Angular reference files with provenance headers
 - [ ] The three user actions (0.7, 0.8, 0.9) are listed in the PR description as checkboxes for the user
 
 ## Commands for the user to run

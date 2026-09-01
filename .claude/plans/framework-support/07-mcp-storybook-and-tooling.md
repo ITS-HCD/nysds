@@ -56,7 +56,7 @@ Hook `src/scripts/verify-form-contract.mjs` (WS1) into `npm run gen` post-step a
 
 Both are stale. Their new job is not "write a wrapper" (generation does that) but "diagnose and fix wrapper problems":
 
-- Read `plans/framework-support/README.md` sections 3 and 4 for the rules.
+- Read `.claude/plans/framework-support/README.md` sections 3 and 4 for the rules.
 - Check the component's `@formControl` and `@fires` tags first; most wrapper bugs are contract bugs.
 - Know where overrides go (`packages/<fw>/src/overrides/`) and when they're justified (never for a missing prop or event; that's a manifest fix).
 - Know the smoke tests in `examples/` and how to add a case.

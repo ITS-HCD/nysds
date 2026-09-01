@@ -4,7 +4,7 @@
 **Depends on:** WS1, WS2, decision R2.
 **Owns:** `packages/angular/**` (hand-written scaffolding and form base classes), the Angular template in `packages/codegen/src/cem-plugins/angular.mjs`.
 **Branch:** `feat/fw-4-angular`.
-**Reference:** `plans/framework-support/prior-art/angular-support/` (Eric's CVA base, event types, smoke tests). Reuse its ideas; regenerate its code.
+**Reference:** `.claude/plans/framework-support/prior-art/angular-support/` (Eric's CVA base, event types, smoke tests). Reuse its ideas; regenerate its code.
 
 ## Why Angular is the hard one, and what each part of this design answers
 

@@ -4,7 +4,7 @@ Paste this preamble, then the contents of one workstream file, when handing a wo
 
 ---
 
-You are implementing one workstream of the NYSDS framework-support plan in the `ITS-HCD/nysds` monorepo (Lit 3 web components, npm workspaces, Turbo). Read `plans/framework-support/README.md` sections 3 (decisions) and 4 (architecture and naming rules) before you start. Those are settled; don't re-open them. If a brief conflicts with the README, the README wins and you say so in your report.
+You are implementing one workstream of the NYSDS framework-support plan in the `ITS-HCD/nysds` monorepo (Lit 3 web components, npm workspaces, Turbo). Read `.claude/plans/framework-support/README.md` sections 3 (decisions) and 4 (architecture and naming rules) before you start. Those are settled; don't re-open them. If a brief conflicts with the README, the README wins and you say so in your report.
 
 Rules:
 
