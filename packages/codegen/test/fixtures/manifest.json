@@ -1,0 +1,500 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "Trimmed fixture manifest: the post-WS1 state with formControl blocks and typed event aliases.",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-accordion/src/nys-accordion.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysAccordion",
+          "customElement": true,
+          "tagName": "nys-accordion",
+          "superclass": { "name": "NysElement" },
+          "description": "Groups accordion items.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "bordered",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Draws a border around the group.",
+              "attribute": "bordered"
+            }
+          ],
+          "slots": [{ "name": "", "description": "Accordion items." }]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-accordion/src/nys-accordionitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysAccordionItem",
+          "customElement": true,
+          "tagName": "nys-accordionitem",
+          "superclass": { "name": "NysElement" },
+          "description": "One expandable section.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Visible heading text.",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Whether the item is open.",
+              "attribute": "expanded"
+            }
+          ],
+          "slots": [{ "name": "", "description": "Section content." }]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-button/src/nys-button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysButton",
+          "customElement": true,
+          "tagName": "nys-button",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Button.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Button text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "prefixIcon",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Icon before the label.",
+              "attribute": "prefixIcon"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": { "text": "\"button\" | \"submit\" | \"reset\"" },
+              "default": "\"button\"",
+              "description": "Button type.",
+              "attribute": "type"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-click",
+              "type": { "text": "Event" },
+              "description": "Fired on activation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-checkbox/src/nys-checkbox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysCheckbox",
+          "customElement": true,
+          "tagName": "nys-checkbox",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Checkbox. Events are intentionally left as bare CustomEvent/Event to cover the pre-WS1 typing fallback.",
+          "formControl": { "kind": "checked", "changeEvent": "nys-change" },
+          "members": [
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Whether the checkbox is checked.",
+              "attribute": "checked"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Visible label text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Submitted value when checked.",
+              "attribute": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-change",
+              "type": { "text": "CustomEvent" },
+              "description": "Fired when checked state changes."
+            },
+            {
+              "name": "nys-blur",
+              "type": { "text": "Event" },
+              "description": "Fired when the checkbox loses focus."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-fileinput/src/nys-fileinput.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysFileinput",
+          "customElement": true,
+          "tagName": "nys-fileinput",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "File input.",
+          "formControl": { "kind": "files", "changeEvent": "nys-change" },
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Visible label text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "multiple",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Allows more than one file.",
+              "attribute": "multiple"
+            },
+            {
+              "kind": "method",
+              "name": "setFiles",
+              "description": "Replaces the selection."
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-change",
+              "type": { "text": "NysFileinputChangeEvent" },
+              "description": "Fired once per user action."
+            },
+            {
+              "name": "nys-fileRemove",
+              "type": { "text": "CustomEvent" },
+              "deprecated": "Use nys-change.",
+              "description": "Deprecated event; must not surface in wrappers."
+            },
+            {
+              "name": "nys-blur",
+              "type": { "text": "Event" },
+              "description": "Fired when focus leaves the component."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-select/src/nys-option.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysOption",
+          "customElement": true,
+          "tagName": "nys-option",
+          "superclass": { "name": "LitElement" },
+          "description": "Option for the select component.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Option value.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Option label.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Whether the option is selected.",
+              "attribute": "selected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-select/src/nys-select.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysSelect",
+          "customElement": true,
+          "tagName": "nys-select",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Select.",
+          "formControl": { "kind": "value", "changeEvent": "nys-change" },
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Visible label text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Selected value.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "config",
+              "type": { "text": "object" },
+              "description": "Synthetic object-typed prop for transformer coverage.",
+              "attribute": "config"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-change",
+              "type": { "text": "NysSelectChangeEvent" },
+              "description": "Fired when the selection changes."
+            },
+            {
+              "name": "nys-blur",
+              "type": { "text": "Event" },
+              "description": "Fired when focus leaves the component."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-textinput/src/nys-textinput.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysTextinput",
+          "customElement": true,
+          "tagName": "nys-textinput",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Single-line text input.",
+          "formControl": {
+            "kind": "value",
+            "changeEvent": "nys-change",
+            "inputEvent": "nys-input"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": { "text": "object" },
+              "static": true,
+              "default": "{}"
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Unique identifier.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Name for form submission.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Visible label text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Current input value.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Prevents interaction.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Marks the field required.",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxlength",
+              "type": { "text": "number | null" },
+              "default": "null",
+              "description": "Maximum character length.",
+              "attribute": "maxlength"
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "type": { "text": "number" },
+              "default": "1",
+              "description": "Step increment. Synthetic plain-number type for numberAttribute coverage.",
+              "attribute": "step"
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "type": { "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\"" },
+              "default": "\"full\"",
+              "description": "Input width.",
+              "attribute": "width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Shows the error state. Synthetic kebab attribute for the mapping rule.",
+              "attribute": "show-error"
+            },
+            {
+              "kind": "field",
+              "name": "pattern",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Validation pattern.",
+              "attribute": "pattern"
+            },
+            {
+              "kind": "field",
+              "name": "_inputEl",
+              "type": { "text": "HTMLInputElement" },
+              "description": "Underscore-prefixed; must be filtered."
+            },
+            {
+              "kind": "field",
+              "name": "showPassword",
+              "privacy": "private",
+              "type": { "text": "boolean" },
+              "description": "privacy: private; must be filtered."
+            },
+            {
+              "kind": "field",
+              "name": "legacyMask",
+              "deprecated": "true",
+              "type": { "text": "string" },
+              "description": "Deprecated; must be filtered."
+            },
+            {
+              "kind": "field",
+              "name": "updateComplete",
+              "type": { "text": "Promise<boolean>" },
+              "description": "Lit internal; must be filtered."
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Method; must not become a prop."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "show-error",
+              "type": { "text": "boolean" },
+              "fieldName": "showError"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-input",
+              "type": { "text": "NysTextinputInputEvent" },
+              "description": "Fired on input."
+            },
+            {
+              "name": "nys-change",
+              "type": { "text": "NysTextinputChangeEvent" },
+              "description": "Fired on committed change."
+            },
+            {
+              "name": "nys-focus",
+              "type": { "text": "Event" },
+              "description": "Fired when the input gains focus."
+            },
+            {
+              "name": "nys-blur",
+              "type": { "text": "Event" },
+              "description": "Fired when the input loses focus."
+            }
+          ],
+          "slots": [
+            {
+              "name": "description",
+              "description": "Custom description content."
+            },
+            { "name": "endButton", "description": "Button at input end." }
+          ]
+        }
+      ]
+    }
+  ]
+}

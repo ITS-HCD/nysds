@@ -37,8 +37,8 @@
     { "path": "packages/nys-tooltip" },
     { "path": "packages/nys-unavfooter" },
     { "path": "packages/nys-unavheader" },
-    { "path": "packages/nys-video" }
-    // TODO(WS2): add { "path": "packages/codegen" } when @nysds/codegen exists.
+    { "path": "packages/nys-video" },
+    { "path": "packages/codegen" }
     // TODO(WS3): add { "path": "packages/react" } when @nysds/react exists.
     // packages/angular is built by ng-packagr, not `tsc -b`. Never reference it here.
   ]

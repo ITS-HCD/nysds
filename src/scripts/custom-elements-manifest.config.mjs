@@ -2,6 +2,12 @@ import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 import { customElementJsxPlugin } from "custom-element-jsx-integration";
 import { cemExamplesPlugin } from "cem-plugin-examples";
+import {
+  formControlPlugin,
+  reactPlugin,
+  angularPlugin,
+  depsPlugin,
+} from "@nysds/codegen/cem-plugins";
 
 // Plugin to extract custom JSDoc tags (@accessibility, @usage, etc.) from source files
 import fs from "fs";
@@ -216,6 +222,14 @@ export default {
     },
     cemExamplesPlugin(),
     renderTagsPlugin(),
+    // @nysds/codegen plugins (framework-support WS2). formControlPlugin must
+    // run before the wrapper plugins so they see declaration.formControl.
+    // strict: false until WS1 lands the @formControl tags on the ten form
+    // components; then flip to strict: true so a missing tag fails the run.
+    formControlPlugin({ strict: false }),
+    reactPlugin(),
+    angularPlugin(),
+    depsPlugin(),
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
     customElementJsxPlugin(jsxOpts),
