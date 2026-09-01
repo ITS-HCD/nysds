@@ -237,8 +237,13 @@ describe("nys-textinput", () => {
       html`<nys-textinput></nys-textinput>`,
     );
     (el as any)._setValidityMessage("Something is wrong");
+    await el.updateComplete;
     expect(el.showError).to.be.true;
-    expect(el.errorMessage).to.include("Something is wrong");
+    // The consumer-facing errorMessage property stays untouched; the
+    // validation text renders through resolvedErrorMessage().
+    expect(el.errorMessage).to.equal("");
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errorEl.getAttribute("errorMessage")).to.equal("Something is wrong");
   });
 
   it("renders a button in the slot", async () => {
@@ -360,7 +365,9 @@ describe("nys-textinput", () => {
     expect(el.value).to.equal("");
     expect(input.value).to.equal("");
     expect(el.showError).to.be.false;
-    expect(el.errorMessage).to.equal("");
+    // A consumer-set errorMessage survives reset; only the component's own
+    // validation text is cleared.
+    expect(el.errorMessage).to.equal("Error");
     expect((el as any).showPassword).to.be.false;
     expect((el as any).internals.validity.valid).to.be.true;
   });
@@ -585,6 +592,86 @@ describe("nys-textinput", () => {
     expect(eventDetail).to.exist;
     expect(eventDetail.value).to.equal("hello");
     expect(eventDetail.id).to.equal(el.id);
+  });
+
+  it("fires nys-input exactly once per input, bubbling and composed, with name in the detail", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput name="fname"></nys-textinput>`,
+    );
+    const events: CustomEvent[] = [];
+    el.addEventListener("nys-input", (e) => events.push(e as CustomEvent));
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    input.value = "a";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(events.length).to.equal(1);
+    expect(events[0].detail).to.deep.equal({
+      id: el.id,
+      name: "fname",
+      value: "a",
+    });
+    expect(events[0].bubbles).to.be.true;
+    expect(events[0].composed).to.be.true;
+  });
+
+  it("fires nys-change on commit with id, name, and value, bubbling and composed", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput name="fname"></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+
+    input.value = "hudson";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+
+    const listener = oneEvent(el, "nys-change");
+    input.dispatchEvent(new Event("change"));
+    const event = await listener;
+
+    expect(event.detail).to.deep.equal({
+      id: el.id,
+      name: "fname",
+      value: "hudson",
+    });
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
+  });
+
+  it("does not fire nys-change or nys-input when value is set programmatically", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput name="fname"></nys-textinput>`,
+    );
+    let changeCount = 0;
+    let inputCount = 0;
+    el.addEventListener("nys-change", () => changeCount++);
+    el.addEventListener("nys-input", () => inputCount++);
+
+    el.value = "albany";
+    await el.updateComplete;
+
+    expect(changeCount).to.equal(0);
+    expect(inputCount).to.equal(0);
+  });
+
+  it("keeps a consumer-set errorMessage through blur validation", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput
+        pattern="\\d+"
+        errorMessage="Numbers only"
+      ></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+
+    input.value = "letters";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(el.errorMessage).to.equal("Numbers only");
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errorEl.getAttribute("errorMessage")).to.equal("Numbers only");
   });
 
   it("fires nys-focus when input gains focus", async () => {
