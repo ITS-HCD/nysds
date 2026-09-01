@@ -8,6 +8,7 @@
         "src/**/*.scss",
         "src/**/*.json",
         "vite.config.js",
+        "vite.config.ts",
         "tsconfig.json",
         "terrazzo.config.js",
         // Framework wrappers are generated from the manifest; a manifest
