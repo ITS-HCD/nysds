@@ -224,9 +224,9 @@ export default {
     renderTagsPlugin(),
     // @nysds/codegen plugins (framework-support WS2). formControlPlugin must
     // run before the wrapper plugins so they see declaration.formControl.
-    // strict: false until WS1 lands the @formControl tags on the ten form
-    // components; then flip to strict: true so a missing tag fails the run.
-    formControlPlugin({ strict: false }),
+    // strict: true — every form component carries an @formControl tag
+    // (WS1); a missing or malformed tag fails the analyze run.
+    formControlPlugin({ strict: true }),
     reactPlugin(),
     angularPlugin(),
     depsPlugin(),
