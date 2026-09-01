@@ -1,5 +1,5 @@
 import { html, nothing } from "lit";
-import { NysFormControlElement } from "@nysds/internals";
+import { NysFormControlElement, dispatchNysEvent } from "@nysds/internals";
 import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // The input's accessible name is an aria-labelledby reference to this element
@@ -19,6 +19,17 @@ function adoptLightStyles() {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
 }
 
+/** Detail payload for the `nys-change` event fired by `nys-radiobutton`. */
+export interface NysRadiobuttonChangeDetail {
+  id: string;
+  checked: boolean;
+  name: string;
+  value: string;
+}
+
+/** The `nys-change` event fired by `nys-radiobutton`. */
+export type NysRadiobuttonChangeEvent = CustomEvent<NysRadiobuttonChangeDetail>;
+
 /**
  * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.
  *
@@ -31,13 +42,16 @@ function adoptLightStyles() {
  * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
  *
  * @element nys-radiobutton
+ * @formControl checked nys-change
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired when selection changes. Detail: `{id, checked, name, value}`.
- * @fires nys-focus - Fired when radio gains focus.
- * @fires nys-blur - Fired when radio loses focus.
- * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
+ * @fires {NysRadiobuttonChangeEvent} nys-change - Fired when the selection changes. Detail: `{id, checked, name, value}`. Bubbles and composed.
+ *
+ * Standalone radios (outside a `nys-radiogroup`) render their own native input
+ * and dispatch `nys-change` themselves. Inside a `nys-radiogroup` the group
+ * renders the inputs and owns the form contract: `nys-focus` and `nys-blur`
+ * arrive re-targeted from the group, and `nys-other-input` fires on the group.
  *
  *
  * @example Pre-selected
@@ -65,7 +79,6 @@ function adoptLightStyles() {
  * </nys-radiogroup>
  * ```
  *
- * /**
  * @example Standalone, one per table row
  * ```html
  * <nys-table striped bordered>
@@ -297,12 +310,14 @@ export class NysRadiobutton extends NysFormControlElement {
     if (this._isGrouped() || !this._inputEl) return;
 
     if (this.required && !this.disabled && !this._isGroupChecked()) {
+      this.internalValidationMessage = "Please select an option.";
       this.setValidityFromState(
         { valueMissing: true },
-        "Please select an option.",
+        this.resolvedErrorMessage(),
         this._inputEl,
       );
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
     }
   }
@@ -373,18 +388,12 @@ export class NysRadiobutton extends NysFormControlElement {
       this._uncheckOtherRadios(this);
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: {
-          id: this.id,
-          checked: this.checked,
-          name: this.name,
-          value: this.value,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysRadiobuttonChangeDetail>(this, "nys-change", {
+      id: this.id,
+      checked: this.checked,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   // Note to self:
