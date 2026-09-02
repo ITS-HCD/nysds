@@ -5,7 +5,11 @@
  * For each target it rewrites:
  * - `dependencies`: one exact-version entry per `@nysds/nys-*` component
  *   package that has a wrapper; other dependencies are kept as written.
- * - `peerDependencies["@nysds/components"]`: `^<major>.<minor>.0`.
+ *   The exact versions are what guarantee wrapper/component alignment —
+ *   no `@nysds/components` peer is written (nothing imports the root
+ *   package, and the peer made npm pull the published bundle into
+ *   consumer apps and into this monorepo, where its stale types shadowed
+ *   workspace source).
  * - `exports`: the barrel entry, one subpath per component, and
  *   `./package.json`. Hand-added subpaths outside that set are dropped, so
  *   put extra entry points behind the barrel instead.
@@ -60,8 +64,6 @@ export function depsPlugin(options = {}) {
 
       const rootPkg = JSON.parse(fs.readFileSync(rootPackageJson, "utf8"));
       const version = rootPkg.version;
-      const [major, minor] = version.split(".");
-      const componentsPeerRange = `^${major}.${minor}.0`;
 
       const componentPackages = [
         ...new Set(components.map((component) => component.packageName)),
@@ -94,10 +96,11 @@ export function depsPlugin(options = {}) {
         }
         pkg.dependencies = sortObject(dependencies);
 
-        pkg.peerDependencies = {
-          ...(pkg.peerDependencies ?? {}),
-          "@nysds/components": componentsPeerRange,
-        };
+        // Remove the peer this plugin used to write, so regeneration heals
+        // package.json files from before the peer was dropped.
+        if (pkg.peerDependencies) {
+          delete pkg.peerDependencies["@nysds/components"];
+        }
 
         // For React: generate subpath exports for per-component bundling.
         // For Angular: ng-packagr owns the exports (dist/package.json); skip here.

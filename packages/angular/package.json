@@ -236,8 +236,7 @@
   "peerDependencies": {
     "@angular/core": ">=20.0.0",
     "@angular/common": ">=20.0.0",
-    "@angular/forms": ">=20.0.0",
-    "@nysds/components": "^1.20.0"
+    "@angular/forms": ">=20.0.0"
   },
   "dependencies": {
     "@nysds/nys-accordion": "1.20.1",

@@ -5,7 +5,7 @@ Angular components for the New York State Design System. Generated from the NYSD
 ## Install
 
 ```bash
-npm install @nysds/angular @nysds/components
+npm install @nysds/angular
 ```
 
 Peer dependencies: Angular `>=20.0.0` (core, common, forms).
