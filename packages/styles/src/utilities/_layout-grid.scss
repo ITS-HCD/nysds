@@ -95,13 +95,13 @@
 // Horizontal gaps use the negative-margin + child-padding pattern:
 // negative left/right margin on the row + left/right padding on children.
 // The row's container absorbs this horizontal bleed via its own left/right padding, so
-// columns stay flush with the container edges. This avoids native column-gap,
+// columns stay flush with the container edges. This avoids native column-gap.
 // Vertical gaps use native `row-gap`. A negative top/bottom margin would bleed
 // outside the flex container and collapse into vertical siblings (e.g. pulling
 // the row up over a preceding header). `row-gap` spaces wrapped flex lines
-// without any bleed, and, unlike column-gap — does not affect column widths.
-// The row-gap value equals the full gutter (2 × the horizontal half-gutter) so
-// vertical and horizontal spacing stay visually matched.
+// without any bleed, and, unlike column-gap, does not affect column widths.
+// Both gap variables store the full gutter value. Horizontal splits it in
+// half between margin and padding; row-gap uses it directly.
 // ============================================
 
 // ============================================
@@ -156,10 +156,8 @@
 
 // ============================================
 // Sized gaps (compound selectors)
-// Horizontal gap values are halved: negative margin on row + padding on children.
-// Gaps 400+ are capped at 2rem below 64em to avoid overflow on small viewports
-// (matches the container's small-screen padding scale).
-// Vertical gaps are also capped at 2rem on small screens for consistent sizing.
+// Horizontal: --_nys-grid-gap-x holds the full value, split in half
+// between the row's negative margin and the children's padding.
 
 $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
 
