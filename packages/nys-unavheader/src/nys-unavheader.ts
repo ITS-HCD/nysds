@@ -1148,27 +1148,26 @@ export class NysUnavHeader extends NysElement {
                       ? "show"
                       : "hide"}"
                   >
-                    ${this.languages.map(
-                      (lang) =>
-                        // role="presentation" drops the nys-button host out of the
-                        // accessibility tree, so the menu owns the menuitem inside
-                        // it directly instead of a generic wrapper. The menuitem
-                        // role and the roving tabindex are written onto that inner
-                        // button by _syncLanguageMenuAria.
-                        html`<nys-button
-                          role="presentation"
-                          variant="ghost"
-                          fullWidth
-                          lang="${languageTag(lang.code)}"
-                          class="${LANGUAGE_OPTION_CLASS}"
-                          @click="${() => this._handleLanguageSelect(lang)}"
-                        >
-                          <span notranslate>${lang.label}</span>
-                          <span lang="${this._locale}"
-                            >&nbsp;(${lang.nativeText})</span
-                          >
-                        </nys-button>`,
-                    )}
+                    ${this.languages.map((lang) => {
+                      const isCurrent =
+                        languageTag(lang.code) ===
+                        document.documentElement.lang;
+                      return html`<nys-button
+                        role="presentation"
+                        variant="ghost"
+                        fullWidth
+                        lang="${languageTag(lang.code)}"
+                        class="${LANGUAGE_OPTION_CLASS}"
+                        @click="${() => this._handleLanguageSelect(lang)}"
+                      >
+                        <span notranslate>${lang.label}</span>
+                        ${isCurrent
+                          ? nothing
+                          : html`<span lang="${this._locale}"
+                              >&nbsp;(${lang.nativeText})</span
+                            >`}
+                      </nys-button>`;
+                    })}
                   </div>
                 </div>`
               : null}
