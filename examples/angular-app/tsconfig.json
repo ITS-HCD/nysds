@@ -1,0 +1,45 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    // WORKAROUND: part of the @nysds/angular source this app compiles
+    // through the paths mapping (control-errors.directive.ts) indexes
+    // ControlValueAccessor with a string key, which noImplicitAny
+    // rejects. Restore full strictness when the paths workaround goes.
+    "noImplicitAny": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "paths": {
+      // WORKAROUND: the @nysds/angular package.json exports map points at
+      // files ng-packagr does not produce (dist/index.js and per-subpath
+      // fesm bundles), so the workspace link is not resolvable yet. Compile
+      // the library from source until WS4 fixes the packaging, then delete
+      // this mapping so the example exercises the published dist.
+      "@nysds/angular": ["../../packages/angular/src/public-api.ts"],
+      // One copy of Angular, whatever the monorepo hoists elsewhere.
+      // When CI pins Angular 21/22 in this workspace, the nested copy
+      // must win over the Angular 20 that packages/angular hoists to the
+      // root; when nothing is nested, resolution falls back normally.
+      "@angular/*": ["./node_modules/@angular/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    // WORKAROUND: default-on in Angular 21+. The generated
+    // @HostListener handlers type $event as CustomEvent subtypes, which
+    // this check rejects. Remove when WS4 types the handlers as Event.
+    "typeCheckHostBindings": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "nysds-example-next-app",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Next.js App Router example app exercising @nysds/react.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 4274",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@nysds/react": "*",
+    "@nysds/styles": "*",
+    "next": "^15.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@nysds/example-shared-tests": "*",
+    "@playwright/test": "^1.61.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.3"
+  }
+}
