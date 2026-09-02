@@ -31,7 +31,7 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "build:umd": "cross-env BUILD_FORMAT=umd vite build",
     "tsc:packages": "tsc -b tsconfig.build.json",
-    "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --log-order=grouped",
+    "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --filter='!@nysds/react' --filter='!@nysds/angular' --log-order=grouped",
     "build:root": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd",
     "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run build:frameworks && npm run gen-stories && npm run build:mcp && npm run lint:fix",
     "build:frameworks": "turbo run build --filter=@nysds/codegen* --filter=@nysds/react* --filter=@nysds/angular*",
