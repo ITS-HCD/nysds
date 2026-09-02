@@ -3,15 +3,14 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import type { Observable } from "rxjs";
 import { ProxyCmp, proxyOutputs } from "./utils";
-import type { NysVerticalnavGroup as NysVerticalnavGroupElement } from "@nysds/nys-verticalnav/nys-verticalnavgroup";
-import "@nysds/nys-verticalnav/nys-verticalnavgroup";
+import type { NysVerticalnavGroup as NysVerticalnavGroupElement } from "@nysds/nys-verticalnav";
+import "@nysds/nys-verticalnav";
 
 @ProxyCmp({ inputs: ["active", "disabled", "expanded", "id", "label"] })
 @Component({
@@ -26,13 +25,9 @@ export class NysVerticalnavGroupComponent {
   protected readonly el: NysVerticalnavGroupElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
     proxyOutputs(this, this.el, [
       "nys-child-resize",

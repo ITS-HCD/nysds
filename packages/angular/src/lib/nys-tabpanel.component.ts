@@ -3,14 +3,13 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import { ProxyCmp } from "./utils";
-import type { NysTabpanel as NysTabpanelElement } from "@nysds/nys-tab/nys-tabpanel";
-import "@nysds/nys-tab/nys-tabpanel";
+import type { NysTabpanel as NysTabpanelElement } from "@nysds/nys-tab";
+import "@nysds/nys-tab";
 
 @ProxyCmp({ inputs: ["id"] })
 @Component({
@@ -24,13 +23,9 @@ export class NysTabpanelComponent {
   protected readonly el: NysTabpanelElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
   }
 }

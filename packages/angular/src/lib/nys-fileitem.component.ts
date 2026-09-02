@@ -3,15 +3,14 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import type { Observable } from "rxjs";
 import { ProxyCmp, proxyOutputs } from "./utils";
-import type { NysFileItem as NysFileItemElement } from "@nysds/nys-fileinput/nys-fileitem";
-import "@nysds/nys-fileinput/nys-fileitem";
+import type { NysFileItem as NysFileItemElement } from "@nysds/nys-fileinput";
+import "@nysds/nys-fileinput";
 
 @ProxyCmp({ inputs: ["errorMessage", "filename", "progress", "status"] })
 @Component({
@@ -26,13 +25,9 @@ export class NysFileItemComponent {
   protected readonly el: NysFileItemElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
     proxyOutputs(this, this.el, ["nys-fileRemove"]);
   }

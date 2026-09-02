@@ -3,15 +3,14 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import type { Observable } from "rxjs";
 import { ProxyCmp, proxyOutputs } from "./utils";
-import type { NysRadiogroup as NysRadiogroupElement } from "@nysds/nys-radiobutton/nys-radiogroup";
-import "@nysds/nys-radiobutton/nys-radiogroup";
+import type { NysRadiogroup as NysRadiogroupElement } from "@nysds/nys-radiobutton";
+import "@nysds/nys-radiobutton";
 
 @ProxyCmp({
   inputs: [
@@ -54,13 +53,9 @@ export class NysRadiogroupComponent {
   protected readonly el: NysRadiogroupElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
     proxyOutputs(this, this.el, ["nys-change", "nys-other-input"]);
   }

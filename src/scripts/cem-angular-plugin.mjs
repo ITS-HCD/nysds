@@ -139,7 +139,7 @@ function buildComponent({ decl, importPath, formConfig }) {
   const inputs = publicFields(decl).map((m) => m.name).sort();
   const events = [...new Set((decl.events ?? []).map((e) => e.name))].sort();
 
-  const coreImports = ["ChangeDetectionStrategy", "ChangeDetectorRef", "Component", "ElementRef", "NgZone"];
+  const coreImports = ["ChangeDetectionStrategy", "Component", "ElementRef", "NgZone"];
   if (formConfig) coreImports.push("HostListener", "forwardRef");
 
   const utilImports = ["ProxyCmp"];
@@ -187,13 +187,9 @@ function buildComponent({ decl, importPath, formConfig }) {
   lines.push(`  protected readonly el: ${elementAlias};`);
   lines.push("");
   lines.push(`  constructor(`);
-  lines.push(`    changeDetector: ChangeDetectorRef,`);
   lines.push(`    elementRef: ElementRef,`);
   lines.push(`    protected readonly z: NgZone,`);
   lines.push(`  ) {`);
-  lines.push(`    // The wrapper renders nothing of its own (ng-content only); the custom`);
-  lines.push(`    // element manages its own rendering, so Angular CD is detached entirely.`);
-  lines.push(`    changeDetector.detach();`);
   lines.push(`    this.el = elementRef.nativeElement;`);
   if (events.length) {
     lines.push(`    proxyOutputs(this, this.el, [${eventsList}]);`);
@@ -311,14 +307,9 @@ export function angularWrapperPlugin(options = {}) {
         for (const decl of mod.declarations) {
           if (!decl.customElement || !decl.tagName) continue;
 
-          // Child elements resolve to their own subpath export
-          // (e.g. "@nysds/nys-accordion/nys-accordionitem") so the import maps
-          // 1:1 to the element being wrapped; the package-named element uses
-          // the package root.
-          const importPath =
-            fileBase === packageFolder
-              ? `@nysds/${packageFolder}`
-              : `@nysds/${packageFolder}/${fileBase}`;
+          // Every element (including child components) is imported from the package root,
+          // as each package exports all of its sub-components from its root index.
+          const importPath = `@nysds/${packageFolder}`;
 
           const { className, tagName, content } = buildComponent({
             decl,
@@ -375,7 +366,7 @@ export function angularWrapperPlugin(options = {}) {
         fs.writeFileSync(pkgJsonPath, JSON.stringify(pkg, null, 2) + "\n", "utf-8");
       }
 
-      console.log(`✅ Angular standalone components successfully written to ${libdir}`);
+      console.log("✅ Angular standalone components successfully written to " + libdir);
     },
   };
 }

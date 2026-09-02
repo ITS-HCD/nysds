@@ -5,10 +5,17 @@
   "license": "MIT",
   "author": "New York State Design System Team",
   "type": "module",
-  "main": "dist/fesm2022/nysds-angular.mjs",
-  "module": "dist/fesm2022/nysds-angular.mjs",
-  "typings": "dist/index.d.ts",
-  "sideEffects": true,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "esm2022": "./dist/esm2022/nysds-angular.mjs",
+      "esm": "./dist/esm2022/nysds-angular.mjs",
+      "default": "./dist/fesm2022/nysds-angular.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
   "files": [
     "dist/"
   ],

@@ -3,15 +3,14 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import type { Observable } from "rxjs";
 import { ProxyCmp, proxyOutputs } from "./utils";
-import type { NysAccordionItem as NysAccordionItemElement } from "@nysds/nys-accordion/nys-accordionitem";
-import "@nysds/nys-accordion/nys-accordionitem";
+import type { NysAccordionItem as NysAccordionItemElement } from "@nysds/nys-accordion";
+import "@nysds/nys-accordion";
 
 @ProxyCmp({ inputs: ["bordered", "expanded", "heading", "headingLevel", "id"] })
 @Component({
@@ -26,13 +25,9 @@ export class NysAccordionItemComponent {
   protected readonly el: NysAccordionItemElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
     proxyOutputs(this, this.el, ["nys-accordionitem-toggle"]);
   }

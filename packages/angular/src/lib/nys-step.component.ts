@@ -3,15 +3,14 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import type { Observable } from "rxjs";
 import { ProxyCmp, proxyOutputs } from "./utils";
-import type { NysStep as NysStepElement } from "@nysds/nys-stepper/nys-step";
-import "@nysds/nys-stepper/nys-step";
+import type { NysStep as NysStepElement } from "@nysds/nys-stepper";
+import "@nysds/nys-stepper";
 
 @ProxyCmp({ inputs: ["current", "href", "label", "onClick", "selected"] })
 @Component({
@@ -26,13 +25,9 @@ export class NysStepComponent {
   protected readonly el: NysStepElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
     proxyOutputs(this, this.el, ["nys-step-click"]);
   }

@@ -3,14 +3,13 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import { ProxyCmp } from "./utils";
-import type { NysOption as NysOptionElement } from "@nysds/nys-select/nys-option";
-import "@nysds/nys-select/nys-option";
+import type { NysOption as NysOptionElement } from "@nysds/nys-select";
+import "@nysds/nys-select";
 
 @ProxyCmp({ inputs: ["disabled", "hidden", "label", "selected", "value"] })
 @Component({
@@ -24,13 +23,9 @@ export class NysOptionComponent {
   protected readonly el: NysOptionElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
   }
 }

@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+} from "@angular/forms";
 import { NYSDS_COMPONENTS } from "@nysds/angular";
 
 @Component({
@@ -39,7 +44,9 @@ export class AppComponent {
   }
 
   onPageChange(event: CustomEvent): void {
-    const detail = event.detail as { page?: number; currentPage?: number } | undefined;
+    const detail = event.detail as
+      | { page?: number; currentPage?: number }
+      | undefined;
     const next = detail?.page ?? detail?.currentPage;
     if (typeof next === "number") {
       this.page.set(next);
@@ -50,7 +57,9 @@ export class AppComponent {
   submitPermitForm(): void {
     if (this.permitForm.invalid) {
       this.permitForm.markAllAsTouched();
-      this.submittedValue.set("Form invalid — applicant is required and terms must be accepted.");
+      this.submittedValue.set(
+        "Form invalid — applicant is required and terms must be accepted.",
+      );
       return;
     }
     this.submittedValue.set(JSON.stringify(this.permitForm.value, null, 2));

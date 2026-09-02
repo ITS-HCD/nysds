@@ -3,14 +3,13 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import { ProxyCmp } from "./utils";
-import type { NysCheckboxgroup as NysCheckboxgroupElement } from "@nysds/nys-checkbox/nys-checkboxgroup";
-import "@nysds/nys-checkbox/nys-checkboxgroup";
+import type { NysCheckboxgroup as NysCheckboxgroupElement } from "@nysds/nys-checkbox";
+import "@nysds/nys-checkbox";
 
 @ProxyCmp({
   inputs: [
@@ -52,13 +51,9 @@ export class NysCheckboxgroupComponent {
   protected readonly el: NysCheckboxgroupElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
   }
 }

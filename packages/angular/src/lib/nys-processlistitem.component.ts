@@ -3,14 +3,13 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import { ProxyCmp } from "./utils";
-import type { NysProcesslistitem as NysProcesslistitemElement } from "@nysds/nys-processlist/nys-processlistitem";
-import "@nysds/nys-processlist/nys-processlistitem";
+import type { NysProcesslistitem as NysProcesslistitemElement } from "@nysds/nys-processlist";
+import "@nysds/nys-processlist";
 
 @ProxyCmp({ inputs: ["description", "label"] })
 @Component({
@@ -24,13 +23,9 @@ export class NysProcesslistitemComponent {
   protected readonly el: NysProcesslistitemElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
   }
 }

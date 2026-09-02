@@ -3,15 +3,14 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
 } from "@angular/core";
 import type { Observable } from "rxjs";
 import { ProxyCmp, proxyOutputs } from "./utils";
-import type { NysDropdownMenuItem as NysDropdownMenuItemElement } from "@nysds/nys-dropdownmenu/nys-dropdownmenuitem";
-import "@nysds/nys-dropdownmenu/nys-dropdownmenuitem";
+import type { NysDropdownMenuItem as NysDropdownMenuItemElement } from "@nysds/nys-dropdownmenu";
+import "@nysds/nys-dropdownmenu";
 
 @ProxyCmp({
   inputs: ["disabled", "divider", "href", "label", "prefixIcon", "target"],
@@ -28,13 +27,9 @@ export class NysDropdownMenuItemComponent {
   protected readonly el: NysDropdownMenuItemElement;
 
   constructor(
-    changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     protected readonly z: NgZone,
   ) {
-    // The wrapper renders nothing of its own (ng-content only); the custom
-    // element manages its own rendering, so Angular CD is detached entirely.
-    changeDetector.detach();
     this.el = elementRef.nativeElement;
     proxyOutputs(this, this.el, ["nys-click"]);
   }
