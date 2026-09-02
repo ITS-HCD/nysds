@@ -13,7 +13,7 @@
     var(--nys-color-state-blue-700, #154973)
   );
   --_nys-globalheader-gap: var(--nys-space-150, 12px);
-  --_nys-globalheader-padding: var(--nys-space-250, 20px)
+  --_nys-globalheader-padding--gutter: var(--nys-space-250, 20px)
     var(--nys-space-250, 20px) var(--nys-space-200, 16px);
   --_nys-globalheader-font-family--menu: var(
     --nys-font-family-ui,
@@ -30,8 +30,8 @@
   --_nys-globalheader-letter-spacing: normal;
   --_nys-globalheader-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-globalheader-max-width--content: var(
-    --nys-globalheader-max-width--content,
-    1280px
+    --nys-max-width--content,
+    var(--nys-globalheader-max-width--content, 1280px)
   );
 
   /* Agency and App Name Styling */
@@ -119,8 +119,7 @@ a {
 
 .nys-globalheader {
   display: flex;
-  justify-content: center;
-  padding: var(--_nys-globalheader-padding);
+  padding: var(--_nys-globalheader-padding--gutter);
   background-color: var(--_nys-globalheader-background-color);
   color: var(--_nys-globalheader-color);
   width: 100%;
@@ -142,6 +141,7 @@ a#nys-globalheader__logolink {
 /* Main container */
 .nys-globalheader__main-container {
   display: flex;
+  margin: auto;
   gap: var(--_nys-globalheader-gap);
   max-width: var(--_nys-globalheader-max-width--content);
   width: 100%;
@@ -313,7 +313,7 @@ a#nys-globalheader__logolink {
 @media (width >= 768px) {
   /* Tablet (MD - Above 768px) */
   :host {
-    --_nys-globalheader-padding: var(--nys-space-250, 20px)
+    --_nys-globalheader-padding--gutter: var(--nys-space-250, 20px)
       var(--nys-size-400, 32px) var(--nys-size-200, 16px);
   }
 }
@@ -341,7 +341,7 @@ a#nys-globalheader__logolink {
 
   :host {
     --_nys-globalheader-gap: var(--nys-space-500, 40px);
-    --_nys-globalheader-padding: var(--nys-space-50, 4px)
+    --_nys-globalheader-padding--gutter: var(--nys-space-50, 4px)
       var(--nys-size-400, 32px) 0;
   }
 }
@@ -349,7 +349,7 @@ a#nys-globalheader__logolink {
 @media (width >= 1280px) {
   /* Large Desktop (LG - Above 1280px) */
   :host {
-    --_nys-globalheader-padding: var(--nys-space-50, 4px)
+    --_nys-globalheader-padding--gutter: var(--nys-space-50, 4px)
       var(--nys-space-800, 64px) 0;
   }
 }
