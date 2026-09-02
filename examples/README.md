@@ -73,10 +73,3 @@ the `/forms/signal` route's barrel to point at the real page on Angular
 21+ and at a fallback page on 20. The smoke tests skip the signal suite
 when they see the fallback.
 
-## Temporary workarounds
-
-The Angular apps compile `@nysds/angular` from source through a
-tsconfig `paths` mapping because the package's exports map doesn't
-match its ng-packagr output yet. The mapping, and the two tsconfig
-relaxations next to it, carry `WORKAROUND` comments and come out when
-WS4 fixes the packaging.
