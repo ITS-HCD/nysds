@@ -25,6 +25,11 @@
   padding-right: 1.25rem;
   padding-inline: 1.25rem;
 
+  --_nys-grid-container-max-width: var(
+    --nys-max-width--content,
+    var(--nys-grid-container-max-width, #{$max-width})
+  );
+
   @media all and (width >= 48em) {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -41,11 +46,11 @@
     box-sizing: border-box;
 
     margin-inline: calc(
-      max(0px, calc((100% - #{$max-width}) / 2)) - var(--_nys-grid-gap-x, 0px) /
+      max(0px, calc((100% - var(--_nys-grid-container-max-width)) / 2)) - var(--_nys-grid-gap-x, 0px) /
         2
     );
 
-    max-width: $max-width;
+    max-width: var(--_nys-grid-container-max-width);
   }
 }
 
