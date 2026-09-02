@@ -46,7 +46,10 @@
     box-sizing: border-box;
 
     margin-inline: calc(
-      max(0px, calc((100% - var(--_nys-grid-container-max-width)) / 2)) - var(--_nys-grid-gap-x, 0px) /
+      max(0px, calc((100% - var(--_nys-grid-container-max-width)) / 2)) - var(
+          --_nys-grid-gap-x,
+          0px
+        ) /
         2
     );
 
