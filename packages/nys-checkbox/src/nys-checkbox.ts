@@ -252,6 +252,16 @@ export class NysCheckbox extends NysFormControlElement {
   updated(changed: Map<string, unknown>) {
     // Applying an external label must happen AFTER render, once the input exists.
     if (changed.has("labelledby") && this.labelledby) this._syncExternalLabel();
+
+    // Re-sync ElementInternals: `required` can arrive as a late property
+    // write (e.g. a framework wrapper setting it post-hydration, after
+    // firstUpdated already ran _manageRequire() once against the old
+    // value). The `?required="${this.required}"` template binding already
+    // keeps the native <input>'s attribute in sync declaratively; without
+    // this, ElementInternals would still report valid, the native `invalid`
+    // event would never fire on submit, and showError would never flip even
+    // though the checkbox is genuinely required and unchecked.
+    if (changed.has("required")) this._manageRequire();
   }
 
   /**

@@ -259,6 +259,15 @@ export class NysTextarea extends NysFormControlElement {
       const input = this.shadowRoot?.querySelector("textarea");
 
       if (input) input.required = this.required && !this.readonly;
+
+      // Re-sync ElementInternals, not just the shadow <textarea>: `required`
+      // can arrive as a late property write (e.g. a framework wrapper
+      // setting it post-hydration, after firstUpdated already ran
+      // _setValue()/_manageRequire() once against the old value). Without
+      // this, ElementInternals keeps reporting valid, the native `invalid`
+      // event never fires on submit, and showError never flips even though
+      // the field is genuinely required and empty.
+      this._manageRequire();
     }
   }
 

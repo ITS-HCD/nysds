@@ -69,6 +69,38 @@ describe("nys-textinput", () => {
     expect(textinput?.hasAttribute("required")).to.be.false;
   });
 
+  // `required` arriving as a property write after first render (e.g. a
+  // framework wrapper setting it post-hydration, the way @lit/react does)
+  // used to leave ElementInternals reporting valid forever: the shadow
+  // <input> picked up `required`, but nothing re-ran _manageRequire(), so
+  // native form submission never saw this field as invalid.
+  it("re-validates when required arrives as a late property, after first render", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    // Empty and not required yet: internals report valid.
+    expect((el as any).internals.validity.valid).to.be.true;
+
+    // Simulate a late property write (not an attribute) on an already
+    // up-and-running element.
+    el.required = true;
+    await el.updateComplete;
+
+    expect((el as any).internals.validity.valid).to.be.false;
+    expect((el as any).internals.validity.valueMissing).to.be.true;
+
+    // The full native-submit path now works: `invalid` fires (browsers
+    // dispatch it because ElementInternals is finally invalid), and
+    // _handleInvalid's _validate() flips the visible error on.
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
   it("displays a toggle password icon that changes visibility when property type is password", async () => {
     const el = await fixture<NysTextinput>(
       html`<nys-textinput type="password"></nys-textinput>`,

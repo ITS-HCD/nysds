@@ -311,8 +311,18 @@ export class NysFileinput extends NysFormControlElement {
     this._setValue();
   }
 
-  updated() {
+  updated(changedProperties: Map<string, unknown>) {
     void this._syncControlErrorAssociation();
+
+    // Re-sync ElementInternals: `required` can arrive as a late property
+    // write (e.g. a framework wrapper setting it post-hydration, after
+    // firstUpdated already ran _setValue()/_manageRequire() once against
+    // the old value). The `?required=${...}` template binding already keeps
+    // the native <input>'s attribute in sync declaratively; without this,
+    // ElementInternals would still report valid, the native `invalid` event
+    // would never fire on submit, and showError would never flip even
+    // though the field is genuinely required and empty.
+    if (changedProperties.has("required")) this._manageRequire();
   }
 
   /**

@@ -315,6 +315,17 @@ export class NysTextinput extends NysFormControlElement {
       const input = this._inputEl;
 
       if (input) input.required = this.required && !this.readonly;
+
+      // Re-sync ElementInternals, not just the shadow <input>: `required`
+      // can arrive as a late property write (e.g. a framework wrapper
+      // setting it post-hydration, after firstUpdated already ran
+      // _setValue()/_manageRequire() once against the old value). Without
+      // this, ElementInternals keeps reporting valid, the native `invalid`
+      // event never fires on submit, and showError never flips even though
+      // the field is genuinely required and empty. Harmless to re-run
+      // alongside the value-driven call above: _manageRequire() only
+      // re-derives state from current `value`/`required`.
+      this._manageRequire();
     }
   }
 

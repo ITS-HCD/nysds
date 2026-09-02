@@ -221,6 +221,32 @@ describe("nys-textarea", () => {
     expect(el.checkValidity()).to.be.false;
   });
 
+  // `required` arriving as a property write after first render (e.g. a
+  // framework wrapper setting it post-hydration, the way @lit/react does)
+  // used to leave ElementInternals reporting valid forever: the shadow
+  // <textarea> picked up `required`, but nothing re-ran _manageRequire(), so
+  // native form submission never saw this field as invalid.
+  it("re-validates when required arrives as a late property, after first render", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.true;
+
+    // Simulate a late property write (not an attribute) on an already
+    // up-and-running element.
+    el.required = true;
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.false;
+    expect((el as any).internals.validity.valueMissing).to.be.true;
+
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
   it("_handleInvalid prevents default", async () => {
     const el = await fixture<NysTextarea>(
       html`<nys-textarea required></nys-textarea>`,

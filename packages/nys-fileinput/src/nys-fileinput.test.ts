@@ -248,6 +248,35 @@ describe("nys-fileinput", () => {
     );
   });
 
+  // `required` arriving as a property write after first render (e.g. a
+  // framework wrapper setting it post-hydration, the way @lit/react does)
+  // used to leave ElementInternals reporting valid forever: the native
+  // <input> picked up `required` via the template's declarative binding,
+  // but nothing re-ran _manageRequire(), so native form submission never
+  // saw this field as invalid.
+  it("re-validates when required arrives as a late property, after first render", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput></nys-fileinput>`,
+    );
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.true;
+
+    // Simulate a late property write (not an attribute) on an already
+    // up-and-running element.
+    el.required = true;
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.false;
+    expect((el as any).internals.validity.valueMissing).to.be.true;
+
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
   // Accessibility / shared-mixin regression tests
   // -------------------------------------------------------------------------
   it("associates the native input with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
