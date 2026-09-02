@@ -24,7 +24,8 @@
     "./react": {
       "import": "./packages/react/index.js",
       "types": "./packages/react/index.d.ts"
-    }
+    },
+    "./custom-elements.json": "./dist/custom-elements.json"
   },
   "customElements": "custom-elements.json",
   "scripts": {
