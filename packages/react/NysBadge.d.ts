@@ -18,6 +18,9 @@ export interface NysBadgeProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Strong visual intent with bolder text and background. */
+  strong?: boolean;
+
   /** undefined */
   prefixIcon?: string | boolean;
 
@@ -33,7 +36,7 @@ export interface NysBadgeProps extends Pick<
   /** Badge size: `sm` (smaller text) or `md` (default). */
   size?: NysBadgeElement["size"];
 
-  /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
+  /** Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead */
   intent?: NysBadgeElement["intent"];
 
   /** Secondary label displayed before the main label. */
@@ -44,9 +47,6 @@ export interface NysBadgeProps extends Pick<
 
   /** Screen reader text appended after the label for additional context. */
   srText?: NysBadgeElement["srText"];
-
-  /** undefined */
-  variant?: NysBadgeElement["variant"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
