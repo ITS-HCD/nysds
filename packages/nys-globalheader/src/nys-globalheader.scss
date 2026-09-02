@@ -30,8 +30,8 @@
   --_nys-globalheader-letter-spacing: normal;
   --_nys-globalheader-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-globalheader-max-width--content: var(
-    --nys-globalheader-max-width--content,
-    1280px
+    --nys-max-width--content,
+    var(--nys-globalheader-max-width--content, 1280px)
   );
 
   /* Agency and App Name Styling */
