@@ -154,7 +154,7 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | Tool                     | Description                                                                                 |
 | ------------------------ | ------------------------------------------------------------------------------------------- |
 | `find_components`        | Search for components by name/description, or list all (omit query)                         |
-| `get_component`          | Full documentation for a specific component. Use `includeExamples: true` for code examples. |
+| `get_component`          | Full documentation for a specific component. Use `includeExamples: true` for code examples (each carries `html`, `react`, and `angular` snippets). Pass `framework: "react"` or `"angular"` for that framework's import line, event-prop naming, and forms guidance. |
 | `validate_component_api` | Validate that attributes/properties are valid for a component                               |
 
 ### Design Tokens
@@ -171,7 +171,7 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | Tool                  | Description                                                                                                                                                                                  |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `get_utility_classes` | Grid, flexbox, spacing, display, and typography utility classes                                                                                                                              |
-| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, dotnet, drupal, vanilla). Angular, React, .NET, and Drupal guides are currently untested. |
+| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, dotnet, drupal, vanilla). The angular and react guides are the `@nysds/angular` and `@nysds/react` package READMEs. |
 
 ## Available Resources
 
@@ -187,6 +187,9 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | `nysds://tokens/space`    | Spacing tokens                                        |
 | `nysds://tokens/size`     | Size tokens                                           |
 | `nysds://installation`    | Installation guide                                    |
+| `nysds://frameworks`      | Index of framework packages (`@nysds/react`, `@nysds/angular`) with version and guide URI |
+| `nysds://frameworks/react`   | `@nysds/react` install, usage, forms, SSR, and troubleshooting guide |
+| `nysds://frameworks/angular` | `@nysds/angular` install, usage, forms, SSR, and troubleshooting guide |
 
 ## Prompts
 

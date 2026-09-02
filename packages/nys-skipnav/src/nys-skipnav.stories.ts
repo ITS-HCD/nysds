@@ -9,6 +9,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'An accessible "Skip to main content" link for keyboard and screen reader users. Visually hidden until focused.\n\nPlace as the first focusable element in the document. Links to `#main-content` by default, or specify `href`\nfor a custom target. The target element receives focus when activated for proper screen reader announcement.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysSkipnav />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-skipnav></nys-skipnav>\n```',
+      },
     },
   },
 };

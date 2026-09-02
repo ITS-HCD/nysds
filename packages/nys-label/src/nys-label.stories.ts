@@ -11,6 +11,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          '**Internal component.** Renders form labels with description, required/optional flag, and tooltip.\n\nUsed internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.\nHandles label association via `for`, displays asterisk for required fields, and integrates tooltips.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysLabel label="This is a basic nys-label" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-label label="This is a basic nys-label"></nys-label>\n```',
+      },
     },
   },
 };

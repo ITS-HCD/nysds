@@ -75,7 +75,7 @@ describe("nys-datepicker", () => {
 
   it("fires nys-input event on input change", async () => {
     const el = await fixture<NysDatepicker>(
-      html`<nys-datepicker></nys-datepicker>`,
+      html`<nys-datepicker name="my-date"></nys-datepicker>`,
     );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
@@ -88,6 +88,7 @@ describe("nys-datepicker", () => {
 
     const event = await oneEvent(el, "nys-input");
     expect(event).to.exist;
+    expect(event.detail.name).to.equal("my-date");
     expect(event.detail.value).to.be.instanceOf(Date);
     expect(event.detail.value.getFullYear()).to.equal(2025);
     expect(event.detail.value.getMonth()).to.equal(1);
@@ -340,6 +341,35 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
 
     expect(el.checkValidity()).to.be.false;
+  });
+
+  // `required` arriving as a property write after first render (e.g. a
+  // framework wrapper setting it post-hydration, the way @lit/react does)
+  // used to leave ElementInternals reporting valid forever: the native
+  // <input> picked up `required` via the template's declarative binding,
+  // but nothing re-ran _manageRequire(), so native form submission never
+  // saw this field as invalid.
+  it("re-validates when required arrives as a late property, after first render", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.true;
+
+    // Simulate a late property write (not an attribute) on an already
+    // up-and-running element.
+    el.required = true;
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.false;
+    expect((el as any).internals.validity.valueMissing).to.be.true;
+
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
   });
 
   // -------------------------------------------------------------------------
@@ -1551,6 +1581,207 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
     expect(new FormData(form).get("field")).to.equal("2026-06-15");
     expect(Array.from(form.elements)).to.include(el);
+  });
+
+  /*** Contract event tests: nys-change, nys-focus, error precedence ***/
+
+  it("fires nys-change with {id, name, value} on calendar date pick", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker name="event-date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    (el as any)._isSafari = () => false;
+    (el as any)._isMobile = () => false;
+
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    // Attach the handler (normally attached in firstUpdated)
+    (el as any)._handleDateChange();
+
+    const events: CustomEvent[] = [];
+    el.addEventListener("nys-change", (e) => events.push(e as CustomEvent));
+
+    wc.dispatchEvent(
+      new CustomEvent("selectDate", { detail: "2026-04-10", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(events.length).to.be.greaterThan(0);
+    expect(events[0].detail).to.deep.equal({
+      id: el.id,
+      name: "event-date",
+      value: "2026-04-10",
+    });
+    expect(events[0].bubbles).to.be.true;
+    expect(events[0].composed).to.be.true;
+  });
+
+  it("fires nys-change with today's date as YYYY-MM-DD when Today is clicked", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker name="event-date" label="Date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    let captured: CustomEvent | null = null;
+    el.addEventListener("nys-change", (e) => (captured = e as CustomEvent));
+
+    (el as any)._handleTodayClick();
+    await el.updateComplete;
+
+    const today = new Date();
+    const expected = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    expect(captured).to.exist;
+    expect(captured!.detail).to.deep.equal({
+      id: el.id,
+      name: "event-date",
+      value: expected,
+    });
+    expect(captured!.bubbles).to.be.true;
+    expect(captured!.composed).to.be.true;
+  });
+
+  it("fires nys-change with empty string value when Clear is clicked", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker
+        name="event-date"
+        label="Date"
+        value="2026-07-15"
+      ></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    let captured: CustomEvent | null = null;
+    el.addEventListener("nys-change", (e) => (captured = e as CustomEvent));
+
+    (el as any)._handleClearClick();
+    await el.updateComplete;
+
+    expect(captured).to.exist;
+    expect(captured!.detail).to.deep.equal({
+      id: el.id,
+      name: "event-date",
+      value: "",
+    });
+    expect(captured!.bubbles).to.be.true;
+    expect(captured!.composed).to.be.true;
+  });
+
+  it("fires nys-change exactly once on blur after typing a valid date", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker name="event-date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    let count = 0;
+    let captured: CustomEvent | null = null;
+    el.addEventListener("nys-change", (e) => {
+      count++;
+      captured = e as CustomEvent;
+    });
+
+    const input = el.shadowRoot!.querySelector("input") as HTMLInputElement;
+    input.value = "2026-03-20";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    // Typing alone fires nys-input, not nys-change.
+    expect(count).to.equal(0);
+
+    el.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    // A second focusout must not re-commit the same value.
+    el.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(count).to.equal(1);
+    expect(captured!.detail).to.deep.equal({
+      id: el.id,
+      name: "event-date",
+      value: "2026-03-20",
+    });
+  });
+
+  it("does not fire nys-change or nys-input when value is set programmatically", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker name="event-date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    let changeFired = false;
+    let inputFired = false;
+    el.addEventListener("nys-change", () => (changeFired = true));
+    el.addEventListener("nys-input", () => (inputFired = true));
+
+    el.value = "2026-05-01";
+    await el.updateComplete;
+    await el.updateComplete;
+
+    // A later blur must not commit the programmatic write either.
+    el.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(changeFired).to.be.false;
+    expect(inputFired).to.be.false;
+  });
+
+  it("fires nys-focus when focus enters from outside", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker label="Date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    let count = 0;
+    el.addEventListener("nys-focus", () => count++);
+
+    el.dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+
+    expect(count).to.equal(1);
+  });
+
+  it("does not fire nys-focus when focus moves between internal elements", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker label="Date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    let count = 0;
+    el.addEventListener("nys-focus", () => count++);
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    el.dispatchEvent(
+      new FocusEvent("focusin", { bubbles: true, relatedTarget: input }),
+    );
+
+    expect(count).to.equal(0);
+  });
+
+  it("keeps a consumer-supplied errorMessage through validation and reset", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker
+        required
+        errorMessage="Custom message"
+      ></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    // Blur with an empty value triggers required validation.
+    el.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    // The consumer's message is never overwritten and wins the rendered text.
+    expect(el.errorMessage).to.equal("Custom message");
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errorEl.getAttribute("errorMessage")).to.equal("Custom message");
+
+    el.formResetCallback();
+    await el.updateComplete;
+
+    expect(el.errorMessage).to.equal("Custom message");
   });
 
   it("registers every nys-* element it renders", async () => {

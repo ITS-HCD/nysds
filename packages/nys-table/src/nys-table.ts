@@ -10,6 +10,16 @@ import "@nysds/nys-icon";
 import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
+
+/** Detail payload for the `nys-column-sort` event fired by `nys-table`. */
+export interface NysTableColumnSortDetail {
+  columnIndex: number;
+  columnLabel: string;
+  sortDirection: "asc" | "desc" | "none";
+}
+
+/** The `nys-column-sort` event fired by `nys-table`. */
+export type NysTableColumnSortEvent = CustomEvent<NysTableColumnSortDetail>;
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-table.light.scss?inline";
 
@@ -34,8 +44,8 @@ function adoptLightStyles() {
  *   consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`,
  *   adopted once onto `document.adoptedStyleSheets`.
  *
- * @fires nys-click - Fired when the download button or sortable headers are clicked.
- * @fires nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
+ * @fires {Event} nys-click - Fired when the download button or sortable headers are clicked.
+ * @fires {NysTableColumnSortEvent} nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.

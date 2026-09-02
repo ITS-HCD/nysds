@@ -11,6 +11,14 @@ import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
 
+/** Detail payload for the `nys-change` event fired by `nys-pagination`. */
+export interface NysPaginationChangeDetail {
+  page: number;
+}
+
+/** The `nys-change` event fired by `nys-pagination`. */
+export type NysPaginationChangeEvent = CustomEvent<NysPaginationChangeDetail>;
+
 /** All the focus restore needs of a rendered child: when has it finished updating. */
 type LitLikeElement = HTMLElement & { updateComplete: Promise<unknown> };
 
@@ -33,7 +41,7 @@ type LitLikeElement = HTMLElement & { updateComplete: Promise<unknown> };
  * @summary Page navigation with numbered links, prev/next buttons, and responsive layout.
  * @element nys-pagination
  *
- * @fires nys-change - Fired when page changes. Detail: `{page}`.
+ * @fires {NysPaginationChangeEvent} nys-change - Fired when page changes. Detail: `{page}`.
  *
  * @example Basic
  * ```html
@@ -66,7 +74,7 @@ export class NysPagination extends NysElement {
   /** Total number of pages. Must be at least 1. */
   @property({ type: Number, reflect: true }) totalPages = 1;
 
-  /** Internal state for layout adjustments near the end. */
+  /** Internal layout coordination state reflected for styling. Not public API. @internal */
   @property({ type: Boolean, reflect: true }) _twoBeforeLast = false;
 
   /**

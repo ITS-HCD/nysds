@@ -9,6 +9,14 @@ import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-breadcrumbs.scss?inline";
 
+/** Detail payload for the `nys-expand` event fired by `nys-breadcrumbs`. */
+export interface NysBreadcrumbsExpandDetail {
+  id: string;
+}
+
+/** The `nys-expand` event fired by `nys-breadcrumbs`. */
+export type NysBreadcrumbsExpandEvent = CustomEvent<NysBreadcrumbsExpandDetail>;
+
 /**
  * A breadcrumb navigation trail composed of `li` elements.
  * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
@@ -20,7 +28,7 @@ import styles from "./nys-breadcrumbs.scss?inline";
  *
  * @slot - One or more `li` elements defining the trail.
  *
- * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
+ * @fires {NysBreadcrumbsExpandEvent} nys-expand - Fired when the user clicks the ellipsis to expand the trail. Detail: `{id}`.
  *
  * @example Basic
  * ```html

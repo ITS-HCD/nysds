@@ -64,8 +64,17 @@ describe("nys-toggle", () => {
     );
     const events: string[] = [];
 
-    el.addEventListener("nys-focus", () => events.push("focus"));
-    el.addEventListener("nys-blur", () => events.push("blur"));
+    // Contract: nys-focus/nys-blur are plain Events that bubble and compose.
+    el.addEventListener("nys-focus", (e) => {
+      expect(e.bubbles).to.be.true;
+      expect(e.composed).to.be.true;
+      events.push("focus");
+    });
+    el.addEventListener("nys-blur", (e) => {
+      expect(e.bubbles).to.be.true;
+      expect(e.composed).to.be.true;
+      events.push("blur");
+    });
 
     // Simulate tabbing into the checkbox
     input!.dispatchEvent(new FocusEvent("focus", { bubbles: true }));
@@ -78,9 +87,13 @@ describe("nys-toggle", () => {
     expect(events).to.deep.equal(["focus", "blur"]);
   });
 
-  it("emits nys-change with correct detail when clicked", async () => {
+  it("emits nys-change with {id, name, checked, value} detail when clicked", async () => {
     const el = await fixture<NysToggle>(
-      html`<nys-toggle label="Toggle me"></nys-toggle>`,
+      html`<nys-toggle
+        label="Toggle me"
+        name="notifications"
+        value="on"
+      ></nys-toggle>`,
     );
     await el.updateComplete;
 
@@ -88,18 +101,62 @@ describe("nys-toggle", () => {
       'input[type="checkbox"]',
     )!;
 
-    let lastDetail: { id: string; checked: boolean } | null = null;
-    el.addEventListener(
-      "nys-change",
-      (e) => (lastDetail = (e as CustomEvent).detail),
-    );
+    let lastEvent: CustomEvent | null = null;
+    el.addEventListener("nys-change", (e) => (lastEvent = e as CustomEvent));
 
     input.click();
     await el.updateComplete;
 
-    expect(lastDetail).to.not.be.null;
-    expect(lastDetail!.checked).to.be.true;
-    expect(lastDetail!.id).to.equal(el.id);
+    expect(lastEvent).to.not.be.null;
+    expect(lastEvent!.detail).to.deep.equal({
+      id: el.id,
+      name: "notifications",
+      checked: true,
+      value: "on",
+    });
+  });
+
+  it("nys-change bubbles and composes across the shadow boundary", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle label="Toggle me" name="n" value="v"></nys-toggle>`,
+    );
+    await el.updateComplete;
+
+    let received: CustomEvent | null = null;
+    // Listen on the document, outside any shadow root, so this only passes
+    // if the event both bubbles and is composed.
+    const listener = (e: Event) => (received = e as CustomEvent);
+    document.addEventListener("nys-change", listener);
+
+    try {
+      const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+      input.click();
+      await el.updateComplete;
+
+      expect(received).to.not.be.null;
+      expect(received!.bubbles).to.be.true;
+      expect(received!.composed).to.be.true;
+      expect(received!.detail.checked).to.be.true;
+    } finally {
+      document.removeEventListener("nys-change", listener);
+    }
+  });
+
+  it("does not fire nys-change when checked is set programmatically", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle label="Toggle me" name="n" value="v"></nys-toggle>`,
+    );
+    await el.updateComplete;
+
+    let fired = false;
+    el.addEventListener("nys-change", () => (fired = true));
+
+    el.checked = true;
+    await el.updateComplete;
+    el.checked = false;
+    await el.updateComplete;
+
+    expect(fired).to.be.false;
   });
 
   it("toggles checked state when the slider span is clicked", async () => {

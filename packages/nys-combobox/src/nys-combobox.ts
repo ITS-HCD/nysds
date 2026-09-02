@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-combobox is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
@@ -23,6 +27,29 @@ interface ComboboxOption {
   group?: string;
 }
 
+/** Detail payload for the `nys-input` event. */
+export interface NysComboboxInputDetail {
+  id: string;
+  name: string;
+  /** The committed value (the selected option's value), not the filter text. */
+  value: string;
+  /** The raw filter text the user has typed. */
+  query: string;
+}
+
+/** The `nys-input` event, fired on each keystroke while filtering. */
+export type NysComboboxInputEvent = CustomEvent<NysComboboxInputDetail>;
+
+/** Detail payload for the `nys-change` event. */
+export interface NysComboboxChangeDetail {
+  id: string;
+  name: string;
+  value: string;
+}
+
+/** The `nys-change` event, fired when a selection is committed. */
+export type NysComboboxChangeEvent = CustomEvent<NysComboboxChangeDetail>;
+
 /**
  * `<nys-combobox>` is a form-enabled combo box combining text input with a filterable dropdown.
  *
@@ -39,11 +66,12 @@ interface ComboboxOption {
  * @slot description - Optional custom description content below the label.
  * @slot default - Options (<option>, <optgroup>) to populate the dropdown
  *
- * @fires nys-change - Fired when selection changes. Detail: `{ id, value }`.
- * @fires nys-input - Fired on input change. Detail: `{ id, value }`.
- * @fires nys-focus - Fired when combobox receives focus.
- * @fires nys-blur - Fired when combobox loses focus.
+ * @formControl value nys-change nys-input
  *
+ * @fires {NysComboboxChangeEvent} nys-change - Fired when a selection is committed (option chosen or cleared). Detail: `{id, name, value}`.
+ * @fires {NysComboboxInputEvent} nys-input - Fired on each keystroke while filtering. Detail: `{id, name, value, query}`. `value` is the committed value; `query` is the current filter text.
+ * @fires {Event} nys-focus - Fired when the combobox gains focus.
+ * @fires {Event} nys-blur - Fired when the combobox loses focus. Triggers validation.
  *
  * @example Basic
  * ```html
@@ -173,7 +201,7 @@ interface ComboboxOption {
  *   <option value="orange">Orange</option>
  *   <option value="strawberry">Strawberry</option>
  * </nys-combobox>
- * ```d
+ * ```
  *
  * @example Description Slot
  * ```html
@@ -215,20 +243,50 @@ export class NysCombobox extends NysFormControlElement {
     delegatesFocus: true,
   };
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Visible label text. Required for accessibility. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Current committed value: the selected option's value, not the typed filter text. */
   @property({ type: String }) value = "";
+
+  /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Marks as required. Shows "Required" flag and validates on blur. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Shows "Optional" flag. Use when most fields are required. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
+
+  /** Form `id` to associate with when the combobox is outside the form element. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /**
+   * Input width: `md` (200px), `lg` (384px), `full` (100%, default).
+   * @default "full"
+   */
   @property({ type: String, reflect: true }) width: "md" | "lg" | "full" =
     "full";
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** Shows error message when true. Set by validation or manually. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. Never overwritten by internal validation. */
   @property({ type: String }) errorMessage = "";
 
   @state() private _isOpen = false;
@@ -242,7 +300,6 @@ export class NysCombobox extends NysFormControlElement {
   @query("input") private _input!: HTMLInputElement;
   @query(".nys-combobox__listbox") private _listbox?: HTMLElement;
 
-  private _originalErrorMessage = "";
   private _hasUserInteracted = false;
   private _selectedLabel = "";
   private _defaultValue = "";
@@ -258,7 +315,6 @@ export class NysCombobox extends NysFormControlElement {
     // super.connectedCallback() (NysFormControlElement) assigns an id when one
     // is not provided and reflects default semantics.
     super.connectedCallback();
-    this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
     document.addEventListener("click", this._handleDocumentClick);
   }
@@ -290,6 +346,18 @@ export class NysCombobox extends NysFormControlElement {
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has("value")) {
       this._setValue();
+    }
+
+    // Re-sync ElementInternals: `required` can arrive as a late property
+    // write (e.g. a framework wrapper setting it post-hydration) with no
+    // accompanying `value` change, so the branch above alone wouldn't catch
+    // it. The `?required=${...}` template binding already keeps the native
+    // input's attribute in sync declaratively; without this, ElementInternals
+    // would still report valid, the native `invalid` event would never fire
+    // on submit, and showError would never flip even though the field is
+    // genuinely required and empty.
+    if (changedProperties.has("required") && !changedProperties.has("value")) {
+      this._manageRequire();
     }
 
     if (changedProperties.has("_isOpen") && this._isOpen) {
@@ -383,13 +451,18 @@ export class NysCombobox extends NysFormControlElement {
   }
 
   private _manageRequire() {
-    const message = this.errorMessage || "This field is required";
     const isInvalid =
       this.required && (!this.value || this.value?.trim() === "");
 
     if (isInvalid) {
-      this.setValidityFromState({ valueMissing: true }, message, this._input);
+      this.internalValidationMessage = "This field is required";
+      this.setValidityFromState(
+        { valueMissing: true },
+        this.resolvedErrorMessage(),
+        this._input,
+      );
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
       this._hasUserInteracted = false;
     }
@@ -397,17 +470,14 @@ export class NysCombobox extends NysFormControlElement {
 
   private _setValidityMessage(message: string = "") {
     this.showError = !!message;
-
-    if (this._originalErrorMessage?.trim() && message !== "") {
-      this.errorMessage = this._originalErrorMessage;
-    } else {
-      this.errorMessage = message;
-    }
+    // Store the component's own validation text; a consumer-supplied
+    // errorMessage always wins via resolvedErrorMessage().
+    this.internalValidationMessage = message;
 
     if (message) {
       this.setValidityFromState(
         { customError: true },
-        this.errorMessage,
+        this.resolvedErrorMessage(),
         this._input,
       );
     } else {
@@ -447,9 +517,10 @@ export class NysCombobox extends NysFormControlElement {
 
     this.setFormValue(this.value);
 
-    // Reset validation UI
+    // Reset validation UI. Clears only the component's own validation text;
+    // a consumer-supplied errorMessage is never touched.
     this.showError = false;
-    this.errorMessage = "";
+    this.internalValidationMessage = "";
     this.clearValidity();
 
     this.requestUpdate();
@@ -633,19 +704,18 @@ export class NysCombobox extends NysFormControlElement {
       this._validate();
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-input", {
-        detail: { id: this.id, value: this._filterText },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    // `value` carries the committed value (empty until an option is chosen);
+    // `query` carries the raw filter text the user has typed.
+    dispatchNysEvent<NysComboboxInputDetail>(this, "nys-input", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+      query: this._filterText,
+    });
   }
 
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "focus");
   }
 
   private _handleBlur(event: FocusEvent) {
@@ -668,9 +738,7 @@ export class NysCombobox extends NysFormControlElement {
     }
     this._validate();
 
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "blur");
   }
 
   private _handleDocumentClick = (event: MouseEvent) => {
@@ -736,13 +804,11 @@ export class NysCombobox extends NysFormControlElement {
   }
 
   private _handleChange() {
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysComboboxChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   private _openDropdown() {
@@ -921,7 +987,7 @@ export class NysCombobox extends NysFormControlElement {
         <nys-errormessage
           id=${this.id + "--error"}
           ?showError=${this.showError}
-          errorMessage=${this.errorMessage}
+          errorMessage=${this.resolvedErrorMessage()}
         ></nys-errormessage>
         <div
           aria-live="polite"

@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 import type { NysRadiobutton } from "./nys-radiobutton";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-radiogroup is used. Importing them here
@@ -14,6 +18,34 @@ import "@nysds/nys-textinput";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
+/** Detail payload for the `nys-change` event fired by `nys-radiogroup`. */
+export interface NysRadiogroupChangeDetail {
+  /** Id of the selected child radiobutton (kept for 1.x compatibility). */
+  id: string;
+  /** Checked state of the selected child radiobutton (always `true`). */
+  checked: boolean;
+  /** Name of the selected child radiobutton, which the group adopts. */
+  name: string;
+  /** The group's selected value. */
+  value: string;
+}
+
+/** The `nys-change` event fired by `nys-radiogroup`. */
+export type NysRadiogroupChangeEvent = CustomEvent<NysRadiogroupChangeDetail>;
+
+/** Detail payload for the `nys-other-input` event fired by `nys-radiogroup`. */
+export interface NysRadiogroupOtherInputDetail {
+  /** Id of the "other" child radiobutton. */
+  id: string;
+  name: string;
+  /** Current text of the "other" free-text field. */
+  value: string;
+}
+
+/** The `nys-other-input` event fired by `nys-radiogroup`. */
+export type NysRadiogroupOtherInputEvent =
+  CustomEvent<NysRadiogroupOtherInputDetail>;
+
 /**
  * A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.
  * Handles keyboard navigation (arrow keys), validation, required constraints, and form integration.
@@ -23,9 +55,15 @@ import styles from "./nys-radiobutton.scss?inline";
  *
  * @summary Container for grouping radio buttons as a single form control.
  * @element nys-radiogroup
+ * @formControl value nys-change
  *
  * @slot - Default slot for `nys-radiobutton` elements.
  * @slot description - Custom HTML description content.
+ *
+ * @fires {NysRadiogroupChangeEvent} nys-change - Fired when the selection changes. Detail: `{id, checked, name, value}` — `value` is the selected value; `id`, `checked`, and `name` echo the selected child radio for compatibility. Bubbles and composed.
+ * @fires {NysRadiogroupOtherInputEvent} nys-other-input - Fired as the "other" free-text input changes. Detail: `{id, name, value}`. Bubbles and composed.
+ * @fires {Event} nys-focus - Fired on the group when focus enters it from outside; also re-dispatched targeted at the focused child radio for compatibility. Bubbles and composed.
+ * @fires {Event} nys-blur - Fired on the group when focus leaves it; also re-dispatched targeted at the blurred child radio for compatibility. Bubbles and composed.
  *
  * @example Basic
  * ```html
@@ -159,9 +197,35 @@ export class NysRadiogroup extends NysFormControlElement {
    * @default "md"
    */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
-  @property({ type: Boolean }) _showOtherError = false;
 
-  @state() private selectedValue: string | null = null;
+  // Whether the "other" free-text field is in an error state. Internal
+  // coordination state, not a consumer input.
+  @state() private _showOtherError = false;
+
+  private _value: string | null = null;
+
+  // Guards the value accessor: true while the group syncs `value` from a
+  // child selection, so the setter doesn't push the same state back down.
+  private _syncingValueFromChildren = false;
+
+  /**
+   * Value of the selected child radiobutton, or `""` when none is selected.
+   * Setting it programmatically checks the matching child and updates the
+   * form value without firing `nys-change`. Setting `""` clears the selection.
+   */
+  @property({ attribute: false })
+  get value(): string {
+    return this._value ?? "";
+  }
+
+  set value(next: string) {
+    const old = this._value ?? "";
+    this._value = next === "" || next == null ? null : next;
+    if (!this._syncingValueFromChildren) {
+      this._applyValueToChildren();
+    }
+    this.requestUpdate("value", old);
+  }
   @state() private _slottedDescriptionText = "";
   @state() private _radios: NysRadiobutton[] = [];
 
@@ -195,6 +259,8 @@ export class NysRadiogroup extends NysFormControlElement {
     this._mobileQuery.addEventListener("change", this._handleMobileQuery);
 
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("focusin", this._handleHostFocusIn);
+    this.addEventListener("focusout", this._handleHostFocusOut);
 
     this._childObserver = new MutationObserver(() => {
       this._radios = this._getAllRadios();
@@ -206,6 +272,8 @@ export class NysRadiogroup extends NysFormControlElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
+    this.removeEventListener("focusin", this._handleHostFocusIn);
+    this.removeEventListener("focusout", this._handleHostFocusOut);
     this._mobileQuery.removeEventListener("change", this._handleMobileQuery);
 
     this._childObserver?.disconnect();
@@ -216,7 +284,7 @@ export class NysRadiogroup extends NysFormControlElement {
 
     this._radios = this._getAllRadios();
 
-    this._initializeCheckedRadioValue();
+    this._syncValueFromChildren();
     this._setValue(); // This ensures our element always participates in the form
     this._setRadioButtonRequire();
     this._updateRadioButtonsSize();
@@ -227,10 +295,7 @@ export class NysRadiogroup extends NysFormControlElement {
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
-    if (
-      changedProperties.has("required") ||
-      changedProperties.has("selectedValue")
-    ) {
+    if (changedProperties.has("required") || changedProperties.has("value")) {
       if (!this.showError) {
         this._manageRequire();
       }
@@ -248,7 +313,41 @@ export class NysRadiogroup extends NysFormControlElement {
    */
 
   private _setValue() {
-    this.setFormValue(this.selectedValue);
+    this.setFormValue(this._value);
+  }
+
+  /**
+   * Set `value` from a child selection without pushing the same state back
+   * down (and without firing `nys-change`).
+   */
+  private _setValueFromChild(next: string | null) {
+    this._syncingValueFromChildren = true;
+    this.value = next ?? "";
+    this._syncingValueFromChildren = false;
+  }
+
+  /**
+   * Apply a programmatically set `value` to the child radiobuttons and the
+   * form value. Setting `checked` on a child never fires `nys-change` (only
+   * user interaction does), so no change events echo back.
+   */
+  private _applyValueToChildren() {
+    this._getAllRadios().forEach((radio) => {
+      radio.checked = this._value !== null && radio.value === this._value;
+    });
+    this.setFormValue(this._value);
+  }
+
+  /**
+   * Derive `value` from the currently checked child. Runs off the default
+   * slot's `slotchange`, so it covers first render and dynamically added
+   * radios without scheduling work inside the update cycle.
+   */
+  private _syncValueFromChildren() {
+    const checkedRadio = this._getAllRadios().find(
+      (radio) => radio.checked || radio.hasAttribute("checked"),
+    );
+    this._setValueFromChild(checkedRadio ? checkedRadio.value : null);
   }
 
   private _setRadioButtonRequire() {
@@ -261,8 +360,6 @@ export class NysRadiogroup extends NysFormControlElement {
   }
 
   private async _manageRequire() {
-    const message = this.errorMessage || "Please select an option.";
-
     const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
     const firstRadio = radioButtons[0] as HTMLElement;
 
@@ -270,35 +367,25 @@ export class NysRadiogroup extends NysFormControlElement {
       const shadowInput = this.shadowRoot?.querySelector<HTMLElement>(
         `#input-${(firstRadio as NysRadiobutton).id}`,
       );
-      if (this.required && !this.selectedValue) {
+      if (this.required && !this._value) {
+        this.internalValidationMessage = "Please select an option.";
         this.setValidityFromState(
           { valueMissing: true },
-          message,
+          this.resolvedErrorMessage(),
           shadowInput ?? firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
+        this.internalValidationMessage = "";
         this.clearValidity();
       }
     }
   }
 
-  checkValidity() {
-    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
-    const valid =
-      !this.required ||
-      radioButtons.some((radio) => (radio as NysRadiobutton).checked);
-    return valid;
-  }
-
-  // Need to account for if radiogroup already have a radiobutton checked at initialization
-  private _initializeCheckedRadioValue() {
-    const checkedRadio = this.querySelector("nys-radiobutton[checked]");
-    if (checkedRadio) {
-      this.selectedValue = checkedRadio.getAttribute("value");
-      this.setFormValue(this.selectedValue);
-    }
-  }
+  // checkValidity()/reportValidity() come from NysFormControlElement and
+  // consult ElementInternals, matching the sibling form controls. The
+  // internals validity is kept current by _manageRequire and
+  // _validateOtherAndEmitError.
 
   // Core Keyboard & Click Logic
   private _getAllRadios() {
@@ -392,10 +479,13 @@ export class NysRadiogroup extends NysFormControlElement {
       (radio as NysRadiobutton).checked = false;
     });
 
-    this.selectedValue = null;
+    this._setValueFromChild(null);
     this.setFormValue(null);
+
+    // Reset validation UI. Clears only the component-owned validation text; a
+    // consumer-supplied errorMessage is never overwritten.
     this.showError = false;
-    this.errorMessage = "";
+    this.internalValidationMessage = "";
     this.clearValidity();
     this._hasUserInteracted = false;
     this.requestUpdate();
@@ -412,6 +502,7 @@ export class NysRadiogroup extends NysFormControlElement {
 
   private _handleSlotChange() {
     this._radios = Array.from(this.querySelectorAll("nys-radiobutton"));
+    this._syncValueFromChildren();
     this.requestUpdate();
   }
 
@@ -448,26 +539,21 @@ export class NysRadiogroup extends NysFormControlElement {
     this._hasUserInteracted = false;
 
     this.name = radiobtn.name;
-    this.selectedValue = radiobtn.value;
-    this.setFormValue(this.selectedValue);
+    this._setValueFromChild(radiobtn.value);
+    this.setFormValue(radiobtn.value);
+    this.internalValidationMessage = "";
     this.clearValidity();
     this.showError = false;
 
     this._updateGroupTabIndex();
     this.requestUpdate();
 
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: {
-          id: radiobtn.id,
-          checked: radiobtn.checked,
-          name: radiobtn.name,
-          value: radiobtn.value,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysRadiogroupChangeDetail>(this, "nys-change", {
+      id: radiobtn.id,
+      checked: radiobtn.checked,
+      name: radiobtn.name,
+      value: radiobtn.value,
+    });
   }
 
   // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
@@ -551,12 +637,23 @@ export class NysRadiogroup extends NysFormControlElement {
           HTMLElement & { checkValidity?: () => boolean }
         >;
 
-        // Find the first element in the form that is invalid
-        const firstInvalidElement = elements.find(
-          (element) =>
+        // Find the first element in the form that is invalid. Radiogroups are
+        // evaluated from their children instead of via checkValidity():
+        // checkValidity() consults ElementInternals, which re-dispatches
+        // `invalid` and would re-enter this handler.
+        const firstInvalidElement = elements.find((element) => {
+          if (element.tagName.toLowerCase() === "nys-radiogroup") {
+            const group = element as NysRadiogroup;
+            const radios = Array.from(
+              group.querySelectorAll("nys-radiobutton"),
+            ) as NysRadiobutton[];
+            return group.required && !radios.some((radio) => radio.checked);
+          }
+          return (
             typeof element.checkValidity === "function" &&
-            !element.checkValidity(),
-        );
+            !element.checkValidity()
+          );
+        });
         if (firstInvalidElement === this) {
           focusFirstInput();
         }
@@ -570,20 +667,18 @@ export class NysRadiogroup extends NysFormControlElement {
   private _handleTextInput(radiobtn: NysRadiobutton, event: Event) {
     const input = event.target as HTMLInputElement;
     radiobtn.value = input.value;
-    this.selectedValue = input.value;
+    this._setValueFromChild(input.value);
     this.setFormValue(input.value);
 
     if (this._hasUserInteracted) {
       this._validateOtherAndEmitError(radiobtn);
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-other-input", {
-        detail: { id: radiobtn.id, name: radiobtn.name, value: radiobtn.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysRadiogroupOtherInputDetail>(this, "nys-other-input", {
+      id: radiobtn.id,
+      name: radiobtn.name,
+      value: radiobtn.value,
+    });
   }
 
   private _handleTextInputBlur(radiobtn: NysRadiobutton) {
@@ -606,15 +701,17 @@ export class NysRadiogroup extends NysFormControlElement {
     );
 
     if (isInvalid) {
+      this.internalValidationMessage = "Please enter a value for this option.";
       this.setValidityFromState(
         {
           customError: true,
         },
-        "Please enter a value for this option.",
+        this.resolvedErrorMessage(),
         shadowInput ?? (radiobtn as HTMLElement),
       );
       this.showError = true;
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
       this.showError = false;
     }
@@ -644,6 +741,34 @@ export class NysRadiogroup extends NysFormControlElement {
       this.shadowRoot
         ?.querySelector<HTMLInputElement>(`#input-${radiobtn.id}`)
         ?.click();
+    }
+  };
+
+  /** True when `node` is inside this group, including its shadow DOM. */
+  private _containsFocus(node: Node | null): boolean {
+    return (
+      !!node &&
+      (node === this ||
+        this.contains(node) ||
+        !!this.shadowRoot?.contains(node))
+    );
+  }
+
+  /**
+   * Group-level focus: fired only when focus enters from outside the group,
+   * so moving between the radios stays silent. The per-radio `nys-focus`
+   * re-dispatches (targeted at the child) are kept for compatibility.
+   */
+  private _handleHostFocusIn = (event: FocusEvent) => {
+    if (!this._containsFocus(event.relatedTarget as Node | null)) {
+      dispatchNysFocusBlur(this, "focus");
+    }
+  };
+
+  /** Group-level blur: fired only when focus leaves the group entirely. */
+  private _handleHostFocusOut = (event: FocusEvent) => {
+    if (!this._containsFocus(event.relatedTarget as Node | null)) {
+      dispatchNysFocusBlur(this, "blur");
     }
   };
 
@@ -746,7 +871,8 @@ export class NysRadiogroup extends NysFormControlElement {
                           @nys-focus=${() =>
                             radiobtn.classList.remove("focused")}
                           ariaLabel="Other"
-                          aria-invalid=${radiobtn.showOtherError
+                          aria-invalid=${radiobtn.showOtherError ||
+                          this._showOtherError
                             ? "true"
                             : "false"}
                           width=${this.isMobile ? "full" : "md"}
@@ -762,7 +888,7 @@ export class NysRadiogroup extends NysFormControlElement {
         <nys-errormessage
           id="${this.id}--error"
           ?showError=${this.showError}
-          errorMessage=${this.internals!.validationMessage || this.errorMessage}
+          errorMessage=${this.resolvedErrorMessage()}
           .showDivider=${!this.tile}
         ></nys-errormessage>
       </fieldset>`;

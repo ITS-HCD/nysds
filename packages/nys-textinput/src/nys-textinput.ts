@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-textinput is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
@@ -14,6 +18,32 @@ import "@nysds/nys-button";
 import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textinput.scss?inline";
+
+/** Detail for the `nys-input` event. */
+export interface NysTextinputInputDetail {
+  /** The component's `id`. */
+  id: string;
+  /** The component's `name`. */
+  name: string;
+  /** The current value. */
+  value: string;
+}
+
+/** Fired once per user input. */
+export type NysTextinputInputEvent = CustomEvent<NysTextinputInputDetail>;
+
+/** Detail for the `nys-change` event. */
+export interface NysTextinputChangeDetail {
+  /** The component's `id`. */
+  id: string;
+  /** The component's `name`. */
+  name: string;
+  /** The committed value. */
+  value: string;
+}
+
+/** Fired when the value is committed, on blur or Enter. */
+export type NysTextinputChangeEvent = CustomEvent<NysTextinputChangeDetail>;
 
 /**
  * A text input for collecting short, single-line data. Supports validation, input masking (tel),
@@ -29,9 +59,12 @@ import styles from "./nys-textinput.scss?inline";
  * @slot startButton - Button at input start. Use single `nys-button` only.
  * @slot endButton - Button at input end. Use single `nys-button` only.
  *
- * @fires nys-input - Fired on input change. Detail: `{id, value}`.
- * @fires nys-focus - Fired when input gains focus.
- * @fires nys-blur - Fired when input loses focus. Triggers validation.
+ * @formControl value nys-change nys-input
+ *
+ * @fires {NysTextinputInputEvent} nys-input - Fired once per user input. Detail: `{id, name, value}`.
+ * @fires {NysTextinputChangeEvent} nys-change - Fired when the value is committed, on blur or Enter. Detail: `{id, name, value}`.
+ * @fires {Event} nys-focus - Fired when the input gains focus.
+ * @fires {Event} nys-blur - Fired when the input loses focus. Triggers validation.
  *
  * @example Basic
  * ```html
@@ -212,7 +245,6 @@ export class NysTextinput extends NysFormControlElement {
 
   @state() private showPassword = false;
 
-  private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
 
   private _maskPatterns: Record<string, string> = {
@@ -229,7 +261,6 @@ export class NysTextinput extends NysFormControlElement {
     // super.connectedCallback() (NysFormControlElement) assigns an id when one
     // is not provided and reflects default semantics.
     super.connectedCallback();
-    this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -284,6 +315,17 @@ export class NysTextinput extends NysFormControlElement {
       const input = this._inputEl;
 
       if (input) input.required = this.required && !this.readonly;
+
+      // Re-sync ElementInternals, not just the shadow <input>: `required`
+      // can arrive as a late property write (e.g. a framework wrapper
+      // setting it post-hydration, after firstUpdated already ran
+      // _setValue()/_manageRequire() once against the old value). Without
+      // this, ElementInternals keeps reporting valid, the native `invalid`
+      // event never fires on submit, and showError never flips even though
+      // the field is genuinely required and empty. Harmless to re-run
+      // alongside the value-driven call above: _manageRequire() only
+      // re-derives state from current `value`/`required`.
+      this._manageRequire();
     }
   }
 
@@ -302,7 +344,7 @@ export class NysTextinput extends NysFormControlElement {
 
     if (!input) return;
 
-    const message = this.errorMessage || "This field is required";
+    const message = this.resolvedErrorMessage() || "This field is required";
     const isInvalid =
       this.required && (!this.value || this.value?.trim() === ""); // Check for blank as well
 
@@ -321,17 +363,14 @@ export class NysTextinput extends NysFormControlElement {
     // Always show the visual error if there is a message
     this.showError = !!message;
 
-    // Use the original errorMessage if defined, or keep the message from validation
-    if (this._originalErrorMessage?.trim() && message !== "") {
-      this.errorMessage = this._originalErrorMessage;
-    } else {
-      this.errorMessage = message;
-    }
+    // Store validation output separately. A consumer-supplied errorMessage is
+    // never overwritten; resolvedErrorMessage() gives it precedence.
+    this.internalValidationMessage = message;
 
     if (message) {
       this.setValidityFromState(
         { customError: true },
-        this.errorMessage,
+        this.resolvedErrorMessage(),
         input,
       );
     } else {
@@ -382,9 +421,10 @@ export class NysTextinput extends NysFormControlElement {
 
     this.setFormValue("");
 
-    // Reset validation UI
+    // Reset validation UI. Clears only the component's own validation text; a
+    // consumer-supplied errorMessage is never overwritten.
     this.showError = false;
-    this.errorMessage = "";
+    this.internalValidationMessage = "";
     this.clearValidity();
 
     this.showPassword = false;
@@ -458,13 +498,7 @@ export class NysTextinput extends NysFormControlElement {
       this._validate();
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-input", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this._emitInput();
   }
 
   private _updateOverlay(value: string, mask: string) {
@@ -539,20 +573,30 @@ export class NysTextinput extends NysFormControlElement {
       this._validate();
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-input", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this._emitInput();
+  }
+
+  // Single dispatch site for nys-input, so it fires exactly once per input.
+  private _emitInput() {
+    dispatchNysEvent<NysTextinputInputDetail>(this, "nys-input", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
+  }
+
+  // Handle native change: the value is committed, on blur or Enter.
+  private _handleChange() {
+    dispatchNysEvent<NysTextinputChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "focus");
   }
 
   // Handle blur event
@@ -562,9 +606,7 @@ export class NysTextinput extends NysFormControlElement {
     }
     this._validate();
 
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "blur");
   }
 
   private _validateButtonSlot(slotName: string) {
@@ -677,6 +719,7 @@ export class NysTextinput extends NysFormControlElement {
               max=${ifDefined(this.max !== null ? this.max : undefined)}
               form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
+              @change=${this._handleChange}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
             />
@@ -727,7 +770,7 @@ export class NysTextinput extends NysFormControlElement {
         <nys-errormessage
           id=${this.id + "--error"}
           ?showError=${this.showError}
-          errorMessage=${this.errorMessage}
+          errorMessage=${this.resolvedErrorMessage()}
         ></nys-errormessage>
       </div>
     `;

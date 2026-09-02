@@ -1,0 +1,48 @@
+{
+  "name": "@nysds/codegen",
+  "version": "1.20.1",
+  "description": "Manifest readers, naming rules, CEM plugins, and the HTML snippet transformer for NYSDS framework support.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./cem-plugins": "./cem-plugins/index.mjs",
+    "./cem-plugins/*": "./cem-plugins/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "cem-plugins",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "tsc -b && node --test"
+  },
+  "dependencies": {
+    "parse5": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.3"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "codegen",
+    "custom-elements-manifest"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITS-HCD/nysds.git",
+    "directory": "packages/codegen"
+  },
+  "sideEffects": false
+}

@@ -90,7 +90,7 @@ describe("nys-fileinput", () => {
 
   it("emits 'nys-change' event when files are added", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput></nys-fileinput>`,
+      html`<nys-fileinput name="doc"></nys-fileinput>`,
     );
     const input = el.shadowRoot?.querySelector(
       ".hidden-file-input",
@@ -106,8 +106,64 @@ describe("nys-fileinput", () => {
 
     // Check event emitted and event details
     expect(event).to.exist;
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
+    expect(event.detail.id).to.equal(el.id);
+    expect(event.detail.name).to.equal("doc");
+
+    // detail.files is the raw File[] (matches the `files` property)
     expect(event.detail.files.length).to.equal(1);
-    expect(event.detail.files[0].file.name).to.equal("hello.txt");
+    expect(event.detail.files[0]).to.be.instanceOf(File);
+    expect(event.detail.files[0].name).to.equal("hello.txt");
+
+    // detail.items carries the progress wrappers for the full selection
+    expect(event.detail.items.length).to.equal(1);
+    expect(event.detail.items[0].file.name).to.equal("hello.txt");
+
+    // detail.changedFiles is the wrappers for the entries this action added
+    expect(event.detail.changedFiles.length).to.equal(1);
+    expect(event.detail.changedFiles[0].file.name).to.equal("hello.txt");
+  });
+
+  it("emits nys-focus when focus enters the component from outside", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput></nys-fileinput>`,
+    );
+    const wrapper = el.shadowRoot!.querySelector(".nys-fileinput")!;
+
+    // No relatedTarget: focus came from outside the component
+    setTimeout(() =>
+      wrapper.dispatchEvent(
+        new FocusEvent("focusin", { bubbles: true, composed: true }),
+      ),
+    );
+    const event = await oneEvent(el, "nys-focus");
+
+    expect(event).to.exist;
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
+  });
+
+  it("does not emit nys-focus when focus moves between internal elements", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput></nys-fileinput>`,
+    );
+    const wrapper = el.shadowRoot!.querySelector(".nys-fileinput")!;
+    const internal = el.shadowRoot!.querySelector("nys-button")!;
+
+    let emitted = false;
+    el.addEventListener("nys-focus", () => (emitted = true));
+
+    // relatedTarget inside the component: an internal focus move
+    wrapper.dispatchEvent(
+      new FocusEvent("focusin", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: internal,
+      }),
+    );
+
+    expect(emitted).to.be.false;
   });
 
   // Adding Files tests
@@ -190,6 +246,35 @@ describe("nys-fileinput", () => {
     expect((el as any).internals.validationMessage).to.include(
       "Please upload a file",
     );
+  });
+
+  // `required` arriving as a property write after first render (e.g. a
+  // framework wrapper setting it post-hydration, the way @lit/react does)
+  // used to leave ElementInternals reporting valid forever: the native
+  // <input> picked up `required` via the template's declarative binding,
+  // but nothing re-ran _manageRequire(), so native form submission never
+  // saw this field as invalid.
+  it("re-validates when required arrives as a late property, after first render", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput></nys-fileinput>`,
+    );
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.true;
+
+    // Simulate a late property write (not an attribute) on an already
+    // up-and-running element.
+    el.required = true;
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.false;
+    expect((el as any).internals.validity.valueMissing).to.be.true;
+
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
   });
 
   // Accessibility / shared-mixin regression tests
@@ -640,10 +725,12 @@ describe("nys-fileinput", () => {
 
       el.formResetCallback();
 
-      // Expect everything reset
+      // Expect everything reset — except errorMessage: a consumer-supplied
+      // error message is never overwritten by the component. Only the
+      // component's own validation text is cleared.
       expect(el._selectedFiles.length).to.equal(0);
       expect(el.showError).to.be.false;
-      expect(el.errorMessage).to.equal("");
+      expect(el.errorMessage).to.equal("Some error");
       expect((el as any).internals.validity.valid).to.be.true;
     });
 
@@ -663,17 +750,20 @@ describe("nys-fileinput", () => {
     });
 
     /*** More Event Test ***/
-    it("<nys-fileitem> emits nys-fileRemove with filename when remove button is clicked", async () => {
+    it("<nys-fileitem> emits nys-file-remove and deprecated nys-fileRemove with filename when remove button is clicked", async () => {
       const el = await fixture<NysFileItem>(html`
         <nys-fileitem filename="report.pdf"></nys-fileitem>
       `);
       await el.updateComplete;
 
-      let eventDetail: any = null;
+      let newDetail: any = null;
+      let oldDetail: any = null;
       el.addEventListener(
-        "nys-fileRemove",
-        (e: any) => (eventDetail = e.detail),
+        "nys-file-remove",
+        (e: any) => (newDetail = e.detail),
       );
+      // Deprecated 1.x alias: fires alongside nys-file-remove until 2.0
+      el.addEventListener("nys-fileRemove", (e: any) => (oldDetail = e.detail));
 
       const button = el.shadowRoot!.querySelector("nys-button")!;
       button.dispatchEvent(
@@ -681,8 +771,38 @@ describe("nys-fileinput", () => {
       );
       await el.updateComplete;
 
-      expect(eventDetail).to.exist;
-      expect(eventDetail.filename).to.equal("report.pdf");
+      expect(newDetail).to.exist;
+      expect(newDetail.filename).to.equal("report.pdf");
+      expect(oldDetail).to.exist;
+      expect(oldDetail.filename).to.equal("report.pdf");
+    });
+
+    it("removes the file and emits nys-change when a file item requests removal", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput name="doc"></nys-fileinput>`,
+      );
+      await el.setFiles([
+        new File(["hello"], "hello.txt", { type: "text/plain" }),
+      ]);
+      await el.updateComplete;
+
+      const item = el.shadowRoot!.querySelector("nys-fileitem")!;
+      setTimeout(() =>
+        item.dispatchEvent(
+          new CustomEvent("nys-file-remove", {
+            detail: { filename: "hello.txt" },
+            bubbles: true,
+            composed: true,
+          }),
+        ),
+      );
+      const event = await oneEvent(el, "nys-change");
+
+      expect(event.detail.files.length).to.equal(0);
+      expect(event.detail.items.length).to.equal(0);
+      expect(event.detail.changedFiles.length).to.equal(1);
+      expect(event.detail.changedFiles[0].file.name).to.equal("hello.txt");
+      expect(el.files.length).to.equal(0);
     });
 
     it("<nys-fileitem> gives the icon-only remove button a real accessible name", async () => {
@@ -773,6 +893,36 @@ describe("nys-fileinput", () => {
       el.addEventListener("nys-change", () => (emitted = true));
 
       el.files = [new File(["hello"], "hello.txt", { type: "text/plain" })];
+      await flush(el);
+
+      expect(emitted).to.be.false;
+    });
+
+    it("setting value does NOT emit nys-change (programmatic set is silent)", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput></nys-fileinput>`,
+      );
+      let emitted = false;
+      el.addEventListener("nys-change", () => (emitted = true));
+
+      el.value = new File(["hello"], "hello.txt", { type: "text/plain" });
+      await flush(el);
+      el.value = null;
+      await flush(el);
+
+      expect(emitted).to.be.false;
+    });
+
+    it("setFiles() does NOT emit nys-change (programmatic set is silent)", async () => {
+      const el = await fixture<NysFileinput>(
+        html`<nys-fileinput></nys-fileinput>`,
+      );
+      let emitted = false;
+      el.addEventListener("nys-change", () => (emitted = true));
+
+      await el.setFiles([
+        new File(["hello"], "hello.txt", { type: "text/plain" }),
+      ]);
       await flush(el);
 
       expect(emitted).to.be.false;

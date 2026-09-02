@@ -221,6 +221,32 @@ describe("nys-textarea", () => {
     expect(el.checkValidity()).to.be.false;
   });
 
+  // `required` arriving as a property write after first render (e.g. a
+  // framework wrapper setting it post-hydration, the way @lit/react does)
+  // used to leave ElementInternals reporting valid forever: the shadow
+  // <textarea> picked up `required`, but nothing re-ran _manageRequire(), so
+  // native form submission never saw this field as invalid.
+  it("re-validates when required arrives as a late property, after first render", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.true;
+
+    // Simulate a late property write (not an attribute) on an already
+    // up-and-running element.
+    el.required = true;
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.false;
+    expect((el as any).internals.validity.valueMissing).to.be.true;
+
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
   it("_handleInvalid prevents default", async () => {
     const el = await fixture<NysTextarea>(
       html`<nys-textarea required></nys-textarea>`,
@@ -363,11 +389,13 @@ describe("nys-textarea", () => {
 
 /*** More Event Tests ***/
 it("fires nys-input with correct detail on input", async () => {
-  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  const el = await fixture<NysTextarea>(
+    html`<nys-textarea name="comments"></nys-textarea>`,
+  );
   await el.updateComplete;
 
-  let eventDetail: any = null;
-  el.addEventListener("nys-input", (e: any) => (eventDetail = e.detail));
+  let capturedEvent: CustomEvent | null = null;
+  el.addEventListener("nys-input", (e) => (capturedEvent = e as CustomEvent));
 
   const textarea = el.shadowRoot!.querySelector("textarea")!;
   textarea.value = "hello";
@@ -375,9 +403,78 @@ it("fires nys-input with correct detail on input", async () => {
   await el.updateComplete;
 
   expect(el.value).to.equal("hello");
-  expect(eventDetail).to.exist;
-  expect(eventDetail.value).to.equal("hello");
-  expect(eventDetail.id).to.equal(el.id);
+  expect(capturedEvent).to.exist;
+  expect(capturedEvent!.detail).to.deep.equal({
+    id: el.id,
+    name: "comments",
+    value: "hello",
+  });
+  expect(capturedEvent!.bubbles).to.be.true;
+  expect(capturedEvent!.composed).to.be.true;
+});
+
+it("fires nys-change with {id, name, value} when the value is committed", async () => {
+  const el = await fixture<NysTextarea>(
+    html`<nys-textarea name="comments"></nys-textarea>`,
+  );
+  await el.updateComplete;
+
+  let capturedEvent: CustomEvent | null = null;
+  el.addEventListener("nys-change", (e) => (capturedEvent = e as CustomEvent));
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.value = "committed text";
+  textarea.dispatchEvent(new Event("change", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(el.value).to.equal("committed text");
+  expect(capturedEvent).to.exist;
+  expect(capturedEvent!.detail).to.deep.equal({
+    id: el.id,
+    name: "comments",
+    value: "committed text",
+  });
+  expect(capturedEvent!.bubbles).to.be.true;
+  expect(capturedEvent!.composed).to.be.true;
+});
+
+it("does not fire nys-change when value is set programmatically", async () => {
+  const el = await fixture<NysTextarea>(
+    html`<nys-textarea name="comments"></nys-textarea>`,
+  );
+  await el.updateComplete;
+
+  let fired = false;
+  el.addEventListener("nys-change", () => (fired = true));
+
+  el.value = "programmatic";
+  await el.updateComplete;
+
+  expect(el.value).to.equal("programmatic");
+  expect(fired).to.be.false;
+});
+
+it("keeps a consumer-supplied errorMessage through validation and reset", async () => {
+  const el = await fixture<NysTextarea>(
+    html`<nys-textarea required errorMessage="Custom message"></nys-textarea>`,
+  );
+  await el.updateComplete;
+
+  // Blur with an empty value triggers required validation.
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.dispatchEvent(new Event("blur"));
+  await el.updateComplete;
+
+  expect(el.showError).to.be.true;
+  // The consumer's message is never overwritten and wins the rendered text.
+  expect(el.errorMessage).to.equal("Custom message");
+  const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+  expect(errorEl.getAttribute("errorMessage")).to.equal("Custom message");
+
+  el.formResetCallback();
+  await el.updateComplete;
+
+  expect(el.errorMessage).to.equal("Custom message");
 });
 
 it("fires nys-focus when textarea gains focus", async () => {

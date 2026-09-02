@@ -6,7 +6,7 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../internals" }{{#if formRelated}},
+    { "path": "../internals" }{{#if (ne formControl "none")}},
     { "path": "../nys-label" },
     { "path": "../nys-errormessage" }{{/if}}
   ],
