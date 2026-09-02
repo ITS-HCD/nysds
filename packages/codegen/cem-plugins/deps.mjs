@@ -99,18 +99,21 @@ export function depsPlugin(options = {}) {
           "@nysds/components": componentsPeerRange,
         };
 
-        const exportsMap = {};
-        exportsMap["."] = pkg.exports?.["."] ?? {
-          types: "./dist/index.d.ts",
-          import: "./dist/index.js",
-        };
-        for (const component of components) {
-          exportsMap[`./${component.subpath}`] = subpathEntry(component);
+        // For React: generate subpath exports for per-component bundling.
+        // For Angular: ng-packagr owns the exports (dist/package.json); skip here.
+        if (target.framework === "react") {
+          const exportsMap = {};
+          exportsMap["."] = pkg.exports?.["."] ?? {
+            types: "./dist/index.d.ts",
+            import: "./dist/index.js",
+          };
+          for (const component of components) {
+            exportsMap[`./${component.subpath}`] = subpathEntry(component);
+          }
+          // Note: package.json is always accessible via the filesystem and doesn't
+          // need an explicit export entry. ng-packagr fails if we add it as a bare string.
+          pkg.exports = exportsMap;
         }
-        // Note: package.json is always accessible via the filesystem and doesn't
-        // need an explicit export entry. ng-packagr fails if we add it as a bare string.
-        // exportsMap["./package.json"] = "./package.json";
-        pkg.exports = exportsMap;
 
         fs.writeFileSync(target.path, JSON.stringify(pkg, null, 2) + "\n");
       }

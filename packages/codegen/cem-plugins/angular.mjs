@@ -228,8 +228,20 @@ function renderAngularWrapper(component, warnings) {
     }
     bodyLines.push(``);
     bodyLines.push(...docComment(prop.description, "  "));
+
+    // Generate defensive setter logic for Signal Forms compatibility.
+    // pattern: ignore empty arrays (formField metadata), null, undefined.
+    // min/max: normalize undefined to null for (number | undefined) values.
+    let setterBody = `this.el.nativeElement.${prop.name} = v;`;
+    if (prop.name === "pattern") {
+      setterBody = `if (v && v !== "" && (!Array.isArray(v) || v.length > 0)) { this.el.nativeElement.${prop.name} = v; }`;
+    } else if ((prop.name === "min" || prop.name === "max" || prop.name === "maxlength" || prop.name === "minlength") && type.includes("null")) {
+      // Normalize undefined to null for nullable numeric props
+      setterBody = `this.el.nativeElement.${prop.name} = v ?? null;`;
+    }
+
     bodyLines.push(
-      `  ${decorator} set ${prop.name}(v: ${type}) { this.el.nativeElement.${prop.name} = v; }`
+      `  ${decorator} set ${prop.name}(v: ${type}) { ${setterBody} }`
     );
     bodyLines.push(
       `  get ${prop.name}(): ${type} { return this.el.nativeElement.${prop.name}; }`
@@ -251,22 +263,25 @@ function renderAngularWrapper(component, warnings) {
     bodyLines.push(...docComment(event.description, "  "));
     bodyLines.push(`  readonly ${event.angularOutput} = output<${text}>();`);
 
-    const extras = [`this.${event.angularOutput}.emit(e);`];
+    // Cast to typed event for internal use, but type parameter as Event for
+    // typeCheckHostBindings compatibility (Angular 21+ strict mode).
+    const cast = text !== "Event" ? `(e as ${text})` : "e";
+    const extras = [`this.${event.angularOutput}.emit(${cast});`];
     if (accessor) {
       if (event.name === formControl.changeEvent) {
         // Files accessor reads from element, doesn't use event detail
-        const handleArgs = formControl.kind === "files" ? "" : "e";
+        const handleArgs = formControl.kind === "files" ? "" : cast;
         extras.push(`this.handleChange(${handleArgs});`);
       } else if (event.name === formControl.inputEvent) {
         // Files accessor reads from element, doesn't use event detail
-        const handleArgs = formControl.kind === "files" ? "" : "e";
+        const handleArgs = formControl.kind === "files" ? "" : cast;
         extras.push(`this.handleInput(${handleArgs});`);
       } else if (event.name === NYS_BLUR_EVENT) {
         extras.push(`this.handleBlur();`);
       }
     }
     listenerLines.push(
-      `  @HostListener("${event.name}", ["$event"]) protected _on${pascalize(event.name)}(e: ${text}) { ${extras.join(" ")} }`
+      `  @HostListener("${event.name}", ["$event"]) protected _on${pascalize(event.name)}(e: Event) { ${extras.join(" ")} }`
     );
   }
   if (listenerLines.length > 0) {

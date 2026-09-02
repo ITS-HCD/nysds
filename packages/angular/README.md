@@ -91,6 +91,17 @@ onEmailChange(event: NysTextinputChangeEvent) {
 }
 ```
 
+## Publishing
+
+The `dist/` directory is the publishable package root. It contains the ng-packagr output (optimized FESM bundles, type definitions, and package.json). Publishing runs from `dist/`, not from the source directory.
+
+## Signal Forms Known Limitations
+
+When using Angular's Signal Forms with `[formField]`, be aware of these constraints:
+
+- **name property overwrite**: The `[formField]` binding overwrites the `name` attribute. This is an Angular Signal Forms limitation; there is no workaround on the component side. Use a different approach for form arrays that require distinct names.
+- **pattern validation on empty array**: Angular's Signal Forms passes an empty array for unset pattern metadata. The component defensively ignores these writes; no action needed on your side.
+
 ## Forms
 
 ### Template-driven forms

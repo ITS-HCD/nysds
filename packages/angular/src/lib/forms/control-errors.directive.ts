@@ -1,4 +1,4 @@
-import { Directive, HostBinding, inject, OnInit, OnDestroy, effect } from "@angular/core";
+import { Directive, ElementRef, inject, OnInit, OnDestroy } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -29,8 +29,7 @@ import { NYS_ERROR_MESSAGES } from "./error-messages.token.js";
 })
 export class NysControlErrorsDirective implements OnInit, OnDestroy {
   private ngControl = inject(NgControl);
-  private host = inject(NgControl, { self: true, optional: true })?.valueAccessor?.["el"]
-    ?.nativeElement;
+  private host = inject(ElementRef).nativeElement;
   private errorMessages = inject(NYS_ERROR_MESSAGES);
   private destroy$ = new Subject<void>();
 

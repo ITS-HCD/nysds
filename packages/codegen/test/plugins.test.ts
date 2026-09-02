@@ -145,11 +145,19 @@ test("angular plugin writes typed proxies, a barrel, and the module", () => {
   assert.match(textinput, /readonly nysInput = output<NysTextinputInputEvent>\(\);/);
   assert.match(
     textinput,
-    /@HostListener\("nys-input", \["\$event"\]\).*this.nysInput.emit\(e\); this.handleInput\(e\);/
+    /@HostListener\("nys-input", \["\$event"\]\).*protected _onNysInput\(e: Event\)/
   );
   assert.match(
     textinput,
-    /@HostListener\("nys-blur", \["\$event"\]\).*this.handleBlur\(\);/
+    /this\.nysInput\.emit\(\(e as NysTextinputInputEvent\)\);.*this\.handleInput\(\(e as NysTextinputInputEvent\)\);/
+  );
+  assert.match(
+    textinput,
+    /@HostListener\("nys-blur", \["\$event"\]\).*protected _onNysBlur\(e: Event\)/
+  );
+  assert.match(
+    textinput,
+    /this\.nysBlur\.emit\(e\); this\.handleBlur\(\);/
   );
   // Host-managed props are skipped.
   assert.doesNotMatch(textinput, /set id\(/);

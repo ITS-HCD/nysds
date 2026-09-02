@@ -18,12 +18,13 @@
     "lit",
     "nys"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "./dist/fesm2022/nysds-angular.mjs",
+  "module": "./dist/fesm2022/nysds-angular.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/fesm2022/nysds-angular.mjs"
     },
     "./accordion": {
       "types": "./dist/accordion/index.d.ts",

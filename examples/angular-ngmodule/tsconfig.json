@@ -2,10 +2,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "strict": true,
-    // WORKAROUND: see examples/angular-app/tsconfig.json — the
-    // @nysds/angular source compiled through the paths mapping needs
-    // this relaxation until WS4 fixes the package exports.
-    "noImplicitAny": false,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -17,8 +13,6 @@
     "module": "preserve",
     "moduleResolution": "bundler",
     "paths": {
-      "@nysds/angular": ["../../packages/angular/src/public-api.ts"],
-      // See examples/angular-app/tsconfig.json.
       "@angular/*": ["./node_modules/@angular/*"]
     }
   },
@@ -26,8 +20,6 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    // WORKAROUND: see examples/angular-app/tsconfig.json.
-    "typeCheckHostBindings": false
+    "strictTemplates": true
   }
 }
