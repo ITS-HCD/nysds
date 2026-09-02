@@ -32,7 +32,7 @@ test("parseFormControlTag throws on malformed tags", () => {
   assert.throws(() => parseFormControlTag(""), /expects/);
   assert.throws(
     () => parseFormControlTag("value nys-change nys-input extra"),
-    /expects/
+    /expects/,
   );
   assert.throws(() => parseFormControlTag("value change"), /event/);
   assert.throws(() => parseFormControlTag("value nys-change input"), /event/);
@@ -68,7 +68,7 @@ test("a malformed tag fails the analyze run with the file path", () => {
       assert.match(error.message, /packages\/nys-fake\/src\/nys-fake\.ts/);
       assert.match(error.message, /kind/);
       return true;
-    }
+    },
   );
 });
 
@@ -81,7 +81,7 @@ test("a well-formed tag lands on the declaration at link time", () => {
   assert.deepEqual(
     (manifest.modules[0].declarations[0] as { formControl?: unknown })
       .formControl,
-    { kind: "value", changeEvent: "nys-change", inputEvent: "nys-input" }
+    { kind: "value", changeEvent: "nys-change", inputEvent: "nys-input" },
   );
 });
 
@@ -98,7 +98,7 @@ test("strict mode throws when a form component misses the tag", () => {
       assert.match(error.message, /NysToggle/);
       assert.doesNotMatch(error.message, /NysButton/, "allowlisted");
       return true;
-    }
+    },
   );
 });
 
@@ -120,7 +120,9 @@ test("a manifest with formControl everywhere passes strict mode", () => {
   plugin.packageLinkPhase({ customElementsManifest: manifest });
   // Attachment path: declarations keep their formControl blocks.
   const textinput = manifest.modules
-    .flatMap((mod: { declarations?: { name: string }[] }) => mod.declarations ?? [])
+    .flatMap(
+      (mod: { declarations?: { name: string }[] }) => mod.declarations ?? [],
+    )
     .find((decl: { name: string }) => decl.name === "NysTextinput");
   assert.ok(textinput.formControl);
 });
@@ -133,6 +135,6 @@ test("a custom allowlist replaces the default", (t) => {
       plugin.packageLinkPhase({
         customElementsManifest: readManifest("manifest-today.json"),
       }),
-    /NysButton/
+    /NysButton/,
   );
 });

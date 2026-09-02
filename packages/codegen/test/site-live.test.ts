@@ -13,7 +13,8 @@ import { loadManifest, transformExample } from "../dist/index.js";
 
 const siteDir = process.env.NYSDS_SITE_DIR;
 const available =
-  !!siteDir && fs.existsSync(path.join(siteDir, "src", "content", "components"));
+  !!siteDir &&
+  fs.existsSync(path.join(siteDir, "src", "content", "components"));
 
 /**
  * Component pages allowed to produce `unsupported` examples (scripts or
@@ -38,7 +39,7 @@ const PREVIEW_RE = /\{%\s*set\s+preview\s*%\}([\s\S]*?)\{%\s*endset\s*%\}/g;
 test("live docs site sweep", { skip: !available }, () => {
   const here = path.dirname(fileURLToPath(import.meta.url));
   const manifest = loadManifest(
-    path.join(here, "..", "..", "..", "custom-elements.json")
+    path.join(here, "..", "..", "..", "custom-elements.json"),
   );
   const componentsDir = path.join(siteDir!, "src", "content", "components");
   const failures: string[] = [];
@@ -55,10 +56,14 @@ test("live docs site sweep", { skip: !available }, () => {
       ordinal += 1;
       total += 1;
       for (const framework of ["react", "angular"] as const) {
-        const result = transformExample({ html: match[1], framework, manifest });
+        const result = transformExample({
+          html: match[1],
+          framework,
+          manifest,
+        });
         if (result.unsupported && !ALLOWLIST.has(entry.name)) {
           failures.push(
-            `${entry.name}#${ordinal} (${framework}): ${result.warnings.join("; ")}`
+            `${entry.name}#${ordinal} (${framework}): ${result.warnings.join("; ")}`,
           );
         }
       }

@@ -15,7 +15,9 @@ import type { ElementRef } from "@angular/core";
  * component).
  */
 @Directive()
-export abstract class NysValueAccessor<T = string> implements ControlValueAccessor {
+export abstract class NysValueAccessor<
+  T = string,
+> implements ControlValueAccessor {
   /**
    * The element reference. Subclasses inject `ElementRef<ConcreteComponent>`
    * and override this field so TypeScript knows the concrete type.

@@ -1,4 +1,10 @@
-import { Directive, ElementRef, inject, OnInit, OnDestroy } from "@angular/core";
+import {
+  Directive,
+  ElementRef,
+  inject,
+  OnInit,
+  OnDestroy,
+} from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -44,14 +50,12 @@ export class NysControlErrorsDirective implements OnInit, OnDestroy {
       .subscribe(() => this.updateErrors());
 
     // Also subscribe to value changes to clear errors on input (before blur)
-    control.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        // Clear errors while still dirty but touched not yet set
-        if (!control.touched) {
-          this.clearErrors();
-        }
-      });
+    control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      // Clear errors while still dirty but touched not yet set
+      if (!control.touched) {
+        this.clearErrors();
+      }
+    });
 
     // Initial state
     this.updateErrors();

@@ -12,8 +12,14 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { getComponent, getAllComponents } from "../lib/cem-parser.js";
 import { searchComponents } from "../lib/search.js";
-import { buildExampleSnippets, type FrameworkFilter } from "../lib/framework-snippets.js";
-import { buildAngularUsageNotes, buildReactUsageNotes } from "../lib/framework-usage.js";
+import {
+  buildExampleSnippets,
+  type FrameworkFilter,
+} from "../lib/framework-snippets.js";
+import {
+  buildAngularUsageNotes,
+  buildReactUsageNotes,
+} from "../lib/framework-usage.js";
 
 export function registerComponentTools(server: McpServer): void {
   // find_components - Search or list all components
@@ -114,9 +120,17 @@ export function registerComponentTools(server: McpServer): void {
 
       const usage: Record<string, unknown> = {};
       if (framework === "react") {
-        usage.react = buildReactUsageNotes(tagName, component.name, formControl);
+        usage.react = buildReactUsageNotes(
+          tagName,
+          component.name,
+          formControl,
+        );
       } else if (framework === "angular") {
-        usage.angular = buildAngularUsageNotes(tagName, component.name, formControl);
+        usage.angular = buildAngularUsageNotes(
+          tagName,
+          component.name,
+          formControl,
+        );
       }
 
       return {

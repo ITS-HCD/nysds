@@ -9,7 +9,11 @@
  * here via `@nysds/codegen` rather than re-derived.
  */
 
-import { eventToAngularOutput, eventToReactProp, tagToSubpath } from "@nysds/codegen";
+import {
+  eventToAngularOutput,
+  eventToReactProp,
+  tagToSubpath,
+} from "@nysds/codegen";
 import type { CEMFormControl } from "./cem-parser.js";
 
 export interface FrameworkUsageNotes {
@@ -31,7 +35,9 @@ export function buildReactUsageNotes(
   formControl: CEMFormControl | undefined,
 ): FrameworkUsageNotes {
   const subpath = tagToSubpath(tagName);
-  const changeProp = formControl ? eventToReactProp(formControl.changeEvent) : undefined;
+  const changeProp = formControl
+    ? eventToReactProp(formControl.changeEvent)
+    : undefined;
   const inputProp =
     formControl?.inputEvent !== undefined
       ? eventToReactProp(formControl.inputEvent)
@@ -57,16 +63,20 @@ export function buildAngularUsageNotes(
 ): FrameworkUsageNotes {
   const subpath = tagToSubpath(tagName);
   const angularClass = `${className}Component`;
-  const changeOutput = formControl ? eventToAngularOutput(formControl.changeEvent) : undefined;
+  const changeOutput = formControl
+    ? eventToAngularOutput(formControl.changeEvent)
+    : undefined;
 
   return {
     package: "@nysds/angular",
     import: `import { ${angularClass} } from "@nysds/angular/${subpath}";`,
     events: `Events map to camelCase outputs (nys-change -> (nysChange)); event.detail is typed.${
-      changeOutput ? ` This component's change output is (${changeOutput}).` : ""
+      changeOutput
+        ? ` This component's change output is (${changeOutput}).`
+        : ""
     }`,
     forms: formControl
-      ? "Implements ControlValueAccessor: works with [(ngModel)], formControlName (Reactive Forms), and Signal Forms [formField] with no CUSTOM_ELEMENTS_SCHEMA. Add the nysControlErrors directive to let Angular own validation display instead of the component's own errorMessage/showError. See get_guide({ topic: \"installation\", framework: \"angular\" })."
+      ? 'Implements ControlValueAccessor: works with [(ngModel)], formControlName (Reactive Forms), and Signal Forms [formField] with no CUSTOM_ELEMENTS_SCHEMA. Add the nysControlErrors directive to let Angular own validation display instead of the component\'s own errorMessage/showError. See get_guide({ topic: "installation", framework: "angular" }).'
       : undefined,
   };
 }

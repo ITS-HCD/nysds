@@ -14,6 +14,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.\n\nUse within `nys-radiogroup` for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.\nFor multiple selections, use `nys-checkbox`.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysRadiogroup label="Select borough" required>\n  <NysRadiobutton name="borough" value="bronx" label="The Bronx" />\n  <NysRadiobutton name="borough" value="brooklyn" label="Brooklyn" />\n  <NysRadiobutton name="borough" value="manhattan" label="Manhattan" />\n</NysRadiogroup>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-radiogroup label="Select borough" required>\n  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>\n  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>\n  <nys-radiobutton name="borough" value="manhattan" label="Manhattan"></nys-radiobutton>\n</nys-radiogroup>\n```',
+      },
     },
   },
 };

@@ -36,9 +36,7 @@ const CASES: Record<string, Variant[]> = {
   "03-number": [{}],
   "04-attr-mapping": [{}],
   "05-unknown-attr": [{ warnings: 1 }],
-  "06-slot": [
-    { reactImports: ["NysButton", "NysTextinput"] },
-  ],
+  "06-slot": [{ reactImports: ["NysButton", "NysTextinput"] }],
   "07-native": [{ reactImports: [], angularImports: [] }],
   "08-script": [{ warnings: 1, unsupported: true }],
   "09-style-block": [{ warnings: 1, unsupported: false }],
@@ -48,11 +46,11 @@ const CASES: Record<string, Variant[]> = {
     { formsMode: "template", suffix: ".template" },
     { formsMode: "reactive", suffix: ".reactive" },
   ],
-  "12-subcomponents": [
-    { reactImports: ["NysOption", "NysSelect"] },
-  ],
+  "12-subcomponents": [{ reactImports: ["NysOption", "NysSelect"] }],
   "13-object-prop": [{}],
-  "14-unknown-component": [{ warnings: 1, reactImports: [], angularImports: [] }],
+  "14-unknown-component": [
+    { warnings: 1, reactImports: [], angularImports: [] },
+  ],
   "15-forms-checked": [{}, { formsMode: "template", suffix: ".template" }],
   "16-inline-style": [{}],
   "17-comment": [{}],
@@ -81,15 +79,12 @@ for (const [name, variants] of Object.entries(CASES)) {
           const golden = fs.readFileSync(goldenPath, "utf8");
           assert.equal(result.code, golden);
         }
-        assert.equal(
-          result.language,
-          framework === "react" ? "jsx" : "html"
-        );
+        assert.equal(result.language, framework === "react" ? "jsx" : "html");
         if (variant.warnings !== undefined) {
           assert.equal(
             result.warnings.length,
             variant.warnings,
-            `warnings: ${JSON.stringify(result.warnings)}`
+            `warnings: ${JSON.stringify(result.warnings)}`,
           );
         } else {
           assert.deepEqual(result.warnings, []);

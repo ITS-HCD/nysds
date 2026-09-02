@@ -21,7 +21,9 @@ export interface TransformExampleInput {
 }
 
 /** Transforms one HTML example into a framework snippet. */
-export function transformExample(input: TransformExampleInput): TransformResult {
+export function transformExample(
+  input: TransformExampleInput,
+): TransformResult {
   const formsMode = input.formsMode ?? "none";
   return input.framework === "react"
     ? toJsx(input.html, input.manifest, formsMode)

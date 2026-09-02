@@ -32,7 +32,7 @@ const INLINE_TEXT_MAX = 60;
 export function toJsx(
   html: string,
   manifest: Manifest,
-  formsMode: FormsMode = "none"
+  formsMode: FormsMode = "none",
 ): TransformResult {
   const context = buildContext(manifest, formsMode);
   const lines = renderNodes(context, parseHtmlFragment(html), 0);
@@ -48,7 +48,7 @@ export function toJsx(
 function renderNodes(
   context: TransformContext,
   nodes: P5Node[],
-  depth: number
+  depth: number,
 ): string[] {
   const indent = "  ".repeat(depth);
   const lines: string[] = [];
@@ -72,7 +72,7 @@ function renderNodes(
 function renderElement(
   context: TransformContext,
   element: P5Element,
-  depth: number
+  depth: number,
 ): string[] {
   if (dropScriptOrStyle(context, element)) return [];
 
@@ -83,7 +83,7 @@ function renderElement(
     component = context.byTag.get(tagName);
     if (!component) {
       context.warnings.push(
-        `Unknown component <${tagName}> is not in the manifest; passed through unchanged.`
+        `Unknown component <${tagName}> is not in the manifest; passed through unchanged.`,
       );
     }
   }
@@ -151,7 +151,7 @@ function renderElement(
     const setter = `set${stateName[0].toUpperCase()}${stateName.slice(1)}`;
     attrParts.push(`${stateName}={${stateName}}`);
     attrParts.push(
-      `${eventToReactProp(formControl.changeEvent)}={(e) => ${setter}(e.detail.${stateName})}`
+      `${eventToReactProp(formControl.changeEvent)}={(e) => ${setter}(e.detail.${stateName})}`,
     );
   }
 
@@ -163,7 +163,9 @@ function renderElement(
     return [`${indent}<${jsxName}${attrsText} />`];
   }
 
-  const onlyText = children.every((node) => !isElement(node) && !isComment(node));
+  const onlyText = children.every(
+    (node) => !isElement(node) && !isComment(node),
+  );
   if (onlyText && childLines.length === 1) {
     const text = childLines[0].trim();
     if (text.length <= INLINE_TEXT_MAX) {
@@ -195,10 +197,7 @@ function jsxPropAttr(prop: PropMeta, value: string): string {
   if (prop.isNumber && isNumericLiteral(value)) {
     return `${prop.name}={${value}}`;
   }
-  if (
-    !prop.isPrimitive &&
-    (value.startsWith("{") || value.startsWith("["))
-  ) {
+  if (!prop.isPrimitive && (value.startsWith("{") || value.startsWith("["))) {
     return `${prop.name}={${value}}`;
   }
   return jsxStringAttr(prop.name, value);
@@ -208,7 +207,7 @@ function jsxPropAttr(prop: PropMeta, value: string): string {
 function styleToJsx(
   context: TransformContext,
   value: string,
-  tagName: string
+  tagName: string,
 ): string | undefined {
   const declarations = value
     .split(";")
@@ -219,7 +218,7 @@ function styleToJsx(
     const colon = declaration.indexOf(":");
     if (colon === -1) {
       context.warnings.push(
-        `Dropped unparseable style attribute on <${tagName}>.`
+        `Dropped unparseable style attribute on <${tagName}>.`,
       );
       return undefined;
     }

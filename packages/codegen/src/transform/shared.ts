@@ -38,7 +38,7 @@ export interface TransformContext {
 
 export function buildContext(
   manifest: Manifest,
-  formsMode: FormsMode
+  formsMode: FormsMode,
 ): TransformContext {
   const byTag = new Map<string, ComponentMeta>();
   for (const component of listComponents(manifest)) {
@@ -61,7 +61,7 @@ export function buildContext(
  */
 export function propLookup(
   context: TransformContext,
-  component: ComponentMeta
+  component: ComponentMeta,
 ): Map<string, PropMeta> {
   let lookup = context.propLookups.get(component.tag);
   if (!lookup) {
@@ -104,13 +104,13 @@ export function isSilentGlobalAttr(attrName: string): boolean {
  */
 export function dropScriptOrStyle(
   context: TransformContext,
-  element: P5Element
+  element: P5Element,
 ): boolean {
   if (element.tagName !== "script" && element.tagName !== "style") {
     return false;
   }
   context.warnings.push(
-    `Dropped <${element.tagName}> block: examples must be declarative markup.`
+    `Dropped <${element.tagName}> block: examples must be declarative markup.`,
   );
   if (
     element.tagName === "script" &&
@@ -124,10 +124,10 @@ export function dropScriptOrStyle(
 export function warnInlineHandler(
   context: TransformContext,
   attrName: string,
-  tagName: string
+  tagName: string,
 ): void {
   context.warnings.push(
-    `Inline handler "${attrName}" on <${tagName}> cannot be transformed.`
+    `Inline handler "${attrName}" on <${tagName}> cannot be transformed.`,
   );
   context.unsupported = true;
 }
@@ -135,10 +135,10 @@ export function warnInlineHandler(
 export function warnUnknownAttr(
   context: TransformContext,
   attrName: string,
-  tagName: string
+  tagName: string,
 ): void {
   context.warnings.push(
-    `Unknown attribute "${attrName}" on <${tagName}> passed through unchanged.`
+    `Unknown attribute "${attrName}" on <${tagName}> passed through unchanged.`,
   );
 }
 
@@ -154,7 +154,7 @@ export function isNumericLiteral(value: string): boolean {
  */
 export function modelFieldName(
   element: P5Element,
-  component: ComponentMeta
+  component: ComponentMeta,
 ): string {
   const byName = element.attrs.find((attr) => attr.name === "name")?.value;
   if (byName) return byName;

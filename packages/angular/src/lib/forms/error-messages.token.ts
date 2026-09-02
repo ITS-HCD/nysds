@@ -18,17 +18,16 @@ import { InjectionToken } from "@angular/core";
  * ]
  * ```
  */
-export const NYS_ERROR_MESSAGES = new InjectionToken<Record<string, (err: unknown) => string>>(
-  "nysds.errorMessages",
-  {
-    factory: () => ({
-      required: () => "This field is required",
-      minlength: (err: any) => `Minimum length is ${err.requiredLength}`,
-      maxlength: (err: any) => `Maximum length is ${err.requiredLength}`,
-      pattern: () => "Invalid format",
-      email: () => "Enter a valid email address",
-      min: (err: any) => `Minimum value is ${err.min}`,
-      max: (err: any) => `Maximum value is ${err.max}`,
-    }),
-  },
-);
+export const NYS_ERROR_MESSAGES = new InjectionToken<
+  Record<string, (err: unknown) => string>
+>("nysds.errorMessages", {
+  factory: () => ({
+    required: () => "This field is required",
+    minlength: (err: any) => `Minimum length is ${err.requiredLength}`,
+    maxlength: (err: any) => `Maximum length is ${err.requiredLength}`,
+    pattern: () => "Invalid format",
+    email: () => "Enter a valid email address",
+    min: (err: any) => `Minimum value is ${err.min}`,
+    max: (err: any) => `Maximum value is ${err.max}`,
+  }),
+});

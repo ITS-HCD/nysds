@@ -13,7 +13,7 @@ const today = loadManifest(fixture("manifest-today.json"));
 test("loadManifest rejects a file that is not a manifest", () => {
   assert.throws(
     () => loadManifest(fixture("not-a-manifest.json")),
-    /missing "modules"/
+    /missing "modules"/,
   );
   assert.throws(() => loadManifest(fixture("missing.json")), /Cannot read/);
 });
@@ -34,7 +34,7 @@ test("listComponents returns every component, sorted by tag", () => {
 
 test("naming and packaging fields derive from the manifest", () => {
   const byTag = new Map(
-    listComponents(future).map((component) => [component.tag, component])
+    listComponents(future).map((component) => [component.tag, component]),
   );
   const item = byTag.get("nys-accordionitem")!;
   assert.equal(item.className, "NysAccordionItem");
@@ -48,7 +48,7 @@ test("naming and packaging fields derive from the manifest", () => {
 
 test("props filter out private, static, deprecated, and Lit members", () => {
   const textinput = listComponents(future).find(
-    (component) => component.tag === "nys-textinput"
+    (component) => component.tag === "nys-textinput",
   )!;
   const names = textinput.props.map((prop) => prop.name);
   assert.ok(names.includes("label"));
@@ -67,7 +67,7 @@ test("props filter out private, static, deprecated, and Lit members", () => {
 
 test("prop metadata: attribute mapping, type flags, union collapsing", () => {
   const textinput = listComponents(future).find(
-    (component) => component.tag === "nys-textinput"
+    (component) => component.tag === "nys-textinput",
   )!;
   const byName = new Map(textinput.props.map((prop) => [prop.name, prop]));
 
@@ -87,7 +87,7 @@ test("prop metadata: attribute mapping, type flags, union collapsing", () => {
 
 test("events: deprecated events are dropped, aliases and fallbacks kept", () => {
   const fileinput = listComponents(future).find(
-    (component) => component.tag === "nys-fileinput"
+    (component) => component.tag === "nys-fileinput",
   )!;
   const names = fileinput.events.map((event) => event.name);
   assert.ok(!names.includes("nys-fileRemove"), "deprecated event filtered");
@@ -99,7 +99,7 @@ test("events: deprecated events are dropped, aliases and fallbacks kept", () => 
 
   // Today's manifest: bare types stay usable.
   const textinput = listComponents(today).find(
-    (component) => component.tag === "nys-textinput"
+    (component) => component.tag === "nys-textinput",
   )!;
   const input = textinput.events.find((event) => event.name === "nys-input")!;
   assert.equal(input.typeText, "CustomEvent");
@@ -107,7 +107,7 @@ test("events: deprecated events are dropped, aliases and fallbacks kept", () => 
 
 test("formControl metadata flows through when present, absent today", () => {
   const futureTextinput = listComponents(future).find(
-    (component) => component.tag === "nys-textinput"
+    (component) => component.tag === "nys-textinput",
   )!;
   assert.deepEqual(futureTextinput.formControl, {
     kind: "value",
@@ -122,10 +122,10 @@ test("formControl metadata flows through when present, absent today", () => {
 
 test("slots surface with names and descriptions", () => {
   const textinput = listComponents(future).find(
-    (component) => component.tag === "nys-textinput"
+    (component) => component.tag === "nys-textinput",
   )!;
   assert.deepEqual(
     textinput.slots.map((slot) => slot.name),
-    ["description", "endButton"]
+    ["description", "endButton"],
   );
 });

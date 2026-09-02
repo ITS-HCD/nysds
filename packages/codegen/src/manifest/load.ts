@@ -18,7 +18,7 @@ export function loadManifest(manifestPath?: string): Manifest {
     raw = JSON.parse(fs.readFileSync(resolved, "utf8"));
   } catch (error) {
     throw new Error(
-      `Cannot read manifest at ${resolved}: ${(error as Error).message}`
+      `Cannot read manifest at ${resolved}: ${(error as Error).message}`,
     );
   }
   return validateManifest(raw, resolved);
@@ -31,7 +31,7 @@ function defaultManifestPath(): string {
     entry = require.resolve("@nysds/components");
   } catch {
     throw new Error(
-      "Cannot resolve @nysds/components. Install it, or pass an explicit manifest path to loadManifest()."
+      "Cannot resolve @nysds/components. Install it, or pass an explicit manifest path to loadManifest().",
     );
   }
   let dir = path.dirname(entry);
@@ -43,26 +43,28 @@ function defaultManifestPath(): string {
     dir = parent;
   }
   throw new Error(
-    `Found @nysds/components at ${entry} but no custom-elements.json near it. Pass an explicit manifest path to loadManifest().`
+    `Found @nysds/components at ${entry} but no custom-elements.json near it. Pass an explicit manifest path to loadManifest().`,
   );
 }
 
 /** Light structural validation: enough to fail fast on the wrong file. */
 function validateManifest(raw: unknown, source: string): Manifest {
   if (typeof raw !== "object" || raw === null) {
-    throw new Error(`${source} is not a custom elements manifest: not an object.`);
+    throw new Error(
+      `${source} is not a custom elements manifest: not an object.`,
+    );
   }
   const manifest = raw as { modules?: unknown };
   if (!Array.isArray(manifest.modules)) {
     throw new Error(
-      `${source} is not a custom elements manifest: missing "modules" array.`
+      `${source} is not a custom elements manifest: missing "modules" array.`,
     );
   }
   for (const mod of manifest.modules) {
     const candidate = mod as ManifestModule;
     if (typeof candidate?.path !== "string") {
       throw new Error(
-        `${source} is not a custom elements manifest: a module has no "path".`
+        `${source} is not a custom elements manifest: a module has no "path".`,
       );
     }
     if (
@@ -70,7 +72,7 @@ function validateManifest(raw: unknown, source: string): Manifest {
       !Array.isArray(candidate.declarations)
     ) {
       throw new Error(
-        `${source} is not a custom elements manifest: "declarations" of ${candidate.path} is not an array.`
+        `${source} is not a custom elements manifest: "declarations" of ${candidate.path} is not an array.`,
       );
     }
   }

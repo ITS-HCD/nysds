@@ -71,7 +71,8 @@ export function registerFrameworkResources(server: McpServer): void {
     "frameworks-react",
     "nysds://frameworks/react",
     {
-      description: "@nysds/react install, usage, forms, SSR, and troubleshooting guide",
+      description:
+        "@nysds/react install, usage, forms, SSR, and troubleshooting guide",
       mimeType: "text/markdown",
     },
     async () => ({

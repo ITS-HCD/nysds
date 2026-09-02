@@ -36,7 +36,7 @@ test("angular component class: class name + Component", () => {
   assert.equal(classToAngularClass("NysTextinput"), "NysTextinputComponent");
   assert.equal(
     classToAngularClass("NysAccordionItem"),
-    "NysAccordionItemComponent"
+    "NysAccordionItemComponent",
   );
 });
 
@@ -63,11 +63,11 @@ test("subpath: the tag minus the prefix", () => {
 test("package name derives from the manifest module path", () => {
   assert.equal(
     tagToPackage("packages/nys-accordion/src/nys-accordionitem.ts"),
-    "@nysds/nys-accordion"
+    "@nysds/nys-accordion",
   );
   assert.equal(
     tagToPackage("packages/nys-select/src/nys-option.ts"),
-    "@nysds/nys-select"
+    "@nysds/nys-select",
   );
   assert.throws(() => tagToPackage("src/index.ts"), /Cannot derive/);
 });

@@ -34,11 +34,7 @@ export type {
   SlotMeta,
   FormControlMeta,
 } from "./manifest/types.js";
-export {
-  transformExample,
-  toJsx,
-  toAngular,
-} from "./transform/index.js";
+export { transformExample, toJsx, toAngular } from "./transform/index.js";
 export type {
   TransformExampleInput,
   TransformResult,

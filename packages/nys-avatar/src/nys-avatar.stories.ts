@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Displays a user representation as image, initials, or icon with automatic fallback chain.\n\nPriority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;\nforeground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).\n\nAn avatar with no `ariaLabel` is treated as decorative and hidden from assistive\ntech — correct beside a visible name, wrong for an `interactive` avatar, which\nrenders a `<button>` and warns in the console when left nameless.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysAvatar ariaLabel="User avatar" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-avatar ariaLabel="User avatar"></nys-avatar>\n```',
+      },
     },
   },
 };

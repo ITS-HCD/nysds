@@ -12,7 +12,13 @@ import { loadManifest, transformExample } from "../dist/index.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const corpusDir = path.join(here, "fixtures", "site-corpus");
-const repoManifestPath = path.join(here, "..", "..", "..", "custom-elements.json");
+const repoManifestPath = path.join(
+  here,
+  "..",
+  "..",
+  "..",
+  "custom-elements.json",
+);
 
 const manifest = loadManifest(repoManifestPath);
 const files = fs
@@ -32,7 +38,7 @@ for (const file of files) {
       assert.equal(
         result.unsupported,
         false,
-        `unsupported; warnings: ${JSON.stringify(result.warnings)}`
+        `unsupported; warnings: ${JSON.stringify(result.warnings)}`,
       );
       assert.ok(result.code.trim().length > 0, "produced code");
     });
