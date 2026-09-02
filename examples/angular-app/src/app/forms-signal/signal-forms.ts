@@ -46,17 +46,26 @@ const initial: SignalModel = { firstName: "", agree: false, contact: "" };
     NysTextinputComponent,
   ],
   template: `
-    <main>
-      <h1>Forms: Signal Forms</h1>
+    <h1>Forms: Signal Forms</h1>
+    <p>
+      A reduced application form with Signal Forms
+      <code>[formField]</code> bindings (Angular 21+).
+    </p>
 
-      <!--
-        The submit button uses (nysClick), not type="submit": FormField
-        auto-binds empty PATTERN metadata into NysTextinput's string
-        "pattern" input, which leaves the element's ElementInternals
-        invalid and silently blocks form.requestSubmit(). Reported as a
-        Signal Forms interop defect against @nysds/angular.
-      -->
-      <form (submit)="$event.preventDefault(); submit()">
+    <div class="nys-grid-row">
+      <section class="nys-grid-col-12 nys-desktop:nys-grid-col-8">
+        <h2>Application form</h2>
+        <!--
+          The submit button uses (nysClick), not type="submit": FormField
+          auto-binds empty PATTERN metadata into NysTextinput's string
+          "pattern" input, which leaves the element's ElementInternals
+          invalid and silently blocks form.requestSubmit(). Reported as a
+          Signal Forms interop defect against @nysds/angular.
+        -->
+        <form
+          class="nys-display-flex nys-flex-column nys-flex-gap-300"
+          (submit)="$event.preventDefault(); submit()"
+        >
         <nys-textinput
           label="First name"
           name="firstName"
@@ -89,22 +98,38 @@ const initial: SignalModel = { firstName: "", agree: false, contact: "" };
           ></nys-radiobutton>
         </nys-radiogroup>
 
-        <nys-button
-          type="button"
-          label="Submit"
-          data-testid="submit"
-          (nysClick)="submit()"
-        ></nys-button>
-        <button type="button" data-testid="reset" (click)="reset()">
-          Reset
-        </button>
-      </form>
+          <div
+            class="nys-display-flex nys-flex-wrap nys-flex-align-center nys-flex-gap-200 nys-margin-t-200"
+          >
+            <nys-button
+              type="button"
+              label="Submit"
+              data-testid="submit"
+              (nysClick)="submit()"
+            ></nys-button>
+            <button
+              type="button"
+              class="app-action"
+              data-testid="reset"
+              (click)="reset()"
+            >
+              Reset
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
 
-      <h2>Live model</h2>
-      <pre data-testid="model">{{ model() | json }}</pre>
-      <h2>Submitted</h2>
-      <pre data-testid="submitted">{{ submitted() ? (submitted() | json) : "" }}</pre>
-    </main>
+    <div class="nys-grid-row nys-grid-gap-400">
+      <section class="nys-grid-col-12 nys-tablet:nys-grid-col-6">
+        <h2>Live model</h2>
+        <pre class="app-readout" data-testid="model">{{ model() | json }}</pre>
+      </section>
+      <section class="nys-grid-col-12 nys-tablet:nys-grid-col-6">
+        <h2>Submitted</h2>
+        <pre class="app-readout" data-testid="submitted">{{ submitted() ? (submitted() | json) : "" }}</pre>
+      </section>
+    </div>
   `,
 })
 export class SignalFormsPage {

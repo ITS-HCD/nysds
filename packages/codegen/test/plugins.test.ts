@@ -275,7 +275,7 @@ test("deps plugin rewrites dependencies, peer range, and exports", (t) => {
   assert.equal(
     pkg.peerDependencies["@nysds/components"],
     undefined,
-    "components peer removed — exact deps carry alignment, and the peer made npm pull the published bundle"
+    "components peer removed — exact deps carry alignment, and the peer made npm pull the published bundle",
   );
   assert.equal(pkg.peerDependencies.react, "^18.0.0 || ^19.0.0");
 

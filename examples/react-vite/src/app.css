@@ -1,6 +1,3 @@
-/* NYSDS full stylesheet, resolved through the package exports map. */
-@import "@nysds/styles/full";
-
 /*
  * Example-app presentation not covered by an NYSDS utility class.
  * Keep this block identical across examples/react-vite,

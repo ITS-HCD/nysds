@@ -54,10 +54,20 @@ import {
     NysToggleComponent,
   ],
   template: `
-    <main>
-      <h1>Forms: reactive</h1>
+    <h1>Forms: reactive</h1>
+    <p>
+      The shared application form with <code>formControlName</code> bindings
+      and framework-owned validation via <code>nysControlErrors</code>.
+    </p>
 
-      <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="nys-grid-row">
+      <section class="nys-grid-col-12 nys-desktop:nys-grid-col-8">
+        <h2>Application form</h2>
+        <form
+          [formGroup]="form"
+          class="nys-display-flex nys-flex-column nys-flex-gap-300"
+          (ngSubmit)="submit()"
+        >
         <nys-textinput
           label="First name"
           name="firstName"
@@ -141,28 +151,45 @@ import {
           formControlName="resume"
         ></nys-fileinput>
 
-        <nys-button
-          type="submit"
-          label="Submit"
-          data-testid="submit"
-        ></nys-button>
-        <button type="button" data-testid="reset" (click)="reset()">
-          Reset
-        </button>
-        <button
-          type="button"
-          data-testid="toggle-disabled"
-          (click)="toggleDisabled()"
-        >
-          Toggle first name disabled
-        </button>
-      </form>
+          <div
+            class="nys-display-flex nys-flex-wrap nys-flex-align-center nys-flex-gap-200 nys-margin-t-200"
+          >
+            <nys-button
+              type="submit"
+              label="Submit"
+              data-testid="submit"
+            ></nys-button>
+            <button
+              type="button"
+              class="app-action"
+              data-testid="reset"
+              (click)="reset()"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              class="app-action"
+              data-testid="toggle-disabled"
+              (click)="toggleDisabled()"
+            >
+              Toggle first name disabled
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
 
-      <h2>Live model</h2>
-      <pre data-testid="model">{{ model() | json }}</pre>
-      <h2>Submitted</h2>
-      <pre data-testid="submitted">{{ submitted() ? (submitted() | json) : "" }}</pre>
-    </main>
+    <div class="nys-grid-row nys-grid-gap-400">
+      <section class="nys-grid-col-12 nys-tablet:nys-grid-col-6">
+        <h2>Live model</h2>
+        <pre class="app-readout" data-testid="model">{{ model() | json }}</pre>
+      </section>
+      <section class="nys-grid-col-12 nys-tablet:nys-grid-col-6">
+        <h2>Submitted</h2>
+        <pre class="app-readout" data-testid="submitted">{{ submitted() ? (submitted() | json) : "" }}</pre>
+      </section>
+    </div>
   `,
 })
 export class FormsReactiveComponent {

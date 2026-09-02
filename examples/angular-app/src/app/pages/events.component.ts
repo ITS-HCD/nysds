@@ -30,9 +30,14 @@ import {
     NysTabpanelComponent,
   ],
   template: `
-    <main>
-      <h1>Events</h1>
+    <h1>Events</h1>
+    <p>
+      Typed component events, logged with their <code>detail</code> payloads
+      as they fire.
+    </p>
 
+    <section>
+      <h2>Alert</h2>
       <nys-alert
         heading="Dismiss me"
         text="Closing this alert logs a typed nys-close event."
@@ -40,14 +45,21 @@ import {
         dismissible
         (nysClose)="record('nys-close', $event)"
       ></nys-alert>
+    </section>
 
+    <section>
+      <h2>Modal</h2>
       <p>
         Modal is
         <span data-testid="modal-state">{{
           modalOpen() ? "open" : "closed"
         }}</span>
       </p>
-      <button data-testid="open-modal" (click)="modalOpen.set(true)">
+      <button
+        class="app-action"
+        data-testid="open-modal"
+        (click)="modalOpen.set(true)"
+      >
         Open modal
       </button>
       <nys-modal
@@ -57,13 +69,19 @@ import {
       >
         <p>Press Escape or the close button.</p>
       </nys-modal>
+    </section>
 
+    <section>
+      <h2>Pagination</h2>
       <nys-pagination
         [totalPages]="5"
         [currentPage]="1"
         (nysChange)="record('nys-change', $event)"
       ></nys-pagination>
+    </section>
 
+    <section>
+      <h2>Tabs</h2>
       <nys-tabgroup>
         <nys-tab
           id="events-tab-1"
@@ -79,7 +97,10 @@ import {
         <nys-tabpanel id="events-tab-1">First panel</nys-tabpanel>
         <nys-tabpanel id="events-tab-2">Second panel</nys-tabpanel>
       </nys-tabgroup>
+    </section>
 
+    <section>
+      <h2>Menu</h2>
       <nys-button
         id="events-menu-trigger"
         data-testid="menu-trigger"
@@ -95,14 +116,16 @@ import {
           (nysClick)="record('nys-click', $event)"
         ></nys-dropdownmenuitem>
       </nys-dropdownmenu>
+    </section>
 
+    <section>
       <h2>Event log</h2>
-      <ul data-testid="event-log">
+      <ul class="app-readout" data-testid="event-log">
         @for (entry of log(); track $index) {
           <li>{{ entry }}</li>
         }
       </ul>
-    </main>
+    </section>
   `,
 })
 export class EventsComponent {

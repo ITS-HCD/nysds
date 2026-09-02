@@ -9,13 +9,11 @@ import { Component } from "@angular/core";
   selector: "app-signal-forms-fallback",
   standalone: true,
   template: `
-    <main>
-      <h1>Forms: Signal Forms</h1>
-      <p data-testid="signal-forms-fallback">
-        Signal Forms requires Angular 21 or later. This build runs Angular
-        20, so the page is a placeholder.
-      </p>
-    </main>
+    <h1>Forms: Signal Forms</h1>
+    <p data-testid="signal-forms-fallback">
+      Signal Forms requires Angular 21 or later. This build runs Angular
+      20, so the page is a placeholder.
+    </p>
   `,
 })
 export class SignalFormsPage {}
