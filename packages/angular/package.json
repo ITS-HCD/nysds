@@ -1,0 +1,295 @@
+{
+  "name": "@nysds/angular",
+  "version": "1.20.1",
+  "description": "Angular components for the New York State Design System, generated from the NYSDS web components.",
+  "type": "module",
+  "license": "MIT",
+  "author": "New York State Design System Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/its-hcd/nysds.git",
+    "directory": "packages/angular"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "angular",
+    "web-components",
+    "lit",
+    "nys"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./accordion": {
+      "types": "./dist/accordion/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-accordion.mjs"
+    },
+    "./accordionitem": {
+      "types": "./dist/accordionitem/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-accordionitem.mjs"
+    },
+    "./alert": {
+      "types": "./dist/alert/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-alert.mjs"
+    },
+    "./avatar": {
+      "types": "./dist/avatar/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-avatar.mjs"
+    },
+    "./backtotop": {
+      "types": "./dist/backtotop/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-backtotop.mjs"
+    },
+    "./badge": {
+      "types": "./dist/badge/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-badge.mjs"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/breadcrumbs/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-breadcrumbs.mjs"
+    },
+    "./button": {
+      "types": "./dist/button/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-button.mjs"
+    },
+    "./card": {
+      "types": "./dist/card/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-card.mjs"
+    },
+    "./checkbox": {
+      "types": "./dist/checkbox/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-checkbox.mjs"
+    },
+    "./checkboxgroup": {
+      "types": "./dist/checkboxgroup/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-checkboxgroup.mjs"
+    },
+    "./combobox": {
+      "types": "./dist/combobox/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-combobox.mjs"
+    },
+    "./datepicker": {
+      "types": "./dist/datepicker/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-datepicker.mjs"
+    },
+    "./divider": {
+      "types": "./dist/divider/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-divider.mjs"
+    },
+    "./dropdownmenu": {
+      "types": "./dist/dropdownmenu/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-dropdownmenu.mjs"
+    },
+    "./dropdownmenuitem": {
+      "types": "./dist/dropdownmenuitem/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-dropdownmenuitem.mjs"
+    },
+    "./errormessage": {
+      "types": "./dist/errormessage/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-errormessage.mjs"
+    },
+    "./fileinput": {
+      "types": "./dist/fileinput/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-fileinput.mjs"
+    },
+    "./fileitem": {
+      "types": "./dist/fileitem/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-fileitem.mjs"
+    },
+    "./globalfooter": {
+      "types": "./dist/globalfooter/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-globalfooter.mjs"
+    },
+    "./globalheader": {
+      "types": "./dist/globalheader/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-globalheader.mjs"
+    },
+    "./icon": {
+      "types": "./dist/icon/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-icon.mjs"
+    },
+    "./iconlist": {
+      "types": "./dist/iconlist/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-iconlist.mjs"
+    },
+    "./iconlistitem": {
+      "types": "./dist/iconlistitem/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-iconlistitem.mjs"
+    },
+    "./label": {
+      "types": "./dist/label/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-label.mjs"
+    },
+    "./modal": {
+      "types": "./dist/modal/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-modal.mjs"
+    },
+    "./option": {
+      "types": "./dist/option/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-option.mjs"
+    },
+    "./pagination": {
+      "types": "./dist/pagination/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-pagination.mjs"
+    },
+    "./processlist": {
+      "types": "./dist/processlist/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-processlist.mjs"
+    },
+    "./processlistitem": {
+      "types": "./dist/processlistitem/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-processlistitem.mjs"
+    },
+    "./radiobutton": {
+      "types": "./dist/radiobutton/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-radiobutton.mjs"
+    },
+    "./radiogroup": {
+      "types": "./dist/radiogroup/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-radiogroup.mjs"
+    },
+    "./select": {
+      "types": "./dist/select/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-select.mjs"
+    },
+    "./skipnav": {
+      "types": "./dist/skipnav/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-skipnav.mjs"
+    },
+    "./step": {
+      "types": "./dist/step/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-step.mjs"
+    },
+    "./stepper": {
+      "types": "./dist/stepper/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-stepper.mjs"
+    },
+    "./tab": {
+      "types": "./dist/tab/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-tab.mjs"
+    },
+    "./tabgroup": {
+      "types": "./dist/tabgroup/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-tabgroup.mjs"
+    },
+    "./table": {
+      "types": "./dist/table/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-table.mjs"
+    },
+    "./tabpanel": {
+      "types": "./dist/tabpanel/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-tabpanel.mjs"
+    },
+    "./textarea": {
+      "types": "./dist/textarea/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-textarea.mjs"
+    },
+    "./textinput": {
+      "types": "./dist/textinput/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-textinput.mjs"
+    },
+    "./toggle": {
+      "types": "./dist/toggle/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-toggle.mjs"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-tooltip.mjs"
+    },
+    "./unavfooter": {
+      "types": "./dist/unavfooter/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-unavfooter.mjs"
+    },
+    "./unavheader": {
+      "types": "./dist/unavheader/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-unavheader.mjs"
+    },
+    "./verticalnav": {
+      "types": "./dist/verticalnav/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-verticalnav.mjs"
+    },
+    "./verticalnavgroup": {
+      "types": "./dist/verticalnavgroup/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-verticalnavgroup.mjs"
+    },
+    "./video": {
+      "types": "./dist/video/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-video.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "ng-packagr --project ng-package.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=20.0.0",
+    "@angular/common": ">=20.0.0",
+    "@angular/forms": ">=20.0.0",
+    "@nysds/components": "^1.20.0"
+  },
+  "dependencies": {
+    "@nysds/nys-accordion": "1.20.1",
+    "@nysds/nys-alert": "1.20.1",
+    "@nysds/nys-avatar": "1.20.1",
+    "@nysds/nys-backtotop": "1.20.1",
+    "@nysds/nys-badge": "1.20.1",
+    "@nysds/nys-breadcrumbs": "1.20.1",
+    "@nysds/nys-button": "1.20.1",
+    "@nysds/nys-card": "1.20.1",
+    "@nysds/nys-checkbox": "1.20.1",
+    "@nysds/nys-combobox": "1.20.1",
+    "@nysds/nys-datepicker": "1.20.1",
+    "@nysds/nys-divider": "1.20.1",
+    "@nysds/nys-dropdownmenu": "1.20.1",
+    "@nysds/nys-errormessage": "1.20.1",
+    "@nysds/nys-fileinput": "1.20.1",
+    "@nysds/nys-globalfooter": "1.20.1",
+    "@nysds/nys-globalheader": "1.20.1",
+    "@nysds/nys-icon": "1.20.1",
+    "@nysds/nys-iconlist": "1.20.1",
+    "@nysds/nys-label": "1.20.1",
+    "@nysds/nys-modal": "1.20.1",
+    "@nysds/nys-pagination": "1.20.1",
+    "@nysds/nys-processlist": "1.20.1",
+    "@nysds/nys-radiobutton": "1.20.1",
+    "@nysds/nys-select": "1.20.1",
+    "@nysds/nys-skipnav": "1.20.1",
+    "@nysds/nys-stepper": "1.20.1",
+    "@nysds/nys-tab": "1.20.1",
+    "@nysds/nys-table": "1.20.1",
+    "@nysds/nys-textarea": "1.20.1",
+    "@nysds/nys-textinput": "1.20.1",
+    "@nysds/nys-toggle": "1.20.1",
+    "@nysds/nys-tooltip": "1.20.1",
+    "@nysds/nys-unavfooter": "1.20.1",
+    "@nysds/nys-unavheader": "1.20.1",
+    "@nysds/nys-verticalnav": "1.20.1",
+    "@nysds/nys-video": "1.20.1",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^20.0.0",
+    "@angular/compiler-cli": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/common": "^20.0.0",
+    "@angular/forms": "^20.0.0",
+    "@angular/platform-browser": "^20.0.0",
+    "@angular/platform-browser-dynamic": "^20.0.0",
+    "ng-packagr": "^20.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4",
+    "zone.js": "^0.15.0"
+  }
+}

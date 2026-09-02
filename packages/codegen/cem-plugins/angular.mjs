@@ -33,7 +33,8 @@ const GLOBAL_EVENT_TYPES = new Set([
 const IDENTIFIER_RE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
 
 /**
- * Properties Angular or the platform already manage on any host element.
+ * Properties Angular or the platform already manage on any host element,
+ * or read-only properties that cannot be set via setters.
  * `id` is reflected by the component and set by Angular as an attribute,
  * so the wrapper must not shadow it.
  */
@@ -44,7 +45,100 @@ const HOST_MANAGED_PROPS = new Set([
   "tabIndex",
   "className",
   "style",
+  "validity",
+  "validationMessage",
+  "ariaAttributes",
 ]);
+
+/**
+ * Platform and common library types that never need imports.
+ */
+const PLATFORM_TYPES = new Set([
+  "string",
+  "number",
+  "boolean",
+  "null",
+  "undefined",
+  "any",
+  "never",
+  "void",
+  "Event",
+  "CustomEvent",
+  "UIEvent",
+  "FocusEvent",
+  "InputEvent",
+  "KeyboardEvent",
+  "MouseEvent",
+  "PointerEvent",
+  "TouchEvent",
+  "WheelEvent",
+  "AnimationEvent",
+  "TransitionEvent",
+  "ClipboardEvent",
+  "DragEvent",
+  "SubmitEvent",
+  "Array",
+  "Object",
+  "Date",
+  "RegExp",
+  "Map",
+  "Set",
+  "WeakMap",
+  "WeakSet",
+  "Promise",
+  "FileList",
+  "ValidityState",
+]);
+
+/**
+ * Check if a type looks like it can be safely imported from the component
+ * package. Very conservative: only import if it's a known event type
+ * or explicitly exported from the component package (which we don't have
+ * a list for, so default to false for unknown types).
+ */
+function canImportType(typeText) {
+  if (!typeText) return false;
+  if (PLATFORM_TYPES.has(typeText)) return false;
+  if (/^(HTML|SVG|XMLHttp|Blob|FormData|Worker|IDB|File)/.test(typeText)) {
+    return false;
+  }
+  // For unknown types, default to false (use element property type instead)
+  // Only import event types and types we know are exported from component packages
+  return /Event$/.test(typeText);
+}
+
+/**
+ * Check if a type is primitive or simple enough to use inline.
+ * Handles unions of primitives (e.g., "number | null", "string | undefined").
+ */
+function isPrimitiveType(typeText) {
+  if (!typeText) return true;
+  // Remove whitespace and split by |
+  const parts = typeText
+    .split("|")
+    .map((part) => part.trim())
+    .filter(Boolean);
+  // If any part is not a primitive keyword, it's not primitive
+  return parts.every((part) =>
+    /^(string|number|boolean|null|undefined|any|never|void|unknown)$/.test(part)
+  );
+}
+
+/**
+ * Extract custom type names from a type string that might need importing.
+ */
+function extractCustomTypes(typeText) {
+  if (!typeText) return [];
+  const customTypes = new Set();
+  // Match bare identifiers
+  const matches = typeText.match(/\b[A-Z][A-Za-z0-9]*\b/g) || [];
+  for (const match of matches) {
+    if (canImportType(match)) {
+      customTypes.add(match);
+    }
+  }
+  return [...customTypes];
+}
 
 const ACCESSOR_BY_KIND = {
   value: { className: "NysValueAccessor", file: "../lib/forms/value-accessor" },
@@ -103,13 +197,26 @@ function renderAngularWrapper(component, warnings) {
 
   for (const prop of usableProps) {
     let type = prop.type;
-    if (type === "unknown") {
+    const hasComplexType = type && !isPrimitiveType(type);
+    if (type === "unknown" || hasComplexType) {
       // Fall back to the element's own property type so the wrapper still
-      // compiles and never widens to `any`.
-      type = `${className}["${prop.name}"]`;
-      warnings.push(
-        `${tag}: property "${prop.name}" has no usable type in the manifest; using ${type}`
-      );
+      // compiles and never widens to `any`. Complex types (like enums or
+      // interfaces not in the manifest) fallback to the element's property type.
+      const fallbackType = `${className}["${prop.name}"]`;
+      if (type === "unknown" || !canImportType(type)) {
+        type = fallbackType;
+        warnings.push(
+          `${tag}: property "${prop.name}" type cannot be imported; using ${type}`
+        );
+      } else {
+        // Extract and import custom type names
+        const customTypes = extractCustomTypes(type);
+        for (const customType of customTypes) {
+          if (canImportType(customType)) {
+            typeImports.add(customType);
+          }
+        }
+      }
     }
     let decorator = "@Input()";
     if (prop.isBoolean) {
@@ -131,7 +238,14 @@ function renderAngularWrapper(component, warnings) {
 
   if (events.length > 0) bodyLines.push(``);
   const listenerLines = [];
+  const seenOutputs = new Set();
   for (const event of events) {
+    // Two event names can map to one Angular output (a deprecated camelCase
+    // alias like `nys-fileRemove` next to `nys-file-remove`). Keep the
+    // first, which is the canonical name in manifest order.
+    if (seenOutputs.has(event.angularOutput)) continue;
+    seenOutputs.add(event.angularOutput);
+
     const { text, importName } = resolveEventType(event.typeText);
     if (importName) typeImports.add(importName);
     bodyLines.push(...docComment(event.description, "  "));
@@ -140,9 +254,13 @@ function renderAngularWrapper(component, warnings) {
     const extras = [`this.${event.angularOutput}.emit(e);`];
     if (accessor) {
       if (event.name === formControl.changeEvent) {
-        extras.push(`this.handleChange(e);`);
+        // Files accessor reads from element, doesn't use event detail
+        const handleArgs = formControl.kind === "files" ? "" : "e";
+        extras.push(`this.handleChange(${handleArgs});`);
       } else if (event.name === formControl.inputEvent) {
-        extras.push(`this.handleInput(e);`);
+        // Files accessor reads from element, doesn't use event detail
+        const handleArgs = formControl.kind === "files" ? "" : "e";
+        extras.push(`this.handleInput(${handleArgs});`);
       } else if (event.name === NYS_BLUR_EVENT) {
         extras.push(`this.handleBlur();`);
       }

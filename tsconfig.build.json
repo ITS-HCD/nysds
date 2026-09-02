@@ -40,7 +40,9 @@
     { "path": "packages/nys-verticalnav" },
     { "path": "packages/nys-video" },
     { "path": "packages/codegen" }
-    // TODO(WS3): add { "path": "packages/react" } when @nysds/react exists.
-    // packages/angular is built by ng-packagr, not `tsc -b`. Never reference it here.
+    // Framework packages (@nysds/react, @nysds/angular) are not listed here.
+    // `tsc -b` runs before `npm run cem` generates their wrapper sources, so they
+    // cannot be in the reference graph. They build afterward via `build:frameworks`.
+    // Angular is also built by ng-packagr, not `tsc -b`.
   ]
 }
