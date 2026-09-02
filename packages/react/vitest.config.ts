@@ -21,37 +21,30 @@ const r18 = (subpath: string) =>
   );
 
 export default defineConfig({
-  // Pre-bundle the CommonJS React entry points up front. Discovering them
-  // mid-run makes the browser page reload while the tester is connecting,
-  // which can wedge the run before any test reports.
-  optimizeDeps: {
-    include: [
-      "react",
-      "react/jsx-runtime",
-      "react/jsx-dev-runtime",
-      "react-dom/client",
-      "react-dom/test-utils",
-      "@lit/react",
-    ],
-  },
-  resolve: {
-    alias: react18
-      ? [
+  resolve: react18
+    ? {
+        alias: [
           { find: /^react-dom\/client$/, replacement: r18("react-dom/client.js") },
           { find: /^react-dom$/, replacement: r18("react-dom/index.js") },
           { find: /^react\/jsx-runtime$/, replacement: r18("react/jsx-runtime.js") },
           { find: /^react\/jsx-dev-runtime$/, replacement: r18("react/jsx-dev-runtime.js") },
           { find: /^react$/, replacement: r18("react/index.js") },
-        ]
-      : [],
-  },
+        ],
+      }
+    : {},
   test: {
-    include: ["test/**/*.test.tsx"],
+    globals: true,
+    include: ["test/**/*.test.{ts,tsx}"],
     browser: {
       enabled: true,
       headless: true,
       provider: "playwright",
       instances: [{ browser: "chromium" }],
+      api: {
+        host: "127.0.0.1",
+        port: 51204,
+      },
+      fileParallelism: false,
     },
   },
 });
