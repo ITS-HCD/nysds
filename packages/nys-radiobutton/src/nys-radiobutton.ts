@@ -19,6 +19,28 @@ function adoptLightStyles() {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
 }
 
+// Resolves once the browser has had a real chance to finish hydrating an
+// SSR'd page (e.g. a React/Next.js host) before a light-DOM component
+// performs its first render. A single requestAnimationFrame isn't reliable
+// here: with streamed/RSC payloads, the segment containing this element can
+// hydrate more than one frame after its module (and thus this custom
+// element) registers. requestIdleCallback waits for the main thread to
+// actually go quiet, which covers that case; a capped timeout keeps a busy
+// page from deferring indefinitely. Safari has no requestIdleCallback, so it
+// falls back to a double rAF (one frame is what MDN/Web.dev document as the
+// minimum "next paint" proxy; two gives hydration a second frame of margin).
+function waitPastHydration(): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => resolve(), { timeout: 300 });
+    } else if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    } else {
+      resolve();
+    }
+  });
+}
+
 /** Detail payload for the `nys-change` event fired by `nys-radiobutton`. */
 export interface NysRadiobuttonChangeDetail {
   id: string;
@@ -235,6 +257,28 @@ export class NysRadiobutton extends NysFormControlElement {
 
   protected createRenderRoot() {
     return this; // render() output lands directly in light DOM, no shadow root at all
+  }
+
+  // Guards only the first update. This component renders into the light DOM
+  // (see createRenderRoot), so its first render is what injects the <input>/
+  // <nys-label> markup as real children of the host — the same node a
+  // framework's SSR hydration (e.g. Next.js) is walking. SSR never runs
+  // Lit's renderer, so it emits this element with no children; if the
+  // custom-element upgrade's first render lands before hydration finishes,
+  // React sees unexpected extra child nodes mid-walk and fails hydration
+  // (error #418). Deferring the first render until the main thread goes
+  // quiet (see waitPastHydration above) lets hydration settle against the
+  // bare, SSR-matching element first — Lit's own documented pattern for
+  // retiming an update (see ReactiveElement.scheduleUpdate). Later updates
+  // are unaffected.
+  private _firstUpdatePending = true;
+
+  protected async scheduleUpdate() {
+    if (this._firstUpdatePending) {
+      this._firstUpdatePending = false;
+      await waitPastHydration();
+    }
+    super.scheduleUpdate();
   }
 
   connectedCallback() {

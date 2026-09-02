@@ -78,6 +78,10 @@ export class NysDropdownMenu extends NysElement {
   private _lastFocusedIndex: number = 0;
   private readonly GAP = 4;
   private _resizeObserver: ResizeObserver | null = null;
+  // The `for` value currently wired to a trigger, or null when nothing is
+  // wired. Compared against `this.for` in updated() so re-wiring only
+  // happens when the id actually changes, not on every unrelated update.
+  private _wiredFor: string | null = null;
 
   /**
    * Lifecycle Methods
@@ -103,9 +107,30 @@ export class NysDropdownMenu extends NysElement {
   async firstUpdated() {
     await this.updateComplete;
     this.applyInverseTransform();
-    this._connectTrigger();
     this._handleMenuClick();
   }
+
+  // `for` is wired here rather than once in firstUpdated: under SSR (e.g.
+  // Next.js) the wrapper element upgrades with `for` still at its default
+  // ("") — the real value only arrives afterward as a property set by the
+  // framework wrapper — so wiring once in firstUpdated would silently wire
+  // nothing and the menu would never open. Re-wiring on every `for` change
+  // (including the first, since `updated()` also runs after the initial
+  // render) picks up that later-arriving value; the id-comparison guard
+  // keeps unrelated updates from re-wiring the same trigger.
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("for") && this.for !== this._wiredFor) {
+      this._disconnectTrigger();
+      if (this.for) {
+        // Wait for updateComplete: the trigger (found by id, possibly in
+        // another shadow root) needs to have finished its own first render
+        // before ariaTarget lookups (e.g. nys-button's shadow <button>)
+        // succeed.
+        this.updateComplete.then(() => this._connectTrigger());
+      }
+    }
+  }
+
   /**
    * Functions
    * --------------------------------------------------------------------------
@@ -142,6 +167,7 @@ export class NysDropdownMenu extends NysElement {
     if (!trigger) return;
 
     this._trigger = trigger;
+    this._wiredFor = this.for;
 
     const ariaTarget =
       trigger.tagName.toLowerCase() === "nys-button"
@@ -155,6 +181,27 @@ export class NysDropdownMenu extends NysElement {
 
     this._trigger.addEventListener("click", this._toggleDropdown);
     this._trigger.addEventListener("keydown", this._handleTriggerKeydown);
+  }
+
+  // Undoes _connectTrigger: removes the listeners and aria wiring from
+  // whatever trigger is currently connected, and closes the menu if it was
+  // open against that trigger. Called before wiring a new trigger (`for`
+  // changed) so a stale trigger never keeps listening.
+  private _disconnectTrigger() {
+    if (this.showDropdown) this._closeDropdown();
+
+    if (this._trigger) {
+      this._trigger.removeEventListener("click", this._toggleDropdown);
+      this._trigger.removeEventListener("keydown", this._handleTriggerKeydown);
+    }
+    if (this._ariaTarget) {
+      this._ariaTarget.removeAttribute("aria-haspopup");
+      this._ariaTarget.removeAttribute("aria-expanded");
+    }
+
+    this._trigger = null;
+    this._ariaTarget = null;
+    this._wiredFor = null;
   }
 
   private _toggleDropdown = async () => {
