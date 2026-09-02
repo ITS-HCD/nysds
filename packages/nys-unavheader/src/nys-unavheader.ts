@@ -967,15 +967,11 @@ export class NysUnavHeader extends NysElement {
     return this.landmarkLabel?.trim() || DEFAULT_LANDMARK_LABEL;
   }
 
-  private get _locale() {
-    const browserLang = new Intl.Locale(navigator.language);
-    const currentLang = document.documentElement.lang;
-
-    if (currentLang === browserLang.language) {
-      return currentLang;
-    } else if (currentLang !== browserLang.language) {
-      return currentLang;
-    }
+  private get _locale(): string {
+    return (
+      document.documentElement.lang ||
+      new Intl.Locale(navigator.language).language
+    );
   }
 
   render() {

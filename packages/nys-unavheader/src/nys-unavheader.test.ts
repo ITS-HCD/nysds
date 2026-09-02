@@ -920,21 +920,20 @@ describe("nys-unavheader", () => {
           .empty;
       });
 
+      // The label is slotted markup now, not an attribute: the native name in
+      // a notranslate span, with the English name in parens beside it.
       const byLabel = (label: string) =>
-        options.find((o) => o.getAttribute("label") === label);
+        options.find(
+          (o) =>
+            o.querySelector("span[notranslate]")?.textContent?.trim() === label,
+        );
 
-      // The codes double as Smartling subdomains, so the Chinese ones are not
-      // valid language tags and have to be mapped.
-      expect(byLabel("中文 (Chinese)")?.getAttribute("lang")).to.equal(
-        "zh-Hans",
-      );
-      expect(
-        byLabel("繁體中文 (Trad. Chinese)")?.getAttribute("lang"),
-      ).to.equal("zh-Hant");
-      expect(byLabel("Español (Spanish)")?.getAttribute("lang")).to.equal("es");
-      expect(
-        byLabel("Kreyòl Ayisyen (Haitian Creole)")?.getAttribute("lang"),
-      ).to.equal("ht");
+      // The codes double as Localize language codes, so the Chinese ones are
+      // not valid language tags and have to be mapped.
+      expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-Hans");
+      expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-Hant");
+      expect(byLabel("Español")?.getAttribute("lang")).to.equal("es");
+      expect(byLabel("Kreyòl Ayisyen")?.getAttribute("lang")).to.equal("ht");
     });
 
     it("tags author-supplied languages from their own codes", async () => {

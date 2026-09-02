@@ -17738,6 +17738,9 @@
             {
               "kind": "field",
               "name": "_locale",
+              "type": {
+                "text": "string"
+              },
               "privacy": "private",
               "readonly": true
             }
