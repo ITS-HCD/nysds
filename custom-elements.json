@@ -17375,7 +17375,7 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español (Spanish)\" }, { code: \"zh\", label: \"中文 (Chinese)\" }, { code: \"zh-traditional\", label: \"繁體中文 (Trad. Chinese)\" }, { code: \"yi\", label: \"יידיש (Yiddish)\" }, { code: \"ru\", label: \"Русский (Russian)\" }, { code: \"bn\", label: \"বাংলা (Bengali)\" }, { code: \"ko\", label: \"한국어 (Korean)\" }, { code: \"ht\", label: \"Kreyòl Ayisyen (Haitian Creole)\" }, { code: \"it\", label: \"Italiano (Italian)\" }, { code: \"ar\", label: \"العربية (Arabic)\" }, { code: \"pl\", label: \"Polski (Polish)\" }, { code: \"fr\", label: \"Français (French)\" }, { code: \"ur\", label: \"اردو (Urdu)\" }, ]",
+              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\" }, { code: \"zh\", label: \"中文\", nativeText: \"Chinese\" }, { code: \"zh-traditional\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\" }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\" }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\" }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\" }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\" }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\" }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\" }, { code: \"fr\", label: \"Français\", nativeText: \"French\" }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\" }, ]",
               "description": "The list of languages this site can be translated to, default to use Localize",
               "attribute": "languages"
             },
@@ -17734,6 +17734,12 @@
               "privacy": "private",
               "description": "The banner's accessible name. A blank override would put the page back where\n#1795 found it — two unnamed banners — so it falls back to the default.",
               "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_locale",
+              "privacy": "private",
+              "readonly": true
             }
           ],
           "events": [
@@ -17839,7 +17845,7 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español (Spanish)\" }, { code: \"zh\", label: \"中文 (Chinese)\" }, { code: \"zh-traditional\", label: \"繁體中文 (Trad. Chinese)\" }, { code: \"yi\", label: \"יידיש (Yiddish)\" }, { code: \"ru\", label: \"Русский (Russian)\" }, { code: \"bn\", label: \"বাংলা (Bengali)\" }, { code: \"ko\", label: \"한국어 (Korean)\" }, { code: \"ht\", label: \"Kreyòl Ayisyen (Haitian Creole)\" }, { code: \"it\", label: \"Italiano (Italian)\" }, { code: \"ar\", label: \"العربية (Arabic)\" }, { code: \"pl\", label: \"Polski (Polish)\" }, { code: \"fr\", label: \"Français (French)\" }, { code: \"ur\", label: \"اردو (Urdu)\" }, ]",
+              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\" }, { code: \"zh\", label: \"中文\", nativeText: \"Chinese\" }, { code: \"zh-traditional\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\" }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\" }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\" }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\" }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\" }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\" }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\" }, { code: \"fr\", label: \"Français\", nativeText: \"French\" }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\" }, ]",
               "description": "The list of languages this site can be translated to, default to use Localize",
               "fieldName": "languages",
               "propName": "languages"

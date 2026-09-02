@@ -18,6 +18,7 @@ import styles from "./nys-unavheader.scss?inline";
 interface Language {
   code: string;
   label: string;
+  nativeText: string;
   url?: string;
 }
 
@@ -294,20 +295,24 @@ export class NysUnavHeader extends NysElement {
   /** The list of languages this site can be translated to, default to use Localize */
   @property({ type: Array })
   languages: Language[] = [
-    { code: "en", label: "English" },
-    { code: "es", label: "Español (Spanish)" },
-    { code: "zh", label: "中文 (Chinese)" },
-    { code: "zh-traditional", label: "繁體中文 (Trad. Chinese)" },
-    { code: "yi", label: "יידיש (Yiddish)" },
-    { code: "ru", label: "Русский (Russian)" },
-    { code: "bn", label: "বাংলা (Bengali)" },
-    { code: "ko", label: "한국어 (Korean)" },
-    { code: "ht", label: "Kreyòl Ayisyen (Haitian Creole)" },
-    { code: "it", label: "Italiano (Italian)" },
-    { code: "ar", label: "العربية (Arabic)" },
-    { code: "pl", label: "Polski (Polish)" },
-    { code: "fr", label: "Français (French)" },
-    { code: "ur", label: "اردو (Urdu)" },
+    { code: "en", label: "English", nativeText: "English" },
+    { code: "es", label: "Español", nativeText: "Spanish" },
+    { code: "zh", label: "中文", nativeText: "Chinese" },
+    {
+      code: "zh-traditional",
+      label: "繁體中文",
+      nativeText: "Traditional Chinese",
+    },
+    { code: "yi", label: "יידיש", nativeText: "Yiddish" },
+    { code: "ru", label: "Русский", nativeText: "Russian" },
+    { code: "bn", label: "বাংলা", nativeText: "Bengali" },
+    { code: "ko", label: "한국어", nativeText: "Korean" },
+    { code: "ht", label: "Kreyòl Ayisyen", nativeText: "Haitian Creole" },
+    { code: "it", label: "Italiano", nativeText: "Italian" },
+    { code: "ar", label: "العربية", nativeText: "Arabic" },
+    { code: "pl", label: "Polski", nativeText: "Polish" },
+    { code: "fr", label: "Français", nativeText: "French" },
+    { code: "ur", label: "اردو", nativeText: "Urdu" },
   ];
 
   /**
@@ -962,6 +967,17 @@ export class NysUnavHeader extends NysElement {
     return this.landmarkLabel?.trim() || DEFAULT_LANDMARK_LABEL;
   }
 
+  private get _locale() {
+    const browserLang = new Intl.Locale(navigator.language);
+    const currentLang = document.documentElement.lang;
+
+    if (currentLang === browserLang.language) {
+      return currentLang;
+    } else if (currentLang !== browserLang.language) {
+      return currentLang;
+    }
+  }
+
   render() {
     // The statewide header sits above an agency's own `nys-globalheader`, so a page
     // normally carries two banner landmarks. Naming this one keeps landmark
@@ -1148,11 +1164,14 @@ export class NysUnavHeader extends NysElement {
                           variant="ghost"
                           fullWidth
                           lang="${languageTag(lang.code)}"
-                          label="${lang.label}"
                           class="${LANGUAGE_OPTION_CLASS}"
                           @click="${() => this._handleLanguageSelect(lang)}"
-                          notranslate="true"
-                        ></nys-button>`,
+                        >
+                          <span notranslate>${lang.label}</span>
+                          <span lang="${this._locale}"
+                            >&nbsp;(${lang.nativeText})</span
+                          >
+                        </nys-button>`,
                     )}
                   </div>
                 </div>`
