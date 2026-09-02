@@ -1,0 +1,10 @@
+{
+  "react": {
+    "packageName": "@nysds/react",
+    "version": "1.20.1"
+  },
+  "angular": {
+    "packageName": "@nysds/angular",
+    "version": "1.20.1"
+  }
+}

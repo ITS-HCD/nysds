@@ -1,4 +1,16 @@
+import { execSync } from "node:child_process";
+
 export default function (plop) {
+  // Runs `npm run cem` after scaffolding: regenerates custom-elements.json
+  // (including this new component) and runs verify-form-contract.mjs against
+  // it, so a scaffolded form control that got the @formControl/@fires tags
+  // wrong fails fast instead of silently breaking the React/Angular
+  // generators later. See 07-mcp-storybook-and-tooling.md section 7.7.
+  plop.setActionType("runCem", async () => {
+    execSync("npm run cem", { stdio: "inherit" });
+    return "Ran `npm run cem` — regenerated custom-elements.json and verified the form-control contract.";
+  });
+
   // create your generators here
   plop.setGenerator("basics", {
     description: "this is a skeleton plopfile",
@@ -22,10 +34,13 @@ export default function (plop) {
         default: "1.20.1", //update this to the latest version when new release is made
       },
       {
-        type: "confirm",
-        name: "formRelated",
-        message: "Is this a form-related component?",
-        default: false,
+        type: "list",
+        name: "formControl",
+        message:
+          "Is this a form control? (none / value / checked / files) — " +
+          "drives the @formControl JSDoc tag the React and Angular generators read.",
+        choices: ["none", "value", "checked", "files"],
+        default: "none",
       },
     ],
     actions: [
@@ -106,16 +121,54 @@ export default function (plop) {
         },
       },
       {
+        // tsconfig.build.json carries a trailing `//` comment after its last
+        // reference (see the "Framework packages" note), which makes it
+        // JSONC, not JSON — `JSON.parse` throws on it. Insert the new
+        // reference as text, in place, instead of round-tripping through
+        // JSON.parse/stringify (which would also silently drop the comment).
         type: "modify",
         path: "tsconfig.build.json",
         transform: (content, data) => {
-          const tsconfig = JSON.parse(content);
-          const newRef = { path: `packages/nys-${data.componentName}` };
-          tsconfig.references.push(newRef);
-          tsconfig.references.sort((a, b) => a.path.localeCompare(b.path));
-          return JSON.stringify(tsconfig, null, 2) + "\n";
+          const newPath = `packages/nys-${data.componentName}`;
+          const refLineRe = /^(\s*)\{\s*"path":\s*"([^"]+)"\s*\},?\s*$/;
+          const lines = content.split("\n");
+
+          let first = -1;
+          let last = -1;
+          let indent = "    ";
+          const paths = [];
+          lines.forEach((line, i) => {
+            const match = line.match(refLineRe);
+            if (match) {
+              if (first === -1) first = i;
+              last = i;
+              indent = match[1];
+              paths.push(match[2]);
+            }
+          });
+
+          if (first === -1) {
+            throw new Error(
+              'tsconfig.build.json: no { "path": "..." } reference lines found to insert next to.',
+            );
+          }
+
+          paths.push(newPath);
+          paths.sort((a, b) => a.localeCompare(b));
+
+          // Only the last array value skips the trailing comma. Anything
+          // after it in the file (a comment, then "]") isn't a value, so it
+          // doesn't need one either.
+          const newLines = paths.map(
+            (path, i) =>
+              `${indent}{ "path": "${path}" }${i < paths.length - 1 ? "," : ""}`,
+          );
+
+          lines.splice(first, last - first + 1, ...newLines);
+          return lines.join("\n");
         },
       },
+      { type: "runCem" },
     ],
   });
 
@@ -133,4 +186,11 @@ export default function (plop) {
   plop.setHelper("uppercase", (text) => {
     return text.toUpperCase();
   });
+
+  // {{#if (ne formControl "none")}} ... {{/if}} — form-control conditionals
+  // in the templates below. Kept as a generic helper (not isFormControl)
+  // because component.template.hbs also branches per-kind ("value" vs
+  // "checked" vs "files").
+  plop.setHelper("eq", (a, b) => a === b);
+  plop.setHelper("ne", (a, b) => a !== b);
 }
