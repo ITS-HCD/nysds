@@ -5,6 +5,35 @@
 **Owns:** root `package.json` `release*` scripts, `src/scripts/publish-dry-run.js`, `src/scripts/create-release-zip.js`, `CHANGELOG.md`, `packages/react-alias/`, the `nysds-release` skill (ops-claude-plugins).
 **Branch:** `feat/fw-8-release`.
 
+## Status (2026-09-02, docs-only slice)
+
+The docs deliverables are done; the script changes are not. Two new
+documents in this directory carry the operational detail and supersede
+the sections marked below:
+
+- `release-checklist.md` — the runnable release checklist, including the
+  exact `npm deprecate` command, the publish order, the tarball guard
+  procedure, and the docs-site merge coordination.
+- `migration-guide.md` — consumer-facing migration from
+  `@nysds/components/react`, from the broken `@nysds/angular@1.18.2`,
+  from `CUSTOM_ELEMENTS_SCHEMA` usage, and from the superseded branches.
+
+Actuals versus this brief:
+
+| Brief item | Actual |
+|---|---|
+| Target version 1.21.0 | Confirmed. npm has `@nysds/components@1.20.1`; the branch sits at 1.20.1. `@nysds/react` and `@nysds/codegen` are unpublished; `@nysds/angular` has only the three broken 1.18.2 versions. |
+| `publish-order.mjs` + tarball guard | Not built. `release` still runs `npm publish --workspaces`; `publish-dry-run.js` loops `packages/*` but doesn't fail on bad tarball contents. Written into the checklist as script-change steps. |
+| Angular publishes from `dist/` with a private source `package.json` | **Unresolved — reconcile before release.** As of this writing, `packages/angular/package.json` is not private, maps `exports` into `./dist/...`, and publishes from the package directory with `files: ["dist", "README.md"]`; the packaging was being actively reworked when this was written. The checklist describes both conventions. |
+| `packages/react-alias/` warns and re-exports `@nysds/react` | Not built. The legacy wc-toolkit wrappers still regenerate (`customElementReactWrapperPlugin` and `customElementJsxPlugin` remain in the CEM config, and `patch-react-utils.js` still runs in `cem`), root `exports["./react"]` still points at them, and no deprecation warning exists. Decision needed; see checklist §1. |
+| Root tarball | Root `files` includes all of `packages/react/`, which drags `src/` and `test/` into the `@nysds/components` tarball. Checklist §3 flags it. |
+| `examples/*` skipped by `--workspaces` | All five example workspaces verified `private: true`; npm skips private packages. The checklist still says to confirm the skip in dry-run output. |
+| `packages/mcp-server` | Publishes through `--workspaces` today (`@nysds/mcp-server@1.20.1` is on npm); it stays in the publish set. |
+| `CHANGELOG.md` | Does not exist in this repo. Release notes go through the GitHub release and the site "What's new" post instead. |
+| Deprecate `<=1.18.2` | Not yet run; user action. The range in this brief's "npm cleanup" section misses the alphas (semver ranges exclude prereleases); the checklist carries the corrected single command. |
+| R2 Angular peer `>=20` | Still open, pending the agency survey (WS0 §0.9). `>=20.0.0` is the shipped default in `packages/angular` and the examples matrix (20, 21, 22 in CI). |
+| SSR / hydration | Fixes were in flight on the branch at the time of writing (uncommitted work in `packages/angular` and `packages/codegen`). The checklist gates the release on the frameworks CI workflow being green. |
+
 ## Release script changes
 
 Today: `npm publish --workspaces --access public && npm publish --access public`. This publishes every workspace's source folder, which is what shipped the broken Angular package.
@@ -35,12 +64,18 @@ Release `1.22.0`: remove the alias, the `./react` export, and `packages/react-al
 
 ## npm cleanup
 
-- `npm deprecate @nysds/angular@"<=1.18.2"` (WS0 action; confirm done).
-- After `1.21.0` is out, `npm deprecate @nysds/angular@"1.18.2-alpha-1 || 1.18.2-alpha-2"` if not already covered by the range.
+Superseded by `release-checklist.md` §0, which carries the corrected
+single command. A plain `<=1.18.2` range does not match the `-alpha`
+versions — semver ranges exclude prereleases unless the comparator
+itself carries a prerelease tag — so the command lists all three
+versions explicitly. Not yet run as of 2026-09-02 (`npm view` shows no
+`deprecated` field); it needs npm auth, so the user runs it.
 
 ## Changelog and release notes
 
-`CHANGELOG.md` `1.21.0` sections:
+No root `CHANGELOG.md` exists in this repo, so these sections go into
+the GitHub release notes and the site "What's new" post. `1.21.0`
+sections:
 - **New packages:** `@nysds/react`, `@nysds/angular`, `@nysds/codegen`, with install lines and links to the site pages.
 - **Component changes (WS1):** per component, the added events, the detail-shape additions, the `nys-combobox` `nys-input` fix, the `nys-checkbox` focus/blur fix, `nys-fileinput` `detail.files` change (or `rawFiles` addition), `nys-fileRemove` → `nys-file-remove` (both fire until 2.0).
 - **Deprecated:** `@nysds/components/react` (removed in 1.22.0), `nys-button.onClick` property, `nys-fileRemove`.

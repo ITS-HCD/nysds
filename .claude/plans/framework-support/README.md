@@ -1,7 +1,7 @@
 # NYSDS framework support: React and Angular
 
-**Status:** Plan, ready for review
-**Date:** 2026-09-01
+**Status:** Built on `enhancement/nysds-codegen` (WS0–WS7 landed; see the workstream table for per-stream status). Release pending — start from `release-checklist.md`.
+**Date:** 2026-09-01, status updated 2026-09-02
 **Owner:** NYSDS core team
 **Deliverables:** `@nysds/react`, `@nysds/angular`, generated docs snippets, per-framework reference pages
 
@@ -19,6 +19,8 @@ This directory is the working plan for shipping first-class React and Angular su
 | `06-docs-site.md` | Tabbed snippets on every component page, per-framework reference pages |
 | `07-mcp-storybook-and-tooling.md` | MCP server guides and tools, Storybook, plugin agent definitions |
 | `08-release-and-migration.md` | Deprecations, alpha channel, release script, comms |
+| `release-checklist.md` | Runnable 1.21.0 release checklist: deprecate command, publish order, tarball guard, docs-site coordination |
+| `migration-guide.md` | Consumer-facing migration to `@nysds/react` and `@nysds/angular` (draft for the docs site) |
 | `agent-brief-template.md` | Prompt template for handing a workstream to a subagent |
 
 ## 1. Priorities (from the request)
@@ -141,7 +143,7 @@ Blocks: WS0.
 Cherry-pick the `modulePath` change and the `nys-option` guard into a small PR against `develop`. Everything else is superseded by this plan. Give the author the review as written feedback; the `technical-review-voice` skill can draft it.
 
 **R4: Deprecate `@nysds/angular@1.18.2`, `1.18.2-alpha-1`, and `1.18.2-alpha-2` on npm now.**
-Blocks: nothing, but the longer it's up the more confusing it is. Needs npm auth, so it's yours to run: `npm deprecate @nysds/angular@"<=1.18.2" "Unusable pre-release artifact. Use 1.21.0 or later."`
+Blocks: nothing, but the longer it's up the more confusing it is. Needs npm auth, so it's yours to run. Use the command in `release-checklist.md` §0 — it lists all three versions explicitly, because a `<=1.18.2` range does not match the `-alpha` prereleases.
 
 ## 4. Architecture
 
@@ -213,17 +215,17 @@ export type NysTextinputInputEvent = CustomEvent<NysTextinputInputDetail>;
 
 ## 5. Workstreams
 
-| WS | Name | Depends on | Can run in parallel with | Brief |
-|---|---|---|---|---|
-| 0 | Hygiene and foundations | — | — | `00-hygiene-and-foundations.md` |
-| 1 | Component event contract | 0 | 2 (scaffold) | `01-component-event-contract.md` |
-| 2 | `@nysds/codegen` | 0; 1 for real fixtures | 1 | `02-codegen-package.md` |
-| 3 | `@nysds/react` | 1, 2, R1 | 4 | `03-react-package.md` |
-| 4 | `@nysds/angular` | 1, 2, R2 | 3 | `04-angular-package.md` |
-| 5 | Example apps and CI | 3, 4 | 6, 7 | `05-example-apps-and-ci.md` |
-| 6 | Docs site | 2 (transformer), 3, 4 for accuracy | 5, 7 | `06-docs-site.md` |
-| 7 | MCP, Storybook, tooling | 2, 3, 4 | 5, 6 | `07-mcp-storybook-and-tooling.md` |
-| 8 | Release and migration | all | — | `08-release-and-migration.md` |
+| WS | Name | Depends on | Can run in parallel with | Brief | Status (2026-09-02) |
+|---|---|---|---|---|---|
+| 0 | Hygiene and foundations | — | — | `00-hygiene-and-foundations.md` | Landed on `enhancement/nysds-codegen`. Angular survey (§0.9) and npm deprecate (§0.8) still open — both user actions. |
+| 1 | Component event contract | 0 | 2 (scaffold) | `01-component-event-contract.md` | Landed: all ten component groups, strict `@formControl` CEM plugin, `verify-form-contract.mjs` wired into `cem`. |
+| 2 | `@nysds/codegen` | 0; 1 for real fixtures | 1 | `02-codegen-package.md` | Landed: manifest readers, both CEM plugins, deps plugin, snippet transformer. |
+| 3 | `@nysds/react` | 1, 2, R1 | 4 | `03-react-package.md` | Landed on `@lit/react` (R1 accepted) with `useNysField` hook. The `react-alias` deprecation surface for `@nysds/components/react` is not built; legacy wrappers still generate. |
+| 4 | `@nysds/angular` | 1, 2, R2 | 3 | `04-angular-package.md` | Landed: generated proxy components, CVA base classes, `nysControlErrors`, `NysAngularModule`. Publish packaging (dist versus package dir) in flight — see `release-checklist.md`. |
+| 5 | Example apps and CI | 3, 4 | 6, 7 | `05-example-apps-and-ci.md` | Landed: four apps, shared Playwright tests, `matrix.json`-driven `frameworks.yaml`. |
+| 6 | Docs site | 2 (transformer), 3, 4 for accuracy | 5, 7 | `06-docs-site.md` | Built on `nysds-site` branch `feat/fw-6-docs`; blocked on `@nysds/codegen` publishing (it depends on `^1.20.0`, unpublished). Merges after release step 4. |
+| 7 | MCP, Storybook, tooling | 2, 3, 4 | 5, 6 | `07-mcp-storybook-and-tooling.md` | Landed: MCP framework surface, plop, Storybook docs. |
+| 8 | Release and migration | all | — | `08-release-and-migration.md` | Docs delivered: `release-checklist.md`, `migration-guide.md`, status in the brief. Script changes (`publish-order.mjs`, tarball guard, `release:alpha` scope) and the release itself remain. |
 
 ### 5.1 Sequencing
 

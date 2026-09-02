@@ -57,10 +57,6 @@ CLAUDE.md
 docs/
 
 # Framework packages (framework-support plan)
-# Interim until WS3: `npm run cem` still writes React wrappers into
-# packages/react/, but the output is no longer committed (WS0 task 0.3).
-packages/react/*.js
-packages/react/*.d.ts
 # Generated wrapper sources are rebuilt by `npm run build:all` (decision L5).
 packages/react/src/generated/
 packages/angular/src/generated/

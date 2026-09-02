@@ -77,10 +77,15 @@ Add `.github/workflows/frameworks.yaml` (runs on PRs to `develop` and `main` whe
 Give the user this command; don't run it (needs npm auth, and it's outward-facing):
 
 ```bash
-npm deprecate @nysds/angular@"<=1.18.2" "Unusable pre-release artifact (source folder was published). Use 1.21.0 or later."
+npm deprecate @nysds/angular@"1.18.2 || 1.18.2-alpha-1 || 1.18.2-alpha-2" "Broken publish: this version contains unbuilt source with no usable entry points. Use @nysds/angular 1.21.0 or later."
 ```
 
-Confirm afterwards with `npm view @nysds/angular deprecated`.
+The versions are listed explicitly because a `<=1.18.2` range does not
+match the `-alpha` prereleases — semver ranges exclude prerelease
+versions unless the comparator itself carries a prerelease tag.
+
+Confirm afterwards with `npm view @nysds/angular@<version> deprecated`
+for each of the three versions. Still not run as of 2026-09-02.
 
 ### 0.8 Branch cleanup (user action)
 

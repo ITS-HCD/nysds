@@ -1,6 +1,4 @@
-import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
-import { customElementJsxPlugin } from "custom-element-jsx-integration";
 import { cemExamplesPlugin } from "cem-plugin-examples";
 import {
   formControlPlugin,
@@ -140,29 +138,9 @@ const customJsDocTagsPlugin = () => ({
   },
 });
 
-const reactOpts = {
-  /** Output directory for the generated React wrappers — published separately as @nysds/react */
-  outdir: "./packages/react",
-  // ssrSafe: true, // Commented out but kept here in case we run into any issues with SSR
-  /**
-   * Path to the compiled bundle, relative to the output wrapper files.
-   * packages/react/ is two levels below the root, so ../../dist/nysds.es.js
-   * points at the built ES module. Using dist/ (not raw src/) means the import
-   * path stays stable even if files inside src/ are moved around.
-   */
-  modulePath: () => "../../dist/nysds.es.js",
-};
-
 const vscodeOpts = {
   /** Output directory to write the VSCode autocompletes to- default is the root of the project */
   outdir: "./dist/.vscode",
-};
-
-// JSX output for React-like libraries like Preact
-const jsxOpts = {
-  /** Output directory to write the VSCode autocompletes to- default is the root of the project */
-  outdir: "./packages/react",
-  fileName: "nysds-jsx.d.ts",
 };
 
 export default {
@@ -231,8 +209,6 @@ export default {
     angularPlugin(),
     depsPlugin(),
     customElementVsCodePlugin(vscodeOpts),
-    customElementReactWrapperPlugin(reactOpts),
-    customElementJsxPlugin(jsxOpts),
   ],
   /**
    * Resolution options when using `dependencies: true`
