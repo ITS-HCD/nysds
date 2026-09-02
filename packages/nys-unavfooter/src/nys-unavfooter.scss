@@ -101,7 +101,7 @@ a:active {
 .nys-unavfooter__container_menu {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: var(--_nys-unavfooter-max-width--content);
@@ -132,6 +132,7 @@ a:active {
   /* Tablet (MD - Above 768px) */
   .nys-unavfooter__container_menu {
     flex-direction: row;
+    justify-content: center;
   }
 
   .nys-unavfooter__content ul {
