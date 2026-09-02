@@ -225,8 +225,7 @@
     "./video": {
       "types": "./dist/generated/NysVideo.d.ts",
       "import": "./dist/generated/NysVideo.js"
-    },
-    "./package.json": "./package.json"
+    }
   },
   "files": [
     "dist",

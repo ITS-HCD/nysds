@@ -220,8 +220,7 @@
     "./video": {
       "types": "./dist/video/index.d.ts",
       "default": "./dist/fesm2022/nysds-angular-video.mjs"
-    },
-    "./package.json": "./package.json"
+    }
   },
   "files": [
     "dist",

@@ -255,7 +255,7 @@ test("deps plugin rewrites dependencies, peer range, and exports", (t) => {
     import: "./dist/generated/NysTextinput.js",
   });
   assert.equal(pkg.exports["./removed"], undefined, "stale subpath gone");
-  assert.equal(pkg.exports["./package.json"], "./package.json");
+  assert.equal(pkg.exports["./package.json"], undefined, "package.json export not needed");
   assert.ok(pkg.exports["."]);
 
   // Deterministic ordering.
