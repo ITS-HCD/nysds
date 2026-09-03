@@ -93,7 +93,7 @@ describe("nys-unavheader", () => {
 
   it("toggles language list when 'nys-click' event dispatched on translate button", async () => {
     const el = await fixture<NysUnavHeader>(
-      html`<nys-unavheader></nys-unavheader>`,
+      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
     );
 
     const translateButton = el.shadowRoot?.querySelector(
@@ -562,7 +562,7 @@ describe("nys-unavheader", () => {
 
   it("dispatches nys-language-select event with correct detail and uses Smartling subdomain redirect when no url is provided", async () => {
     const el = await fixture<NysUnavHeader>(
-      html`<nys-unavheader></nys-unavheader>`,
+      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
     );
 
     el.languages = [
@@ -618,7 +618,7 @@ describe("nys-unavheader", () => {
 
   it("redirects to custom url when language has a url property", async () => {
     const el = await fixture<NysUnavHeader>(
-      html`<nys-unavheader></nys-unavheader>`,
+      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
     );
 
     el.languages = [
@@ -674,7 +674,7 @@ describe("nys-unavheader", () => {
 
   it("does not redirect when nys-language-select event is prevented", async () => {
     const el = await fixture<NysUnavHeader>(
-      html`<nys-unavheader></nys-unavheader>`,
+      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
     );
 
     el.languages = [
@@ -772,7 +772,7 @@ describe("nys-unavheader", () => {
 
     it("points aria-controls at the language menu from both triggers", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await el.updateComplete;
       await aTimeout(0);
@@ -791,7 +791,7 @@ describe("nys-unavheader", () => {
 
     it("reflects aria-expanded on the real trigger buttons as the menu opens", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await el.updateComplete;
       await aTimeout(0);
@@ -818,7 +818,7 @@ describe("nys-unavheader", () => {
 
     it("gives the icon-only trigger an accessible name", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await el.updateComplete;
       await aTimeout(0);
@@ -837,7 +837,7 @@ describe("nys-unavheader", () => {
 
     it("keeps the language options out of the tab order until the menu opens", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await el.updateComplete;
 
@@ -856,7 +856,7 @@ describe("nys-unavheader", () => {
 
     it("closes on Escape and returns focus to the trigger that opened it", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await el.updateComplete;
 
@@ -903,7 +903,7 @@ describe("nys-unavheader", () => {
 
     it("tags each language option with the language it names", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await el.updateComplete;
 
@@ -920,11 +920,16 @@ describe("nys-unavheader", () => {
           .empty;
       });
 
+      // The label is slotted markup now, not an attribute: the native name in
+      // a notranslate span, with the English name in parens beside it.
       const byLabel = (label: string) =>
-        options.find((o) => o.getAttribute("label") === label);
+        options.find(
+          (o) =>
+            o.querySelector("span[notranslate]")?.textContent?.trim() === label,
+        );
 
-      // The codes double as Smartling subdomains, so the Chinese ones are not
-      // valid language tags and have to be mapped.
+      // The codes double as Localize language codes, so the Chinese ones are
+      // not valid language tags and have to be mapped.
       expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-Hans");
       expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-Hant");
       expect(byLabel("Español")?.getAttribute("lang")).to.equal("es");
@@ -933,7 +938,7 @@ describe("nys-unavheader", () => {
 
     it("tags author-supplied languages from their own codes", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       el.languages = [
         { code: "en", label: "English" },
@@ -994,7 +999,7 @@ describe("nys-unavheader", () => {
 
     it("gives the option list menu semantics", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
 
@@ -1022,7 +1027,7 @@ describe("nys-unavheader", () => {
 
     it("keeps the open menu to a single tab stop", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
 
@@ -1037,7 +1042,7 @@ describe("nys-unavheader", () => {
 
     it("opens on ArrowDown from the trigger, on the first option", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await settle(el);
 
@@ -1052,7 +1057,7 @@ describe("nys-unavheader", () => {
 
     it("opens on ArrowUp from the trigger, on the last option", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await settle(el);
 
@@ -1067,7 +1072,7 @@ describe("nys-unavheader", () => {
 
     it("steps through the options with ArrowDown and ArrowUp, wrapping at both ends", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
       const last = el.languages.length - 1;
@@ -1093,7 +1098,7 @@ describe("nys-unavheader", () => {
 
     it("jumps to either end of the menu with Home and End", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
       const last = el.languages.length - 1;
@@ -1107,7 +1112,7 @@ describe("nys-unavheader", () => {
 
     it("moves real focus with the tab stop", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
 
@@ -1126,7 +1131,7 @@ describe("nys-unavheader", () => {
 
     it("keeps the tab stop in range when the language list shrinks", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
 
@@ -1145,7 +1150,7 @@ describe("nys-unavheader", () => {
 
     it("closes when focus leaves the menu, but not while it moves within it", async () => {
       const el = await fixture<NysUnavHeader>(
-        html`<nys-unavheader></nys-unavheader>`,
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
 

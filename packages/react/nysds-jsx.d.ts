@@ -1245,6 +1245,8 @@ export type NysUnavHeaderProps = {
   hideSearch?: boolean;
   /** The URL endpoint of the search, make sure to include the query param. */
   searchUrl?: string;
+  /** Localize project key. If provided, the component will load and initialize LocalizeJS automatically. */
+  translateKey?: string;
   /** Accessible name for the `banner` landmark this header renders.
 Defaults to `"New York State"`.
 
@@ -1257,10 +1259,10 @@ comes from that header's visible title.
 A blank value falls back to the default rather than leaving the landmark
 unnamed. */
   landmarkLabel?: string;
-  /** The list of languages this site can be translated to, default to use Smartling */
+  /** The list of languages this site can be translated to, default to use Localize */
   languages?: Language[];
 
-  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect. */
+  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration. */
   "onnys-language-select"?: (e: CustomEvent<never>) => void;
   /** Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect. */
   "onnys-search-submit"?: (e: CustomEvent<never>) => void;
@@ -1957,7 +1959,7 @@ export type CustomElements = {
    *
    *
    * ### **Events:**
-   *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+   *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.
    * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
