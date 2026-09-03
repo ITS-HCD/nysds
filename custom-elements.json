@@ -1246,7 +1246,7 @@
             },
             {
               "kind": "field",
-              "name": "variant",
+              "name": "strong",
               "type": {
                 "text": "any"
               }

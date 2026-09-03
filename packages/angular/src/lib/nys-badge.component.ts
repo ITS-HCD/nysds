@@ -14,7 +14,7 @@ import "@nysds/nys-badge";
     "[prefixLabel]": "prefixLabel",
     "[label]": "label",
     "[srText]": "srText",
-    "[variant]": "variant",
+    "[strong]": "strong",
     "[prefixIcon]": "prefixIcon",
     "[suffixIcon]": "suffixIcon",
   },
@@ -27,7 +27,7 @@ export class NysBadgeComponent {
   @Input() prefixLabel: any;
   @Input() label: any;
   @Input() srText: any;
-  @Input() variant: any;
+  @Input() strong: any;
   @Input() prefixIcon: any;
   @Input() suffixIcon: any;
 }

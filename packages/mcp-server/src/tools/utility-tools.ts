@@ -2,10 +2,203 @@
  * Utility Tools
  *
  * MCP tools for NYSDS utility classes.
+ *
+ * The class lists this tool returns are RENDERED from the scale constants
+ * below. Those constants mirror the Sass sources that actually generate the
+ * stylesheet:
+ *
+ *   - packages/styles/src/utilities/_config.scss     ($spacing, $opacity-values,
+ *                                                     $zindex-values, $display-values,
+ *                                                     $breakpoints, $flex-columns)
+ *   - packages/styles/src/utilities/_layout-grid.scss ($responsive-gap-suffixes)
+ *   - packages/styles/src/core/typography.scss        ($body-sizes, $ui-sizes,
+ *                                                     $ui-underline-styles, $display-sizes)
+ *
+ * Do not hand-write a class name into the markdown. Add it to a scale and let
+ * the renderer emit it, so a name can never appear here without a scale entry
+ * behind it.
+ *
+ * `npm run verify:utility-docs` compiles the stylesheet and asserts that every
+ * class this tool names exists in it. Run it after touching any scale.
  */
 
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
+/* ------------------------------------------------------------------ *
+ * Scales — mirror the Sass sources listed above.
+ * ------------------------------------------------------------------ */
+
+type SpacingEntry = readonly [key: string, px: string, rem?: string];
+
+/**
+ * `$spacing` in _config.scss. The utilities emit literal pixel values, not
+ * `var(--nys-space-*)` references, so the rendered docs quote pixels.
+ *
+ * There is deliberately no `0` key: `nys-margin-0` and `nys-padding-0` are
+ * not generated.
+ */
+const SPACING: readonly SpacingEntry[] = [
+  ["1px", "1px"],
+  ["2px", "2px"],
+  ["50", "4px", "0.25rem"],
+  ["100", "8px", "0.5rem"],
+  ["150", "12px", "0.75rem"],
+  ["200", "16px", "1rem"],
+  ["250", "20px", "1.25rem"],
+  ["300", "24px", "1.5rem"],
+  ["400", "32px", "2rem"],
+  ["500", "40px", "2.5rem"],
+  ["600", "48px", "3rem"],
+  ["700", "56px", "3.5rem"],
+  ["800", "64px", "4rem"],
+  ["1200", "96px", "6rem"],
+];
+
+/** `$responsive-gap-suffixes` in _layout-grid.scss. */
+const RESPONSIVE_GAP_KEYS: readonly string[] = [
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "1200",
+];
+
+/** `$opacity-values` in _config.scss. */
+const OPACITY: readonly number[] = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+/** `$zindex-values` in _config.scss. */
+const ZINDEX: ReadonlyArray<readonly [name: string, value: string]> = [
+  ["0", "0"],
+  ["100", "100"],
+  ["200", "200"],
+  ["300", "300"],
+  ["400", "400"],
+  ["500", "500"],
+  ["auto", "auto"],
+  ["bottom", "-100"],
+  ["top", "99999"],
+];
+
+/** `$display-values` in _config.scss. */
+const DISPLAY: readonly string[] = [
+  "none",
+  "block",
+  "inline",
+  "inline-block",
+  "flex",
+  "inline-flex",
+  "table",
+  "table-cell",
+  "table-row",
+];
+
+/** `$breakpoints` in _config.scss. */
+const BREAKPOINTS: ReadonlyArray<
+  readonly [name: string, em: string, px: string]
+> = [
+  ["mobile-lg", "30em", "480px"],
+  ["tablet", "40em", "640px"],
+  ["desktop", "64em", "1024px"],
+  ["widescreen", "87.5em", "1400px"],
+];
+
+/** Typography scales in core/typography.scss. */
+const HEADING_LEVELS: readonly number[] = [1, 2, 3, 4, 5, 6];
+const BODY_SIZES: readonly string[] = ["xs", "sm", "md"];
+const UI_SIZES: readonly string[] = ["xs", "sm", "md", "lg", "xl"];
+const DISPLAY_SIZES: readonly string[] = ["sm", "md", "lg", "xl"];
+/** `$ui-underline-styles` — only these size/weight pairs are generated. */
+const UI_UNDERLINE: ReadonlyArray<readonly [size: string, weight: string]> = [
+  ["sm", "semibold"],
+  ["md", "semibold"],
+  ["md", "regular"],
+  ["lg", "semibold"],
+];
+
+const FLEX_ALIGN: readonly string[] = [
+  "start",
+  "center",
+  "end",
+  "baseline",
+  "stretch",
+];
+const FLEX_JUSTIFY: readonly string[] = [
+  "start",
+  "center",
+  "end",
+  "space-between",
+  "space-around",
+  "space-evenly",
+];
+
+/* ------------------------------------------------------------------ *
+ * Renderers
+ * ------------------------------------------------------------------ */
+
+const spacingKeys = SPACING.map(([key]) => key);
+const bullets = (lines: readonly string[]) => lines.join("\n");
+const inlineList = (items: readonly string[]) =>
+  items.map((i) => `\`${i}\``).join(", ");
+
+const spacingValueRows = bullets(
+  SPACING.map(
+    ([key, px, rem]) => `- \`${key}\` - ${px}${rem ? ` (${rem})` : ""}`,
+  ),
+);
+
+const gapValueRows = bullets(
+  SPACING.map(([key, px, rem]) => {
+    const size = `${px}${rem ? ` (${rem})` : ""}`;
+    // Gaps in the responsive set are capped at 2rem below 64em. For 400 the
+    // cap equals the full value, so only note it where it actually differs.
+    const capped =
+      RESPONSIVE_GAP_KEYS.includes(key) && Number.parseInt(px, 10) > 32;
+    return capped
+      ? `- \`nys-grid-gap-${key}\` - ${size} at 64em and up, capped at 32px (2rem) below that`
+      : `- \`nys-grid-gap-${key}\` - ${size}`;
+  }),
+);
+
+const opacityRows = bullets(
+  OPACITY.map((v) => {
+    const label =
+      v === 0
+        ? "Fully transparent"
+        : v === 100
+          ? "Fully opaque"
+          : `${v}% opaque`;
+    return `- \`nys-opacity-${v}\` - opacity: ${v / 100} (${label})`;
+  }),
+);
+
+const zindexRows = bullets(
+  ZINDEX.map(([name, value]) => `- \`nys-z-${name}\` - z-index: ${value}`),
+);
+
+const displayRows = bullets(
+  DISPLAY.map((v) => `- \`nys-display-${v}\` - display: ${v}`),
+);
+
+const breakpointRows = bullets(
+  BREAKPOINTS.map(
+    ([name, em, px]) => `- \`nys-${name}:\` - ${em} (${px}) and up`,
+  ),
+);
+
+const headingRows = bullets(
+  HEADING_LEVELS.map(
+    (n) => `- \`nys-font-h${n}\` - Heading level ${n} type style`,
+  ),
+);
+
+const underlineRows = bullets(
+  UI_UNDERLINE.flatMap(([size, weight]) => [
+    `- \`nys-font-ui-${size}-${weight}-underline\` - UI ${size} ${weight}, 7% underline`,
+    `- \`nys-font-ui-${size}-${weight}-underline-strong\` - UI ${size} ${weight}, 14% underline`,
+  ]),
+);
 
 const UTILITY_DOCS = {
   grid: `## Grid System
@@ -29,20 +222,11 @@ NYSDS provides a 12-column responsive grid system.
 - \`nys-grid-col-fill\` - Column fills remaining space
 
 ### Gap Classes
-- \`nys-grid-gap-0\` - No gap
-- \`nys-grid-gap-2px\` - 2px gap
-- \`nys-grid-gap-50\` - 4px gap (0.25rem)
-- \`nys-grid-gap-100\` - 8px gap (0.5rem)
-- \`nys-grid-gap-150\` - 12px gap (0.75rem)
-- \`nys-grid-gap-200\` - 16px gap (1rem)
-- \`nys-grid-gap-250\` - 20px gap (1.25rem)
-- \`nys-grid-gap-300\` - 24px gap (1.5rem)
-- \`nys-grid-gap-400\` - 32px gap (2rem)
-- \`nys-grid-gap-500\` - 40px gap (2.5rem)
-- \`nys-grid-gap-600\` - 48px gap (3rem)
-- \`nys-grid-gap-700\` - 56px gap (3.5rem)
-- \`nys-grid-gap-800\` - 64px gap (4rem)
-- \`nys-grid-gap-1200\` - 96px gap (6rem)
+Gap classes apply to \`nys-grid-row\`. Use \`nys-grid-gap-x-*\` or
+\`nys-grid-gap-y-*\` for a single axis. There is no \`nys-grid-gap-0\`; omit
+the gap class instead.
+
+${gapValueRows}
 
 ### Offset Classes
 - \`nys-grid-offset-[1-12]\` - Offset column by 1-12 columns
@@ -65,6 +249,7 @@ NYSDS provides a 12-column responsive grid system.
 
 ### Display
 - \`nys-display-flex\` - Sets display: flex
+- \`nys-display-inline-flex\` - Sets display: inline-flex
 
 ### Direction
 - \`nys-flex-row\` - Row direction (default)
@@ -75,20 +260,25 @@ NYSDS provides a 12-column responsive grid system.
 - \`nys-flex-no-wrap\` - Prevent wrapping
 
 ### Alignment (Cross Axis)
-- \`nys-flex-align-start\` - Align items to start
-- \`nys-flex-align-center\` - Align items to center
-- \`nys-flex-align-end\` - Align items to end
-- \`nys-flex-align-stretch\` - Stretch items to fill
+${bullets(FLEX_ALIGN.map((v) => `- \`nys-flex-align-${v}\` - align-items: ${v}`))}
+
+### Self Alignment
+${bullets(FLEX_ALIGN.map((v) => `- \`nys-flex-align-self-${v}\` - align-self: ${v}`))}
 
 ### Justification (Main Axis)
-- \`nys-flex-justify-start\` - Justify to start
-- \`nys-flex-justify-center\` - Justify to center
-- \`nys-flex-justify-end\` - Justify to end
+${bullets(FLEX_JUSTIFY.map((v) => `- \`nys-flex-justify-${v}\` - justify-content: ${v}`))}
 
 ### Flex Sizing
 - \`nys-flex-[1-12]\` - Flex grow/shrink values
 - \`nys-flex-auto\` - flex: auto (grow and shrink)
 - \`nys-flex-fill\` - Fill available space
+
+### Gaps
+Available on the spacing scale: ${inlineList(spacingKeys)}
+
+- \`nys-flex-gap-{value}\` - gap on both axes
+- \`nys-flex-row-gap-{value}\` - row-gap only
+- \`nys-flex-column-gap-{value}\` - column-gap only
 
 ### Example: Button Group
 \`\`\`html
@@ -116,21 +306,11 @@ Pattern: \`nys-{property}-{direction}-{value}\`
 - (none) - All sides
 
 ### Values
-- \`0\` - 0
-- \`1px\` - 1px
-- \`2px\` - 2px
-- \`50\` - var(--nys-space-50) = 0.125rem (2px)
-- \`100\` - var(--nys-space-100) = 0.25rem (4px)
-- \`150\` - var(--nys-space-150) = 0.375rem (6px)
-- \`200\` - var(--nys-space-200) = 0.5rem (8px)
-- \`250\` - var(--nys-space-250) = 0.625rem (10px)
-- \`300\` - var(--nys-space-300) = 0.75rem (12px)
-- \`400\` - var(--nys-space-400) = 1rem (16px)
-- \`500\` - var(--nys-space-500) = 1.25rem (20px)
-- \`600\` - var(--nys-space-600) = 1.5rem (24px)
-- \`700\` - var(--nys-space-700) = 2rem (32px)
-- \`800\` - var(--nys-space-800) = 2.5rem (40px)
-- \`1200\` - var(--nys-space-1200) = 4rem (64px)
+The utilities emit literal pixel values. There is no zero and no \`auto\`
+value — \`nys-margin-0\` and \`nys-padding-0\` are not generated. Omit the
+class instead.
+
+${spacingValueRows}
 
 ### Examples
 \`\`\`html
@@ -146,11 +326,7 @@ Pattern: \`nys-{property}-{direction}-{value}\`
 
   display: `## Display Utilities
 
-- \`nys-display-none\` - Hide element
-- \`nys-display-block\` - Block display
-- \`nys-display-inline\` - Inline display
-- \`nys-display-inline-block\` - Inline-block display
-- \`nys-display-flex\` - Flex display
+${displayRows}
 
 ### Example: Hide on Mobile
 \`\`\`html
@@ -161,39 +337,52 @@ Pattern: \`nys-{property}-{direction}-{value}\`
 
   opacity: `## Opacity Utilities
 
-- \`nys-opacity-0\` - Fully transparent
-- \`nys-opacity-25\` - 25% opacity
-- \`nys-opacity-50\` - 50% opacity
-- \`nys-opacity-75\` - 75% opacity
-- \`nys-opacity-100\` - Fully opaque`,
+The scale steps by 10 — there is no \`nys-opacity-25\` or \`nys-opacity-75\`.
+
+${opacityRows}`,
 
   zindex: `## Z-Index Utilities
 
-- \`nys-z-0\` - z-index: 0
-- \`nys-z-10\` - z-index: 10
-- \`nys-z-20\` - z-index: 20
-- \`nys-z-30\` - z-index: 30
-- \`nys-z-40\` - z-index: 40
-- \`nys-z-50\` - z-index: 50
-- \`nys-z-auto\` - z-index: auto`,
+The scale steps by 100, not by 10. \`nys-z-10\` through \`nys-z-50\` do not
+exist — the comparable values are \`nys-z-100\` through \`nys-z-500\`.
+
+${zindexRows}`,
 
   typography: `## Typography Utilities
 
-### Text Alignment
-- \`nys-text-left\` - Left align text
-- \`nys-text-center\` - Center align text
-- \`nys-text-right\` - Right align text
+NYSDS ships a role-based type scale, not atomic text modifiers. Each class
+sets font-family, size, and line-height together, matching the text styles in
+the NYSDS Foundations Figma file.
 
-### Font Weight
-- \`nys-font-normal\` - Normal weight
-- \`nys-font-medium\` - Medium weight
-- \`nys-font-semibold\` - Semibold weight
-- \`nys-font-bold\` - Bold weight
+There are NO text-alignment, text-transform, or font-weight utilities
+(no \`nys-text-center\`, no \`nys-font-bold\`). Use CSS for those.
 
-### Text Transform
-- \`nys-text-uppercase\` - Uppercase text
-- \`nys-text-lowercase\` - Lowercase text
-- \`nys-text-capitalize\` - Capitalize text`,
+### Headings
+${headingRows}
+
+### Body
+${bullets(BODY_SIZES.map((s) => `- \`nys-font-body-${s}\` - Body text, ${s}`))}
+
+### UI
+${bullets(UI_SIZES.map((s) => `- \`nys-font-ui-${s}\` - UI text, ${s}`))}
+
+### UI Underline
+${underlineRows}
+
+### Display
+${bullets(DISPLAY_SIZES.map((s) => `- \`nys-font-display-${s}\` - Display text, ${s}`))}
+
+### Agency
+- \`nys-font-agency\` - Agency / application title
+
+### Font family hooks
+These are attribute selectors, not standalone classes. They set only
+font-family on any element whose class list contains the substring, so pair
+them with a size class:
+
+- \`[class*="nys-font-mono-"]\` - monospace family
+- \`[class*="nys-font-sans-"]\` - sans-serif family
+- \`[class*="nys-font-serif-"]\` - serif family`,
 
   responsive: `## Responsive Breakpoints
 
@@ -201,9 +390,7 @@ NYSDS utility classes support responsive prefixes.
 
 ### Breakpoints
 - (no prefix) - All screen sizes (mobile-first)
-- \`nys-mobile-lg:\` - 30em (480px) and up
-- \`nys-tablet:\` - 40em (640px) and up
-- \`nys-desktop:\` - 64em (1024px) and up
+${breakpointRows}
 
 ### Pattern
 \`nys-{breakpoint}:nys-{class}\`
@@ -247,6 +434,37 @@ When adding spacing around NYSDS components, use utility classes rather than wra
 <nys-button label="Submit"></nys-button>
 \`\`\``,
 };
+
+/**
+ * Classes the reference deliberately names in order to say they do NOT exist.
+ *
+ * These are the names people reach for out of habit from other frameworks.
+ * Saying so explicitly is more useful than silence, but it means the docs
+ * mention class names the stylesheet does not define, which would otherwise
+ * trip the verifier.
+ *
+ * `verify-utility-docs.mjs` asserts each of these is genuinely absent, so if
+ * NYSDS ever adds one, the stale warning fails the check instead of quietly
+ * misinforming people.
+ */
+const KNOWN_ABSENT: readonly string[] = [
+  "nys-text-center",
+  "nys-font-bold",
+  "nys-z-10",
+  "nys-z-50",
+  "nys-opacity-25",
+  "nys-opacity-75",
+  "nys-margin-0",
+  "nys-padding-0",
+  "nys-grid-gap-0",
+];
+
+/**
+ * Exported so `src/scripts/verify-utility-docs.mjs` can assert that every class
+ * named in this reference exists in the compiled stylesheet — and that every
+ * class named in KNOWN_ABSENT still does not.
+ */
+export { UTILITY_DOCS, KNOWN_ABSENT };
 
 export function registerUtilityTools(server: McpServer): void {
   // get_utility_classes - Comprehensive utility class reference
