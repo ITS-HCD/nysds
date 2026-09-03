@@ -39,14 +39,30 @@
 }
 
 /* Intent */
-:host([intent="neutral"]) {
+:host([intent="base"]) {
   --_nys-badge-background-color: var(--nys-color-base-weak, #f6f6f6);
   --_nys-badge-border-color: var(--nys-color-base, #62666a);
 }
 
+:host([intent="danger"]),
 :host([intent="error"]) {
-  --_nys-badge-background-color: var(--nys-color-error-weak, #f7eaea);
-  --_nys-badge-border-color: var(--nys-color-error-strong, #721c1c);
+  --_nys-badge-background-color: var(--nys-color-danger-weak, #f7eaea);
+  --_nys-badge-border-color: var(--nys-color-danger-strong, #721c1c);
+}
+
+:host([intent="emergency"]) {
+  --_nys-badge-background-color: var(--nys-color-emergency, #721c1c);
+  --_nys-badge-border-color: var(--nys-color-danger-strong, #721c1c);
+  --_nys-badge-color: var(--nys-color-white, #ffffff);
+
+  .nys-badge {
+    --nys-icon-color: var(--nys-color-white, #ffffff);
+  }
+}
+
+:host([intent="info"]) {
+  --_nys-badge-background-color: var(--nys-color-info-weak, #e5effa);
+  --_nys-badge-border-color: var(--nys-color-info-strong, #002971);
 }
 
 :host([intent="success"]) {
@@ -59,8 +75,8 @@
   --_nys-badge-border-color: var(--nys-color-warning-strong, #6a5700);
 }
 
-/* Variant */
-:host([variant="strong"]) {
+/* Strong Styling */
+:host([strong]) {
   --_nys-badge-background-color: var(--_nys-badge-border-color);
   --_nys-badge-color: var(--nys-color-white, #ffffff);
 
@@ -69,11 +85,24 @@
   }
 }
 
-:host([variant="strong"][intent="success"]) {
+:host([strong][intent="info"]) {
+  --_nys-badge-border-color: var(--nys-color-info, #004dd1);
+}
+
+:host([strong][intent="success"]) {
   --_nys-badge-border-color: var(--nys-color-success, #1e752e);
 }
 
-:host([variant="strong"][intent="warning"]) {
+:host([strong][intent="danger"]),
+:host([strong][intent="error"]) {
+  --_nys-badge-border-color: var(--nys-color-danger, #b52c2c);
+}
+
+:host([strong][intent="emergency"]) {
+  --_nys-badge-border-color: var(--nys-color-emergency, #721c1c);
+}
+
+:host([strong][intent="warning"]) {
   --_nys-badge-border-color: var(--nys-color-warning, #face00);
   --_nys-badge-color: var(--nys-color-ink, #000000);
 
