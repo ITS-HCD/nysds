@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  NysLabel as NysLabelElement,
-  CustomEvent,
-} from "../../dist/nysds.es.js";
+import { NysLabel as NysLabelElement, CustomEvent } from "@nysds/nys-label";
 
 export type { NysLabelElement, CustomEvent };
 

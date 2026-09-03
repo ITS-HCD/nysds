@@ -1,5 +1,5 @@
 import React from "react";
-import { NysBadge as NysBadgeElement } from "../../dist/nysds.es.js";
+import { NysBadge as NysBadgeElement } from "@nysds/nys-badge";
 
 export type { NysBadgeElement };
 

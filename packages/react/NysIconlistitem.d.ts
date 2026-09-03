@@ -1,5 +1,5 @@
 import React from "react";
-import { NysIconlistitem as NysIconlistitemElement } from "../../dist/nysds.es.js";
+import { NysIconlistitem as NysIconlistitemElement } from "@nysds/nys-iconlist";
 
 export type { NysIconlistitemElement };
 

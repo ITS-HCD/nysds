@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-card";
 import { useEventListener, useProperties } from "./react-utils.js";
 
 export const NysCard = forwardRef((props, forwardedRef) => {

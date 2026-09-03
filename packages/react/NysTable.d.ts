@@ -1,5 +1,5 @@
 import React from "react";
-import { NysTable as NysTableElement } from "../../dist/nysds.es.js";
+import { NysTable as NysTableElement } from "@nysds/nys-table";
 
 export type { NysTableElement };
 

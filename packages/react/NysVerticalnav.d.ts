@@ -1,5 +1,5 @@
 import React from "react";
-import { NysVerticalnav as NysVerticalnavElement } from "../../dist/nysds.es.js";
+import { NysVerticalnav as NysVerticalnavElement } from "@nysds/nys-verticalnav";
 
 export type { NysVerticalnavElement };
 

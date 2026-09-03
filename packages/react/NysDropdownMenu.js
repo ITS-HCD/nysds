@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-dropdownmenu";
 
 export const NysDropdownMenu = forwardRef((props, forwardedRef) => {
   const { showDropdown, label, position, ...filteredProps } = props;

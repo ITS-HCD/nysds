@@ -1,5 +1,5 @@
 import React from "react";
-import { NysButton as NysButtonElement, Event } from "../../dist/nysds.es.js";
+import { NysButton as NysButtonElement, Event } from "@nysds/nys-button";
 
 export type { NysButtonElement, Event };
 

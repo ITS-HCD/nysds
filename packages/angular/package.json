@@ -1,0 +1,77 @@
+{
+  "name": "@nysds/angular",
+  "version": "1.20.1",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "esm2022": "./dist/esm2022/nysds-angular.mjs",
+      "esm": "./dist/esm2022/nysds-angular.mjs",
+      "default": "./dist/fesm2022/nysds-angular.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "ng-packagr -p ng-packagr.json"
+  },
+  "peerDependencies": {
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "rxjs": "^7.0.0"
+  },
+  "dependencies": {
+    "@nysds/nys-accordion": "^1.20.1",
+    "@nysds/nys-alert": "^1.20.1",
+    "@nysds/nys-avatar": "^1.20.1",
+    "@nysds/nys-backtotop": "^1.20.1",
+    "@nysds/nys-badge": "^1.20.1",
+    "@nysds/nys-breadcrumbs": "^1.20.1",
+    "@nysds/nys-button": "^1.20.1",
+    "@nysds/nys-card": "^1.20.1",
+    "@nysds/nys-checkbox": "^1.20.1",
+    "@nysds/nys-combobox": "^1.20.1",
+    "@nysds/nys-datepicker": "^1.20.1",
+    "@nysds/nys-divider": "^1.20.1",
+    "@nysds/nys-dropdownmenu": "^1.20.1",
+    "@nysds/nys-errormessage": "^1.20.1",
+    "@nysds/nys-fileinput": "^1.20.1",
+    "@nysds/nys-globalfooter": "^1.20.1",
+    "@nysds/nys-globalheader": "^1.20.1",
+    "@nysds/nys-icon": "^1.20.1",
+    "@nysds/nys-iconlist": "^1.20.1",
+    "@nysds/nys-label": "^1.20.1",
+    "@nysds/nys-modal": "^1.20.1",
+    "@nysds/nys-pagination": "^1.20.1",
+    "@nysds/nys-processlist": "^1.20.1",
+    "@nysds/nys-radiobutton": "^1.20.1",
+    "@nysds/nys-select": "^1.20.1",
+    "@nysds/nys-skipnav": "^1.20.1",
+    "@nysds/nys-stepper": "^1.20.1",
+    "@nysds/nys-tab": "^1.20.1",
+    "@nysds/nys-table": "^1.20.1",
+    "@nysds/nys-textarea": "^1.20.1",
+    "@nysds/nys-textinput": "^1.20.1",
+    "@nysds/nys-toggle": "^1.20.1",
+    "@nysds/nys-tooltip": "^1.20.1",
+    "@nysds/nys-unavfooter": "^1.20.1",
+    "@nysds/nys-unavheader": "^1.20.1",
+    "@nysds/nys-verticalnav": "^1.20.1",
+    "@nysds/nys-video": "^1.20.1"
+  },
+  "devDependencies": {
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "ng-packagr": "^18.2.1",
+    "typescript": "^5.4.0"
+  }
+}

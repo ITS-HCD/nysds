@@ -1,5 +1,5 @@
 import React from "react";
-import { NysUnavFooter as NysUnavFooterElement } from "../../dist/nysds.es.js";
+import { NysUnavFooter as NysUnavFooterElement } from "@nysds/nys-unavfooter";
 
 export type { NysUnavFooterElement };
 

@@ -3,7 +3,7 @@ import {
   NysFileinput as NysFileinputElement,
   Event,
   CustomEvent,
-} from "../../dist/nysds.es.js";
+} from "@nysds/nys-fileinput";
 
 export type { NysFileinputElement, Event, CustomEvent };
 

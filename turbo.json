@@ -11,7 +11,7 @@
         "tsconfig.json",
         "terrazzo.config.js"
       ],
-      "outputs": ["dist/**", ".tsbuildinfo"],
+      "outputs": ["dist/**", ".turbo/**/*.xml"],
       "env": ["NODE_ENV", "BUILD_FORMAT"],
       "outputLogs": "new-only"
     },

@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-datepicker";
 import { useEventListener } from "./react-utils.js";
 
 export const NysDatepicker = forwardRef((props, forwardedRef) => {

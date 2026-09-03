@@ -1,5 +1,5 @@
 import React from "react";
-import { NysUnavHeader as NysUnavHeaderElement } from "../../dist/nysds.es.js";
+import { NysUnavHeader as NysUnavHeaderElement } from "@nysds/nys-unavheader";
 
 export type { NysUnavHeaderElement };
 

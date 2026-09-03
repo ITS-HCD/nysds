@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-globalheader";
 
 export const NysGlobalHeader = forwardRef((props, forwardedRef) => {
   const {

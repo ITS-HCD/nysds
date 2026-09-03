@@ -2,6 +2,7 @@ import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 import { customElementJsxPlugin } from "custom-element-jsx-integration";
 import { cemExamplesPlugin } from "cem-plugin-examples";
+import { angularWrapperPlugin } from "./cem-angular-plugin.mjs";
 
 // Plugin to extract custom JSDoc tags (@accessibility, @usage, etc.) from source files
 import fs from "fs";
@@ -84,7 +85,7 @@ const renderTagsPlugin = () => {
               example.render = code;
             } else {
               console.warn(
-                `[nysds-render-tags] ${mod.path}: @render "${title}" has no matching @example — skipped.`
+                `[nysds-render-tags] ${mod.path}: @render "${title}" has no matching @example — skipped.`,
               );
             }
           }
@@ -110,7 +111,7 @@ const customJsDocTagsPlugin = () => ({
 
         const classNameRegex = new RegExp(
           `(\\/\\*\\*[\\s\\S]*?\\*\\/)?\\s*export\\s+class\\s+${decl.name}`,
-          "m"
+          "m",
         );
         const match = content.match(classNameRegex);
         if (!match || !match[1]) continue;
@@ -120,11 +121,16 @@ const customJsDocTagsPlugin = () => ({
         const extractBullets = (raw) =>
           raw
             .split(/\n\s*\*\s*-\s*/)
-            .map((s) => s.replace(/^\*?\s*-?\s*/, "").replace(/\n\s*\*\s*/g, " ").trim())
+            .map((s) =>
+              s
+                .replace(/^\*?\s*-?\s*/, "")
+                .replace(/\n\s*\*\s*/g, " ")
+                .trim(),
+            )
             .filter(Boolean);
 
         const usageMatch = docComment.match(
-          /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
+          /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/,
         );
         if (usageMatch) {
           decl.usage = extractBullets(usageMatch[1]);
@@ -134,17 +140,33 @@ const customJsDocTagsPlugin = () => ({
   },
 });
 
+const tagToPackageMap = {
+  "nys-accordionitem": "nys-accordion",
+  "nys-checkboxgroup": "nys-checkbox",
+  "nys-dropdownmenuitem": "nys-dropdownmenu",
+  "nys-fileitem": "nys-fileinput",
+  "nys-iconlistitem": "nys-iconlist",
+  "nys-option": "nys-select",
+  "nys-processlistitem": "nys-processlist",
+  "nys-radiogroup": "nys-radiobutton",
+  "nys-step": "nys-stepper",
+  "nys-tabgroup": "nys-tab",
+  "nys-tabpanel": "nys-tab",
+  "nys-verticalnavgroup": "nys-verticalnav",
+};
+
 const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
   outdir: "./packages/react",
   // ssrSafe: true, // Commented out but kept here in case we run into any issues with SSR
   /**
-   * Path to the compiled bundle, relative to the output wrapper files.
-   * packages/react/ is two levels below the root, so ../../dist/nysds.es.js
-   * points at the built ES module. Using dist/ (not raw src/) means the import
-   * path stays stable even if files inside src/ are moved around.
+   * Reconfigured to resolve each component directly to its own parent npm package dependency.
+   * e.g. imported as `@nysds/nys-verticalnav` instead of non-existent `@nysds/nys-verticalnavgroup`.
    */
-  modulePath: () => "../../dist/nysds.es.js",
+  modulePath: (className, tagName) => {
+    const parentFolder = tagToPackageMap[tagName] || tagName;
+    return `@nysds/${parentFolder}`;
+  }
 };
 
 const vscodeOpts = {
@@ -171,7 +193,7 @@ export default {
     "**/packages/styles/**",
     "**/packages/internals/**",
     "**/packages/mcp-server/**",
-    "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
+    "**/packages/react/nysds-jsx.d.ts", // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],
   /** Directory to output CEM to */
   outdir: "./",
@@ -187,29 +209,30 @@ export default {
       packageLinkPhase({ customElementsManifest }) {
         // Sort top-level modules
         customElementsManifest.modules.sort((a, b) =>
-          a.path.localeCompare(b.path)
+          a.path.localeCompare(b.path),
         );
 
         for (const mod of customElementsManifest.modules) {
           if (mod.declarations) {
             mod.declarations.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
 
           if (mod.exports) {
             mod.exports.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
         }
-      }
+      },
     },
     cemExamplesPlugin(),
     renderTagsPlugin(),
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
     customElementJsxPlugin(jsxOpts),
+    angularWrapperPlugin({ outdir: "./packages/angular" }), 
   ],
   /**
    * Resolution options when using `dependencies: true`

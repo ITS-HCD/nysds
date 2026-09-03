@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  NysAlert as NysAlertElement,
-  CustomEvent,
-} from "../../dist/nysds.es.js";
+import { NysAlert as NysAlertElement, CustomEvent } from "@nysds/nys-alert";
 
 export type { NysAlertElement, CustomEvent };
 

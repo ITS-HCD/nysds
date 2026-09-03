@@ -372,7 +372,6 @@ export class NysRadiobutton extends NysFormControlElement {
     if (!this._isGrouped()) {
       this._uncheckOtherRadios(this);
     }
-
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: {

@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useEffect } from "react";
-import "../../dist/nysds.es.js";
+import "@nysds/nys-stepper";
 import { useEventListener, useProperties } from "./react-utils.js";
 
 export const NysStep = forwardRef((props, forwardedRef) => {
