@@ -112,21 +112,6 @@ const FEED_ICONS: Record<string, string> = {
 /** `true` only for the feed's explicit "on" switch. */
 const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
 
-/** The element the translate menu is rendered into, referenced by `aria-controls`. */
-const LANGUAGE_LIST_ID = "nys-unavheader__languagelist";
-
-/** Accessible name of the menu, matching the name of the trigger that opens it. */
-const LANGUAGE_MENU_LABEL = "Translate";
-
-/** Marks each language option, so the menu can collect them for roving focus. */
-const LANGUAGE_OPTION_CLASS = "nys-unavheader__languagelink";
-
-/** Both translate triggers — only one is visible at a time, depending on width. */
-const TRANSLATE_TRIGGER_IDS = [
-  "nys-unavheader__translate--desktop",
-  "nys-unavheader__translate--mobile",
-] as const;
-
 /**
  * A rendered `nys-button`. Its real `<button>` — the element that actually carries
  * the button role, the tab stop, and any ARIA — lives in its own shadow root.
@@ -411,7 +396,7 @@ export class NysUnavHeader extends NysElement {
    */
 
   /** Which translate trigger opened the menu, so Escape can return focus to it. */
-  private _translateTrigger: string = TRANSLATE_TRIGGER_IDS[0];
+  private _translateTrigger: string = "nys-unavheader__translate";
 
   /** Index of the option holding the menu's single tab stop. */
   private _activeOption = 0;
@@ -443,9 +428,7 @@ export class NysUnavHeader extends NysElement {
     this.languageVisible = false;
 
     this.updateComplete.then(() => {
-      const trigger =
-        this.shadowRoot?.getElementById(this._translateTrigger) ??
-        this.shadowRoot?.getElementById(TRANSLATE_TRIGGER_IDS[1]);
+      const trigger = this.shadowRoot?.getElementById(this._translateTrigger);
       trigger?.focus();
     });
   }
@@ -458,25 +441,23 @@ export class NysUnavHeader extends NysElement {
    * trigger (WCAG 4.1.2).
    */
   private async _syncTranslateTriggerAria() {
-    for (const id of TRANSLATE_TRIGGER_IDS) {
-      const trigger = this.shadowRoot?.getElementById(
-        id,
-      ) as ButtonElement | null;
-      if (!trigger) continue;
+    const trigger = this.shadowRoot?.getElementById(
+      "nys-unavheader__translate",
+    ) as ButtonElement | null;
+    if (!trigger) return;
 
-      // The inner button only exists once nys-button has rendered. aria-expanded
-      // and aria-controls travel through nys-button's ariaExpanded/ariaControls
-      // props; only aria-haspopup has no prop equivalent yet.
-      await trigger.updateComplete;
-      innerControl(trigger).setAttribute("aria-haspopup", "menu");
-    }
+    // The inner button only exists once nys-button has rendered. aria-expanded
+    // and aria-controls travel through nys-button's ariaExpanded/ariaControls
+    // props; only aria-haspopup has no prop equivalent yet.
+    await trigger.updateComplete;
+    innerControl(trigger).setAttribute("aria-haspopup", "menu");
   }
 
   /** The language options, in the order they are rendered. */
   private _languageOptions(): ButtonElement[] {
     return Array.from(
       this.shadowRoot?.querySelectorAll<ButtonElement>(
-        `.${LANGUAGE_OPTION_CLASS}`,
+        "nys-unavheader__languagelink",
       ) ?? [],
     );
   }
@@ -579,9 +560,9 @@ export class NysUnavHeader extends NysElement {
       return;
     }
 
-    if ((TRANSLATE_TRIGGER_IDS as readonly string[]).includes(target.id)) {
+    if (target.id === "nys-unavheader__translate") {
       this._handleTriggerKeydown(e, target.id);
-    } else if (target.classList.contains(LANGUAGE_OPTION_CLASS)) {
+    } else if (target.classList.contains("nys-unavheader__languagelink")) {
       this._handleOptionKeydown(e);
     }
   }
@@ -959,45 +940,36 @@ export class NysUnavHeader extends NysElement {
                   @keydown=${this._handleTranslateKeydown}
                   @focusout=${this._handleTranslateFocusout}
                 >
-                  <nys-button
-                    variant="ghost"
-                    circle
-                    label="Translate"
-                    ariaControls="${LANGUAGE_LIST_ID}"
-                    ariaExpanded="${this.languageVisible}"
-                    id="nys-unavheader__translate--mobile"
-                    class="nys-unavheader__iconbutton"
-                    @nys-click=${() =>
-                      this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
-                  >
-                    <nys-icon
-                      slot="circle-icon"
-                      name="language"
-                      size="16"
-                    ></nys-icon>
-                  </nys-button>
                   ${!this.isSearchFocused
                     ? html`
                         <nys-button
                           variant="ghost"
-                          label="Translate"
-                          ariaControls="${LANGUAGE_LIST_ID}"
+                          ariaControls="nys-unavheader__languagelist"
                           ariaExpanded="${this.languageVisible}"
                           size="sm"
                           prefixIcon="language"
-                          suffixIcon=${this.languageVisible
-                            ? "chevron_up"
-                            : "chevron_down"}
-                          id="nys-unavheader__translate--desktop"
+                          id="nys-unavheader__translate"
                           @nys-click="${() =>
-                            this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
-                        ></nys-button>
+                            this._toggleLanguageList(
+                              "nys-unavheader__translate",
+                            )}"
+                        >
+                          <span class="nys-unavheader__translate-text--large"
+                            >Translate
+                            <nys-icon
+                              size="16"
+                              name="${this.languageVisible
+                                ? "chevron_up"
+                                : "chevron_down"}"
+                            ></nys-icon>
+                          </span>
+                        </nys-button>
                       `
                     : null}
                   <div
-                    id="${LANGUAGE_LIST_ID}"
+                    id="nys-unavheader__languagelist"
                     role="menu"
-                    aria-label="${LANGUAGE_MENU_LABEL}"
+                    aria-label="Translate"
                     class="nys-unavheader__languagelist ${this.languageVisible
                       ? "show"
                       : "hide"}"
@@ -1015,7 +987,7 @@ export class NysUnavHeader extends NysElement {
                           fullWidth
                           lang="${languageTag(lang.code)}"
                           label="${lang.label}"
-                          class="${LANGUAGE_OPTION_CLASS}"
+                          class="nys-unavheader__languagelink"
                           @click="${() => this._handleLanguageSelect(lang)}"
                         ></nys-button>`,
                     )}

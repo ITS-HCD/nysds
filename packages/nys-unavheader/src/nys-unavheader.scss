@@ -294,8 +294,7 @@ a#nys-unavheader__logolink {
   max-width: var(--nys-form-width-lg, 384px);
 }
 
-#nys-unavheader__translate--desktop,
-#nys-unavheader__translate--mobile,
+#nys-unavheader__translate,
 #nys-unavheader__searchbutton {
   /* These props ARE publicly overridable */
   --nys-button-color: var(--nys-color-state-blue-700, #154973);
@@ -314,6 +313,10 @@ a#nys-unavheader__logolink {
 
 .nys-unavheader__translatewrapper {
   position: relative;
+}
+
+.nys-unavheader__translate-text--large {
+  display: inline;
 }
 
 .nys-unavheader__languagelist.show {
@@ -370,16 +373,13 @@ a#nys-unavheader__logolink {
     padding-bottom: var(--nys-space-50, 4px);
   }
 
-  .nys-unavheader__trustbar.inline {
-    display: none;
-  }
-
   .nys-unavheader__messagewrapper {
     flex-direction: column;
   }
 
-  #nys-unavheader__translate--desktop,
-  #nys-unavheader__searchbar {
+  .nys-unavheader__trustbar.inline,
+  #nys-unavheader__searchbar,
+  .nys-unavheader__translate-text--large {
     display: none;
   }
 }
@@ -390,16 +390,13 @@ a#nys-unavheader__logolink {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-sm, 20px);
   }
 
-  .nys-unavheader__trustbar.inline {
-    display: none;
-  }
-
   .nys-unavheader__messagewrapper {
     flex-direction: column;
   }
 
-  #nys-unavheader__translate--desktop,
-  #nys-unavheader__searchbar {
+  .nys-unavheader__trustbar.inline,
+  #nys-unavheader__searchbar,
+  .nys-unavheader__translate-text--large {
     display: none;
   }
 }
@@ -410,12 +407,9 @@ a#nys-unavheader__logolink {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-md, 32px);
   }
 
-  .nys-unavheader__trustbar.wrapper {
-    display: none;
-  }
-
-  #nys-unavheader__translate--desktop,
-  #nys-unavheader__searchbar {
+  .nys-unavheader__trustbar.wrapper,
+  #nys-unavheader__searchbar,
+  .nys-unavheader__translate-text--large {
     display: none;
   }
 
@@ -430,16 +424,9 @@ a#nys-unavheader__logolink {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-lg, 32px);
   }
 
-  .nys-unavheader__trustbar.wrapper {
-    display: none;
-  }
-
-  #nys-unavheader__translate--mobile,
-  #nys-unavheader__searchbutton[circle] {
-    display: none;
-  }
-
-  .nys-unavheader__searchdropdown.wrapper {
+  .nys-unavheader__trustbar.wrapper,
+  .nys-unavheader__searchdropdown.wrapper,
+  #nys-unavheader__searchbutton {
     display: none;
   }
 
@@ -458,16 +445,9 @@ a#nys-unavheader__logolink {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);
   }
 
-  .nys-unavheader__trustbar.wrapper {
-    display: none;
-  }
-
-  #nys-unavheader__translate--mobile,
-  #nys-unavheader__searchbutton[circle] {
-    display: none;
-  }
-
-  .nys-unavheader__searchdropdown.wrapper {
+  .nys-unavheader__trustbar.wrapper,
+  .nys-unavheader__searchdropdown.wrapper,
+  #nys-unavheader__searchbutton {
     display: none;
   }
 
