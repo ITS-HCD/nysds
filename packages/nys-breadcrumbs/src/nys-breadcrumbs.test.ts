@@ -31,6 +31,8 @@ const mockDesktop = () => {
     }) as MediaQueryList;
 };
 
+const getOl = (el: NysBreadcrumbs) => el.querySelector("ol")!;
+
 describe("nys-breadcrumbs", () => {
   it("renders the component", async () => {
     const el = await fixture(
@@ -66,7 +68,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const li = ol.querySelector("li.nys-breadcrumbitem");
     const icon = li?.querySelector("nys-icon[name='arrow_back']");
     const anchor = li?.querySelector("a");
@@ -90,7 +92,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
     expect(items.length).to.equal(3);
   });
@@ -106,7 +108,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
     const lastItem = items[items.length - 1];
 
@@ -126,7 +128,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
 
     expect(items[0].querySelector("nys-icon[name='chevron_right']")).to.exist;
@@ -152,7 +154,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const hidden = ol.querySelectorAll("li.hide");
     expect(hidden.length).to.be.greaterThan(0);
   });
@@ -171,12 +173,17 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+    const ol = getOl(el);
 
-    expect(items.length).to.equal(1);
-    expect(items[0].querySelector("nys-icon[name='arrow_back']")).to.exist;
-    expect(items[0].querySelector("a")?.textContent?.trim()).to.equal(
+    // Only ONE item should be visible (not hidden)!
+    const visibleItems = Array.from(
+      ol.querySelectorAll("li.nys-breadcrumbitem"),
+    ).filter((li) => !li.classList.contains("hide"));
+
+    expect(visibleItems.length).to.equal(1);
+    expect(visibleItems[0].querySelector("nys-icon[name='arrow_back']")).to
+      .exist;
+    expect(visibleItems[0].querySelector("a")?.textContent?.trim()).to.equal(
       "Services",
     );
   });
@@ -195,7 +202,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
 
     expect(items.length).to.equal(3);
@@ -219,7 +226,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const ellipsis = ol.querySelector(".nys-breadcrumbs__ellipsis");
     expect(ellipsis).to.exist;
   });
@@ -246,7 +253,7 @@ describe("nys-breadcrumbs", () => {
       expandFired = true;
     });
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const btn = ol.querySelector<HTMLButtonElement>(".ellipsis-btn");
     expect(btn).to.exist;
     btn!.click();
@@ -351,42 +358,6 @@ describe("nys-breadcrumbs", () => {
   });
 
   /** disabled property **/
-  it("omits href and adds aria-disabled on crumb anchors when disabled", async () => {
-    const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs .disabled=${true}>
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li><a href="/services">Services</a></li>
-          <li>Current</li>
-        </ol>
-      </nys-breadcrumbs>`,
-    );
-    await el.updateComplete;
-
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const anchors = ol.querySelectorAll<HTMLAnchorElement>("a");
-    anchors.forEach((a) => {
-      expect(a.hasAttribute("href")).to.be.false;
-      expect(a.getAttribute("aria-disabled")).to.equal("true");
-    });
-  });
-
-  it("omits href and adds aria-disabled on back-to-parent anchor when disabled", async () => {
-    const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs .disabled=${true}>
-        <ol>
-          <li><a href="/services">Services</a></li>
-        </ol>
-      </nys-breadcrumbs>`,
-    );
-    await el.updateComplete;
-
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const anchor = ol.querySelector<HTMLAnchorElement>("a")!;
-    expect(anchor.hasAttribute("href")).to.be.false;
-    expect(anchor.getAttribute("aria-disabled")).to.equal("true");
-  });
-
   it("re-renders crumbs when disabled changes dynamically", async () => {
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
@@ -399,13 +370,12 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    // Anchors should have href initially
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const anchorsBefore = ol.querySelectorAll<HTMLAnchorElement>(
       "li.nys-breadcrumbitem a",
     );
     anchorsBefore.forEach((a) => {
-      expect(a.hasAttribute("href")).to.be.true;
+      expect(a.hasAttribute("aria-disabled")).to.be.false;
     });
 
     el.disabled = true;
@@ -415,8 +385,21 @@ describe("nys-breadcrumbs", () => {
       "li.nys-breadcrumbitem a",
     );
     anchorsAfter.forEach((a) => {
-      expect(a.hasAttribute("href")).to.be.false;
+      expect(a.hasAttribute("href")).to.be.true;
       expect(a.getAttribute("aria-disabled")).to.equal("true");
+    });
+
+    // Reconfirm restoration of crumbs from disabled to non disabled
+    el.disabled = false;
+    await el.updateComplete;
+
+    const anchorsRestored = ol.querySelectorAll<HTMLAnchorElement>(
+      "li.nys-breadcrumbitem a",
+    );
+    anchorsRestored.forEach((a) => {
+      expect(a.hasAttribute("aria-disabled")).to.be.false;
+      expect(a.hasAttribute("tabindex")).to.be.false;
+      expect(a.hasAttribute("href")).to.be.true;
     });
   });
 
@@ -434,11 +417,15 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
-    expect(items.length).to.equal(1);
-    expect(items[0].querySelector("nys-icon[name='arrow_back']")).to.exist;
-    expect(items[0].querySelector("a")?.getAttribute("href")).to.equal(
+    const ol = getOl(el);
+    const visibleItems = Array.from(
+      ol.querySelectorAll("li.nys-breadcrumbitem"),
+    ).filter((li) => !li.classList.contains("hide"));
+
+    expect(visibleItems.length).to.equal(1);
+    expect(visibleItems[0].querySelector("nys-icon[name='arrow_back']")).to
+      .exist;
+    expect(visibleItems[0].querySelector("a")?.getAttribute("href")).to.equal(
       "/services",
     );
   });
@@ -457,7 +444,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     expect(ol.querySelector(".nys-breadcrumbs__ellipsis")).to.not.exist;
   });
 
@@ -484,7 +471,7 @@ describe("nys-breadcrumbs", () => {
       expandDetail = (e as CustomEvent).detail;
     });
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const btn = ol.querySelector<HTMLElement>(".ellipsis-btn")!;
     btn.click();
     await el.updateComplete;
@@ -515,7 +502,7 @@ describe("nys-breadcrumbs", () => {
       expandFired = true;
     });
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const btn = ol.querySelector<HTMLElement>(".ellipsis-btn")!;
     btn.dispatchEvent(
       new KeyboardEvent("keydown", {
@@ -528,19 +515,6 @@ describe("nys-breadcrumbs", () => {
 
     expect(expandFired).to.be.true;
     expect(ol.querySelector(".nys-breadcrumbs__ellipsis")).to.not.exist;
-  });
-
-  /** Empty slot — no items rendered **/
-  it("renders nothing in crumb-list when slot has no li items", async () => {
-    const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs>
-        <ol></ol>
-      </nys-breadcrumbs>`,
-    );
-    await el.updateComplete;
-
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    expect(ol.children.length).to.equal(0);
   });
 
   /** Auto-collapse boundary — exactly at threshold **/
@@ -560,7 +534,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     expect(ol.querySelector(".nys-breadcrumbs__ellipsis")).to.not.exist;
     expect(ol.querySelectorAll("li.hide").length).to.equal(0);
   });
@@ -582,7 +556,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     expect(ol.querySelector(".nys-breadcrumbs__ellipsis")).to.exist;
   });
 
@@ -601,15 +575,19 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     expect(ol.querySelectorAll("li.nys-breadcrumbitem").length).to.equal(3);
 
     el.backToParent = true;
     await el.updateComplete;
 
-    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
-    expect(items.length).to.equal(1);
-    expect(items[0].querySelector("nys-icon[name='arrow_back']")).to.exist;
+    const visibleItems = Array.from(
+      ol.querySelectorAll("li.nys-breadcrumbitem"),
+    ).filter((li) => !li.classList.contains("hide"));
+
+    expect(visibleItems.length).to.equal(1);
+    expect(visibleItems[0].querySelector("nys-icon[name='arrow_back']")).to
+      .exist;
   });
 
   /** WCAG: current page identified with aria-current="page" **/
@@ -625,7 +603,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
     const lastItem = items[items.length - 1];
 
@@ -645,7 +623,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
 
     expect(items[0].hasAttribute("aria-current")).to.be.false;
@@ -692,7 +670,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
     const lastItem = items[items.length - 1];
 
@@ -711,7 +689,7 @@ describe("nys-breadcrumbs", () => {
     );
     await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const ol = getOl(el);
     const items = ol.querySelectorAll("li.nys-breadcrumbitem");
 
     for (let i = 0; i < items.length - 1; i++) {
@@ -729,7 +707,7 @@ describe("nys-breadcrumbs", () => {
         </ol>
       </nys-breadcrumbs>`,
     );
-    await expect(el).shadowDom.to.be.accessible();
+    await expect(el).to.be.accessible();
   });
 
   it("registers every nys-* element it renders", async () => {

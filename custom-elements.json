@@ -1940,6 +1940,11 @@
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
+              "kind": "field",
+              "name": "_boundDisabledClickGuard",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "_getSlottedOl",
               "privacy": "private",
@@ -1957,7 +1962,15 @@
                 "type": {
                   "text": "HTMLLIElement[]"
                 }
-              }
+              },
+              "parameters": [
+                {
+                  "name": "ol",
+                  "type": {
+                    "text": "HTMLOListElement"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -1997,7 +2010,31 @@
             },
             {
               "kind": "method",
-              "name": "_createBackToParentElement",
+              "name": "_createIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "size",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_resetItem",
               "privacy": "private",
               "parameters": [
                 {
@@ -2010,7 +2047,33 @@
             },
             {
               "kind": "method",
-              "name": "_createCrumbElement",
+              "name": "_applyDisabledState",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "a",
+                  "type": {
+                    "text": "HTMLAnchorElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_applyBackToParentStyle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_applyCrumbStyle",
               "privacy": "private",
               "parameters": [
                 {
@@ -2023,6 +2086,19 @@
                   "name": "isCurrentPage",
                   "type": {
                     "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_insertEllipsis",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "referenceLi",
+                  "type": {
+                    "text": "HTMLLIElement"
                   }
                 }
               ]
