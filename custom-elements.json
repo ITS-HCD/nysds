@@ -8584,7 +8584,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL, unless you set `aria-current` on a link\nyourself — then the header leaves the current-page state entirely to you, which is\nwhat apps that don't route on the pathname (hash-routed SPAs, for example) need.\nMobile menu toggles automatically on narrow screens.",
+          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.",
           "name": "NysGlobalHeader",
           "slots": [
             {
@@ -8597,17 +8597,6 @@
             }
           ],
           "members": [
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Unique identifier. Auto-generated if not provided.",
-              "attribute": "id",
-              "reflects": true
-            },
             {
               "kind": "field",
               "name": "appName",
@@ -8695,18 +8684,29 @@
               "description": "Watches for the viewport growing past the mobile breakpoint. The menu and its\ntoggle are `display: none` there, so an open menu that survived a resize would\nleave the focus trap guarding elements nobody can reach."
             },
             {
+              "kind": "field",
+              "name": "_navSlot",
+              "type": {
+                "text": "HTMLSlotElement | null"
+              },
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_getAssignedLinks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLAnchorElement[]"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "_highlightActiveLink",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "container",
-                  "type": {
-                    "text": "HTMLElement"
-                  }
-                }
-              ],
-              "description": "Functions\n--------------------------------------------------------------------------"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -8733,6 +8733,23 @@
             },
             {
               "kind": "method",
+              "name": "_setMobileMenuOpen",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "open",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "restoreFocus",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_toggleMobileMenu",
               "privacy": "private"
             },
@@ -8743,29 +8760,7 @@
                 "text": "HTMLElement | null"
               },
               "privacy": "private",
-              "description": "The toggle, which is both the trap's first stop and where focus returns.",
               "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "_mobileNav",
-              "type": {
-                "text": "HTMLElement | null"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "_closeMobileMenu",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "restoreFocus",
-                  "default": "false"
-                }
-              ],
-              "description": "Closes the mobile menu.\n\n`restoreFocus` moves focus back to the toggle, which is required whenever the\nmenu is dismissed by keyboard: the closed menu is `display: none`, so focus\nsitting on one of its links would otherwise be dropped to the top of the\ndocument (WCAG 2.4.3 Focus Order). A click outside is a pointer gesture that\nlands somewhere the user chose, so that path leaves focus alone."
             },
             {
               "kind": "method",
@@ -8795,7 +8790,7 @@
                   }
                 }
               ],
-              "description": "The focused element, but only when it is one of the menu's own stops.\n\n`document.activeElement` reports the host for anything focused inside this\nshadow root, so the shadow root's own `activeElement` is what identifies the\nreal stop."
+              "description": "The focused element, but only when it is one of the menu's own stops.\n\n`document.activeElement` reports the host for anything focused inside this\nshadow root (the toggle button) or the links in the lightDOM."
             },
             {
               "kind": "method",
@@ -8813,7 +8808,33 @@
             },
             {
               "kind": "method",
-              "name": "_listenLinkClicks",
+              "name": "_renderBrandMark",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getNysLogo",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundClickOutside",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundLinkClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundBreakpointChange",
+              "privacy": "private",
+              "description": "Growing past the mobile breakpoint takes the menu off the page, so drop the\nopen state with it. No focus restore: the toggle is gone too, and the resize\nwas not a dismissal the user aimed at anything."
+            },
+            {
+              "kind": "field",
+              "name": "_boundKeyDown",
               "privacy": "private"
             },
             {
@@ -8845,51 +8866,9 @@
               "privacy": "private",
               "description": "Literal name for the banner: the author's override, or the \"Site\" default when\nthere is no visible title to reference. Undefined whenever `_bannerLabelledBy`\nhas something to point at, so the landmark never carries both.",
               "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "_renderNameContainer",
-              "privacy": "private",
-              "description": "App/agency title block. Rendered on its own so the linked and unlinked\nvariants cannot drift apart — the ids here are what names the banner."
-            },
-            {
-              "kind": "method",
-              "name": "_renderBrandMark",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_getNysLogo",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_boundClickOutside",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_boundBreakpointChange",
-              "privacy": "private",
-              "description": "Growing past the mobile breakpoint takes the menu off the page, so drop the\nopen state with it. No focus restore: the toggle is gone too, and the resize\nwas not a dismissal the user aimed at anything."
-            },
-            {
-              "kind": "field",
-              "name": "_boundKeyDown",
-              "privacy": "private"
             }
           ],
           "attributes": [
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id",
-              "propName": "id"
-            },
             {
               "name": "appName",
               "type": {
@@ -8975,13 +8954,8 @@
               "lang": "html"
             },
             {
-              "title": "Author-controlled active link",
-              "code": "<!-- Set aria-current yourself and the header stops guessing from the URL. -->\n<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"#/services\">Services</a></li>\n<li><a href=\"#/help\" aria-current=\"page\">Help Center</a></li>\n</ul>\n</nys-globalheader>",
-              "lang": "html"
-            },
-            {
               "title": "User Actions",
-              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button id=\"my-action-slot\" slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
               "lang": "html"
             },
             {
