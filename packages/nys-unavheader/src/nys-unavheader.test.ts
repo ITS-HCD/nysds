@@ -726,6 +726,79 @@ describe("nys-unavheader", () => {
     (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
   });
 
+  describe("localization and translation disclaimer updates", () => {
+    let el: NysUnavHeader;
+
+    beforeEach(async () => {
+      el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+      );
+      await el.updateComplete;
+    });
+
+    afterEach(() => {
+      // Clean up document.body alerts
+      const existingDisclaimer = document.body.querySelector(
+        "nys-alert[data-translate-disclaimer='true']",
+      );
+      if (existingDisclaimer) {
+        existingDisclaimer.remove();
+      }
+      // Reset document direction
+      document.documentElement.dir = "ltr";
+      document.documentElement.lang = "en";
+    });
+
+    it("correctly sets document.documentElement.dir based on the selected language's rtl property", async () => {
+      // Test RTL language (Yiddish is RTL)
+      (el as any)._updateTranslateDisclaimer("yi");
+      expect(document.documentElement.dir).to.equal("rtl");
+
+      // Test LTR language (Spanish is LTR)
+      (el as any)._updateTranslateDisclaimer("es");
+      expect(document.documentElement.dir).to.equal("ltr");
+
+      // Test English (Reset to LTR)
+      (el as any)._updateTranslateDisclaimer("en");
+      expect(document.documentElement.dir).to.equal("ltr");
+    });
+
+    it("renders the correct disclaimer text for the active language if defined", async () => {
+      // Spanish should show the Spanish disclaimer
+      (el as any)._updateTranslateDisclaimer("es");
+      const disclaimer = document.body.querySelector(
+        "nys-alert[data-translate-disclaimer='true']",
+      ) as HTMLElement;
+      expect(disclaimer).to.exist;
+      expect(disclaimer.innerHTML).to.contain(
+        "Las traducciones automáticas no son perfectas",
+      );
+
+      // Yiddish should show the Yiddish disclaimer
+      (el as any)._updateTranslateDisclaimer("yi");
+      const yiddishDisclaimer = document.body.querySelector(
+        "nys-alert[data-translate-disclaimer='true']",
+      ) as HTMLElement;
+      expect(yiddishDisclaimer).to.exist;
+      expect(yiddishDisclaimer.innerHTML).to.contain("איבערזעצונג");
+    });
+
+    it("does not render a disclaimer alert if the selected language has no disclaimer", async () => {
+      // Create a custom language with no disclaimer
+      el.languages = [
+        { code: "en", label: "English" },
+        { code: "custom", label: "Custom Language" },
+      ];
+      await el.updateComplete;
+
+      (el as any)._updateTranslateDisclaimer("custom");
+      const disclaimer = document.body.querySelector(
+        "nys-alert[data-translate-disclaimer='true']",
+      );
+      expect(disclaimer).to.not.exist;
+    });
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
     await expect(el).shadowDom.to.be.accessible();
