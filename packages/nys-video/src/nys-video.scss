@@ -47,27 +47,26 @@
     var(--nys-color-neutral-900, #1b1b1b)
   );
   --_nys-video-padding--title-text: var(--nys-space-250, 20px);
+
+  display: block;
+  width: 100%;
+  max-width: 675px; /* default = md */
 }
 
 /* ─── Video Size ────────────────────────────────────────────── */
-.nys-video--full {
-  width: 100%;
+:host([size="full"]) {
+  max-width: none;
 }
 
 /*
  * Medium (md) — capped at 675px wide,
  * For screens smaller than 440px, use Small (sm) instead.
  */
-.nys-video--md {
-  width: 100%;
-  max-width: 675px;
-}
 
 /*
  * Small (sm) — for mobile and small screens.
  */
-.nys-video--sm {
-  width: 100%;
+:host([size="sm"]) {
   min-width: 320px;
   max-width: 439px;
 }

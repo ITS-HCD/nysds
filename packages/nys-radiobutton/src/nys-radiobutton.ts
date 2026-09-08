@@ -259,11 +259,7 @@ export class NysRadiobutton extends NysFormControlElement {
       changedProperties.has("value") ||
       changedProperties.has("disabled")
     ) {
-      if (this.checked && !this.disabled) {
-        this.setFormValue(this.value);
-      } else {
-        this.setFormValue(null);
-      }
+      this.setFormValue(null);
     }
 
     if (
@@ -377,7 +373,6 @@ export class NysRadiobutton extends NysFormControlElement {
       this._uncheckOtherRadios(this);
     }
 
-    this.setFormValue(this.value);
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: {
@@ -491,7 +486,9 @@ export class NysRadiobutton extends NysFormControlElement {
             id="input-${this.id}"
             type="radio"
             class="nys-radiobutton__radio"
-            name="${ifDefined(this.name ? this.name : undefined)}"
+            name="${ifDefined(
+              this.name && !this._isGrouped() ? this.name : undefined,
+            )}"
             .checked=${this.checked}
             ?disabled=${this.disabled}
             .value=${this.value}
