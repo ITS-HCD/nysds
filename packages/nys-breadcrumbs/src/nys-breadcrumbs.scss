@@ -35,8 +35,8 @@
     )
   );
   --_nys-breadcrumbs-max-width--content: var(
-    --nys-breadcrumbs-max-width--content,
-    1280px
+    --nys-max-width--content,
+    var(--nys-breadcrumbs-max-width--content, 1280px)
   );
 }
 

@@ -3,6 +3,7 @@ import "../../dist/nysds.es.js";
 
 export const NysBadge = forwardRef((props, forwardedRef) => {
   const {
+    strong,
     prefixIcon,
     suffixIcon,
     id,
@@ -12,7 +13,6 @@ export const NysBadge = forwardRef((props, forwardedRef) => {
     prefixLabel,
     label,
     srText,
-    variant,
     ...filteredProps
   } = props;
 
@@ -27,12 +27,12 @@ export const NysBadge = forwardRef((props, forwardedRef) => {
       prefixLabel: props.prefixLabel,
       label: props.label,
       srText: props.srText,
-      variant: props.variant,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
+      strong: props.strong ? true : undefined,
       prefixicon: props.prefixIcon ? true : undefined,
       suffixicon: props.suffixIcon ? true : undefined,
       style: { ...props.style },
