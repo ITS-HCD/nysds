@@ -3,14 +3,11 @@ import figma, { html } from "@figma/code-connect/html";
 figma.connect("<FIGMA_BADGE>", {
   props: {
     intent: figma.enum("Intent", {
-      "🔘 Neutral": "neutral",
+      "🔘 Base": "base",
+      "🔵 Info": "info",
       "🟢 Success": "success",
       "🟡 Warning": "warning",
-      "🔴 Error": "error",
-    }),
-    variant: figma.enum("Variant", {
-      Default: "",
-      Strong: "strong",
+      "🔴 Danger": "danger",
     }),
     size: figma.enum("Size", {
       sm: "sm",
@@ -28,7 +25,6 @@ figma.connect("<FIGMA_BADGE>", {
     <nys-badge
       label=${props.label}
       intent=${props.intent}
-      variant=${props.variant}
       size=${props.size}
       prefixIcon=${props.prefixIcon}
       suffixIcon=${props.suffixIcon}
