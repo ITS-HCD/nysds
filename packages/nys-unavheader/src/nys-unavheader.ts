@@ -689,20 +689,20 @@ export class NysUnavHeader extends NysElement {
     if (languageCode !== "en") {
       if (matchingLanguage?.disclaimer) {
         const translateDisclaimer = document.createElement("nys-alert");
-        // translateDisclaimer.setAttribute("heading", "Translation Alert!");
         translateDisclaimer.setAttribute("notranslate", "true");
         translateDisclaimer.setAttribute("dismissible", "true");
         translateDisclaimer.setAttribute("data-translate-disclaimer", "true");
+        translateDisclaimer.style.setProperty(
+          "--nys-alert-border-color",
+          "transparent",
+        );
+        translateDisclaimer.style.setProperty(
+          "--_nys-alert-border-radius",
+          "0",
+        );
         translateDisclaimer.innerHTML = matchingLanguage.disclaimer;
 
-        Object.assign(translateDisclaimer.style, {
-          position: "fixed",
-          bottom: "0",
-          left: "0",
-          width: "100%",
-          zIndex: "9999",
-        });
-        document.body.appendChild(translateDisclaimer);
+        this.after(translateDisclaimer);
       }
 
       const baseLang = (document.documentElement.lang || "")
