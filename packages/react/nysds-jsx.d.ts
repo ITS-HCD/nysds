@@ -186,16 +186,16 @@ export type NysBadgeProps = {
   name?: string;
   /** Badge size: `sm` (smaller text) or `md` (default). */
   size?: "sm" | "md";
-  /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
-  intent?: "neutral" | "error" | "success" | "warning";
+  /** Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead */
+  intent?: "base" | "info" | "success" | "warning" | "danger" | "error" | "emergency";
   /** Secondary label displayed before the main label. */
   prefixLabel?: string;
   /** Primary label text displayed in the badge. */
   label?: string;
   /** Screen reader text appended after the label for additional context. */
   srText?: string;
-  /**  */
-  variant?: "strong" | "";
+  /** Strong visual intent with bolder text and background. */
+  strong?: boolean;
   /**  */
   prefixicon?: string | boolean;
   /**  */
