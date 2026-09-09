@@ -223,8 +223,11 @@ p {
   );
 }
 
-/* Emergency alerts thicken the action link underline for contrast on the dark fill */
-:host([type="emergency"]) .nys-alert__action {
+/* Emergency alerts override action link colors and thicken the underline for contrast on the dark fill */
+:host([type="emergency"]) nys-button {
+  --nys-button-color: var(--_nys-alert-color--link);
+  --nys-button-color--hover: var(--_nys-alert-color--link--hover);
+  --nys-button-color--active: var(--_nys-alert-color--link--active);
   --_nys-button-text-decoration-thickness--hover: 2px;
   --_nys-button-text-decoration-thickness--active: 3px;
 }
