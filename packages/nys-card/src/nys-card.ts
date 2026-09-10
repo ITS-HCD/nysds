@@ -28,6 +28,9 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * `onclick`) renders it as a `<button>`.
  *
  * @cssprop [--nys-card-height=fit-content] - Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`).
+ * @cssprop [--nys-card-font-size--preheading=var(--nys-font-size-ui-md, 16px)] - Font size of the Preheading.
+ * @cssprop [--nys-card-font-size--heading=var(--nys-font-size-h2, 28px)] - Font size of the Heading.
+ * @cssprop [--nys-card-font-size--subheading=var(--nys-font-size-ui-lg, 18px)] - Font size of the Subheading.
  *
  * @fires nys-click - Fired when an interactive card is activated (mouse or keyboard).
  * @fires nys-focus - Fired when an interactive card receives focus.
