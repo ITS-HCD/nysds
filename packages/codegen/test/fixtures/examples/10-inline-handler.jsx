@@ -1,1 +1,0 @@
-<NysButton label="Go" />

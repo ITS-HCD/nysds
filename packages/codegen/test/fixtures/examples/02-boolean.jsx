@@ -1,1 +1,0 @@
-<NysTextinput label="Disabled" disabled />
