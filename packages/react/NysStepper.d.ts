@@ -21,7 +21,7 @@ export interface NysStepperProps extends Pick<
   /** Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter. */
   isCompactExpanded?: boolean;
 
-  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{timestamp}-{n}` if not provided. */
   id?: NysStepperElement["id"];
 
   /** Name attribute for form association. */

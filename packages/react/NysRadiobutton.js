@@ -11,6 +11,7 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
     tile,
     other,
     showOtherError,
+    hideLabel,
     label,
     description,
     id,
@@ -18,6 +19,7 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
     value,
     form,
     size,
+    labelledby,
     validity,
     ...filteredProps
   } = props;
@@ -50,6 +52,7 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
       value: props.value,
       form: props.form,
       size: props.size,
+      labelledby: props.labelledby,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
@@ -61,6 +64,7 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
       tile: props.tile ? true : undefined,
       other: props.other ? true : undefined,
       showOtherError: props.showOtherError ? true : undefined,
+      hideLabel: props.hideLabel ? true : undefined,
       style: { ...props.style },
     },
     props.children,

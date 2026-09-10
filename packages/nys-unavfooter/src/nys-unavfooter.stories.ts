@@ -17,14 +17,38 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => {
-    return html` <nys-unavfooter></nys-unavfooter> `;
+  args: {
+    landmarkLabel: "New York State",
+  },
+  render: (args) => {
+    return html`
+      <nys-unavfooter landmarkLabel=${args.landmarkLabel}></nys-unavfooter>
+    `;
   },
   parameters: {
     docs: {
       source: {
         code: `
 <nys-unavfooter></nys-unavfooter>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomLandmarkLabel: Story = {
+  render: () => {
+    return html`
+      <!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->
+      <nys-unavfooter landmarkLabel="Statewide"></nys-unavfooter>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->
+<nys-unavfooter landmarkLabel="Statewide"></nys-unavfooter>`,
         type: "auto",
       },
     },

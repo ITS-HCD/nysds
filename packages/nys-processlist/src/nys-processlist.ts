@@ -1,10 +1,15 @@
-import { LitElement, PropertyValues } from "lit";
+import { PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
+// Bare side-effect import: `NysProcesslistitem` below is used only in a type
+// position (the `el is NysProcesslistitem` guard in `_syncSteps`), so a
+// TS/esbuild import-elision pass can drop a plain named import entirely,
+// leaving <nys-processlistitem> unregistered whenever nys-processlist is
+// imported standalone. This import guarantees registration regardless.
+import "./nys-processlistitem";
 import { NysProcesslistitem } from "./nys-processlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-processlist.light.scss?inline";
-
-let componentIdCounter = 0;
 
 let _lightSheet: CSSStyleSheet | null = null;
 // Injects the light-DOM styling for <nys-processlist> into a single constructed
@@ -33,10 +38,11 @@ function adoptLightStyles() {
  * its styling comes from `nys-processlist.light.scss` adopted once onto
  * `document.adoptedStyleSheets` rather than from a shadow-DOM stylesheet.
  *
- * A list carries no accessible name of its own. Give one with `ariaLabel`, or with
- * `ariaLabelledBy` pointing at the visible heading above the list, so screen reader users can
+ * A list carries no accessible name of its own. Give one with `aria-label`, or with
+ * `aria-labelledby` pointing at the visible heading above the list, so screen reader users can
  * tell what the process is and distinguish it from any other list on the page. Use
- * `ariaDescribedBy` for supporting copy such as an intro paragraph.
+ * `aria-describedby` for supporting copy such as an intro paragraph. Because the host renders
+ * in the light DOM, these native attributes work with zero component code.
  *
  * @example Basic
  * ```html
@@ -167,7 +173,7 @@ function adoptLightStyles() {
  *
  */
 
-export class NysProcesslist extends LitElement {
+export class NysProcesslist extends NysElement {
   /**
    * Unique identifier. Auto-generated if not provided.
    */
@@ -195,38 +201,11 @@ export class NysProcesslist extends LitElement {
    */
   @property({ type: Number, reflect: true }) initialStep = 1;
 
-  /**
-   * Accessible name for the list, e.g. "Application steps". A list has no name of its own, so
-   * give one whenever the surrounding content does not already make the list's purpose obvious —
-   * especially when a page holds more than one process list.
-   *
-   * Sets `aria-label` on the host. Use `ariaLabelledBy` instead when a visible heading already
-   * names the list.
-   */
-  @property({ type: String, reflect: true, attribute: "aria-label" })
-  ariaLabel: string | null = null;
-
-  /**
-   * Space-separated IDs of the elements that name the list, typically the visible heading above
-   * it. Preferred over `ariaLabel` when such a heading exists, so the accessible name and the
-   * visible one cannot drift apart.
-   *
-   * Sets `aria-labelledby` on the host.
-   */
-  @property({ type: String, reflect: true, attribute: "aria-labelledby" })
-  ariaLabelledBy: string | null = null;
-
-  /**
-   * Space-separated IDs of the elements that describe the list, such as the intro paragraph
-   * explaining what the process involves. A description supplements the name; it does not
-   * replace it.
-   *
-   * Sets `aria-describedby` on the host.
-   */
-  @property({ type: String, reflect: true, attribute: "aria-describedby" })
-  ariaDescribedBy: string | null = null;
-
   private _childObserver = new MutationObserver(() => this._syncSteps());
+
+  // Tracks children we've already warned about so a MutationObserver churn
+  // (or repeated updated() calls) doesn't spam the console for the same node.
+  private _warnedChildren = new WeakSet<Element>();
 
   // The host must not be a shadow host: Chrome ≥150 demotes role="listitem"
   // on elements slotted into a shadow-host list, so the items have to be
@@ -236,11 +215,13 @@ export class NysProcesslist extends LitElement {
   }
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto id when
+    // one is not provided, preserving the `nys-processlist-<ts>-<n>` shape.
+    // Accessible-name attributes (aria-label, aria-labelledby, aria-describedby)
+    // are not reflected as component properties: the host renders in the light
+    // DOM, so those native attributes already work without any component code.
     super.connectedCallback();
     adoptLightStyles();
-    if (!this.id) {
-      this.id = `nys-processlist-${Date.now()}-${componentIdCounter++}`;
-    }
     if (!this.hasAttribute("role")) {
       this.setAttribute("role", "list");
     }
@@ -268,6 +249,22 @@ export class NysProcesslist extends LitElement {
       (el): el is NysProcesslistitem =>
         el.tagName.toLowerCase() === "nys-processlistitem",
     );
+
+    // light.scss hides any non-nys-processlistitem child with display:none,
+    // which silently drops author content from the accessibility tree
+    // (WCAG 1.3.1). Warn so the mistake is visible in dev.
+    Array.from(this.children).forEach((el) => {
+      if (
+        el.tagName.toLowerCase() !== "nys-processlistitem" &&
+        !this._warnedChildren.has(el)
+      ) {
+        this._warnedChildren.add(el);
+        console.warn(
+          `nys-processlist: <${el.tagName.toLowerCase()}> is not a <nys-processlistitem> and will be hidden (display: none), removing it from the accessibility tree. Only <nys-processlistitem> elements are supported as children.`,
+          el,
+        );
+      }
+    });
 
     // A non-numeric or non-positive `initialStep` would render a nonsense
     // sequence, so fall back to the default rather than propagate it.

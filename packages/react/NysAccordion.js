@@ -2,13 +2,14 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysAccordion = forwardRef((props, forwardedRef) => {
-  const { singleSelect, bordered, id, ...filteredProps } = props;
+  const { singleSelect, bordered, id, headingLevel, ...filteredProps } = props;
 
   return React.createElement(
     "nys-accordion",
     {
       ...filteredProps,
       id: props.id,
+      headingLevel: props.headingLevel,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-toggle.js";
 import { NysToggle } from "./nys-toggle";
 
@@ -186,7 +187,7 @@ describe("nys-toggle", () => {
     // Confirm reset
     expect(toggle.checked).to.be.false;
     expect(input.checked).to.be.false;
-    expect((toggle as any)._internals.formValue).to.be.undefined;
+    expect((toggle as any).internals.formValue).to.be.undefined;
   });
 
   it("passes the a11y audit", async () => {
@@ -371,14 +372,19 @@ describe("nys-toggle", () => {
     expect(input.getAttribute("aria-disabled")).to.equal("true");
   });
 
-  it("sets aria-label to label text when label is provided", async () => {
+  it("associates the input with the visible label via aria-labelledby (not a synthetic aria-label) when a label is provided", async () => {
     const el = await fixture<NysToggle>(
-      html`<nys-toggle label="Notifications"></nys-toggle>`,
+      html`<nys-toggle id="nt" label="Notifications"></nys-toggle>`,
     );
     await el.updateComplete;
 
     const input = el.shadowRoot!.querySelector("input")!;
-    expect(input.getAttribute("aria-label")).to.equal("Notifications");
+    expect(input.getAttribute("aria-labelledby")).to.equal("nt--label");
+    expect(input.hasAttribute("aria-label")).to.be.false;
+
+    const label = el.shadowRoot!.getElementById("nt--label");
+    expect(label).to.exist;
+    expect(label!.getAttribute("label")).to.equal("Notifications");
   });
 
   it("falls back aria-label to 'Toggle switch' when label is empty", async () => {
@@ -387,6 +393,7 @@ describe("nys-toggle", () => {
 
     const input = el.shadowRoot!.querySelector("input")!;
     expect(input.getAttribute("aria-label")).to.equal("Toggle switch");
+    expect(input.hasAttribute("aria-labelledby")).to.be.false;
   });
 
   // --- disabled state ---
@@ -666,5 +673,111 @@ describe("nys-toggle", () => {
 
     expect(el.checked).to.be.false;
     expect(fired).to.be.false;
+  });
+
+  // --- @nysds/internals migration regression tests ---
+
+  it("derives its accessible name from the visible label via aria-labelledby", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle id="acc" label="Enable Wi-Fi"></nys-toggle>`,
+    );
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Association points at the visible label, and there is no synthetic aria-label.
+    expect(input.getAttribute("aria-labelledby")).to.equal("acc--label");
+    expect(input.hasAttribute("aria-label")).to.be.false;
+
+    const label = el.shadowRoot!.getElementById("acc--label");
+    expect(label).to.exist;
+    expect(label!.getAttribute("label")).to.equal("Enable Wi-Fi");
+  });
+
+  it("registers the internal nys-label custom element", async () => {
+    expect(customElements.get("nys-label")).to.exist;
+  });
+
+  it("preserves role=switch and aria-checked after migration", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle label="Test"></nys-toggle>`,
+    );
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("role")).to.equal("switch");
+    expect(input.getAttribute("aria-checked")).to.equal("false");
+
+    el.checked = true;
+    await el.updateComplete;
+    expect(input.getAttribute("aria-checked")).to.equal("true");
+  });
+
+  it("participates in a <form> (FormData round-trip)", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-toggle name="darkmode" value="on" checked></nys-toggle>
+      </form>
+    `);
+    const el = form.querySelector<NysToggle>("nys-toggle")!;
+    await el.updateComplete;
+
+    expect(new FormData(form).get("darkmode")).to.equal("on");
+
+    el.checked = false;
+    await el.updateComplete;
+    expect(new FormData(form).get("darkmode")).to.be.null;
+  });
+
+  // Regression: #1694 — the prefers-reduced-motion block used to set
+  // `--toggle-transition-duration`, while the knob's transition reads
+  // `--_nys-toggle-transition-duration`. The override was dead code and toggles
+  // animated at full duration for users who asked for reduced motion.
+  describe("prefers-reduced-motion", () => {
+    const readShadowCss = (root: ShadowRoot): string => {
+      const chunks: string[] = [];
+      for (const sheet of (root as any).adoptedStyleSheets ?? []) {
+        for (const rule of Array.from(sheet.cssRules) as CSSRule[]) {
+          chunks.push(rule.cssText);
+        }
+      }
+      for (const styleEl of Array.from(root.querySelectorAll("style"))) {
+        chunks.push(styleEl.textContent ?? "");
+      }
+      return chunks.join("\n");
+    };
+
+    it("zeroes the same custom property the knob transition consumes", async () => {
+      const el = await fixture<NysToggle>(html`<nys-toggle></nys-toggle>`);
+      await el.updateComplete;
+
+      const css = readShadowCss(el.shadowRoot!);
+      expect(css, "could not read the component stylesheet").to.not.be.empty;
+
+      // The property the knob's `transition` shorthand actually reads.
+      const consumed = css.match(
+        /\.knob\s*\{[^}]*?transition\s*:[^;}]*?var\(\s*(--[\w-]+)/,
+      );
+      expect(consumed, "the knob transition should read a duration property").to
+        .exist;
+      const prop = consumed![1];
+
+      // The reduced-motion override must set that exact property.
+      const start = css.search(/@media[^{]*prefers-reduced-motion/);
+      expect(start, "a prefers-reduced-motion block should exist").to.be.above(
+        -1,
+      );
+      const block = css.slice(start);
+      expect(
+        new RegExp(`${prop}\\s*:\\s*0s`).test(block),
+        `prefers-reduced-motion must zero ${prop}, not a differently named property`,
+      ).to.equal(true);
+    });
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysToggle>(
+      html`<nys-toggle label="Test"></nys-toggle>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

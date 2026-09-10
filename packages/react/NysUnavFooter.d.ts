@@ -18,6 +18,19 @@ export interface NysUnavFooterProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Accessible name for the `contentinfo` landmark this footer renders.
+Defaults to `"New York State"`.
+
+A page pairing this footer with `nys-globalfooter` carries two `contentinfo`
+landmarks; distinct names are what keep landmark navigation useful instead of
+announcing "content information" twice. Override only when your wording is
+clearer for your audience — and keep it distinct from the agency footer's
+name, which comes from that footer's visible heading.
+
+A blank value falls back to the default rather than leaving the landmark
+unnamed. */
+  landmarkLabel?: NysUnavFooterElement["landmarkLabel"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

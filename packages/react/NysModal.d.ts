@@ -30,8 +30,15 @@ export interface NysModalProps extends Pick<
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysModalElement["id"];
 
-  /** Modal heading text. Required for accessibility. */
+  /** Modal heading text. Required for accessibility — it becomes the dialog's
+accessible name via `aria-labelledby`. */
   heading?: NysModalElement["heading"];
+
+  /** Accessible name for the dialog, used only when no `heading` is set.
+Prefer a visible `heading`: a visible label satisfies WCAG 2.5.3 (Label in
+Name) and gives sighted users the same information. Use `ariaLabel` for the
+rare headless dialog so it still exposes a name (WCAG 4.1.2). */
+  ariaLabel?: NysModalElement["ariaLabel"];
 
   /** Secondary heading below the main heading. */
   subheading?: NysModalElement["subheading"];

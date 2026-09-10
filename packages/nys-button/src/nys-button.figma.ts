@@ -17,7 +17,6 @@ figma.connect("<FIGMA_BUTTON>", {
     disabled: figma.boolean("Disabled"),
     prefixIcon: figma.children("Prefix Icon"),
     suffixIcon: figma.children("Suffix Icon"),
-    ariaDescription: figma.string("Aria Description"),
     circle: figma.boolean("Circle"),
     icon: figma.children("Icon"),
   },
@@ -39,7 +38,6 @@ figma.connect("<FIGMA_BUTTON>", {
       ${props.suffixIcon}
       circle="${props.circle}"
       ${props.icon}
-      ariaDescription="${props.ariaDescription}"
     ></nys-button>
   `,
 });

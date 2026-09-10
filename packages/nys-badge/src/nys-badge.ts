@@ -1,9 +1,12 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (prefix/suffix
+// icons), so it must be registered whenever nys-badge is used. Importing it
+// here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-badge.scss?inline";
-
-let badgeIdCounter = 0;
 
 /**
  * A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.
@@ -20,14 +23,9 @@ let badgeIdCounter = 0;
  * <nys-badge label="Basic badge"></nys-badge>
  * ```
  *
- * @example Error Intent
+ * @example Info Intent
  * ```html
- * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
- * ```
- *
- * @example Warning Intent
- * ```html
- * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+ * <nys-badge label="Info" intent="info" prefixIcon></nys-badge>
  * ```
  *
  * @example Success Intent
@@ -35,24 +33,44 @@ let badgeIdCounter = 0;
  * <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *
- * @example Strong Neutral
+ * @example Warning Intent
  * ```html
- * <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+ * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
  * ```
  *
- * @example Strong Error
+ * @example Danger Intent
  * ```html
- * <nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
+ * <nys-badge label="Danger" intent="danger" prefixIcon></nys-badge>
  * ```
  *
- * @example Strong Warning
+ * @example Emergency Intent
  * ```html
- * <nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
+ * <nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Base
+ * ```html
+ * <nys-badge strong label="Base" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Info
+ * ```html
+ * <nys-badge strong label="Info" intent="info" prefixIcon></nys-badge>
  * ```
  *
  * @example Strong Success
  * ```html
- * <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
+ * <nys-badge strong label="Success" intent="success" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Warning
+ * ```html
+ * <nys-badge strong label="Warning" intent="warning" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Danger
+ * ```html
+ * <nys-badge strong label="Danger" intent="danger" prefixIcon></nys-badge>
  * ```
  *
  * @example Custom Prefix Icon
@@ -76,14 +94,28 @@ let badgeIdCounter = 0;
  * ```
  */
 
-export class NysBadge extends LitElement {
+export class NysBadge extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. */
-  @property({ type: String, reflect: true }) id = "";
+  @property({
+    type: String,
+    reflect: true,
+    converter: {
+      toAttribute: (value: string) => (value ? value : undefined),
+    },
+  })
+  id = "";
 
   /** Name attribute for form association. */
-  @property({ type: String, reflect: true }) name = "";
+  @property({
+    type: String,
+    reflect: true,
+    converter: {
+      toAttribute: (value: string) => (value ? value : undefined),
+    },
+  })
+  name = "";
 
   /**
    * Badge size: `sm` (smaller text) or `md` (default).
@@ -92,14 +124,17 @@ export class NysBadge extends LitElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
-   * Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.
-   * @default "neutral"
+   * Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead
+   * @default "info"
    */
   @property({ type: String, reflect: true }) intent:
-    | "neutral"
-    | "error"
+    | "base"
+    | "info"
     | "success"
-    | "warning" = "neutral";
+    | "warning"
+    | "danger"
+    | "error"
+    | "emergency" = "base";
 
   /** Secondary label displayed before the main label. */
   @property({ type: String }) prefixLabel = "";
@@ -110,7 +145,8 @@ export class NysBadge extends LitElement {
   /** Screen reader text appended after the label for additional context. */
   @property({ type: String }) srText = "";
 
-  @property({ type: String, reflect: true }) variant: "strong" | "" = "";
+  /** Strong visual intent with bolder text and background. */
+  @property({ type: Boolean, reflect: true }) strong = false;
 
   // Icons (string or boolean)
   private _prefixIcon: string | boolean = "";
@@ -150,11 +186,11 @@ export class NysBadge extends LitElement {
    */
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id when
+    // one is not provided, preserving the "nys-badge-<ts>-<n>" shape. A badge is
+    // static, non-interactive label content, so no host role is reflected
+    // (defaultRole stays null).
     super.connectedCallback();
-
-    if (!this.id) {
-      this.id = `nys-badge-${Date.now()}-${badgeIdCounter++}`;
-    }
 
     const attr = this.getAttribute("prefixicon");
     if (attr !== null && this.prefixIcon === "") {
@@ -174,11 +210,36 @@ export class NysBadge extends LitElement {
 
   // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
-    neutral: "info",
-    error: "emergency_home",
+    base: "info",
+    info: "info",
     success: "check_circle",
     warning: "warning",
+    danger: "error",
+    error: "error",
+    emergency: "emergency_home",
   };
+
+  // WCAG 1.4.1 (Use of Color): intent is otherwise conveyed only by color and a
+  // decorative (aria-hidden) icon. Provide a screen-reader-only text alternative
+  // so the semantic meaning is not color-only. Skipped for "base" (no
+  // semantic meaning) and when the author supplies their own srText override.
+  private static readonly INTENT_SR_TEXT: Record<string, string> = {
+    info: "Info",
+    success: "Success",
+    warning: "Warning",
+    danger: "Danger",
+    error: "Danger",
+    emergency: "Emergency",
+  };
+
+  /**
+   * Resolves the screen-reader-only text describing the badge's semantic intent.
+   * Returns null when no intent description should be announced.
+   */
+  private resolveIntentSrText(): string | null {
+    if (this.srText) return null; // author-provided text takes precedence
+    return NysBadge.INTENT_SR_TEXT[this.intent] ?? null;
+  }
 
   /**
    * Resolves which icon should be rendered.
@@ -198,6 +259,7 @@ export class NysBadge extends LitElement {
   render() {
     const prefixIconName = this.resolveIcon(this.prefixIcon);
     const suffixIconName = this.resolveIcon(this.suffixIcon);
+    const intentSrText = this.resolveIntentSrText();
 
     return html`
       <mark class="nys-badge">
@@ -208,6 +270,11 @@ export class NysBadge extends LitElement {
           ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
           : ""}
         <div class="nys-badge__label">
+          ${intentSrText
+            ? html`<span class="nys-badge__sr-only"
+                >${intentSrText + ": "}</span
+              >`
+            : ""}
           ${this.label}
           ${this.srText
             ? html`<span class="nys-badge__sr-only"

@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import { NysGlobalHeader } from "./nys-globalheader";
 import "../dist/nys-globalheader.js";
 
@@ -201,6 +202,312 @@ describe("nys-globalheader", () => {
 
 // Accessibility Tests
 describe("nys-globalheader", () => {
+  it("auto-generates an id when none is provided", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader appName="Test"></nys-globalheader>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-globalheader-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader id="my-header" appName="Test"></nys-globalheader>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("my-header");
+  });
+
+  it("renders nav landmarks for navigation content", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/one">One</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const desktopNav = el.shadowRoot?.querySelector(
+      "nav.nys-globalheader__content",
+    );
+    const mobileNav = el.shadowRoot?.querySelector(
+      "nav.nys-globalheader__content-mobile",
+    );
+    expect(desktopNav).to.exist;
+    expect(mobileNav).to.exist;
+    expect(desktopNav?.getAttribute("aria-label")).to.exist;
+    expect(mobileNav?.getAttribute("aria-label")).to.exist;
+  });
+
+  // --- Regression: #1795 — paired with nys-unavheader this is one of two banner
+  // landmarks, so it needs a name of its own. ---
+  it("names the banner landmark from the visible app name", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="User Registration Form"
+        agencyName="Office of Information Technology Services"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const appName = el.shadowRoot?.querySelector(".nys-globalheader__appName");
+    expect(appName?.id).to.equal(`${el.id}-appname`);
+    expect(header?.getAttribute("aria-labelledby")).to.equal(appName?.id);
+    expect(header?.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("names the banner landmark from the agency name when there is no app name", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const agencyName = el.shadowRoot?.querySelector(
+      ".nys-globalheader__agencyName",
+    );
+    expect(agencyName?.id).to.equal(`${el.id}-agencyname`);
+    expect(header?.getAttribute("aria-labelledby")).to.equal(agencyName?.id);
+  });
+
+  it("keeps the banner name reference when the title is a homepage link", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="eFile"
+        agencyName="Tax Department"
+        homepageLink="https://ny.gov"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const appName = el.shadowRoot?.querySelector(
+      ".nys-globalheader__name-container-link .nys-globalheader__appName",
+    );
+    expect(appName, "the title should render inside the link").to.exist;
+    expect(header?.getAttribute("aria-labelledby")).to.equal(
+      `${el.id}-appname`,
+    );
+  });
+
+  it("falls back to a default banner name when no title is provided", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    // Nothing visible to point at, so the landmark still needs a name of its own
+    // to stay distinguishable from the statewide header.
+    expect(header?.hasAttribute("aria-labelledby")).to.be.false;
+    expect(header?.getAttribute("aria-label")).to.equal("Site");
+  });
+
+  // --- #1795 — the paired landmark names must be author-overridable. ---
+  it("lets the author name the banner landmark directly", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="ITS"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("ITS");
+    // Never both: aria-labelledby would win and the override would do nothing.
+    expect(header?.hasAttribute("aria-labelledby")).to.be.false;
+  });
+
+  it("overrides the default banner name when there is no visible title", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader landmarkLabel="Portal"></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("Portal");
+  });
+
+  it("ignores a blank landmarkLabel and keeps naming from the visible title", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Office of Information Technology Services"
+        landmarkLabel="   "
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-labelledby")).to.equal(
+      `${el.id}-agencyname`,
+    );
+    expect(header?.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("sets aria-current=page on the active link (WCAG 1.4.1)", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const active = el.shadowRoot?.querySelector(
+      ".nys-globalheader__content li.active a",
+    );
+    const inactive = el.shadowRoot?.querySelector(
+      '.nys-globalheader__content li:not(.active) a[href="/about"]',
+    );
+    expect(active?.getAttribute("aria-current")).to.equal("page");
+    expect(inactive?.getAttribute("aria-current")).to.be.null;
+  });
+
+  // --- Regression: #1726 — an author-set aria-current must survive the clone into
+  // the shadow DOM and must not be overwritten by the pathname heuristic. ---
+  it("honors an author-set aria-current instead of matching the pathname", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about" aria-current="page">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    // Both the desktop and the mobile copy are rebuilt from the same light DOM.
+    for (const selector of [
+      ".nys-globalheader__content",
+      ".nys-globalheader__content-mobile",
+    ]) {
+      const nav = el.shadowRoot?.querySelector(selector) as HTMLElement;
+      const authored = nav.querySelector('a[href="/about"]');
+      const pathnameMatch = nav.querySelector('a[href="/services"]');
+
+      expect(authored?.getAttribute("aria-current"), selector).to.equal("page");
+      // The pathname match must not steal the current-page state.
+      expect(pathnameMatch?.getAttribute("aria-current"), selector).to.be.null;
+      // ...and the visual active state follows the author, not the URL.
+      expect(authored?.closest("li")?.classList.contains("active"), selector).to
+        .be.true;
+      expect(
+        pathnameMatch?.closest("li")?.classList.contains("active"),
+        selector,
+      ).to.be.false;
+    }
+  });
+
+  it("leaves an author-set aria-current in place when another link is clicked", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about" aria-current="page">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector(
+      ".nys-globalheader__content",
+    ) as HTMLElement;
+    clickWithoutNavigation(nav.querySelector('a[href="/services"]')!);
+    await el.updateComplete;
+
+    expect(
+      nav.querySelector('a[href="/about"]')?.getAttribute("aria-current"),
+    ).to.equal("page");
+    expect(
+      nav.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
+    ).to.be.null;
+  });
+
+  it("treats aria-current=false as 'not current' and keeps the pathname default", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/about" aria-current="false">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const nav = el.shadowRoot?.querySelector(
+      ".nys-globalheader__content",
+    ) as HTMLElement;
+    expect(
+      nav.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
+    ).to.equal("page");
+  });
+
+  it("preserves the author's other attributes on cloned nav links", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li>
+            <a
+              href="/reports"
+              aria-label="Annual reports"
+              aria-describedby="hint"
+              rel="noopener"
+              data-testid="reports"
+              >Reports</a
+            >
+          </li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const link = el.shadowRoot?.querySelector(
+      '.nys-globalheader__content a[href="/reports"]',
+    );
+    expect(link?.getAttribute("aria-label")).to.equal("Annual reports");
+    expect(link?.getAttribute("aria-describedby")).to.equal("hint");
+    expect(link?.getAttribute("rel")).to.equal("noopener");
+    expect(link?.getAttribute("data-testid")).to.equal("reports");
+  });
+
+  it("exposes aria-expanded and aria-controls on the mobile menu button (WCAG 4.1.2)", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/one">One</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const button = el.shadowRoot?.querySelector(
+      ".nys-globalheader__mobile-menu-button",
+    ) as HTMLButtonElement;
+
+    expect(button.getAttribute("aria-expanded")).to.equal("false");
+
+    const controls = button.getAttribute("aria-controls");
+    expect(controls).to.equal(`${el.id}-mobile-nav`);
+    const mobileNav = el.shadowRoot?.querySelector(`#${controls}`);
+    expect(mobileNav).to.exist;
+
+    button.click();
+    await el.updateComplete;
+    expect(button.getAttribute("aria-expanded")).to.equal("true");
+
+    button.click();
+    await el.updateComplete;
+    expect(button.getAttribute("aria-expanded")).to.equal("false");
+  });
+
   it("should handle mobile responsiveness", async () => {
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader
@@ -236,6 +543,175 @@ describe("nys-globalheader", () => {
     await el.updateComplete;
     expect(buttonIcon.getAttribute("name")).to.equal("menu");
     expect(labelSpan.textContent?.trim()).to.include("MENU");
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    // Mobile menu icon only renders once there is link content to toggle.
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader agencyName="Test">
+        <ul>
+          <li><a href="/">Home</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Mobile menu focus trap (#1101)
+// ---------------------------------------------------------------------------
+
+describe("nys-globalheader mobile menu focus trap", () => {
+  /**
+   * The test browser runs above the 1024px breakpoint, where the menu and its
+   * toggle are `display: none` — and `focus()` is a no-op on anything that is not
+   * rendered. Force the mobile layout on so the trap has real focusable stops,
+   * exactly as it would below the breakpoint.
+   */
+  function forceMobileLayout(el: NysGlobalHeader) {
+    const toggleContainer = el.shadowRoot?.querySelector<HTMLElement>(
+      ".nys-globalheader__button-container",
+    );
+    const nav = el.shadowRoot?.querySelector<HTMLElement>(
+      ".nys-globalheader__content-mobile",
+    );
+    if (toggleContainer) toggleContainer.style.display = "flex";
+    if (nav) nav.style.display = "flex";
+  }
+
+  async function openMenu() {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader agencyName="Test Agency">
+        <ul>
+          <li><a href="/one">One</a></li>
+          <li><a href="/two">Two</a></li>
+          <li><a href="/three">Three</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    // The toggle only renders once the slot handler has reported link content,
+    // which lands a cycle after the first render.
+    await el.updateComplete;
+    await el.updateComplete;
+    forceMobileLayout(el);
+
+    const toggle = el.shadowRoot!.querySelector<HTMLButtonElement>(
+      ".nys-globalheader__mobile-menu-button",
+    )!;
+    toggle.click();
+    await el.updateComplete;
+
+    const links = Array.from(
+      el
+        .shadowRoot!.querySelector(".nys-globalheader__content-mobile")!
+        .querySelectorAll<HTMLAnchorElement>("a"),
+    );
+
+    return { el, toggle, links };
+  }
+
+  function pressKey(key: string, shiftKey = false) {
+    const event = new KeyboardEvent("keydown", {
+      key,
+      shiftKey,
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+    document.dispatchEvent(event);
+    return event;
+  }
+
+  it("wraps Tab from the last menu link back to the toggle", async () => {
+    const { el, toggle, links } = await openMenu();
+
+    const last = links[links.length - 1];
+    last.focus();
+    expect(el.shadowRoot!.activeElement).to.equal(last);
+
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.true;
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+  });
+
+  it("wraps Shift+Tab from the toggle to the last menu link", async () => {
+    const { el, toggle, links } = await openMenu();
+
+    toggle.focus();
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+
+    const event = pressKey("Tab", true);
+    expect(event.defaultPrevented).to.be.true;
+    expect(el.shadowRoot!.activeElement).to.equal(links[links.length - 1]);
+  });
+
+  it("leaves Tab alone in the middle of the menu so the browser advances normally", async () => {
+    const { el, links } = await openMenu();
+
+    links[0].focus();
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.false;
+    // Focus is still inside the menu; the browser moves it from here.
+    expect(el.shadowRoot!.activeElement).to.equal(links[0]);
+  });
+
+  it("pulls focus back into the menu when it has escaped altogether", async () => {
+    const { el, toggle } = await openMenu();
+
+    const outside = document.createElement("button");
+    document.body.appendChild(outside);
+    outside.focus();
+
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.true;
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+
+    outside.remove();
+  });
+
+  it("does not trap Tab while the menu is closed", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader agencyName="Test Agency">
+        <ul>
+          <li><a href="/one">One</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+    await el.updateComplete;
+
+    const event = pressKey("Tab");
+    expect(event.defaultPrevented).to.be.false;
+  });
+
+  it("closes the menu on Escape and returns focus to the toggle", async () => {
+    const { el, toggle, links } = await openMenu();
+
+    links[0].focus();
+    const event = pressKey("Escape");
+    await el.updateComplete;
+
+    expect(event.defaultPrevented).to.be.true;
+    expect(toggle.getAttribute("aria-expanded")).to.equal("false");
+    expect(el.shadowRoot!.activeElement).to.equal(toggle);
+  });
+
+  it("closes on an outside click without stealing focus", async () => {
+    const { el, toggle } = await openMenu();
+
+    const outside = document.createElement("button");
+    document.body.appendChild(outside);
+    outside.focus();
+
+    document.body.click();
+    await el.updateComplete;
+
+    expect(toggle.getAttribute("aria-expanded")).to.equal("false");
+    expect(document.activeElement).to.equal(outside);
+
+    outside.remove();
   });
 });
 

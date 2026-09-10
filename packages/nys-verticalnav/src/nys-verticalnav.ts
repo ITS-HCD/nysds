@@ -1,13 +1,17 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement, associateControlRefs } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-verticalnav.light.scss?inline";
 import "./nys-verticalnavgroup";
-
-let verticalNavIdCounter = 0;
+// These elements are rendered inside this component's shadow DOM in the
+// mobile (collapsed) template, so they must be registered whenever
+// nys-verticalnav is used. Importing nys-accordion here (intentional side
+// effect) also registers nys-accordionitem, since nys-accordion imports it
+// as its own side effect.
+import "@nysds/nys-accordion";
 
 type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -316,6 +320,10 @@ function adoptLightStyles() {
  * ```
  *
  * @example Disabled state
+ * An `<a>` without `href` is not a link and is not focusable, so a disabled item
+ * marked only with `aria-disabled` would be conveyed by color alone and skipped by
+ * keyboard users. Author disabled items with `role="link"` and `tabindex="0"` so the
+ * state is reachable and announced; the component adds both automatically if omitted.
  * ```html
  * <nys-verticalnav heading="NYS Design System" headingLevel="h2">
  *   <ul>
@@ -324,7 +332,9 @@ function adoptLightStyles() {
  *     <li>
  *       <nys-verticalnavgroup disabled label="Accessibility">
  *         <ul>
- *           <li><a aria-disabled="true">WCAG Guidelines</a></li>
+ *           <li>
+ *             <a role="link" tabindex="0" aria-disabled="true">WCAG Guidelines</a>
+ *           </li>
  *           <li><a href="">Screen Readers</a></li>
  *           <li><a href="">Color Contrast</a></li>
  *         </ul>
@@ -333,7 +343,9 @@ function adoptLightStyles() {
  *     <li>
  *       <h3>Resources</h3>
  *       <ul>
- *         <li><a aria-disabled="true">Design Tokens</a></li>
+ *         <li>
+ *           <a role="link" tabindex="0" aria-disabled="true">Design Tokens</a>
+ *         </li>
  *         <li><a href="">Utilities</a></li>
  *       </ul>
  *     </li>
@@ -350,7 +362,9 @@ function adoptLightStyles() {
  *     <li>
  *       <nys-verticalnavgroup disabled label="Accessibility">
  *         <ul>
- *           <li><a aria-disabled="true">WCAG Guidelines</a></li>
+ *           <li>
+ *             <a role="link" tabindex="0" aria-disabled="true">WCAG Guidelines</a>
+ *           </li>
  *           <li><a href="">Screen Readers</a></li>
  *           <li><a href="">Color Contrast</a></li>
  *         </ul>
@@ -359,7 +373,9 @@ function adoptLightStyles() {
  *     <li>
  *       <h3>Resources</h3>
  *       <ul>
- *         <li><a aria-disabled="true">Design Tokens</a></li>
+ *         <li>
+ *           <a role="link" tabindex="0" aria-disabled="true">Design Tokens</a>
+ *         </li>
  *         <li><a href="">Utilities</a></li>
  *       </ul>
  *     </li>
@@ -498,7 +514,7 @@ function adoptLightStyles() {
  * ```
  */
 
-export class NysVerticalnav extends LitElement {
+export class NysVerticalnav extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** ID for the navigation. Generated automatically if not provided. */
@@ -529,19 +545,14 @@ export class NysVerticalnav extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  constructor() {
-    super();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id when one is not
+    // provided (prefix = localName, shape "nys-verticalnav-<ts>-<n>"). The
+    // navigation role lives on the inner <nav> landmark, which carries the
+    // accessible name, so defaultRole stays null and no host role is reflected.
     super.connectedCallback();
 
     adoptLightStyles();
-
-    if (!this.id) {
-      this.id = `nys-verticalnav-${Date.now()}-${verticalNavIdCounter++}`;
-    }
 
     this._mediaQuery = window.matchMedia("(max-width: 1023px)") ?? null; // Tablet size and below
     this._isMobile = this._mediaQuery.matches ?? false;
@@ -553,14 +564,11 @@ export class NysVerticalnav extends LitElement {
     this._mediaQuery?.removeEventListener("change", this._handleResize);
   }
 
-  firstUpdated() {
-    const slot = this.shadowRoot?.querySelector(
-      "slot:not([name])",
-    ) as HTMLSlotElement;
-
-    slot?.addEventListener("slotchange", () => {
-      this._applyActiveState();
-    });
+  updated() {
+    // Crossing the 1024px breakpoint swaps the desktop and mobile templates, which
+    // destroys and re-creates the <nav>. The landmark's accessible name is therefore
+    // wired after EVERY render rather than once in firstUpdated().
+    this._syncNavLabel();
   }
 
   /**
@@ -598,10 +606,84 @@ export class NysVerticalnav extends LitElement {
     this._isMobile = e.matches;
   };
 
+  private _handleSlotChange = () => {
+    this._applyActiveState();
+  };
+
+  private _handleHeaderSlotChange = () => {
+    this._syncNavLabel();
+  };
+
+  /**
+   * The element a consumer supplied to the `header` slot, or null when the slot is
+   * empty (in which case the generated heading renders as the slot's fallback).
+   */
+  private _slottedHeader(): HTMLElement | null {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="header"]',
+    ) as HTMLSlotElement | null;
+    const assigned = (slot?.assignedElements({ flatten: false }) ??
+      []) as HTMLElement[];
+    return assigned[0] ?? null;
+  }
+
+  /**
+   * Give the <nav> landmark an accessible name.
+   *
+   * The generated heading is the header slot's FALLBACK content, so it does not
+   * exist once a consumer fills that slot — an `aria-labelledby` IDREF pointing at
+   * it would dangle and leave the landmark unnamed (WCAG 4.1.2 / 2.4.1). When the
+   * slot is filled, the name comes from the consumer's heading, which lives in the
+   * light DOM and cannot be reached by an IDREF from inside the shadow root:
+   * `associateControlRefs` sets the nav's own `ariaLabelledByElements` (element
+   * references may point into an enclosing scope) plus a string fallback for engines
+   * that do not yet honor them. The `heading` property is the intended name, so it
+   * overrides the fallback string derived from the slotted content's full text.
+   *
+   * When the slot is empty the same-root IDREF to the generated heading is used, and
+   * a hidden heading falls back to `aria-label`. All of this is applied imperatively
+   * (never as template bindings) so Lit cannot fight the attributes written here.
+   */
+  private _syncNavLabel() {
+    const nav = this.shadowRoot?.querySelector("nav");
+    if (!nav) return;
+
+    const header = this._slottedHeader();
+    if (header) {
+      nav.removeAttribute("aria-labelledby");
+      associateControlRefs(nav, "labelledby", [header]);
+      if (this.heading) nav.setAttribute("aria-label", this.heading);
+      return;
+    }
+
+    // Clears any element references (and their derived string fallback) left behind
+    // by a previously filled slot before the IDREF path is restored.
+    associateControlRefs(nav, "labelledby", []);
+
+    const heading = this.shadowRoot?.querySelector(
+      ".nys-verticalnav__heading",
+    ) as HTMLElement | null;
+
+    if (heading && !this.hideHeading) {
+      nav.setAttribute("aria-labelledby", heading.id);
+      nav.removeAttribute("aria-label");
+    } else {
+      // Hidden heading, or the mobile template, which renders no heading of its own.
+      nav.removeAttribute("aria-labelledby");
+      nav.setAttribute("aria-label", this.heading);
+    }
+  }
+
   private _applyActiveState() {
-    this.querySelectorAll('a[aria-current="page"]').forEach((a) => {
-      a.classList.add("nys-verticalnav__link--active");
-    });
+    // An <a> without href exposes no link role and is not focusable, so
+    // aria-disabled on it is ignored and the disabled state reads as color alone
+    // (WCAG 1.4.1 / 4.1.2). Normalize it into a focusable, announced link.
+    this.querySelectorAll('a[aria-disabled="true"]:not([href])').forEach(
+      (a) => {
+        if (!a.hasAttribute("role")) a.setAttribute("role", "link");
+        if (!a.hasAttribute("tabindex")) a.setAttribute("tabindex", "0");
+      },
+    );
 
     // Auto-expand any group that contains an active link
     this.querySelectorAll("nys-verticalnavgroup").forEach((group) => {
@@ -642,21 +724,32 @@ export class NysVerticalnav extends LitElement {
       </h6>`,
     };
 
-    return html`<slot name="header">${headingTag[this.headingLevel]}</slot>`;
+    return html`<slot name="header" @slotchange=${this._handleHeaderSlotChange}>
+      ${headingTag[this.headingLevel]}
+    </slot>`;
   }
 
+  // The <nav> landmark's accessible name is applied imperatively in
+  // _syncNavLabel(); see the note there on why it is not bound in the template.
   private renderContentDesktop() {
-    const headingId = `${this.id}-heading`;
-
-    return html` <nav
-      class="nys-verticalnav nys-verticalnav--desktop"
-      aria-labelledby=${ifDefined(!this.hideHeading ? headingId : undefined)}
-      aria-label=${ifDefined(this.hideHeading ? this.heading : undefined)}
-    >
+    return html` <nav class="nys-verticalnav nys-verticalnav--desktop">
       ${this._renderHeading()}
-      <slot></slot>
+      <slot @slotchange=${this._handleSlotChange}></slot>
       <slot name="footer"></slot>
     </nav>`;
+  }
+
+  /**
+   * The heading level for the mobile disclosure trigger.
+   *
+   * Below 1024px the navigation heading IS the accordion trigger, so it has to
+   * land at the same outline position the desktop heading occupies — otherwise
+   * the nav's place in the outline changes with the viewport. `nys-accordion`
+   * runs h2-h6 (a disclosure trigger is never a page title), so the one level
+   * this nav offers that it does not, `h1`, maps to the next valid level.
+   */
+  private _accordionHeadingLevel(): "h2" | "h3" | "h4" | "h5" | "h6" {
+    return this.headingLevel === "h1" ? "h2" : this.headingLevel;
   }
 
   private renderContentMobile() {
@@ -665,10 +758,18 @@ export class NysVerticalnav extends LitElement {
         <nys-accordionitem
           id="${this.id}-accordion"
           heading="${this.heading}"
+          headingLevel="${this._accordionHeadingLevel()}"
           ?expanded=${this.expanded}
           @nys-accordionitem-toggle=${this._handleAccordionToggle}
         >
-          <slot></slot>
+          <!-- The header slot is rendered here too: omitting it below 1024px made a
+          consumer's custom header vanish entirely (WCAG 1.3.1). No fallback heading
+          is needed — the accordion's own header already shows the heading text. -->
+          <slot
+            name="header"
+            @slotchange=${this._handleHeaderSlotChange}
+          ></slot>
+          <slot @slotchange=${this._handleSlotChange}></slot>
           <slot name="footer"></slot>
         </nys-accordionitem>
       </nys-accordion>

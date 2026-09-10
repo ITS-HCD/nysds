@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-stepper";
 import "./nys-step";
 import "@nysds/nys-button";
+import "@nysds/nys-tab";
 
 const meta: Meta = {
   title: "Components/Stepper",

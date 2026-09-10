@@ -169,6 +169,7 @@ export default {
     "**/packages/**/*logo.ts",
     "**/packages/**/*library.ts",
     "**/packages/styles/**",
+    "**/packages/internals/**",
     "**/packages/mcp-server/**",
     "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],

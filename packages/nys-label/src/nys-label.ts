@@ -1,5 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+// These elements are rendered inside this component's shadow DOM (the
+// tooltip and its trigger icon, shown when `tooltip` is set), so they must be
+// registered whenever nys-label is used. Importing them here (intentional
+// side effect) guarantees they always render.
+import "@nysds/nys-tooltip";
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-label.scss?inline";
 
@@ -66,6 +72,12 @@ export class NysLabel extends LitElement {
   /** Tooltip text shown on hover/focus of info icon next to label. */
   @property({ type: String }) tooltip = "";
 
+  // Expose the (shadow-encapsulated) label text as the host's own accessible name so
+  // references to <nys-label> resolve reliably across engines, instead of relying on
+  // each browser flattening nested-shadow text. Guarded for SSR.
+  private _labelInternals: ElementInternals | null =
+    typeof this.attachInternals === "function" ? this.attachInternals() : null;
+
   get _hasDescription() {
     // This accounts for both description prop or slotted content.
     const slot = this.querySelector('[slot="description"]');
@@ -76,6 +88,12 @@ export class NysLabel extends LitElement {
     super.connectedCallback();
     if (!this.id) {
       this.id = `nys-label-${Date.now()}-${labelIdCounter++}`;
+    }
+  }
+
+  updated() {
+    if (this._labelInternals) {
+      this._labelInternals.ariaLabel = this.label || null;
     }
   }
 

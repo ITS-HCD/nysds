@@ -18,6 +18,9 @@ export interface NysGlobalFooterProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysGlobalFooterElement["id"];
+
   /** Agency name displayed as the footer heading. */
   agencyName?: NysGlobalFooterElement["agencyName"];
 
@@ -26,6 +29,20 @@ export interface NysGlobalFooterProps extends Pick<
 
   /** URL for the agency name link. If empty, name is not clickable. */
   homepageLink?: NysGlobalFooterElement["homepageLink"];
+
+  /** Accessible name for the `contentinfo` landmark this footer renders.
+
+Leave it unset and the landmark is named after the visible `agencyName`
+heading, which cannot drift out of sync and is translated with the rest of
+the page. Falls back to `"Site"` when there is no agency name to reference.
+
+Set this only when the agency name is not right for your audience. A page
+pairing this with `nys-unavfooter` carries two `contentinfo` landmarks, so
+the name must stay distinct from that footer's (`"New York State"` by
+default) or landmark navigation stops distinguishing them.
+
+An explicit name replaces the reference to the visible heading. */
+  landmarkLabel?: NysGlobalFooterElement["landmarkLabel"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

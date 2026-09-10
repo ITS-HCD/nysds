@@ -441,7 +441,11 @@ export const DisabledState: Story = {
           <li>
             <nys-verticalnavgroup disabled label="Accessibility">
               <ul>
-                <li><a aria-disabled="true">WCAG Guidelines</a></li>
+                <li>
+                  <a role="link" tabindex="0" aria-disabled="true"
+                    >WCAG Guidelines</a
+                  >
+                </li>
                 <li><a href="">Screen Readers</a></li>
                 <li><a href="">Color Contrast</a></li>
               </ul>
@@ -450,7 +454,11 @@ export const DisabledState: Story = {
           <li>
             <h3>Resources</h3>
             <ul>
-              <li><a aria-disabled="true">Design Tokens</a></li>
+              <li>
+                <a role="link" tabindex="0" aria-disabled="true"
+                  >Design Tokens</a
+                >
+              </li>
               <li><a href="">Utilities</a></li>
             </ul>
           </li>
@@ -469,7 +477,9 @@ export const DisabledState: Story = {
     <li>
       <nys-verticalnavgroup disabled label="Accessibility">
         <ul>
-          <li><a aria-disabled="true">WCAG Guidelines</a></li>
+          <li>
+            <a role="link" tabindex="0" aria-disabled="true">WCAG Guidelines</a>
+          </li>
           <li><a href="">Screen Readers</a></li>
           <li><a href="">Color Contrast</a></li>
         </ul>
@@ -478,7 +488,9 @@ export const DisabledState: Story = {
     <li>
       <h3>Resources</h3>
       <ul>
-        <li><a aria-disabled="true">Design Tokens</a></li>
+        <li>
+          <a role="link" tabindex="0" aria-disabled="true">Design Tokens</a>
+        </li>
         <li><a href="">Utilities</a></li>
       </ul>
     </li>
@@ -500,7 +512,11 @@ export const HiddenHeading: Story = {
           <li>
             <nys-verticalnavgroup disabled label="Accessibility">
               <ul>
-                <li><a aria-disabled="true">WCAG Guidelines</a></li>
+                <li>
+                  <a role="link" tabindex="0" aria-disabled="true"
+                    >WCAG Guidelines</a
+                  >
+                </li>
                 <li><a href="">Screen Readers</a></li>
                 <li><a href="">Color Contrast</a></li>
               </ul>
@@ -509,7 +525,11 @@ export const HiddenHeading: Story = {
           <li>
             <h3>Resources</h3>
             <ul>
-              <li><a aria-disabled="true">Design Tokens</a></li>
+              <li>
+                <a role="link" tabindex="0" aria-disabled="true"
+                  >Design Tokens</a
+                >
+              </li>
               <li><a href="">Utilities</a></li>
             </ul>
           </li>
@@ -528,7 +548,9 @@ export const HiddenHeading: Story = {
     <li>
       <nys-verticalnavgroup disabled label="Accessibility">
         <ul>
-          <li><a aria-disabled="true">WCAG Guidelines</a></li>
+          <li>
+            <a role="link" tabindex="0" aria-disabled="true">WCAG Guidelines</a>
+          </li>
           <li><a href="">Screen Readers</a></li>
           <li><a href="">Color Contrast</a></li>
         </ul>
@@ -537,7 +559,9 @@ export const HiddenHeading: Story = {
     <li>
       <h3>Resources</h3>
       <ul>
-        <li><a aria-disabled="true">Design Tokens</a></li>
+        <li>
+          <a role="link" tabindex="0" aria-disabled="true">Design Tokens</a>
+        </li>
         <li><a href="">Utilities</a></li>
       </ul>
     </li>

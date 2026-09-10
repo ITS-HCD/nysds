@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-errormessage.js";
 import { NysErrorMessage } from "./nys-errormessage.js";
 
@@ -16,5 +17,15 @@ describe("nys-errormessage", () => {
       html`<nys-errormessage label="My Label"></nys-errormessage>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysErrorMessage>(
+      html`<nys-errormessage
+        showError
+        errorMessage="Test error"
+      ></nys-errormessage>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

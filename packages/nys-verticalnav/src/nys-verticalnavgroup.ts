@@ -1,9 +1,12 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the disclosure
+// chevron), so it must be registered whenever nys-verticalnavgroup is used.
+// Importing it here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
-
-let verticalNavGroupIdCounter = 0;
 
 /**
  * Collapsible dropdown group for use inside `<nys-verticalnav>`.
@@ -18,7 +21,7 @@ let verticalNavGroupIdCounter = 0;
  * @element nys-verticalnavgroup
  * */
 
-export class NysVerticalnavGroup extends LitElement {
+export class NysVerticalnavGroup extends NysElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
@@ -27,12 +30,11 @@ export class NysVerticalnavGroup extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) active = false;
 
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-verticalnav-${Date.now()}-${verticalNavGroupIdCounter++}`;
-    }
-  }
+  // Ids come from NysElement (prefix = localName, shape
+  // "nys-verticalnavgroup-<ts>-<n>"). The previous local counter generated ids
+  // prefixed "nys-verticalnav-" from a counter that started at 0 independently of
+  // the nav's, so a group and a nav created in the same millisecond could collide
+  // and the group's aria-controls could resolve to the wrong element.
 
   private _toggle() {
     if (this.disabled) return;

@@ -1,4 +1,4 @@
-import { expect, html, fixture } from "@open-wc/testing";
+import { expect, html, fixture, aTimeout } from "@open-wc/testing";
 import { NysUnavHeader } from "./nys-unavheader";
 import "../dist/nys-unavheader.js";
 import sinon from "sinon";
@@ -729,5 +729,556 @@ describe("nys-unavheader", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  // --- Regression: auto-generated host id (NysReflectsAriaElement) ---
+  it("auto-generates a host id when none is provided", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    expect(el.id).to.match(/^nys-unavheader-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided host id", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader id="my-header"></nys-unavheader>`,
+    );
+    expect(el.id).to.equal("my-header");
+  });
+
+  // --- Regression: banner landmark stays on the inner <header> element ---
+  it("keeps the banner landmark on the inner <header>, not the host", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const header = el.shadowRoot?.querySelector("header.nys-unavheader");
+    expect(header).to.exist;
+    // Host must not carry a role (landmark belongs to the inner header).
+    expect(el.getAttribute("role")).to.be.null;
+  });
+
+  // --- Regression: #1412 — the Translate control needs keyboard and screen
+  // reader affordances, and its options need language semantics. ---
+  describe("translate menu", () => {
+    const triggerIds = [
+      "nys-unavheader__translate--desktop",
+      "nys-unavheader__translate--mobile",
+    ];
+
+    // nys-button renders the real <button> in its own shadow root, so that is the
+    // element the state has to land on — aria-expanded on the host reaches nothing.
+    const innerButton = (el: NysUnavHeader, id: string) =>
+      el.shadowRoot?.getElementById(id)?.shadowRoot?.querySelector("button");
+
+    it("points aria-controls at the language menu from both triggers", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const list = el.shadowRoot?.getElementById(
+        "nys-unavheader__languagelist",
+      );
+      expect(list, "the language menu should have an id to reference").to.exist;
+
+      for (const id of triggerIds) {
+        expect(innerButton(el, id)?.getAttribute("aria-controls"), id).to.equal(
+          "nys-unavheader__languagelist",
+        );
+      }
+    });
+
+    it("reflects aria-expanded on the real trigger buttons as the menu opens", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      for (const id of triggerIds) {
+        expect(innerButton(el, id)?.getAttribute("aria-expanded"), id).to.equal(
+          "false",
+        );
+        expect(innerButton(el, id)?.getAttribute("aria-haspopup"), id).to.equal(
+          "menu",
+        );
+      }
+
+      el.languageVisible = true;
+      await el.updateComplete;
+      await aTimeout(0);
+
+      for (const id of triggerIds) {
+        expect(innerButton(el, id)?.getAttribute("aria-expanded"), id).to.equal(
+          "true",
+        );
+      }
+    });
+
+    it("gives the icon-only trigger an accessible name", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const mobile = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--mobile",
+      );
+
+      // The name has to be inside the button, not an aria-label on the host that
+      // nys-button never forwards.
+      const text = mobile?.shadowRoot?.querySelector(
+        "button .nys-button__text",
+      );
+      expect(text?.textContent?.trim()).to.equal("Translate");
+    });
+
+    it("keeps the language options out of the tab order until the menu opens", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+
+      const list = el.shadowRoot?.getElementById(
+        "nys-unavheader__languagelist",
+      ) as HTMLElement;
+      // `.hide` is display:none, which takes the options out of the tab order.
+      expect(list.classList.contains("hide")).to.be.true;
+      expect(getComputedStyle(list).display).to.equal("none");
+
+      el.languageVisible = true;
+      await el.updateComplete;
+      expect(list.classList.contains("show")).to.be.true;
+      expect(getComputedStyle(list).display).to.not.equal("none");
+    });
+
+    it("closes on Escape and returns focus to the trigger that opened it", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+
+      const trigger = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      ) as HTMLElement;
+
+      // Probe: some runner environments (concurrent/backgrounded test pages)
+      // can't take programmatic focus at all. The focus half of this test is
+      // meaningless there — bail out before asserting on it.
+      trigger.focus();
+      await aTimeout(0);
+      const canFocus = el.shadowRoot?.activeElement === trigger;
+
+      trigger.dispatchEvent(
+        new CustomEvent("nys-click", { bubbles: true, composed: true }),
+      );
+      await el.updateComplete;
+      expect(el.languageVisible).to.be.true;
+
+      const option = el.shadowRoot?.querySelector(
+        ".nys-unavheader__languagelink",
+      ) as HTMLElement;
+      option.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "Escape",
+          bubbles: true,
+          composed: true,
+        }),
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      expect(el.languageVisible).to.be.false;
+      // Focus must not be dropped to the top of the page when the menu vanishes.
+      // Compare ids, not elements — a failed element-to-element diff makes chai
+      // serialize the whole Lit component graph, which freezes the test page.
+      if (canFocus) {
+        expect(el.shadowRoot?.activeElement?.id).to.equal(
+          "nys-unavheader__translate--desktop",
+        );
+      }
+    });
+
+    it("tags each language option with the language it names", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await el.updateComplete;
+
+      const options = Array.from(
+        el.shadowRoot?.querySelectorAll(".nys-unavheader__languagelink") ?? [],
+      );
+      expect(options).to.have.lengthOf(el.languages.length);
+
+      // Every option is tagged, so its label is announced in its own language
+      // rather than the page's (WCAG 3.1.2).
+      options.forEach((option, i) => {
+        const code = el.languages[i].code;
+        expect(option.getAttribute("lang"), code).to.be.a("string").and.not.be
+          .empty;
+      });
+
+      const byLabel = (label: string) =>
+        options.find((o) => o.getAttribute("label") === label);
+
+      // The codes double as Smartling subdomains, so the Chinese ones are not
+      // valid language tags and have to be mapped.
+      expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-Hans");
+      expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-Hant");
+      expect(byLabel("Español")?.getAttribute("lang")).to.equal("es");
+      expect(byLabel("Kreyòl Ayisyen")?.getAttribute("lang")).to.equal("ht");
+    });
+
+    it("tags author-supplied languages from their own codes", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      el.languages = [
+        { code: "en", label: "English" },
+        { code: "pt", label: "Português" },
+      ];
+      await el.updateComplete;
+
+      const options = Array.from(
+        el.shadowRoot?.querySelectorAll(".nys-unavheader__languagelink") ?? [],
+      );
+      expect(options.map((o) => o.getAttribute("lang"))).to.deep.equal([
+        "en",
+        "pt",
+      ]);
+    });
+  });
+
+  // --- Regression: #1114 / #1412 — the language list is the popup half of the
+  // APG menu button pattern the trigger already advertises, so it needs menu
+  // semantics and arrow-key navigation of its own. ---
+  describe("translate menu — APG menu button semantics", () => {
+    const OPTION = ".nys-unavheader__languagelink";
+
+    const options = (el: NysUnavHeader) =>
+      Array.from(el.shadowRoot?.querySelectorAll<HTMLElement>(OPTION) ?? []);
+
+    // The menuitem role and the roving tabindex live on the real <button> inside
+    // each nys-button, not on the host — the host has no role to carry them.
+    const control = (option: HTMLElement) =>
+      option.shadowRoot?.querySelector("button");
+
+    /** Index of the option holding the menu's single tab stop. */
+    const activeIndex = (el: NysUnavHeader) =>
+      options(el).findIndex(
+        (o) => control(o)?.getAttribute("tabindex") === "0",
+      );
+
+    const settle = async (el: NysUnavHeader) => {
+      await el.updateComplete;
+      await aTimeout(0);
+    };
+
+    const open = async (el: NysUnavHeader) => {
+      el.languageVisible = true;
+      await settle(el);
+    };
+
+    const press = async (
+      el: NysUnavHeader,
+      target: HTMLElement,
+      key: string,
+    ) => {
+      target.dispatchEvent(
+        new KeyboardEvent("keydown", { key, bubbles: true, composed: true }),
+      );
+      await settle(el);
+    };
+
+    it("gives the option list menu semantics", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const menu = el.shadowRoot?.getElementById(
+        "nys-unavheader__languagelist",
+      );
+      expect(menu?.getAttribute("role")).to.equal("menu");
+      // A menu needs a name of its own; it matches the trigger that opens it.
+      expect(menu?.getAttribute("aria-label")).to.equal("Translate");
+
+      const items = options(el);
+      expect(items).to.have.lengthOf(el.languages.length);
+
+      items.forEach((option, i) => {
+        // The nys-button host would otherwise sit between the menu and its items
+        // in the accessibility tree as a generic container.
+        expect(option.getAttribute("role"), `option ${i} host`).to.equal(
+          "presentation",
+        );
+        expect(control(option)?.getAttribute("role"), `option ${i}`).to.equal(
+          "menuitem",
+        );
+      });
+    });
+
+    it("keeps the open menu to a single tab stop", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const tabIndexes = options(el).map((o) =>
+        control(o)?.getAttribute("tabindex"),
+      );
+      // Tab enters and leaves the menu; the arrows move within it.
+      expect(tabIndexes.filter((t) => t === "0")).to.have.lengthOf(1);
+      expect(tabIndexes[0]).to.equal("0");
+      expect(tabIndexes.slice(1).every((t) => t === "-1")).to.be.true;
+    });
+
+    it("opens on ArrowDown from the trigger, on the first option", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await settle(el);
+
+      const trigger = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      ) as HTMLElement;
+      await press(el, trigger, "ArrowDown");
+
+      expect(el.languageVisible).to.be.true;
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("opens on ArrowUp from the trigger, on the last option", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await settle(el);
+
+      const trigger = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--mobile",
+      ) as HTMLElement;
+      await press(el, trigger, "ArrowUp");
+
+      expect(el.languageVisible).to.be.true;
+      expect(activeIndex(el)).to.equal(el.languages.length - 1);
+    });
+
+    it("steps through the options with ArrowDown and ArrowUp, wrapping at both ends", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+      const last = el.languages.length - 1;
+
+      await press(el, options(el)[0], "ArrowDown");
+      expect(activeIndex(el)).to.equal(1);
+
+      await press(el, options(el)[1], "ArrowDown");
+      expect(activeIndex(el)).to.equal(2);
+
+      await press(el, options(el)[2], "ArrowUp");
+      expect(activeIndex(el)).to.equal(1);
+
+      // Up from the first option wraps to the last, and down from the last wraps
+      // back to the first.
+      await press(el, options(el)[1], "ArrowUp");
+      await press(el, options(el)[0], "ArrowUp");
+      expect(activeIndex(el)).to.equal(last);
+
+      await press(el, options(el)[last], "ArrowDown");
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("jumps to either end of the menu with Home and End", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+      const last = el.languages.length - 1;
+
+      await press(el, options(el)[0], "End");
+      expect(activeIndex(el)).to.equal(last);
+
+      await press(el, options(el)[last], "Home");
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("moves real focus with the tab stop", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const first = options(el)[0];
+      // Probe: some runner environments can't take programmatic focus at all, so
+      // the focus half of this assertion is meaningless there.
+      first.focus();
+      await aTimeout(0);
+      if (el.shadowRoot?.activeElement !== first) return;
+
+      await press(el, first, "ArrowDown");
+      // Compare ids, not elements — a failed element-to-element diff makes chai
+      // serialize the whole Lit component graph, which freezes the test page.
+      expect(el.shadowRoot?.activeElement?.id).to.equal(options(el)[1].id);
+    });
+
+    it("keeps the tab stop in range when the language list shrinks", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      await press(el, options(el)[0], "End");
+      expect(activeIndex(el)).to.equal(el.languages.length - 1);
+
+      el.languages = [
+        { code: "en", label: "English" },
+        { code: "es", label: "Español" },
+      ];
+      await settle(el);
+
+      // A shorter list would otherwise leave the menu with no tab stop at all.
+      expect(activeIndex(el)).to.equal(0);
+    });
+
+    it("closes when focus leaves the menu, but not while it moves within it", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader></nys-unavheader>`,
+      );
+      await open(el);
+
+      const items = options(el);
+      const leaveWithin = new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: items[1],
+      });
+      items[0].dispatchEvent(leaveWithin);
+      await settle(el);
+      expect(el.languageVisible).to.be.true;
+
+      // Tab past the last option: the browser is already moving focus, so the menu
+      // only has to get out of the way.
+      const searchButton = el.shadowRoot?.getElementById(
+        "nys-unavheader__searchbutton",
+      ) as HTMLElement;
+      items[items.length - 1].dispatchEvent(
+        new FocusEvent("focusout", {
+          bubbles: true,
+          composed: true,
+          relatedTarget: searchButton,
+        }),
+      );
+      await settle(el);
+      expect(el.languageVisible).to.be.false;
+    });
+  });
+
+  // --- Regression: #1795 — paired with nys-globalheader this is one of two
+  // banner landmarks, so it needs a name of its own. ---
+  it("names the banner landmark so it is distinguishable from an agency header", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header, "a <header> landmark should be present").to.exist;
+    expect(header?.getAttribute("aria-label")).to.equal("New York State");
+  });
+
+  it("lets the author override the banner landmark name", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader landmarkLabel="Statewide"></nys-unavheader>`,
+    );
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("Statewide");
+  });
+
+  it("falls back to the default name when landmarkLabel is blank", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader landmarkLabel="   "></nys-unavheader>`,
+    );
+    // An unnamed banner is exactly what #1795 was about, so a blank override
+    // must not be able to reintroduce it.
+    const header = el.shadowRoot?.querySelector("header");
+    expect(header?.getAttribute("aria-label")).to.equal("New York State");
+  });
+
+  // --- Regression: WCAG 4.1.1 / 1.3.1 — no duplicate IDs in shadow DOM ---
+  it("does not duplicate the 'official website' element id", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const officialById = el.shadowRoot?.querySelectorAll(
+      "#nys-unavheader__official",
+    );
+    // Only the inline (styled) instance retains the id; the top trustbar uses a class.
+    expect(officialById?.length).to.equal(1);
+    const officialByClass = el.shadowRoot?.querySelectorAll(
+      ".nys-unavheader__official",
+    );
+    expect(officialByClass?.length).to.equal(1);
+  });
+
+  // --- Regression: WCAG 1.3.1 — no misused <label> for non-form text ---
+  it("does not use <label> elements for static (non-form) trust text", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const labels = el.shadowRoot?.querySelectorAll("label");
+    expect(labels?.length ?? 0).to.equal(0);
+  });
+
+  // --- Regression: WCAG 4.1.2 — aria-controls targets the controlled panel ---
+  // The state must land on the real <button> inside nys-button's shadow root
+  // (via the ariaControls/ariaExpanded props) — a host attribute reaches
+  // nothing assistive tech can see (#1794).
+  const innerTrustButton = (el: NysUnavHeader, id: string) =>
+    el.shadowRoot?.getElementById(id)?.shadowRoot?.querySelector("button");
+
+  it("points trustbar toggle aria-controls at the trust panel", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    await el.updateComplete;
+    await aTimeout(0);
+
+    const panel = el.shadowRoot?.getElementById("nys-unavheader__trustpanel");
+    expect(panel).to.exist;
+
+    for (const id of ["nys-unavheader__know", "nys-unavheader__know--inline"]) {
+      expect(
+        innerTrustButton(el, id)?.getAttribute("aria-controls"),
+        id,
+      ).to.equal("nys-unavheader__trustpanel");
+    }
+  });
+
+  it("reflects aria-expanded on both trustbar toggles as the panel opens/closes", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    await el.updateComplete;
+    await aTimeout(0);
+
+    const ids = ["nys-unavheader__know", "nys-unavheader__know--inline"];
+    for (const id of ids) {
+      expect(
+        innerTrustButton(el, id)?.getAttribute("aria-expanded"),
+        id,
+      ).to.equal("false");
+    }
+
+    el.trustbarVisible = true;
+    await el.updateComplete;
+    await aTimeout(0);
+
+    for (const id of ids) {
+      expect(
+        innerTrustButton(el, id)?.getAttribute("aria-expanded"),
+        id,
+      ).to.equal("true");
+    }
   });
 });

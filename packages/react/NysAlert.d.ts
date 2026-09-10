@@ -51,7 +51,8 @@ export interface NysAlertProps extends Pick<
   /** Label text for secondary action link. */
   secondaryLabel?: NysAlertElement["secondaryLabel"];
 
-  /** Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region. */
+  /** Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use
+`role="alert"` (assertive live region); `base`/`info`/`success` use `role="status"` (polite). */
   type?: NysAlertElement["type"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
@@ -75,16 +76,13 @@ export interface NysAlertProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Returns ARIA role and label based on alert type.
-- 'alert' => assertive live region (implied)
-- 'status' => polite live region
-- 'region' => generic, requires aria-label */
-  ariaAttributes?: NysAlertElement["ariaAttributes"];
+  /** Returns the ARIA role and aria-live setting for the alert's live region based on type.
+- `warning`/`danger`/`emergency` => role="alert", aria-live="assertive" (urgent, interrupts)
+- `base`/`info`/`success` => role="status", aria-live="polite" (waits its turn)
 
-  /** Returns live-region type for screen readers if applicable.
-- 'polite' for status role
-- undefined for alert (since it's implicitly assertive) or region */
-  liveRegion?: NysAlertElement["liveRegion"];
+`aria-live` is set explicitly alongside `role` (rather than relying on the role's implicit
+live-region semantics) for more consistent behavior across browser/AT combinations. */
+  ariaAttributes?: NysAlertElement["ariaAttributes"];
 
   /** Fired when alert is dismissed. Detail: `{id, type, label}`. */
   onNysClose?: (event: CustomEvent) => void;

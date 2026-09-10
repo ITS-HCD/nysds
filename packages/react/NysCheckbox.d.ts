@@ -46,6 +46,10 @@ export interface NysCheckboxProps extends Pick<
   /** undefined */
   showOtherError?: boolean;
 
+  /** Suppress the internal visible `<nys-label>` (use with `labelledby` for
+table cells). */
+  hideLabel?: boolean;
+
   /** Visible label text. Required for accessibility. */
   label?: NysCheckboxElement["label"];
 
@@ -72,6 +76,11 @@ export interface NysCheckboxProps extends Pick<
 
   /** Checkbox size: `sm` (24px) or `md` (32px, default). */
   size?: NysCheckboxElement["size"];
+
+  /** Id of an element in the host's light-DOM tree to borrow the accessible name
+from (e.g. a table column `<th>`). Enables labelling a checkbox that has no
+visible label of its own. */
+  labelledby?: NysCheckboxElement["labelledby"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

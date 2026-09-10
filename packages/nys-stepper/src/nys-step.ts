@@ -1,5 +1,7 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-stepper.scss?inline";
 
@@ -47,10 +49,18 @@ import styles from "./nys-stepper.scss?inline";
  * as the `onClick` prop on `NysStep`.
  *
  * ## Accessibility
- * - The step label renders with `role="button"` and is keyboard-focusable (`tabindex="0"`) for navigable
- *   steps (`current`, `previous`). Future steps get `tabindex="-1"` and are not reachable by keyboard.
- * - Enter and Space activate the step (same as click).
- * - `aria-label` is set to `"{label} Step"` for screen reader announcement.
+ * - The host carries `role="listitem"` so the parent stepper's `<ol>` and its slotted
+ *   `<nys-step>` children form a real list — assistive technology announces each step's
+ *   position and count (e.g. "2 of 4") automatically.
+ * - Navigable steps (`current`, `previous`, `selected`) render a real `<button>` for their
+ *   row, giving native keyboard activation (Enter/Space), focus handling, and semantics for
+ *   free — no manual `tabindex`/`keydown` scaffolding required.
+ * - Future (non-navigable) steps render the row as a plain, non-interactive `<div>` — not a
+ *   disabled button. They are not focusable and carry no `role`, `tabindex`, or `aria-disabled`.
+ * - `aria-label` announces the step name and 1-indexed position, e.g. `"Personal Info, step 1"`.
+ * - The `current` step (progress boundary) is marked with `aria-current="step"` on the
+ *   `<button>` itself so assistive technology announces the user's current position.
+ * - The visual step number is `aria-hidden` (its meaning is folded into the row's accessible name).
  *
  * ## Common patterns
  *
@@ -79,7 +89,7 @@ import styles from "./nys-stepper.scss?inline";
  *   or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call
  *   `e.preventDefault()` to suppress `window.location.href` navigation.
  */
-export class NysStep extends LitElement {
+export class NysStep extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -118,6 +128,29 @@ export class NysStep extends LitElement {
   /** @internal 1-indexed position. Auto-assigned by the parent stepper on first render. Do not set manually. */
   @property({ type: Number }) stepNumber = 0;
 
+  /** A step is navigable (focusable + activatable) when it is the displayed,
+   * current, or a previously-reached step. Future steps are inert. */
+  private get _navigable(): boolean {
+    return this.selected || this.current || this.hasAttribute("previous");
+  }
+
+  // ---------------------------------------------------------------------------
+  // Lifecycle
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Sets `role="listitem"` on the host so the parent stepper's `<ol>` (which
+   * only ever slots `<nys-step>` elements, never real `<li>`s) still forms a
+   * valid ARIA list. This is what lets assistive technology announce each
+   * step's position and count. Uses a plain attribute (not ElementInternals)
+   * so `getAttribute("role")` keeps working for existing consumers/tests,
+   * matching the convention used by `<nys-tab>`.
+   */
+  connectedCallback() {
+    super.connectedCallback();
+    this.setAttribute("role", "listitem");
+  }
+
   private _handleActivate(e: Event) {
     // Run user-supplied onClick first (if present)
     if (typeof this.onClick === "function") {
@@ -142,50 +175,44 @@ export class NysStep extends LitElement {
     }
   }
 
-  private _handleKeydown(e: KeyboardEvent) {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      this._handleActivate(e);
-    }
-  }
-
   render() {
+    const navigable = this._navigable;
+    const accessibleName = this.stepNumber
+      ? `${this.label}, step ${this.stepNumber}`
+      : `${this.label} Step`;
+
+    const rowContent = html`
+      <div class="nys-step__number" aria-hidden="true">${this.stepNumber}</div>
+      <div class="nys-step__content">
+        <div class="nys-step__label">${this.label}</div>
+      </div>
+    `;
+
     return html`
       <div class="nys-step">
         <div class="nys-step__linewrapper">
           <div class="nys-step__line"></div>
         </div>
-        <div
-          class="nys-step__contentwrapper"
-          @click=${this._handleActivate}
-          @keydown=${this._handleKeydown}
-          ?disabled=${!(
-            this.selected ||
-            this.current ||
-            this.hasAttribute("previous")
-          )}
-        >
-          <div class="nys-step__number" tabindex="-1" aria-hidden="true">
-            ${this.stepNumber}
-          </div>
-          <div class="nys-step__content" tabindex="-1" aria-hidden="true">
-            <div
-              class="nys-step__label"
-              role="button"
-              aria-label="${this.label} Step"
-              tabindex=${!(
-                this.selected ||
-                this.current ||
-                this.hasAttribute("previous")
-              )
-                ? "-1"
-                : "0"}
-              aria-hidden="true"
-            >
-              ${this.label}
-            </div>
-          </div>
-        </div>
+        ${navigable
+          ? html`
+              <button
+                type="button"
+                class="nys-step__contentwrapper"
+                @click=${this._handleActivate}
+                aria-label=${accessibleName}
+                aria-current=${ifDefined(this.current ? "step" : undefined)}
+              >
+                ${rowContent}
+              </button>
+            `
+          : html`
+              <div
+                class="nys-step__contentwrapper"
+                aria-label=${accessibleName}
+              >
+                ${rowContent}
+              </div>
+            `}
       </div>
     `;
   }

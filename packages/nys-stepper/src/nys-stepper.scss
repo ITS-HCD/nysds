@@ -70,6 +70,10 @@
 }
 
 .nys-stepper__steps {
+  /* Reset <ol> user-agent defaults: no markers/numbers are ever shown since
+     the direct children are <nys-step> hosts (role="listitem"), not <li>. */
+  list-style: none;
+  margin: 0;
   display: flex;
   flex-direction: column;
   padding: var(--nys-space-150, 12px) var(--nys-space-400, 32px)
@@ -113,6 +117,17 @@
 }
 
 .nys-step__contentwrapper {
+  /* Reset <button> user-agent styles so navigable steps (rendered as a real
+     <button>) look identical to non-navigable steps (rendered as a <div>). */
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -257,7 +272,7 @@
     padding: 0;
   }
 
-  .nys-stepper__steps::slotted(*) {
+  .nys-stepper__steps slot::slotted(*) {
     flex: 1;
   }
 
@@ -317,7 +332,7 @@
       var(--nys-space-400, 32px);
   }
 
-  :host([isCompactExpanded]) .nys-stepper__steps::slotted(*) {
+  :host([isCompactExpanded]) .nys-stepper__steps slot::slotted(*) {
     flex: none;
   }
 

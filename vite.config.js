@@ -22,8 +22,15 @@ const banner = `
  */
 `;
 
-// Externalize Lit and all NYSDS internal packages
-const externalEs = (id) => id === "lit" || id.startsWith("lit/");
+// Externalize Lit for every build.
+const externalLit = (id) => id === "lit" || id.startsWith("lit/");
+// Per-package library builds ALSO externalize published NYSDS sibling packages
+// (@nysds/nys-*), so a component references its siblings (e.g. the internal
+// <nys-label>/<nys-errormessage> a form control self-registers) at runtime instead
+// of bundling duplicate copies into every package. @nysds/internals is intentionally
+// NOT externalized — it is a private, unpublished module that must be inlined into
+// each consumer bundle.
+const externalEs = (id) => externalLit(id) || id.startsWith("@nysds/nys-");
 
 // Plugin to remove demo HTML files after build
 function removeDemoFiles() {
@@ -200,6 +207,9 @@ export default isUmd
   : mergeConfig(defaultConfig, {
       build: {
         rollupOptions: {
+          // The root bundle (nysds.es.js) is self-contained — it bundles every
+          // component — so it must NOT externalize @nysds/nys-* siblings, only Lit.
+          external: externalLit,
           plugins: [copyIconAssets()],
         },
       },

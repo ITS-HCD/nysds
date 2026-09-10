@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-badge.js";
 import { NysBadge } from "./nys-badge.js";
 
@@ -17,6 +18,20 @@ describe("nys-badge", () => {
     expect(el.id).to.match(/^nys-badge-\d+-\d+$/);
   });
 
+  it("auto-generated id matches the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysBadge>(html`<nys-badge></nys-badge>`);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-badge-\d+-\d+$/);
+  });
+
+  it("preserves an author-provided id", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge id="my-badge"></nys-badge>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("my-badge");
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysBadge>(html`
       <nys-badge label="My Label" prefixIcon suffixIcon></nys-badge>
@@ -26,13 +41,13 @@ describe("nys-badge", () => {
     expect(el.suffixIcon).to.be.true;
   });
 
-  it("default intent is neutral", async () => {
+  it("default intent is base", async () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge label="My Label"></nys-badge>`,
     );
     await el.updateComplete;
 
-    expect(el.intent).to.equal("neutral");
+    expect(el.intent).to.equal("base");
 
     const computed = getComputedStyle(el);
     const backgroundColor = computed.getPropertyValue(
@@ -48,7 +63,7 @@ describe("nys-badge", () => {
       html`<nys-badge
         label="My Label"
         intent="success"
-        variant="strong"
+        strong
         prefixIcon
       ></nys-badge>`,
     );
@@ -115,5 +130,80 @@ describe("nys-badge", () => {
     await el.updateComplete;
     const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
     expect(srOnly).to.be.null;
+  });
+
+  // WCAG 1.4.1 Use of Color: semantic intent must not be conveyed by color
+  // (and a decorative aria-hidden icon) alone. A screen-reader-only text
+  // alternative is rendered for non-base intents.
+  it("renders a screen-reader-only intent label for danger intent", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Payment failed" intent="danger"></nys-badge>`,
+    );
+    await el.updateComplete;
+    const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
+    expect(srOnly).to.exist;
+    expect(srOnly!.textContent).to.equal("Danger: ");
+  });
+
+  it("renders a screen-reader-only intent label for success intent", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Approved" intent="success"></nys-badge>`,
+    );
+    await el.updateComplete;
+    const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
+    expect(srOnly).to.exist;
+    expect(srOnly!.textContent).to.equal("Success: ");
+  });
+
+  it("renders a screen-reader-only intent label for warning intent", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Expiring soon" intent="warning"></nys-badge>`,
+    );
+    await el.updateComplete;
+    const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
+    expect(srOnly).to.exist;
+    expect(srOnly!.textContent).to.equal("Warning: ");
+  });
+
+  it("does not render an intent label for base intent", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Draft" intent="base"></nys-badge>`,
+    );
+    await el.updateComplete;
+    const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
+    expect(srOnly).to.be.null;
+  });
+
+  it("author srText overrides the default intent label", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge
+        label="Payment failed"
+        intent="danger"
+        srText="action required"
+      ></nys-badge>`,
+    );
+    await el.updateComplete;
+    const srOnly = el.shadowRoot!.querySelectorAll(".nys-badge__sr-only");
+    // Only the author-provided srText span is rendered (no duplicate intent label).
+    expect(srOnly.length).to.equal(1);
+    expect(srOnly[0].textContent).to.equal(": action required");
+  });
+
+  it("passes the a11y audit with a non-base intent", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge
+        label="Approved"
+        intent="success"
+        prefixIcon
+      ></nys-badge>`,
+    );
+    await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Test" prefixIcon></nys-badge>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

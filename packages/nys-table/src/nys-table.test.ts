@@ -1,7 +1,16 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-table.js";
 import { NysTable } from "./nys-table.js";
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 import sinon from "sinon";
+// nys-table's self-registration of these two is fixed on
+// fix/a11y-arialabel-sweep (not this branch) — kept here so the
+// self-registration test below is meaningful on this branch standalone. Safe
+// to drop once that branch merges and nys-table.ts imports them itself.
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 describe("nys-table", () => {
   it("renders the component", async () => {
@@ -15,6 +24,96 @@ describe("nys-table", () => {
 
     expect(el.id).to.not.be.empty;
     expect(el.id).to.match(/^nys-table-\d+-\d+$/);
+  });
+
+  it("auto-generates an id in the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysTable>(html`<nys-table></nys-table>`);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-table-\d+-\d+$/);
+  });
+
+  it("adds scope='col' to normalized column header cells (WCAG 1.3.1)", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <caption>
+            Scope Table
+          </caption>
+          <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+          </tr>
+          <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+    await el.updateComplete;
+
+    const headerCells = el.querySelector("table")?.querySelectorAll("thead th");
+    expect(headerCells?.length).to.equal(2);
+    headerCells?.forEach((th) => {
+      expect(th.getAttribute("scope")).to.equal("col");
+    });
+  });
+
+  it("adds scope='col' to pre-structured thead header cells (WCAG 1.3.1)", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <caption>
+            Structured Table
+          </caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alice</td>
+              <td>30</td>
+            </tr>
+          </tbody>
+        </table>
+      </nys-table>
+    `);
+    await el.updateComplete;
+
+    const headerCells = el.querySelector("table")?.querySelectorAll("thead th");
+    expect(headerCells?.length).to.equal(2);
+    headerCells?.forEach((th) => {
+      expect(th.getAttribute("scope")).to.equal("col");
+    });
+  });
+
+  it("preserves an author-provided scope on header cells (WCAG 1.3.1)", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <thead>
+            <tr>
+              <th scope="colgroup">Group</th>
+              <th>Age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alice</td>
+              <td>30</td>
+            </tr>
+          </tbody>
+        </table>
+      </nys-table>
+    `);
+    await el.updateComplete;
+
+    const headerCells = el.querySelector("table")?.querySelectorAll("thead th");
+    expect(headerCells?.[0].getAttribute("scope")).to.equal("colgroup");
+    expect(headerCells?.[1].getAttribute("scope")).to.equal("col");
   });
 
   it("reflects attributes to properties", async () => {
@@ -86,10 +185,19 @@ describe("nys-table", () => {
         </table>
       </nys-table>
     `);
-    const button = el.shadowRoot?.getElementById("test-table-download-button");
+    const button = el.shadowRoot?.getElementById(
+      "test-table-download-button",
+    ) as HTMLElement;
     expect(button).to.exist;
     expect(el.download).to.equal("data.csv");
-    expect(button?.ariaLabel).to.equal("Download Caption Table");
+
+    // The old dead `aria-label` binding on the host never reached nys-button
+    // (host has no role, so it never maps into the accessibility tree). The
+    // real accessible name has to come from nys-button's `label` prop, which
+    // it renders into the internal <button>'s `.nys-button__text` node.
+    expect(button.hasAttribute("aria-label")).to.be.false;
+    const text = button.shadowRoot?.querySelector("button .nys-button__text");
+    expect(text?.textContent?.trim()).to.equal("Download Caption Table");
   });
 
   it("adds sort icons to sortable tables", async () => {
@@ -454,5 +562,24 @@ describe("nys-table", () => {
     btn.addEventListener("click", spy);
     btn.click();
     expect(spy.calledOnce).to.be.true;
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable download="data.csv">
+        <table>
+          <caption>
+            Test table
+          </caption>
+          <tr>
+            <th>col 1</th>
+          </tr>
+          <tr>
+            <td>data 1</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

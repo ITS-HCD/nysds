@@ -25,6 +25,7 @@ export const Basic: Story = {
     name: "",
     label: "Select your favorite borough",
     description: "",
+    ariaLabel: "",
     value: "",
     disabled: false,
     required: false,
@@ -45,6 +46,7 @@ export const Basic: Story = {
         name=${args.name}
         label=${args.label}
         description=${args.description}
+        ariaLabel=${args.ariaLabel}
         value=${args.value}
         ?disabled=${args.disabled}
         ?required=${args.required}

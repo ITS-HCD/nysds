@@ -1,12 +1,10 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tabpanel.scss?inline";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-tabpanel.light.scss?inline";
-
-/** @internal Monotonically increasing counter used to generate unique element IDs. */
-let componentIdCounter = 0;
 
 let _lightSheet: CSSStyleSheet | null = null;
 // Injects the light-DOM styling for <nys-tabpanel> into a single constructed
@@ -41,7 +39,7 @@ function adoptLightStyles() {
  *   which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"`
  *   region.
  */
-export class NysTabpanel extends LitElement {
+export class NysTabpanel extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -59,11 +57,13 @@ export class NysTabpanel extends LitElement {
   // ---------------------------------------------------------------------------
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id
+    // (prefix = localName "nys-tabpanel") when one is not provided so that
+    // sibling <nys-tab> aria-controls references resolve. role="tabpanel" stays
+    // on the host as a reflected attribute (defaultRole intentionally null) so
+    // existing getAttribute("role") consumers/tests keep working.
     super.connectedCallback();
     adoptLightStyles();
-    if (!this.id) {
-      this.id = `nys-tabpanel-${Date.now()}-${componentIdCounter++}`;
-    }
     this.setAttribute("role", "tabpanel");
     // The host is the scrollable region (overflow is applied in the light
     // styles), so it must be keyboard-focusable for scroll access.

@@ -1,9 +1,13 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
+// This element is rendered inside this component's shadow DOM (the dismiss
+// button), so it must be registered whenever nys-modal is used. Importing it
+// here (intentional side effect) guarantees it always renders.
+import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-modal.scss?inline";
-
-let componentIdCounter = 0;
 
 /**
  * An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.
@@ -157,14 +161,25 @@ let componentIdCounter = 0;
  * ```
  */
 
-export class NysModal extends LitElement {
+export class NysModal extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
 
-  /** Modal heading text. Required for accessibility. */
+  /**
+   * Modal heading text. Required for accessibility — it becomes the dialog's
+   * accessible name via `aria-labelledby`.
+   */
   @property({ type: String }) heading = "";
+
+  /**
+   * Accessible name for the dialog, used only when no `heading` is set.
+   * Prefer a visible `heading`: a visible label satisfies WCAG 2.5.3 (Label in
+   * Name) and gives sighted users the same information. Use `ariaLabel` for the
+   * rare headless dialog so it still exposes a name (WCAG 4.1.2).
+   */
+  @property({ type: String }) ariaLabel = "";
 
   /** Secondary heading below the main heading. */
   @property({ type: String }) subheading = "";
@@ -199,16 +214,20 @@ export class NysModal extends LitElement {
     super();
   }
 
+  // Bound reference so the same function is used for both add/removeEventListener.
+  // (Previously two distinct arrow wrappers were used, so the listener was never
+  // actually removed on disconnect — a leak that left stale handlers firing.)
+  private _boundHandleKeydown = (e: KeyboardEvent) => this._handleKeydown(e);
+
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an id when one
+    // is not provided, using the element's localName as prefix ("nys-modal-...").
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-modal-${Date.now()}-${componentIdCounter++}`;
-    }
     this._mobileMedia.addEventListener(
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.addEventListener("keydown", (e) => this._handleKeydown(e));
+    window.addEventListener("keydown", this._boundHandleKeydown);
   }
 
   disconnectedCallback() {
@@ -218,7 +237,7 @@ export class NysModal extends LitElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.removeEventListener("keydown", (e) => this._handleKeydown(e));
+    window.removeEventListener("keydown", this._boundHandleKeydown);
   }
 
   async updated(changeProps: Map<string, any>) {
@@ -230,12 +249,10 @@ export class NysModal extends LitElement {
         await this.updateComplete;
         this._savePrevFocused();
         this._focusOnModal();
-        this._updateDismissAria();
       } else {
         this._restorePrevFocused();
         this._restoreBodyScroll();
         this._dispatchCloseEvent();
-        this._updateDismissAria();
       }
     }
   }
@@ -356,25 +373,6 @@ export class NysModal extends LitElement {
   }
 
   /**
-   * This exist to prevent the VO for dismiss button from announcing itself between the heading & subheading/slot content.
-   * We add the "Close this window" ariaLabel after the initial VO is done
-   */
-  private _updateDismissAria() {
-    const dismissBtn = this.shadowRoot?.querySelector("nys-button");
-    if (!dismissBtn) return;
-
-    // Hide from VO initially
-    dismissBtn.setAttribute("ariaLabel", " ");
-
-    if (this.open) {
-      // After focus is moved into modal, update label
-      setTimeout(() => {
-        dismissBtn.setAttribute("ariaLabel", "Close this window");
-      }, 100);
-    }
-  }
-
-  /**
    * Event Handlers
    * --------------------------------------------------------------------------
    */
@@ -461,24 +459,40 @@ export class NysModal extends LitElement {
   }
 
   render() {
+    const hasHeading = !!this.heading?.trim();
+    // Prefer aria-labelledby pointing at the visible <h2>. The IDREF resolves
+    // inside this shadow root, so the association is declarative and complete
+    // on first paint — no post-render attribute writes, no timers.
+    const labelledBy = hasHeading ? `${this.id}-heading` : undefined;
+    // aria-label is the fallback for a headless dialog only; when a heading
+    // exists it would compete with (and be overridden by) aria-labelledby.
+    const label = !hasHeading ? this.ariaLabel?.trim() || undefined : undefined;
+    // Omit aria-describedby entirely when there is nothing to describe.
+    const describedBy = this._getAriaDescribedBy() || undefined;
+
     return this.open
-      ? html`<div
-          class="nys-modal-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="${this.id}-heading"
-          aria-describedby="${this._getAriaDescribedBy()}"
-        >
-          <div class="nys-modal" tabindex="-1">
+      ? html`<div class="nys-modal-overlay">
+          <div
+            class="nys-modal"
+            tabindex="-1"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="${ifDefined(labelledBy)}"
+            aria-label="${ifDefined(label)}"
+            aria-describedby="${ifDefined(describedBy)}"
+          >
             <div class="nys-modal_header">
               <div class="nys-modal_header-inner">
-                <h2 id="${this.id}-heading">${this.heading}</h2>
+                ${hasHeading
+                  ? html`<h2 id="${this.id}-heading">${this.heading}</h2>`
+                  : ""}
                 ${!this.mandatory
                   ? html`<nys-button
                       id="dismiss-modal"
                       circle
                       icon="close"
                       variant="ghost"
+                      label="Close this window"
                       @nys-click=${this._closeModal}
                     ></nys-button>`
                   : ""}

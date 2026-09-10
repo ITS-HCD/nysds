@@ -1,5 +1,6 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-processlistitem.scss?inline";
 
@@ -14,7 +15,7 @@ import styles from "./nys-processlistitem.scss?inline";
  * @element nys-processlistitem
  * @slot description - Custom HTML description content below the label. Overrides the `description` property.
  */
-export class NysProcesslistitem extends LitElement {
+export class NysProcesslistitem extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -51,6 +52,8 @@ export class NysProcesslistitem extends LitElement {
   }
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto id when
+    // one is not provided, preserving the `nys-processlistitem-<ts>-<n>` shape.
     super.connectedCallback();
     // Only expose the listitem role when actually inside a list, so a
     // standalone item isn't announced as an orphan listitem.

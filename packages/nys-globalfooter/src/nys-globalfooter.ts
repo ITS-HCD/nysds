@@ -1,7 +1,20 @@
-import { LitElement, html, unsafeCSS, nothing } from "lit";
+import { html, unsafeCSS, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
+// This element is created imperatively (document.createElement) after each
+// slotted <span> section heading, so it must be registered whenever
+// nys-globalfooter is used. Importing it here (intentional side effect)
+// guarantees it always renders.
+import "@nysds/nys-divider";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalfooter.scss?inline";
+
+/**
+ * Accessible name for the `contentinfo` landmark when the footer carries no
+ * agency name to reference and the consumer supplied no override.
+ */
+const DEFAULT_LANDMARK_LABEL = "Site";
 
 /**
  * Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.
@@ -68,10 +81,23 @@ import styles from "./nys-globalfooter.scss?inline";
  *   agencySubheading="Innovating Technology for a Better New York"
  * ></nys-globalfooter>
  * ```
+ *
+ * @example Custom landmark label
+ * ```html
+ * <!-- Names the contentinfo landmark directly instead of from the visible
+ *      heading. Keep it distinct from nys-unavfooter's ("New York State"). -->
+ * <nys-globalfooter
+ *   agencyName="Office of Information Technology Services"
+ *   landmarkLabel="ITS"
+ * ></nys-globalfooter>
+ * ```
  */
 
-export class NysGlobalFooter extends LitElement {
+export class NysGlobalFooter extends NysElement {
   static styles = unsafeCSS(styles);
+
+  /** Unique identifier. Auto-generated if not provided. */
+  @property({ type: String, reflect: true }) id = "";
 
   /** Agency name displayed as the footer heading. */
   @property({ type: String }) agencyName = "";
@@ -81,12 +107,36 @@ export class NysGlobalFooter extends LitElement {
 
   /** URL for the agency name link. If empty, name is not clickable. */
   @property({ type: String }) homepageLink = "";
+
+  /**
+   * Accessible name for the `contentinfo` landmark this footer renders.
+   *
+   * Leave it unset and the landmark is named after the visible `agencyName`
+   * heading, which cannot drift out of sync and is translated with the rest of
+   * the page. Falls back to `"Site"` when there is no agency name to reference.
+   *
+   * Set this only when the agency name is not right for your audience. A page
+   * pairing this with `nys-unavfooter` carries two `contentinfo` landmarks, so
+   * the name must stay distinct from that footer's (`"New York State"` by
+   * default) or landmark navigation stops distinguishing them.
+   *
+   * An explicit name replaces the reference to the visible heading.
+   */
+  @property({ type: String }) landmarkLabel = "";
+
   @state() private slotHasContent = true;
 
   /**
    * Lifecycle Methods
    * --------------------------------------------------------------------------
    */
+
+  // No connectedCallback override is needed here: NysElement's own
+  // connectedCallback already assigns an id when one is not provided, and it runs
+  // automatically because this class does not override it. The contentinfo landmark
+  // intentionally stays on the inner <footer> element (and is given an accessible
+  // name from the agency name so multiple footers on a page are distinguishable),
+  // so this component keeps defaultRole = null and does not move a role onto the host.
 
   firstUpdated() {
     // Check for slot content after rendering
@@ -154,16 +204,57 @@ export class NysGlobalFooter extends LitElement {
     }
   }
 
+  /**
+   * Id of the heading that names the contentinfo landmark, or undefined when no
+   * agency name was given.
+   *
+   * The documented pairing puts this footer above `nys-unavfooter`, which leaves a
+   * page with two `contentinfo` landmarks. Pointing at the visible heading rather
+   * than repeating the agency name in an `aria-label` keeps the two in sync and lets
+   * the name be translated along with the rest of the page.
+   */
+  private get _contentinfoLabelledBy(): string | undefined {
+    // An explicit name is the author saying the visible heading is not the right
+    // one; pointing at it anyway would put both on the landmark.
+    if (this._landmarkLabelOverride) return undefined;
+    return this.agencyName?.trim() ? `${this.id}-name` : undefined;
+  }
+
+  /** The author's landmark name, or undefined when they gave none. */
+  private get _landmarkLabelOverride(): string | undefined {
+    return this.landmarkLabel?.trim() || undefined;
+  }
+
+  /**
+   * Literal name for the contentinfo: the author's override, or the "Site"
+   * default when there is no agency heading to reference. Undefined whenever
+   * `_contentinfoLabelledBy` has something to point at, so the landmark never
+   * carries both.
+   */
+  private get _contentinfoLabel(): string | undefined {
+    if (this._landmarkLabelOverride) return this._landmarkLabelOverride;
+    return this._contentinfoLabelledBy ? undefined : DEFAULT_LANDMARK_LABEL;
+  }
+
   render() {
+    const heading = html`<h2
+      id="${this.id}-name"
+      class="nys-globalfooter__name"
+    >
+      ${this.agencyName}
+    </h2>`;
+
     return html`
-      <footer class="nys-globalfooter">
+      <footer
+        class="nys-globalfooter"
+        aria-labelledby=${ifDefined(this._contentinfoLabelledBy)}
+        aria-label=${ifDefined(this._contentinfoLabel)}
+      >
         <div class="nys-globalfooter__main-container">
           <div class="nys-globalfooter__heading-container">
             ${!this.homepageLink?.trim()
-              ? html`<h2 class="nys-globalfooter__name">${this.agencyName}</h2>`
-              : html`<a href=${this.homepageLink?.trim()}>
-                  <h2 class="nys-globalfooter__name">${this.agencyName}</h2>
-                </a>`}
+              ? heading
+              : html`<a href=${this.homepageLink?.trim()}>${heading}</a>`}
             ${this.agencySubheading
               ? html`<p class="nys-globalfooter__subheading">
                   ${this.agencySubheading}

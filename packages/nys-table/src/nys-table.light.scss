@@ -52,13 +52,10 @@ nys-table th {
   text-overflow: ellipsis;
   padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
   text-align: left;
+  font-weight: var(--_nys-table-font-weight--th);
 
   &:has(nys-button) {
     padding: 0;
-  }
-
-  p {
-    margin: 0;
   }
 
   nys-button {

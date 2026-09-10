@@ -1,13 +1,16 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-		"composite": true,
+    "composite": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": [
-    "src/**/*"
+  "references": [
+    { "path": "../internals" },
+    { "path": "../nys-accordion" },
+    { "path": "../nys-icon" }
   ],
+  "include": ["src/**/*"],
   "exclude": [
     "**/*.stories.ts",
     "**/*.styles.ts",

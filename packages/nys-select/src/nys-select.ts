@@ -1,11 +1,18 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
 import { NysOption } from "./nys-option";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-select is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+// nys-icon renders the chevron-down indicator.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-select.scss?inline";
-
-let selectIdCounter = 0;
 
 /**
  * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
@@ -175,7 +182,7 @@ let selectIdCounter = 0;
  * </nys-select>
  */
 
-export class NysSelect extends LitElement {
+export class NysSelect extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -193,6 +200,9 @@ export class NysSelect extends LitElement {
 
   /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Accessible label. Used as a fallback when `label` is not provided. */
+  @property({ type: String }) ariaLabel = "";
 
   /** Currently selected option value. */
   @property({ type: String }) value = "";
@@ -234,27 +244,18 @@ export class NysSelect extends LitElement {
   private _originalErrorMessage = "";
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  private _internals: ElementInternals;
 
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
 
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
-    }
-
     this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
@@ -265,14 +266,10 @@ export class NysSelect extends LitElement {
   }
 
   firstUpdated() {
-    //read in slotted options
-    const slot = this.shadowRoot?.querySelector(
-      'slot:not([name="description"])',
-    ) as HTMLSlotElement | null;
-
-    if (slot) {
-      this._handleSlotChange();
-    }
+    // Slotted options are read in `_handleSlotChange`, which the slot's
+    // `slotchange` event fires once its nodes are assigned. Doing it here
+    // instead would set `value` after the update completed, forcing Lit to
+    // schedule a second render (see lit.dev/msg/change-in-update).
 
     // This ensures our element always participates in the form
     this._setValue();
@@ -313,7 +310,6 @@ export class NysSelect extends LitElement {
         const original = node as HTMLOptionElement;
         const optionClone = original.cloneNode(true) as HTMLOptionElement;
 
-        optionClone.setAttribute("data-native", "true");
         optionClone.disabled = original.disabled;
         optionClone.selected = original.selected;
 
@@ -349,12 +345,23 @@ export class NysSelect extends LitElement {
       }
     });
 
-    // Sync initial selected state into component value
+    // Sync selected state into the component value. Re-cloning resets the
+    // native selection, so keep the current value whenever it still matches an
+    // option and only fall back to whatever the markup marked as selected.
+    const keepsCurrentValue =
+      !!this.value &&
+      Array.from(select.options).some((o) => o.value === this.value);
+
+    if (keepsCurrentValue) {
+      select.value = this.value;
+      return;
+    }
+
     const selectedOption = Array.from(select.options).find((o) => o.selected);
 
     if (selectedOption) {
       this.value = selectedOption.value;
-      this._internals.setFormValue(this.value);
+      this.setFormValue(this.value);
     }
   }
 
@@ -364,7 +371,7 @@ export class NysSelect extends LitElement {
    */
 
   private _setValue() {
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this._manageRequire(); // Check validation when value is set
   }
 
@@ -376,11 +383,9 @@ export class NysSelect extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true"; // Screen readers should announce error
-      this._internals.setValidity({ valueMissing: true }, message, select);
+      this.setValidityFromState({ valueMissing: true }, message, select);
     } else {
-      this._internals.ariaInvalid = "false"; // Reset when valid
-      this._internals.setValidity({});
+      this.clearValidity();
       this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
   }
@@ -399,8 +404,15 @@ export class NysSelect extends LitElement {
       this.errorMessage = message;
     }
 
-    const validityState = message ? { customError: true } : {};
-    this._internals.setValidity(validityState, this.errorMessage, select);
+    if (message) {
+      this.setValidityFromState(
+        { customError: true },
+        this.errorMessage,
+        select,
+      );
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -426,7 +438,7 @@ export class NysSelect extends LitElement {
     // Reset validation UI
     this.showError = false;
     this.errorMessage = "";
-    this._internals.setValidity({});
+    this.clearValidity();
 
     // Re-render UI
     this.requestUpdate();
@@ -451,7 +463,7 @@ export class NysSelect extends LitElement {
     const select = this.shadowRoot?.querySelector("select");
     if (select) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -481,13 +493,13 @@ export class NysSelect extends LitElement {
   private _handleChange(e: Event) {
     const select = e.target as HTMLSelectElement;
     this.value = select.value;
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
 
     // Clear error immediately if value is now valid
     if (this.required && this.value) {
       this.showError = false;
       this.errorMessage = "";
-      this._internals.setValidity({});
+      this.clearValidity();
     }
 
     // Validate aggressively if the user has already interacted
@@ -540,6 +552,7 @@ export class NysSelect extends LitElement {
     return html`
       <div class="nys-select">
         <nys-label
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -557,9 +570,17 @@ export class NysSelect extends LitElement {
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-disabled="${this.disabled}"
-            aria-label="${[this.label, this.description]
-              .filter(Boolean)
-              .join(" ")}"
+            aria-labelledby=${ifDefined(
+              this.label ? this.id + "--label" : undefined,
+            )}
+            aria-label=${ifDefined(
+              !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+            )}
+            aria-invalid=${this.showError ? "true" : "false"}
+            aria-errormessage=${this.id + "--error"}
+            aria-describedby=${ifDefined(
+              this.showError ? this.id + "--error" : undefined,
+            )}
             .value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
@@ -567,7 +588,10 @@ export class NysSelect extends LitElement {
           >
             <option data-native hidden disabled value=""></option>
           </select>
-          <slot style="display: none;"></slot>
+          <slot
+            style="display: none;"
+            @slotchange=${this._handleSlotChange}
+          ></slot>
           <nys-icon
             name="chevron_down"
             size="2xl"
@@ -575,6 +599,7 @@ export class NysSelect extends LitElement {
           ></nys-icon>
         </div>
         <nys-errormessage
+          id=${this.id + "--error"}
           ?showError=${this.showError}
           errorMessage=${this.errorMessage}
         ></nys-errormessage>

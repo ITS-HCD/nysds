@@ -2,12 +2,13 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysBacktotop = forwardRef((props, forwardedRef) => {
-  const { visible, position, ...filteredProps } = props;
+  const { visible, id, position, ...filteredProps } = props;
 
   return React.createElement(
     "nys-backtotop",
     {
       ...filteredProps,
+      id: props.id,
       position: props.position,
       class: props.className,
       exportparts: props.exportparts,

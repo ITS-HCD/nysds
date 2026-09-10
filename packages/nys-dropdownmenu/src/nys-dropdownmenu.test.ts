@@ -1,4 +1,5 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-dropdownmenu.js";
 import { NysDropdownMenu } from "./nys-dropdownmenu";
 import { NysDropdownMenuItem } from "./nys-dropdownmenuitem";
@@ -207,6 +208,40 @@ describe("nys-dropdownmenu", () => {
     );
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  it("menu (role=menu) has a default accessible name", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    const menu = el.shadowRoot!.querySelector('[role="menu"]')!;
+    expect(menu.getAttribute("aria-label")).to.equal("Menu");
+  });
+
+  it("menu (role=menu) reflects a custom label as its accessible name", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu label="Account actions"></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    const menu = el.shadowRoot!.querySelector('[role="menu"]')!;
+    expect(menu.getAttribute("aria-label")).to.equal("Account actions");
+  });
+
+  it("auto-generates an id when none is provided", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-dropdownmenu-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysDropdownMenu>(
+      html`<nys-dropdownmenu id="custom-menu-id"></nys-dropdownmenu>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("custom-menu-id");
+  });
 });
 
 // ----------- nys-dropdownmenuitem -----------
@@ -355,5 +390,34 @@ describe("nys-dropdownmenuitem", () => {
 
     expect(detail.label).to.equal("Action");
     expect(detail.href).to.be.undefined;
+  });
+
+  it("auto-generates an id when none is provided", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action"></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-dropdownmenuitem-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem
+        id="custom-item-id"
+        label="Action"
+      ></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+    expect(el.id).to.equal("custom-item-id");
+  });
+
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysDropdownMenuItem>(
+      html`<nys-dropdownmenuitem
+        label="Action"
+        prefixIcon="check"
+      ></nys-dropdownmenuitem>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });

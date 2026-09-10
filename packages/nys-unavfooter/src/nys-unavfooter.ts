@@ -1,7 +1,16 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavfooter.scss?inline";
+
+/**
+ * Accessible name for the `contentinfo` landmark, used when the consumer does not
+ * override it. Pairs with the agency `nys-globalfooter`'s own name, so landmark
+ * navigation can tell the statewide chrome from the site's own footer.
+ */
+const DEFAULT_LANDMARK_LABEL = "New York State";
 
 /**
  * Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.
@@ -25,10 +34,47 @@ import styles from "./nys-unavfooter.scss?inline";
  * ```html
  * <nys-unavfooter></nys-unavfooter>
  * ```
+ *
+ * @example Custom landmark label
+ * ```html
+ * <!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->
+ * <nys-unavfooter landmarkLabel="Statewide"></nys-unavfooter>
+ * ```
  */
 
-export class NysUnavFooter extends LitElement {
+export class NysUnavFooter extends NysElement {
   static styles = unsafeCSS(styles);
+
+  /**
+   * Accessible name for the `contentinfo` landmark this footer renders.
+   * Defaults to `"New York State"`.
+   *
+   * A page pairing this footer with `nys-globalfooter` carries two `contentinfo`
+   * landmarks; distinct names are what keep landmark navigation useful instead of
+   * announcing "content information" twice. Override only when your wording is
+   * clearer for your audience — and keep it distinct from the agency footer's
+   * name, which comes from that footer's visible heading.
+   *
+   * A blank value falls back to the default rather than leaving the landmark
+   * unnamed.
+   *
+   * @default "New York State"
+   */
+  @property({ type: String }) landmarkLabel = DEFAULT_LANDMARK_LABEL;
+
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
+  connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto-
+    // generated id when one is not provided. The contentinfo/navigation
+    // landmarks stay on the inner <footer>/<nav> elements, so this component
+    // intentionally keeps defaultRole = null and does not move a role to the
+    // host.
+    super.connectedCallback();
+  }
 
   /**
    * Functions
@@ -43,24 +89,44 @@ export class NysUnavFooter extends LitElement {
     const svgDoc = parser.parseFromString(nysLogo, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
 
+    // The logo is decorative; the surrounding link already carries an
+    // accessible name, so hide the SVG from the accessibility tree.
+    svgElement.setAttribute("aria-hidden", "true");
+    svgElement.setAttribute("focusable", "false");
+
     return svgElement;
   }
 
+  /**
+   * The contentinfo's accessible name. A blank override would put the page back
+   * where #1795 found it — two unnamed contentinfo landmarks — so it falls back
+   * to the default.
+   */
+  private get _landmarkLabel(): string {
+    return this.landmarkLabel?.trim() || DEFAULT_LANDMARK_LABEL;
+  }
+
   render() {
+    // The statewide footer sits below an agency's own `nys-globalfooter`, so a page
+    // normally carries two contentinfo landmarks. Naming this one keeps landmark
+    // navigation meaningful instead of announcing "content information" twice (axe
+    // `landmark-unique`); the agency footer is named after the agency. `landmarkLabel`
+    // lets a consumer reword this one without giving up the distinction.
     return html`
-      <footer class="nys-unavfooter">
+      <footer class="nys-unavfooter" aria-label=${this._landmarkLabel}>
         <div class="nys-unavfooter__main-container">
           <div class="nys-unavfooter__container_menu">
             <div class="nys-unavfooter__logo">
               <a
                 href="https://www.ny.gov"
                 target="_blank"
+                rel="noopener noreferrer"
                 id="nys-unavheader__logolink"
-                aria-label="logo of New York State"
+                aria-label="New York State home page (opens in a new tab)"
                 >${this._getNysLogo()}</a
               >
             </div>
-            <div class="nys-unavfooter__content">
+            <nav class="nys-unavfooter__content" aria-label="New York State">
               <ul>
                 <li><a href="https://www.ny.gov/agencies">Agencies</a></li>
                 <li>
@@ -71,7 +137,7 @@ export class NysUnavFooter extends LitElement {
                 <li><a href="https://www.ny.gov/programs">Programs</a></li>
                 <li><a href="https://www.ny.gov/services">Services</a></li>
               </ul>
-            </div>
+            </nav>
           </div>
         </div>
       </footer>

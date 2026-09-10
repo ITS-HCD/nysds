@@ -1,7 +1,7 @@
 import React from "react";
-import { NysCard as NysCardElement } from "../../dist/nysds.es.js";
+import { NysCard as NysCardElement, Event } from "../../dist/nysds.es.js";
 
-export type { NysCardElement };
+export type { NysCardElement, Event };
 
 export interface NysCardProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -42,14 +42,13 @@ export interface NysCardProps extends Pick<
   /** Appears below the subheading text. Takes in plain text. Use the main slot if the description requires rich text or more content. */
   description?: NysCardElement["description"];
 
-  /** Visual content for the card. Supported types are images: png, jpg, etc. */
-  media?: NysCardElement["media"];
+  /** URL to navigate to. Makes the whole card a single `<a>`. Keep the card's slots
+free of other interactive elements when using this — nesting them inside the
+card control is invalid HTML and unreachable for keyboard and screen reader users. */
+  href?: NysCardElement["href"];
 
-  /** A date accent displayed over the media, in `M/D` format (e.g. `"10/16"`).
-The month is shown as a three-letter abbreviation and the day as a number
-(e.g. "Oct 16"). Only renders when `media` is set and the value is a valid
-date. Only supports dates in v1. */
-  mediaAccent?: NysCardElement["mediaAccent"];
+  /** Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`. */
+  target?: NysCardElement["target"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -71,6 +70,21 @@ date. Only supports dates in v1. */
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** Click handler. Makes the whole card a single `<button>`. Use instead of
+`@click` to ensure keyboard accessibility. Keep the card's slots free of
+other interactive elements when using this — nesting them inside the card
+control is invalid HTML and unreachable for keyboard and screen reader users. */
+  onClick?: NysCardElement["onClick"];
+
+  /** Fired when an interactive card is activated (mouse or keyboard). */
+  onNysClick?: (event: CustomEvent) => void;
+
+  /** Fired when an interactive card receives focus. */
+  onNysFocus?: (event: CustomEvent) => void;
+
+  /** Fired when an interactive card loses focus. */
+  onNysBlur?: (event: CustomEvent) => void;
 }
 
 /**
@@ -78,9 +92,19 @@ date. Only supports dates in v1. */
  * ---
  *
  *
+ * ### **Events:**
+ *  - **nys-click** - Fired when an interactive card is activated (mouse or keyboard).
+ * - **nys-focus** - Fired when an interactive card receives focus.
+ * - **nys-blur** - Fired when an interactive card loses focus.
+ *
  * ### **Slots:**
- *  - **top** - Content rendered above the heading block (e.g. a badge or label).
+ *  - **preheading** - Content rendered above the heading block (e.g. a badge or label).
  * - _default_ - Default slot for the card's main body. Use for rich content when the `description` property is not enough.
- * - **footer** - Content rendered at the bottom of the card, typically actions like buttons or links.
+ * - **footer** - Content rendered at the footer of the card, typically actions like buttons or links.
+ * - **media** - Visual content displayed at the top of the card, typically an `<img>`.
+ * - **media-accent** - Text for the accent badge displayed over the media, typically a date. Pass a wrapper holding two elements: the first is rendered as the month line, the second as the day line. Only renders when the `media` slot has content. The card becomes a single interactive control when it is given something to do: an `href` renders it as an `<a>`, a click handler (`onClick` or an inline `onclick`) renders it as a `<button>`.
+ *
+ * ### **CSS Properties:**
+ *  - **--nys-card-height** - Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`). _(default: fit-content)_
  */
 export const NysCard: React.ForwardRefExoticComponent<NysCardProps>;

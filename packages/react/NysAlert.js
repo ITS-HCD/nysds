@@ -17,7 +17,6 @@ export const NysAlert = forwardRef((props, forwardedRef) => {
     secondaryLabel,
     type,
     ariaAttributes,
-    liveRegion,
     ...filteredProps
   } = props;
 
@@ -26,7 +25,6 @@ export const NysAlert = forwardRef((props, forwardedRef) => {
 
   /** Properties - run whenever a property has changed */
   useProperties(ref, "ariaAttributes", props.ariaAttributes);
-  useProperties(ref, "liveRegion", props.liveRegion);
 
   return React.createElement(
     "nys-alert",

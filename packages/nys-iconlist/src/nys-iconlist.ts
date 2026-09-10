@@ -1,10 +1,9 @@
-import { LitElement, PropertyValues } from "lit";
+import { PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 import "./nys-iconlistitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-iconlist.light.scss?inline";
-
-let componentIdCounter = 0;
 
 let _lightSheet: CSSStyleSheet | null = null;
 // Injects the light-DOM styling for <nys-iconlist> into a single constructed
@@ -39,6 +38,17 @@ function adoptLightStyles() {
  *   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
  *   <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
  *   <nys-iconlistitem icon="location_on">Central Park West</nys-iconlistitem>
+ * </nys-iconlist>
+ * ```
+ *
+ * @example Accessible Name
+ * A list carries no accessible name of its own. Because the host renders in the light DOM,
+ * `aria-label` works natively with zero component code — set it directly when the surrounding
+ * content does not already make the list's purpose obvious.
+ * ```html
+ * <nys-iconlist id="event-details-labelled" aria-label="Event details">
+ *   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+ *   <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
  * </nys-iconlist>
  * ```
  *
@@ -78,7 +88,7 @@ function adoptLightStyles() {
  * ```
  */
 
-export class NysIconlist extends LitElement {
+export class NysIconlist extends NysElement {
   /**
    * Unique identifier. Auto-generated if not provided.
    */
@@ -92,6 +102,10 @@ export class NysIconlist extends LitElement {
 
   private _childObserver = new MutationObserver(() => this._syncDividers());
 
+  // Tracks children we've already warned about so a MutationObserver churn
+  // (or repeated updated() calls) doesn't spam the console for the same node.
+  private _warnedChildren = new WeakSet<Element>();
+
   // The host must not be a shadow host: Chrome ≥150 demotes role="listitem"
   // on elements slotted into a shadow-host list, so the items have to be
   // direct DOM children of the element carrying role="list".
@@ -100,11 +114,10 @@ export class NysIconlist extends LitElement {
   }
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto id when
+    // one is not provided, preserving the `nys-iconlist-<ts>-<n>` shape.
     super.connectedCallback();
     adoptLightStyles();
-    if (!this.id) {
-      this.id = `nys-iconlist-${Date.now()}-${componentIdCounter++}`;
-    }
     if (!this.hasAttribute("role")) {
       this.setAttribute("role", "list");
     }
@@ -129,6 +142,22 @@ export class NysIconlist extends LitElement {
     const items = Array.from(this.children).filter(
       (el) => el.tagName.toLowerCase() === "nys-iconlistitem",
     );
+
+    // light.scss hides any non-nys-iconlistitem child with display:none,
+    // which silently drops author content from the accessibility tree
+    // (WCAG 1.3.1). Warn so the mistake is visible in dev.
+    Array.from(this.children).forEach((el) => {
+      if (
+        el.tagName.toLowerCase() !== "nys-iconlistitem" &&
+        !this._warnedChildren.has(el)
+      ) {
+        this._warnedChildren.add(el);
+        console.warn(
+          `nys-iconlist: <${el.tagName.toLowerCase()}> is not a <nys-iconlistitem> and will be hidden (display: none), removing it from the accessibility tree. Only <nys-iconlistitem> elements are supported as children.`,
+          el,
+        );
+      }
+    });
 
     items.forEach((item, index) => {
       item.toggleAttribute("divider", this.divider && index < items.length - 1);

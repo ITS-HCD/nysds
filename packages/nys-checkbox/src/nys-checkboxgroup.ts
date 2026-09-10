@@ -1,10 +1,16 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-checkboxgroup is used. Importing them
+// here (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
 import type { NysCheckbox } from "./nys-checkbox";
-
-let checkboxgroupIdCounter = 0;
 
 /**
  * A container for grouping multiple `nys-checkbox` components as a single form control.
@@ -102,7 +108,7 @@ let checkboxgroupIdCounter = 0;
  * ```
  */
 
-export class NysCheckboxgroup extends LitElement {
+export class NysCheckboxgroup extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -151,28 +157,21 @@ export class NysCheckboxgroup extends LitElement {
   @state() private _slottedDescriptionText = "";
   @state() private _hasOtherError = false;
   @state() private _otherErrorCheckbox: NysCheckbox | null = null;
-  @state() private _hasSharedNames = false;
 
-  private _internals: ElementInternals;
+  // Not reactive: only read by event handlers, never by render.
+  private _hasSharedNames = false;
 
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
 
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-checkboxgroup-${Date.now()}-${checkboxgroupIdCounter++}`;
-    }
     this.addEventListener("nys-change", this._handleCheckboxChange);
     this.addEventListener("nys-other-input", this._handleOtherInput);
     this.addEventListener("invalid", this._handleInvalid);
@@ -195,7 +194,9 @@ export class NysCheckboxgroup extends LitElement {
     this._updateCheckboxSize();
     this._updateCheckboxTile();
     this._updateCheckboxShowError();
-    this._getSlotDescriptionForAria();
+    // `_getSlotDescriptionForAria` runs off the description slot's `slotchange`
+    // instead: setting state here would land after the update completed and
+    // force a second render (see lit.dev/msg/change-in-update).
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -250,7 +251,7 @@ export class NysCheckboxgroup extends LitElement {
       ? await (firstCheckbox as any).getInputElement()
       : null;
 
-    this._internals.setValidity(
+    this.setValidityFromState(
       { valueMissing: true },
       message,
       firstCheckboxInput ? firstCheckboxInput : this,
@@ -260,7 +261,7 @@ export class NysCheckboxgroup extends LitElement {
   // Updates the required attribute of each checkbox in the group
   private async _manageRequire() {
     if (!this.required) {
-      this._internals.setValidity({});
+      this.clearValidity();
       this.showError = false;
       return;
     }
@@ -279,14 +280,14 @@ export class NysCheckboxgroup extends LitElement {
       : null;
 
     // Always clear validation first to prevent message lingering
-    this._internals.setValidity({});
+    this.clearValidity();
     this.showError = false;
 
     if (!atLeastOneChecked) {
       // Only set valueMissing if there's no active "other" error
       // If there IS an "other" error, keep that as the primary error
       if (!this._hasOtherError) {
-        this._internals.setValidity(
+        this.setValidityFromState(
           { valueMissing: true },
           message,
           firstCheckboxInput ?? this,
@@ -311,7 +312,7 @@ export class NysCheckboxgroup extends LitElement {
     const textInput =
       this._otherErrorCheckbox?.shadowRoot?.querySelector("nys-textinput");
     const targetElement = textInput || this._otherErrorCheckbox;
-    this._internals.setValidity(
+    this.setValidityFromState(
       { customError: true },
       "Please complete this field.",
       targetElement as HTMLElement,
@@ -384,11 +385,11 @@ export class NysCheckboxgroup extends LitElement {
       checkbox.formResetCallback();
     });
 
-    this._internals.setFormValue("");
+    this.setFormValue("");
 
     // Reset validation UI
     this.showError = false;
-    this._internals.setValidity({});
+    this.clearValidity();
 
     // Re-render UI
     this.requestUpdate();
@@ -398,7 +399,7 @@ export class NysCheckboxgroup extends LitElement {
     event.preventDefault();
 
     // Priority 1: Focus "other" text input when customError is set
-    if (this._internals.validity.customError) {
+    if (this.internals?.validity.customError) {
       const checkboxes = Array.from(
         this.querySelectorAll("nys-checkbox"),
       ) as NysCheckbox[];
@@ -431,7 +432,7 @@ export class NysCheckboxgroup extends LitElement {
 
     if (firstCheckboxInput) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -489,7 +490,7 @@ export class NysCheckboxgroup extends LitElement {
         .map((checkbox: any) => checkbox.value);
 
       this.name = name;
-      this._internals.setFormValue(selectedValues.join(", "));
+      this.setFormValue(selectedValues.join(", "));
     }
     // Check "other" inputs first (they take priority)
     this._checkOtherInputs(checkboxes);
@@ -528,7 +529,7 @@ export class NysCheckboxgroup extends LitElement {
     // Clear the old validation state first so to prevent the old customError message from persisting
     this._hasOtherError = false;
     this._otherErrorCheckbox = null;
-    this._internals.setValidity({});
+    this.clearValidity();
     this.showError = false;
 
     // Then check if we need to set a new required error
@@ -544,7 +545,7 @@ export class NysCheckboxgroup extends LitElement {
     const selectedValues = checkboxes
       .filter((checkbox: any) => checkbox.checked)
       .map((checkbox: any) => checkbox.value);
-    this._internals.setFormValue(selectedValues.join(", "));
+    this.setFormValue(selectedValues.join(", "));
   }
 
   private async _checkOtherInputs(checkboxes: NysCheckbox[]) {
@@ -579,7 +580,7 @@ export class NysCheckboxgroup extends LitElement {
       if (this.required) {
         this._manageRequire();
       } else {
-        this._internals.setValidity({});
+        this.clearValidity();
         this.showError = false;
       }
     }
@@ -596,28 +597,39 @@ export class NysCheckboxgroup extends LitElement {
   render() {
     return html`
       <fieldset
-        aria-label="${this.label}${this._slottedDescriptionText
-          ? ` ${this._slottedDescriptionText}`
-          : this.description
-            ? ` ${this.description}`
-            : ""}"
+        aria-labelledby=${ifDefined(
+          this.label ? this.id + "--label" : undefined,
+        )}
+        aria-label=${ifDefined(
+          !this.label
+            ? `${this._slottedDescriptionText || this.description || ""}`.trim() ||
+                undefined
+            : undefined,
+        )}
         class="nys-checkboxgroup"
         role="radiogroup"
       >
         <nys-label
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           tooltip=${this.tooltip}
         >
-          <slot name="description" slot="description">${this.description}</slot>
+          <slot
+            name="description"
+            slot="description"
+            @slotchange=${this._getSlotDescriptionForAria}
+            >${this.description}</slot
+          >
         </nys-label>
         <div class="nys-checkboxgroup__content">
           <slot></slot>
         </div>
         <nys-errormessage
+          id=${this.id + "--error"}
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.internals?.validationMessage || this.errorMessage}
           .showDivider=${!this.tile}
         ></nys-errormessage>
       </fieldset>
