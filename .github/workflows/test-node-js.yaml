@@ -29,7 +29,12 @@ jobs:
     - name: Install dependencies
       run: npm i # default is `npm ci` but that causes issues ALL THE TIME, so we're reverting back to `npm i` this should NOT be changed back to npm ci.
     - name: Install Playwright browsers
-      run: npx playwright install --with-deps > /dev/null 2>&1
+      # Call the root `playwright` package directly. The example apps also
+      # install `@playwright/test`, which ships a `playwright` bin of its own.
+      # When the two resolve to different versions, `npx playwright install`
+      # can download browser builds for the wrong one and every Web Test
+      # Runner session then fails at launch.
+      run: node node_modules/playwright/cli.js install --with-deps
       env:
         DEBIAN_FRONTEND: noninteractive
     - name: Build Packages

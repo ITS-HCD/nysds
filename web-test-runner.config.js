@@ -28,6 +28,11 @@ export default {
     "packages/**/*.test.ts",
     "src/**/*.test.ts",
     "!packages/mcp-server/**",
+    // Node-only suites (node:test, vitest) run through their own package
+    // `test` scripts, not in a browser.
+    "!packages/codegen/**",
+    "!packages/react/**",
+    "!packages/angular/**",
   ],
   nodeResolve: true,
   filterBrowserLogs,
