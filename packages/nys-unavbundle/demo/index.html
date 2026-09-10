@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>nys-unavbundle drop-in demo</title>
+    <!--
+      Deliberately the only NYSDS asset on the page: no @nysds/styles, no token
+      stylesheet, no icon directory. If the nav renders correctly here, the
+      bundle is genuinely self-contained.
+    -->
+    <script src="../dist/nys-unavbundle.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+      }
+      main {
+        max-width: 60rem;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
+    <main>
+      <h1>Drop-in bundle demo</h1>
+      <p>
+        This page loads one script and nothing else. The header and footer below
+        come from <code>@nysds/nys-unavbundle</code>.
+      </p>
+    </main>
+    <nys-unavfooter></nys-unavfooter>
+  </body>
+</html>

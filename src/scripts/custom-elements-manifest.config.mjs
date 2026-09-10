@@ -170,6 +170,7 @@ export default {
     "**/packages/**/*library.ts",
     "**/packages/styles/**",
     "**/packages/internals/**",
+    "**/packages/nys-unavbundle/**", // Re-bundles other packages' elements; declares none of its own
     "**/packages/mcp-server/**",
     "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],
