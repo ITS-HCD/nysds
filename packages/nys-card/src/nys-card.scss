@@ -266,7 +266,7 @@
 
     /* UI/Medium/Regular */
     font-family: var(--nys-font-family-ui, "Proxima Nova");
-    font-size: var(--nys-font-size-ui-md, 16px);
+    font-size: var(--_nys-card-font-size--description);
     font-style: normal;
     font-weight: 400;
     line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */

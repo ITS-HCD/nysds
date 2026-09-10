@@ -597,3 +597,50 @@ export const StretchToFillColumnHeight: Story = {
     },
   },
 };
+
+export const OverrideFontSizesToMD: Story = {
+  render: () => {
+    return html`
+      <style>
+        nys-card {
+          --nys-card-font-size--preheading: var(--nys-font-size-ui-sm, 14px);
+          --nys-card-font-size--heading: var(--nys-font-size-h4, 22px);
+          --nys-card-font-size--subheading: var(--nys-font-size-ui-md, 16px);
+          --nys-card-font-size--description: var(--nys-font-size-ui-sm, 14px);
+        }
+      </style>
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+        <nys-card
+          preheading="Preheading"
+          heading="Heading"
+          subheading="Subheading"
+          description="A short description of the card's subject."
+        ></nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<style>
+  nys-card {
+    --nys-card-font-size--preheading: var(--nys-font-size-ui-sm, 14px);
+    --nys-card-font-size--heading: var(--nys-font-size-h4, 22px);
+    --nys-card-font-size--subheading: var(--nys-font-size-ui-md, 16px);
+    --nys-card-font-size--description: var(--nys-font-size-ui-sm, 14px);
+  }
+</style>
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+  <nys-card
+    preheading="Preheading"
+    heading="Heading"
+    subheading="Subheading"
+    description="A short description of the card's subject."
+  ></nys-card>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
