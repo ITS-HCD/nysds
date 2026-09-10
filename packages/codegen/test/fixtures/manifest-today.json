@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "Trimmed fixture manifest: today's state. No formControl blocks, bare CustomEvent/Event types.",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-button/src/nys-button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysButton",
+          "customElement": true,
+          "tagName": "nys-button",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Button. Allowlisted: extends the form superclass but is not a bindable control.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Button text.",
+              "attribute": "label"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-checkbox/src/nys-checkbox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysCheckbox",
+          "customElement": true,
+          "tagName": "nys-checkbox",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Checkbox without a formControl block.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Whether the checkbox is checked.",
+              "attribute": "checked"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Visible label text.",
+              "attribute": "label"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-change",
+              "type": { "text": "CustomEvent" },
+              "description": "Fired when checked state changes."
+            },
+            {
+              "name": "nys-blur",
+              "type": { "text": "Event" },
+              "description": "Fired when the checkbox loses focus."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-textinput/src/nys-textinput.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysTextinput",
+          "customElement": true,
+          "tagName": "nys-textinput",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Text input without a formControl block.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Visible label text.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": { "text": "string" },
+              "default": "\"\"",
+              "description": "Current input value.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Marks the field required.",
+              "attribute": "required"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-input",
+              "type": { "text": "CustomEvent" },
+              "description": "Fired on input."
+            },
+            {
+              "name": "nys-focus",
+              "type": { "text": "Event" },
+              "description": "Fired when the input gains focus."
+            },
+            {
+              "name": "nys-blur",
+              "type": { "text": "Event" },
+              "description": "Fired when the input loses focus."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-toggle/src/nys-toggle.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "NysToggle",
+          "customElement": true,
+          "tagName": "nys-toggle",
+          "superclass": { "name": "NysFormControlElement" },
+          "description": "Toggle without a formControl block.",
+          "members": [
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": { "text": "boolean" },
+              "default": "false",
+              "description": "Whether the toggle is on.",
+              "attribute": "checked"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-change",
+              "type": { "text": "CustomEvent" },
+              "description": "Fired when the state changes."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
