@@ -46,6 +46,20 @@
   --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
   --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
+  //Heading font size overrides
+  --_nys-card-font-size--preheading: var(
+    --nys-card-font-size--preheading,
+    var(--nys-font-size-ui-md, 16px)
+  );
+  --_nys-card-font-size--heading: var(
+    --nys-card-font-size--heading,
+    var(--nys-font-size-h2, 28px)
+  );
+  --_nys-card-font-size--subheading: var(
+    --nys-card-font-size--preheading,
+    var(--nys-font-size-ui-lg, 18px)
+  );
+
   /* Width belongs on the host: it is the box the page lays out. As a flex item
      the host is shrink-to-fit by default, and a percentage width inside the
      shadow root cannot widen it — .nys-card only fills whatever lands here. */
@@ -189,7 +203,7 @@
 
     /* UI/Medium/Bold */
     font-family: var(--nys-font-family-ui, "Proxima Nova");
-    font-size: var(--nys-font-size-ui-md, 16px);
+    font-size: var(--_nys-card-font-size--preheading);
     font-style: normal;
     font-weight: 700;
     line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
@@ -217,7 +231,7 @@
 
     /* UI/Heading/Heading 2/Bold */
     font-family: var(--nys-font-family-heading, "Proxima Nova");
-    font-size: var(--nys-font-size-h2, 28px);
+    font-size: var(--_nys-card-font-size--heading);
     font-style: normal;
     font-weight: 700;
     line-height: var(--nys-font-lineheight-h2, 36px); /* 128.571% */
@@ -234,7 +248,7 @@
 
     /* UI/Large/Semibold */
     font-family: var(--nys-font-family-ui, "Proxima Nova");
-    font-size: var(--nys-font-size-ui-lg, 18px);
+    font-size: var(--_nys-card-font-size--subheading);
     font-style: normal;
     font-weight: 600;
     line-height: var(--nys-font-lineheight-ui-lg, 28px); /* 155.556% */
