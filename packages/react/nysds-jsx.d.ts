@@ -1454,6 +1454,7 @@ export type CustomElements = {
    * - **--nys-card-font-size--preheading** - Font size of the Preheading. _(default: var(--nys-font-size-ui-md, 16px))_
    * - **--nys-card-font-size--heading** - Font size of the Heading. _(default: var(--nys-font-size-h2, 28px))_
    * - **--nys-card-font-size--subheading** - Font size of the Subheading. _(default: var(--nys-font-size-ui-lg, 18px))_
+   * - **--nys-card-font-size--description** - Font size of the Description. _(default: var(--nys-font-size-ui-md, 16px))_
    */
   "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 

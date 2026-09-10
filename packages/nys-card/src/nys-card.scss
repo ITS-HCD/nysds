@@ -40,13 +40,12 @@
 
   /* UI/Medium/Regular */
   --_nys-card-font-family: var(--nys-font-family-ui, "Proxima Nova");
-  --_nys-card-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-card-font-style: normal;
   --_nys-card-font-weight: 400;
   --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
   --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
-  // Heading font size overrides
+  // Font size overrides
   --_nys-card-font-size--preheading: var(
     --nys-card-font-size--preheading,
     var(--nys-font-size-ui-md, 16px)
@@ -56,8 +55,12 @@
     var(--nys-font-size-h2, 28px)
   );
   --_nys-card-font-size--subheading: var(
-    --nys-card-font-size--preheading,
+    --nys-card-font-size--subheading,
     var(--nys-font-size-ui-lg, 18px)
+  );
+  --_nys-card-font-size--description: var(
+    --nys-card-font-size--description,
+    var(--nys-font-size-ui-md, 16px)
   );
 
   /* Width belongs on the host: it is the box the page lays out. As a flex item
@@ -99,7 +102,7 @@
 .nys-card {
   color: var(--_nys-card-color);
   font-family: var(--_nys-card-font-family);
-  font-size: var(--_nys-card-font-size);
+  font-size: var(--_nys-card-font-size--description);
   font-style: var(--_nys-card-font-style);
   font-weight: var(--_nys-card-font-weight);
   line-height: var(--_nys-card-line-height);

@@ -3062,6 +3062,11 @@
               "description": "Font size of the Subheading.",
               "name": "--nys-card-font-size--subheading",
               "default": "var(--nys-font-size-ui-lg, 18px)"
+            },
+            {
+              "description": "Font size of the Description.",
+              "name": "--nys-card-font-size--description",
+              "default": "var(--nys-font-size-ui-md, 16px)"
             }
           ],
           "slots": [

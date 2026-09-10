@@ -31,6 +31,7 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * @cssprop [--nys-card-font-size--preheading=var(--nys-font-size-ui-md, 16px)] - Font size of the Preheading.
  * @cssprop [--nys-card-font-size--heading=var(--nys-font-size-h2, 28px)] - Font size of the Heading.
  * @cssprop [--nys-card-font-size--subheading=var(--nys-font-size-ui-lg, 18px)] - Font size of the Subheading.
+ * @cssprop [--nys-card-font-size--description=var(--nys-font-size-ui-md, 16px)] - Font size of the Description.
  *
  * @fires nys-click - Fired when an interactive card is activated (mouse or keyboard).
  * @fires nys-focus - Fired when an interactive card receives focus.
