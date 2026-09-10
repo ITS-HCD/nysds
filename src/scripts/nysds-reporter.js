@@ -320,15 +320,33 @@ export function nysdsReporter({
         logger.log("");
       }
 
-      // Timed out
+      // No test results from any browser. Either the tests never finished
+      // (a real timeout) or the session failed before the tests started
+      // (browser launch failure, module load error). The runner attaches
+      // the reason to session.errors; surface it instead of guessing.
       if (timedOut) {
         const allBrowsers = sessionsForTestFile.map(
           (s) => s.browser?.name || "unknown",
         );
+        const sessionErrors = new Set();
+        for (const session of sessionsForTestFile) {
+          for (const err of session.errors ?? []) {
+            sessionErrors.add(err?.message || String(err));
+          }
+        }
         logger.log("");
-        logger.log(`⏱️  Timeout: ${fileName}`);
-        logger.log(sep);
-        logger.log("Browser tests did not finish within the timeout.");
+        if (sessionErrors.size > 0) {
+          logger.log(`❌ Session failed: ${fileName}`);
+          logger.log(sep);
+          logger.log("Browser session ended before any tests reported.");
+          for (const message of sessionErrors) {
+            logger.log(`🚫 Error:     ${c(message.split("\n")[0], RED)}`);
+          }
+        } else {
+          logger.log(`⏱️  Timeout: ${fileName}`);
+          logger.log(sep);
+          logger.log("Browser tests did not finish within the timeout.");
+        }
         logger.log(sep);
         logger.log(`👨‍💻 Browsers:  ${formatBrowserList(allBrowsers)}`);
         logger.log("");
