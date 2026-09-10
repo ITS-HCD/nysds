@@ -39,6 +39,10 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
     - name: Build Packages
       run: npm run build:all
+    - name: Test codegen
+      # Node-only suites (node:test). They are excluded from the Web Test
+      # Runner glob because that runner executes files in Playwright browsers.
+      run: npm test -w @nysds/codegen
     - name: Test Components
       run: npm run test:ai
       # continue-on-error: true
