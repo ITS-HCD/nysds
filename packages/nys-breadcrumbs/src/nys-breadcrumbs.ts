@@ -8,6 +8,19 @@ import { NysElement } from "@nysds/internals";
 import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-breadcrumbs.scss?inline";
+// @ts-ignore: SCSS module imported via bundler as inline
+import lightStyles from "./nys-breadcrumbs.light.scss?inline";
+
+let _lightSheet: CSSStyleSheet | null = null;
+// Injects the lightDOM styling for the scss into the adopted/constructed stylesheet.
+function adoptLightStyles() {
+  if (_lightSheet || typeof document === "undefined") return;
+  _lightSheet = new CSSStyleSheet();
+  _lightSheet.replaceSync(lightStyles);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
+}
+
+const INJECTED_ATTR = "data-nys-injected";
 
 /**
  * A breadcrumb navigation trail composed of `li` elements.
@@ -188,6 +201,8 @@ export class NysBreadcrumbs extends NysElement {
     // accessible name), so defaultRole stays null and no host role is reflected.
     super.connectedCallback();
 
+    adoptLightStyles();
+
     this._mediaQuery = window.matchMedia("(max-width: 767px)");
     this._mediaQuery.addEventListener("change", this._updateCollapseThreshold);
   }
@@ -202,6 +217,9 @@ export class NysBreadcrumbs extends NysElement {
   }
 
   firstUpdated() {
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    slot?.addEventListener("slotchange", () => this._handleSlotChange());
+    slot?.addEventListener("click", this._boundDisabledClickGuard);
     this._handleSlotChange();
   }
 
@@ -231,21 +249,29 @@ export class NysBreadcrumbs extends NysElement {
     }
   };
 
+  private _boundDisabledClickGuard = (e: Event) => {
+    const a = (e.target as HTMLElement)?.closest?.("a");
+    if (a?.getAttribute("aria-disabled") === "true") {
+      e.preventDefault();
+    }
+  };
+
   private _getSlottedOl(): HTMLOListElement | null {
-    const slot = this.shadowRoot?.querySelector(
-      "slot",
-    ) as HTMLSlotElement | null;
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     const assigned = slot?.assignedElements({ flatten: true }) ?? [];
     return (
       (assigned.find((el) => el.tagName === "OL") as HTMLOListElement) ?? null
     );
   }
 
-  private _getSlottedItems(): HTMLLIElement[] {
-    const ol = this._getSlottedOl();
-    if (!ol) return [];
+  private _getSlottedItems(ol: HTMLOListElement): HTMLLIElement[] {
+    // const ol = this._getSlottedOl();
+    // if (!ol) return [];
+    // return Array.from(ol.children).filter(
+    //   (el) => el.tagName === "LI",
+    // ) as HTMLLIElement[];
     return Array.from(ol.children).filter(
-      (el) => el.tagName === "LI",
+      (el) => el.tagName === "LI" && !el.hasAttribute(INJECTED_ATTR),
     ) as HTMLLIElement[];
   }
 
@@ -254,70 +280,98 @@ export class NysBreadcrumbs extends NysElement {
   }
 
   private _isCurrentPage(li: HTMLLIElement): boolean {
-    const a = this._getAnchor(li);
-    if (!a) return true;
-    return false;
+    return !this._getAnchor(li);
   }
 
-  private _createBackToParentElement(li: HTMLLIElement) {
-    const anchor = this._getAnchor(li);
-    const link = anchor?.getAttribute("href") ?? "";
-    const label = anchor?.textContent?.trim() ?? li.textContent?.trim() ?? "";
-
-    const liEL = document.createElement("li");
-    liEL.className = "nys-breadcrumbitem";
-
+  private _createIcon(name: string, size: string): HTMLElement {
     const icon = document.createElement("nys-icon");
-    icon.setAttribute("name", "arrow_back");
-    icon.setAttribute("size", "16");
-
-    const a = document.createElement("a");
-    if (!this.disabled) {
-      a.href = link;
-    }
-    a.textContent = label;
-    if (this.disabled) {
-      a.setAttribute("aria-disabled", "true");
-    }
-
-    liEL.appendChild(icon);
-    liEL.appendChild(a);
-
-    return liEL;
+    icon.setAttribute("name", name);
+    icon.setAttribute("size", size);
+    icon.setAttribute(INJECTED_ATTR, "true");
+    return icon;
   }
 
-  private _createCrumbElement(li: HTMLLIElement, isCurrentPage: boolean) {
-    const anchor = this._getAnchor(li);
-    const link = anchor?.getAttribute("href") ?? "";
-    const label = anchor?.textContent?.trim() ?? li.textContent?.trim() ?? "";
+  private _resetItem(li: HTMLLIElement) {
+    li.className = "";
+    li.removeAttribute("aria-current");
 
-    const liEl = document.createElement("li");
-    liEl.className = "nys-breadcrumbitem";
+    li.querySelectorAll(`[${INJECTED_ATTR}]`).forEach((el) => el.remove());
+
+    const a = this._getAnchor(li);
+    if (a) {
+      a.removeAttribute("aria-disabled");
+      a.removeAttribute("tabindex");
+    }
+  }
+
+  private _applyDisabledState(a: HTMLAnchorElement) {
+    if (!this.disabled) return;
+    a.setAttribute("aria-disabled", "true");
+    a.setAttribute("tabindex", "-1");
+  }
+
+  private _applyBackToParentStyle(li: HTMLLIElement) {
+    li.classList.add("nys-breadcrumbitem", "back-to-parent");
+    const a = this._getAnchor(li);
+    if (a) {
+      this._applyDisabledState(a);
+      a.insertAdjacentElement(
+        "beforebegin",
+        this._createIcon("arrow_back", "16"),
+      );
+    }
+  }
+
+  private _applyCrumbStyle(li: HTMLLIElement, isCurrentPage: boolean) {
+    li.classList.add("nys-breadcrumbitem");
 
     if (isCurrentPage) {
       // WCAG 4.1.2 / WAI-ARIA breadcrumb pattern: the current page must be
       // programmatically identified so assistive tech announces "current page".
-      liEl.setAttribute("aria-current", "page");
-      liEl.textContent = label;
-      return liEl;
+      li.setAttribute("aria-current", "page");
+      return;
     }
 
-    const a = document.createElement("a");
-    if (!this.disabled) {
-      a.href = link;
+    const a = this._getAnchor(li);
+    if (a) {
+      this._applyDisabledState(a);
+      a.insertAdjacentElement(
+        "afterend",
+        this._createIcon("chevron_right", "14"),
+      );
     }
-    a.textContent = label;
-    if (this.disabled) {
-      a.setAttribute("aria-disabled", "true");
-    }
+  }
 
-    const icon = document.createElement("nys-icon");
-    icon.setAttribute("name", "chevron_right");
-    icon.setAttribute("size", "14");
+  private _insertEllipsis(referenceLi: HTMLLIElement) {
+    const ellipsis = document.createElement("li");
+    ellipsis.classList.add("nys-breadcrumbs__ellipsis");
+    ellipsis.setAttribute(INJECTED_ATTR, "true");
 
-    liEl.appendChild(a);
-    liEl.appendChild(icon);
-    return liEl;
+    const button = document.createElement("a");
+    button.classList.add("ellipsis-btn");
+    button.setAttribute("aria-label", "Show more links");
+    button.setAttribute("role", "button");
+    button.setAttribute("href", "#");
+    button.textContent = "…";
+
+    const expandTrail = (e: Event) => {
+      e.preventDefault();
+      this._manuallyExpanded = true;
+      this.collapsed = false;
+      this._handleSlotChange();
+      this._dispatchExpandEvent();
+      this._moveFocusToFirstExpandCrumb();
+    };
+
+    button.addEventListener("click", expandTrail);
+    button.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === " ") expandTrail(e);
+    });
+
+    ellipsis.appendChild(button);
+    ellipsis.appendChild(this._createIcon("chevron_right", "14"));
+
+    referenceLi.insertAdjacentElement("afterend", ellipsis);
   }
 
   /**
@@ -326,37 +380,40 @@ export class NysBreadcrumbs extends NysElement {
    */
   private _handleSlotChange() {
     const isMobile = this._mediaQuery?.matches ?? window.innerWidth < 768;
-    const ol = this.shadowRoot?.getElementById("crumb-list");
+    const ol = this._getSlottedOl();
     if (!ol) return;
 
-    const items = this._getSlottedItems();
+    // Reset to remove injected elements
+    ol.querySelectorAll(`li[${INJECTED_ATTR}]`).forEach((el) => el.remove());
+
+    const items = this._getSlottedItems(ol);
     if (items.length === 0) return;
 
-    ol.innerHTML = "";
+    items.forEach((li) => this._resetItem(li));
 
     // ---------------------------------------------------------
 
-    const setCrumbAsBackToParentBtn = (index = 0) => {
-      const clone = items[index].cloneNode(true) as HTMLLIElement;
-
-      const backToParentBtn = this._createBackToParentElement(clone);
-      ol.appendChild(backToParentBtn);
-    };
-
-    // Single breadcrumb item OR backToParent=true for mobile - render as backToParent button
+    // Single breadcrumb item - always render as backToParent style
     if (items.length === 1) {
-      setCrumbAsBackToParentBtn();
+      this._applyBackToParentStyle(items[0]);
       return;
     }
 
+    // The backToParent=true for mobile - render as backToParent button
     if (isMobile && this.backToParent) {
-      const currentPageExist = this._isCurrentPage(items[items.length - 1]);
+      const currentPageExists = this._isCurrentPage(items[items.length - 1]);
+      const targetIndex = currentPageExists
+        ? items.length - 2
+        : items.length - 1;
 
-      if (currentPageExist) {
-        setCrumbAsBackToParentBtn(items.length - 2);
-      } else {
-        setCrumbAsBackToParentBtn(items.length - 1);
-      }
+      items.forEach((li, index) => {
+        if (index === targetIndex) {
+          this._applyBackToParentStyle(li);
+        } else {
+          this._applyCrumbStyle(li, this._isCurrentPage(li));
+          li.classList.add("hide");
+        }
+      });
       return;
     }
 
@@ -374,25 +431,16 @@ export class NysBreadcrumbs extends NysElement {
     );
 
     // Normal multi-item breadcrumb trail
-    items.forEach((crumb, index) => {
-      const crumbIsBeforeCollapse = index < itemsBeforeCollapse;
-      const crumbIsAfterCollapse = index >= items.length - itemsAfterCollapse;
-      const isAlwaysVisible = crumbIsBeforeCollapse || crumbIsAfterCollapse;
+    items.forEach((li, index) => {
+      const isBeforeCollapse = index < itemsBeforeCollapse;
+      const isAfterCollapse = index >= items.length - itemsAfterCollapse;
+      const isAlwaysVisible = isBeforeCollapse || isAfterCollapse;
       const shouldHide = collapseTrail && !isAlwaysVisible; // Determines which of the crumbs is hidden
 
-      const liEl = this._createCrumbElement(crumb, this._isCurrentPage(crumb));
-      liEl.setAttribute("data-cloned", "true");
+      this._applyCrumbStyle(li, this._isCurrentPage(li));
 
-      if (shouldHide) {
-        liEl.classList.add("hide");
-      }
-
-      if (!isAlwaysVisible) {
-        // Assigning which crumb is an intermediate item (aka hidable) allows us to later redirect focus on the first of these intermediates.
-        liEl.classList.add("intermediate");
-      }
-
-      ol.appendChild(liEl);
+      if (shouldHide) li.classList.add("hide");
+      if (!isAlwaysVisible) li.classList.add("intermediate");
 
       // Insert ellipsis before the first hidden cloned item when collapsed
       if (
@@ -400,48 +448,16 @@ export class NysBreadcrumbs extends NysElement {
         collapseTrail &&
         items.length > 2
       ) {
-        const ellipsis = document.createElement("li");
-        ellipsis.classList.add("nys-breadcrumbs__ellipsis");
-
-        // Ellipse button
-        const button = document.createElement("a");
-        button.classList.add("ellipsis-btn");
-        button.setAttribute("aria-label", "Show more links");
-        button.setAttribute("role", "button");
-        button.setAttribute("href", "#");
-        button.textContent = "…";
-
-        const expandTrail = (e: Event) => {
-          e.preventDefault();
-          this._manuallyExpanded = true;
-          this.collapsed = false;
-          this._handleSlotChange();
-          this._dispatchExpandEvent();
-          this._moveFocusToFirstExpandCrumb();
-        };
-
-        button.addEventListener("click", expandTrail);
-        button.addEventListener("keydown", (e: KeyboardEvent) => {
-          if (e.key === " ") expandTrail(e);
-        });
-
-        // Chevron Icon
-        const icon = document.createElement("nys-icon");
-        icon.setAttribute("name", "chevron_right");
-        icon.setAttribute("size", "14");
-
-        ellipsis.appendChild(button);
-        ellipsis.appendChild(icon);
-        ol.appendChild(ellipsis);
+        this._insertEllipsis(li);
       }
     });
   }
 
   private _moveFocusToFirstExpandCrumb() {
     setTimeout(() => {
-      const ol = this.shadowRoot?.getElementById("crumb-list");
-      const firstClone = ol?.querySelector("li[data-cloned].intermediate");
-      firstClone?.querySelector<HTMLAnchorElement>("a")?.focus();
+      const ol = this._getSlottedOl();
+      const firstIntermediate = ol?.querySelector("li.intermediate");
+      firstIntermediate?.querySelector<HTMLAnchorElement>("a")?.focus();
     }, 0);
   }
 
@@ -466,8 +482,7 @@ export class NysBreadcrumbs extends NysElement {
         : ""}"
       aria-label=${this.ariaLabel || "Breadcrumb"}
     >
-      <ol id="crumb-list"></ol>
-      <slot style="display: none;" @slotchange=${this._handleSlotChange}></slot>
+      <slot @slotchange=${this._handleSlotChange}></slot>
     </nav>`;
   }
 }
