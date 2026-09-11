@@ -654,8 +654,6 @@ An explicit name replaces the reference to the visible heading. */
 };
 
 export type NysGlobalHeaderProps = {
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: string;
   /** Application name displayed prominently. */
   appName?: string;
   /** Agency name displayed below app name (or as main title if no appName). */

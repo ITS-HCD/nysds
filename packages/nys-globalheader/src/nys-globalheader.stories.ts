@@ -147,40 +147,11 @@ export const WithLinks: Story = {
   },
 };
 
-export const AuthorcontrolledActiveLink: Story = {
-  render: () => {
-    return html`
-      <!-- Set aria-current yourself and the header stops guessing from the URL. -->
-      <nys-globalheader agencyName="Office of Information Technology Services">
-        <ul>
-          <li><a href="#/services">Services</a></li>
-          <li><a href="#/help" aria-current="page">Help Center</a></li>
-        </ul>
-      </nys-globalheader>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<!-- Set aria-current yourself and the header stops guessing from the URL. -->
-<nys-globalheader agencyName="Office of Information Technology Services">
-  <ul>
-    <li><a href="#/services">Services</a></li>
-    <li><a href="#/help" aria-current="page">Help Center</a></li>
-  </ul>
-</nys-globalheader>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const UserActions: Story = {
   render: () => {
     return html`
       <nys-globalheader agencyName="Office of Information Technology Services">
-        <nys-button slot="user-actions" label="Log out">
+        <nys-button id="my-action-slot" slot="user-actions" label="Log out">
           <nys-avatar
             slot="prefix-icon"
             ariaLabel="User avatar"
@@ -214,7 +185,7 @@ export const UserActions: Story = {
       source: {
         code: `
 <nys-globalheader agencyName="Office of Information Technology Services">
-  <nys-button slot="user-actions" label="Log out">
+  <nys-button id="my-action-slot" slot="user-actions" label="Log out">
     <nys-avatar slot="prefix-icon" ariaLabel="User avatar" initials="NY"></nys-avatar>
   </nys-button>
 </nys-globalheader>
