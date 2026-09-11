@@ -18,7 +18,8 @@ export default [
       "storybook-static/**",
       "packages/styles/uswds/**/*.js",
       "**/coverage/**",
-      "packages/react/**"
+      "packages/react/**",
+      "packages/angular/**",
     ],
     languageOptions: {
       ecmaVersion: "latest",

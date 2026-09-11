@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.\n\nUse `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,\n`text` for inline. Set `href` to render as a navigation link.\n\nARIA belongs on the component\'s props, not on the `<nys-button>` host. The host has no role,\nso attributes placed there are not mapped into the accessibility tree and never reach the\ninternal `<button>`. For a disclosure trigger use `ariaExpanded` together with `ariaControls`.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysButton label="Button" variant="filled" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-button label="Button" variant="filled"></nys-button>\n```',
+      },
     },
   },
 };

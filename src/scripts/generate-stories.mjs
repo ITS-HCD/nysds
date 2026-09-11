@@ -21,6 +21,7 @@
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
+import { transformExample } from "@nysds/codegen";
 
 /**
  * Known module-scope setup helpers. When a hoisted <script data-scope="module">
@@ -92,6 +93,47 @@ function inferTitle(componentName) {
     .map((w) => w[0].toUpperCase() + w.slice(1))
     .join("");
   return `Components/${base}`;
+}
+
+/**
+ * Builds a "### Frameworks" markdown section showing the React and Angular
+ * translation of one HTML example, via the same `transformExample` the docs
+ * site and MCP server use. Static text — no live framework rendering — and
+ * limited to the first example per component so autodocs pages don't bloat.
+ * Falls back to no section (never throws, never surfaces raw HTML as
+ * "framework code") when the example isn't declarative markup or the
+ * transform can't express it in one of the two frameworks.
+ */
+function buildFrameworksSection(example, manifest) {
+  const html = example?.code;
+  if (!html || !html.trim().startsWith("<")) return "";
+
+  let react;
+  let angular;
+  try {
+    react = transformExample({ html, framework: "react", manifest });
+    angular = transformExample({ html, framework: "angular", manifest });
+  } catch (e) {
+    console.warn(`[generate-stories] Frameworks section failed for "${example.title}": ${e.message}`);
+    return "";
+  }
+  if (react.unsupported && angular.unsupported) return "";
+
+  return [
+    "### Frameworks",
+    "",
+    "**React** (`@nysds/react`)",
+    "",
+    "```jsx",
+    react.code.trim(),
+    "```",
+    "",
+    "**Angular** (`@nysds/angular`)",
+    "",
+    "```html",
+    angular.code.trim(),
+    "```",
+  ].join("\n");
 }
 
 function indent(str, n) {
@@ -616,6 +658,16 @@ async function main() {
 
     const title = inferTitle(componentName);
 
+    // Frameworks section: React/Angular translation of the first example
+    // only, appended to the component-level docs description (so it renders
+    // near the top of the autodocs page, right after the JSDoc description
+    // Storybook would otherwise show there on its own).
+    const componentDescription = tagToDeclaration[componentName]?.description;
+    const frameworksSection = buildFrameworksSection(allExamples[0], cem);
+    const docsDescription = [componentDescription, frameworksSection]
+      .filter(Boolean)
+      .join("\n\n");
+
     const usedTags = new Set();
     allExamples.forEach(({ renderCode }) => {
       if (!renderCode) return;
@@ -723,13 +775,17 @@ async function main() {
       .filter(Boolean)
       .join("\n");
 
+    const descriptionField = docsDescription
+      ? `\n      description: {\n        component: ${JSON.stringify(docsDescription)},\n      },`
+      : "";
+
     const metaBlock = `const meta: Meta = {
   title: "${title}",
   component: "${componentName}",
   parameters: {
     docs: {
       source: { type: "dynamic" },
-      inlineStories: true,
+      inlineStories: true,${descriptionField}
     },
   },
 };

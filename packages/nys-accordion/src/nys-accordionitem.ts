@@ -8,6 +8,17 @@ import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
 
+/** Detail payload for the `nys-accordionitem-toggle` event fired by `nys-accordionitem`. */
+export interface NysAccordionitemToggleDetail {
+  id: string;
+  heading: string;
+  expanded: boolean;
+}
+
+/** The `nys-accordionitem-toggle` event fired by `nys-accordionitem`. */
+export type NysAccordionitemToggleEvent =
+  CustomEvent<NysAccordionitemToggleDetail>;
+
 /**
  * Heading levels an accordion trigger may occupy. `h1` is intentionally absent:
  * the trigger is never the page title, so the shallowest useful level is `h2`.
@@ -52,7 +63,7 @@ function normalizeAccordionHeadingLevel(
  *
  * @slot - Default slot for panel content shown when expanded.
  *
- * @fires nys-accordionitem-toggle - Fired when expanded state changes. Detail: `{id, heading, expanded}`.
+ * @fires {NysAccordionitemToggleEvent} nys-accordionitem-toggle - Fired when expanded state changes. Detail: `{id, heading, expanded}`.
  *
  * @example Expanded item
  * ```html

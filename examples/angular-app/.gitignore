@@ -1,0 +1,6 @@
+dist/
+out-tsc/
+.angular/
+test-results/
+playwright-report/
+src/app/forms-signal/index.ts

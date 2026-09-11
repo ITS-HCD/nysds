@@ -1,0 +1,166 @@
+# Framework package CI (framework-support plan, WS0 task 0.6 + WS5).
+#
+# Builds the monorepo and checks the framework packages (@nysds/react,
+# @nysds/angular) on PRs that touch package, example, or build-script code.
+# The examples job then builds each example app against every framework
+# version in examples/matrix.json and runs its Playwright smoke tests.
+
+name: Frameworks
+
+on:
+  pull_request:
+    branches:
+      - 'develop'
+      - 'main'
+    paths:
+      - 'packages/**'
+      - 'examples/**'
+      - 'src/scripts/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and check framework packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.17.0'
+      - name: Install dependencies
+        # npm ci causes recurring trouble in this repo; keep npm i
+        # (see test-node-js.yaml).
+        run: npm i
+      - name: Build packages
+        run: npm run build:all
+      - name: Typecheck @nysds/react
+        run: |
+          if [ -f packages/react/package.json ]; then
+            npm run typecheck -w @nysds/react
+          else
+            echo "Skipped: packages/react is not a workspace package until WS3."
+          fi
+      - name: Build @nysds/angular
+        run: |
+          if [ -f packages/angular/package.json ]; then
+            npm run build -w @nysds/angular
+          else
+            echo "Skipped: packages/angular is not a workspace package until WS4."
+          fi
+      - name: Guard framework tarball contents
+        # The @nysds/angular@1.18.2 publish shipped src/, demo/,
+        # integration-test/, .turbo/, and a lockfile instead of the built
+        # output. Fail any pack whose file list contains those paths.
+        run: |
+          status=0
+          for w in @nysds/react @nysds/angular; do
+            dir="packages/${w#@nysds/}"
+            if [ ! -f "$dir/package.json" ]; then
+              echo "Skipped $w: not a workspace package yet."
+              continue
+            fi
+            files=$(npm pack --dry-run --json -w "$w" \
+              | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{for(const p of JSON.parse(d))for(const f of p.files)console.log(f.path)})")
+            echo "$w tarball contents:"
+            echo "$files"
+            if echo "$files" | grep -qE '^(src/|demo/|integration-test/|\.turbo/|package-lock\.json$)'; then
+              echo "::error::$w tarball contains files that must not be published (src/, demo/, integration-test/, .turbo/, or package-lock.json)."
+              status=1
+            fi
+          done
+          exit "$status"
+      - name: Package built outputs for the example jobs
+        # The example jobs consume the packages through workspace links,
+        # so they need the built dist directories and the generated
+        # wrapper sources without re-running build:all per matrix cell.
+        run: |
+          tar czf built-packages.tgz \
+            dist \
+            custom-elements.json \
+            packages/*/dist \
+            packages/react/src/generated \
+            packages/angular/src/generated
+      - uses: actions/upload-artifact@v4
+        with:
+          name: built-packages
+          path: built-packages.tgz
+          retention-days: 1
+
+  examples-matrix:
+    name: Read the example version matrix
+    runs-on: ubuntu-latest
+    outputs:
+      include: ${{ steps.matrix.outputs.include }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: matrix
+        name: Expand examples/matrix.json into job entries
+        run: |
+          echo "include=$(node -e '
+            const m = require("./examples/matrix.json");
+            const inc = [];
+            for (const v of m.react) inc.push({ app: "react-vite", framework: "react", version: v });
+            for (const v of m.next) inc.push({ app: "next-app", framework: "next", version: v });
+            for (const v of m.angular) inc.push({ app: "angular-app", framework: "angular", version: v });
+            inc.push({ app: "angular-ngmodule", framework: "angular", version: m.angular[0] });
+            console.log(JSON.stringify(inc));
+          ')" >> "$GITHUB_OUTPUT"
+
+  examples:
+    name: "Example: ${{ matrix.app }} (${{ matrix.framework }} ${{ matrix.version }})"
+    needs: [build, examples-matrix]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.examples-matrix.outputs.include) }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.17.0'
+          cache: npm
+      - name: Install dependencies
+        run: npm i
+      - uses: actions/download-artifact@v4
+        with:
+          name: built-packages
+      - name: Restore built package outputs
+        run: tar xzf built-packages.tgz
+      - name: Pin React ${{ matrix.version }}
+        if: matrix.framework == 'react'
+        run: |
+          major="${VERSION%%.*}"
+          npm i --no-audit --no-fund -w examples/${{ matrix.app }} \
+            "react@${VERSION}" "react-dom@${VERSION}" \
+            "@types/react@${major}" "@types/react-dom@${major}"
+        env:
+          VERSION: ${{ matrix.version }}
+      - name: Pin Next.js ${{ matrix.version }}
+        if: matrix.framework == 'next'
+        run: npm i --no-audit --no-fund -w examples/${{ matrix.app }} "next@${{ matrix.version }}"
+      - name: Pin Angular ${{ matrix.version }}
+        if: matrix.framework == 'angular' && matrix.version != '20'
+        run: node examples/scripts/pin-angular.mjs "${{ matrix.version }}" "examples/${{ matrix.app }}"
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build ${{ matrix.app }}
+        run: npm run build -w examples/${{ matrix.app }}
+      - name: Smoke tests
+        run: npm run test -w examples/${{ matrix.app }}
+        env:
+          CI: 'true'
+      - name: Smoke tests (zoneless)
+        if: matrix.app == 'angular-app'
+        run: npm run test:zoneless -w examples/${{ matrix.app }}
+        env:
+          CI: 'true'

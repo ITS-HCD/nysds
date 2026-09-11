@@ -1,0 +1,13 @@
+{
+  "name": "@nysds/example-shared-tests",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Playwright assertions shared by the NYSDS example apps.",
+  "type": "module",
+  "exports": {
+    "./console": "./console.js",
+    "./kitchen-sink": "./kitchen-sink.js",
+    "./forms": "./forms.js",
+    "./events": "./events.js"
+  }
+}

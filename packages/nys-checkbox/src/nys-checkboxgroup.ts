@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-checkboxgroup is used. Importing them
 // here (intentional side effect) guarantees the visible label and error message —
@@ -12,6 +16,17 @@ import "@nysds/nys-errormessage";
 import styles from "./nys-checkbox.scss?inline";
 import type { NysCheckbox } from "./nys-checkbox";
 
+/** Detail payload for the `nys-change` event fired by `nys-checkboxgroup`. */
+export interface NysCheckboxgroupChangeDetail {
+  id: string;
+  name: string;
+  value: string[];
+}
+
+/** The `nys-change` event fired by `nys-checkboxgroup`. */
+export type NysCheckboxgroupChangeEvent =
+  CustomEvent<NysCheckboxgroupChangeDetail>;
+
 /**
  * A container for grouping multiple `nys-checkbox` components as a single form control.
  * Handles validation, required constraints, and submits comma-separated values.
@@ -21,9 +36,14 @@ import type { NysCheckbox } from "./nys-checkbox";
  *
  * @summary Container for grouping checkboxes as a single form control.
  * @element nys-checkboxgroup
+ * @formControl value nys-change
  *
  * @slot - Default slot for `nys-checkbox` elements.
  * @slot description - Custom HTML description content.
+ *
+ * @fires {NysCheckboxgroupChangeEvent} nys-change - Fired when any child checkbox changes. Detail: `{id, name, value}` where `value` is the checked values as a string array. Bubbles and composed. The child's own `nys-change` keeps bubbling alongside it.
+ * @fires {Event} nys-focus - Fired when focus enters the group from outside. Bubbles and composed.
+ * @fires {Event} nys-blur - Fired when focus leaves the group. Bubbles and composed.
  *
  * @example Basic
  * ```html
@@ -154,6 +174,31 @@ export class NysCheckboxgroup extends NysFormControlElement {
    */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
+  private _value: string[] = [];
+
+  // Guards the value accessor: true while the group syncs `value` from its
+  // children, so the setter doesn't push the same state back down.
+  private _syncingValueFromChildren = false;
+
+  /**
+   * Values of the checked child checkboxes, in DOM order. Setting it
+   * programmatically checks the matching children and updates the form value
+   * without firing `nys-change`.
+   */
+  @property({ attribute: false })
+  get value(): string[] {
+    return this._value;
+  }
+
+  set value(next: string[]) {
+    const old = this._value;
+    this._value = Array.isArray(next) ? [...next] : [];
+    if (!this._syncingValueFromChildren) {
+      this._applyValueToChildren();
+    }
+    this.requestUpdate("value", old);
+  }
+
   @state() private _slottedDescriptionText = "";
   @state() private _hasOtherError = false;
   @state() private _otherErrorCheckbox: NysCheckbox | null = null;
@@ -177,6 +222,8 @@ export class NysCheckboxgroup extends NysFormControlElement {
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("nys-error", this._handleChildError);
     this.addEventListener("nys-error-clear", this._handleChildErrorClear);
+    this.addEventListener("focusin", this._handleFocusIn);
+    this.addEventListener("focusout", this._handleFocusOut);
   }
 
   disconnectedCallback() {
@@ -186,6 +233,8 @@ export class NysCheckboxgroup extends NysFormControlElement {
     this.removeEventListener("invalid", this._handleInvalid);
     this.removeEventListener("nys-error", this._handleChildError);
     this.removeEventListener("nys-error-clear", this._handleChildErrorClear);
+    this.removeEventListener("focusin", this._handleFocusIn);
+    this.removeEventListener("focusout", this._handleFocusOut);
   }
 
   firstUpdated() {
@@ -245,15 +294,15 @@ export class NysCheckboxgroup extends NysFormControlElement {
   // Initial update on checkbox required attribute
   private async _setupCheckboxRequired() {
     const firstCheckbox = this.querySelector("nys-checkbox");
-    const message = this.errorMessage || "This field is required";
 
     const firstCheckboxInput = firstCheckbox
       ? await (firstCheckbox as any).getInputElement()
       : null;
 
+    this.internalValidationMessage = "This field is required";
     this.setValidityFromState(
       { valueMissing: true },
-      message,
+      this.resolvedErrorMessage(),
       firstCheckboxInput ? firstCheckboxInput : this,
     );
   }
@@ -262,12 +311,11 @@ export class NysCheckboxgroup extends NysFormControlElement {
   private async _manageRequire() {
     if (!this.required) {
       this.clearValidity();
+      this.internalValidationMessage = "";
       this.showError = false;
       return;
     }
 
-    const message =
-      this.errorMessage || "You must make a selection to proceed.";
     const checkboxes = Array.from(
       this.querySelectorAll("nys-checkbox"),
     ) as any[];
@@ -281,15 +329,18 @@ export class NysCheckboxgroup extends NysFormControlElement {
 
     // Always clear validation first to prevent message lingering
     this.clearValidity();
+    this.internalValidationMessage = "";
     this.showError = false;
 
     if (!atLeastOneChecked) {
       // Only set valueMissing if there's no active "other" error
       // If there IS an "other" error, keep that as the primary error
       if (!this._hasOtherError) {
+        this.internalValidationMessage =
+          "You must make a selection to proceed.";
         this.setValidityFromState(
           { valueMissing: true },
-          message,
+          this.resolvedErrorMessage(),
           firstCheckboxInput ?? this,
         );
         this.showError = true;
@@ -312,9 +363,10 @@ export class NysCheckboxgroup extends NysFormControlElement {
     const textInput =
       this._otherErrorCheckbox?.shadowRoot?.querySelector("nys-textinput");
     const targetElement = textInput || this._otherErrorCheckbox;
+    this.internalValidationMessage = "Please complete this field.";
     this.setValidityFromState(
       { customError: true },
-      "Please complete this field.",
+      this.resolvedErrorMessage(),
       targetElement as HTMLElement,
     );
   }
@@ -386,9 +438,12 @@ export class NysCheckboxgroup extends NysFormControlElement {
     });
 
     this.setFormValue("");
+    this._setValueFromChildren([]);
 
-    // Reset validation UI
+    // Reset validation UI. Clears only the component-owned validation text; a
+    // consumer-supplied errorMessage is never overwritten.
     this.showError = false;
+    this.internalValidationMessage = "";
     this.clearValidity();
 
     // Re-render UI
@@ -476,22 +531,28 @@ export class NysCheckboxgroup extends NysFormControlElement {
 
   // Similar to how native forms handle multiple same-name fields, we group the selected values into a list for FormData.
   private _handleCheckboxChange(event: Event) {
+    // The group dispatches its own nys-change from this handler; ignore that
+    // echo so it isn't handled as another child change.
+    if (event.target === this) return;
+
     const checkboxes = Array.from(
       this.querySelectorAll("nys-checkbox"),
     ) as NysCheckbox[];
+
+    // Filter to only the checked ones and extract their values.
+    const selectedValues = checkboxes
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value);
 
     if (this._hasSharedNames) {
       const customEvent = event as CustomEvent;
       const { name } = customEvent.detail;
 
-      // Filter to only the checked ones and extract their values.
-      const selectedValues = checkboxes
-        .filter((checkbox: any) => checkbox.checked)
-        .map((checkbox: any) => checkbox.value);
-
       this.name = name;
       this.setFormValue(selectedValues.join(", "));
     }
+    this._setValueFromChildren(selectedValues);
+
     // Check "other" inputs first (they take priority)
     this._checkOtherInputs(checkboxes);
 
@@ -499,6 +560,12 @@ export class NysCheckboxgroup extends NysFormControlElement {
     if (!this._hasOtherError) {
       this._manageRequire();
     }
+
+    dispatchNysEvent<NysCheckboxgroupChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      value: [...selectedValues],
+    });
   }
 
   private async _handleChildError(event: Event) {
@@ -530,6 +597,7 @@ export class NysCheckboxgroup extends NysFormControlElement {
     this._hasOtherError = false;
     this._otherErrorCheckbox = null;
     this.clearValidity();
+    this.internalValidationMessage = "";
     this.showError = false;
 
     // Then check if we need to set a new required error
@@ -545,7 +613,73 @@ export class NysCheckboxgroup extends NysFormControlElement {
     const selectedValues = checkboxes
       .filter((checkbox: any) => checkbox.checked)
       .map((checkbox: any) => checkbox.value);
+    this._setValueFromChildren(selectedValues);
     this.setFormValue(selectedValues.join(", "));
+  }
+
+  /**
+   * Group-level focus: fired only when focus enters from outside the group,
+   * so moving between child checkboxes stays silent.
+   */
+  private _handleFocusIn = (event: FocusEvent) => {
+    const related = event.relatedTarget as Node | null;
+    if (!related || !this.contains(related)) {
+      dispatchNysFocusBlur(this, "focus");
+    }
+  };
+
+  /** Group-level blur: fired only when focus leaves the group entirely. */
+  private _handleFocusOut = (event: FocusEvent) => {
+    const related = event.relatedTarget as Node | null;
+    if (!related || !this.contains(related)) {
+      dispatchNysFocusBlur(this, "blur");
+    }
+  };
+
+  /**
+   * Set `value` from the children's checked state without pushing the same
+   * state back down (and without firing `nys-change`).
+   */
+  private _setValueFromChildren(values: string[]) {
+    this._syncingValueFromChildren = true;
+    this.value = values;
+    this._syncingValueFromChildren = false;
+  }
+
+  /**
+   * Apply a programmatically set `value` to the child checkboxes and the form
+   * value. Setting `checked` on a child never fires its `nys-change` (only
+   * user interaction does), so no change events echo back.
+   */
+  private _applyValueToChildren() {
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+    if (checkboxes.length === 0) return;
+
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = this._value.includes(checkbox.value);
+    });
+
+    if (this._hasSharedNames) {
+      this.setFormValue(this._value.join(", "));
+    }
+  }
+
+  /**
+   * Derive `value` from the checked children. Runs off the default slot's
+   * `slotchange`, so it covers first render and dynamically added checkboxes
+   * without scheduling a second update cycle.
+   */
+  private _handleDefaultSlotChange() {
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+    this._setValueFromChildren(
+      checkboxes
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => checkbox.value),
+    );
   }
 
   private async _checkOtherInputs(checkboxes: NysCheckbox[]) {
@@ -581,6 +715,7 @@ export class NysCheckboxgroup extends NysFormControlElement {
         this._manageRequire();
       } else {
         this.clearValidity();
+        this.internalValidationMessage = "";
         this.showError = false;
       }
     }
@@ -624,12 +759,12 @@ export class NysCheckboxgroup extends NysFormControlElement {
           >
         </nys-label>
         <div class="nys-checkboxgroup__content">
-          <slot></slot>
+          <slot @slotchange=${this._handleDefaultSlotChange}></slot>
         </div>
         <nys-errormessage
           id=${this.id + "--error"}
           ?showError=${this.showError}
-          errorMessage=${this.internals?.validationMessage || this.errorMessage}
+          errorMessage=${this.resolvedErrorMessage()}
           .showDivider=${!this.tile}
         ></nys-errormessage>
       </fieldset>

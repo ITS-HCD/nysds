@@ -1,0 +1,41 @@
+/* NYSDS full stylesheet, resolved through the package exports map. */
+@import "@nysds/styles/full";
+
+/*
+ * Example-app presentation not covered by an NYSDS utility class.
+ * Keep this block identical across examples/react-vite,
+ * examples/next-app, examples/angular-app, and examples/angular-ngmodule.
+ */
+.app-readout {
+  background: var(--nys-color-surface-raised);
+  border: 1px solid var(--nys-color-neutral-100);
+  border-radius: var(--nys-radius-md);
+  font-family: var(--nys-font-family-monospace), monospace;
+  font-size: var(--nys-font-size-body-sm);
+  margin: 0;
+  min-height: var(--nys-space-1200);
+  overflow-x: auto;
+  padding: var(--nys-space-300);
+  white-space: pre-wrap;
+}
+
+ul.app-readout {
+  list-style: none;
+}
+
+.app-action {
+  background: var(--nys-color-surface);
+  border: 2px solid var(--nys-color-theme);
+  border-radius: var(--nys-radius-md);
+  color: var(--nys-color-theme);
+  cursor: pointer;
+  font-family: var(--nys-font-family-ui), sans-serif;
+  font-size: var(--nys-font-size-ui-md);
+  font-weight: var(--nys-font-weight-semibold);
+  line-height: var(--nys-font-lineheight-ui-md);
+  padding: var(--nys-space-100) var(--nys-space-250);
+}
+
+.app-action:hover {
+  background: var(--nys-color-theme-faint);
+}

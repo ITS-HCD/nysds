@@ -29,5 +29,19 @@
 		"noUncheckedSideEffectImports": true
 	},
 	"include": ["src/**/*", "packages/**/*", "src/scripts/custom-elements-manifest.config.mjs"],
-	"exclude": ["**/*.stories.ts", "**/*.styles.ts", "**/*.test.ts", "node_modules", "dist", "storybook-static", "coverage"]
+	"exclude": [
+		"**/*.stories.ts",
+		"**/*.styles.ts",
+		"**/*.test.ts",
+		"node_modules",
+		"dist",
+		"storybook-static",
+		"coverage",
+		// Framework wrapper sources build inside their own packages with their
+		// own dependencies (@lit/react, @angular/*). Keep them out of the root
+		// program, like the CEM config does (framework-support WS2).
+		"packages/react",
+		"packages/angular",
+		"packages/codegen/test"
+	]
 }

@@ -268,7 +268,7 @@ describe("nys-radiobutton", () => {
 
     expect(radios[0].checked).to.be.true;
     expect(radios[1].checked).to.be.false;
-    expect((group as any).selectedValue).to.equal("a");
+    expect(group.value).to.equal("a");
 
     group.formResetCallback();
 
@@ -276,7 +276,7 @@ describe("nys-radiobutton", () => {
       expect(radio.checked).to.be.false;
     });
 
-    expect((group as any).selectedValue).to.be.null;
+    expect(group.value).to.equal("");
     expect(group.showError).to.be.false;
     expect(group.errorMessage).to.equal("");
     expect((group as any).internals.validity.valid).to.be.true;
@@ -304,7 +304,7 @@ describe("nys-radiobutton", () => {
       expect(radio.checked).to.be.false;
     });
 
-    expect((group as any).selectedValue).to.be.null;
+    expect(group.value).to.equal("");
   });
 
   // -------------------------------------------------------------------------
@@ -777,10 +777,10 @@ describe("nys-radiobutton", () => {
     `);
 
     const textInput = group.shadowRoot?.querySelector("nys-textinput");
-    expect(group._showOtherError).to.be.false;
+    expect((group as any)._showOtherError).to.be.false;
     textInput?.dispatchEvent(new Event("nys-blur", { bubbles: true }));
     await group.updateComplete;
-    expect(group._showOtherError).to.be.true;
+    expect((group as any)._showOtherError).to.be.true;
   });
 
   it("clears 'other' validation error when valid text is entered", async () => {
@@ -797,7 +797,7 @@ describe("nys-radiobutton", () => {
     textInput?.dispatchEvent(blurEvent);
     await group.updateComplete;
 
-    expect(group._showOtherError).to.be.true;
+    expect((group as any)._showOtherError).to.be.true;
 
     const inputEvent = new Event("nys-input", { bubbles: true });
     Object.defineProperty(inputEvent, "target", {
@@ -809,7 +809,7 @@ describe("nys-radiobutton", () => {
     textInput?.dispatchEvent(blurEvent);
     await group.updateComplete;
 
-    expect(group._showOtherError).to.be.false;
+    expect((group as any)._showOtherError).to.be.false;
   });
 
   it("clicking 'other' produces the textbox with no error", async () => {
@@ -843,12 +843,12 @@ describe("nys-radiobutton", () => {
     `);
     const textInput = group.shadowRoot?.querySelector("nys-textinput");
 
-    expect(group._showOtherError).to.be.false;
+    expect((group as any)._showOtherError).to.be.false;
 
     textInput?.dispatchEvent(new Event("nys-blur", { bubbles: true }));
     await group.updateComplete;
 
-    expect(group._showOtherError).to.be.true;
+    expect((group as any)._showOtherError).to.be.true;
   });
 
   it("unselecting 'other' clears any errors for the 'other' field", async () => {
@@ -1367,5 +1367,317 @@ describe("nys-radiobutton/nys-radiogroup self-registration", () => {
     );
     await el.updateComplete;
     expect(findUnregisteredChildren(el)).to.deep.equal([]);
+  });
+});
+
+describe("nys-radiogroup framework contract", () => {
+  // -------------------------------------------------------------------------
+  // Public `value` property
+  // -------------------------------------------------------------------------
+
+  it("derives value from the checked child on first render", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Initial value">
+        <nys-radiobutton name="iv" label="A" value="a"></nys-radiobutton>
+        <nys-radiobutton
+          name="iv"
+          label="B"
+          value="b"
+          checked
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    expect(group.value).to.equal("b");
+  });
+
+  it("setting value programmatically checks the matching child without firing nys-change", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Silent set">
+        <nys-radiobutton
+          name="ss"
+          label="A"
+          value="a"
+          checked
+        ></nys-radiobutton>
+        <nys-radiobutton name="ss" label="B" value="b"></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    let fired = 0;
+    group.addEventListener("nys-change", () => fired++);
+
+    group.value = "b";
+    await group.updateComplete;
+
+    const [radioA, radioB] =
+      group.querySelectorAll<NysRadiobutton>("nys-radiobutton");
+    expect(radioA.checked).to.be.false;
+    expect(radioB.checked).to.be.true;
+    expect(group.value).to.equal("b");
+    expect(fired).to.equal(0);
+  });
+
+  it("setting value updates the submitted form value", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-radiogroup name="choices">
+          <nys-radiobutton name="choices" value="a" label="A"></nys-radiobutton>
+          <nys-radiobutton name="choices" value="b" label="B"></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+    const group = form.querySelector<NysRadiogroup>("nys-radiogroup")!;
+    await group.updateComplete;
+
+    group.value = "a";
+    await group.updateComplete;
+
+    expect(new FormData(form).get("choices")).to.equal("a");
+  });
+
+  it("setting value to an empty string clears the selection", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Clear value">
+        <nys-radiobutton
+          name="cv"
+          label="A"
+          value="a"
+          checked
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+    expect(group.value).to.equal("a");
+
+    group.value = "";
+    await group.updateComplete;
+
+    const radio = group.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    expect(radio.checked).to.be.false;
+    expect(group.value).to.equal("");
+  });
+
+  // -------------------------------------------------------------------------
+  // Group nys-change contract
+  // -------------------------------------------------------------------------
+
+  it("group nys-change carries the selected value plus the child's keys, bubbles and composed", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Change detail">
+        <nys-radiobutton
+          id="cd-a"
+          name="cd"
+          label="A"
+          value="a"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          id="cd-b"
+          name="cd"
+          label="B"
+          value="b"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    const eventPromise = oneEvent(group, "nys-change");
+    group.shadowRoot?.querySelector<HTMLInputElement>("#input-cd-b")?.click();
+    const event = (await eventPromise) as CustomEvent;
+
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
+    expect(event.detail).to.deep.equal({
+      id: "cd-b",
+      checked: true,
+      name: "cd",
+      value: "b",
+    });
+    expect(group.value).to.equal("b");
+  });
+
+  it("dispatches exactly one group-level nys-change per selection (no echo)", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="No echo">
+        <nys-radiobutton
+          id="ne-a"
+          name="ne"
+          label="A"
+          value="a"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          id="ne-b"
+          name="ne"
+          label="B"
+          value="b"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    let count = 0;
+    group.addEventListener("nys-change", () => count++);
+
+    group.shadowRoot?.querySelector<HTMLInputElement>("#input-ne-a")?.click();
+    await group.updateComplete;
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(count).to.equal(1);
+  });
+
+  // -------------------------------------------------------------------------
+  // Group host focus / blur
+  // -------------------------------------------------------------------------
+
+  it("fires nys-focus on the group host when focus enters from outside", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Focus in">
+        <nys-radiobutton name="fi2" label="A" value="a"></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    let hostFocus = 0;
+    group.addEventListener("nys-focus", (e) => {
+      if (e.target === group) hostFocus++;
+    });
+
+    group.dispatchEvent(
+      new FocusEvent("focusin", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: document.body,
+      }),
+    );
+
+    expect(hostFocus).to.equal(1);
+  });
+
+  it("stays silent when focus moves between radios within the group", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Focus within">
+        <nys-radiobutton
+          id="fw-a"
+          name="fw"
+          label="A"
+          value="a"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          id="fw-b"
+          name="fw"
+          label="B"
+          value="b"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    let hostEvents = 0;
+    const track = (e: Event) => {
+      if (e.target === group) hostEvents++;
+    };
+    group.addEventListener("nys-focus", track);
+    group.addEventListener("nys-blur", track);
+
+    const inputA =
+      group.shadowRoot!.querySelector<HTMLInputElement>("#input-fw-a")!;
+    group.dispatchEvent(
+      new FocusEvent("focusin", { bubbles: true, relatedTarget: inputA }),
+    );
+    group.dispatchEvent(
+      new FocusEvent("focusout", { bubbles: true, relatedTarget: inputA }),
+    );
+
+    expect(hostEvents).to.equal(0);
+  });
+
+  it("fires nys-blur on the group host when focus leaves the group", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Focus out">
+        <nys-radiobutton name="fo" label="A" value="a"></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    let hostBlur = 0;
+    group.addEventListener("nys-blur", (e) => {
+      if (e.target === group) hostBlur++;
+    });
+
+    group.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: document.body,
+      }),
+    );
+
+    expect(hostBlur).to.equal(1);
+  });
+
+  // -------------------------------------------------------------------------
+  // Error precedence
+  // -------------------------------------------------------------------------
+
+  it("consumer errorMessage wins over internal validation and survives reset", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup
+        label="Custom error"
+        required
+        errorMessage="Custom message"
+      >
+        <nys-radiobutton name="cem" label="A" value="a"></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    // Required with nothing selected: invalid, and the validation message is
+    // the consumer's text, not the internal default.
+    expect(group.checkValidity()).to.be.false;
+    expect((group as any).internals.validationMessage).to.equal(
+      "Custom message",
+    );
+
+    await group.updateComplete;
+    const errormessage = group.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errormessage.getAttribute("errorMessage")).to.equal(
+      "Custom message",
+    );
+
+    group.formResetCallback();
+    await group.updateComplete;
+
+    // The consumer-supplied message is never wiped; only the internal text is.
+    expect(group.errorMessage).to.equal("Custom message");
+    expect((group as any).internalValidationMessage).to.equal("");
+  });
+});
+
+describe("nys-radiobutton standalone contract", () => {
+  it("fires nys-change with {id, checked, name, value}, bubbling and composed", async () => {
+    const radio = await fixture<NysRadiobutton>(
+      html`<nys-radiobutton
+        id="solo"
+        name="solo-group"
+        value="a"
+        label="A"
+      ></nys-radiobutton>`,
+    );
+    await radio.updateComplete;
+
+    const eventPromise = oneEvent(radio, "nys-change");
+    radio.querySelector("input")!.click();
+    const event = (await eventPromise) as CustomEvent;
+
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
+    expect(event.detail).to.deep.equal({
+      id: "solo",
+      checked: true,
+      name: "solo-group",
+      value: "a",
+    });
   });
 });

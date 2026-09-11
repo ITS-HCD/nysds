@@ -4,12 +4,12 @@
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "files": [
     "dist/",
-    "custom-elements.json",
-    "packages/react/"
+    "custom-elements.json"
   ],
   "main": "dist/nysds.js",
   "module": "dist/nysds.es.js",
@@ -20,10 +20,7 @@
       "import": "./dist/nysds.es.js",
       "require": "./dist/nysds.js"
     },
-    "./react": {
-      "import": "./packages/react/index.js",
-      "types": "./packages/react/index.d.ts"
-    }
+    "./custom-elements.json": "./dist/custom-elements.json"
   },
   "customElements": "custom-elements.json",
   "scripts": {
@@ -34,24 +31,26 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "build:umd": "cross-env BUILD_FORMAT=umd vite build",
     "tsc:packages": "tsc -b tsconfig.build.json",
-    "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --log-order=grouped",
+    "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --filter='!@nysds/codegen' --filter='!@nysds/react' --filter='!@nysds/angular' --log-order=grouped",
     "build:root": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd",
-    "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run gen-stories && npm run build:mcp && npm run lint:fix",
-    "build:mcp": "npm run build -w @nysds/mcp-server",
+    "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run build:frameworks && npm run gen-stories && npm run build:mcp && npm run lint:fix",
+    "build:frameworks": "cross-env NODE_ENV=production turbo run build --filter=@nysds/codegen --filter=@nysds/react --filter=@nysds/angular --only",
+    "build:mcp": "cross-env NODE_ENV=production npm run build -w @nysds/mcp-server",
     "build:link": "npm run build:all && npm link && cd packages/styles && npm link",
     "lint": "eslint --cache --cache-strategy=content --cache-location node_modules/.cache/eslint && (stylelint \"**/*.scss\" || true)",
     "lint:fix": "bash src/scripts/lint-fix.sh",
     "lit-analyze": "find ./packages/nys-*/ -name '*.ts' ! -name '*.figma.*' | xargs lit-analyzer {}",
-    "playwright:install": "npx playwright install --with-deps",
+    "playwright:install": "node node_modules/playwright/cli.js install --with-deps",
     "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish --access public",
     "release:dry-run": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
     "release:zip": "npm run build:all && node src/scripts/create-release-zip.js",
-    "pretest": "playwright install",
+    "pretest": "node node_modules/playwright/cli.js install",
     "test": "wtr --node-resolve",
     "test:ssr": "node src/scripts/test-ssr.mjs && npm run audit:dist",
     "audit:dist": "node src/scripts/audit-dist.mjs",
     "test:build": "npm run build:all && npm run test",
+    "test:examples": "npm run test -w examples/react-vite -w examples/next-app -w examples/angular-app -w examples/angular-ngmodule && npm run test:zoneless -w examples/angular-app",
     "test:report": "wtr --node-resolve || true && open coverage/lcov-report/index.html",
     "test:compact": "export NYSDS_TEST_OUTPUT=compact && wtr --node-resolve",
     "test:ai": "export NYSDS_TEST_OUTPUT=ai && wtr --node-resolve",
@@ -59,14 +58,14 @@
     "storybook:build:all": "cross-env NODE_ENV=production npm run build:all && npm run storybook",
     "build-storybook": "npm run build:packages && storybook build",
     "storybook:cibuild": "storybook build",
-    "mcp-server:build": "turbo run build --filter=@nysds/mcp-server",
+    "mcp-server:build": "cross-env NODE_ENV=production turbo run build --filter=@nysds/mcp-server",
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf packages/**/*/node_modules",
     "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && find packages -type d -name dist ! -path '*/mcp-server/dist' -exec rm -rf {} + 2>/dev/null && find packages -name '*.tsbuildinfo' ! -path '*/mcp-server/*' -delete 2>/dev/null && rm -f ./*.tsbuildinfo 2>/dev/null || true",
     "clean:turbo": "find packages -type d -name '.turbo' -exec rm -rf {} + && rm -rf .turbo",
     "clean:cache": "rm -rf node_modules/.cache",
     "clean:all": "npm run clean:dist && npm run clean:node && npm run clean:cache && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js",
+    "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && node src/scripts/verify-form-contract.mjs && mkdir -p dist && cp ./custom-elements.json dist/",
     "verify:a11y-names": "node src/scripts/verify-a11y-names.mjs",
     "verify:utility-docs": "npm run build:mcp && node src/scripts/verify-utility-docs.mjs"
   },

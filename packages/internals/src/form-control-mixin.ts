@@ -20,6 +20,22 @@ export declare class FormControlInterface extends ReflectsAriaInterface {
   ): void;
   /** Clear validity and reset `aria-invalid`. */
   protected clearValidity(): void;
+  /**
+   * Consumer-supplied error message. Concrete form controls declare this as a
+   * public reactive `@property`; the mixin declares only the type so
+   * {@link resolvedErrorMessage} can read it. The mixin never writes it.
+   */
+  errorMessage?: string;
+  /**
+   * Component-owned validation text. Store validation output here instead of
+   * overwriting `errorMessage`. Assigning a new value schedules a re-render.
+   */
+  protected internalValidationMessage: string;
+  /**
+   * The error text to render: a consumer-supplied `errorMessage` always wins;
+   * the component's own validation text fills in otherwise.
+   */
+  protected resolvedErrorMessage(): string;
   checkValidity(): boolean;
   reportValidity(): boolean;
   formResetCallback(): void;
@@ -41,6 +57,27 @@ export const FormControlMixin = <T extends Constructor<LitElement>>(
 ) => {
   class FormControl extends ReflectsAriaMixin(Base) {
     static formAssociated = true;
+
+    // Type-only declaration: concrete form controls declare `errorMessage`
+    // as a public reactive property. The mixin never writes it, so a
+    // consumer-supplied message survives validation.
+    declare errorMessage?: string;
+
+    private __internalValidationMessage = "";
+
+    protected get internalValidationMessage(): string {
+      return this.__internalValidationMessage;
+    }
+
+    protected set internalValidationMessage(message: string) {
+      if (message === this.__internalValidationMessage) return;
+      this.__internalValidationMessage = message;
+      this.requestUpdate("internalValidationMessage");
+    }
+
+    protected resolvedErrorMessage(): string {
+      return this.errorMessage || this.internalValidationMessage;
+    }
 
     protected setFormValue(value: FormValue): void {
       this.internals?.setFormValue(value ?? null);
@@ -76,6 +113,7 @@ export const FormControlMixin = <T extends Constructor<LitElement>>(
     }
 
     formResetCallback(): void {
+      this.internalValidationMessage = "";
       this.clearValidity();
     }
   }

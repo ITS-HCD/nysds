@@ -5,8 +5,8 @@
   "module": "dist/nys-textinput.js",
   "exports": {
     ".": {
-      "import": "./dist/nys-textinput.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-textinput.js"
     }
   },
   "type": "module",

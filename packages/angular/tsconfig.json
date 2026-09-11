@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": [
+      "vitest/globals"
+    ],
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true
+  },
+  "files": [
+    "src/public-api.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ]
+}

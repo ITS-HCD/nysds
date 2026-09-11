@@ -55,3 +55,11 @@ CLAUDE.md
 .claude/
 .gemini/
 docs/
+
+# Framework packages (framework-support plan)
+# Generated wrapper sources are rebuilt by `npm run build:all` (decision L5).
+packages/react/src/generated/
+packages/angular/src/generated/
+# Example app build output. dist/ at any depth is covered by the dist/ rule.
+examples/*/.angular/
+examples/*/.next/

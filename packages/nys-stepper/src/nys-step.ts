@@ -5,6 +5,15 @@ import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-stepper.scss?inline";
 
+/** Detail payload for the `nys-step-click` event fired by `nys-step`. */
+export interface NysStepClickDetail {
+  href: string;
+  label: string;
+}
+
+/** The `nys-step-click` event fired by `nys-step`. */
+export type NysStepClickEvent = CustomEvent<NysStepClickDetail>;
+
 /**
  * A single step within `nys-stepper`. Represents one stage in a multi-step process.
  *
@@ -85,7 +94,7 @@ import styles from "./nys-stepper.scss?inline";
  * @summary Individual step for use within nys-stepper with navigation support.
  * @element nys-step
  *
- * @fires nys-step-click - Fired when a navigable (`previous` or `current`) non-selected step is clicked
+ * @fires {NysStepClickEvent} nys-step-click - Fired when a navigable (`previous` or `current`) non-selected step is clicked
  *   or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call
  *   `e.preventDefault()` to suppress `window.location.href` navigation.
  */

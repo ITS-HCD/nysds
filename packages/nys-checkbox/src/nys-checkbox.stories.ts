@@ -14,6 +14,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.\nForm-associated with validation via ElementInternals.\n\nUse for binary decisions (agree/disagree) or selecting multiple options from a list.\nFor single selection from 2-6 options, use `nys-radiobutton`. For immediate state changes, use `nys-toggle`.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysCheckboxgroup label="Select landmarks" required>\n  <NysCheckbox name="landmarks" value="adirondacks" label="Adirondacks" />\n  <NysCheckbox name="landmarks" value="niagara" label="Niagara Falls" />\n</NysCheckboxgroup>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-checkboxgroup label="Select landmarks" required>\n  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>\n  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>\n</nys-checkboxgroup>\n```',
+      },
     },
   },
 };
@@ -37,7 +41,6 @@ export const Basic: Story = {
     disabled: false,
     value: "adirondacks",
     other: false,
-    showOtherError: false,
     labelledby: "",
     hideLabel: false,
   },
@@ -65,7 +68,6 @@ export const Basic: Story = {
           ?checked=${args.checked}
           ?disabled=${args.disabled}
           ?other=${args.other}
-          ?showOtherError=${args.showOtherError}
           labelledby=${args.labelledby}
           ?hideLabel=${args.hideLabel}
         ></nys-checkbox>

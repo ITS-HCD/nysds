@@ -8,6 +8,17 @@ import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
 
+/** Detail payload for the `nys-verticalnavgroup-toggle` event fired by `nys-verticalnavgroup`. */
+export interface NysVerticalnavgroupToggleDetail {
+  id: string;
+  label: string;
+  expanded: boolean;
+}
+
+/** The `nys-verticalnavgroup-toggle` event fired by `nys-verticalnavgroup`. */
+export type NysVerticalnavgroupToggleEvent =
+  CustomEvent<NysVerticalnavgroupToggleDetail>;
+
 /**
  * Collapsible dropdown group for use inside `<nys-verticalnav>`.
  *
@@ -19,6 +30,9 @@ import styles from "./nys-verticalnav.scss?inline";
  *
  * @summary Collapsible link group for use within `<nys-verticalnav>`.
  * @element nys-verticalnavgroup
+ *
+ * @fires {Event} nys-child-resize - Fired when the group toggles so ancestor containers (for example nys-accordionitem) can resize. No detail. Bubbles and composed.
+ * @fires {NysVerticalnavgroupToggleEvent} nys-verticalnavgroup-toggle - Fired when the group is expanded or collapsed. Detail: `{id, label, expanded}`. Bubbles and composed.
  * */
 
 export class NysVerticalnavGroup extends NysElement {

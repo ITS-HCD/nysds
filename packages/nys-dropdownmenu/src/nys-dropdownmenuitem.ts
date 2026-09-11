@@ -8,6 +8,17 @@ import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-dropdownmenu.scss?inline";
 
+/** Detail payload for the `nys-click` event fired by `nys-dropdownmenuitem`. */
+export interface NysDropdownmenuitemClickDetail {
+  id: string;
+  label: string;
+  href?: string;
+}
+
+/** The `nys-click` event fired by `nys-dropdownmenuitem`. */
+export type NysDropdownmenuitemClickEvent =
+  CustomEvent<NysDropdownmenuitemClickDetail>;
+
 /**
  * **Slotted component.** Displays an individual dropdown item within `nys-dropdown` with label.
  *
@@ -16,6 +27,8 @@ import styles from "./nys-dropdownmenu.scss?inline";
  *
  * @summary Dropdown item to display label and provide href link.
  * @element nys-dropdownmenuitem
+ *
+ * @fires {NysDropdownmenuitemClickEvent} nys-click - Fired when the item is activated (unless disabled). Detail: `{id, label, href?}` — `href` is present only when set. Bubbles and composed.
  */
 export class NysDropdownMenuItem extends NysElement {
   static styles = unsafeCSS(styles);
