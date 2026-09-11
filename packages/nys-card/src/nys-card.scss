@@ -105,6 +105,22 @@
   --_nys-card-line-height--description: var(--nys-font-lineheight-ui-xs, 20px);
 }
 
+:host([size="lg"]) {
+  --_nys-card-font-size--preheading: var(--nys-font-size-ui-md, 16px);
+  --_nys-card-line-height--preheading: var(--nys-font-lineheight-ui-md, 24px);
+
+  --_nys-card-font-size--heading: var(--nys-font-size-h2, 28px);
+  --_nys-card-line-height--heading: var(--nys-font-lineheight-h3, 36px);
+
+  --_nys-card-font-size--subheading: var(--nys-font-size-ui-lg, 18px);
+  --_nys-card-line-height--subheading: var(--nys-font-lineheight-ui-lg, 28px);
+
+  --_nys-card-font-size--description: var(--nys-font-size-ui-md, 16px);
+  --_nys-card-line-height--description: var(--nys-font-lineheight-ui-md, 24px);
+
+  --_nys-card-gap: var(--nys-space-150, 12px);
+}
+
 .nys-card {
   color: var(--_nys-card-color);
   font-family: var(--_nys-card-font-family);
