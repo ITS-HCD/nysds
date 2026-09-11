@@ -106,9 +106,5 @@ control is invalid HTML and unreachable for keyboard and screen reader users. */
  *
  * ### **CSS Properties:**
  *  - **--nys-card-height** - Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`). _(default: fit-content)_
- * - **--nys-card-font-size--preheading** - Font size of the Preheading. _(default: var(--nys-font-size-ui-md, 16px))_
- * - **--nys-card-font-size--heading** - Font size of the Heading. _(default: var(--nys-font-size-h2, 28px))_
- * - **--nys-card-font-size--subheading** - Font size of the Subheading. _(default: var(--nys-font-size-ui-lg, 18px))_
- * - **--nys-card-font-size--description** - Font size of the Description. _(default: var(--nys-font-size-ui-md, 16px))_
  */
 export const NysCard: React.ForwardRefExoticComponent<NysCardProps>;

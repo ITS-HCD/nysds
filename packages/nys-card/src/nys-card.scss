@@ -45,23 +45,11 @@
   --_nys-card-line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
   --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
-  // Font size overrides
-  --_nys-card-font-size--preheading: var(
-    --nys-card-font-size--preheading,
-    var(--nys-font-size-ui-md, 16px)
-  );
-  --_nys-card-font-size--heading: var(
-    --nys-card-font-size--heading,
-    var(--nys-font-size-h2, 28px)
-  );
-  --_nys-card-font-size--subheading: var(
-    --nys-card-font-size--subheading,
-    var(--nys-font-size-ui-lg, 18px)
-  );
-  --_nys-card-font-size--description: var(
-    --nys-card-font-size--description,
-    var(--nys-font-size-ui-md, 16px)
-  );
+  // Font sizes
+  --_nys-card-font-size--preheading: var(--nys-font-size-ui-md, 16px);
+  --_nys-card-font-size--heading: var(--nys-font-size-h2, 28px);
+  --_nys-card-font-size--subheading: var(--nys-font-size-ui-lg, 18px);
+  --_nys-card-font-size--description: var(--nys-font-size-ui-md, 16px);
 
   /* Width belongs on the host: it is the box the page lays out. As a flex item
      the host is shrink-to-fit by default, and a percentage width inside the
