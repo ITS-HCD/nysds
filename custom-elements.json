@@ -3161,6 +3161,17 @@
             },
             {
               "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "The size of the text content within a card (preheading, heading, subheading, and description).",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "preheading",
               "type": {
                 "text": "string"
@@ -3432,6 +3443,16 @@
               "description": "Unique identifier. Auto-generated if not provided.",
               "fieldName": "id",
               "propName": "id"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "The size of the text content within a card (preheading, heading, subheading, and description).",
+              "fieldName": "size",
+              "propName": "size"
             },
             {
               "name": "preheading",

@@ -22,6 +22,7 @@ type Story = StoryObj;
 
 export const Basic: Story = {
   args: {
+    size: "md",
     preheading: "",
     heading: "Heading",
     subheading: "",
@@ -32,6 +33,7 @@ export const Basic: Story = {
     target: "_self",
   },
   argTypes: {
+    size: { control: { type: "select" }, options: ["sm", "md", "lg"] },
     target: {
       control: { type: "select" },
       options: ["_self", "_blank", "_parent", "_top", "framename"],
@@ -41,6 +43,7 @@ export const Basic: Story = {
     return html`
       <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
         <nys-card
+          size=${args.size}
           preheading=${args.preheading}
           heading=${args.heading}
           subheading=${args.subheading}

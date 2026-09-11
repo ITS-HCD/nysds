@@ -278,6 +278,12 @@ export class NysCard extends NysElement {
   @property({ type: String, reflect: true }) id = "";
 
   /**
+   * The size of the text content within a card (preheading, heading, subheading, and description).
+   * @default "md"
+   */
+  @property({ type: String, reflect: true }) size: "sm" | "md" | "lg" = "md";
+
+  /**
    * Appears above the heading text.
    */
   @property({ type: String }) preheading = "";

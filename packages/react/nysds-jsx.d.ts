@@ -310,6 +310,8 @@ and host ARIA does not cross into the shadow root. */
 export type NysCardProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
+  /** The size of the text content within a card (preheading, heading, subheading, and description). */
+  size?: "sm" | "md" | "lg";
   /** Appears above the heading text. */
   preheading?: string;
   /** Heading text in the card. */
