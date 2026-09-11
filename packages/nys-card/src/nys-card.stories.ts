@@ -156,6 +156,105 @@ export const Subheading: Story = {
   },
 };
 
+export const SizeSM: Story = {
+  render: () => {
+    return html`
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+        <nys-card
+          size="sm"
+          preheading="Preheading"
+          heading="Heading"
+          subheading="Subheading"
+          description="A short description of the card's subject."
+        ></nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+  <nys-card
+    size="sm"
+    preheading="Preheading"
+    heading="Heading"
+    subheading="Subheading"
+    description="A short description of the card's subject."
+  ></nys-card>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SizeMDDefault: Story = {
+  render: () => {
+    return html`
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+        <nys-card
+          size="md"
+          preheading="Preheading"
+          heading="Heading"
+          subheading="Subheading"
+          description="A short description of the card's subject."
+        ></nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+  <nys-card
+    size="md"
+    preheading="Preheading"
+    heading="Heading"
+    subheading="Subheading"
+    description="A short description of the card's subject."
+  ></nys-card>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SizeLG: Story = {
+  render: () => {
+    return html`
+      <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+        <nys-card
+          size="lg"
+          preheading="Preheading"
+          heading="Heading"
+          subheading="Subheading"
+          description="A short description of the card's subject."
+        ></nys-card>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+  <nys-card
+    size="lg"
+    preheading="Preheading"
+    heading="Heading"
+    subheading="Subheading"
+    description="A short description of the card's subject."
+  ></nys-card>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Media: Story = {
   render: () => {
     return html`

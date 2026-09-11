@@ -3574,6 +3574,21 @@
               "lang": "html"
             },
             {
+              "title": "Size SM",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nsize=\"sm\"\npreheading=\"Preheading\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Size MD (default)",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nsize=\"md\"\npreheading=\"Preheading\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Size LG",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nsize=\"lg\"\npreheading=\"Preheading\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
               "title": "Media",
               "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\ndescription=\"A card with a media image.\"\n>\n<img slot=\"media\"\nsrc=\"https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop\"\nrole=\"presentation\"\n/>\n</nys-card>\n</div>",
               "lang": "html"
