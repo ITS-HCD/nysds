@@ -16,7 +16,7 @@
   --_nys-card-padding--b: var(--nys-space-250, 20px);
   --_nys-card-padding-bottom--preheading: var(--nys-space-150, 12px);
   --_nys-card-background-color: var(--nys-color-surface, #ffffff);
-  --_nys-card-gap: var(--nys-space-150, 12px);
+  --_nys-card-gap: var(--nys-space-100, 8px);
 
   /* Media */
   --_nys-card-padding--media-inset: var(--nys-space-300, 24px);
@@ -46,10 +46,14 @@
   --_nys-card-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
   // Font sizes
-  --_nys-card-font-size--preheading: var(--nys-font-size-ui-md, 16px);
-  --_nys-card-font-size--heading: var(--nys-font-size-h2, 28px);
-  --_nys-card-font-size--subheading: var(--nys-font-size-ui-lg, 18px);
-  --_nys-card-font-size--description: var(--nys-font-size-ui-md, 16px);
+  --_nys-card-font-size--preheading: var(--nys-font-size-ui-sm, 14px);
+  --_nys-card-line-height--preheading: var(--nys-font-lineheight-ui-sm, 24px);
+  --_nys-card-font-size--heading: var(--nys-font-size-h4, 22px);
+  --_nys-card-line-height--heading: var(--nys-font-lineheight-h4, 32px);
+  --_nys-card-font-size--subheading: var(--nys-font-size-ui-md, 16px);
+  --_nys-card-line-height--subheading: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-card-font-size--description: var(--nys-font-size-ui-sm, 14px);
+  --_nys-card-line-height--description: var(--nys-font-lineheight-ui-sm, 24px);
 
   /* Width belongs on the host: it is the box the page lays out. As a flex item
      the host is shrink-to-fit by default, and a percentage width inside the
@@ -197,7 +201,7 @@
     font-size: var(--_nys-card-font-size--preheading);
     font-style: normal;
     font-weight: 700;
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    line-height: var(--_nys-card-line-height--preheading);
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
   }
 
@@ -225,7 +229,7 @@
     font-size: var(--_nys-card-font-size--heading);
     font-style: normal;
     font-weight: 700;
-    line-height: var(--nys-font-lineheight-h2, 36px); /* 128.571% */
+    line-height: var(--_nys-card-line-height--heading);
     letter-spacing: var(--nys-font-letterspacing-h2, 0.013px);
   }
 
@@ -242,7 +246,7 @@
     font-size: var(--_nys-card-font-size--subheading);
     font-style: normal;
     font-weight: 600;
-    line-height: var(--nys-font-lineheight-ui-lg, 28px); /* 155.556% */
+    line-height: var(--_nys-card-line-height--subheading);
     letter-spacing: var(--nys-font-letterspacing-ui-lg, 0.028px);
   }
 
@@ -257,7 +261,7 @@
     font-size: var(--_nys-card-font-size--description);
     font-style: normal;
     font-weight: 400;
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    line-height: var(--_nys-card-line-height--description);
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
   }
 
