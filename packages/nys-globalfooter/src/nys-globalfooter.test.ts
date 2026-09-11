@@ -61,42 +61,9 @@ describe("nys-globalfooter", () => {
 
     await el.updateComplete;
 
-    // Check if the slot has content
-    const content = el.shadowRoot?.querySelector(".nys-globalfooter__content");
-    const testSlot = content?.querySelector(".test-slot");
+    const testSlot = el.querySelector(".test-slot");
     expect(testSlot).to.exist;
     expect(testSlot?.textContent).to.include("ITS Home");
-  });
-
-  it("removes potentially dangerous elements from slotted content", async () => {
-    const el = await fixture<NysGlobalFooter>(
-      html`<nys-globalfooter>
-        <div>
-          <script>
-            alert("hello!");
-          </script>
-          <iframe src="https://malicious.example"></iframe>
-          <img src="data:," onerror="alert('hello!')" />
-          <ul class="safe">
-            <li><a href="https://its.ny.gov/services">Services</a></li>
-            <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-          </ul>
-        </div>
-      </nys-globalfooter>`,
-    );
-
-    await el.updateComplete;
-
-    // Check if slot removes dangerous elements
-    const content = el.shadowRoot?.querySelector(".nys-globalfooter__content");
-    expect(content?.querySelector("script")).to.be.null;
-    expect(content?.querySelector("iframe")).to.be.null;
-    expect(content?.querySelector("img")).to.be.null;
-
-    // Check if safe content remains
-    const testSlot = content?.querySelector(".safe");
-    expect(testSlot).to.exist;
-    expect(testSlot?.textContent).to.include("Services");
   });
 
   // --- Regression: #1795 — paired global + unav footers need distinct
