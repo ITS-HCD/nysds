@@ -265,11 +265,6 @@ export class NysBreadcrumbs extends NysElement {
   }
 
   private _getSlottedItems(ol: HTMLOListElement): HTMLLIElement[] {
-    // const ol = this._getSlottedOl();
-    // if (!ol) return [];
-    // return Array.from(ol.children).filter(
-    //   (el) => el.tagName === "LI",
-    // ) as HTMLLIElement[];
     return Array.from(ol.children).filter(
       (el) => el.tagName === "LI" && !el.hasAttribute(INJECTED_ATTR),
     ) as HTMLLIElement[];
