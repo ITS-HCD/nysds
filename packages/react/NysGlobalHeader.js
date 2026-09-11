@@ -4,7 +4,6 @@ import "../../dist/nysds.es.js";
 export const NysGlobalHeader = forwardRef((props, forwardedRef) => {
   const {
     nysLogo,
-    id,
     appName,
     agencyName,
     homepageLink,
@@ -16,7 +15,6 @@ export const NysGlobalHeader = forwardRef((props, forwardedRef) => {
     "nys-globalheader",
     {
       ...filteredProps,
-      id: props.id,
       appName: props.appName,
       agencyName: props.agencyName,
       homepageLink: props.homepageLink,
