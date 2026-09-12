@@ -1,0 +1,133 @@
+/* Slotted content (menu links) basic resets */
+nys-globalheader:not(#_) {
+  > ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  > ul li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /***** Link states *****/
+  > ul a {
+    color: var(--_nys-globalheader-color);
+    text-decoration: none;
+    font-family: var(--_nys-globalheader-font-family--menu);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--_nys-globalheader-line-height--menu);
+    letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
+  }
+
+  > ul a:visited {
+    color: var(--_nys-globalheader-color);
+  }
+
+  > ul a:hover,
+  > ul a:focus-visible {
+    color: var(--_nys-globalheader-color);
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: 7%;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+
+  > ul a:focus {
+    color: var(--_nys-globalheader-color);
+  }
+
+  > ul a:active {
+    color: var(--_nys-globalheader-color);
+    text-decoration-thickness: var(
+      --_nys-globalheader-text-decoration-thickness--menu
+    );
+  }
+
+  /* Active link */
+  > ul li.active a {
+    color: var(--_nys-globalheader-color);
+    font-weight: 700;
+  }
+
+  > ul li.active a:hover {
+    text-decoration: none;
+  }
+
+  /* Mobile (below 1024px) — nav renders as a stacked overlay list */
+  @media (width < 1024px) {
+    > ul {
+      display: none;
+    }
+
+    &[mobile-menu-open] > ul {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      z-index: 10;
+      top: 100%;
+      left: 0;
+      width: fit-content;
+      background-color: var(--_nys-globalheader-background-color);
+    }
+
+    &[mobile-menu-open] > ul li:first-child a {
+      border-top: 1px solid var(--_nys-globalheader-color);
+    }
+
+    &[mobile-menu-open] > ul li a {
+      display: flex;
+      padding: 24px;
+      align-items: center;
+      gap: 8px;
+      align-self: stretch;
+      border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
+      background-color: var(--_nys-globalheader-background-color);
+    }
+
+    &[mobile-menu-open] > ul li a:hover,
+    &[mobile-menu-open] > ul li a:focus-visible {
+      color: var(--_nys-globalheader-color);
+      background-color: var(--_nys-globalheader-background-color--menu--hover);
+    }
+
+    &[mobile-menu-open] > ul li a:active {
+      color: var(--_nys-globalheader-color);
+      background-color: var(--_nys-globalheader-background-color--menu--active);
+    }
+
+    &[mobile-menu-open] > ul li.active a {
+      border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
+      border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
+    }
+  }
+
+  /* Desktop (1024px and up) — nav renders inline */
+  @media (width >= 1024px) {
+    > ul {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+    }
+
+    > ul li {
+      display: flex;
+      align-items: center;
+      padding: var(--_nys-globalheader-link-padding);
+    }
+
+    > ul li.active {
+      border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
+    }
+
+    > ul li.active a {
+      margin-bottom: calc(-1 * var(--nys-space-100, 8px));
+    }
+  }
+}

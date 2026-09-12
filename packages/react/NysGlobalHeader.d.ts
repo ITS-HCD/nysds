@@ -25,9 +25,6 @@ Enable only for internal, state-employee (back-office) applications that omit
 keep `nys-unavheader` for trust and leave this off. */
   nysLogo?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysGlobalHeaderElement["id"];
-
   /** Application name displayed prominently. */
   appName?: NysGlobalHeaderElement["appName"];
 
