@@ -1372,13 +1372,13 @@
               "title": "Basic",
               "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
               "lang": "html",
-              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader translateKey=\"NEf4Y5qMb9PGP\"></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             },
             {
               "title": "Left",
               "code": "<footer>\n<nys-backtotop position=\"left\"></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
               "lang": "html",
-              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader translateKey=\"NEf4Y5qMb9PGP\"></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             }
           ]
         }
@@ -17418,6 +17418,16 @@
             },
             {
               "kind": "field",
+              "name": "translateKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Localize project key. If provided, the component will load and initialize LocalizeJS automatically.",
+              "attribute": "translateKey"
+            },
+            {
+              "kind": "field",
               "name": "landmarkLabel",
               "default": "\"New York State\"",
               "description": "Accessible name for the `banner` landmark this header renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this header with `nys-globalheader` carries two `banner`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"banner, banner\". Override only when your wording is clearer for\nyour audience — and keep it distinct from the agency header's name, which\ncomes from that header's visible title.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
@@ -17432,8 +17442,8 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
-              "description": "The list of languages this site can be translated to, default to use Smartling",
+              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\", disclaimer: `Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href=\"https://ny.gov/web-translation-services\">Lea la exención de responsabilidad completa</a>`, }, { code: \"zh\", label: \"中文\", nativeText: \"Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"zh-traditional\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\", disclaimer: `קיין איין אויטאמאטישע איבערזעצונג איז נישט אינגאנצן פארלעסליך, און עס איז נישט געמאכט צו ערזעצן א מענטשליכע איבערזעצער. טייל בלעטער אדער אינהאלט זענען מעגליך נישט פונקטליך איבערגעזעצט צוליב די באגרעניצטע מעגליכקייטן פון די איבערזעצונג טעכנאלאגיע. <a href=\"https://ny.gov/web-translation-services\">לייענט די פולע אויסקלארונג</a>`, rtl: true, }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\", disclaimer: `Автоматический перевод не является безупречным и не может заменить переводчика-человека. Некоторые страницы или их содержимое могут быть переведены неточно из-за ограничений программного обеспечения для перевода. <a href=\"https://ny.gov/web-translation-services\">Ознакомьтесь с полным текстом отказа от ответственности</a>`, }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\", disclaimer: `কোন স্বয়ংক্রিয় অনুবাদ নিখুঁत নয়, না এর উদ্দেশ্য মানুষ অনুবাদকদের প্রতিস্থাপন করা। অনুবাদ সফ্টওয়্যারের সীমাবদ্ধতার কারণে কিছু পৃষ্ঠা বা বিষয়বস্তু সঠিকভাবে অনুবাদ নাও করা হতে পারে। <a href=\"https://ny.gov/web-translation-services\">اসম্পূর্ণ দায়-পরিত্যাগকারী বিজ্ঞপ্তিটি পড়ুন</a>`, }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\", disclaimer: `자동 번역은 완벽하지 않으며, 번역가를 대체하기 위해 의도된 것도 아닙니다. 번역 소프트웨어의 한계로 인해 일부 페이지 또는 내용이 정확하게 번역되지 않을 수 있습니다 <a href=\"https://ny.gov/web-translation-services\">면책 조항 전문 읽기</a>`, }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\", disclaimer: `Okenn tradiksyon otomatik pa pafè, ni pa gen entansyon pou ranplase tradiktè imen. Gen kèk paj oswa kontni ki ka pa tradui avèk presizyon akòz limit nan lojisyèl tradiksyon an. <a href=\"https://ny.gov/web-translation-services\">Li Tout Avi sou Dechaj Responsabilite a</a>`, }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\", disclaimer: `Nessuna traduzione automatica è perfetta, né è destinata a sostituire i traduttori umani. Alcune pagine o contenuti potrebbero non essere tradotti accuratamente a causa delle limitazioni del software di traduzione. <a href=\"https://ny.gov/web-translation-services\">Leggere l’intera liberatoria</a>`, }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\", disclaimer: `الترجمة الآلية لا تكون مثالية بأي حال من الأحوال، ولا يقصد بها أن تحل محل المترجمين من بني البشر. قد تكون ترجمة بعض المحتويات أو الصفحات غير دقيقة بسبب محددات برمجية الترجمة. <a href=\"https://ny.gov/web-translation-services\">اقرأ بيان إخلاء المسؤولية بالكامل</a>`, rtl: true, }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\", disclaimer: `Żadne tłumaczenie automatyczne nie jest doskonałe, ani też nie ma na celu zastąpienia tłumaczeń wykonywanych przez ludzi. Niektóre strony lub treści mogą być niedokładnie przetłumaczone z powodu ograniczeń oprogramowania do wykonywania tłumaczeń <a href=\"https://ny.gov/web-translation-services\">Przeczytaj pełną klauzulę wyłączenia odpowiedzialności</a>`, }, { code: \"fr\", label: \"Français\", nativeText: \"French\", disclaimer: `Aucune traduction automatique n'est parfaite, ni n'est destinée à remplacer les traducteurs humains. Certaines pages ou du contenu peuvent ne pas être traduits exactement en raison des limitations du logiciel de traduction. <a href=\"https://ny.gov/web-translation-services\">Lire entièrement la clause de non-responsabilité</a>`, }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\", disclaimer: `کوئی بھی خود کار ترجمہ بالکل درست نہیں ہوتا ہے، نہ ہی اس کا مقصد انسانی ترجمہ نگاروں کی جگہ لینا ہوتا ہے۔ ممکن ہے کہ ترجمہ سافٹ ویئر کی محدود صلاحیتوں کی وجہ سے کچھ صفحات یا مواد کا ترجمہ بالکل درست نہ ہو پائے۔ <a href=\"https://ny.gov/web-translation-services\">مکمل براءت نامہ پڑھیں</a>`, rtl: true, }, ]",
+              "description": "The list of languages this site can be translated to, default to use Localize",
               "attribute": "languages"
             },
             {
@@ -17545,8 +17555,27 @@
             },
             {
               "kind": "method",
+              "name": "_initLocalize",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_toggleSearchDropdown",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_updateTranslateDisclaimer",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "languageCode",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Shows, replaces, or removes the translation disclaimer banner for the given\nlanguage code. Called from the Localize \"setLanguage\" listener — which also\nfires on page load for a remembered language — and directly from\n`_handleLanguageSelect` when the Localize API isn't available."
             },
             {
               "kind": "method",
@@ -17772,11 +17801,20 @@
               "privacy": "private",
               "description": "The banner's accessible name. A blank override would put the page back where\n#1795 found it — two unnamed banners — so it falls back to the default.",
               "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_locale",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
             }
           ],
           "events": [
             {
-              "description": "Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.",
+              "description": "Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.",
               "name": "nys-language-select"
             },
             {
@@ -17856,6 +17894,16 @@
               "propName": "searchurl"
             },
             {
+              "name": "translateKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Localize project key. If provided, the component will load and initialize LocalizeJS automatically.",
+              "fieldName": "translateKey",
+              "propName": "translatekey"
+            },
+            {
               "name": "landmarkLabel",
               "default": "DEFAULT_LANDMARK_LABEL",
               "description": "Accessible name for the `banner` landmark this header renders.\nDefaults to `\"New York State\"`.\n\nA page pairing this header with `nys-globalheader` carries two `banner`\nlandmarks; distinct names are what keep landmark navigation useful instead of\nannouncing \"banner, banner\". Override only when your wording is clearer for\nyour audience — and keep it distinct from the agency header's name, which\ncomes from that header's visible title.\n\nA blank value falls back to the default rather than leaving the landmark\nunnamed.",
@@ -17867,8 +17915,8 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
-              "description": "The list of languages this site can be translated to, default to use Smartling",
+              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\", disclaimer: `Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href=\"https://ny.gov/web-translation-services\">Lea la exención de responsabilidad completa</a>`, }, { code: \"zh\", label: \"中文\", nativeText: \"Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"zh-traditional\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\", disclaimer: `קיין איין אויטאמאטישע איבערזעצונג איז נישט אינגאנצן פארלעסליך, און עס איז נישט געמאכט צו ערזעצן א מענטשליכע איבערזעצער. טייל בלעטער אדער אינהאלט זענען מעגליך נישט פונקטליך איבערגעזעצט צוליב די באגרעניצטע מעגליכקייטן פון די איבערזעצונג טעכנאלאגיע. <a href=\"https://ny.gov/web-translation-services\">לייענט די פולע אויסקלארונג</a>`, rtl: true, }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\", disclaimer: `Автоматический перевод не является безупречным и не может заменить переводчика-человека. Некоторые страницы или их содержимое могут быть переведены неточно из-за ограничений программного обеспечения для перевода. <a href=\"https://ny.gov/web-translation-services\">Ознакомьтесь с полным текстом отказа от ответственности</a>`, }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\", disclaimer: `কোন স্বয়ংক্রিয় অনুবাদ নিখুঁत নয়, না এর উদ্দেশ্য মানুষ অনুবাদকদের প্রতিস্থাপন করা। অনুবাদ সফ্টওয়্যারের সীমাবদ্ধতার কারণে কিছু পৃষ্ঠা বা বিষয়বস্তু সঠিকভাবে অনুবাদ নাও করা হতে পারে। <a href=\"https://ny.gov/web-translation-services\">اসম্পূর্ণ দায়-পরিত্যাগকারী বিজ্ঞপ্তিটি পড়ুন</a>`, }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\", disclaimer: `자동 번역은 완벽하지 않으며, 번역가를 대체하기 위해 의도된 것도 아닙니다. 번역 소프트웨어의 한계로 인해 일부 페이지 또는 내용이 정확하게 번역되지 않을 수 있습니다 <a href=\"https://ny.gov/web-translation-services\">면책 조항 전문 읽기</a>`, }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\", disclaimer: `Okenn tradiksyon otomatik pa pafè, ni pa gen entansyon pou ranplase tradiktè imen. Gen kèk paj oswa kontni ki ka pa tradui avèk presizyon akòz limit nan lojisyèl tradiksyon an. <a href=\"https://ny.gov/web-translation-services\">Li Tout Avi sou Dechaj Responsabilite a</a>`, }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\", disclaimer: `Nessuna traduzione automatica è perfetta, né è destinata a sostituire i traduttori umani. Alcune pagine o contenuti potrebbero non essere tradotti accuratamente a causa delle limitazioni del software di traduzione. <a href=\"https://ny.gov/web-translation-services\">Leggere l’intera liberatoria</a>`, }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\", disclaimer: `الترجمة الآلية لا تكون مثالية بأي حال من الأحوال، ولا يقصد بها أن تحل محل المترجمين من بني البشر. قد تكون ترجمة بعض المحتويات أو الصفحات غير دقيقة بسبب محددات برمجية الترجمة. <a href=\"https://ny.gov/web-translation-services\">اقرأ بيان إخلاء المسؤولية بالكامل</a>`, rtl: true, }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\", disclaimer: `Żadne tłumaczenie automatyczne nie jest doskonałe, ani też nie ma na celu zastąpienia tłumaczeń wykonywanych przez ludzi. Niektóre strony lub treści mogą być niedokładnie przetłumaczone z powodu ograniczeń oprogramowania do wykonywania tłumaczeń <a href=\"https://ny.gov/web-translation-services\">Przeczytaj pełną klauzulę wyłączenia odpowiedzialności</a>`, }, { code: \"fr\", label: \"Français\", nativeText: \"French\", disclaimer: `Aucune traduction automatique n'est parfaite, ni n'est destinée à remplacer les traducteurs humains. Certaines pages ou du contenu peuvent ne pas être traduits exactement en raison des limitations du logiciel de traduction. <a href=\"https://ny.gov/web-translation-services\">Lire entièrement la clause de non-responsabilité</a>`, }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\", disclaimer: `کوئی بھی خود کار ترجمہ بالکل درست نہیں ہوتا ہے، نہ ہی اس کا مقصد انسانی ترجمہ نگاروں کی جگہ لینا ہوتا ہے۔ ممکن ہے کہ ترجمہ سافٹ ویئر کی محدود صلاحیتوں کی وجہ سے کچھ صفحات یا مواد کا ترجمہ بالکل درست نہ ہو پائے۔ <a href=\"https://ny.gov/web-translation-services\">مکمل براءت نامہ پڑھیں</a>`, rtl: true, }, ]",
+              "description": "The list of languages this site can be translated to, default to use Localize",
               "fieldName": "languages",
               "propName": "languages"
             }
@@ -17883,7 +17931,7 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-unavheader></nys-unavheader>",
+              "code": "<nys-unavheader translateKey=\"NEf4Y5qMb9PGP\"></nys-unavheader>",
               "lang": "html"
             },
             {
