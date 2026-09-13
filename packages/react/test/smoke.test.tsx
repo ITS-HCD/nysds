@@ -76,6 +76,24 @@ const componentEntries = Object.entries(lib).filter(
     (typeof value === "object" || typeof value === "function")
 ) as Array<[string, React.ComponentType]>;
 
+interface ManifestDeclaration {
+  kind: string;
+  name: string;
+  tagName?: string;
+  customElement?: boolean;
+}
+
+interface ManifestModule {
+  path: string;
+  declarations?: ManifestDeclaration[];
+  exports?: Array<{ name: string; kind: string }>;
+}
+
+interface CustomElementsManifest {
+  modules: ManifestModule[];
+}
+
+const tagPackageMap: Map<string, string> = new Map();
 // Load the custom-elements manifest to verify wrapper surface matches
 let manifestComponentCount = 0;
 try {
@@ -83,13 +101,24 @@ try {
     new URL("../../custom-elements.json", import.meta.url)
   );
   if (manifestResponse.ok) {
-    const manifest = (await manifestResponse.json()) as {
-      modules: Array<{ exports?: Array<{ name: string }> }>;
-    };
+    const manifest = (await manifestResponse.json()) as CustomElementsManifest;
     const manifestExports = manifest.modules
       ?.flatMap((m) => m.exports ?? [])
       .filter((e) => e.name.startsWith("Nys")) ?? [];
     manifestComponentCount = manifestExports.length;
+
+    for (const mod of manifest.modules ?? []) {
+      // Derive package name from module path, e.g. packages/nys-fileinput/src/nys-fileitem.ts -> @nysds/nys-fileinput
+      const match = /(?:^|\/)packages\/([^/]+)\//.exec(mod.path);
+      if (match) {
+        const packageName = `@nysds/${match[1]}`;
+        for (const decl of mod.declarations ?? []) {
+          if (decl.customElement && decl.tagName) {
+            tagPackageMap.set(decl.tagName, packageName);
+          }
+        }
+      }
+    }
   }
 } catch {
   // Manifest unavailable in test environment; fall back to checking against exported count
@@ -119,6 +148,17 @@ describe("every export renders and upgrades", () => {
       expect(el instanceof ctor!, `<${el!.localName}> did not upgrade`).toBe(
         true
       );
+
+      // Verify element constructor is exported by its source package
+      const packageName = tagPackageMap.get(el!.localName);
+      if (packageName) {
+        const sourcePkg = (await import(/* @vite-ignore */ packageName)) as Record<string, unknown>;
+        const isExported = Object.values(sourcePkg).includes(ctor);
+        expect(
+          isExported,
+          `The constructor for <${el!.localName}> must be exported by package "${packageName}"`
+        ).toBe(true);
+      }
     });
   }
 });

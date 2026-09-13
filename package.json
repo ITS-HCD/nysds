@@ -135,7 +135,9 @@
   },
   "overrides": {
     "storybook": "$storybook",
-    "playwright": "1.61.0"
+    "playwright": "1.61.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "dependencies": {
     "dompurify": "^3.4.7",
