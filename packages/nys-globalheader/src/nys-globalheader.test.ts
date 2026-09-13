@@ -72,9 +72,7 @@ describe("nys-globalheader", () => {
 
     await el.updateComplete;
 
-    const active = el.shadowRoot?.querySelector(
-      ".nys-globalheader__content li.active a",
-    );
+    const active = el.querySelector("li.active a");
 
     expect(active?.getAttribute("href")).to.equal("/services");
   });
@@ -95,8 +93,7 @@ describe("nys-globalheader", () => {
     await el.updateComplete;
 
     // Check if the slot has content
-    const content = el.shadowRoot?.querySelector(".nys-globalheader__content");
-    const testSlot = content?.querySelector(".test-slot");
+    const testSlot = el.querySelector(".test-slot");
     expect(testSlot).to.exist;
     expect(testSlot?.textContent).to.include("Services");
   });
@@ -117,15 +114,11 @@ describe("nys-globalheader", () => {
     await new Promise((r) => setTimeout(r, 0));
     await el.updateComplete;
 
-    const desktop = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement;
-    const mobile = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content-mobile",
-    ) as HTMLElement;
-
-    expect(desktop.querySelectorAll("a").length).to.equal(2);
-    expect(mobile.querySelectorAll("a").length).to.equal(2);
+    expect(el.querySelectorAll("a").length).to.equal(2);
+    // And its presence is now reflected in the shadow-rendered button.
+    expect(
+      el.shadowRoot!.querySelector(".nys-globalheader__mobile-menu-button"),
+    ).to.exist;
 
     // --- Remove slot content ---
     el.removeChild(ul);
@@ -133,8 +126,10 @@ describe("nys-globalheader", () => {
     await new Promise((r) => setTimeout(r, 0));
     await el.updateComplete;
 
-    expect(desktop.innerHTML).to.equal("");
-    expect(mobile.innerHTML).to.equal("");
+    expect(el.querySelectorAll("a").length).to.equal(0);
+    expect(
+      el.shadowRoot!.querySelector(".nys-globalheader__mobile-menu-button"),
+    ).to.not.exist;
   });
 
   it("renders content in the user-actions slot", async () => {
@@ -151,7 +146,7 @@ describe("nys-globalheader", () => {
     expect(button).to.exist;
   });
 
-  it("sets active class on clicked nav link (desktop and mobile)", async () => {
+  it("sets active class on clicked nav link", async () => {
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader>
         <ul>
@@ -163,38 +158,12 @@ describe("nys-globalheader", () => {
 
     await el.updateComplete;
 
-    // ---------- Desktop ----------
-    const desktop = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement;
-
-    const desktopLinks = desktop.querySelectorAll("a");
-    clickWithoutNavigation(desktopLinks[1] as HTMLElement);
+    const links = el.querySelectorAll("a");
+    clickWithoutNavigation(links[1] as HTMLElement);
 
     await el.updateComplete;
 
-    let activeLis = desktop.querySelectorAll("li.active");
-    expect(activeLis.length).to.equal(1);
-    expect(activeLis[0].textContent?.trim()).to.equal("Two");
-
-    // ---------- Mobile ----------
-    const mobileButton = el.shadowRoot!.querySelector(
-      ".nys-globalheader__mobile-menu-button",
-    ) as HTMLButtonElement;
-
-    mobileButton.click();
-    await el.updateComplete;
-
-    const mobile = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content-mobile",
-    ) as HTMLElement;
-
-    const mobileLinks = mobile.querySelectorAll("a");
-    clickWithoutNavigation(mobileLinks[1] as HTMLElement);
-
-    await el.updateComplete;
-
-    activeLis = mobile.querySelectorAll("li.active");
+    const activeLis = el.querySelectorAll("li.active");
     expect(activeLis.length).to.equal(1);
     expect(activeLis[0].textContent?.trim()).to.equal("Two");
   });
@@ -218,7 +187,7 @@ describe("nys-globalheader", () => {
     expect(el.id).to.equal("my-header");
   });
 
-  it("renders nav landmarks for navigation content", async () => {
+  it("renders a nav landmark for navigation content", async () => {
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader>
         <ul>
@@ -228,16 +197,11 @@ describe("nys-globalheader", () => {
     `);
     await el.updateComplete;
 
-    const desktopNav = el.shadowRoot?.querySelector(
-      "nav.nys-globalheader__content",
-    );
-    const mobileNav = el.shadowRoot?.querySelector(
-      "nav.nys-globalheader__content-mobile",
-    );
-    expect(desktopNav).to.exist;
-    expect(mobileNav).to.exist;
-    expect(desktopNav?.getAttribute("aria-label")).to.exist;
-    expect(mobileNav?.getAttribute("aria-label")).to.exist;
+    // The links are slotted straight through — no separate desktop/mobile
+    // copies — so there is exactly one nav landmark, styled responsively.
+    const nav = el.shadowRoot?.querySelector("nav.nys-globalheader__content");
+    expect(nav).to.exist;
+    expect(nav?.getAttribute("aria-label")).to.exist;
   });
 
   // --- Regression: #1795 — paired with nys-unavheader this is one of two banner
@@ -355,18 +319,16 @@ describe("nys-globalheader", () => {
     `);
     await el.updateComplete;
 
-    const active = el.shadowRoot?.querySelector(
-      ".nys-globalheader__content li.active a",
-    );
-    const inactive = el.shadowRoot?.querySelector(
-      '.nys-globalheader__content li:not(.active) a[href="/about"]',
-    );
+    // The links are the author's own light-DOM nodes, slotted through rather
+    // than cloned into the shadow DOM, so they're queried on the host.
+    const active = el.querySelector("li.active a");
+    const inactive = el.querySelector('li:not(.active) a[href="/about"]');
     expect(active?.getAttribute("aria-current")).to.equal("page");
     expect(inactive?.getAttribute("aria-current")).to.be.null;
   });
 
-  // --- Regression: #1726 — an author-set aria-current must survive the clone into
-  // the shadow DOM and must not be overwritten by the pathname heuristic. ---
+  // --- Regression: #1726 — an author-set aria-current must not be overwritten
+  // by the pathname heuristic. ---
   it("honors an author-set aria-current instead of matching the pathname", async () => {
     history.pushState({}, "", "/services");
 
@@ -380,26 +342,16 @@ describe("nys-globalheader", () => {
     `);
     await el.updateComplete;
 
-    // Both the desktop and the mobile copy are rebuilt from the same light DOM.
-    for (const selector of [
-      ".nys-globalheader__content",
-      ".nys-globalheader__content-mobile",
-    ]) {
-      const nav = el.shadowRoot?.querySelector(selector) as HTMLElement;
-      const authored = nav.querySelector('a[href="/about"]');
-      const pathnameMatch = nav.querySelector('a[href="/services"]');
+    const authored = el.querySelector('a[href="/about"]');
+    const pathnameMatch = el.querySelector('a[href="/services"]');
 
-      expect(authored?.getAttribute("aria-current"), selector).to.equal("page");
-      // The pathname match must not steal the current-page state.
-      expect(pathnameMatch?.getAttribute("aria-current"), selector).to.be.null;
-      // ...and the visual active state follows the author, not the URL.
-      expect(authored?.closest("li")?.classList.contains("active"), selector).to
-        .be.true;
-      expect(
-        pathnameMatch?.closest("li")?.classList.contains("active"),
-        selector,
-      ).to.be.false;
-    }
+    expect(authored?.getAttribute("aria-current")).to.equal("page");
+    // The pathname match must not steal the current-page state.
+    expect(pathnameMatch?.getAttribute("aria-current")).to.be.null;
+    // ...and the visual active state follows the author, not the URL.
+    expect(authored?.closest("li")?.classList.contains("active")).to.be.true;
+    expect(pathnameMatch?.closest("li")?.classList.contains("active")).to.be
+      .false;
   });
 
   it("leaves an author-set aria-current in place when another link is clicked", async () => {
@@ -415,17 +367,14 @@ describe("nys-globalheader", () => {
     `);
     await el.updateComplete;
 
-    const nav = el.shadowRoot?.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement;
-    clickWithoutNavigation(nav.querySelector('a[href="/services"]')!);
+    clickWithoutNavigation(el.querySelector('a[href="/services"]')!);
     await el.updateComplete;
 
     expect(
-      nav.querySelector('a[href="/about"]')?.getAttribute("aria-current"),
+      el.querySelector('a[href="/about"]')?.getAttribute("aria-current"),
     ).to.equal("page");
     expect(
-      nav.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
+      el.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
     ).to.be.null;
   });
 
@@ -442,15 +391,14 @@ describe("nys-globalheader", () => {
     `);
     await el.updateComplete;
 
-    const nav = el.shadowRoot?.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement;
     expect(
-      nav.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
+      el.querySelector('a[href="/services"]')?.getAttribute("aria-current"),
     ).to.equal("page");
   });
 
-  it("preserves the author's other attributes on cloned nav links", async () => {
+  it("preserves the author's other attributes on the slotted link", async () => {
+    // No cloning anymore, so this is really just confirming the node
+    // rendered through the slot is the same node the author wrote.
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader>
         <ul>
@@ -469,9 +417,7 @@ describe("nys-globalheader", () => {
     `);
     await el.updateComplete;
 
-    const link = el.shadowRoot?.querySelector(
-      '.nys-globalheader__content a[href="/reports"]',
-    );
+    const link = el.querySelector('a[href="/reports"]');
     expect(link?.getAttribute("aria-label")).to.equal("Annual reports");
     expect(link?.getAttribute("aria-describedby")).to.equal("hint");
     expect(link?.getAttribute("rel")).to.equal("noopener");
@@ -494,10 +440,12 @@ describe("nys-globalheader", () => {
 
     expect(button.getAttribute("aria-expanded")).to.equal("false");
 
+    // One nav now, used both for the desktop bar and the mobile panel, so
+    // the toggle controls that single landmark.
     const controls = button.getAttribute("aria-controls");
-    expect(controls).to.equal(`${el.id}-mobile-nav`);
-    const mobileNav = el.shadowRoot?.querySelector(`#${controls}`);
-    expect(mobileNav).to.exist;
+    expect(controls).to.equal(`${el.id}-nav`);
+    const nav = el.shadowRoot?.querySelector(`#${controls}`);
+    expect(nav).to.exist;
 
     button.click();
     await el.updateComplete;
@@ -576,7 +524,7 @@ describe("nys-globalheader mobile menu focus trap", () => {
       ".nys-globalheader__button-container",
     );
     const nav = el.shadowRoot?.querySelector<HTMLElement>(
-      ".nys-globalheader__content-mobile",
+      ".nys-globalheader__content",
     );
     if (toggleContainer) toggleContainer.style.display = "flex";
     if (nav) nav.style.display = "flex";
@@ -604,11 +552,9 @@ describe("nys-globalheader mobile menu focus trap", () => {
     toggle.click();
     await el.updateComplete;
 
-    const links = Array.from(
-      el
-        .shadowRoot!.querySelector(".nys-globalheader__content-mobile")!
-        .querySelectorAll<HTMLAnchorElement>("a"),
-    );
+    // The links are the author's own light-DOM nodes, slotted straight
+    // through — there's no separate mobile copy to query anymore.
+    const links = Array.from(el.querySelectorAll<HTMLAnchorElement>("a"));
 
     return { el, toggle, links };
   }
@@ -630,7 +576,9 @@ describe("nys-globalheader mobile menu focus trap", () => {
 
     const last = links[links.length - 1];
     last.focus();
-    expect(el.shadowRoot!.activeElement).to.equal(last);
+    // The link is light DOM, not shadow DOM, so it shows up on `document`
+    // directly rather than via `el.shadowRoot.activeElement`.
+    expect(document.activeElement).to.equal(last);
 
     const event = pressKey("Tab");
     expect(event.defaultPrevented).to.be.true;
@@ -645,17 +593,17 @@ describe("nys-globalheader mobile menu focus trap", () => {
 
     const event = pressKey("Tab", true);
     expect(event.defaultPrevented).to.be.true;
-    expect(el.shadowRoot!.activeElement).to.equal(links[links.length - 1]);
+    expect(document.activeElement).to.equal(links[links.length - 1]);
   });
 
   it("leaves Tab alone in the middle of the menu so the browser advances normally", async () => {
-    const { el, links } = await openMenu();
+    const { links } = await openMenu();
 
     links[0].focus();
     const event = pressKey("Tab");
     expect(event.defaultPrevented).to.be.false;
     // Focus is still inside the menu; the browser moves it from here.
-    expect(el.shadowRoot!.activeElement).to.equal(links[0]);
+    expect(document.activeElement).to.equal(links[0]);
   });
 
   it("pulls focus back into the menu when it has escaped altogether", async () => {

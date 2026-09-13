@@ -15,7 +15,7 @@ const meta: Meta = {
       inlineStories: true,
       description: {
         component:
-          'Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL, unless you set `aria-current` on a link\nyourself — then the header leaves the current-page state entirely to you, which is\nwhat apps that don\'t route on the pathname (hash-routed SPAs, for example) need.\nMobile menu toggles automatically on narrow screens.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysGlobalHeader appName="User Registration Form" agencyName="Office of Information Technology Services" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services"></nys-globalheader>\n```',
+          'Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysGlobalHeader appName="User Registration Form" agencyName="Office of Information Technology Services" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services"></nys-globalheader>\n```',
       },
     },
   },
@@ -151,40 +151,11 @@ export const WithLinks: Story = {
   },
 };
 
-export const AuthorcontrolledActiveLink: Story = {
-  render: () => {
-    return html`
-      <!-- Set aria-current yourself and the header stops guessing from the URL. -->
-      <nys-globalheader agencyName="Office of Information Technology Services">
-        <ul>
-          <li><a href="#/services">Services</a></li>
-          <li><a href="#/help" aria-current="page">Help Center</a></li>
-        </ul>
-      </nys-globalheader>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<!-- Set aria-current yourself and the header stops guessing from the URL. -->
-<nys-globalheader agencyName="Office of Information Technology Services">
-  <ul>
-    <li><a href="#/services">Services</a></li>
-    <li><a href="#/help" aria-current="page">Help Center</a></li>
-  </ul>
-</nys-globalheader>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const UserActions: Story = {
   render: () => {
     return html`
       <nys-globalheader agencyName="Office of Information Technology Services">
-        <nys-button slot="user-actions" label="Log out">
+        <nys-button id="my-action-slot" slot="user-actions" label="Log out">
           <nys-avatar
             slot="prefix-icon"
             ariaLabel="User avatar"
@@ -218,7 +189,7 @@ export const UserActions: Story = {
       source: {
         code: `
 <nys-globalheader agencyName="Office of Information Technology Services">
-  <nys-button slot="user-actions" label="Log out">
+  <nys-button id="my-action-slot" slot="user-actions" label="Log out">
     <nys-avatar slot="prefix-icon" ariaLabel="User avatar" initials="NY"></nys-avatar>
   </nys-button>
 </nys-globalheader>
