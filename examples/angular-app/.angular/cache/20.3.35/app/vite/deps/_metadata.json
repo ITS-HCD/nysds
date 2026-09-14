@@ -1,0 +1,70 @@
+{
+  "hash": "dc0f9274",
+  "configHash": "73b223a5",
+  "lockfileHash": "af88d4ca",
+  "browserHash": "7ed8a78f",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "d1b1db45",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "9c8c09b0",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "cdff7664",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "853d637e",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "dd57caeb",
+      "needsInterop": false
+    },
+    "@nysds/angular": {
+      "src": "../../../../../../../../packages/angular/dist/fesm2022/nysds-angular.mjs",
+      "file": "@nysds_angular.js",
+      "fileHash": "55d2db0c",
+      "needsInterop": false
+    },
+    "zone.js": {
+      "src": "../../../../../../../../node_modules/zone.js/fesm2015/zone.js",
+      "file": "zone__js.js",
+      "fileHash": "b5ced8ae",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-EMQLCQEU": {
+      "file": "chunk-EMQLCQEU.js"
+    },
+    "chunk-BTC6PHOZ": {
+      "file": "chunk-BTC6PHOZ.js"
+    },
+    "chunk-2OHGXXZ2": {
+      "file": "chunk-2OHGXXZ2.js"
+    },
+    "chunk-YDBJBPIF": {
+      "file": "chunk-YDBJBPIF.js"
+    },
+    "nys-icon.library-DHBltclg-T36HIRYT": {
+      "file": "nys-icon__library-DHBltclg-T36HIRYT.js"
+    },
+    "chunk-5K356HEJ": {
+      "file": "chunk-5K356HEJ.js"
+    }
+  }
+}

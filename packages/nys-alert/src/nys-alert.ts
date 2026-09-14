@@ -288,7 +288,9 @@ export class NysAlert extends NysElement {
       ${!this._alertClosed
         ? html` <div
             class="nys-alert__container ${this._slotHasContent ||
-            this.text?.trim().length > 0
+            this.text?.trim().length > 0 ||
+            this.primaryAction ||
+            this.secondaryAction
               ? ""
               : "nys-alert--centered"}"
           >
