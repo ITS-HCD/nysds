@@ -112,13 +112,31 @@ test("react plugin honors overrides and clears stale output", () => {
 // Angular plugin
 // ---------------------------------------------------------------------------
 
+/**
+ * Lays out a throwaway Angular package so the plugin's ng-packagr staging step
+ * reads a package.json and README from the temp dir, never the real package.
+ */
+const angularOptions = (dir: string) => {
+  const packageDir = path.join(dir, "angular");
+  const srcDir = path.join(packageDir, "src");
+  fs.mkdirSync(srcDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(packageDir, "package.json"),
+    JSON.stringify({ name: "@nysds/angular", version: "0.0.0" }),
+  );
+  fs.writeFileSync(path.join(packageDir, "README.md"), "# @nysds/angular\n");
+  return {
+    outDir: path.join(srcDir, "generated"),
+    overridesDir: path.join(srcDir, "overrides"),
+    ngbuildDir: path.join(packageDir, ".ngbuild"),
+    packageJsonPath: path.join(packageDir, "package.json"),
+  };
+};
+
 test("angular plugin writes typed proxies, a barrel, and the module", () => {
-  const dir = tmp("nysds-angular-");
-  const outDir = path.join(dir, "generated");
-  angularPlugin({
-    outDir,
-    overridesDir: path.join(dir, "overrides"),
-  }).packageLinkPhase({
+  const options = angularOptions(tmp("nysds-angular-"));
+  const { outDir } = options;
+  angularPlugin(options).packageLinkPhase({
     customElementsManifest: readManifest("manifest.json"),
   });
 
@@ -209,12 +227,9 @@ test("angular plugin writes typed proxies, a barrel, and the module", () => {
 });
 
 test("angular plugin generates plain wrappers from today's manifest", () => {
-  const dir = tmp("nysds-angular-today-");
-  const outDir = path.join(dir, "generated");
-  angularPlugin({
-    outDir,
-    overridesDir: path.join(dir, "overrides"),
-  }).packageLinkPhase({
+  const options = angularOptions(tmp("nysds-angular-today-"));
+  const { outDir } = options;
+  angularPlugin(options).packageLinkPhase({
     customElementsManifest: readManifest("manifest-today.json"),
   });
 
