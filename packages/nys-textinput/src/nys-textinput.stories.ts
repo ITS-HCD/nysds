@@ -13,6 +13,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A text input for collecting short, single-line data. Supports validation, input masking (tel),\npassword visibility toggle, and live error messaging. Form-associated via ElementInternals.\n\nUse for names, emails, passwords, phone numbers. For multi-line input, use `nys-textarea` instead.\nFor predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysTextinput label="Full Name" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-textinput label="Full Name"></nys-textinput>\n```',
+      },
     },
   },
 };

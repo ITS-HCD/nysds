@@ -1,5 +1,5 @@
 import { html, nothing } from "lit";
-import { NysFormControlElement } from "@nysds/internals";
+import { NysFormControlElement, dispatchNysEvent } from "@nysds/internals";
 import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // The input's accessible name is an aria-labelledby reference to this element
@@ -19,6 +19,39 @@ function adoptLightStyles() {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
 }
 
+// Resolves once the browser has had a real chance to finish hydrating an
+// SSR'd page (e.g. a React/Next.js host) before a light-DOM component
+// performs its first render. A single requestAnimationFrame isn't reliable
+// here: with streamed/RSC payloads, the segment containing this element can
+// hydrate more than one frame after its module (and thus this custom
+// element) registers. requestIdleCallback waits for the main thread to
+// actually go quiet, which covers that case; a capped timeout keeps a busy
+// page from deferring indefinitely. Safari has no requestIdleCallback, so it
+// falls back to a double rAF (one frame is what MDN/Web.dev document as the
+// minimum "next paint" proxy; two gives hydration a second frame of margin).
+function waitPastHydration(): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => resolve(), { timeout: 300 });
+    } else if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    } else {
+      resolve();
+    }
+  });
+}
+
+/** Detail payload for the `nys-change` event fired by `nys-radiobutton`. */
+export interface NysRadiobuttonChangeDetail {
+  id: string;
+  checked: boolean;
+  name: string;
+  value: string;
+}
+
+/** The `nys-change` event fired by `nys-radiobutton`. */
+export type NysRadiobuttonChangeEvent = CustomEvent<NysRadiobuttonChangeDetail>;
+
 /**
  * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.
  *
@@ -31,13 +64,16 @@ function adoptLightStyles() {
  * Since we can't do that naturally, we have supporting functions to keep track of keyboard navigation, a11y VO, and single radiobutton checked at all times.
  *
  * @element nys-radiobutton
+ * @formControl checked nys-change
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired when selection changes. Detail: `{id, checked, name, value}`.
- * @fires nys-focus - Fired when radio gains focus.
- * @fires nys-blur - Fired when radio loses focus.
- * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
+ * @fires {NysRadiobuttonChangeEvent} nys-change - Fired when the selection changes. Detail: `{id, checked, name, value}`. Bubbles and composed.
+ *
+ * Standalone radios (outside a `nys-radiogroup`) render their own native input
+ * and dispatch `nys-change` themselves. Inside a `nys-radiogroup` the group
+ * renders the inputs and owns the form contract: `nys-focus` and `nys-blur`
+ * arrive re-targeted from the group, and `nys-other-input` fires on the group.
  *
  *
  * @example Pre-selected
@@ -65,7 +101,6 @@ function adoptLightStyles() {
  * </nys-radiogroup>
  * ```
  *
- * /**
  * @example Standalone, one per table row
  * ```html
  * <nys-table striped bordered>
@@ -224,6 +259,28 @@ export class NysRadiobutton extends NysFormControlElement {
     return this; // render() output lands directly in light DOM, no shadow root at all
   }
 
+  // Guards only the first update. This component renders into the light DOM
+  // (see createRenderRoot), so its first render is what injects the <input>/
+  // <nys-label> markup as real children of the host — the same node a
+  // framework's SSR hydration (e.g. Next.js) is walking. SSR never runs
+  // Lit's renderer, so it emits this element with no children; if the
+  // custom-element upgrade's first render lands before hydration finishes,
+  // React sees unexpected extra child nodes mid-walk and fails hydration
+  // (error #418). Deferring the first render until the main thread goes
+  // quiet (see waitPastHydration above) lets hydration settle against the
+  // bare, SSR-matching element first — Lit's own documented pattern for
+  // retiming an update (see ReactiveElement.scheduleUpdate). Later updates
+  // are unaffected.
+  private _firstUpdatePending = true;
+
+  protected async scheduleUpdate() {
+    if (this._firstUpdatePending) {
+      this._firstUpdatePending = false;
+      await waitPastHydration();
+    }
+    super.scheduleUpdate();
+  }
+
   connectedCallback() {
     super.connectedCallback(); // assigns an auto id when none is provided
     adoptLightStyles();
@@ -297,12 +354,14 @@ export class NysRadiobutton extends NysFormControlElement {
     if (this._isGrouped() || !this._inputEl) return;
 
     if (this.required && !this.disabled && !this._isGroupChecked()) {
+      this.internalValidationMessage = "Please select an option.";
       this.setValidityFromState(
         { valueMissing: true },
-        "Please select an option.",
+        this.resolvedErrorMessage(),
         this._inputEl,
       );
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
     }
   }
@@ -373,18 +432,12 @@ export class NysRadiobutton extends NysFormControlElement {
       this._uncheckOtherRadios(this);
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: {
-          id: this.id,
-          checked: this.checked,
-          name: this.name,
-          value: this.value,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysRadiobuttonChangeDetail>(this, "nys-change", {
+      id: this.id,
+      checked: this.checked,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   // Note to self:
