@@ -35,7 +35,7 @@ export type NysFileitemFileRemoveEvent =
  * @element nys-fileitem
  *
  * @fires {NysFileitemFileRemoveEvent} nys-file-remove Fired when the remove button is clicked. Detail: `{ filename }`.
- * @fires {NysFileitemFileRemoveEvent} nys-fileRemove @deprecated 1.x alias of `nys-file-remove`, fired
+ * @fires {NysFileitemFileRemoveEvent} nys-fileRemove deprecated 1.x alias of `nys-file-remove`, fired
  * alongside it. Listen for `nys-file-remove` instead; this name goes away in 2.0.
  */
 export class NysFileItem extends NysElement {
