@@ -76,6 +76,45 @@ type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  * </div>
  * ```
  *
+ * @example Size SM
+ * ```html
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+ *  <nys-card
+ *   size="sm"
+ *   preheading="Preheading"
+ *   heading="Heading"
+ *   subheading="Subheading"
+ *   description="A short description of the card's subject."
+ *  ></nys-card>
+ * </div>
+ * ```
+ *
+ * @example Size MD (default)
+ * ```html
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+ *  <nys-card
+ *   size="md"
+ *   preheading="Preheading"
+ *   heading="Heading"
+ *   subheading="Subheading"
+ *   description="A short description of the card's subject."
+ *  ></nys-card>
+ * </div>
+ * ```
+ *
+ * @example Size LG
+ * ```html
+ * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
+ *  <nys-card
+ *   size="lg"
+ *   preheading="Preheading"
+ *   heading="Heading"
+ *   subheading="Subheading"
+ *   description="A short description of the card's subject."
+ *  ></nys-card>
+ * </div>
+ * ```
+ *
  * @example Media
  * ```html
  * <div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">
@@ -256,6 +295,12 @@ export class NysCard extends NysElement {
    * Unique identifier. Auto-generated if not provided.
    */
   @property({ type: String, reflect: true }) id = "";
+
+  /**
+   * The size of the text content within a card (preheading, heading, subheading, and description).
+   * @default "md"
+   */
+  @property({ type: String, reflect: true }) size: "sm" | "md" | "lg" = "md";
 
   /**
    * Appears above the heading text.
