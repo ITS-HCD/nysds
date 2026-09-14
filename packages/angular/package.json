@@ -1,6 +1,6 @@
 {
   "name": "@nysds/angular",
-  "version": "1.22.0-alpha-2",
+  "version": "1.22.0-alpha-5",
   "description": "Angular components for the New York State Design System, generated from the NYSDS web components.",
   "type": "module",
   "license": "MIT",
@@ -24,7 +24,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/fesm2022/nysds-angular.mjs"
+      "default": "./dist/fesm2022/nysds-angular.mjs"
+    },
+    "./forms": {
+      "types": "./dist/forms/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-forms.mjs"
     },
     "./accordion": {
       "types": "./dist/accordion/index.d.ts",
@@ -221,14 +225,15 @@
     "./video": {
       "types": "./dist/video/index.d.ts",
       "default": "./dist/fesm2022/nysds-angular-video.mjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "README.md"
   ],
   "scripts": {
-    "build": "ng-packagr --project ng-package.json",
+    "build": "ng-packagr --project .ngbuild/ng-package.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "prepublishOnly": "npm run build"

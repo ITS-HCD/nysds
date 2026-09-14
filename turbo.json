@@ -13,7 +13,10 @@
         "terrazzo.config.js",
         // Framework wrappers are generated from the manifest; a manifest
         // change must invalidate their build cache (framework-support WS0).
-        "$TURBO_ROOT$/custom-elements.json"
+        "$TURBO_ROOT$/custom-elements.json",
+        // The Angular staging project is generated alongside the wrapper
+        // sources but sits outside src/, so it needs its own input glob.
+        ".ngbuild/**"
       ],
       "outputs": ["dist/**", ".tsbuildinfo"],
       "env": ["NODE_ENV", "BUILD_FORMAT"],

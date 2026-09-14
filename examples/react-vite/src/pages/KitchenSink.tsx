@@ -25,7 +25,6 @@ import {
   NysIconlistitem,
   NysLabel,
   NysModal,
-  NysOption,
   NysPagination,
   NysProcesslist,
   NysProcesslistitem,
@@ -71,8 +70,10 @@ export function KitchenSink() {
           <NysUnavHeader hideTranslate hideSearch />
           <NysGlobalHeader appName="Example app" agencyName="Example Agency" />
           <NysBreadcrumbs>
-            <a href="/">Home</a>
-            <a href="/kitchen-sink">Kitchen sink</a>
+            <ol>
+              <li><a href="/">Home</a></li>
+              <li><a href="/kitchen-sink">Kitchen sink</a></li>
+            </ol>
           </NysBreadcrumbs>
         </div>
       </section>
@@ -102,9 +103,17 @@ export function KitchenSink() {
 
           <NysIconlist>
             <NysIconlistitem icon="close">Icon list item</NysIconlistitem>
+            <NysIconlistitem icon="close">Icon list item</NysIconlistitem>
+            <NysIconlistitem icon="close">Icon list item</NysIconlistitem>
+            <NysIconlistitem icon="close">Icon list item</NysIconlistitem>
+            <NysIconlistitem icon="close">Icon list item</NysIconlistitem>
           </NysIconlist>
 
           <NysProcesslist>
+            <NysProcesslistitem label="Step one" description="Do the first thing" />
+            <NysProcesslistitem label="Step one" description="Do the first thing" />
+            <NysProcesslistitem label="Step one" description="Do the first thing" />
+            <NysProcesslistitem label="Step one" description="Do the first thing" />
             <NysProcesslistitem label="Step one" description="Do the first thing" />
           </NysProcesslist>
 
@@ -120,7 +129,7 @@ export function KitchenSink() {
             <NysTabpanel id="ks-tab-2">Second panel</NysTabpanel>
           </NysTabgroup>
 
-          <NysTable>
+          <NysTable bordered>
             <table>
               <thead>
                 <tr>
@@ -148,7 +157,7 @@ export function KitchenSink() {
           <NysTextinput label="Text input" name="ks-text" />
           <NysTextarea label="Textarea" name="ks-textarea" />
           <NysSelect label="Select" name="ks-select">
-            <NysOption value="a" label="Option A" />
+            <option value="a">Option A</option>
             <option value="b">Option B</option>
           </NysSelect>
           <NysCombobox label="Combobox" name="ks-combobox">
@@ -204,12 +213,28 @@ export function KitchenSink() {
         <div className="nys-display-flex nys-flex-column nys-flex-align-start nys-flex-gap-300">
           <NysPagination totalPages={5} currentPage={1} />
 
-          <NysVerticalnav heading="Section navigation">
-            <NysVerticalnavGroup label="Group">
-              <a href="/kitchen-sink">A link</a>
-            </NysVerticalnavGroup>
+          <NysVerticalnav heading="NYS Design System" headingLevel="h2">
+            <ul>
+              <li><a href="/">Foundations</a></li>
+              <li><a href="/components">Components</a></li>
+              <li>
+                <NysVerticalnavGroup label="Accessibility">
+                  <ul>
+                    <li><a href="">WCAG Guidelines</a></li>
+                    <li><a href="">Screen Readers</a></li>
+                    <li><a href="">Color Contrast</a></li>
+                  </ul>
+                </NysVerticalnavGroup>
+              </li>
+              <li>
+                <h3>Resources</h3>
+                <ul>
+                  <li><a href="">Design Tokens</a></li>
+                  <li><a href="">Utilities</a></li>
+                </ul>
+              </li>
+            </ul>
           </NysVerticalnav>
-
           <NysBacktotop />
         </div>
       </section>

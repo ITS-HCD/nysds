@@ -1,15 +1,16 @@
 import { Component, signal } from "@angular/core";
-import {
-  NysAlertComponent,
-  NysButtonComponent,
-  NysDropdownMenuComponent,
-  NysDropdownMenuItemComponent,
-  NysModalComponent,
-  NysPaginationComponent,
-  NysTabComponent,
-  NysTabgroupComponent,
-  NysTabpanelComponent,
-} from "@nysds/angular";
+// Imported through the per-component subpaths rather than the barrel, so the
+// published `exports` map for those entry points stays covered by CI. Every
+// other page imports from "@nysds/angular", which keeps both styles exercised.
+import { NysAlertComponent } from "@nysds/angular/alert";
+import { NysButtonComponent } from "@nysds/angular/button";
+import { NysDropdownMenuComponent } from "@nysds/angular/dropdownmenu";
+import { NysDropdownMenuItemComponent } from "@nysds/angular/dropdownmenuitem";
+import { NysModalComponent } from "@nysds/angular/modal";
+import { NysPaginationComponent } from "@nysds/angular/pagination";
+import { NysTabComponent } from "@nysds/angular/tab";
+import { NysTabgroupComponent } from "@nysds/angular/tabgroup";
+import { NysTabpanelComponent } from "@nysds/angular/tabpanel";
 
 /**
  * Exercises typed component events: every handler appends the event

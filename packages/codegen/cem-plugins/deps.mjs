@@ -28,10 +28,16 @@ function reactSubpathEntry(component) {
 }
 
 function angularSubpathEntry(component) {
-  // ng-packagr secondary entry points; WS4 owns the final dist layout.
+  // One ng-packagr secondary entry point per component, generated into the
+  // staging tree by the angular wrapper plugin.
+  return angularEntry(component.subpath);
+}
+
+/** An `exports` entry for one ng-packagr entry point, by its subpath. */
+function angularEntry(subpath) {
   return {
-    types: `./dist/${component.subpath}/index.d.ts`,
-    default: `./dist/fesm2022/nysds-angular-${component.subpath}.mjs`,
+    types: `./dist/${subpath}/index.d.ts`,
+    default: `./dist/fesm2022/nysds-angular-${subpath}.mjs`,
   };
 }
 
@@ -102,21 +108,35 @@ export function depsPlugin(options = {}) {
           delete pkg.peerDependencies["@nysds/components"];
         }
 
-        // For React: generate subpath exports for per-component bundling.
-        // For Angular: ng-packagr owns the exports (dist/package.json); skip here.
-        if (target.framework === "react") {
-          const exportsMap = {};
+        // Subpath exports for per-component bundling. These are generated for
+        // both frameworks: hand-maintaining the Angular half is what let it
+        // drift into advertising a subpath for every component while the build
+        // emitted a single bundle.
+        const exportsMap = {};
+        if (target.framework === "angular") {
+          exportsMap["."] = {
+            types: "./dist/index.d.ts",
+            default: "./dist/fesm2022/nysds-angular.mjs",
+          };
+          // The shared form-control accessors are their own entry point so no
+          // source file is compiled into more than one bundle.
+          exportsMap["./forms"] = angularEntry("forms");
+        } else {
           exportsMap["."] = pkg.exports?.["."] ?? {
             types: "./dist/index.d.ts",
             import: "./dist/index.js",
           };
-          for (const component of components) {
-            exportsMap[`./${component.subpath}`] = subpathEntry(component);
-          }
-          // Note: package.json is always accessible via the filesystem and doesn't
-          // need an explicit export entry. ng-packagr fails if we add it as a bare string.
-          pkg.exports = exportsMap;
         }
+        for (const component of components) {
+          exportsMap[`./${component.subpath}`] = subpathEntry(component);
+        }
+        if (target.framework === "angular") {
+          // Several tools resolve `<pkg>/package.json` directly. Safe to add
+          // here: ng-packagr generates its own map for dist/ and never reads
+          // this one.
+          exportsMap["./package.json"] = "./package.json";
+        }
+        pkg.exports = exportsMap;
 
         fs.writeFileSync(target.path, JSON.stringify(pkg, null, 2) + "\n");
       }

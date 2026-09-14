@@ -1,4 +1,4 @@
-import { Directive, HostListener, inject } from "@angular/core";
+import { Directive, HostListener } from "@angular/core";
 import { ControlValueAccessor } from "@angular/forms";
 import type { ElementRef } from "@angular/core";
 

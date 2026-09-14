@@ -66,8 +66,8 @@ jobs:
               | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{for(const p of JSON.parse(d))for(const f of p.files)console.log(f.path)})")
             echo "$w tarball contents:"
             echo "$files"
-            if echo "$files" | grep -qE '^(src/|demo/|integration-test/|\.turbo/|package-lock\.json$)'; then
-              echo "::error::$w tarball contains files that must not be published (src/, demo/, integration-test/, .turbo/, or package-lock.json)."
+            if echo "$files" | grep -qE '^(src/|demo/|integration-test/|\.turbo/|\.ngbuild/|package-lock\.json$)'; then
+              echo "::error::$w tarball contains files that must not be published (src/, demo/, integration-test/, .turbo/, .ngbuild/, or package-lock.json)."
               status=1
             fi
           done
