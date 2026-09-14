@@ -725,6 +725,8 @@ export type NysIconlistProps = {
   id?: string;
   /** Draws a divider between items. No divider is drawn after the last item. */
   divider?: boolean;
+  /** Adjusts colors for dark backgrounds. */
+  inverted?: boolean;
 };
 
 export type NysIconlistitemProps = {

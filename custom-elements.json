@@ -9776,6 +9776,17 @@
             },
             {
               "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds.",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_childObserver",
               "privacy": "private",
               "default": "new MutationObserver(() => this._syncDividers())"
@@ -9812,6 +9823,16 @@
               "description": "Draws a divider between items. No divider is drawn after the last item.",
               "fieldName": "divider",
               "propName": "divider"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds.",
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {
@@ -9840,6 +9861,11 @@
             {
               "title": "Secondary label",
               "code": "<nys-iconlist id=\"event-details3\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-iconlist id=\"demo-inverted\" divider inverted>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
