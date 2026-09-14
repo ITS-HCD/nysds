@@ -8368,7 +8368,7 @@
               "type": {
                 "text": "NysFileitemFileRemoveEvent"
               },
-              "description": "@deprecated 1.x alias of `nys-file-remove`, fired alongside it. Listen for `nys-file-remove` instead; this name goes away in 2.0.",
+              "description": "deprecated 1.x alias of `nys-file-remove`, fired alongside it. Listen for `nys-file-remove` instead; this name goes away in 2.0.",
               "name": "nys-fileRemove"
             }
           ],
