@@ -27,6 +27,9 @@ export interface NysCardProps extends Pick<
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysCardElement["id"];
 
+  /** The size of the text content within a card (preheading, heading, subheading, and description). */
+  size?: NysCardElement["size"];
+
   /** Appears above the heading text. */
   preheading?: NysCardElement["preheading"];
 
