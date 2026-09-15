@@ -50,7 +50,7 @@ export interface NysIconlistProps extends Pick<
 }
 
 /**
- * A scannable list of icon + text items, with an optional divider between rows.
+ * A scannable list of icon + text items.
  * ---
  *
  */

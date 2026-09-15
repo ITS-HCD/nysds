@@ -9789,13 +9789,18 @@
               "kind": "field",
               "name": "_childObserver",
               "privacy": "private",
-              "default": "new MutationObserver(() => this._syncDividers())"
+              "default": "new MutationObserver(() => { this._syncDividers(); this._syncInverted(); })"
             },
             {
               "kind": "field",
               "name": "_warnedChildren",
               "privacy": "private",
               "default": "new WeakSet<Element>()"
+            },
+            {
+              "kind": "method",
+              "name": "_syncInverted",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -9841,7 +9846,7 @@
           },
           "tagName": "nys-iconlist",
           "customElement": true,
-          "summary": "A scannable list of icon + text items, with an optional divider between rows.",
+          "summary": "A scannable list of icon + text items.",
           "examples": [
             {
               "title": "Basic",
@@ -9936,6 +9941,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be\nset directly.",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_handleSecondarySlotChange",
               "privacy": "private",
@@ -9969,6 +9985,16 @@
               "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
               "fieldName": "divider",
               "propName": "divider"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be\nset directly.",
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {

@@ -42,6 +42,7 @@
 
 :host([inverted]) {
   --_nys-iconlistitem-color: var(--nys-color-text-reverse, #ffffff);
+  --_nys-iconlistitem-color--divider: var(--nys-color-text-reverse, #ffffff);
 }
 
 .nys-iconlistitem {

@@ -23,7 +23,7 @@ function adoptLightStyles() {
  * default slot for the primary label. A second line can be added with `<span slot="secondary">`.
  * Set `divider` to draw a rule between items; no divider is drawn after the last item.
  *
- * @summary A scannable list of icon + text items, with an optional divider between rows.
+ * @summary A scannable list of icon + text items.
  * @element nys-iconlist
  *
  * Children: one or more `<nys-iconlistitem>` elements, kept in light DOM so the
