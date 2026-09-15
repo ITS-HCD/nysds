@@ -17555,6 +17555,44 @@
             },
             {
               "kind": "method",
+              "name": "_stripLanguagePrefix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "hostname",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Removes a leading language-code subdomain label (e.g. \"es.\") if present."
+            },
+            {
+              "kind": "method",
+              "name": "_smartlingUrl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "languageCode",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Builds the Smartling redirect URL for `languageCode`, preserving path/query/hash."
+            },
+            {
+              "kind": "method",
               "name": "_initLocalize",
               "privacy": "private"
             },

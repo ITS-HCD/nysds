@@ -115,6 +115,10 @@ const FEED_ICONS: Record<string, string> = {
 /** `true` only for the feed's explicit "on" switch. */
 const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
 
+/** Escapes regex metacharacters in a language code used to build a host-label pattern. */
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 /** The element the translate menu is rendered into, referenced by `aria-controls`. */
 const LANGUAGE_LIST_ID = "nys-unavheader__languagelist";
 
@@ -404,30 +408,12 @@ export class NysUnavHeader extends NysElement {
     this._alertRequest = null;
   }
 
-  willUpdate(changedProperties: PropertyValues) {
-    super.willUpdate(changedProperties);
-
-    if (!this.translateKey) {
-      this.hideTranslate = true;
-    } else {
-      if (
-        changedProperties.has("translateKey") &&
-        !this.hasAttribute("hideTranslate") &&
-        !changedProperties.has("hideTranslate")
-      ) {
-        this.hideTranslate = false;
-      }
-    }
-  }
-
   protected updated(changed: PropertyValues) {
     super.updated(changed);
     if (this.hideTranslate) return;
 
-    if (changed.has("translateKey")) {
+    if (changed.has("translateKey") || changed.has("hideTranslate")) {
       this._initLocalize();
-    } else {
-      console.log("Unable to translate. No key given");
     }
 
     // Both of these write ARIA into nys-button's shadow root, so they have to run
@@ -618,11 +604,50 @@ export class NysUnavHeader extends NysElement {
     options[this._activeOption]?.focus();
   }
 
+  /**
+   * Smartling fallback (no `translateKey`)
+   * --------------------------------------------------------------------------
+   * Instead of client-side translation, language selection is a full navigation
+   * to the same URL with the language code prepended as a subdomain label —
+   * agency.ny.gov -> es.agency.ny.gov. English strips the label entirely rather
+   * than adding "en.", since the untranslated site lives at the bare host.
+   */
+
+  /** Removes a leading language-code subdomain label (e.g. "es.") if present. */
+  private _stripLanguagePrefix(hostname: string): string {
+    const codes = this.languages
+      .map((lang) => lang.code)
+      .filter((code) => code.toLowerCase() !== "en");
+    if (!codes.length) return hostname;
+
+    const pattern = new RegExp(
+      `^(?:${codes.map(escapeRegExp).join("|")})\\.`,
+      "i",
+    );
+    return hostname.replace(pattern, "");
+  }
+
+  /** Builds the Smartling redirect URL for `languageCode`, preserving path/query/hash. */
+  private _smartlingUrl(languageCode: string): string {
+    const bareHost = this._stripLanguagePrefix(window.location.hostname);
+    const host =
+      languageCode.toLowerCase() === "en"
+        ? bareHost
+        : `${languageCode.toLowerCase()}.${bareHost}`;
+
+    const url = new URL(window.location.href);
+    url.hostname = host;
+    return url.toString();
+  }
+
   private _initLocalize() {
     if (this.hideTranslate) return;
 
     if (!this.translateKey) {
-      this.hideTranslate = true;
+      // Without a project key, Localize simply cannot run — don't load its
+      // script or attempt to initialize it. Smartling's URL-based redirect
+      // (see _smartlingUrl / _handleLanguageSelect) is the backup mechanism,
+      // and it's a full page navigation, so there's nothing to set up here.
       return;
     }
 
@@ -633,9 +658,6 @@ export class NysUnavHeader extends NysElement {
           rememberLanguage: true,
           autoApprove: true,
         });
-        // Fires for every language change, including the remembered language
-        // Localize re-applies on page load — so a returning visitor sees the
-        // disclaimer without re-selecting a language.
         (window as any).Localize.on("setLanguage", (data: any) => {
           this._updateTranslateDisclaimer(data?.to ?? data?.language);
         });
@@ -720,8 +742,6 @@ export class NysUnavHeader extends NysElement {
   }
 
   private _handleLanguageSelect(language: Language) {
-    // Focus goes back to the trigger, which matters when a page cancels the event
-    // and nothing navigates — otherwise focus would be dropped with the menu
     this._closeLanguageList();
 
     const event = new CustomEvent("nys-language-select", {
@@ -732,21 +752,29 @@ export class NysUnavHeader extends NysElement {
     });
 
     this.dispatchEvent(event);
+    if (event.defaultPrevented) return;
 
-    if (!event.defaultPrevented) {
-      if (language.url) {
-        // Use the provided URL override
-        window.location.href = language.url;
+    if (language.url) {
+      // Explicit per-language override always wins
+      window.location.href = language.url;
+      return;
+    }
+
+    if (this.translateKey) {
+      // Localize-driven translation
+      if (typeof (window as any).Localize !== "undefined") {
+        (window as any).Localize.setLanguage(language.code);
       } else {
-        // Default behavior: use Localize API instead of subdomain redirect
-        if (typeof (window as any).Localize !== "undefined") {
-          // The "setLanguage" listener registered in _initLocalize shows the
-          // disclaimer once Localize confirms the change
-          (window as any).Localize.setLanguage(language.code);
-        } else {
-          this._updateTranslateDisclaimer(language.code);
-        }
+        this._updateTranslateDisclaimer(language.code);
       }
+      return;
+    }
+
+    // No Localize key: Smartling's subdomain redirect is the mechanism.
+    // Skip the reload entirely if it would land on the page we're already on.
+    const target = this._smartlingUrl(language.code);
+    if (target !== window.location.href) {
+      window.location.href = target;
     }
   }
 
@@ -1077,7 +1105,6 @@ export class NysUnavHeader extends NysElement {
           </div>
         </div>
         <div
-          id="nys-unavheader__trustpanel"
           id="nys-unavheader__trustpanel"
           class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
             ? "show"
