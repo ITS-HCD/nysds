@@ -725,6 +725,8 @@ export type NysIconlistProps = {
   id?: string;
   /** Draws a divider between items. No divider is drawn after the last item. */
   divider?: boolean;
+  /** Adjusts colors for dark backgrounds. */
+  inverted?: boolean;
 };
 
 export type NysIconlistitemProps = {
@@ -733,6 +735,9 @@ export type NysIconlistitemProps = {
   /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
 set directly. */
   divider?: boolean;
+  /** Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be
+set directly. */
+  inverted?: boolean;
 };
 
 export type NysLabelProps = {
@@ -1624,7 +1629,7 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
-   * A scannable list of icon + text items, with an optional divider between rows.
+   * A scannable list of icon + text items.
    * ---
    *
    */
