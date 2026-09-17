@@ -71,7 +71,7 @@ All issues should have a prefix that indicates the type of issue. Prefixes shoul
 
 ### Branches
 
-- **bug/**: For bug fixes.
+- **fix/**: For bug fixes.
 - **component/**: For new components.
 - **enhancement/**: For enhancements to existing components.
 - **pattern/**: For new design patterns.
