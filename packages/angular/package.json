@@ -239,8 +239,8 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "@angular/core": ">=20.0.0",
     "@angular/common": ">=20.0.0",
+    "@angular/core": ">=20.0.0",
     "@angular/forms": ">=20.0.0"
   },
   "dependencies": {
@@ -281,19 +281,20 @@
     "@nysds/nys-unavheader": "1.21.0",
     "@nysds/nys-verticalnav": "1.21.0",
     "@nysds/nys-video": "1.21.0",
+    "@vitest/browser": "^5.0.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
     "@angular/compiler-cli": "^20.0.0",
     "@angular/core": "^20.0.0",
-    "@angular/common": "^20.0.0",
     "@angular/forms": "^20.0.0",
     "@angular/platform-browser": "^20.0.0",
     "@angular/platform-browser-dynamic": "^20.0.0",
     "ng-packagr": "^20.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.4",
+    "vitest": "^5.0.1",
     "zone.js": "^0.15.0"
   }
 }

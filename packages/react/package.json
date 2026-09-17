@@ -285,12 +285,12 @@
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitest/browser": "^3.2.4",
+    "@vitest/browser": "^5.0.1",
     "playwright": "^1.61.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
-    "vitest": "^3.2.4"
+    "vitest": "^5.0.1"
   }
 }
