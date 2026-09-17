@@ -5,8 +5,8 @@
   "module": "dist/nys-avatar.js",
   "exports": {
     ".": {
-      "import": "./dist/nys-avatar.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-avatar.js"
     }
   },
   "type": "module",

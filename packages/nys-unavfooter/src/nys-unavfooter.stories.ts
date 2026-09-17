@@ -9,6 +9,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          "Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.\n\nPlace as the last element before `</body>`. Displays NY.gov logo and links to Agencies,\nApp Directory, Counties, Events, Programs, and Services. No configuration needed.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysUnavFooter />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-unavfooter></nys-unavfooter>\n```",
+      },
     },
   },
 };

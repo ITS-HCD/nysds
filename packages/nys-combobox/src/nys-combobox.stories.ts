@@ -13,6 +13,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          '`<nys-combobox>` is a form-enabled combo box combining text input with a filterable dropdown.\n\nFeatures:\n- Type to filter options\n- Keyboard navigation (Arrow keys, Enter, Escape)\n- Mouse and keyboard interaction\n- Clears non-selected text on blur\n- Clear button when value is selected\n- Integrates with forms via ElementInternals\n- Supports native <option> and <optgroup> elements\n- Accessible per W3C ARIA Authoring Practices\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysCombobox label="Select your favorite fruit">\n  <option value="apple">Apple</option>\n  <option value="banana">Banana</option>\n  <option value="cherry">Cherry</option>\n  <option value="date">Date</option>\n  <option value="elderberry">Elderberry</option>\n  <option value="fig">Fig</option>\n  <option value="grape">Grape</option>\n  <option value="honeydew">Honeydew</option>\n  <option value="kiwi">Kiwi</option>\n  <option value="lemon">Lemon</option>\n  <option value="mango">Mango</option>\n  <option value="nectarine">Nectarine</option>\n  <option value="orange">Orange</option>\n  <option value="papaya">Papaya</option>\n  <option value="quince">Quince</option>\n  <option value="raspberry">Raspberry</option>\n  <option value="strawberry">Strawberry</option>\n  <option value="tangerine">Tangerine</option>\n  <option value="watermelon">Watermelon</option>\n</NysCombobox>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-combobox label="Select your favorite fruit">\n  <option value="apple">Apple</option>\n  <option value="banana">Banana</option>\n  <option value="cherry">Cherry</option>\n  <option value="date">Date</option>\n  <option value="elderberry">Elderberry</option>\n  <option value="fig">Fig</option>\n  <option value="grape">Grape</option>\n  <option value="honeydew">Honeydew</option>\n  <option value="kiwi">Kiwi</option>\n  <option value="lemon">Lemon</option>\n  <option value="mango">Mango</option>\n  <option value="nectarine">Nectarine</option>\n  <option value="orange">Orange</option>\n  <option value="papaya">Papaya</option>\n  <option value="quince">Quince</option>\n  <option value="raspberry">Raspberry</option>\n  <option value="strawberry">Strawberry</option>\n  <option value="tangerine">Tangerine</option>\n  <option value="watermelon">Watermelon</option>\n</nys-combobox>\n```',
+      },
     },
   },
 };
@@ -351,15 +355,22 @@ export const WidthLarge: Story = {
 
 export const Description: Story = {
   render: () => {
-    return html`<pre
-      style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"
-    ><code>${'```html\n<nys-combobox\n  label="Select your favorite fruit"\n  description="Choose from the list of available fruits."\n>\n  <option value="apple">Apple</option>\n  <option value="banana">Banana</option>\n  <option value="orange">Orange</option>\n  <option value="strawberry">Strawberry</option>\n</nys-combobox>\n```d'}</code></pre>`;
+    return html`
+      <nys-combobox
+        label="Select your favorite fruit"
+        description="Choose from the list of available fruits."
+      >
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+        <option value="orange">Orange</option>
+        <option value="strawberry">Strawberry</option>
+      </nys-combobox>
+    `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-\`\`\`html
 <nys-combobox
   label="Select your favorite fruit"
   description="Choose from the list of available fruits."
@@ -368,8 +379,7 @@ export const Description: Story = {
   <option value="banana">Banana</option>
   <option value="orange">Orange</option>
   <option value="strawberry">Strawberry</option>
-</nys-combobox>
-\`\`\`d`,
+</nys-combobox>`,
         type: "auto",
       },
     },

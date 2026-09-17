@@ -13,6 +13,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.\nForm-associated with validation via ElementInternals.\n\nUse when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.\nFor multiple selections, use `nys-checkbox` group instead.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysSelect label="Select your favorite borough" id="borough">\n  <option value="bronx" label="The Bronx" />\n  <option value="brooklyn" label="Brooklyn" />\n  <option value="manhattan" label="Manhattan" />\n  <option value="staten_island" label="Staten Island" />\n  <option value="queens" label="Queens" />\n</NysSelect>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-select label="Select your favorite borough" id="borough">\n  <option value="bronx" label="The Bronx"></option>\n  <option value="brooklyn" label="Brooklyn"></option>\n  <option value="manhattan" label="Manhattan"></option>\n  <option value="staten_island" label="Staten Island"></option>\n  <option value="queens" label="Queens"></option>\n</nys-select>\n```',
+      },
     },
   },
 };

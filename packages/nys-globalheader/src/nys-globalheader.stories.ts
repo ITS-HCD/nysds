@@ -13,6 +13,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysGlobalHeader appName="User Registration Form" agencyName="Office of Information Technology Services" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services"></nys-globalheader>\n```',
+      },
     },
   },
 };

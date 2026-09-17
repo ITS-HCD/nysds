@@ -18,6 +18,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Vertical navigation component with responsive desktop/mobile behavior.\n\nRenders as a side navigation on desktop and collapses into a\n`<nys-accordion>` on tablet and mobile. The default slot accepts a\n`<ul>` of links with optional section headings (`<h2>` to `<h6>`) or\n`<nys-verticalnavgroup>` elements. Use the `heading` slot to replace the\ngenerated heading and the `footer` slot for additional content below the\nnavigation.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysVerticalnav heading="Freshwater Fishing" headingLevel="h2">\n  <ul>\n    <li>\n      <a href="/">Home</a>\n    </li>\n    <li>\n      <a href="/services">Services</a>\n    </li>\n    <li>\n      <h3>Freshwater Fishing Regulations</h3>\n      <ul>\n        <li>\n          <a href="">Places to Fish</a>\n        </li>\n        <li>\n          <a href="">Learn to Fish</a>\n        </li>\n        <li>\n          <a href="">Ice Fishing</a>\n        </li>\n      </ul>\n    </li>\n  </ul>\n</NysVerticalnav>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-verticalnav heading="Freshwater Fishing" [headingLevel]="h2">\n  <ul>\n    <li>\n      <a href="/">Home</a>\n    </li>\n    <li>\n      <a href="/services">Services</a>\n    </li>\n    <li>\n      <h3>Freshwater Fishing Regulations</h3>\n      <ul>\n        <li>\n          <a href>Places to Fish</a>\n        </li>\n        <li>\n          <a href>Learn to Fish</a>\n        </li>\n        <li>\n          <a href>Ice Fishing</a>\n        </li>\n      </ul>\n    </li>\n  </ul>\n</nys-verticalnav>\n```',
+      },
     },
   },
 };

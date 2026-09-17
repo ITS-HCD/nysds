@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A breadcrumb navigation trail composed of `li` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysBreadcrumbs>\n  <ol>\n    <li>\n      <a href="/">Home</a>\n    </li>\n    <li>\n      <a href="/services">Services</a>\n    </li>\n  </ol>\n</NysBreadcrumbs>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-breadcrumbs>\n  <ol>\n    <li>\n      <a href="/">Home</a>\n    </li>\n    <li>\n      <a href="/services">Services</a>\n    </li>\n  </ol>\n</nys-breadcrumbs>\n```',
+      },
     },
   },
 };

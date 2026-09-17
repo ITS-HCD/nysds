@@ -9,6 +9,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A YouTube video player with a thumbnail preview and play button.\nLoads the iframe only after the user clicks play, keeping initial page load light.\nSupports autoplay (muted), custom thumbnails, start time, lazy loading, and disabled state.\nAnnounces playback state and ad state to screen readers via a live region.\n\nFor use with YouTube URLs only. Component renders nothing if the URL is invalid.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysVideo videourl="https://www.youtube.com/watch?v=TBfFzt0150Q" titleText="IT\'S a Tech Podcast, Episode 3: Human-Centered Design" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-video videourl="https://www.youtube.com/watch?v=TBfFzt0150Q" titleText="IT\'S a Tech Podcast, Episode 3: Human-Centered Design"></nys-video>\n```',
+      },
     },
   },
 };

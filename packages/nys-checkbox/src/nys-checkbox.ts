@@ -1,7 +1,12 @@
 import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement, associateControlRefs } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  associateControlRefs,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 import "./nys-checkboxgroup";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-checkbox is used. Importing them here
@@ -16,6 +21,61 @@ import "@nysds/nys-textinput";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
 
+/** Detail payload for the `nys-change` event fired by `nys-checkbox`. */
+export interface NysCheckboxChangeDetail {
+  id: string;
+  checked: boolean;
+  name: string;
+  value: string;
+}
+
+/** The `nys-change` event fired by `nys-checkbox`. */
+export type NysCheckboxChangeEvent = CustomEvent<NysCheckboxChangeDetail>;
+
+/** Detail payload for the `nys-other-input` event fired by `nys-checkbox`. */
+export interface NysCheckboxOtherInputDetail {
+  id: string;
+  name: string;
+  value: string;
+}
+
+/** The `nys-other-input` event fired by `nys-checkbox`. */
+export type NysCheckboxOtherInputEvent =
+  CustomEvent<NysCheckboxOtherInputDetail>;
+
+/**
+ * Detail payload for the `nys-error` group-coordination event.
+ * @internal
+ */
+export interface NysCheckboxErrorDetail {
+  id: string;
+  name: string;
+  type: "other";
+  message: string;
+  sourceCheckbox: NysCheckbox;
+}
+
+/**
+ * The `nys-error` group-coordination event.
+ * @internal
+ */
+export type NysCheckboxErrorEvent = CustomEvent<NysCheckboxErrorDetail>;
+
+/**
+ * Detail payload for the `nys-error-clear` group-coordination event.
+ * @internal
+ */
+export interface NysCheckboxErrorClearDetail {
+  sourceCheckbox: NysCheckbox;
+}
+
+/**
+ * The `nys-error-clear` group-coordination event.
+ * @internal
+ */
+export type NysCheckboxErrorClearEvent =
+  CustomEvent<NysCheckboxErrorClearDetail>;
+
 /**
  * A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.
  * Form-associated with validation via ElementInternals.
@@ -25,13 +85,16 @@ import styles from "./nys-checkbox.scss?inline";
  *
  * @summary Checkbox for binary choices or multi-select options.
  * @element nys-checkbox
+ * @formControl checked nys-change
  *
  * @slot description - Custom HTML description content.
  *
- * @fires nys-change - Fired when checked state changes. Detail: `{id, checked, name, value}`.
- * @fires nys-focus - Fired when checkbox gains focus.
- * @fires nys-blur - Fired when checkbox loses focus.
- * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
+ * @fires {NysCheckboxChangeEvent} nys-change - Fired when checked state changes. Detail: `{id, checked, name, value}`. Bubbles and composed.
+ * @fires {Event} nys-focus - Fired when checkbox gains focus. Bubbles and composed.
+ * @fires {Event} nys-blur - Fired when checkbox loses focus. Bubbles and composed.
+ * @fires {NysCheckboxOtherInputEvent} nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
+ * @fires {NysCheckboxErrorEvent} nys-error - Internal group coordination: reports an empty "other" field to the parent `nys-checkboxgroup`. Not part of the public API.
+ * @fires {NysCheckboxErrorClearEvent} nys-error-clear - Internal group coordination: clears a previously reported "other" field error. Not part of the public API.
  *
  * @example Single
  * ```html
@@ -84,8 +147,13 @@ export class NysCheckbox extends NysFormControlElement {
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
-  /** Internal: Set by parent checkboxgroup. Do not set manually. */
-  @property({ type: Boolean }) groupExist = false;
+  /**
+   * Set by the parent `nys-checkboxgroup` (via property) when all checkboxes
+   * in the group share a name, so the group owns the combined form value.
+   * Internal coordination state. Do not set manually.
+   * @internal
+   */
+  @state() groupExist = false;
 
   /** Renders as tile with larger clickable area. Apply to group for consistency. */
   @property({ type: Boolean, reflect: true }) tile = false;
@@ -98,7 +166,14 @@ export class NysCheckbox extends NysFormControlElement {
    * @default "md"
    */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
+  /** Renders an additional free-text input when checked ("Other" option). */
   @property({ type: Boolean, reflect: true }) other = false;
+
+  /**
+   * Whether the "other" free-text field is in an error state. Managed by the
+   * component during validation; treat as read-only.
+   * @internal
+   */
   @property({ type: Boolean }) showOtherError = false;
 
   /**
@@ -164,11 +239,29 @@ export class NysCheckbox extends NysFormControlElement {
       const input = this.shadowRoot?.querySelector("input");
       if (input) associateControlRefs(input, "labelledby", []);
     }
+
+    // Keep the form value in sync when `checked` or `value` is set
+    // programmatically (for example by a framework binding). User interaction
+    // paths also call setFormValue; the duplicate write is harmless. Groups
+    // with shared names own the combined form value instead.
+    if ((changed.has("checked") || changed.has("value")) && !this.groupExist) {
+      this.setFormValue(this.checked ? this.value : null);
+    }
   }
 
   updated(changed: Map<string, unknown>) {
     // Applying an external label must happen AFTER render, once the input exists.
     if (changed.has("labelledby") && this.labelledby) this._syncExternalLabel();
+
+    // Re-sync ElementInternals: `required` can arrive as a late property
+    // write (e.g. a framework wrapper setting it post-hydration, after
+    // firstUpdated already ran _manageRequire() once against the old
+    // value). The `?required="${this.required}"` template binding already
+    // keeps the native <input>'s attribute in sync declaratively; without
+    // this, ElementInternals would still report valid, the native `invalid`
+    // event would never fire on submit, and showError would never flip even
+    // though the checkbox is genuinely required and unchecked.
+    if (changed.has("required")) this._manageRequire();
   }
 
   /**
@@ -203,11 +296,15 @@ export class NysCheckbox extends NysFormControlElement {
 
   private _manageRequire() {
     const input = this.shadowRoot?.querySelector("input");
-    const message = this.errorMessage || "This field is required";
     if (!input) return;
 
     if (this.required && !this.checked) {
-      this.setValidityFromState({ valueMissing: true }, message, input);
+      this.internalValidationMessage = "This field is required";
+      this.setValidityFromState(
+        { valueMissing: true },
+        this.resolvedErrorMessage(),
+        input,
+      );
     } else {
       this.clearValidity();
     }
@@ -219,13 +316,17 @@ export class NysCheckbox extends NysFormControlElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
-    }
+    // Store component-owned validation text separately; a consumer-supplied
+    // errorMessage always wins via resolvedErrorMessage() and is never
+    // overwritten.
+    this.internalValidationMessage = message;
 
     if (message) {
-      this.setValidityFromState({ customError: true }, message, input);
+      this.setValidityFromState(
+        { customError: true },
+        this.resolvedErrorMessage(),
+        input,
+      );
     } else {
       this.clearValidity();
     }
@@ -257,9 +358,10 @@ export class NysCheckbox extends NysFormControlElement {
       input.checked = false;
     }
 
-    // Reset validation UI
+    // Reset validation UI. Clears only the component-owned validation text; a
+    // consumer-supplied errorMessage is never overwritten.
     this.showError = false;
-    this.errorMessage = "";
+    this.internalValidationMessage = "";
     this.clearValidity();
 
     // Re-render UI
@@ -334,13 +436,13 @@ export class NysCheckbox extends NysFormControlElement {
     });
   };
 
-  get _hasDescription() {
+  private get _hasDescription() {
     // This accounts for both description prop or slotted content. Used for styling text alignment.
     const slot = this.querySelector('[slot="description"]');
     return !!this.description || !!slot;
   }
 
-  get _isStandalone() {
+  private get _isStandalone() {
     return this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup";
   }
 
@@ -354,32 +456,20 @@ export class NysCheckbox extends NysFormControlElement {
   };
 
   private _emitChangeEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: {
-          id: this.id,
-          checked: this.checked,
-          name: this.name,
-          value: this.value,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysCheckboxChangeDetail>(this, "nys-change", {
+      id: this.id,
+      checked: this.checked,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   private _emitOtherInputEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-other-input", {
-        detail: {
-          id: this.id,
-          name: this.name,
-          value: this.value,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysCheckboxOtherInputDetail>(this, "nys-other-input", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   // Handle checkbox change event
@@ -405,11 +495,11 @@ export class NysCheckbox extends NysFormControlElement {
   }
 
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    dispatchNysFocusBlur(this, "focus");
   }
 
   private _handleBlur() {
-    this.dispatchEvent(new Event("nys-blur"));
+    dispatchNysFocusBlur(this, "blur");
 
     if (this.other && this.checked) {
       this._hasUserInteracted = true;
@@ -466,32 +556,22 @@ export class NysCheckbox extends NysFormControlElement {
     this.showOtherError = isInvalid;
 
     if (isInvalid) {
-      this.dispatchEvent(
-        new CustomEvent("nys-error", {
-          detail: {
-            id: this.id,
-            name: this.name,
-            type: "other",
-            message: "Please enter a value for this option.",
-            sourceCheckbox: this,
-          },
-          bubbles: true,
-          composed: true,
-        }),
-      );
+      dispatchNysEvent<NysCheckboxErrorDetail>(this, "nys-error", {
+        id: this.id,
+        name: this.name,
+        type: "other",
+        message: "Please enter a value for this option.",
+        sourceCheckbox: this,
+      });
     } else {
       this._dispatchClearError();
     }
   }
 
   private _dispatchClearError() {
-    this.dispatchEvent(
-      new CustomEvent("nys-error-clear", {
-        detail: { sourceCheckbox: this },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysCheckboxErrorClearDetail>(this, "nys-error-clear", {
+      sourceCheckbox: this,
+    });
   }
 
   render() {
@@ -579,8 +659,7 @@ export class NysCheckbox extends NysFormControlElement {
             id=${this.id + "--error"}
             class="single-error-message"
             ?showError=${this.showError}
-            errorMessage=${this.internals?.validationMessage ||
-            this.errorMessage}
+            errorMessage=${this.resolvedErrorMessage()}
             .showDivider=${!this.tile}
           ></nys-errormessage>`
         : ""}

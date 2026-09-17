@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-datepicker is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
@@ -23,6 +27,28 @@ if (!customElements.get("wc-datepicker")) {
   customElements.define("wc-datepicker", WcDatepicker);
 }
 
+/** Detail payload for the `nys-input` event. */
+export interface NysDatepickerInputDetail {
+  id: string;
+  name: string;
+  /** The current `value` property: a `Date`, a `YYYY-MM-DD` string, or `undefined`. */
+  value: string | Date | undefined;
+}
+
+/** The `nys-input` event, fired as the date value updates. */
+export type NysDatepickerInputEvent = CustomEvent<NysDatepickerInputDetail>;
+
+/** Detail payload for the `nys-change` event. */
+export interface NysDatepickerChangeDetail {
+  id: string;
+  name: string;
+  /** The committed date, always a `YYYY-MM-DD` string. Empty string when cleared. */
+  value: string;
+}
+
+/** The `nys-change` event, fired on a committed selection. */
+export type NysDatepickerChangeEvent = CustomEvent<NysDatepickerChangeDetail>;
+
 /**
  * Date picker with calendar popup and form validation. Falls back to native date input
  * on Safari and mobile.
@@ -30,8 +56,12 @@ if (!customElements.get("wc-datepicker")) {
  * @summary Date picker with calendar popup and native fallback.
  * @element nys-datepicker
  *
- * @fires nys-blur - Fired when input or calendar loses focus. Triggers validation.
- * @fires nys-input - Fired on date selection. Detail: `{id, value}`.
+ * @formControl value nys-change nys-input
+ *
+ * @fires {NysDatepickerInputEvent} nys-input - Fired as the date value updates (valid typed date, calendar pick, Today, Clear). Detail: `{id, name, value}` where `value` is the current `value` property.
+ * @fires {NysDatepickerChangeEvent} nys-change - Fired on committed selection: calendar pick, valid typed date on blur, Today, Clear. Detail: `{id, name, value}` where `value` is always the `YYYY-MM-DD` string, empty string when cleared.
+ * @fires {Event} nys-focus - Fired when focus enters the component from outside.
+ * @fires {Event} nys-blur - Fired when input or calendar loses focus. Triggers validation.
  *
  * @example Basic
  * ```html
@@ -211,6 +241,10 @@ export class NysDatepicker extends NysFormControlElement {
   private readonly DATEPICKER_GAP = 4;
   // private _calendarResizeObserver: ResizeObserver | null = null;
   private _hasUserInteracted = false; // need this flag for "eager mode"
+  // True when the user edited the value (typing) since the last committed
+  // nys-change; lets blur commit typed dates exactly once. Never set by
+  // programmatic `value` writes.
+  private _dirtySinceCommit = false;
 
   /**
    * Lifecycle methods
@@ -225,6 +259,7 @@ export class NysDatepicker extends NysFormControlElement {
     super.connectedCallback();
 
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("focusin", this._handleFocus);
     this.addEventListener("focusout", this._handleBlur);
     this.addEventListener("keydown", this._onKeydownEsc);
   }
@@ -233,6 +268,7 @@ export class NysDatepicker extends NysFormControlElement {
     super.disconnectedCallback();
     this._stopDatepickerPositioning();
     this.removeEventListener("invalid", this._handleInvalid);
+    this.removeEventListener("focusin", this._handleFocus);
     this.removeEventListener("focusout", this._handleBlur);
     this.removeEventListener("keydown", this._onKeydownEsc);
   }
@@ -266,6 +302,18 @@ export class NysDatepicker extends NysFormControlElement {
       } else if (current) {
         this._setValue(current); // handles both Date and string
       }
+    }
+
+    // Re-sync ElementInternals: `required` can arrive as a late property
+    // write (e.g. a framework wrapper setting it post-hydration) with no
+    // accompanying `value` change, so the branch above alone wouldn't catch
+    // it. The `?required=${...}` template binding already keeps the native
+    // <input>'s attribute in sync declaratively; without this,
+    // ElementInternals would still report valid, the native `invalid` event
+    // would never fire on submit, and showError would never flip even
+    // though the field is genuinely required and empty.
+    if (changedProperties.has("required") && !changedProperties.has("value")) {
+      this._manageRequire();
     }
   }
 
@@ -340,12 +388,19 @@ export class NysDatepicker extends NysFormControlElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    const message = this.errorMessage || "This field is required.";
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this.setValidityFromState({ valueMissing: true }, message, input);
+      // Store the component's own validation text; a consumer-supplied
+      // errorMessage always wins via resolvedErrorMessage().
+      this.internalValidationMessage = "This field is required.";
+      this.setValidityFromState(
+        { valueMissing: true },
+        this.resolvedErrorMessage(),
+        input,
+      );
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
     }
   }
@@ -364,7 +419,7 @@ export class NysDatepicker extends NysFormControlElement {
 
     let message = "";
     if (input.validity.valueMissing) {
-      message = this.errorMessage || "This field is required.";
+      message = "This field is required.";
     } else {
       message = input.validationMessage;
     }
@@ -387,17 +442,21 @@ export class NysDatepicker extends NysFormControlElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
+    // Keep a manually-forced error visible when validation passes.
     if (!message && this.showError && this.errorMessage?.trim()) return;
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
-    }
+    // Store the component's own validation text; a consumer-supplied
+    // errorMessage always wins via resolvedErrorMessage().
+    this.internalValidationMessage = message;
 
     if (message) {
-      this.setValidityFromState({ customError: true }, message, input);
+      this.setValidityFromState(
+        { customError: true },
+        this.resolvedErrorMessage(),
+        input,
+      );
     } else {
       this.clearValidity();
     }
@@ -541,14 +600,36 @@ export class NysDatepicker extends NysFormControlElement {
     return false;
   }
 
+  // The current value normalized to a YYYY-MM-DD string (local time, no UTC
+  // shift). Empty string when no date is set. This is the shape nys-change
+  // always carries, regardless of whether `value` holds a Date or a string.
+  private _valueAsString(): string {
+    if (!this.value) return "";
+    if (typeof this.value === "string") return this.value;
+    return [
+      this.value.getFullYear(),
+      String(this.value.getMonth() + 1).padStart(2, "0"),
+      String(this.value.getDate()).padStart(2, "0"),
+    ].join("-");
+  }
+
   private _dispatchInputEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-input", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysDatepickerInputDetail>(this, "nys-input", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
+  }
+
+  // Commit the current value: fires nys-change and clears the dirty flag so
+  // a later blur doesn't re-commit the same selection.
+  private _dispatchChangeEvent() {
+    this._dirtySinceCommit = false;
+    dispatchNysEvent<NysDatepickerChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      value: this._valueAsString(),
+    });
   }
 
   /**
@@ -569,6 +650,18 @@ export class NysDatepicker extends NysFormControlElement {
       const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
       datepicker?.classList.remove("active");
     }
+  }
+
+  // Fires nys-focus only when focus enters the component from outside;
+  // internal focus moves (input <-> calendar popup) don't re-fire it.
+  private _handleFocus(event: FocusEvent) {
+    const previous = event.relatedTarget as Node | null;
+    const fromInside =
+      previous &&
+      (this.contains(previous) || this.shadowRoot?.contains(previous));
+    if (fromInside) return;
+
+    dispatchNysFocusBlur(this, "focus");
   }
 
   private _handleBlur(event: FocusEvent) {
@@ -595,9 +688,13 @@ export class NysDatepicker extends NysFormControlElement {
     this.datepickerIsOpen = false;
 
     this._validate();
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+
+    // A typed edit (valid date or cleared text) commits on blur.
+    if (this._dirtySinceCommit) {
+      this._dispatchChangeEvent();
+    }
+
+    dispatchNysFocusBlur(this, "blur");
     this.removeEventListener("keydown", this._handleFocusTrap);
   }
 
@@ -707,6 +804,7 @@ export class NysDatepicker extends NysFormControlElement {
       this._validate();
 
       this._dispatchInputEvent();
+      this._dispatchChangeEvent();
       datepicker.classList.remove("active");
       this.datepickerIsOpen = false;
       this.removeEventListener("keydown", this._handleFocusTrap);
@@ -720,6 +818,7 @@ export class NysDatepicker extends NysFormControlElement {
     this._hasUserInteracted = true;
     this._validate();
     this._dispatchInputEvent();
+    this._dispatchChangeEvent();
   }
 
   private _handleClearClick() {
@@ -735,6 +834,7 @@ export class NysDatepicker extends NysFormControlElement {
     this._hasUserInteracted = true;
     this._validate();
     this._dispatchInputEvent();
+    this._dispatchChangeEvent();
   }
 
   private _handleInputChange(event: Event) {
@@ -746,6 +846,9 @@ export class NysDatepicker extends NysFormControlElement {
     if (!date) {
       // If input is completely empty, clear value
       if (!input.value) {
+        if (this.value !== undefined) {
+          this._dirtySinceCommit = true;
+        }
         this.value = undefined;
         this.setFormValue("");
         if (this._hasUserInteracted) {
@@ -755,6 +858,9 @@ export class NysDatepicker extends NysFormControlElement {
       return;
     }
 
+    if (input.value !== this._valueAsString()) {
+      this._dirtySinceCommit = true;
+    }
     this._setValue(date);
 
     // Much like nys-textinput, we validate with eager mode for user's input
@@ -1028,7 +1134,7 @@ export class NysDatepicker extends NysFormControlElement {
       <nys-errormessage
         id=${this.id + "--error"}
         ?showError=${this.showError}
-        errorMessage=${this.internals!.validationMessage || this.errorMessage}
+        errorMessage=${this.resolvedErrorMessage()}
       ></nys-errormessage>`;
   }
 }

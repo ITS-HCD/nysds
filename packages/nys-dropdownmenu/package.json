@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-dropdownmenu.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-dropdownmenu.js"
     }
   },
   "type": "module",
