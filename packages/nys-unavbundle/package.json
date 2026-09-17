@@ -1,0 +1,59 @@
+{
+  "name": "@nysds/nys-unavbundle",
+  "version": "1.21.0",
+  "description": "Single-file drop-in bundle of the NYS universal navigation header and footer, with design tokens and a pruned icon set inlined.",
+  "type": "module",
+  "main": "dist/nys-unavbundle.js",
+  "module": "dist/nys-unavbundle.js",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./dist/nys-unavbundle.js"
+    },
+    "./dist/nys-unavbundle.js": "./dist/nys-unavbundle.js"
+  },
+  "unpkg": "dist/nys-unavbundle.js",
+  "jsdelivr": "dist/nys-unavbundle.js",
+  "files": [
+    "dist/",
+    "types/"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "icons": "node scripts/icon-allowlist.js"
+  },
+  "devDependencies": {
+    "@nysds/internals": "^1.21.0",
+    "@nysds/nys-alert": "1.21.0",
+    "@nysds/nys-button": "^1.21.0",
+    "@nysds/nys-errormessage": "^1.21.0",
+    "@nysds/nys-icon": "^1.21.0",
+    "@nysds/nys-label": "^1.21.0",
+    "@nysds/nys-textinput": "^1.21.0",
+    "@nysds/nys-tooltip": "^1.21.0",
+    "@nysds/nys-unavfooter": "1.21.0",
+    "@nysds/nys-unavheader": "1.21.0",
+    "@nysds/tokens": "1.21.0",
+    "lit": "^3.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "keywords": [
+    "nysds",
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "unav",
+    "unavheader",
+    "unavfooter",
+    "bundle",
+    "cdn"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT",
+  "sideEffects": true
+}
