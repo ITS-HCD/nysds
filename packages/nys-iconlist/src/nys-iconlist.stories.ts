@@ -25,11 +25,16 @@ type Story = StoryObj;
 export const Basic: Story = {
   args: {
     divider: false,
+    inverted: false,
     icon: "calendar_month",
   },
   render: (args) => {
     return html`
-      <nys-iconlist id="event-details" ?divider=${args.divider}>
+      <nys-iconlist
+        id="event-details"
+        ?divider=${args.divider}
+        ?inverted=${args.inverted}
+      >
         <nys-iconlistitem icon=${args.icon}>July 4, 2026</nys-iconlistitem>
         <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
         <nys-iconlistitem icon="location_on"
@@ -124,6 +129,43 @@ export const SecondaryLabel: Story = {
       source: {
         code: `
 <nys-iconlist id="event-details3">
+  <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+  <nys-iconlistitem icon="schedule">
+    5:00 PM
+    <span slot="secondary">Eastern Standard Time</span>
+  </nys-iconlistitem>
+  <nys-iconlistitem icon="location_on">
+    Central Park West
+    <span slot="secondary">New York, NY</span>
+  </nys-iconlistitem>
+</nys-iconlist>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  render: () => {
+    return html`
+      <nys-iconlist id="demo-inverted" divider inverted>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">
+          5:00 PM
+          <span slot="secondary">Eastern Standard Time</span>
+        </nys-iconlistitem>
+        <nys-iconlistitem icon="location_on">
+          Central Park West
+          <span slot="secondary">New York, NY</span>
+        </nys-iconlistitem>
+      </nys-iconlist>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-iconlist id="demo-inverted" divider inverted>
   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
   <nys-iconlistitem icon="schedule">
     5:00 PM

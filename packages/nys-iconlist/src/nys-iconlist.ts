@@ -45,7 +45,7 @@ function waitPastHydration(): Promise<void> {
  * default slot for the primary label. A second line can be added with `<span slot="secondary">`.
  * Set `divider` to draw a rule between items; no divider is drawn after the last item.
  *
- * @summary A scannable list of icon + text items, with an optional divider between rows.
+ * @summary A scannable list of icon + text items.
  * @element nys-iconlist
  *
  * Children: one or more `<nys-iconlistitem>` elements, kept in light DOM so the
@@ -98,6 +98,21 @@ function waitPastHydration(): Promise<void> {
  * </nys-iconlist>
  * ```
  *
+ * @example Inverted
+ * ```html
+ * <nys-iconlist id="demo-inverted" divider inverted>
+ *   <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+ *   <nys-iconlistitem icon="schedule">
+ *     5:00 PM
+ *     <span slot="secondary">Eastern Standard Time</span>
+ *   </nys-iconlistitem>
+ *   <nys-iconlistitem icon="location_on">
+ *     Central Park West
+ *     <span slot="secondary">New York, NY</span>
+ *   </nys-iconlistitem>
+ * </nys-iconlist>
+ * ```
+ *
  * @example Checklist
  * ```html
  * <nys-iconlist id="requirements">
@@ -122,7 +137,16 @@ export class NysIconlist extends NysElement {
    */
   @property({ type: Boolean, reflect: true }) divider = false;
 
-  private _childObserver = new MutationObserver(() => this._syncDividers());
+  /**
+   * Adjusts colors for dark backgrounds.
+   * @default false
+   */
+  @property({ type: Boolean, reflect: true }) inverted = false;
+
+  private _childObserver = new MutationObserver(() => {
+    this._syncDividers();
+    this._syncInverted();
+  });
 
   // Tracks children we've already warned about so a MutationObserver churn
   // (or repeated updated() calls) doesn't spam the console for the same node.
@@ -160,7 +184,13 @@ export class NysIconlist extends NysElement {
     // one is not provided, preserving the `nys-iconlist-<ts>-<n>` shape.
     super.connectedCallback();
     adoptLightStyles();
+    if (!this.hasAttribute("role")) {
+      this.setAttribute("role", "list");
+    }
+
     this._childObserver.observe(this, { childList: true });
+    this._syncDividers();
+    this._syncInverted();
   }
 
   disconnectedCallback() {
@@ -181,6 +211,19 @@ export class NysIconlist extends NysElement {
     if (changedProperties.has("divider")) {
       this._syncDividers();
     }
+    if (changedProperties.has("inverted")) {
+      this._syncInverted();
+    }
+  }
+
+  private _syncInverted() {
+    const items = Array.from(this.children).filter(
+      (el) => el.tagName.toLowerCase() === "nys-iconlistitem",
+    );
+
+    items.forEach((item) => {
+      item.toggleAttribute("inverted", this.inverted);
+    });
   }
 
   private _syncDividers() {
