@@ -14933,6 +14933,11 @@
               "title": "Downloadable",
               "code": "<nys-table id=\"table5\" name=\"table5\" download=\"path/to/downloadable/version/of/table.filetype\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n<tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>\n<tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>\n<tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
+            },
+            {
+              "title": "Sortable Numbers",
+              "code": "<nys-table id=\"numb-sort-test\" name=\"numb-sort-test\" sortable>\n<table>\n<caption>Testing Sorting Number Logic</caption>\n<tr><th>Number</th><th>Word Form</th></tr>\n<tr><td>1</td><td>One</td></tr>\n<tr><td>100</td><td>One Hundred</td></tr>\n<tr><td>1,000</td><td>One Thousand</td></tr>\n<tr><td>11</td><td>Eleven</td></tr>\n<tr><td>40</td><td>Forty</td></tr>\n<tr><td>5</td><td>Five</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
             }
           ],
           "tagName": "nys-table",
