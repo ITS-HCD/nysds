@@ -153,6 +153,70 @@ describe("nys-iconlist", () => {
     expect(items[1].hasAttribute("divider")).to.be.true;
     expect(items[2].hasAttribute("divider")).to.be.false;
   });
+
+  it("sets inverted on every item when inverted is set", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist inverted>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    el.querySelectorAll("nys-iconlistitem").forEach((item) => {
+      expect(item.hasAttribute("inverted")).to.be.true;
+    });
+  });
+
+  it("does not set inverted on items when inverted is unset", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    el.querySelectorAll("nys-iconlistitem").forEach((item) => {
+      expect(item.hasAttribute("inverted")).to.be.false;
+    });
+  });
+
+  it("removes inverted from items when toggled off", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist inverted>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+        <nys-iconlistitem icon="schedule">5:00</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("inverted")).to.be
+      .true;
+
+    el.inverted = false;
+    await el.updateComplete;
+    expect(el.querySelector("nys-iconlistitem")?.hasAttribute("inverted")).to.be
+      .false;
+  });
+
+  it("re-syncs inverted when an item is appended after initial render", async () => {
+    const el = await fixture<NysIconlist>(html`
+      <nys-iconlist inverted>
+        <nys-iconlistitem icon="calendar_month">July 4, 2026</nys-iconlistitem>
+      </nys-iconlist>
+    `);
+    await el.updateComplete;
+
+    const added = document.createElement("nys-iconlistitem");
+    added.textContent = "Central Park West";
+    el.appendChild(added);
+    // MutationObserver callbacks run as microtasks
+    await Promise.resolve();
+
+    const items = el.querySelectorAll("nys-iconlistitem");
+    expect(items[0].hasAttribute("inverted")).to.be.true;
+    expect(items[1].hasAttribute("inverted")).to.be.true;
+  });
 });
 
 describe("nys-iconlistitem", () => {

@@ -3123,6 +3123,38 @@
               "description": "Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`).",
               "name": "--nys-card-height",
               "default": "fit-content"
+            },
+            {
+              "description": "Font size of the preheading text.",
+              "name": "--nys-card-font-size--preheading"
+            },
+            {
+              "description": "Font size of the heading text.",
+              "name": "--nys-card-font-size--heading"
+            },
+            {
+              "description": "Font size of the subheading text.",
+              "name": "--nys-card-font-size--subheading"
+            },
+            {
+              "description": "Font size of the description text.",
+              "name": "--nys-card-font-size--description"
+            },
+            {
+              "description": "Line height of the preheading text.",
+              "name": "--nys-card-line-height--preheading"
+            },
+            {
+              "description": "Line height of the heading text.",
+              "name": "--nys-card-line-height--heading"
+            },
+            {
+              "description": "Line height of the subheading text.",
+              "name": "--nys-card-line-height--subheading"
+            },
+            {
+              "description": "Line height of the description text.",
+              "name": "--nys-card-line-height--description"
             }
           ],
           "slots": [
@@ -9776,15 +9808,31 @@
             },
             {
               "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds.",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_childObserver",
               "privacy": "private",
-              "default": "new MutationObserver(() => this._syncDividers())"
+              "default": "new MutationObserver(() => { this._syncDividers(); this._syncInverted(); })"
             },
             {
               "kind": "field",
               "name": "_warnedChildren",
               "privacy": "private",
               "default": "new WeakSet<Element>()"
+            },
+            {
+              "kind": "method",
+              "name": "_syncInverted",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -9812,6 +9860,16 @@
               "description": "Draws a divider between items. No divider is drawn after the last item.",
               "fieldName": "divider",
               "propName": "divider"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds.",
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {
@@ -9820,7 +9878,7 @@
           },
           "tagName": "nys-iconlist",
           "customElement": true,
-          "summary": "A scannable list of icon + text items, with an optional divider between rows.",
+          "summary": "A scannable list of icon + text items.",
           "examples": [
             {
               "title": "Basic",
@@ -9840,6 +9898,11 @@
             {
               "title": "Secondary label",
               "code": "<nys-iconlist id=\"event-details3\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-iconlist id=\"demo-inverted\" divider inverted>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
@@ -9910,6 +9973,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be\nset directly.",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_handleSecondarySlotChange",
               "privacy": "private",
@@ -9943,6 +10017,16 @@
               "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
               "fieldName": "divider",
               "propName": "divider"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be\nset directly.",
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {
