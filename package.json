@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.21.0",
+  "version": "1.21.1",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -47,7 +47,7 @@
     "release:dry-run": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
     "release:zip": "npm run build:all && node src/scripts/create-release-zip.js",
-    "pretest": "playwright install",
+    "pretest": "npx playwright install --with-deps",
     "test": "wtr --node-resolve",
     "test:ssr": "node src/scripts/test-ssr.mjs && npm run audit:dist",
     "audit:dist": "node src/scripts/audit-dist.mjs",
