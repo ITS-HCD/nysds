@@ -88,6 +88,23 @@
       flex-direction: column;
       gap: var(--_nys-globalfooter-gap--heading-container);
 
+      a {
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover .nys-globalfooter__name,
+        &:focus .nys-globalfooter__name {
+          text-decoration: underline;
+        }
+
+        &:focus-visible {
+          outline: var(--nys-size-2px, 2px) solid
+            var(--_nys-globalfooter-background--divider);
+          outline-offset: var(--nys-space-50, 4px);
+        }
+      }
+
       /* The Agency Name */
       .nys-globalfooter__name {
         text-align: left;
@@ -109,73 +126,9 @@
   }
 }
 
-/** Slotted content resets (menu links - cloned into shadowDOM from lightDOM) **/
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  margin: 0;
-  padding: 0;
-}
-
-a,
-span {
-  color: var(--_nys-globalfooter-color);
-  text-decoration: none;
-  font-family: var(--_nys-globalfooter-font-family--link);
-  font-size: var(--_nys-globalfooter-font-size--link);
-  font-style: normal;
-  font-weight: var(--_nys-globalfooter-font-weight--semibold);
-  line-height: var(--_nys-globalfooter-line-height--link);
-  letter-spacing: var(--_nys-globalfooter-letter-spacing);
-}
-
-ul li > span + ul li a {
-  font-weight: var(--_nys-globalfooter-font-weight--regular);
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-a:active {
-  text-decoration-thickness: var(--_nys-globalfooter-text-decoration-thickness);
-}
-
 /** Specific layout for menu links (grouped or singular list of menus) **/
 .nys-globalfooter__content {
   width: 100%;
-}
-
-.nys-globalfooter__content ul {
-  display: flex;
-  flex-flow: column wrap;
-  gap: var(--_nys-globalfooter-row-gap) var(--_nys-globalfooter-column-gap);
-}
-
-/** Column Menus **/
-.nys-globalfooter__content ul li:has(span ~ ul) {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.nys-globalfooter__content ul:has(li > span ~ ul) {
-  --_nys-globalfooter-column-gap: var(--nys-space-500, 40px);
-}
-
-.nys-globalfooter__content ul li > span ~ ul {
-  display: flex;
-  flex-direction: column;
-  gap: var(--nys-space-200, 16px);
-}
-
-.divider {
-  margin-top: var(--_nys-globalfooter-margin--divider);
-  margin-bottom: var(--nys-space-300, 24px);
 }
 
 /* Breakpoints using NYSDS Guidelines (Menu Links) */

@@ -288,7 +288,9 @@ export class NysAlert extends NysElement {
       ${!this._alertClosed
         ? html` <div
             class="nys-alert__container ${this._slotHasContent ||
-            this.text?.trim().length > 0
+            this.text?.trim().length > 0 ||
+            this.primaryAction ||
+            this.secondaryAction
               ? ""
               : "nys-alert--centered"}"
           >
@@ -316,20 +318,24 @@ export class NysAlert extends NysElement {
               ${this.primaryAction || this.secondaryAction
                 ? html`<div class="nys-alert__actions">
                     ${this.primaryAction
-                      ? html`<a
-                          href=${ifDefined(this.primaryAction || undefined)}
-                          class="nys-alert__action nys-alert__primary"
-                        >
-                          ${this.primaryLabel}
-                        </a>`
+                      ? html`<nys-button
+                          variant="text"
+                          target="_blank"
+                          href=${this.primaryAction}
+                          label=${this.primaryLabel}
+                          ?inverted=${this.type === "emergency"}
+                          id="primary-action"
+                        ></nys-button>`
                       : ""}
                     ${this.secondaryAction
-                      ? html`<a
-                          href=${ifDefined(this.secondaryAction || undefined)}
-                          class="nys-alert__action nys-alert__secondary"
-                        >
-                          ${this.secondaryLabel}
-                        </a>`
+                      ? html`<nys-button
+                          variant="text"
+                          target="_blank"
+                          href=${this.secondaryAction}
+                          label=${this.secondaryLabel}
+                          ?inverted=${this.type === "emergency"}
+                          id="secondary-action"
+                        ></nys-button>`
                       : ""}
                   </div> `
                 : ""}

@@ -422,7 +422,9 @@ export class NysCombobox extends NysFormControlElement {
     let message = "";
 
     const isInvalid =
-      this._input && !this._options.some((opt) => opt.value === this.value);
+      this._input &&
+      this.value &&
+      !this._options.some((opt) => opt.value === this.value);
 
     if (validity.valueMissing || isInvalid) {
       message = "This field is required";

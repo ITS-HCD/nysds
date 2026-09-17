@@ -2,13 +2,6 @@
   --_nys-iconlistitem-gap: var(--nys-space-150, 12px);
   --_nys-iconlistitem-align-items: center;
 
-  /* Without this the host defaults to display:inline while its shadow content
-     is block-level, which splits it into anonymous blocks and drops its
-     accessibility node — taking role="listitem" with it. */
-  display: block;
-
-  color: var(--nys-color-text);
-
   /* UI/Large/Semibold */
   --_nys-iconlistitem-font-family: var(
     --nys-font-family-ui,
@@ -30,15 +23,26 @@
     --nys-font-letterspacing-ui-lg,
     0.028px
   );
+  --_nys-iconlistitem-color: var(--nys-color-text, #1b1b1b);
   --_nys-iconlistitem-color--divider: var(--nys-color-neutral-100, #d0d0ce);
   --_nys-iconlistitem-width--divider: var(--nys-size-1px, 1px);
   --_nys-iconlistitem-spacing--divider: var(--nys-space-150, 12px);
   --_nys-iconlistitem-padding--icon: var(--nys-space-50, 4px);
+
+  /* Without this the host defaults to display:inline while its shadow content
+     is block-level, which splits it into anonymous blocks and drops its
+     accessibility node — taking role="listitem" with it. */
+  display: block;
 }
 
 /* When a secondary label is present, align icon to the top */
 :host([data-has-secondary]) {
   --_nys-iconlistitem-align-items: flex-start;
+}
+
+:host([inverted]) {
+  --_nys-iconlistitem-color: var(--nys-color-text-reverse, #ffffff);
+  --_nys-iconlistitem-color--divider: var(--nys-color-text-reverse, #ffffff);
 }
 
 .nys-iconlistitem {
@@ -59,6 +63,7 @@
 
 .nys-iconlistitem__icon {
   padding: var(--_nys-iconlistitem-padding--icon);
+  color: var(--_nys-iconlistitem-color);
 }
 
 .nys-iconlistitem__label {
@@ -70,4 +75,5 @@
   font-weight: var(--_nys-iconlistitem-font-weight);
   line-height: var(--_nys-iconlistitem-line-height);
   letter-spacing: var(--_nys-iconlistitem-letter-spacing);
+  color: var(--_nys-iconlistitem-color);
 }
