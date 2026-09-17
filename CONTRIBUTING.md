@@ -55,11 +55,11 @@ You can stay up to date on the status of your contributions through [GitHub emai
 
 ## Naming Conventions
 
-When submitting a contribution, please follow the naming conventions used in the project. This helps us maintain consistency and makes it easier for others to understand your contributions, as well as sort and find existing issues to avoid creating duplicates.
+When submitting a contribution, please follow the naming conventions used in the project. This helps us maintain consistency, makes your contributions easier to understand, and helps others sort and find existing issues to avoid creating duplicates.
 
 ### Issues
 
-All issues should have a prefix that indicates the type of issue. The following prefixes are used:
+All issues should have a prefix that indicates the type of issue. Prefixes should be in all-caps at all times. The following prefixes are used:
 
 - **BUG:** For bugs or errors in the system.
 - **COMPONENT:** For new components.
