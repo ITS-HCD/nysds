@@ -25,6 +25,29 @@ import styles from "./nys-alert.scss?inline";
  *
  * @fires nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
  *
+ * @usagedos
+ * - Communicate important, time-sensitive information to users in a visually prominent way.
+ * - Use for messages such as success notifications, danger alerts, warnings, or informational updates.
+ * - Use for dismissible or temporary alerts when the message is not critical to user workflow.
+ * - Use the appropriate theme (e.g., info, success, warning, or danger) to match the intent of the alert.
+ * - Use the dismissible property for non-critical alerts.
+ * - Keep the alert content concise and focused on the message.
+ * - Limit alerts to one per page.
+ * - Use success type to confirm a positive system status to users such as saving a form.
+ * - Use danger type to display system status error messages.
+ * - Only use emergency for real emergencies (e.g., missing person, severe weather). Remember to swap icon if a more relevant one exists.
+ *
+ * @usagedonts
+ * - Use alerts for information that is not time-sensitive or critical; consider using an inline message instead.
+ * - Use alerts for repetitive or non-actionable content that could frustrate users.
+ * - Remove the left icon, it is required for accessibility.
+ * - Use alerts to highlight actions that should be clear in the UI itself.
+ * - Use error messages to communicate form field validation issues; use field error states instead.
+ * - Include more than two link actions in an alert.
+ * - Overuse alerts for low-priority info. This can desensitize users.
+ * - Use alerts as toasts. Place them at the top of the page content.
+ * - Add any shadows to alerts.
+ *
  * @example Basic
  * ```html
  * <nys-alert heading="This is a heading"></nys-alert>
