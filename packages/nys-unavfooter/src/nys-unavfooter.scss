@@ -14,8 +14,8 @@
   );
   --_nys-unavfooter-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-unavfooter-max-width--content: var(
-    --nys-unavfooter-max-width--content,
-    1280px
+    --nys-max-width--content,
+    var(--nys-unavfooter-max-width--content, 1280px)
   );
 
   /* Links */
@@ -38,6 +38,13 @@
     )
   );
   --_nys-unavfooter-text-decoration-thickness: var(--nys-size-2px, 2px);
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 /* Slotted content (menu links) basic resets */
@@ -77,33 +84,28 @@ a:active {
 }
 
 .nys-unavfooter {
-  display: flex;
-  flex-direction: column;
-  gap: var(--_nys-unavfooter-gap);
-  align-items: flex-start;
   background-color: var(--_nys-unavfooter-background-color);
   width: 100%;
-  box-sizing: border-box;
+  padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-padding--gutter);
 }
 
 /* Main container */
 .nys-unavfooter__main-container {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  max-width: var(--_nys-unavfooter-max-width--content);
+
+  margin: auto;
 }
 
 /* Top level container for the footer (NYS Logo and Menu links) */
 .nys-unavfooter__container_menu {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: var(--_nys-unavfooter-max-width--content);
-  padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-padding--gutter);
   gap: var(--_nys-unavfooter-gap);
-  box-sizing: border-box;
 }
 
 .nys-unavfooter__logo a {
@@ -130,6 +132,7 @@ a:active {
   /* Tablet (MD - Above 768px) */
   .nys-unavfooter__container_menu {
     flex-direction: row;
+    justify-content: center;
   }
 
   .nys-unavfooter__content ul {

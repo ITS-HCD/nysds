@@ -1463,10 +1463,10 @@
               "kind": "field",
               "name": "intent",
               "type": {
-                "text": "| \"neutral\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"error\"\n    | \"emergency\""
               },
-              "default": "\"neutral\"",
-              "description": "Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.",
+              "default": "\"base\"",
+              "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead",
               "attribute": "intent",
               "reflects": true
             },
@@ -1502,12 +1502,13 @@
             },
             {
               "kind": "field",
-              "name": "variant",
+              "name": "strong",
               "type": {
-                "text": "\"strong\" | \"\""
+                "text": "boolean"
               },
-              "default": "\"\"",
-              "attribute": "variant",
+              "default": "false",
+              "description": "Strong visual intent with bolder text and background.",
+              "attribute": "strong",
               "reflects": true
             },
             {
@@ -1553,7 +1554,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ neutral: \"info\", error: \"emergency_home\", success: \"check_circle\", warning: \"warning\", }",
+              "default": "{ base: \"info\", info: \"info\", success: \"check_circle\", warning: \"warning\", danger: \"error\", error: \"error\", emergency: \"emergency_home\", }",
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
@@ -1565,7 +1566,7 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "{ error: \"Error\", success: \"Success\", warning: \"Warning\", }"
+              "default": "{ info: \"Info\", success: \"Success\", warning: \"Warning\", danger: \"Danger\", error: \"Danger\", emergency: \"Emergency\", }"
             },
             {
               "kind": "method",
@@ -1633,10 +1634,10 @@
             {
               "name": "intent",
               "type": {
-                "text": "| \"neutral\"\n    | \"error\"\n    | \"success\"\n    | \"warning\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"error\"\n    | \"emergency\""
               },
-              "default": "\"neutral\"",
-              "description": "Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.",
+              "default": "\"base\"",
+              "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead",
               "fieldName": "intent",
               "propName": "intent"
             },
@@ -1671,13 +1672,14 @@
               "propName": "srtext"
             },
             {
-              "name": "variant",
+              "name": "strong",
               "type": {
-                "text": "\"strong\" | \"\""
+                "text": "boolean"
               },
-              "default": "\"\"",
-              "fieldName": "variant",
-              "propName": "variant"
+              "default": "false",
+              "description": "Strong visual intent with bolder text and background.",
+              "fieldName": "strong",
+              "propName": "strong"
             },
             {
               "name": "prefixicon",
@@ -1710,13 +1712,8 @@
               "lang": "html"
             },
             {
-              "title": "Error Intent",
-              "code": "<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
-              "lang": "html"
-            },
-            {
-              "title": "Warning Intent",
-              "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "title": "Info Intent",
+              "code": "<nys-badge label=\"Info\" intent=\"info\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
@@ -1725,23 +1722,43 @@
               "lang": "html"
             },
             {
-              "title": "Strong Neutral",
-              "code": "<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>",
+              "title": "Warning Intent",
+              "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
-              "title": "Strong Error",
-              "code": "<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "title": "Danger Intent",
+              "code": "<nys-badge label=\"Danger\" intent=\"danger\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
-              "title": "Strong Warning",
-              "code": "<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "title": "Emergency Intent",
+              "code": "<nys-badge label=\"Emergency\" intent=\"emergency\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Base",
+              "code": "<nys-badge strong label=\"Base\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Info",
+              "code": "<nys-badge strong label=\"Info\" intent=\"info\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
               "title": "Strong Success",
-              "code": "<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "code": "<nys-badge strong label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Warning",
+              "code": "<nys-badge strong label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Danger",
+              "code": "<nys-badge strong label=\"Danger\" intent=\"danger\" prefixIcon></nys-badge>",
               "lang": "html"
             },
             {
@@ -1923,6 +1940,11 @@
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
+              "kind": "field",
+              "name": "_boundDisabledClickGuard",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "_getSlottedOl",
               "privacy": "private",
@@ -1940,7 +1962,15 @@
                 "type": {
                   "text": "HTMLLIElement[]"
                 }
-              }
+              },
+              "parameters": [
+                {
+                  "name": "ol",
+                  "type": {
+                    "text": "HTMLOListElement"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -1980,7 +2010,31 @@
             },
             {
               "kind": "method",
-              "name": "_createBackToParentElement",
+              "name": "_createIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "size",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_resetItem",
               "privacy": "private",
               "parameters": [
                 {
@@ -1993,7 +2047,33 @@
             },
             {
               "kind": "method",
-              "name": "_createCrumbElement",
+              "name": "_applyDisabledState",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "a",
+                  "type": {
+                    "text": "HTMLAnchorElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_applyBackToParentStyle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_applyCrumbStyle",
               "privacy": "private",
               "parameters": [
                 {
@@ -2006,6 +2086,19 @@
                   "name": "isCurrentPage",
                   "type": {
                     "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_insertEllipsis",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "referenceLi",
+                  "type": {
+                    "text": "HTMLLIElement"
                   }
                 }
               ]
@@ -3030,6 +3123,38 @@
               "description": "Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`).",
               "name": "--nys-card-height",
               "default": "fit-content"
+            },
+            {
+              "description": "Font size of the preheading text.",
+              "name": "--nys-card-font-size--preheading"
+            },
+            {
+              "description": "Font size of the heading text.",
+              "name": "--nys-card-font-size--heading"
+            },
+            {
+              "description": "Font size of the subheading text.",
+              "name": "--nys-card-font-size--subheading"
+            },
+            {
+              "description": "Font size of the description text.",
+              "name": "--nys-card-font-size--description"
+            },
+            {
+              "description": "Line height of the preheading text.",
+              "name": "--nys-card-line-height--preheading"
+            },
+            {
+              "description": "Line height of the heading text.",
+              "name": "--nys-card-line-height--heading"
+            },
+            {
+              "description": "Line height of the subheading text.",
+              "name": "--nys-card-line-height--subheading"
+            },
+            {
+              "description": "Line height of the description text.",
+              "name": "--nys-card-line-height--description"
             }
           ],
           "slots": [
@@ -3064,6 +3189,17 @@
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
               "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "The size of the text content within a card (preheading, heading, subheading, and description).",
+              "attribute": "size",
               "reflects": true
             },
             {
@@ -3341,6 +3477,16 @@
               "propName": "id"
             },
             {
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "The size of the text content within a card (preheading, heading, subheading, and description).",
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
               "name": "preheading",
               "type": {
                 "text": "string"
@@ -3457,6 +3603,21 @@
             {
               "title": "Subheading",
               "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Size SM",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nsize=\"sm\"\npreheading=\"Preheading\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Size MD (default)",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nsize=\"md\"\npreheading=\"Preheading\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Size LG",
+              "code": "<div class=\"nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3\">\n<nys-card\nsize=\"lg\"\npreheading=\"Preheading\"\nheading=\"Heading\"\nsubheading=\"Subheading\"\ndescription=\"A short description of the card's subject.\"\n></nys-card>\n</div>",
               "lang": "html"
             },
             {
@@ -8567,7 +8728,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL, unless you set `aria-current` on a link\nyourself — then the header leaves the current-page state entirely to you, which is\nwhat apps that don't route on the pathname (hash-routed SPAs, for example) need.\nMobile menu toggles automatically on narrow screens.",
+          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.",
           "name": "NysGlobalHeader",
           "slots": [
             {
@@ -8580,17 +8741,6 @@
             }
           ],
           "members": [
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Unique identifier. Auto-generated if not provided.",
-              "attribute": "id",
-              "reflects": true
-            },
             {
               "kind": "field",
               "name": "appName",
@@ -8678,18 +8828,29 @@
               "description": "Watches for the viewport growing past the mobile breakpoint. The menu and its\ntoggle are `display: none` there, so an open menu that survived a resize would\nleave the focus trap guarding elements nobody can reach."
             },
             {
+              "kind": "field",
+              "name": "_navSlot",
+              "type": {
+                "text": "HTMLSlotElement | null"
+              },
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_getAssignedLinks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLAnchorElement[]"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "_highlightActiveLink",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "container",
-                  "type": {
-                    "text": "HTMLElement"
-                  }
-                }
-              ],
-              "description": "Functions\n--------------------------------------------------------------------------"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -8716,6 +8877,23 @@
             },
             {
               "kind": "method",
+              "name": "_setMobileMenuOpen",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "open",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "restoreFocus",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_toggleMobileMenu",
               "privacy": "private"
             },
@@ -8726,29 +8904,7 @@
                 "text": "HTMLElement | null"
               },
               "privacy": "private",
-              "description": "The toggle, which is both the trap's first stop and where focus returns.",
               "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "_mobileNav",
-              "type": {
-                "text": "HTMLElement | null"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "_closeMobileMenu",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "restoreFocus",
-                  "default": "false"
-                }
-              ],
-              "description": "Closes the mobile menu.\n\n`restoreFocus` moves focus back to the toggle, which is required whenever the\nmenu is dismissed by keyboard: the closed menu is `display: none`, so focus\nsitting on one of its links would otherwise be dropped to the top of the\ndocument (WCAG 2.4.3 Focus Order). A click outside is a pointer gesture that\nlands somewhere the user chose, so that path leaves focus alone."
             },
             {
               "kind": "method",
@@ -8778,7 +8934,7 @@
                   }
                 }
               ],
-              "description": "The focused element, but only when it is one of the menu's own stops.\n\n`document.activeElement` reports the host for anything focused inside this\nshadow root, so the shadow root's own `activeElement` is what identifies the\nreal stop."
+              "description": "The focused element, but only when it is one of the menu's own stops.\n\n`document.activeElement` reports the host for anything focused inside this\nshadow root (the toggle button) or the links in the lightDOM."
             },
             {
               "kind": "method",
@@ -8796,7 +8952,33 @@
             },
             {
               "kind": "method",
-              "name": "_listenLinkClicks",
+              "name": "_renderBrandMark",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getNysLogo",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundClickOutside",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundLinkClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundBreakpointChange",
+              "privacy": "private",
+              "description": "Growing past the mobile breakpoint takes the menu off the page, so drop the\nopen state with it. No focus restore: the toggle is gone too, and the resize\nwas not a dismissal the user aimed at anything."
+            },
+            {
+              "kind": "field",
+              "name": "_boundKeyDown",
               "privacy": "private"
             },
             {
@@ -8828,51 +9010,9 @@
               "privacy": "private",
               "description": "Literal name for the banner: the author's override, or the \"Site\" default when\nthere is no visible title to reference. Undefined whenever `_bannerLabelledBy`\nhas something to point at, so the landmark never carries both.",
               "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "_renderNameContainer",
-              "privacy": "private",
-              "description": "App/agency title block. Rendered on its own so the linked and unlinked\nvariants cannot drift apart — the ids here are what names the banner."
-            },
-            {
-              "kind": "method",
-              "name": "_renderBrandMark",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_getNysLogo",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_boundClickOutside",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_boundBreakpointChange",
-              "privacy": "private",
-              "description": "Growing past the mobile breakpoint takes the menu off the page, so drop the\nopen state with it. No focus restore: the toggle is gone too, and the resize\nwas not a dismissal the user aimed at anything."
-            },
-            {
-              "kind": "field",
-              "name": "_boundKeyDown",
-              "privacy": "private"
             }
           ],
           "attributes": [
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id",
-              "propName": "id"
-            },
             {
               "name": "appName",
               "type": {
@@ -8958,13 +9098,8 @@
               "lang": "html"
             },
             {
-              "title": "Author-controlled active link",
-              "code": "<!-- Set aria-current yourself and the header stops guessing from the URL. -->\n<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"#/services\">Services</a></li>\n<li><a href=\"#/help\" aria-current=\"page\">Help Center</a></li>\n</ul>\n</nys-globalheader>",
-              "lang": "html"
-            },
-            {
               "title": "User Actions",
-              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
+              "code": "<nys-globalheader agencyName=\"Office of Information Technology Services\">\n<nys-button id=\"my-action-slot\" slot=\"user-actions\" label=\"Log out\">\n<nys-avatar\nslot=\"prefix-icon\"\nariaLabel=\"User avatar\"\ninitials=\"NY\"\n></nys-avatar>\n</nys-button>\n</nys-globalheader>\n<nys-dropdownmenu id=\"dropdownmenu\" for=\"my-action-slot\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" disabled></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>",
               "lang": "html"
             },
             {
@@ -9673,15 +9808,31 @@
             },
             {
               "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds.",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_childObserver",
               "privacy": "private",
-              "default": "new MutationObserver(() => this._syncDividers())"
+              "default": "new MutationObserver(() => { this._syncDividers(); this._syncInverted(); })"
             },
             {
               "kind": "field",
               "name": "_warnedChildren",
               "privacy": "private",
               "default": "new WeakSet<Element>()"
+            },
+            {
+              "kind": "method",
+              "name": "_syncInverted",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -9709,6 +9860,16 @@
               "description": "Draws a divider between items. No divider is drawn after the last item.",
               "fieldName": "divider",
               "propName": "divider"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds.",
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {
@@ -9717,7 +9878,7 @@
           },
           "tagName": "nys-iconlist",
           "customElement": true,
-          "summary": "A scannable list of icon + text items, with an optional divider between rows.",
+          "summary": "A scannable list of icon + text items.",
           "examples": [
             {
               "title": "Basic",
@@ -9737,6 +9898,11 @@
             {
               "title": "Secondary label",
               "code": "<nys-iconlist id=\"event-details3\">\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-iconlist id=\"demo-inverted\" divider inverted>\n<nys-iconlistitem icon=\"calendar_month\">July 4, 2026</nys-iconlistitem>\n<nys-iconlistitem icon=\"schedule\">\n5:00 PM\n<span slot=\"secondary\">Eastern Standard Time</span>\n</nys-iconlistitem>\n<nys-iconlistitem icon=\"location_on\">\nCentral Park West\n<span slot=\"secondary\">New York, NY</span>\n</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             },
             {
@@ -9807,6 +9973,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be\nset directly.",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_handleSecondarySlotChange",
               "privacy": "private",
@@ -9840,6 +10017,16 @@
               "description": "Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be\nset directly.",
               "fieldName": "divider",
               "propName": "divider"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be\nset directly.",
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {
@@ -14745,6 +14932,11 @@
             {
               "title": "Downloadable",
               "code": "<nys-table id=\"table5\" name=\"table5\" download=\"path/to/downloadable/version/of/table.filetype\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n<tr><td>Haystack</td><td>4,960</td><td>Johns Brook Trail</td></tr>\n<tr><td>Skylight</td><td>4,926</td><td>Lake Tear Trail</td></tr>\n<tr><td>Whiteface</td><td>4,867</td><td>Whiteface Mountain Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Sortable Numbers",
+              "code": "<nys-table id=\"numb-sort-test\" name=\"numb-sort-test\" sortable>\n<table>\n<caption>Testing Sorting Number Logic</caption>\n<tr><th>Number</th><th>Word Form</th></tr>\n<tr><td>1</td><td>One</td></tr>\n<tr><td>100</td><td>One Hundred</td></tr>\n<tr><td>1,000</td><td>One Thousand</td></tr>\n<tr><td>11</td><td>Eleven</td></tr>\n<tr><td>40</td><td>Forty</td></tr>\n<tr><td>5</td><td>Five</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
           ],

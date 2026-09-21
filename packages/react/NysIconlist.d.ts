@@ -21,6 +21,9 @@ export interface NysIconlistProps extends Pick<
   /** Draws a divider between items. No divider is drawn after the last item. */
   divider?: boolean;
 
+  /** Adjusts colors for dark backgrounds. */
+  inverted?: boolean;
+
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysIconlistElement["id"];
 
@@ -47,7 +50,7 @@ export interface NysIconlistProps extends Pick<
 }
 
 /**
- * A scannable list of icon + text items, with an optional divider between rows.
+ * A scannable list of icon + text items.
  * ---
  *
  */

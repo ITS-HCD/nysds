@@ -55,4 +55,6 @@ export class NysOption extends LitElement {
   }
 }
 
-customElements.define("nys-option", NysOption);
+if (!customElements.get("nys-option")) {
+  customElements.define("nys-option", NysOption);
+}

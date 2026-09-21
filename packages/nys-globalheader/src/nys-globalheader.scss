@@ -13,7 +13,7 @@
     var(--nys-color-state-blue-700, #154973)
   );
   --_nys-globalheader-gap: var(--nys-space-150, 12px);
-  --_nys-globalheader-padding: var(--nys-space-250, 20px)
+  --_nys-globalheader-padding--gutter: var(--nys-space-250, 20px)
     var(--nys-space-250, 20px) var(--nys-space-200, 16px);
   --_nys-globalheader-font-family--menu: var(
     --nys-font-family-ui,
@@ -30,8 +30,8 @@
   --_nys-globalheader-letter-spacing: normal;
   --_nys-globalheader-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-globalheader-max-width--content: var(
-    --nys-globalheader-max-width--content,
-    1280px
+    --nys-max-width--content,
+    var(--nys-globalheader-max-width--content, 1280px)
   );
 
   /* Agency and App Name Styling */
@@ -82,20 +82,7 @@
   );
 }
 
-/* Slotted content (menu links) basic resets */
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  display: block;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Slotted content (user action slot) and basic resets */
 a {
   color: var(--_nys-globalheader-color);
   text-decoration: none;
@@ -118,9 +105,9 @@ a {
 }
 
 .nys-globalheader {
+  position: relative;
   display: flex;
-  justify-content: center;
-  padding: var(--_nys-globalheader-padding);
+  padding: var(--_nys-globalheader-padding--gutter);
   background-color: var(--_nys-globalheader-background-color);
   color: var(--_nys-globalheader-color);
   width: 100%;
@@ -142,6 +129,7 @@ a#nys-globalheader__logolink {
 /* Main container */
 .nys-globalheader__main-container {
   display: flex;
+  margin: auto;
   gap: var(--_nys-globalheader-gap);
   max-width: var(--_nys-globalheader-max-width--content);
   width: 100%;
@@ -179,98 +167,6 @@ a#nys-globalheader__logolink {
 /* Set the font size for the agency to be the main font if appName is not defined */
 .nys-globalheader__agencyName.main {
   font-size: var(--_nys-globalheader-font-size--heading);
-}
-
-/* Slotted content */
-.nys-globalheader__content {
-  display: none;
-  font-family: var(--_nys-globalheader-font-family--menu);
-}
-
-.nys-globalheader__content ul {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-}
-
-.nys-globalheader__content ul a:hover {
-  text-decoration: underline;
-  text-decoration-style: solid;
-  text-decoration-skip-ink: auto;
-  text-decoration-thickness: 7%;
-  text-underline-offset: auto;
-  text-underline-position: from-font;
-}
-
-.nys-globalheader__content ul a:active {
-  text-decoration-thickness: var(
-    --_nys-globalheader-text-decoration-thickness--menu
-  );
-}
-
-/* Active Links */
-.nys-globalheader__content li.active a,
-.nys-globalheader__content-mobile li.active a {
-  font-weight: 700;
-}
-
-.nys-globalheader__content li.active {
-  border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
-}
-
-.nys-globalheader__content li.active a {
-  margin-bottom: calc(-1 * var(--nys-space-100, 8px));
-}
-
-.nys-globalheader__content-mobile li.active a {
-  border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
-  border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
-}
-
-.nys-globalheader__content ul li.active a:hover {
-  text-decoration: none;
-}
-
-/* Mobile Menu */
-.nys-globalheader__content-mobile {
-  position: absolute;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: var(--_nys-globalheader-background-color);
-  width: fit-content;
-}
-
-.nys-globalheader__content-mobile.close {
-  display: none;
-}
-
-.nys-globalheader__content-mobile ul {
-  display: flex;
-  flex-direction: column;
-}
-
-.nys-globalheader__content-mobile ul li:first-child a {
-  border-top: 1px solid var(--_nys-globalheader-color);
-}
-
-.nys-globalheader__content-mobile ul li a {
-  display: flex;
-  padding: 24px;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
-  border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
-  background-color: var(--_nys-globalheader-background-color);
-}
-
-.nys-globalheader__content-mobile ul li a:hover {
-  background-color: var(--_nys-globalheader-background-color--menu--hover);
-}
-
-.nys-globalheader__content-mobile ul li a:active {
-  background-color: var(--_nys-globalheader-background-color--menu--active);
 }
 
 .nys-globalheader__name-container-link {
@@ -313,35 +209,20 @@ a#nys-globalheader__logolink {
 @media (width >= 768px) {
   /* Tablet (MD - Above 768px) */
   :host {
-    --_nys-globalheader-padding: var(--nys-space-250, 20px)
+    --_nys-globalheader-padding--gutter: var(--nys-space-250, 20px)
       var(--nys-size-400, 32px) var(--nys-size-200, 16px);
   }
 }
 
 @media (width >= 1024px) {
   /* Desktop (MD - Above 1024px) */
-  .nys-globalheader__content {
-    display: flex;
-  }
-
-  .nys-globalheader__content ul {
-    flex-direction: row;
-  }
-
-  .nys-globalheader__content-mobile,
   .nys-globalheader__button-container {
     display: none;
   }
 
-  li {
-    display: flex;
-    align-items: center;
-    padding: var(--_nys-globalheader-link-padding);
-  }
-
   :host {
     --_nys-globalheader-gap: var(--nys-space-500, 40px);
-    --_nys-globalheader-padding: var(--nys-space-50, 4px)
+    --_nys-globalheader-padding--gutter: var(--nys-space-50, 4px)
       var(--nys-size-400, 32px) 0;
   }
 }
@@ -349,7 +230,7 @@ a#nys-globalheader__logolink {
 @media (width >= 1280px) {
   /* Large Desktop (LG - Above 1280px) */
   :host {
-    --_nys-globalheader-padding: var(--nys-space-50, 4px)
+    --_nys-globalheader-padding--gutter: var(--nys-space-50, 4px)
       var(--nys-space-800, 64px) 0;
   }
 }

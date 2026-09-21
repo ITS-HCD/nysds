@@ -37,6 +37,13 @@ export class NysIconlistitem extends NysElement {
    */
   @property({ type: Boolean, reflect: true }) divider = false;
 
+  /**
+   * Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be
+   * set directly.
+   * @default false
+   */
+  @property({ type: Boolean, reflect: true }) inverted = false;
+
   connectedCallback() {
     // super.connectedCallback() (NysElement) assigns an auto id when
     // one is not provided, preserving the `nys-iconlistitem-<ts>-<n>` shape.

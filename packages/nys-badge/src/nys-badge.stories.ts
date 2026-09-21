@@ -21,19 +21,26 @@ export const Basic: Story = {
   args: {
     name: "",
     size: "md",
-    intent: "neutral",
+    intent: "base",
     prefixLabel: "",
     label: "Basic badge",
     srText: "",
-    variant: "",
+    strong: false,
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md"] },
     intent: {
       control: { type: "select" },
-      options: ["neutral", "error", "success", "warning"],
+      options: [
+        "base",
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "error",
+        "emergency",
+      ],
     },
-    variant: { control: { type: "select" }, options: ["strong", ""] },
   },
   render: (args) => {
     return html`
@@ -44,7 +51,7 @@ export const Basic: Story = {
         prefixLabel=${args.prefixLabel}
         label=${args.label}
         srText=${args.srText}
-        variant=${args.variant}
+        ?strong=${args.strong}
       ></nys-badge>
     `;
   },
@@ -59,34 +66,17 @@ export const Basic: Story = {
   },
 };
 
-export const ErrorIntent: Story = {
+export const InfoIntent: Story = {
   render: () => {
     return html`
-      <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+      <nys-badge label="Info" intent="info" prefixIcon></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge label="Error" intent="error" prefixIcon></nys-badge>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const WarningIntent: Story = {
-  render: () => {
-    return html`
-      <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>`,
+<nys-badge label="Info" intent="info" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },
@@ -110,61 +100,83 @@ export const SuccessIntent: Story = {
   },
 };
 
-export const StrongNeutral: Story = {
+export const WarningIntent: Story = {
   render: () => {
     return html`
-      <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+      <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>`,
+<nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },
   },
 };
 
-export const StrongError: Story = {
+export const DangerIntent: Story = {
   render: () => {
     return html`
-      <nys-badge
-        variant="strong"
-        label="Error"
-        intent="error"
-        prefixIcon
-      ></nys-badge>
+      <nys-badge label="Danger" intent="danger" prefixIcon></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>`,
+<nys-badge label="Danger" intent="danger" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },
   },
 };
 
-export const StrongWarning: Story = {
+export const EmergencyIntent: Story = {
   render: () => {
     return html`
-      <nys-badge
-        variant="strong"
-        label="Warning"
-        intent="warning"
-        prefixIcon
-      ></nys-badge>
+      <nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>`,
+<nys-badge label="Emergency" intent="emergency" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongBase: Story = {
+  render: () => {
+    return html` <nys-badge strong label="Base" prefixIcon></nys-badge> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge strong label="Base" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongInfo: Story = {
+  render: () => {
+    return html`
+      <nys-badge strong label="Info" intent="info" prefixIcon></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge strong label="Info" intent="info" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },
@@ -174,19 +186,48 @@ export const StrongWarning: Story = {
 export const StrongSuccess: Story = {
   render: () => {
     return html`
-      <nys-badge
-        variant="strong"
-        label="Success"
-        intent="success"
-        prefixIcon
-      ></nys-badge>
+      <nys-badge strong label="Success" intent="success" prefixIcon></nys-badge>
     `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>`,
+<nys-badge strong label="Success" intent="success" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongWarning: Story = {
+  render: () => {
+    return html`
+      <nys-badge strong label="Warning" intent="warning" prefixIcon></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge strong label="Warning" intent="warning" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongDanger: Story = {
+  render: () => {
+    return html`
+      <nys-badge strong label="Danger" intent="danger" prefixIcon></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge strong label="Danger" intent="danger" prefixIcon></nys-badge>`,
         type: "auto",
       },
     },

@@ -186,16 +186,16 @@ export type NysBadgeProps = {
   name?: string;
   /** Badge size: `sm` (smaller text) or `md` (default). */
   size?: "sm" | "md";
-  /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
-  intent?: "neutral" | "error" | "success" | "warning";
+  /** Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead */
+  intent?: "base" | "info" | "success" | "warning" | "danger" | "error" | "emergency";
   /** Secondary label displayed before the main label. */
   prefixLabel?: string;
   /** Primary label text displayed in the badge. */
   label?: string;
   /** Screen reader text appended after the label for additional context. */
   srText?: string;
-  /**  */
-  variant?: "strong" | "";
+  /** Strong visual intent with bolder text and background. */
+  strong?: boolean;
   /**  */
   prefixicon?: string | boolean;
   /**  */
@@ -310,6 +310,8 @@ and host ARIA does not cross into the shadow root. */
 export type NysCardProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
+  /** The size of the text content within a card (preheading, heading, subheading, and description). */
+  size?: "sm" | "md" | "lg";
   /** Appears above the heading text. */
   preheading?: string;
   /** Heading text in the card. */
@@ -654,8 +656,6 @@ An explicit name replaces the reference to the visible heading. */
 };
 
 export type NysGlobalHeaderProps = {
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: string;
   /** Application name displayed prominently. */
   appName?: string;
   /** Agency name displayed below app name (or as main title if no appName). */
@@ -725,6 +725,8 @@ export type NysIconlistProps = {
   id?: string;
   /** Draws a divider between items. No divider is drawn after the last item. */
   divider?: boolean;
+  /** Adjusts colors for dark backgrounds. */
+  inverted?: boolean;
 };
 
 export type NysIconlistitemProps = {
@@ -733,6 +735,9 @@ export type NysIconlistitemProps = {
   /** Draws a rule below the item. Set by the parent `<nys-iconlist divider>`; not intended to be
 set directly. */
   divider?: boolean;
+  /** Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be
+set directly. */
+  inverted?: boolean;
 };
 
 export type NysLabelProps = {
@@ -1451,6 +1456,14 @@ export type CustomElements = {
    *
    * ### **CSS Properties:**
    *  - **--nys-card-height** - Height of the card. Set to `100%` to stretch the card to its container's height, so a row of cards renders at an equal height. The extra height is absorbed by the main content area, keeping the `footer` slot pinned to the bottom of the card. Requires the container to give the card a height to fill (e.g. a grid column with `nys-display-flex`). _(default: fit-content)_
+   * - **--nys-card-font-size--preheading** - Font size of the preheading text. _(default: undefined)_
+   * - **--nys-card-font-size--heading** - Font size of the heading text. _(default: undefined)_
+   * - **--nys-card-font-size--subheading** - Font size of the subheading text. _(default: undefined)_
+   * - **--nys-card-font-size--description** - Font size of the description text. _(default: undefined)_
+   * - **--nys-card-line-height--preheading** - Line height of the preheading text. _(default: undefined)_
+   * - **--nys-card-line-height--heading** - Line height of the heading text. _(default: undefined)_
+   * - **--nys-card-line-height--subheading** - Line height of the subheading text. _(default: undefined)_
+   * - **--nys-card-line-height--description** - Line height of the description text. _(default: undefined)_
    */
   "nys-card": Partial<NysCardProps & BaseProps & BaseEvents>;
 
@@ -1624,7 +1637,7 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
-   * A scannable list of icon + text items, with an optional divider between rows.
+   * A scannable list of icon + text items.
    * ---
    *
    */

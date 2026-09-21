@@ -22,6 +22,10 @@ export interface NysIconlistitemProps extends Pick<
 set directly. */
   divider?: boolean;
 
+  /** Adjusts colors for dark backgrounds. Set by the parent `<nys-iconlist inverted>`; not intended to be
+set directly. */
+  inverted?: boolean;
+
   /** Material Symbols icon name passed to `<nys-icon>`. */
   icon?: NysIconlistitemElement["icon"];
 

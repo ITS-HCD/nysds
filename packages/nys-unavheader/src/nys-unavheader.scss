@@ -10,8 +10,8 @@
     var(--nys-color-neutral-900, #1b1b1b)
   );
   --_nys-unavheader-max-width--content: var(
-    --nys-unavheader-max-width--content,
-    1280px
+    --nys-max-width--content,
+    var(--nys-unavheader-max-width--content, 1280px)
   );
 
   /* Trustbar, Search Bar, and Language */
