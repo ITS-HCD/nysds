@@ -110,6 +110,22 @@ function adoptLightStyles() {
  *   </table>
  * </nys-table>
  * ```
+ *
+ * @example Sortable Numbers
+ * ```html
+ * <nys-table id="numb-sort-test" name="numb-sort-test" sortable>
+ *   <table>
+ *     <caption>Testing Sorting Number Logic</caption>
+ *     <tr><th>Number</th><th>Word Form</th></tr>
+ *     <tr><td>1</td><td>One</td></tr>
+ *     <tr><td>100</td><td>One Hundred</td></tr>
+ *     <tr><td>1,000</td><td>One Thousand</td></tr>
+ *     <tr><td>11</td><td>Eleven</td></tr>
+ *     <tr><td>40</td><td>Forty</td></tr>
+ *    <tr><td>5</td><td>Five</td></tr>
+ *   </table>
+ * </nys-table>
+ * ```
  */
 export class NysTable extends NysElement {
   static styles = unsafeCSS(styles);
@@ -431,12 +447,17 @@ export class NysTable extends NysElement {
 
     const rows = Array.from(tbody.querySelectorAll("tr"));
 
+    // Strips thousands separators (e.g. "1,000" -> "1000") so numeric cells
+    // with commas are treated as numbers rather than falling through to
+    // string comparison, which would make the sort inconsistent across pairs.
+    const toNumeric = (text: string) => text.replace(/,/g, "");
+
     rows.sort((a, b) => {
       const aText = a.children[columnIndex]?.textContent?.trim() ?? "";
       const bText = b.children[columnIndex]?.textContent?.trim() ?? "";
 
-      const aNum = Number(aText);
-      const bNum = Number(bText);
+      const aNum = Number(toNumeric(aText));
+      const bNum = Number(toNumeric(bText));
 
       let result;
 
