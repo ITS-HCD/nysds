@@ -35,6 +35,19 @@ const INJECTED_ATTR = "data-nys-injected";
  *
  * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
  *
+ * @usagedos
+ * - Use on pages at level 2 and deeper in a site hierarchy. If a level 2 page has child pages, all pages starting at that level should include a breadcrumb.
+ * - Place breadcrumb below the header and above the main content.
+ * - Show the site hierarchy, not the path a user took.
+ * - For the home page of a site, use a specific label rather than a generic "Home." This differentiates the main site home from other landing pages (e.g., "myBenefits Home" instead of just "Home").
+ *
+ * @usagedonts
+ * - Use on top-level pages, or on sites with only one or two levels of hierarchy.
+ * - Make the current page clickable.
+ * - Use breadcrumbs as the only navigation method.
+ * - Use breadcrumbs for sequential processes like multi-step forms or wizards. Use a stepper instead.
+ * - Add breadcrumbs when they don't provide meaningful context or navigation value.
+ *
  * @example Basic
  * ```html
  * <nys-breadcrumbs>

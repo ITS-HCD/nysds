@@ -2332,6 +2332,19 @@
               "code": "<nys-breadcrumbs disabled>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li><a href=\"/tickets\">Ticket System</a></li>\n<li>Del Water Gap</li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on pages at level 2 and deeper in a site hierarchy. If a level 2 page has child pages, all pages starting at that level should include a breadcrumb.",
+            "Place breadcrumb below the header and above the main content.",
+            "Show the site hierarchy, not the path a user took.",
+            "For the home page of a site, use a specific label rather than a generic \"Home.\" This differentiates the main site home from other landing pages (e.g., \"myBenefits Home\" instead of just \"Home\")."
+          ],
+          "usagedonts": [
+            "Use on top-level pages, or on sites with only one or two levels of hierarchy.",
+            "Make the current page clickable.",
+            "Use breadcrumbs as the only navigation method.",
+            "Use breadcrumbs for sequential processes like multi-step forms or wizards. Use a stepper instead.",
+            "Add breadcrumbs when they don't provide meaningful context or navigation value."
           ]
         }
       ],
