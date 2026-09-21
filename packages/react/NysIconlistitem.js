@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysIconlistitem = forwardRef((props, forwardedRef) => {
-  const { divider, icon, ...filteredProps } = props;
+  const { divider, inverted, icon, ...filteredProps } = props;
 
   return React.createElement(
     "nys-iconlistitem",
@@ -15,6 +15,7 @@ export const NysIconlistitem = forwardRef((props, forwardedRef) => {
       part: props.part,
       tabindex: props.tabIndex,
       divider: props.divider ? true : undefined,
+      inverted: props.inverted ? true : undefined,
       style: { ...props.style },
     },
     props.children,
