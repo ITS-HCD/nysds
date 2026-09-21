@@ -53,6 +53,29 @@ These considerations help us decide if and when we can work on the issue. If the
 
 You can stay up to date on the status of your contributions through [GitHub email notifications](https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/setting-up-notifications/configuring-notifications) (external link) and the assigned labels on the issue.
 
+## Naming Conventions
+
+When submitting a contribution, please follow the naming conventions used in the project. This helps us maintain consistency, makes your contributions easier to understand, and helps others sort and find existing issues to avoid creating duplicates.
+
+### Issues
+
+All issues should have a prefix that indicates the type of issue. Prefixes should be in all-caps at all times. The following prefixes are used:
+
+- **BUG:** For bugs or errors in the system.
+- **COMPONENT:** For new components.
+- **ENHANCEMENT:** For enhancements to an existing component.
+- **PATTERN:** For a new design pattern.
+- **DOCS:** For changes/updates to the documentation.
+- **SPIKE:** For research or investigation into a new feature or component.
+- **DESIGN:** For design of new components, enhancements, or patterns.
+
+### Branches
+
+- **fix/**: For bug fixes.
+- **component/**: For new components.
+- **enhancement/**: For enhancements to existing components.
+- **pattern/**: For new design patterns.
+- **docs/**: For changes/updates to the documentation.
 
 ## Licenses and attribution
 
