@@ -1842,6 +1842,24 @@
               "code": "<nys-badge intent=\"warning\" label=\"Caution\" prefixIcon srText=\"concern\"></nys-badge>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Indicate the status of an item, such as \"new\", \"updated\", or \"beta\".",
+            "Provide additional context or information about an item without cluttering the interface.",
+            "Keep badge labels short -- one or two words like \"New\", \"Beta\", or \"Updated\".",
+            "Use the `intent` property to match the badge's visual style to its meaning (e.g., `success` for positive statuses, `warning` for caution).",
+            "Place badges near the element they describe so the relationship is clear.",
+            "Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.",
+            "Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis."
+          ],
+          "usagedonts": [
+            "Use badges when the information is too complex to be conveyed in a small badge.",
+            "Use badges when they would not add significant value to the user experience.",
+            "Use badges as interactive elements -- they are not buttons or links.",
+            "Pack long sentences or multiple values into a single badge label.",
+            "Mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.",
+            "Rely on color alone to convey meaning; always include a text label.",
+            "Stack multiple badges on a single element unless each communicates a distinct, necessary status."
           ]
         }
       ],
