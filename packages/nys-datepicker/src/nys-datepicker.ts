@@ -822,12 +822,6 @@ export class NysDatepicker extends NysFormControlElement {
     if (!this.datepickerIsOpen) return;
     if (event.key !== "Tab") return;
 
-    const calendarPopup = this.shadowRoot?.querySelector(
-      ".wc-datepicker--container",
-    ) as HTMLElement | null;
-
-    if (!calendarPopup) return;
-
     const focusableSelectors = [
       "button:not([disabled])",
       "input:not([disabled])",
@@ -837,17 +831,40 @@ export class NysDatepicker extends NysFormControlElement {
 
     const focusableElements: HTMLElement[] = [];
 
-    // Add the "Today" and "Clear" <nys-button> if they exist
-    calendarPopup.querySelectorAll<HTMLElement>("nys-button").forEach((btn) => {
-      focusableElements.push(btn);
-    });
+    // Add input to focus trap
+    const input = this.shadowRoot?.querySelector(
+      ".nys-datepicker--input",
+    ) as HTMLInputElement | null;
+    if (input && !input.disabled) {
+      focusableElements.push(input);
+    }
 
-    // Populating the focusableElements list in order of focus of the elements in wc-datepicker
-    focusableElements.push(
-      ...Array.from<HTMLElement>(
-        calendarPopup.querySelectorAll(focusableSelectors.join(",")),
-      ).filter((el) => el.offsetParent !== null),
-    );
+    // Add calendar icon button to focus trap
+    const calendarButton = this.shadowRoot?.querySelector(
+      "#calendar-button",
+    ) as HTMLButtonElement | null;
+    if (calendarButton && !calendarButton.disabled) {
+      focusableElements.push(calendarButton);
+    }
+
+    const calendarPopup = this.shadowRoot?.querySelector(
+      ".wc-datepicker--container",
+    ) as HTMLElement | null;
+    if (calendarPopup) {
+      // Add to focus trap "Today" and "Clear" <nys-button> if they exist
+      calendarPopup
+        .querySelectorAll<HTMLElement>("nys-button")
+        .forEach((btn) => {
+          focusableElements.push(btn);
+        });
+
+      // Populating the focusableElements list in order of focus of the elements in wc-datepicker
+      focusableElements.push(
+        ...Array.from<HTMLElement>(
+          calendarPopup.querySelectorAll(focusableSelectors.join(",")),
+        ).filter((el) => el.offsetParent !== null),
+      );
+    }
 
     if (focusableElements.length === 0) return;
 
