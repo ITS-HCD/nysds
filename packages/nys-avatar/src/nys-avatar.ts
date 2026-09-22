@@ -22,6 +22,8 @@ import styles from "./nys-avatar.scss?inline";
  * @summary User avatar with image, initials, or icon fallback and contrast-aware colors.
  * @element nys-avatar
  *
+ * @cssprop [--nys-avatar-size] - Width and height of the component
+ *
  * @slot - Custom icon content. Overrides default icon when no image or initials.
  *
  * @example Basic

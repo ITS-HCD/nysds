@@ -28,6 +28,10 @@ function adoptLightStyles() {
  * `<nys-table>` is a responsive table component that can display native HTML tables,
  * supports striped and bordered styling, sortable columns, and CSV download.
  *
+ * @element nys-table
+ *
+ * @cssprop [--nys-table-padding--cell--y] - Vertical padding for table cells
+ *
  * @slot - Accepts a `<table>` element. Only the first table is used. The table
  *   is enhanced in place and stays in the light DOM (projected through a slot,
  *   never cloned), so embedded components remain interactive and reachable by

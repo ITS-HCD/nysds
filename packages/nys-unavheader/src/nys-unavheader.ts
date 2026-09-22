@@ -193,6 +193,9 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * reaches every NYS site with no per-site work. If the endpoint is unreachable or nothing
  * is published, the header renders normally. It takes no children.
  *
+ * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
+ * @cssprop [--_nys-unavheader-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
+ *
  * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
  * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  *
