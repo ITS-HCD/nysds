@@ -17718,6 +17718,25 @@
             },
             {
               "kind": "method",
+              "name": "_languageHref",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | undefined"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "language",
+                  "type": {
+                    "text": "Language"
+                  }
+                }
+              ],
+              "description": "The navigation target for a language option's `href`, or `undefined` when\nthe option isn't a link — Localize handles that case via `setLanguage`\nfrom a click on a plain button instead.\n\nAn explicit per-language `url` always wins, even with a `translateKey`\nconfigured. Otherwise: no `translateKey` means Localize can't run at all,\nso every option is a Smartling subdomain link."
+            },
+            {
+              "kind": "method",
               "name": "_initLocalize",
               "privacy": "private"
             },
@@ -17738,13 +17757,19 @@
                   }
                 }
               ],
-              "description": "Shows, replaces, or removes the translation disclaimer banner for the given\nlanguage code. Called from the Localize \"setLanguage\" listener — which also\nfires on page load for a remembered language — and directly from\n`_handleLanguageSelect` when the Localize API isn't available."
+              "description": "Shows, replaces, or removes the translation disclaimer banner for the given\nlanguage code, and syncs the document's RTL/LTR direction to match.\n\nCalled only from `_handleLanguageSelect`, i.e. only as the direct result of\na user clicking a language in the dropdown. Deliberately not wired to\nLocalize's own \"setLanguage\" event, which also fires for reasons that\naren't a user picking a language on this page load — restoring a\nremembered language chief among them — and the disclaimer must not appear\nunprompted."
             },
             {
               "kind": "method",
               "name": "_handleLanguageSelect",
               "privacy": "private",
               "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
                 {
                   "name": "language",
                   "type": {

@@ -1,5 +1,6 @@
 import { html, unsafeCSS, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
 
 // These elements are rendered inside this component's shadow DOM, so they must
@@ -135,14 +136,15 @@ const TRANSLATE_TRIGGER_IDS = [
 ] as const;
 
 /**
- * A rendered `nys-button`. Its real `<button>` — the element that actually carries
- * the button role, the tab stop, and any ARIA — lives in its own shadow root.
+ * A rendered `nys-button`. Its real inner control — a `<button>`, or an `<a>` when
+ * `href` is set — is the element that actually carries the button/link role, the
+ * tab stop, and any ARIA; it lives in its own shadow root.
  */
 type ButtonElement = HTMLElement & { updateComplete?: Promise<unknown> };
 
 /** The real control inside a `nys-button`, once it has rendered. */
 const innerControl = (button: ButtonElement): HTMLElement =>
-  button.shadowRoot?.querySelector("button") ?? button;
+  button.shadowRoot?.querySelector(".nys-button") ?? button;
 
 /**
  * Language code → BCP 47 tag for the option's `lang` attribute.
@@ -607,10 +609,11 @@ export class NysUnavHeader extends NysElement {
   /**
    * Smartling fallback (no `translateKey`)
    * --------------------------------------------------------------------------
-   * Instead of client-side translation, language selection is a full navigation
-   * to the same URL with the language code prepended as a subdomain label —
-   * agency.ny.gov -> es.agency.ny.gov. English strips the label entirely rather
-   * than adding "en.", since the untranslated site lives at the bare host.
+   * Instead of client-side translation, each language option is rendered as a
+   * real link (`nys-button`'s `href`) to the same URL with the language code
+   * prepended as a subdomain label — agency.ny.gov -> es.agency.ny.gov. English
+   * strips the label entirely rather than adding "en.", since the untranslated
+   * site lives at the bare host.
    */
 
   /** Removes a leading language-code subdomain label (e.g. "es.") if present. */
@@ -637,7 +640,35 @@ export class NysUnavHeader extends NysElement {
 
     const url = new URL(window.location.href);
     url.hostname = host;
+
+    // A subdomain label can't be prepended to an IP literal (e.g. 127.0.0.1) —
+    // the URL spec has no such host, so the setter above silently keeps the
+    // original hostname instead of throwing. Surface that rather than let the
+    // link quietly point at the current page.
+    if (url.hostname !== host) {
+      console.warn(
+        `nys-unavheader: can't build a Smartling subdomain URL for "${languageCode}" — ` +
+          `"${window.location.hostname}" is an IP address, which has no subdomains. ` +
+          "Test the Smartling fallback on a hostname (e.g. localhost) instead.",
+      );
+    }
+
     return url.toString();
+  }
+
+  /**
+   * The navigation target for a language option's `href`, or `undefined` when
+   * the option isn't a link — Localize handles that case via `setLanguage`
+   * from a click on a plain button instead.
+   *
+   * An explicit per-language `url` always wins, even with a `translateKey`
+   * configured. Otherwise: no `translateKey` means Localize can't run at all,
+   * so every option is a Smartling subdomain link.
+   */
+  private _languageHref(language: Language): string | undefined {
+    if (language.url) return language.url;
+    if (this.translateKey) return undefined;
+    return this._smartlingUrl(language.code);
   }
 
   private _initLocalize() {
@@ -658,9 +689,12 @@ export class NysUnavHeader extends NysElement {
           rememberLanguage: true,
           autoApprove: true,
         });
-        (window as any).Localize.on("setLanguage", (data: any) => {
-          this._updateTranslateDisclaimer(data?.to ?? data?.language);
-        });
+        // No "setLanguage" listener here on purpose: Localize fires that event
+        // for its own reasons too — restoring a remembered language on load,
+        // autoApprove, etc. — and the disclaimer must only ever appear as the
+        // direct result of a user clicking a language in the dropdown (see
+        // _handleLanguageSelect), never as a side effect of Localize's own
+        // state changes.
       }
     };
 
@@ -690,9 +724,14 @@ export class NysUnavHeader extends NysElement {
 
   /**
    * Shows, replaces, or removes the translation disclaimer banner for the given
-   * language code. Called from the Localize "setLanguage" listener — which also
-   * fires on page load for a remembered language — and directly from
-   * `_handleLanguageSelect` when the Localize API isn't available.
+   * language code, and syncs the document's RTL/LTR direction to match.
+   *
+   * Called only from `_handleLanguageSelect`, i.e. only as the direct result of
+   * a user clicking a language in the dropdown. Deliberately not wired to
+   * Localize's own "setLanguage" event, which also fires for reasons that
+   * aren't a user picking a language on this page load — restoring a
+   * remembered language chief among them — and the disclaimer must not appear
+   * unprompted.
    */
   private _updateTranslateDisclaimer(languageCode: string) {
     const matchingLanguage = this.languages.find(
@@ -741,7 +780,7 @@ export class NysUnavHeader extends NysElement {
     }
   }
 
-  private _handleLanguageSelect(language: Language) {
+  private _handleLanguageSelect(e: Event, language: Language) {
     this._closeLanguageList();
 
     const event = new CustomEvent("nys-language-select", {
@@ -752,30 +791,29 @@ export class NysUnavHeader extends NysElement {
     });
 
     this.dispatchEvent(event);
-    if (event.defaultPrevented) return;
-
-    if (language.url) {
-      // Explicit per-language override always wins
-      window.location.href = language.url;
+    if (event.defaultPrevented) {
+      // Cancel the option's own native navigation too — it carries the same
+      // href the event is overriding.
+      e.preventDefault();
       return;
     }
 
-    if (this.translateKey) {
-      // Localize-driven translation
-      if (typeof (window as any).Localize !== "undefined") {
-        (window as any).Localize.setLanguage(language.code);
-      } else {
-        this._updateTranslateDisclaimer(language.code);
-      }
+    if (this._languageHref(language)) {
+      // The option rendered as a real link (an explicit per-language `url`,
+      // or the Smartling subdomain when there's no Localize key) — its own
+      // href already navigates, nothing left to do here.
       return;
     }
 
-    // No Localize key: Smartling's subdomain redirect is the mechanism.
-    // Skip the reload entirely if it would land on the page we're already on.
-    const target = this._smartlingUrl(language.code);
-    if (target !== window.location.href) {
-      window.location.href = target;
+    // Localize-driven translation. The disclaimer is shown directly here,
+    // right from this click, rather than from Localize's own "setLanguage"
+    // event — that event also fires for reasons that aren't this click (e.g.
+    // restoring a remembered language on load), and the disclaimer must not
+    // appear unprompted.
+    if (typeof (window as any).Localize !== "undefined") {
+      (window as any).Localize.setLanguage(language.code);
     }
+    this._updateTranslateDisclaimer(language.code);
   }
 
   /**
@@ -1241,7 +1279,9 @@ export class NysUnavHeader extends NysElement {
                         fullWidth
                         lang="${languageTag(lang.code)}"
                         class="${LANGUAGE_OPTION_CLASS}"
-                        @click="${() => this._handleLanguageSelect(lang)}"
+                        href=${ifDefined(this._languageHref(lang))}
+                        @click="${(e: Event) =>
+                          this._handleLanguageSelect(e, lang)}"
                       >
                         <span notranslate>${lang.label}</span>
                         ${isCurrent || !lang.nativeText

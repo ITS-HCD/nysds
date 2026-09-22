@@ -560,9 +560,9 @@ describe("nys-unavheader", () => {
     (el as any)._handleSearch = originalHandleSearch;
   });
 
-  it("dispatches nys-language-select event with correct detail and uses Smartling subdomain redirect when no url is provided", async () => {
+  it("renders Smartling subdomain links when no translateKey is provided", async () => {
     const el = await fixture<NysUnavHeader>(
-      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+      html`<nys-unavheader></nys-unavheader>`,
     );
 
     el.languages = [
@@ -571,52 +571,56 @@ describe("nys-unavheader", () => {
     ];
     await el.updateComplete;
 
-    const originalHandleLanguageSelect = (el as any)._handleLanguageSelect.bind(
-      el,
+    const langButtons = el.shadowRoot?.querySelectorAll(
+      ".nys-unavheader__languagelink",
+    ) as NodeListOf<HTMLElement & { href: string }>;
+
+    // No translateKey: every option is a real link to its Smartling subdomain,
+    // preserving whatever path/query/hash the current page already has
+    const esUrl = new URL(window.location.href);
+    esUrl.hostname = `es.${window.location.hostname}`;
+
+    expect(langButtons[0].href).to.equal(window.location.href);
+    expect(langButtons[1].href).to.equal(esUrl.toString());
+  });
+
+  it("dispatches nys-language-select with correct detail on click, and does not navigate when the event is prevented", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
     );
-    let capturedUrl = "";
 
-    (el as any)._handleLanguageSelect = function (language: {
-      code: string;
-      label: string;
-      url?: string;
-    }) {
-      const event = new CustomEvent("nys-language-select", {
-        bubbles: true,
-        composed: true,
-        cancelable: true,
-        detail: { language },
-      });
+    el.languages = [
+      { code: "en", label: "English" },
+      { code: "es", label: "Español" },
+    ];
+    await el.updateComplete;
 
-      this.dispatchEvent(event);
-
-      if (!event.defaultPrevented) {
-        if (language.url) {
-          capturedUrl = language.url;
-        } else {
-          const subdomain = language.code === "en" ? "" : `${language.code}.`;
-          capturedUrl = `https://${subdomain}${window.location.hostname}`;
-        }
-      }
-    };
+    let detail: any = null;
+    el.addEventListener("nys-language-select", (e: Event) => {
+      detail = (e as CustomEvent).detail;
+      e.preventDefault();
+    });
 
     const langButtons = el.shadowRoot?.querySelectorAll(
       ".nys-unavheader__languagelink",
     ) as NodeListOf<HTMLElement>;
 
-    // Click Español (index 1)
-    langButtons[1].dispatchEvent(
-      new MouseEvent("click", { bubbles: true, composed: true }),
-    );
+    // Click Español (index 1). preventDefault() on the click stops the
+    // option's own href from navigating the test page.
+    const click = new MouseEvent("click", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+    langButtons[1].dispatchEvent(click);
 
     await el.updateComplete;
 
-    expect(capturedUrl).to.equal(`https://es.${window.location.hostname}`);
-
-    (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
+    expect(detail?.language?.code).to.equal("es");
+    expect(click.defaultPrevented).to.be.true;
   });
 
-  it("redirects to custom url when language has a url property", async () => {
+  it("uses a custom url when language has a url property, even with a translateKey configured", async () => {
     const el = await fixture<NysUnavHeader>(
       html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
     );
@@ -627,52 +631,16 @@ describe("nys-unavheader", () => {
     ];
     await el.updateComplete;
 
-    const originalHandleLanguageSelect = (el as any)._handleLanguageSelect.bind(
-      el,
-    );
-    let capturedUrl = "";
-
-    (el as any)._handleLanguageSelect = function (language: {
-      code: string;
-      label: string;
-      url?: string;
-    }) {
-      const event = new CustomEvent("nys-language-select", {
-        bubbles: true,
-        composed: true,
-        cancelable: true,
-        detail: { language },
-      });
-
-      this.dispatchEvent(event);
-
-      if (!event.defaultPrevented) {
-        if (language.url) {
-          capturedUrl = language.url;
-        } else {
-          const subdomain = language.code === "en" ? "" : `${language.code}.`;
-          capturedUrl = `https://${subdomain}${window.location.hostname}`;
-        }
-      }
-    };
-
     const langButtons = el.shadowRoot?.querySelectorAll(
       ".nys-unavheader__languagelink",
-    ) as NodeListOf<HTMLElement>;
+    ) as NodeListOf<HTMLElement & { href: string }>;
 
-    // Click Español (index 1)
-    langButtons[1].dispatchEvent(
-      new MouseEvent("click", { bubbles: true, composed: true }),
-    );
-
-    await el.updateComplete;
-
-    expect(capturedUrl).to.equal("https://www.google.com");
-
-    (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
+    // An explicit per-language url always wins as a real link, even though a
+    // translateKey is configured for the rest of the menu
+    expect(langButtons[1].href).to.equal("https://www.google.com");
   });
 
-  it("does not redirect when nys-language-select event is prevented", async () => {
+  it("does not render a link and calls Localize.setLanguage when a translateKey is configured", async () => {
     const el = await fixture<NysUnavHeader>(
       html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
     );
@@ -683,33 +651,46 @@ describe("nys-unavheader", () => {
     ];
     await el.updateComplete;
 
-    let redirectAttempted = false;
-    const originalHandleLanguageSelect = (el as any)._handleLanguageSelect.bind(
-      el,
-    );
+    const langButtons = el.shadowRoot?.querySelectorAll(
+      ".nys-unavheader__languagelink",
+    ) as NodeListOf<HTMLElement & { href: string }>;
 
-    (el as any)._handleLanguageSelect = function (language: {
-      code: string;
-      label: string;
-      url?: string;
-    }) {
-      const event = new CustomEvent("nys-language-select", {
-        bubbles: true,
-        composed: true,
-        cancelable: true,
-        detail: { language },
-      });
+    // With a translateKey and no per-language override, options render as
+    // plain buttons (no href) — Localize handles translation in place.
+    expect(langButtons[1].href).to.equal("");
 
-      this.dispatchEvent(event);
-
-      if (!event.defaultPrevented) {
-        redirectAttempted = true;
-      }
+    const calls: string[] = [];
+    (window as any).Localize = {
+      setLanguage: (code: string) => calls.push(code),
     };
 
-    el.addEventListener("nys-language-select", (e: Event) => {
-      e.preventDefault();
-    });
+    langButtons[1].dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(calls).to.deep.equal(["es"]);
+
+    delete (window as any).Localize;
+  });
+
+  it("shows the translate disclaimer when a language is clicked, even with Localize available", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+    );
+
+    el.languages = [
+      { code: "en", label: "English", nativeText: "English" },
+      {
+        code: "es",
+        label: "Español",
+        nativeText: "Spanish",
+        disclaimer: "Disclaimer text",
+      },
+    ];
+    await el.updateComplete;
+
+    (window as any).Localize = { setLanguage: () => {} };
 
     const langButtons = el.shadowRoot?.querySelectorAll(
       ".nys-unavheader__languagelink",
@@ -718,12 +699,41 @@ describe("nys-unavheader", () => {
     langButtons[1].dispatchEvent(
       new MouseEvent("click", { bubbles: true, composed: true }),
     );
-
     await el.updateComplete;
 
-    expect(redirectAttempted).to.be.false;
+    const disclaimer = document.body.querySelector(
+      "nys-alert[data-translate-disclaimer='true']",
+    );
+    expect(disclaimer).to.exist;
 
-    (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
+    disclaimer?.remove();
+    document.documentElement.dir = "ltr";
+    delete (window as any).Localize;
+  });
+
+  it("never subscribes to Localize's own setLanguage event", async () => {
+    // Localize fires "setLanguage" for reasons that aren't a user clicking a
+    // language in this dropdown — restoring a remembered language on load
+    // chief among them. The disclaimer must only ever appear as the direct
+    // result of that click (see _handleLanguageSelect), so nothing here
+    // should ever subscribe to Localize's event.
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+    );
+    await el.updateComplete;
+
+    const onCalls: string[] = [];
+    (window as any).Localize = {
+      initialize: () => {},
+      setLanguage: () => {},
+      on: (event: string) => onCalls.push(event),
+    };
+
+    (el as any)._initLocalize();
+
+    expect(onCalls).to.deep.equal([]);
+
+    delete (window as any).Localize;
   });
 
   describe("localization and translation disclaimer updates", () => {
