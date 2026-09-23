@@ -1023,8 +1023,8 @@ describe("nys-unavheader", () => {
 
       // The codes double as Localize language codes, so the Chinese ones are
       // not valid language tags and have to be mapped.
-      expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-Hans");
-      expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-Hant");
+      expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-cn");
+      expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-hk");
       expect(byLabel("Español")?.getAttribute("lang")).to.equal("es");
       expect(byLabel("Kreyòl Ayisyen")?.getAttribute("lang")).to.equal("ht");
     });
