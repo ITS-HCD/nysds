@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-unavbundle",
-  "version": "1.21.0",
+  "version": "1.22.0-alpha-1",
   "description": "Single-file drop-in bundle of the NYS universal navigation header and footer, with design tokens and a pruned icon set inlined.",
   "type": "module",
   "main": "dist/nys-unavbundle.js",

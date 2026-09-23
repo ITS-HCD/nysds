@@ -89,12 +89,48 @@ a:active {
   padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-padding--gutter);
 }
 
+/* Statewide CTA. Content comes from the CTA feed — see nys-unavfooter.ts
+   _loadCta / _renderCta. Unlike the header's full-bleed alert band, this sits
+   inside the footer's own padding as a contained, raised card, since the
+   footer doesn't split its layout into a separate wrapper/content pair. */
+.nys-unavfooter__cta {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  gap: var(--nys-space-200, 16px);
+  color: var(--nys-color-ink-reverse, #ffffff);
+  margin-inline-start: var(--nys-space-200, 16px);
+  flex-direction: column;
+}
+
+@media (width >= 768px) {
+  .nys-unavfooter__cta {
+    flex-direction: row;
+  }
+}
+
+.nys-unavfooter__cta-text {
+  margin: 0;
+  font-weight: var(--nys-font-weight-regular, 400);
+}
+
 /* Main container */
 .nys-unavfooter__main-container {
   display: flex;
   max-width: var(--_nys-unavfooter-max-width--content);
-
   margin: auto;
+  flex-direction: column;
+  gap: var(--nys-space-400, 32px);
+}
+
+// TODO Use breakpoint variable in Sass
+@media (width >=1023px) {
+  .nys-unavfooter__main-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
 /* Top level container for the footer (NYS Logo and Menu links) */

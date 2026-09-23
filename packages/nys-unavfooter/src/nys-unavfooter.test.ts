@@ -1,6 +1,7 @@
-import { expect, html, fixture } from "@open-wc/testing";
-import { NysUnavFooter } from "./nys-unavfooter";
+import { expect, html, fixture, aTimeout } from "@open-wc/testing";
+import { NysUnavFooter, NYS_CTA_URL } from "./nys-unavfooter";
 import "../dist/nys-unavfooter.js";
+import sinon from "sinon";
 
 describe("nys-unavfooter", () => {
   it("should render with NYS logo link", async () => {
@@ -147,5 +148,107 @@ describe("nys-unavfooter accessibility", () => {
       html`<nys-unavfooter id="my-footer"></nys-unavfooter>`,
     );
     expect(el.id).to.equal("my-footer");
+  });
+});
+
+describe("nys-unavfooter statewide CTA", () => {
+  let fetchStub: sinon.SinonStub;
+
+  afterEach(() => {
+    fetchStub?.restore();
+  });
+
+  const mockFetch = (body: unknown, ok = true) => {
+    fetchStub = sinon.stub(window, "fetch").resolves({
+      ok,
+      status: ok ? 200 : 500,
+      json: async () => body,
+    } as Response);
+  };
+
+  it("fetches from the statewide CTA endpoint on initialization", async () => {
+    mockFetch({ cta: { status: "off" } });
+
+    await fixture<NysUnavFooter>(html`<nys-unavfooter></nys-unavfooter>`);
+    await aTimeout(0);
+
+    expect(fetchStub.calledOnce).to.be.true;
+    expect(fetchStub.firstCall.args[0]).to.equal(NYS_CTA_URL);
+  });
+
+  it('renders the CTA when the feed\'s status is "on"', async () => {
+    mockFetch({
+      cta: {
+        status: "on",
+        buttonText: "Get started",
+        textAria: "Get started with the design system",
+        description: "A short description.",
+        link: "https://example.com/get-started",
+      },
+    });
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    const cta = el.shadowRoot?.querySelector(".nys-unavfooter__cta");
+    expect(cta, "the CTA container should render").to.exist;
+
+    const description = cta?.querySelector(".nys-unavfooter__cta-text");
+    expect(description?.tagName, "the description is a <p>").to.equal("P");
+    expect(description?.textContent?.trim()).to.equal("A short description.");
+
+    const button = cta?.querySelector("#nys-unavfooter__cta-button") as
+      | (HTMLElement & { label?: string; href?: string })
+      | null;
+    expect(button, "the CTA button should render").to.exist;
+    expect(button?.label).to.equal("Get started");
+    expect(button?.href).to.equal("https://example.com/get-started");
+
+    // The accessible name (textAria) is written onto the real inner control,
+    // distinct from the visible buttonText.
+    await button?.updateComplete;
+    const control = button?.shadowRoot?.querySelector(".nys-button");
+    expect(control?.getAttribute("aria-label")).to.equal(
+      "Get started with the design system",
+    );
+  });
+
+  it('does not render the CTA when the feed\'s status is not "on"', async () => {
+    mockFetch({ cta: { status: "off", buttonText: "Get started" } });
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector(".nys-unavfooter__cta")).to.not.exist;
+  });
+
+  it("does not render the CTA, and does not throw, when the feed is unreachable", async () => {
+    fetchStub = sinon.stub(window, "fetch").rejects(new Error("network down"));
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector(".nys-unavfooter__cta")).to.not.exist;
+  });
+
+  it("does not render the CTA when the response isn't ok", async () => {
+    mockFetch({ cta: { status: "on", buttonText: "Get started" } }, false);
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector(".nys-unavfooter__cta")).to.not.exist;
   });
 });

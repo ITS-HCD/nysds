@@ -711,28 +711,38 @@ describe("nys-unavheader", () => {
     delete (window as any).Localize;
   });
 
-  it("never subscribes to Localize's own setLanguage event", async () => {
+  it("syncs document direction from Localize's own setLanguage event, without showing the disclaimer", async () => {
     // Localize fires "setLanguage" for reasons that aren't a user clicking a
     // language in this dropdown — restoring a remembered language on load
-    // chief among them. The disclaimer must only ever appear as the direct
-    // result of that click (see _handleLanguageSelect), so nothing here
-    // should ever subscribe to Localize's event.
+    // chief among them. The document direction has to track the language
+    // that's actually showing regardless of how it got there, so it's wired
+    // to that event; the disclaimer is not, and must only ever appear as the
+    // direct result of a click (see _handleLanguageSelect).
     const el = await fixture<NysUnavHeader>(
       html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
     );
     await el.updateComplete;
 
-    const onCalls: string[] = [];
+    let setLanguageListener: ((data: unknown) => void) | undefined;
     (window as any).Localize = {
       initialize: () => {},
       setLanguage: () => {},
-      on: (event: string) => onCalls.push(event),
+      on: (event: string, cb: (data: unknown) => void) => {
+        if (event === "setLanguage") setLanguageListener = cb;
+      },
     };
 
     (el as any)._initLocalize();
+    setLanguageListener?.({ to: "yi" }); // Yiddish is RTL
 
-    expect(onCalls).to.deep.equal([]);
+    expect(document.documentElement.dir).to.equal("rtl");
+    expect(
+      document.body.querySelector(
+        "nys-alert[data-translate-disclaimer='true']",
+      ),
+    ).to.not.exist;
 
+    document.documentElement.dir = "ltr";
     delete (window as any).Localize;
   });
 
@@ -761,15 +771,15 @@ describe("nys-unavheader", () => {
 
     it("correctly sets document.documentElement.dir based on the selected language's rtl property", async () => {
       // Test RTL language (Yiddish is RTL)
-      (el as any)._updateTranslateDisclaimer("yi");
+      (el as any)._syncDocumentDirection("yi");
       expect(document.documentElement.dir).to.equal("rtl");
 
       // Test LTR language (Spanish is LTR)
-      (el as any)._updateTranslateDisclaimer("es");
+      (el as any)._syncDocumentDirection("es");
       expect(document.documentElement.dir).to.equal("ltr");
 
       // Test English (Reset to LTR)
-      (el as any)._updateTranslateDisclaimer("en");
+      (el as any)._syncDocumentDirection("en");
       expect(document.documentElement.dir).to.equal("ltr");
     });
 

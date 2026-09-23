@@ -17358,6 +17358,15 @@
       "path": "packages/nys-unavfooter/src/nys-unavfooter.ts",
       "declarations": [
         {
+          "kind": "variable",
+          "name": "NYS_CTA_URL",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta.static-assets.ny.gov/cta.json\"",
+          "description": "Statewide CTA endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so a CTA reads identically everywhere it appears.\n\nPRODUCTION: https://alerts-cta.static-assets.ny.gov/cta.json\n\nDEVELOPMENT: https://alerts-cta-dev.static-assets.ny.gov/cta.json"
+        },
+        {
           "kind": "class",
           "description": "Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.\n\nPlace as the last element before `</body>`. Displays NY.gov logo and links to Agencies,\nApp Directory, Counties, Events, Programs, and Services. No configuration needed.",
           "name": "NysUnavFooter",
@@ -17371,6 +17380,26 @@
               "type": {
                 "text": "string"
               }
+            },
+            {
+              "kind": "field",
+              "name": "_cta",
+              "type": {
+                "text": "FeedCta | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "The published CTA, or `null` when nothing is published (or the feed failed)."
+            },
+            {
+              "kind": "field",
+              "name": "_ctaRequest",
+              "type": {
+                "text": "AbortController | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "In-flight feed request, aborted if the footer leaves the page first."
             },
             {
               "kind": "method",
@@ -17387,6 +17416,37 @@
               "privacy": "private",
               "description": "The contentinfo's accessible name. A blank override would put the page back\nwhere #1795 found it — two unnamed contentinfo landmarks — so it falls back\nto the default.",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_loadCta",
+              "privacy": "private",
+              "description": "Statewide CTA\n--------------------------------------------------------------------------\nContent comes from the CTA feed, never from the consuming page, so the same\ncall to action renders identically everywhere it is shown. A missing,\nmalformed, or unreachable feed leaves the footer untouched — a CTA failing\nto load must never take a site's navigation down with it."
+            },
+            {
+              "kind": "method",
+              "name": "_readCtaFeed",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "request",
+                  "type": {
+                    "text": "AbortController"
+                  }
+                }
+              ],
+              "description": "Fetches the CTA feed. Resolves to null on any failure."
+            },
+            {
+              "kind": "method",
+              "name": "_syncCtaButtonAria",
+              "privacy": "private",
+              "description": "`nys-button` has no `ariaLabel` prop, and the host itself carries no role\n(ARIA placed there never reaches the real control) — so a `textAria` that\ndiffers from the button's visible `buttonText` has to be written directly\nonto the real inner `<button>`/`<a>` once nys-button renders, the same way\n`nys-unavheader` syncs ARIA onto its own buttons."
+            },
+            {
+              "kind": "method",
+              "name": "_renderCta",
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -17420,6 +17480,14 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "NYS_CTA_URL",
+          "declaration": {
+            "name": "NYS_CTA_URL",
+            "module": "packages/nys-unavfooter/src/nys-unavfooter.ts"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "nys-unavfooter",
@@ -17567,7 +17635,7 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\", disclaimer: `Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href=\"https://ny.gov/web-translation-services\">Lea la exención de responsabilidad completa</a>`, }, { code: \"zh\", label: \"中文\", nativeText: \"Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"zh-traditional\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\", disclaimer: `קיין איין אויטאמאטישע איבערזעצונג איז נישט אינגאנצן פארלעסליך, און עס איז נישט געמאכט צו ערזעצן א מענטשליכע איבערזעצער. טייל בלעטער אדער אינהאלט זענען מעגליך נישט פונקטליך איבערגעזעצט צוליב די באגרעניצטע מעגליכקייטן פון די איבערזעצונג טעכנאלאגיע. <a href=\"https://ny.gov/web-translation-services\">לייענט די פולע אויסקלארונג</a>`, rtl: true, }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\", disclaimer: `Автоматический перевод не является безупречным и не может заменить переводчика-человека. Некоторые страницы или их содержимое могут быть переведены неточно из-за ограничений программного обеспечения для перевода. <a href=\"https://ny.gov/web-translation-services\">Ознакомьтесь с полным текстом отказа от ответственности</a>`, }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\", disclaimer: `কোন স্বয়ংক্রিয় অনুবাদ নিখুঁत নয়, না এর উদ্দেশ্য মানুষ অনুবাদকদের প্রতিস্থাপন করা। অনুবাদ সফ্টওয়্যারের সীমাবদ্ধতার কারণে কিছু পৃষ্ঠা বা বিষয়বস্তু সঠিকভাবে অনুবাদ নাও করা হতে পারে। <a href=\"https://ny.gov/web-translation-services\">اসম্পূর্ণ দায়-পরিত্যাগকারী বিজ্ঞপ্তিটি পড়ুন</a>`, }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\", disclaimer: `자동 번역은 완벽하지 않으며, 번역가를 대체하기 위해 의도된 것도 아닙니다. 번역 소프트웨어의 한계로 인해 일부 페이지 또는 내용이 정확하게 번역되지 않을 수 있습니다 <a href=\"https://ny.gov/web-translation-services\">면책 조항 전문 읽기</a>`, }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\", disclaimer: `Okenn tradiksyon otomatik pa pafè, ni pa gen entansyon pou ranplase tradiktè imen. Gen kèk paj oswa kontni ki ka pa tradui avèk presizyon akòz limit nan lojisyèl tradiksyon an. <a href=\"https://ny.gov/web-translation-services\">Li Tout Avi sou Dechaj Responsabilite a</a>`, }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\", disclaimer: `Nessuna traduzione automatica è perfetta, né è destinata a sostituire i traduttori umani. Alcune pagine o contenuti potrebbero non essere tradotti accuratamente a causa delle limitazioni del software di traduzione. <a href=\"https://ny.gov/web-translation-services\">Leggere l’intera liberatoria</a>`, }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\", disclaimer: `الترجمة الآلية لا تكون مثالية بأي حال من الأحوال، ولا يقصد بها أن تحل محل المترجمين من بني البشر. قد تكون ترجمة بعض المحتويات أو الصفحات غير دقيقة بسبب محددات برمجية الترجمة. <a href=\"https://ny.gov/web-translation-services\">اقرأ بيان إخلاء المسؤولية بالكامل</a>`, rtl: true, }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\", disclaimer: `Żadne tłumaczenie automatyczne nie jest doskonałe, ani też nie ma na celu zastąpienia tłumaczeń wykonywanych przez ludzi. Niektóre strony lub treści mogą być niedokładnie przetłumaczone z powodu ograniczeń oprogramowania do wykonywania tłumaczeń <a href=\"https://ny.gov/web-translation-services\">Przeczytaj pełną klauzulę wyłączenia odpowiedzialności</a>`, }, { code: \"fr\", label: \"Français\", nativeText: \"French\", disclaimer: `Aucune traduction automatique n'est parfaite, ni n'est destinée à remplacer les traducteurs humains. Certaines pages ou du contenu peuvent ne pas être traduits exactement en raison des limitations du logiciel de traduction. <a href=\"https://ny.gov/web-translation-services\">Lire entièrement la clause de non-responsabilité</a>`, }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\", disclaimer: `کوئی بھی خود کار ترجمہ بالکل درست نہیں ہوتا ہے، نہ ہی اس کا مقصد انسانی ترجمہ نگاروں کی جگہ لینا ہوتا ہے۔ ممکن ہے کہ ترجمہ سافٹ ویئر کی محدود صلاحیتوں کی وجہ سے کچھ صفحات یا مواد کا ترجمہ بالکل درست نہ ہو پائے۔ <a href=\"https://ny.gov/web-translation-services\">مکمل براءت نامہ پڑھیں</a>`, rtl: true, }, ]",
+              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\", disclaimer: `Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href=\"https://ny.gov/web-translation-services\">Lea la exención de responsabilidad completa</a>`, }, { code: \"zh-cn\", label: \"中文\", nativeText: \"Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"zh-hk\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\", disclaimer: `קיין איין אויטאמאטישע איבערזעצונג איז נישט אינגאנצן פארלעסליך, און עס איז נישט געמאכט צו ערזעצן א מענטשליכע איבערזעצער. טייל בלעטער אדער אינהאלט זענען מעגליך נישט פונקטליך איבערגעזעצט צוליב די באגרעניצטע מעגליכקייטן פון די איבערזעצונג טעכנאלאגיע. <a href=\"https://ny.gov/web-translation-services\">לייענט די פולע אויסקלארונג</a>`, rtl: true, }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\", disclaimer: `Автоматический перевод не является безупречным и не может заменить переводчика-человека. Некоторые страницы или их содержимое могут быть переведены неточно из-за ограничений программного обеспечения для перевода. <a href=\"https://ny.gov/web-translation-services\">Ознакомьтесь с полным текстом отказа от ответственности</a>`, }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\", disclaimer: `কোন স্বয়ংক্রিয় অনুবাদ নিখুঁत নয়, না এর উদ্দেশ্য মানুষ অনুবাদকদের প্রতিস্থাপন করা। অনুবাদ সফ্টওয়্যারের সীমাবদ্ধতার কারণে কিছু পৃষ্ঠা বা বিষয়বস্তু সঠিকভাবে অনুবাদ নাও করা হতে পারে। <a href=\"https://ny.gov/web-translation-services\">اসম্পূর্ণ দায়-পরিত্যাগকারী বিজ্ঞপ্তিটি পড়ুন</a>`, }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\", disclaimer: `자동 번역은 완벽하지 않으며, 번역가를 대체하기 위해 의도된 것도 아닙니다. 번역 소프트웨어의 한계로 인해 일부 페이지 또는 내용이 정확하게 번역되지 않을 수 있습니다 <a href=\"https://ny.gov/web-translation-services\">면책 조항 전문 읽기</a>`, }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\", disclaimer: `Okenn tradiksyon otomatik pa pafè, ni pa gen entansyon pou ranplase tradiktè imen. Gen kèk paj oswa kontni ki ka pa tradui avèk presizyon akòz limit nan lojisyèl tradiksyon an. <a href=\"https://ny.gov/web-translation-services\">Li Tout Avi sou Dechaj Responsabilite a</a>`, }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\", disclaimer: `Nessuna traduzione automatica è perfetta, né è destinata a sostituire i traduttori umani. Alcune pagine o contenuti potrebbero non essere tradotti accuratamente a causa delle limitazioni del software di traduzione. <a href=\"https://ny.gov/web-translation-services\">Leggere l’intera liberatoria</a>`, }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\", disclaimer: `الترجمة الآلية لا تكون مثالية بأي حال من الأحوال، ولا يقصد بها أن تحل محل المترجمين من بني البشر. قد تكون ترجمة بعض المحتويات أو الصفحات غير دقيقة بسبب محددات برمجية الترجمة. <a href=\"https://ny.gov/web-translation-services\">اقرأ بيان إخلاء المسؤولية بالكامل</a>`, rtl: true, }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\", disclaimer: `Żadne tłumaczenie automatyczne nie jest doskonałe, ani też nie ma na celu zastąpienia tłumaczeń wykonywanych przez ludzi. Niektóre strony lub treści mogą być niedokładnie przetłumaczone z powodu ograniczeń oprogramowania do wykonywania tłumaczeń <a href=\"https://ny.gov/web-translation-services\">Przeczytaj pełną klauzulę wyłączenia odpowiedzialności</a>`, }, { code: \"fr\", label: \"Français\", nativeText: \"French\", disclaimer: `Aucune traduction automatique n'est parfaite, ni n'est destinée à remplacer les traducteurs humains. Certaines pages ou du contenu peuvent ne pas être traduits exactement en raison des limitations du logiciel de traduction. <a href=\"https://ny.gov/web-translation-services\">Lire entièrement la clause de non-responsabilité</a>`, }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\", disclaimer: `کوئی بھی خود کار ترجمہ بالکل درست نہیں ہوتا ہے، نہ ہی اس کا مقصد انسانی ترجمہ نگاروں کی جگہ لینا ہوتا ہے۔ ممکن ہے کہ ترجمہ سافٹ ویئر کی محدود صلاحیتوں کی وجہ سے کچھ صفحات یا مواد کا ترجمہ بالکل درست نہ ہو پائے۔ <a href=\"https://ny.gov/web-translation-services\">مکمل براءت نامہ پڑھیں</a>`, rtl: true, }, ]",
               "description": "The list of languages this site can be translated to, default to use Localize",
               "attribute": "languages"
             },
@@ -17737,6 +17805,11 @@
             },
             {
               "kind": "method",
+              "name": "_initGoogletagmanager",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_initLocalize",
               "privacy": "private"
             },
@@ -17744,6 +17817,20 @@
               "kind": "method",
               "name": "_toggleSearchDropdown",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_syncDocumentDirection",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "languageCode",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Syncs the document's RTL/LTR direction to the given language code.\n\nWired to Localize's own \"setLanguage\" event (see `_initLocalize`) so it\ntracks whichever language is actually showing — including a remembered\nlanguage Localize restores on load — not just a click in this dropdown.\nAlso called directly from `_handleLanguageSelect` when Localize isn't\navailable, since then no \"setLanguage\" event will ever fire."
             },
             {
               "kind": "method",
@@ -17757,7 +17844,7 @@
                   }
                 }
               ],
-              "description": "Shows, replaces, or removes the translation disclaimer banner for the given\nlanguage code, and syncs the document's RTL/LTR direction to match.\n\nCalled only from `_handleLanguageSelect`, i.e. only as the direct result of\na user clicking a language in the dropdown. Deliberately not wired to\nLocalize's own \"setLanguage\" event, which also fires for reasons that\naren't a user picking a language on this page load — restoring a\nremembered language chief among them — and the disclaimer must not appear\nunprompted."
+              "description": "Shows, replaces, or removes the translation disclaimer banner for the\ngiven language code.\n\nCalled only from `_handleLanguageSelect`, i.e. only as the direct result of\na user clicking a language in the dropdown. Deliberately not wired to\nLocalize's own \"setLanguage\" event, which also fires for reasons that\naren't a user picking a language on this page load — restoring a\nremembered language chief among them — and the disclaimer must not appear\nunprompted."
             },
             {
               "kind": "method",
@@ -18103,7 +18190,7 @@
               "type": {
                 "text": "Language[]"
               },
-              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\", disclaimer: `Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href=\"https://ny.gov/web-translation-services\">Lea la exención de responsabilidad completa</a>`, }, { code: \"zh\", label: \"中文\", nativeText: \"Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"zh-traditional\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\", disclaimer: `קיין איין אויטאמאטישע איבערזעצונג איז נישט אינגאנצן פארלעסליך, און עס איז נישט געמאכט צו ערזעצן א מענטשליכע איבערזעצער. טייל בלעטער אדער אינהאלט זענען מעגליך נישט פונקטליך איבערגעזעצט צוליב די באגרעניצטע מעגליכקייטן פון די איבערזעצונג טעכנאלאגיע. <a href=\"https://ny.gov/web-translation-services\">לייענט די פולע אויסקלארונג</a>`, rtl: true, }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\", disclaimer: `Автоматический перевод не является безупречным и не может заменить переводчика-человека. Некоторые страницы или их содержимое могут быть переведены неточно из-за ограничений программного обеспечения для перевода. <a href=\"https://ny.gov/web-translation-services\">Ознакомьтесь с полным текстом отказа от ответственности</a>`, }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\", disclaimer: `কোন স্বয়ংক্রিয় অনুবাদ নিখুঁत নয়, না এর উদ্দেশ্য মানুষ অনুবাদকদের প্রতিস্থাপন করা। অনুবাদ সফ্টওয়্যারের সীমাবদ্ধতার কারণে কিছু পৃষ্ঠা বা বিষয়বস্তু সঠিকভাবে অনুবাদ নাও করা হতে পারে। <a href=\"https://ny.gov/web-translation-services\">اসম্পূর্ণ দায়-পরিত্যাগকারী বিজ্ঞপ্তিটি পড়ুন</a>`, }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\", disclaimer: `자동 번역은 완벽하지 않으며, 번역가를 대체하기 위해 의도된 것도 아닙니다. 번역 소프트웨어의 한계로 인해 일부 페이지 또는 내용이 정확하게 번역되지 않을 수 있습니다 <a href=\"https://ny.gov/web-translation-services\">면책 조항 전문 읽기</a>`, }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\", disclaimer: `Okenn tradiksyon otomatik pa pafè, ni pa gen entansyon pou ranplase tradiktè imen. Gen kèk paj oswa kontni ki ka pa tradui avèk presizyon akòz limit nan lojisyèl tradiksyon an. <a href=\"https://ny.gov/web-translation-services\">Li Tout Avi sou Dechaj Responsabilite a</a>`, }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\", disclaimer: `Nessuna traduzione automatica è perfetta, né è destinata a sostituire i traduttori umani. Alcune pagine o contenuti potrebbero non essere tradotti accuratamente a causa delle limitazioni del software di traduzione. <a href=\"https://ny.gov/web-translation-services\">Leggere l’intera liberatoria</a>`, }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\", disclaimer: `الترجمة الآلية لا تكون مثالية بأي حال من الأحوال، ولا يقصد بها أن تحل محل المترجمين من بني البشر. قد تكون ترجمة بعض المحتويات أو الصفحات غير دقيقة بسبب محددات برمجية الترجمة. <a href=\"https://ny.gov/web-translation-services\">اقرأ بيان إخلاء المسؤولية بالكامل</a>`, rtl: true, }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\", disclaimer: `Żadne tłumaczenie automatyczne nie jest doskonałe, ani też nie ma na celu zastąpienia tłumaczeń wykonywanych przez ludzi. Niektóre strony lub treści mogą być niedokładnie przetłumaczone z powodu ograniczeń oprogramowania do wykonywania tłumaczeń <a href=\"https://ny.gov/web-translation-services\">Przeczytaj pełną klauzulę wyłączenia odpowiedzialności</a>`, }, { code: \"fr\", label: \"Français\", nativeText: \"French\", disclaimer: `Aucune traduction automatique n'est parfaite, ni n'est destinée à remplacer les traducteurs humains. Certaines pages ou du contenu peuvent ne pas être traduits exactement en raison des limitations du logiciel de traduction. <a href=\"https://ny.gov/web-translation-services\">Lire entièrement la clause de non-responsabilité</a>`, }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\", disclaimer: `کوئی بھی خود کار ترجمہ بالکل درست نہیں ہوتا ہے، نہ ہی اس کا مقصد انسانی ترجمہ نگاروں کی جگہ لینا ہوتا ہے۔ ممکن ہے کہ ترجمہ سافٹ ویئر کی محدود صلاحیتوں کی وجہ سے کچھ صفحات یا مواد کا ترجمہ بالکل درست نہ ہو پائے۔ <a href=\"https://ny.gov/web-translation-services\">مکمل براءت نامہ پڑھیں</a>`, rtl: true, }, ]",
+              "default": "[ { code: \"en\", label: \"English\", nativeText: \"English\" }, { code: \"es\", label: \"Español\", nativeText: \"Spanish\", disclaimer: `Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href=\"https://ny.gov/web-translation-services\">Lea la exención de responsabilidad completa</a>`, }, { code: \"zh-cn\", label: \"中文\", nativeText: \"Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"zh-hk\", label: \"繁體中文\", nativeText: \"Traditional Chinese\", disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href=\"https://ny.gov/web-translation-services\">閱讀完整的免責聲明</a>`, }, { code: \"yi\", label: \"יידיש\", nativeText: \"Yiddish\", disclaimer: `קיין איין אויטאמאטישע איבערזעצונג איז נישט אינגאנצן פארלעסליך, און עס איז נישט געמאכט צו ערזעצן א מענטשליכע איבערזעצער. טייל בלעטער אדער אינהאלט זענען מעגליך נישט פונקטליך איבערגעזעצט צוליב די באגרעניצטע מעגליכקייטן פון די איבערזעצונג טעכנאלאגיע. <a href=\"https://ny.gov/web-translation-services\">לייענט די פולע אויסקלארונג</a>`, rtl: true, }, { code: \"ru\", label: \"Русский\", nativeText: \"Russian\", disclaimer: `Автоматический перевод не является безупречным и не может заменить переводчика-человека. Некоторые страницы или их содержимое могут быть переведены неточно из-за ограничений программного обеспечения для перевода. <a href=\"https://ny.gov/web-translation-services\">Ознакомьтесь с полным текстом отказа от ответственности</a>`, }, { code: \"bn\", label: \"বাংলা\", nativeText: \"Bengali\", disclaimer: `কোন স্বয়ংক্রিয় অনুবাদ নিখুঁत নয়, না এর উদ্দেশ্য মানুষ অনুবাদকদের প্রতিস্থাপন করা। অনুবাদ সফ্টওয়্যারের সীমাবদ্ধতার কারণে কিছু পৃষ্ঠা বা বিষয়বস্তু সঠিকভাবে অনুবাদ নাও করা হতে পারে। <a href=\"https://ny.gov/web-translation-services\">اসম্পূর্ণ দায়-পরিত্যাগকারী বিজ্ঞপ্তিটি পড়ুন</a>`, }, { code: \"ko\", label: \"한국어\", nativeText: \"Korean\", disclaimer: `자동 번역은 완벽하지 않으며, 번역가를 대체하기 위해 의도된 것도 아닙니다. 번역 소프트웨어의 한계로 인해 일부 페이지 또는 내용이 정확하게 번역되지 않을 수 있습니다 <a href=\"https://ny.gov/web-translation-services\">면책 조항 전문 읽기</a>`, }, { code: \"ht\", label: \"Kreyòl Ayisyen\", nativeText: \"Haitian Creole\", disclaimer: `Okenn tradiksyon otomatik pa pafè, ni pa gen entansyon pou ranplase tradiktè imen. Gen kèk paj oswa kontni ki ka pa tradui avèk presizyon akòz limit nan lojisyèl tradiksyon an. <a href=\"https://ny.gov/web-translation-services\">Li Tout Avi sou Dechaj Responsabilite a</a>`, }, { code: \"it\", label: \"Italiano\", nativeText: \"Italian\", disclaimer: `Nessuna traduzione automatica è perfetta, né è destinata a sostituire i traduttori umani. Alcune pagine o contenuti potrebbero non essere tradotti accuratamente a causa delle limitazioni del software di traduzione. <a href=\"https://ny.gov/web-translation-services\">Leggere l’intera liberatoria</a>`, }, { code: \"ar\", label: \"العربية\", nativeText: \"Arabic\", disclaimer: `الترجمة الآلية لا تكون مثالية بأي حال من الأحوال، ولا يقصد بها أن تحل محل المترجمين من بني البشر. قد تكون ترجمة بعض المحتويات أو الصفحات غير دقيقة بسبب محددات برمجية الترجمة. <a href=\"https://ny.gov/web-translation-services\">اقرأ بيان إخلاء المسؤولية بالكامل</a>`, rtl: true, }, { code: \"pl\", label: \"Polski\", nativeText: \"Polish\", disclaimer: `Żadne tłumaczenie automatyczne nie jest doskonałe, ani też nie ma na celu zastąpienia tłumaczeń wykonywanych przez ludzi. Niektóre strony lub treści mogą być niedokładnie przetłumaczone z powodu ograniczeń oprogramowania do wykonywania tłumaczeń <a href=\"https://ny.gov/web-translation-services\">Przeczytaj pełną klauzulę wyłączenia odpowiedzialności</a>`, }, { code: \"fr\", label: \"Français\", nativeText: \"French\", disclaimer: `Aucune traduction automatique n'est parfaite, ni n'est destinée à remplacer les traducteurs humains. Certaines pages ou du contenu peuvent ne pas être traduits exactement en raison des limitations du logiciel de traduction. <a href=\"https://ny.gov/web-translation-services\">Lire entièrement la clause de non-responsabilité</a>`, }, { code: \"ur\", label: \"اردو\", nativeText: \"Urdu\", disclaimer: `کوئی بھی خود کار ترجمہ بالکل درست نہیں ہوتا ہے، نہ ہی اس کا مقصد انسانی ترجمہ نگاروں کی جگہ لینا ہوتا ہے۔ ممکن ہے کہ ترجمہ سافٹ ویئر کی محدود صلاحیتوں کی وجہ سے کچھ صفحات یا مواد کا ترجمہ بالکل درست نہ ہو پائے۔ <a href=\"https://ny.gov/web-translation-services\">مکمل براءت نامہ پڑھیں</a>`, rtl: true, }, ]",
               "description": "The list of languages this site can be translated to, default to use Localize",
               "fieldName": "languages",
               "propName": "languages"

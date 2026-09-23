@@ -311,13 +311,13 @@ export class NysUnavHeader extends NysElement {
       disclaimer: `Las traducciones automáticas no son perfectas y no pretenden reemplazar a los traductores humanos. Es posible que algunas páginas o parte del contenido no estén traducidos de forma precisa debido a las limitaciones del software de traducción. <a href="https://ny.gov/web-translation-services">Lea la exención de responsabilidad completa</a>`,
     },
     {
-      code: "zh",
+      code: "zh-cn",
       label: "中文",
       nativeText: "Chinese",
       disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href="https://ny.gov/web-translation-services">閱讀完整的免責聲明</a>`,
     },
     {
-      code: "zh-traditional",
+      code: "zh-hk",
       label: "繁體中文",
       nativeText: "Traditional Chinese",
       disclaimer: `自動翻譯並不完美、也不是為了取代人工翻譯。由於翻譯軟體限制、某些頁面或內容可能無法準確翻譯。<a href="https://ny.gov/web-translation-services">閱讀完整的免責聲明</a>`,
@@ -401,6 +401,7 @@ export class NysUnavHeader extends NysElement {
     // Also covers re-attachment, where the pending request was aborted on the way out
     this._loadAlerts();
     this._initLocalize();
+    this._initGoogletagmanager();
   }
 
   disconnectedCallback() {
@@ -670,6 +671,29 @@ export class NysUnavHeader extends NysElement {
     if (this.translateKey) return undefined;
     return this._smartlingUrl(language.code);
   }
+  private _initGoogletagmanager() {
+    let gtmScript = document.getElementById(
+      "nys-gtm-script",
+    ) as HTMLScriptElement;
+    if (!gtmScript) {
+      // @ts-ignore
+      (function (w, d, s, l, i) {
+        // @ts-ignore
+        w[l] = w[l] || [];
+        // @ts-ignore
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        // @ts-ignore
+        j.async = true;
+        // @ts-ignore
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        // @ts-ignore
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-T4FP6H");
+    }
+  }
 
   private _initLocalize() {
     if (this.hideTranslate) return;
@@ -689,12 +713,16 @@ export class NysUnavHeader extends NysElement {
           rememberLanguage: true,
           autoApprove: true,
         });
-        // No "setLanguage" listener here on purpose: Localize fires that event
-        // for its own reasons too — restoring a remembered language on load,
-        // autoApprove, etc. — and the disclaimer must only ever appear as the
-        // direct result of a user clicking a language in the dropdown (see
-        // _handleLanguageSelect), never as a side effect of Localize's own
-        // state changes.
+        // The document's RTL/LTR direction has to track whatever language is
+        // actually showing — including a remembered language Localize restores
+        // on load, not just a click in this dropdown — so it's synced from
+        // Localize's own "setLanguage" event rather than from the click handler.
+        // The disclaimer is *not* wired here: it must only ever appear as the
+        // direct result of a user clicking a language (see _handleLanguageSelect),
+        // never as a side effect of Localize's own state changes.
+        (window as any).Localize.on("setLanguage", (data: any) => {
+          this._syncDocumentDirection(data?.to ?? data?.language);
+        });
       }
     };
 
@@ -723,8 +751,34 @@ export class NysUnavHeader extends NysElement {
   }
 
   /**
-   * Shows, replaces, or removes the translation disclaimer banner for the given
-   * language code, and syncs the document's RTL/LTR direction to match.
+   * Syncs the document's RTL/LTR direction to the given language code.
+   *
+   * Wired to Localize's own "setLanguage" event (see `_initLocalize`) so it
+   * tracks whichever language is actually showing — including a remembered
+   * language Localize restores on load — not just a click in this dropdown.
+   * Also called directly from `_handleLanguageSelect` when Localize isn't
+   * available, since then no "setLanguage" event will ever fire.
+   */
+  private _syncDocumentDirection(languageCode: string) {
+    if (languageCode === "en") {
+      document.documentElement.dir = "ltr";
+      return;
+    }
+
+    const baseLang = (document.documentElement.lang || "")
+      .toLowerCase()
+      .split("-")[0];
+    const checkLang =
+      this.languages.find(
+        (lang) => lang.code.toLowerCase() === languageCode.toLowerCase(),
+      ) || this.languages.find((lang) => lang.code.toLowerCase() === baseLang);
+
+    document.documentElement.dir = checkLang?.rtl ? "rtl" : "ltr";
+  }
+
+  /**
+   * Shows, replaces, or removes the translation disclaimer banner for the
+   * given language code.
    *
    * Called only from `_handleLanguageSelect`, i.e. only as the direct result of
    * a user clicking a language in the dropdown. Deliberately not wired to
@@ -747,36 +801,19 @@ export class NysUnavHeader extends NysElement {
     }
 
     // Show disclaimer only for non-English languages
-    if (languageCode !== "en") {
-      if (matchingLanguage?.disclaimer) {
-        const translateDisclaimer = document.createElement("nys-alert");
-        translateDisclaimer.setAttribute("notranslate", "true");
-        translateDisclaimer.setAttribute("dismissible", "true");
-        translateDisclaimer.setAttribute("data-translate-disclaimer", "true");
-        translateDisclaimer.style.setProperty(
-          "--nys-alert-border-color",
-          "transparent",
-        );
-        translateDisclaimer.style.setProperty(
-          "--_nys-alert-border-radius",
-          "0",
-        );
-        translateDisclaimer.innerHTML = matchingLanguage.disclaimer;
+    if (languageCode !== "en" && matchingLanguage?.disclaimer) {
+      const translateDisclaimer = document.createElement("nys-alert");
+      translateDisclaimer.setAttribute("notranslate", "true");
+      translateDisclaimer.setAttribute("dismissible", "true");
+      translateDisclaimer.setAttribute("data-translate-disclaimer", "true");
+      translateDisclaimer.style.setProperty(
+        "--nys-alert-border-color",
+        "transparent",
+      );
+      translateDisclaimer.style.setProperty("--_nys-alert-border-radius", "0");
+      translateDisclaimer.innerHTML = matchingLanguage.disclaimer;
 
-        this.after(translateDisclaimer);
-      }
-
-      const baseLang = (document.documentElement.lang || "")
-        .toLowerCase()
-        .split("-")[0];
-      const checkLang =
-        matchingLanguage ||
-        this.languages.find((lang) => lang.code.toLowerCase() === baseLang);
-
-      document.documentElement.dir = checkLang?.rtl ? "rtl" : "ltr";
-    } else {
-      // Reset the document direction to left-to-right for English
-      document.documentElement.dir = "ltr";
+      this.after(translateDisclaimer);
     }
   }
 
@@ -811,9 +848,27 @@ export class NysUnavHeader extends NysElement {
     // restoring a remembered language on load), and the disclaimer must not
     // appear unprompted.
     if (typeof (window as any).Localize !== "undefined") {
+      // Localize's own "setLanguage" event (wired up in _initLocalize) syncs
+      // the document direction once this takes effect.
       (window as any).Localize.setLanguage(language.code);
+    } else {
+      // No Localize instance to fire that event — sync it directly.
+      this._syncDocumentDirection(language.code);
     }
     this._updateTranslateDisclaimer(language.code);
+
+    const translateDisclaimerstring = localStorage.getItem("ljs-views");
+
+    if (translateDisclaimerstring) {
+      let translateDisclaimercount: number = parseInt(
+        translateDisclaimerstring,
+        10,
+      );
+
+      if (translateDisclaimercount <= 1) {
+        this._updateTranslateDisclaimer(language.code);
+      }
+    }
   }
 
   /**
