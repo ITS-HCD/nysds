@@ -1367,6 +1367,14 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Default slot for custom body content. Overrides `text` prop when provided.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-alert-color** - Text color of heading and description _(default: undefined)_
+   * - **--nys-alert-color-link** - Text color of action links _(default: undefined)_
+   * - **--nys-alert-color--link--hover** - Text color of action links when hovered _(default: undefined)_
+   * - **--nys-alert-color--link--active** - Text color of action links when active _(default: undefined)_
+   * - **--nys-alert-border-color** - Color of border accent color _(default: undefined)_
+   * - **--nys-alert-background-color** - Background color of component _(default: undefined)_
    */
   "nys-alert": Partial<NysAlertProps & BaseProps & BaseEvents>;
 
@@ -1377,6 +1385,9 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Custom icon content. Overrides default icon when no image or initials.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-avatar-size** - Width and height of the component _(default: undefined)_
    */
   "nys-avatar": Partial<NysAvatarProps & BaseProps & BaseEvents>;
 
@@ -1405,6 +1416,10 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - One or more `li` elements defining the trail.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-max-width--content** - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable. _(default: undefined)_
+   * - **--_nys-breadcrumbs-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
    */
   "nys-breadcrumbs": Partial<NysBreadcrumbsProps & BaseProps & BaseEvents>;
 
@@ -1612,6 +1627,10 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Footer content (links, contact info). Use `<h4>` for column headings.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-max-width--content** - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable. _(default: undefined)_
+   * - **--_nys-globalfooter-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
    */
   "nys-globalfooter": Partial<NysGlobalFooterProps & BaseProps & BaseEvents>;
 
@@ -1623,6 +1642,10 @@ export type CustomElements = {
    * ### **Slots:**
    *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
    * - **user-actions** - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-max-width--content** - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable. _(default: undefined)_
+   * - **--_nys-globalheader-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
    */
   "nys-globalheader": Partial<NysGlobalHeaderProps & BaseProps & BaseEvents>;
 
@@ -1633,6 +1656,9 @@ export type CustomElements = {
    *
    * ### **Methods:**
    *  - **redraw()** - Called by the icon library registry when the current library changes.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-icon-size** - Width and height of the component _(default: undefined)_
    */
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
@@ -1875,6 +1901,9 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"` region.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-tabpanel-max-height** - Maximum height of the tab panel content area. _(default: undefined)_
    */
   "nys-tabpanel": Partial<NysTabpanelProps & BaseProps & BaseEvents>;
 
@@ -1890,6 +1919,9 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-table-padding--cell--y** - Vertical padding for table cells _(default: undefined)_
    */
   "nys-table": Partial<NysTableProps & BaseProps & BaseEvents>;
 
@@ -1961,6 +1993,10 @@ export type CustomElements = {
    * Universal NYS footer with logo and statewide links. Required site-wide.
    * ---
    *
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-max-width--content** - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable. _(default: undefined)_
+   * - **--_nys-unavfooter-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
    */
   "nys-unavfooter": Partial<NysUnavFooterProps & BaseProps & BaseEvents>;
 
@@ -1972,6 +2008,10 @@ export type CustomElements = {
    * ### **Events:**
    *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
    * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
+   *
+   * ### **CSS Properties:**
+   *  - **--nys-max-width--content** - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable. _(default: undefined)_
+   * - **--_nys-unavheader-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 
