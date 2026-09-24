@@ -1,5 +1,5 @@
 import { expect, html, fixture, aTimeout } from "@open-wc/testing";
-import { NysUnavFooter, NYS_CTA_URL } from "./nys-unavfooter";
+import type { NysUnavFooter } from "./nys-unavfooter";
 import "../dist/nys-unavfooter.js";
 import sinon from "sinon";
 
@@ -173,7 +173,9 @@ describe("nys-unavfooter statewide CTA", () => {
     await aTimeout(0);
 
     expect(fetchStub.calledOnce).to.be.true;
-    expect(fetchStub.firstCall.args[0]).to.equal(NYS_CTA_URL);
+    expect(fetchStub.firstCall.args[0]).to.equal(
+      "https://alerts-cta.static-assets.ny.gov/cta.json",
+    );
   });
 
   it('renders the CTA when the feed\'s status is "on"', async () => {
