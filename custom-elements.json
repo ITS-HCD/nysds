@@ -8941,6 +8941,21 @@
               "code": "<!-- Names the contentinfo landmark directly instead of from the visible\nheading. Keep it distinct from nys-unavfooter's (\"New York State\"). -->\n<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nlandmarkLabel=\"ITS\"\n></nys-globalfooter>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on every agency site and application. The Global Footer is a required page element.",
+            "Use to surface essential site-wide links such as contact information, privacy policies, accessibility statements, and related program pages.",
+            "Set `agencyName` to your agency's full official name (e.g., \"Office of Information Technology Services\").",
+            "Set `homepageLink` to make the agency name a clickable link back to your site's homepage.",
+            "Keep footer link lists concise. Group related links under `<span>` headings when you have more than 5–6 links.",
+            "Use slotted `<ul>` content for single-list links, or nested `<ul>` with `<span>` headings for multi-column layouts.",
+            "Place `<nys-globalfooter>` above `<nys-unavfooter>` and below your page content and `<nys-backtotop>`."
+          ],
+          "usagedonts": [
+            "Use for primary navigation. That belongs in `<nys-globalheader>`.",
+            "Include page-specific content or calls to action. Footer content should be relevant site-wide.",
+            "Use for statewide universal links (Agencies, Services, Counties). Those belong in `<nys-unavfooter>`, which renders below this component.",
+            "Embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security."
           ]
         }
       ],
@@ -9378,6 +9393,23 @@
               "code": "<!-- Names the banner landmark directly instead of from the visible title.\nKeep it distinct from nys-unavheader's (\"New York State\"). -->\n<nys-globalheader\nagencyName=\"Office of Information Technology Services\"\nlandmarkLabel=\"ITS\"\n></nys-globalheader>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on every agency site and application. The Global Header is a required page element.",
+            "Place below `<nys-unavheader>` when using the Universal Navigation Header.",
+            "Use `agencyName` alone for public-facing agency websites not tied to a specific application; omit it for statewide portals that aren't agency-specific.",
+            "Use `appName` for named applications (e.g., \"Employee Time Tracker\" or \"License Renewal Portal\").",
+            "Combine `appName` and `agencyName` when an application belongs to a specific agency.",
+            "Set `homepageLink` to make the header title clickable. On public-facing sites, this is the primary path back to the homepage.",
+            "Use the `user-actions` slot for authenticated applications that need log-out buttons or user profile controls.",
+            "Keep navigation link lists to 6 items or fewer. On mobile, these collapse into a full-width menu.",
+            "Add the `nysLogo` property to display the NYS brand mark for internal applications that don't require public-facing agency branding."
+          ],
+          "usagedonts": [
+            "Use `appName` for an agency name. Use the `agencyName` prop instead.",
+            "Add navigation links to application headers where users should remain focused on a task (e.g., a multi-step form).",
+            "Place secondary or utility navigation in the Global Header. Use `<nys-globalfooter>` for secondary links.",
+            "Use the `nysLogo` property on public-facing sites, instead use the `<nys-unavheader>` for statewide branding."
           ]
         }
       ],
