@@ -35,6 +35,8 @@ function adoptLightStyles() {
  *
  * @element nys-tabpanel
  *
+ * @cssprop [--nys-tabpanel-max-height] - Maximum height of the tab panel content area.
+ *
  * @slot - Default slot for panel content. Rendered directly under the host,
  *   which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"`
  *   region.

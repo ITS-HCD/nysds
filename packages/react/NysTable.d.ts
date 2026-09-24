@@ -76,5 +76,8 @@ export interface NysTableProps extends Pick<
  *
  * ### **Slots:**
  *  - _default_ - Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.
+ *
+ * ### **CSS Properties:**
+ *  - **--nys-table-padding--cell--y** - Vertical padding for table cells _(default: undefined)_
  */
 export const NysTable: React.ForwardRefExoticComponent<NysTableProps>;
