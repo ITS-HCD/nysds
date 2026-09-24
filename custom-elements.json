@@ -6766,6 +6766,20 @@
               "code": "<nys-datepicker\nlabel=\"Start Date\"\noptional>\n</nys-datepicker>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use when users need to select a single calendar date, such as scheduling an appointment or choosing a filing deadline, especially when the day of the week matters.",
+            "Set the `label` property to clearly describe what date is being collected. Every datepicker needs one for accessibility.",
+            "Add `description` text to specify the expected format or provide context.",
+            "Set `required` when the date is mandatory for form submission; don't set both `required` and `optional` on the same component.",
+            "Use `startDate` to open the calendar to a relevant month when the expected date is far from today.",
+            "Pass date values as ISO strings (`\"YYYY-MM-DD\"`) rather than `Date` objects to avoid timezone issues."
+          ],
+          "usagedonts": [
+            "Use for dates users know from memory, such as date of birth or document issue dates. A text input with separate month/day/year fields is more efficient.",
+            "Use when users need to select multiple dates or a date range, or when time selection is required alongside the date.",
+            "Rely on the calendar popup alone. Safari and mobile browsers use the native date picker instead.",
+            "Use `hideTodayButton` and `hideClearButton` together unless users must select a specific date and cannot be allowed to clear it."
           ]
         }
       ],
@@ -6899,6 +6913,15 @@
               "code": "<p>Section one content</p>\n<nys-divider subtle></nys-divider>\n<p>Section two content</p>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Ensure consistent padding/margin above and below dividers to avoid crowding.",
+            "Use the `inverted` option on dark backgrounds."
+          ],
+          "usagedonts": [
+            "Overuse dividers and clutter the interface, reducing scannability.",
+            "Use the divider to separate content appearing side bys side.",
+            "Use the `inverted` option on light backgrounds."
           ]
         }
       ],
@@ -7336,6 +7359,20 @@
               "lang": "html",
               "render": "<div style=\"margin: 200px; display: flex; justify-content: center; align-items: center;\">\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>"
             }
+          ],
+          "usagedos": [
+            "Use to display a list of 5–15 actions or links under a single trigger, such as navigation, commands, or user profile access.",
+            "Keep to 3–7 actions when possible.",
+            "Order actions by frequency or importance.",
+            "Separate destructive actions with a divider.",
+            "Use clear, specific labels (e.g., \"Profile\", \"Account Settings\", \"Sign out\")."
+          ],
+          "usagedonts": [
+            "Use for form inputs or selectable values. Use `<nys-select>` for standard selection or `<nys-combobox>` when users need to filter or search through many options.",
+            "Use when the action is always visible and frequently used. Use `<nys-button>` instead.",
+            "Use without a label or accessible description on the trigger.",
+            "Nest dropdown menus inside other dropdown menus.",
+            "Use vague labels like \"Manage\" or \"Options\"."
           ]
         }
       ],
