@@ -24,6 +24,18 @@ import styles from "./nys-modal.scss?inline";
  * @fires nys-open - Fired when modal opens. Detail: `{id}`.
  * @fires nys-close - Fired when modal closes. Detail: `{id}`.
  *
+ * @usagedos
+ * - Use to confirm important actions, present focused forms (e.g., login, feedback), or require acknowledgment of alerts without navigating away from the page.
+ * - Keep content short and focused. Use a dedicated page for long or complex content.
+ * - Keep the `subheading` short and use `<p>` tags within the modal for longer information.
+ * - Use the `mandatory` prop to disable the dismiss button only when the user must make a critical decision or acknowledge essential information.
+ *
+ * @usagedonts
+ * - Stack multiple modals.
+ * - Use for trivial information or inline status messages. Use `<nys-alert>` instead.
+ * - Use for quick hints on form fields. Use `<nys-tooltip>` instead.
+ * - Force the `mandatory` prop unnecessarily.
+ *
  * @example Basic
  * ```html
  * <nys-modal

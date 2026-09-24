@@ -10034,6 +10034,22 @@
               "lang": "html",
               "render": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>\n<script data-scope=\"module\">\nregisterIconLibrary(\"material\", {\nresolver: (name) =>\n`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             }
+          ],
+          "usagedos": [
+            "Use icons to draw attention to actions, help users scan for key information, or enhance recognizable common actions (e.g., search, download, share).",
+            "Pair icons with a text label—few icons are universally understood alone.",
+            "Use icons consistently: same icon and label for the same meaning throughout your app.",
+            "Use `ariaLabel` when the icon conveys meaning, so screen readers can announce its purpose.",
+            "Use icons from the NYS Design System library; if unavailable, use Google Material Symbols (rounded, unfilled).",
+            "Match icon size and color to the design system."
+          ],
+          "usagedonts": [
+            "Use an icon if its meaning isn't immediately clear—if you suspect users won't recognize it, remove it.",
+            "Use icons to compensate for unclear page hierarchy or confusing content organization.",
+            "Use standalone icons for actions—use `<nys-button>` with an icon inside instead.",
+            "Replace meaningful text with icons unless the icon is universally recognized or paired with a label.",
+            "Overuse icons—too many create visual noise and reduce focus.",
+            "Use excessive icon customization that breaks design consistency."
           ]
         }
       ],
@@ -10214,6 +10230,19 @@
               "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use an icon list to highlight key attributes, features, requirements, or metadata that help users quickly scan content.",
+            "Keep list items short and concise—ideally a single line of text or a brief phrase.",
+            "Limit the number of items shown (typically 3–5) to maintain scannability and keep the list from becoming overly dense.",
+            "Order items by importance, placing the most relevant information first.",
+            "Make sure icons add meaning and are not purely decorative. If all items use the same icon, consider whether a standard list would communicate the content just as effectively."
+          ],
+          "usagedonts": [
+            "Use an icon list when the items represent steps in a process. Use the `<nys-stepper>` instead.",
+            "Use an icon list for long descriptions, complex instructions, or content that requires hierarchy. Use standard lists or body text instead.",
+            "Mix icon styles within a single list, which makes the list harder to scan.",
+            "Place interactive controls such as buttons inside list items."
           ]
         }
       ],
@@ -10961,6 +10990,18 @@
               "lang": "html",
               "render": "<div id=\"modal-wrapper4\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal4').open = true; document.getElementById('modal-wrapper4').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal4\"\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\" onclick=\"alert('Ok, ok. You can go now.'); document.querySelector('.modal4').open = false; document.getElementById('modal-wrapper4').style.padding = '0'\"></nys-button>\n</div>\n</nys-modal>\n</div>"
             }
+          ],
+          "usagedos": [
+            "Use to confirm important actions, present focused forms (e.g., login, feedback), or require acknowledgment of alerts without navigating away from the page.",
+            "Keep content short and focused. Use a dedicated page for long or complex content.",
+            "Keep the `subheading` short and use `<p>` tags within the modal for longer information.",
+            "Use the `mandatory` prop to disable the dismiss button only when the user must make a critical decision or acknowledge essential information."
+          ],
+          "usagedonts": [
+            "Stack multiple modals.",
+            "Use for trivial information or inline status messages. Use `<nys-alert>` instead.",
+            "Use for quick hints on form fields. Use `<nys-tooltip>` instead.",
+            "Force the `mandatory` prop unnecessarily."
           ]
         }
       ],
