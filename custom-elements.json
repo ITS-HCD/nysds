@@ -6176,6 +6176,16 @@
             },
             {
               "kind": "method",
+              "name": "_closeCalendar",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_focusInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleInputKeydown",
               "privacy": "private",
               "parameters": [
