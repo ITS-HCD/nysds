@@ -4550,6 +4550,17 @@
               "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" checked></nys-checkbox>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use for binary decisions (agree/disagree), confirmation, or multi-select lists.",
+            "Use for selecting multiple options from a list of up to 10 choices.",
+            "Use `nys-checkboxgroup` to group checkboxes with a shared label and description."
+          ],
+          "usagedonts": [
+            "Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a <nys-select> for 7 or more.",
+            "Use a checkbox when changing its state immediately affects the system. Use a `<nys-toggle>` instead (e.g., enabling Dark Mode).",
+            "Use when you have more than 10 options to choose from.",
+            "Change the state of one checkbox based on another being clicked."
           ]
         }
       ],
@@ -5869,7 +5880,16 @@
             }
           ],
           "tagName": "nys-combobox",
-          "customElement": true
+          "customElement": true,
+          "usagedos": [
+            "Use when there are more than 15 options to choose from.",
+            "Use when screen real estate is limited.",
+            "Use when users can predict or recognize the value they're looking for."
+          ],
+          "usagedonts": [
+            "Use when the number of options is small. Use `<nys-select>` or `<nys-radiobutton>` instead.",
+            "Use when options are unfamiliar to users and browsing the full list is necessary."
+          ]
         }
       ],
       "exports": [
