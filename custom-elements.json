@@ -8457,6 +8457,16 @@
               "code": "<nys-fileinput label=\"Upload a file\">\n<div slot=\"description\">Make sure the file is <strong>legible</strong></div>\n</nys-fileinput>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use when a form requires file upload, including when multiple file selection or drag-and-drop is needed."
+          ],
+          "usagedonts": [
+            "Use when uploading large files that require resumable upload logic.",
+            "Use when selecting only from camera input or other device-native features.",
+            "Use when uploading sensitive data without encryption.",
+            "Use when file preview of uploaded content is needed.",
+            "Use when file upload is not necessary for the task."
           ]
         }
       ],
