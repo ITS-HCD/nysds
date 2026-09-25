@@ -98,5 +98,13 @@ live-region semantics) for more consistent behavior across browser/AT combinatio
  *
  * ### **Slots:**
  *  - _default_ - Default slot for custom body content. Overrides `text` prop when provided.
+ *
+ * ### **CSS Properties:**
+ *  - **--nys-alert-color** - Text color of heading and description _(default: undefined)_
+ * - **--nys-alert-color-link** - Text color of action links _(default: undefined)_
+ * - **--nys-alert-color--link--hover** - Text color of action links when hovered _(default: undefined)_
+ * - **--nys-alert-color--link--active** - Text color of action links when active _(default: undefined)_
+ * - **--nys-alert-border-color** - Color of border accent color _(default: undefined)_
+ * - **--nys-alert-background-color** - Background color of component _(default: undefined)_
  */
 export const NysAlert: React.ForwardRefExoticComponent<NysAlertProps>;

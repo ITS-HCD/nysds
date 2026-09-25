@@ -75,6 +75,9 @@ const CTA_BUTTON_ID = "nys-unavfooter__cta-button";
  * @summary Universal NYS footer with logo and statewide links. Required site-wide.
  * @element nys-unavfooter
  *
+ * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
+ * @cssprop [--_nys-unavfooter-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
+ *
  * @example Basic
  * ```html
  * <nys-unavfooter></nys-unavfooter>

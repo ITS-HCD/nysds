@@ -476,6 +476,32 @@
           "kind": "class",
           "description": "Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.\n\nUse `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,\nand `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.",
           "name": "NysAlert",
+          "cssProperties": [
+            {
+              "description": "Text color of heading and description",
+              "name": "--nys-alert-color"
+            },
+            {
+              "description": "Text color of action links",
+              "name": "--nys-alert-color-link"
+            },
+            {
+              "description": "Text color of action links when hovered",
+              "name": "--nys-alert-color--link--hover"
+            },
+            {
+              "description": "Text color of action links when active",
+              "name": "--nys-alert-color--link--active"
+            },
+            {
+              "description": "Color of border accent color",
+              "name": "--nys-alert-border-color"
+            },
+            {
+              "description": "Background color of component",
+              "name": "--nys-alert-background-color"
+            }
+          ],
           "slots": [
             {
               "description": "Default slot for custom body content. Overrides `text` prop when provided.",
@@ -892,6 +918,12 @@
           "kind": "class",
           "description": "Displays a user representation as image, initials, or icon with automatic fallback chain.\n\nPriority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;\nforeground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).\n\nAn avatar with no `ariaLabel` is treated as decorative and hidden from assistive\ntech — correct beside a visible name, wrong for an `interactive` avatar, which\nrenders a `<button>` and warns in the console when left nameless.",
           "name": "NysAvatar",
+          "cssProperties": [
+            {
+              "description": "Width and height of the component",
+              "name": "--nys-avatar-size"
+            }
+          ],
           "slots": [
             {
               "description": "Custom icon content. Overrides default icon when no image or initials.",
@@ -1826,6 +1858,16 @@
           "kind": "class",
           "description": "A breadcrumb navigation trail composed of `li` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.",
           "name": "NysBreadcrumbs",
+          "cssProperties": [
+            {
+              "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
+              "name": "--nys-max-width--content"
+            },
+            {
+              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
+              "name": "--_nys-breadcrumbs-max-width--content"
+            }
+          ],
           "slots": [
             {
               "description": "One or more `li` elements defining the trail.",
@@ -6134,6 +6176,16 @@
             },
             {
               "kind": "method",
+              "name": "_closeCalendar",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_focusInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleInputKeydown",
               "privacy": "private",
               "parameters": [
@@ -8491,6 +8543,16 @@
           "kind": "class",
           "description": "Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.\n\nPlace above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements\nto create multi-column layouts; without `<h4>`, renders as compact single section.",
           "name": "NysGlobalFooter",
+          "cssProperties": [
+            {
+              "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
+              "name": "--nys-max-width--content"
+            },
+            {
+              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
+              "name": "--_nys-globalfooter-max-width--content"
+            }
+          ],
           "slots": [
             {
               "description": "Footer content (links, contact info). Use `<h4>` for column headings.",
@@ -8730,6 +8792,16 @@
           "kind": "class",
           "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.",
           "name": "NysGlobalHeader",
+          "cssProperties": [
+            {
+              "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
+              "name": "--nys-max-width--content"
+            },
+            {
+              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
+              "name": "--_nys-globalheader-max-width--content"
+            }
+          ],
           "slots": [
             {
               "description": "Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.",
@@ -9455,6 +9527,12 @@
           "kind": "class",
           "description": "Renders SVG icons from a registered icon library. The built-in NYSDS icon\nlibrary (Material Symbols) is the default. Custom libraries (Font Awesome,\nMaterial Icons, etc.) can be registered via `registerIconLibrary()`.\n\nPass `name` to select an icon. Use `library` to choose a registered library\n(defaults to `\"default\"` for NYSDS icons). Use `ariaLabel` to make the icon\naccessible (removes `aria-hidden`). Supports size presets, rotation,\nflipping, and custom colors.",
           "name": "NysIcon",
+          "cssProperties": [
+            {
+              "description": "Width and height of the component",
+              "name": "--nys-icon-size"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -14441,6 +14519,12 @@
           "kind": "class",
           "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a\n`<nys-tabgroup>`.\n\nPairing is determined by render order: the Nth `<nys-tabpanel>` child of a\n`<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child (or by explicit\n`aria-labelledby`). `aria-labelledby` and the `hidden` attribute are managed\nexternally by `<nys-tabgroup>` via `_applySelection`; do not set them\ndirectly.\n\nThe panel container is styled from the light DOM (`nys-tabpanel.light.scss`,\nadopted on the document) rather than a shadow-DOM wrapper. This keeps the\nslotted panel content in the light DOM — reachable by consumer CSS and\nJavaScript — and lets consumers override the panel's own styling (e.g.\n`nys-tabpanel { padding: 0 }`), which a shadow wrapper would prevent.",
           "name": "NysTabpanel",
+          "cssProperties": [
+            {
+              "description": "Maximum height of the tab panel content area.",
+              "name": "--nys-tabpanel-max-height"
+            }
+          ],
           "slots": [
             {
               "description": "Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex=\"0\"`) `role=\"tabpanel\"` region.",
@@ -14523,6 +14607,12 @@
           "kind": "class",
           "description": "`<nys-table>` is a responsive table component that can display native HTML tables,\nsupports striped and bordered styling, sortable columns, and CSV download.",
           "name": "NysTable",
+          "cssProperties": [
+            {
+              "description": "Vertical padding for table cells",
+              "name": "--nys-table-padding--cell--y"
+            }
+          ],
           "slots": [
             {
               "description": "Accepts a `<table>` element. Only the first table is used. The table is enhanced in place and stays in the light DOM (projected through a slot, never cloned), so embedded components remain interactive and reachable by consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`, adopted once onto `document.adoptedStyleSheets`.",
@@ -14908,6 +14998,8 @@
             "name": "NysElement",
             "package": "@nysds/internals"
           },
+          "tagName": "nys-table",
+          "customElement": true,
           "examples": [
             {
               "title": "Basic",
@@ -14939,9 +15031,7 @@
               "code": "<nys-table id=\"numb-sort-test\" name=\"numb-sort-test\" sortable>\n<table>\n<caption>Testing Sorting Number Logic</caption>\n<tr><th>Number</th><th>Word Form</th></tr>\n<tr><td>1</td><td>One</td></tr>\n<tr><td>100</td><td>One Hundred</td></tr>\n<tr><td>1,000</td><td>One Thousand</td></tr>\n<tr><td>11</td><td>Eleven</td></tr>\n<tr><td>40</td><td>Forty</td></tr>\n<tr><td>5</td><td>Five</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
-          ],
-          "tagName": "nys-table",
-          "customElement": true
+          ]
         }
       ],
       "exports": [
@@ -17370,6 +17460,16 @@
           "kind": "class",
           "description": "Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.\n\nPlace as the last element before `</body>`. Displays NY.gov logo and links to Agencies,\nApp Directory, Counties, Events, Programs, and Services. No configuration needed.",
           "name": "NysUnavFooter",
+          "cssProperties": [
+            {
+              "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
+              "name": "--nys-max-width--content"
+            },
+            {
+              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
+              "name": "--_nys-unavfooter-max-width--content"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -17538,6 +17638,16 @@
           "kind": "class",
           "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
           "name": "NysUnavHeader",
+          "cssProperties": [
+            {
+              "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
+              "name": "--nys-max-width--content"
+            },
+            {
+              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
+              "name": "--_nys-unavheader-max-width--content"
+            }
+          ],
           "members": [
             {
               "kind": "field",

@@ -71,5 +71,8 @@ export interface NysIconProps extends Pick<
  *
  * ### **Methods:**
  *  - **redraw()** - Called by the icon library registry when the current library changes.
+ *
+ * ### **CSS Properties:**
+ *  - **--nys-icon-size** - Width and height of the component _(default: undefined)_
  */
 export const NysIcon: React.ForwardRefExoticComponent<NysIconProps>;
