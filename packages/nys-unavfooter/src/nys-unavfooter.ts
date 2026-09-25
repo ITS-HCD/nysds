@@ -1,6 +1,11 @@
-import { html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { html, unsafeCSS, nothing, type PropertyValues } from "lit";
+import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { NysElement } from "@nysds/internals";
+// nys-button renders the CTA's call-to-action link; it's rendered inside this
+// component's shadow DOM, so it must be registered whenever nys-unavfooter is
+// used. Importing it here (intentional side effect) guarantees it upgrades.
+import "@nysds/nys-button";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavfooter.scss?inline";
@@ -11,6 +16,42 @@ import styles from "./nys-unavfooter.scss?inline";
  * navigation can tell the statewide chrome from the site's own footer.
  */
 const DEFAULT_LANDMARK_LABEL = "New York State";
+
+/**
+ * Statewide CTA endpoint, read once per page load. Sites don't opt in or out and
+ * never author the content, so a CTA reads identically everywhere it appears.
+ *
+ * PRODUCTION: https://alerts-cta.static-assets.ny.gov/cta.json
+ *
+ * DEVELOPMENT: https://alerts-cta-dev.static-assets.ny.gov/cta.json
+ *
+ */
+export const NYS_CTA_URL = "https://alerts-cta.static-assets.ny.gov/cta.json";
+
+/** The `cta` entry in the feed. */
+interface FeedCta {
+  /** "on" publishes the CTA; any other value (or absence) hides it. Never rendered. */
+  status?: string;
+  /** Visible label of the call-to-action button. */
+  buttonText?: string;
+  /** Accessible name for the button, read by assistive tech instead of `buttonText`. */
+  textAria?: string;
+  /** Short description shown alongside the button. */
+  description?: string;
+  /** Destination the button links to. */
+  link?: string;
+}
+
+/** `cta.json` — a single call to action, or nothing when the feed has none to show. */
+interface CtaFeed {
+  cta?: FeedCta;
+}
+
+/** `true` only for the feed's explicit "on" switch. */
+const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
+
+/** Identifies the CTA's `nys-button`, so its real inner control can be found after render. */
+const CTA_BUTTON_ID = "nys-unavfooter__cta-button";
 
 /**
  * Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.
@@ -26,6 +67,10 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * - Visual design meets WCAG 2.2 AA contrast and focus indicator standards.
  * - Footer is not hidden from screen readers and is announced as navigation.
  *
+ * @remarks Statewide CTA is not configurable. On load the footer reads the statewide
+ * CTA endpoint and renders whatever is currently published, so a call to action
+ * reaches every NYS site with no per-site work. If the endpoint is unreachable or
+ * nothing is published, the footer renders normally.
  *
  * @summary Universal NYS footer with logo and statewide links. Required site-wide.
  * @element nys-unavfooter
@@ -65,6 +110,12 @@ export class NysUnavFooter extends NysElement {
    */
   @property({ type: String }) landmarkLabel = DEFAULT_LANDMARK_LABEL;
 
+  /** The published CTA, or `null` when nothing is published (or the feed failed). */
+  @state() private _cta: FeedCta | null = null;
+
+  /** In-flight feed request, aborted if the footer leaves the page first. */
+  private _ctaRequest: AbortController | null = null;
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -77,6 +128,22 @@ export class NysUnavFooter extends NysElement {
     // intentionally keeps defaultRole = null and does not move a role to the
     // host.
     super.connectedCallback();
+    // Also covers re-attachment, where the pending request was aborted on the way out
+    this._loadCta();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // Don't leave a pending request pointed at a detached element
+    this._ctaRequest?.abort();
+    this._ctaRequest = null;
+  }
+
+  protected updated(changed: PropertyValues) {
+    super.updated(changed);
+    // Writes ARIA into nys-button's shadow root, so it has to run after every
+    // render — a newly published CTA renders a brand new button.
+    this._syncCtaButtonAria();
   }
 
   /**
@@ -107,6 +174,99 @@ export class NysUnavFooter extends NysElement {
    */
   private get _landmarkLabel(): string {
     return this.landmarkLabel?.trim() || DEFAULT_LANDMARK_LABEL;
+  }
+
+  /**
+   * Statewide CTA
+   * --------------------------------------------------------------------------
+   * Content comes from the CTA feed, never from the consuming page, so the same
+   * call to action renders identically everywhere it is shown. A missing,
+   * malformed, or unreachable feed leaves the footer untouched — a CTA failing
+   * to load must never take a site's navigation down with it.
+   */
+
+  private async _loadCta() {
+    if (typeof fetch !== "function") return;
+
+    this._ctaRequest?.abort();
+    const request = new AbortController();
+    this._ctaRequest = request;
+
+    const feed = await this._readCtaFeed(request);
+    if (!feed?.cta || !isPublished(feed.cta.status)) return;
+
+    this._cta = feed.cta;
+  }
+
+  /** Fetches the CTA feed. Resolves to null on any failure. */
+  private async _readCtaFeed(request: AbortController) {
+    try {
+      const response = await fetch(NYS_CTA_URL, {
+        signal: request.signal,
+        credentials: "omit",
+        // A CTA that is switched off must go away everywhere on the next page
+        // load, so never read (or write) the HTTP cache for this
+        cache: "no-store",
+      });
+      if (!response.ok) {
+        throw new Error(`Responded with ${response.status}`);
+      }
+
+      const feed = (await response.json()) as CtaFeed;
+      // A late response for a footer that has since been detached is dead weight
+      return request.signal.aborted ? null : feed;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * `nys-button` has no `ariaLabel` prop, and the host itself carries no role
+   * (ARIA placed there never reaches the real control) — so a `textAria` that
+   * differs from the button's visible `buttonText` has to be written directly
+   * onto the real inner `<button>`/`<a>` once nys-button renders, the same way
+   * `nys-unavheader` syncs ARIA onto its own buttons.
+   */
+  private async _syncCtaButtonAria() {
+    const textAria = this._cta?.textAria?.trim();
+    if (!textAria) return;
+
+    const button = this.shadowRoot?.getElementById(CTA_BUTTON_ID) as
+      | (HTMLElement & { updateComplete?: Promise<unknown> })
+      | null;
+    if (!button) return;
+
+    // The inner button/link only exists once nys-button has rendered.
+    await button.updateComplete;
+    const control = button.shadowRoot?.querySelector(".nys-button") ?? button;
+    control.setAttribute("aria-label", textAria);
+  }
+
+  private _renderCta() {
+    if (!this._cta) return nothing;
+
+    const { buttonText, description, link } = this._cta;
+
+    return html`
+      <div class="nys-unavfooter__cta">
+        ${buttonText?.trim()
+          ? html`<nys-button
+              id="${CTA_BUTTON_ID}"
+              class="nys-unavfooter__cta-button"
+              label="${buttonText}"
+              href="${ifDefined(link || undefined)}"
+              style="
+              --nys-button-background-color: var(--nys-color-ink-reverse, #ffffff);
+              --nys-button-color: var(--nys-color-ink, #b1b1b1);
+              --nys-button-background-color--hover: var(--nys-color-accent, #face00);
+              --nys-button-color--hover: var(--nys-color-ink, #b1b1b1);"
+            ></nys-button>`
+          : nothing}
+        ${description
+          ? html`<p class="nys-unavfooter__cta-text">${description}</p>`
+          : nothing}
+      </div>
+    `;
   }
 
   render() {
@@ -142,6 +302,7 @@ export class NysUnavFooter extends NysElement {
               </ul>
             </nav>
           </div>
+          ${this._renderCta()}
         </div>
       </footer>
     `;
