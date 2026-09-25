@@ -18867,6 +18867,1872 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/global.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysAccordion.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysAccordionItem.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysAlert.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysAvatar.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysBacktotop.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysBadge.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysBreadcrumbs.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysButton.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysCard.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysCheckbox.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysCheckboxgroup.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysCombobox.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysDatepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysDivider.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysDropdownMenu.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysDropdownMenuItem.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysErrorMessage.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysFileinput.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysFileItem.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysGlobalFooter.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysGlobalHeader.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysIcon.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysIconlist.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysIconlistitem.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysLabel.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysModal.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysOption.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysPagination.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysProcesslist.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysProcesslistitem.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysRadiobutton.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysRadiogroup.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysSelect.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysSkipnav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysStep.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysStepper.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysTab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysTabgroup.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysTable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysTabpanel.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysTextarea.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysTextinput.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysToggle.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysTooltip.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysUnavFooter.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysUnavHeader.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysVerticalnav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysVerticalnavGroup.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/NysVideo.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysAccordion.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysAccordion"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysAccordion",
+          "declaration": {
+            "name": "NysAccordion",
+            "module": "packages/vue/src/generated/NysAccordion.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysAccordionElement",
+          "declaration": {
+            "name": "NysAccordionElement",
+            "module": "packages/vue/src/generated/NysAccordion.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysAccordionItem.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysAccordionItem"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysAccordionItem",
+          "declaration": {
+            "name": "NysAccordionItem",
+            "module": "packages/vue/src/generated/NysAccordionItem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysAccordionItemElement",
+          "declaration": {
+            "name": "NysAccordionItemElement",
+            "module": "packages/vue/src/generated/NysAccordionItem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysAlert.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysAlert"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysAlert",
+          "declaration": {
+            "name": "NysAlert",
+            "module": "packages/vue/src/generated/NysAlert.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysAlertElement",
+          "declaration": {
+            "name": "NysAlertElement",
+            "module": "packages/vue/src/generated/NysAlert.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysAvatar.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysAvatar"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysAvatar",
+          "declaration": {
+            "name": "NysAvatar",
+            "module": "packages/vue/src/generated/NysAvatar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysAvatarElement",
+          "declaration": {
+            "name": "NysAvatarElement",
+            "module": "packages/vue/src/generated/NysAvatar.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysBacktotop.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysBacktotop"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysBacktotop",
+          "declaration": {
+            "name": "NysBacktotop",
+            "module": "packages/vue/src/generated/NysBacktotop.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysBacktotopElement",
+          "declaration": {
+            "name": "NysBacktotopElement",
+            "module": "packages/vue/src/generated/NysBacktotop.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysBadge.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysBadge"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysBadge",
+          "declaration": {
+            "name": "NysBadge",
+            "module": "packages/vue/src/generated/NysBadge.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysBadgeElement",
+          "declaration": {
+            "name": "NysBadgeElement",
+            "module": "packages/vue/src/generated/NysBadge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysBreadcrumbs.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysBreadcrumbs"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysBreadcrumbs",
+          "declaration": {
+            "name": "NysBreadcrumbs",
+            "module": "packages/vue/src/generated/NysBreadcrumbs.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysBreadcrumbsElement",
+          "declaration": {
+            "name": "NysBreadcrumbsElement",
+            "module": "packages/vue/src/generated/NysBreadcrumbs.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysButton.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysButton"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysButton",
+          "declaration": {
+            "name": "NysButton",
+            "module": "packages/vue/src/generated/NysButton.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysButtonElement",
+          "declaration": {
+            "name": "NysButtonElement",
+            "module": "packages/vue/src/generated/NysButton.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysCard.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysCard"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysCard",
+          "declaration": {
+            "name": "NysCard",
+            "module": "packages/vue/src/generated/NysCard.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCardElement",
+          "declaration": {
+            "name": "NysCardElement",
+            "module": "packages/vue/src/generated/NysCard.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysCheckbox.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysCheckbox"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysCheckbox",
+          "declaration": {
+            "name": "NysCheckbox",
+            "module": "packages/vue/src/generated/NysCheckbox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCheckboxElement",
+          "declaration": {
+            "name": "NysCheckboxElement",
+            "module": "packages/vue/src/generated/NysCheckbox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysCheckboxgroup.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysCheckboxgroup"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysCheckboxgroup",
+          "declaration": {
+            "name": "NysCheckboxgroup",
+            "module": "packages/vue/src/generated/NysCheckboxgroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCheckboxgroupElement",
+          "declaration": {
+            "name": "NysCheckboxgroupElement",
+            "module": "packages/vue/src/generated/NysCheckboxgroup.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysCombobox.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysCombobox"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysCombobox",
+          "declaration": {
+            "name": "NysCombobox",
+            "module": "packages/vue/src/generated/NysCombobox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysComboboxElement",
+          "declaration": {
+            "name": "NysComboboxElement",
+            "module": "packages/vue/src/generated/NysCombobox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysDatepicker.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysDatepicker"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysDatepicker",
+          "declaration": {
+            "name": "NysDatepicker",
+            "module": "packages/vue/src/generated/NysDatepicker.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDatepickerElement",
+          "declaration": {
+            "name": "NysDatepickerElement",
+            "module": "packages/vue/src/generated/NysDatepicker.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysDivider.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysDivider"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysDivider",
+          "declaration": {
+            "name": "NysDivider",
+            "module": "packages/vue/src/generated/NysDivider.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDividerElement",
+          "declaration": {
+            "name": "NysDividerElement",
+            "module": "packages/vue/src/generated/NysDivider.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysDropdownMenu.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysDropdownMenu"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysDropdownMenu",
+          "declaration": {
+            "name": "NysDropdownMenu",
+            "module": "packages/vue/src/generated/NysDropdownMenu.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDropdownMenuElement",
+          "declaration": {
+            "name": "NysDropdownMenuElement",
+            "module": "packages/vue/src/generated/NysDropdownMenu.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysDropdownMenuItem.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysDropdownMenuItem"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysDropdownMenuItem",
+          "declaration": {
+            "name": "NysDropdownMenuItem",
+            "module": "packages/vue/src/generated/NysDropdownMenuItem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDropdownMenuItemElement",
+          "declaration": {
+            "name": "NysDropdownMenuItemElement",
+            "module": "packages/vue/src/generated/NysDropdownMenuItem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysErrorMessage.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysErrorMessage"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysErrorMessage",
+          "declaration": {
+            "name": "NysErrorMessage",
+            "module": "packages/vue/src/generated/NysErrorMessage.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysErrorMessageElement",
+          "declaration": {
+            "name": "NysErrorMessageElement",
+            "module": "packages/vue/src/generated/NysErrorMessage.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysFileinput.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysFileinput"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysFileinput",
+          "declaration": {
+            "name": "NysFileinput",
+            "module": "packages/vue/src/generated/NysFileinput.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysFileinputElement",
+          "declaration": {
+            "name": "NysFileinputElement",
+            "module": "packages/vue/src/generated/NysFileinput.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysFileItem.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysFileItem"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysFileItem",
+          "declaration": {
+            "name": "NysFileItem",
+            "module": "packages/vue/src/generated/NysFileItem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysFileItemElement",
+          "declaration": {
+            "name": "NysFileItemElement",
+            "module": "packages/vue/src/generated/NysFileItem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysGlobalFooter.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysGlobalFooter"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysGlobalFooter",
+          "declaration": {
+            "name": "NysGlobalFooter",
+            "module": "packages/vue/src/generated/NysGlobalFooter.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysGlobalFooterElement",
+          "declaration": {
+            "name": "NysGlobalFooterElement",
+            "module": "packages/vue/src/generated/NysGlobalFooter.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysGlobalHeader.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysGlobalHeader"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysGlobalHeader",
+          "declaration": {
+            "name": "NysGlobalHeader",
+            "module": "packages/vue/src/generated/NysGlobalHeader.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysGlobalHeaderElement",
+          "declaration": {
+            "name": "NysGlobalHeaderElement",
+            "module": "packages/vue/src/generated/NysGlobalHeader.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysIcon.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysIcon"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysIcon",
+          "declaration": {
+            "name": "NysIcon",
+            "module": "packages/vue/src/generated/NysIcon.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconElement",
+          "declaration": {
+            "name": "NysIconElement",
+            "module": "packages/vue/src/generated/NysIcon.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysIconlist.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysIconlist"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysIconlist",
+          "declaration": {
+            "name": "NysIconlist",
+            "module": "packages/vue/src/generated/NysIconlist.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconlistElement",
+          "declaration": {
+            "name": "NysIconlistElement",
+            "module": "packages/vue/src/generated/NysIconlist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysIconlistitem.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysIconlistitem"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysIconlistitem",
+          "declaration": {
+            "name": "NysIconlistitem",
+            "module": "packages/vue/src/generated/NysIconlistitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysIconlistitemElement",
+          "declaration": {
+            "name": "NysIconlistitemElement",
+            "module": "packages/vue/src/generated/NysIconlistitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysLabel.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysLabel"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysLabel",
+          "declaration": {
+            "name": "NysLabel",
+            "module": "packages/vue/src/generated/NysLabel.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysLabelElement",
+          "declaration": {
+            "name": "NysLabelElement",
+            "module": "packages/vue/src/generated/NysLabel.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysModal.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysModal"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysModal",
+          "declaration": {
+            "name": "NysModal",
+            "module": "packages/vue/src/generated/NysModal.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysModalElement",
+          "declaration": {
+            "name": "NysModalElement",
+            "module": "packages/vue/src/generated/NysModal.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysOption.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysOption"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysOption",
+          "declaration": {
+            "name": "NysOption",
+            "module": "packages/vue/src/generated/NysOption.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysOptionElement",
+          "declaration": {
+            "name": "NysOptionElement",
+            "module": "packages/vue/src/generated/NysOption.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysPagination.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysPagination"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysPagination",
+          "declaration": {
+            "name": "NysPagination",
+            "module": "packages/vue/src/generated/NysPagination.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysPaginationElement",
+          "declaration": {
+            "name": "NysPaginationElement",
+            "module": "packages/vue/src/generated/NysPagination.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysProcesslist.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysProcesslist"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysProcesslist",
+          "declaration": {
+            "name": "NysProcesslist",
+            "module": "packages/vue/src/generated/NysProcesslist.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysProcesslistElement",
+          "declaration": {
+            "name": "NysProcesslistElement",
+            "module": "packages/vue/src/generated/NysProcesslist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysProcesslistitem.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysProcesslistitem"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysProcesslistitem",
+          "declaration": {
+            "name": "NysProcesslistitem",
+            "module": "packages/vue/src/generated/NysProcesslistitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysProcesslistitemElement",
+          "declaration": {
+            "name": "NysProcesslistitemElement",
+            "module": "packages/vue/src/generated/NysProcesslistitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysRadiobutton.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysRadiobutton"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysRadiobutton",
+          "declaration": {
+            "name": "NysRadiobutton",
+            "module": "packages/vue/src/generated/NysRadiobutton.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysRadiobuttonElement",
+          "declaration": {
+            "name": "NysRadiobuttonElement",
+            "module": "packages/vue/src/generated/NysRadiobutton.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysRadiogroup.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysRadiogroup"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysRadiogroup",
+          "declaration": {
+            "name": "NysRadiogroup",
+            "module": "packages/vue/src/generated/NysRadiogroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysRadiogroupElement",
+          "declaration": {
+            "name": "NysRadiogroupElement",
+            "module": "packages/vue/src/generated/NysRadiogroup.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysSelect.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysSelect"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysSelect",
+          "declaration": {
+            "name": "NysSelect",
+            "module": "packages/vue/src/generated/NysSelect.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysSelectElement",
+          "declaration": {
+            "name": "NysSelectElement",
+            "module": "packages/vue/src/generated/NysSelect.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysSkipnav.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysSkipnav"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysSkipnav",
+          "declaration": {
+            "name": "NysSkipnav",
+            "module": "packages/vue/src/generated/NysSkipnav.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysSkipnavElement",
+          "declaration": {
+            "name": "NysSkipnavElement",
+            "module": "packages/vue/src/generated/NysSkipnav.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysStep.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysStep"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysStep",
+          "declaration": {
+            "name": "NysStep",
+            "module": "packages/vue/src/generated/NysStep.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysStepElement",
+          "declaration": {
+            "name": "NysStepElement",
+            "module": "packages/vue/src/generated/NysStep.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysStepper.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysStepper"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysStepper",
+          "declaration": {
+            "name": "NysStepper",
+            "module": "packages/vue/src/generated/NysStepper.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysStepperElement",
+          "declaration": {
+            "name": "NysStepperElement",
+            "module": "packages/vue/src/generated/NysStepper.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysTab.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysTab"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysTab",
+          "declaration": {
+            "name": "NysTab",
+            "module": "packages/vue/src/generated/NysTab.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTabElement",
+          "declaration": {
+            "name": "NysTabElement",
+            "module": "packages/vue/src/generated/NysTab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysTabgroup.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysTabgroup"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysTabgroup",
+          "declaration": {
+            "name": "NysTabgroup",
+            "module": "packages/vue/src/generated/NysTabgroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTabgroupElement",
+          "declaration": {
+            "name": "NysTabgroupElement",
+            "module": "packages/vue/src/generated/NysTabgroup.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysTable.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysTable"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysTable",
+          "declaration": {
+            "name": "NysTable",
+            "module": "packages/vue/src/generated/NysTable.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTableElement",
+          "declaration": {
+            "name": "NysTableElement",
+            "module": "packages/vue/src/generated/NysTable.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysTabpanel.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysTabpanel"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysTabpanel",
+          "declaration": {
+            "name": "NysTabpanel",
+            "module": "packages/vue/src/generated/NysTabpanel.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTabpanelElement",
+          "declaration": {
+            "name": "NysTabpanelElement",
+            "module": "packages/vue/src/generated/NysTabpanel.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysTextarea.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysTextarea"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysTextarea",
+          "declaration": {
+            "name": "NysTextarea",
+            "module": "packages/vue/src/generated/NysTextarea.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTextareaElement",
+          "declaration": {
+            "name": "NysTextareaElement",
+            "module": "packages/vue/src/generated/NysTextarea.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysTextinput.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysTextinput"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysTextinput",
+          "declaration": {
+            "name": "NysTextinput",
+            "module": "packages/vue/src/generated/NysTextinput.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTextinputElement",
+          "declaration": {
+            "name": "NysTextinputElement",
+            "module": "packages/vue/src/generated/NysTextinput.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysToggle.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysToggle"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysToggle",
+          "declaration": {
+            "name": "NysToggle",
+            "module": "packages/vue/src/generated/NysToggle.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysToggleElement",
+          "declaration": {
+            "name": "NysToggleElement",
+            "module": "packages/vue/src/generated/NysToggle.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysTooltip.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysTooltip"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysTooltip",
+          "declaration": {
+            "name": "NysTooltip",
+            "module": "packages/vue/src/generated/NysTooltip.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTooltipElement",
+          "declaration": {
+            "name": "NysTooltipElement",
+            "module": "packages/vue/src/generated/NysTooltip.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysUnavFooter.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysUnavFooter"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysUnavFooter",
+          "declaration": {
+            "name": "NysUnavFooter",
+            "module": "packages/vue/src/generated/NysUnavFooter.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysUnavFooterElement",
+          "declaration": {
+            "name": "NysUnavFooterElement",
+            "module": "packages/vue/src/generated/NysUnavFooter.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysUnavHeader.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysUnavHeader"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysUnavHeader",
+          "declaration": {
+            "name": "NysUnavHeader",
+            "module": "packages/vue/src/generated/NysUnavHeader.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysUnavHeaderElement",
+          "declaration": {
+            "name": "NysUnavHeaderElement",
+            "module": "packages/vue/src/generated/NysUnavHeader.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysVerticalnav.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysVerticalnav"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysVerticalnav",
+          "declaration": {
+            "name": "NysVerticalnav",
+            "module": "packages/vue/src/generated/NysVerticalnav.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVerticalnavElement",
+          "declaration": {
+            "name": "NysVerticalnavElement",
+            "module": "packages/vue/src/generated/NysVerticalnav.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysVerticalnavGroup.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysVerticalnavGroup"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysVerticalnavGroup",
+          "declaration": {
+            "name": "NysVerticalnavGroup",
+            "module": "packages/vue/src/generated/NysVerticalnavGroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVerticalnavGroupElement",
+          "declaration": {
+            "name": "NysVerticalnavGroupElement",
+            "module": "packages/vue/src/generated/NysVerticalnavGroup.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/generated/NysVideo.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "NysVideo"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NysVideo",
+          "declaration": {
+            "name": "NysVideo",
+            "module": "packages/vue/src/generated/NysVideo.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVideoElement",
+          "declaration": {
+            "name": "NysVideoElement",
+            "module": "packages/vue/src/generated/NysVideo.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/vue/src/generated/index.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "createNysComponent",
+          "declaration": {
+            "name": "createNysComponent",
+            "module": "./runtime.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysComponent",
+          "declaration": {
+            "name": "NysComponent",
+            "module": "./runtime.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysComponentOptions",
+          "declaration": {
+            "name": "NysComponentOptions",
+            "module": "./runtime.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysModelOptions",
+          "declaration": {
+            "name": "NysModelOptions",
+            "module": "./runtime.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysSlots",
+          "declaration": {
+            "name": "NysSlots",
+            "module": "./runtime.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/vue/src/runtime.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "createNysComponent",
+          "return": {
+            "type": {
+              "text": "T"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "NysComponentOptions"
+              }
+            }
+          ],
+          "description": "Builds a Vue component that renders one NYSDS custom element.\n\n- Declared props are forwarded to the element as properties; absent props\n  are left alone so the element keeps its own defaults.\n- Vue slots render as light-DOM children. The default slot renders as\n  direct children; named slots are wrapped in a\n  `display: contents` span carrying the `slot` attribute, so any vnode\n  (text, component, fragment) can fill one.\n- Form components additionally support `v-model`, committing on the input\n  and change events. `.lazy` commits on change alone, as on a native input."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "createNysComponent",
+          "declaration": {
+            "name": "createNysComponent",
+            "module": "packages/vue/src/runtime.ts"
+          }
+        }
+      ]
     }
   ]
 }

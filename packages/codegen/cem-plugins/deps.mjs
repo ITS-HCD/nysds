@@ -41,8 +41,16 @@ function angularEntry(subpath) {
   };
 }
 
+function vueSubpathEntry(component) {
+  return {
+    types: `./dist/generated/${component.className}.d.ts`,
+    import: `./dist/generated/${component.className}.js`,
+  };
+}
+
 const SUBPATH_ENTRY_BY_FRAMEWORK = {
   react: reactSubpathEntry,
+  vue: vueSubpathEntry,
   angular: angularSubpathEntry,
 };
 
@@ -58,6 +66,7 @@ export function depsPlugin(options = {}) {
     targets = [
       { path: "packages/react/package.json", framework: "react" },
       { path: "packages/angular/package.json", framework: "angular" },
+      { path: "packages/vue/package.json", framework: "vue" },
     ],
   } = options;
 

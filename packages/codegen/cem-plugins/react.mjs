@@ -38,7 +38,7 @@ const IDENTIFIER_RE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
  * aliases exported by the component package (section 4.3 of the plan).
  * Anything else — including today's bare `CustomEvent` — is used verbatim.
  */
-function resolveEventType(typeText) {
+export function resolveEventType(typeText) {
   if (IDENTIFIER_RE.test(typeText) && !GLOBAL_EVENT_TYPES.has(typeText)) {
     return { text: typeText, importName: typeText };
   }

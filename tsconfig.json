@@ -42,6 +42,7 @@
 		// program, like the CEM config does (framework-support WS2).
 		"packages/react",
 		"packages/angular",
+		"packages/vue",
 		"packages/codegen/test"
 	]
 }

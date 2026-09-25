@@ -103,6 +103,7 @@ jobs:
             const m = require("./examples/matrix.json");
             const inc = [];
             for (const v of m.react) inc.push({ app: "react-vite", framework: "react", version: v });
+            for (const v of m.vue) inc.push({ app: "vue-vite", framework: "vue", version: v });
             for (const v of m.next) inc.push({ app: "next-app", framework: "next", version: v });
             for (const v of m.angular) inc.push({ app: "angular-app", framework: "angular", version: v });
             inc.push({ app: "angular-ngmodule", framework: "angular", version: m.angular[0] });
@@ -140,6 +141,9 @@ jobs:
             "@types/react@${major}" "@types/react-dom@${major}"
         env:
           VERSION: ${{ matrix.version }}
+      - name: Pin Vue ${{ matrix.version }}
+        if: matrix.framework == 'vue'
+        run: npm i --no-audit --no-fund -w examples/${{ matrix.app }} "vue@${{ matrix.version }}"
       - name: Pin Next.js ${{ matrix.version }}
         if: matrix.framework == 'next'
         run: npm i --no-audit --no-fund -w examples/${{ matrix.app }} "next@${{ matrix.version }}"

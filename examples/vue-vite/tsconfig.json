@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "strict": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      // Force one copy of the Vue types program-wide. When CI pins Vue 3.4
+      // in this workspace, the nested copy must win over the hoisted one
+      // that @nysds/vue and vue-router resolve otherwise (two copies break
+      // `app.use(router)` and the `GlobalComponents` augmentation); when
+      // nothing is nested, TypeScript falls back to normal lookup.
+      "vue": ["./node_modules/vue"]
+    }
+  },
+  "include": ["src"]
+}

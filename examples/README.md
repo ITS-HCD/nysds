@@ -1,6 +1,6 @@
 # NYSDS example apps
 
-Minimal apps that consume `@nysds/react` and `@nysds/angular` through
+Minimal apps that consume `@nysds/react`, `@nysds/vue`, and `@nysds/angular` through
 workspace links and prove the framework integration on every PR. Each
 app renders the same three pages, so the frameworks stay comparable:
 
@@ -15,6 +15,7 @@ app renders the same three pages, so the frameworks stay comparable:
 | App | Framework | Form variants |
 |---|---|---|
 | `react-vite/` | Vite + React 19 (CI also runs 18.3) | `/forms/controlled` (useState + native validation), `/forms/hook-form` (React Hook Form + `useNysField`) |
+| `vue-vite/` | Vite + Vue 3.5 (CI also runs 3.4), `vue-router` | `/forms/v-model` (`@nysds/vue` wrapper components with `v-model`), `/forms/raw` (plain `<nys-*>` tags with `:value` and `@nys-*` listeners) |
 | `next-app/` | Next.js App Router | `/forms` (controlled); `/kitchen-sink` renders through a server-component boundary |
 | `angular-app/` | Angular 20 standalone, strict templates, zone and zoneless builds | `/forms/template` (`[(ngModel)]`), `/forms/reactive` (`formControlName` + `nysControlErrors`), `/forms/signal` (Signal Forms `[formField]`, Angular 21+) |
 | `angular-ngmodule/` | Angular 20 NgModule app | One page proving `NysAngularModule` and `[(ngModel)]` |
@@ -56,13 +57,16 @@ To reproduce a matrix cell locally:
 # React 18 in the react-vite app
 npm i -w examples/react-vite react@18.3 react-dom@18.3 @types/react@18 @types/react-dom@18
 
+# Vue 3.4 in the vue-vite app
+npm i -w examples/vue-vite vue@3.4
+
 # Angular 22 in the angular-app
 node examples/scripts/pin-angular.mjs 22 examples/angular-app
 ```
 
 `pin-angular.mjs` installs every `@angular/*` package the app uses at
 the requested major plus the TypeScript version its compiler asks for.
-Pin back to the default (React 19, Angular 20) the same way, and reset
+Pin back to the default (React 19, Vue 3.5, Angular 20) the same way, and reset
 the caret ranges in the app's `package.json` before committing.
 
 ## Signal Forms on Angular 20

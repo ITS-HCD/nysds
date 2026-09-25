@@ -33,6 +33,7 @@ export default {
     "!packages/codegen/**",
     "!packages/react/**",
     "!packages/angular/**",
+    "!packages/vue/**",
   ],
   nodeResolve: true,
   filterBrowserLogs,

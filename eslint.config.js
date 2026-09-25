@@ -20,6 +20,7 @@ export default [
       "**/coverage/**",
       "packages/react/**",
       "packages/angular/**",
+      "packages/vue/**",
     ],
     languageOptions: {
       ecmaVersion: "latest",

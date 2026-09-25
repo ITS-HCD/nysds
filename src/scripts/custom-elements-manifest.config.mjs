@@ -4,6 +4,7 @@ import {
   formControlPlugin,
   reactPlugin,
   angularPlugin,
+  vuePlugin,
   depsPlugin,
 } from "@nysds/codegen/cem-plugins";
 
@@ -207,6 +208,7 @@ export default {
     formControlPlugin({ strict: true }),
     reactPlugin(),
     angularPlugin(),
+    vuePlugin(),
     depsPlugin(),
     customElementVsCodePlugin(vscodeOpts),
   ],

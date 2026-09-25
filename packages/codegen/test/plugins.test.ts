@@ -6,6 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { reactPlugin } from "../cem-plugins/react.mjs";
 import { angularPlugin } from "../cem-plugins/angular.mjs";
+import { vuePlugin } from "../cem-plugins/vue.mjs";
 import { depsPlugin } from "../cem-plugins/deps.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -106,6 +107,94 @@ test("react plugin honors overrides and clears stale output", () => {
   assert.ok(!fs.existsSync(path.join(outDir, "NysRemoved.ts")));
   const barrel = fs.readFileSync(path.join(outDir, "index.ts"), "utf8");
   assert.match(barrel, /export \* from "..\/overrides\/NysTextinput.js";/);
+});
+
+// ---------------------------------------------------------------------------
+// Vue plugin
+// ---------------------------------------------------------------------------
+
+test("vue plugin writes typed props per component, a global augmentation, and a barrel", () => {
+  const dir = tmp("nysds-vue-");
+  const outDir = path.join(dir, "generated");
+  vuePlugin({ outDir }).packageLinkPhase({
+    customElementsManifest: readManifest("manifest.json"),
+  });
+
+  const files = fs.readdirSync(outDir).sort();
+  assert.deepEqual(files, [
+    "NysAccordion.ts",
+    "NysAccordionItem.ts",
+    "NysButton.ts",
+    "NysCheckbox.ts",
+    "NysFileinput.ts",
+    "NysOption.ts",
+    "NysSelect.ts",
+    "NysTextinput.ts",
+    "global.ts",
+    "index.ts",
+  ]);
+
+  const props = fs.readFileSync(path.join(outDir, "NysTextinput.ts"), "utf8");
+  assert.match(
+    props,
+    /import type { NysTextinput as NysTextinputElement, NysTextinputChangeEvent, NysTextinputInputEvent } from "@nysds\/nys-textinput";/,
+  );
+  assert.match(
+    props,
+    /onNysInput\?: \(event: NysTextinputInputEvent\) => void;/,
+  );
+  assert.match(props, /onNysFocus\?: \(event: Event\) => void;/);
+  assert.match(props, /export type NysTextinputProps = Omit</);
+
+  // Slots: "" becomes "default", and "default" is always allowed.
+  const accordion = fs.readFileSync(
+    path.join(outDir, "NysAccordion.ts"),
+    "utf8",
+  );
+  assert.match(accordion, /export type NysAccordionSlotName = "default";/);
+  assert.match(
+    props,
+    /export type NysTextinputSlotName = "default" \| "description" \| "endButton";/,
+  );
+
+  // Form controls get v-model typing and runtime config from @formControl.
+  assert.match(props, /export interface NysTextinputModel {/);
+  assert.match(props, /modelValue\?: NysTextinputElement\["value"\];/);
+  assert.match(props, /createNysComponent</);
+  assert.match(props, /tag: "nys-textinput",/);
+  assert.match(props, /kind: "value",/);
+  assert.match(props, /changeListener: "onNysChange",/);
+  assert.match(props, /inputListener: "onNysInput",/);
+  assert.match(props, /^import "@nysds\/nys-textinput";$/m);
+
+  // Checked-kind controls bind `checked`; non-form components get no model.
+  const checkbox = fs.readFileSync(path.join(outDir, "NysCheckbox.ts"), "utf8");
+  assert.match(checkbox, /modelValue\?: NysCheckboxElement\["checked"\];/);
+  assert.doesNotMatch(checkbox, /inputListener/);
+  const button = fs.readFileSync(path.join(outDir, "NysButton.ts"), "utf8");
+  assert.doesNotMatch(button, /Model|model:/);
+  assert.match(button, /booleanProps: \[/);
+
+  // Deprecated events never become handlers.
+  const fileinput = fs.readFileSync(
+    path.join(outDir, "NysFileinput.ts"),
+    "utf8",
+  );
+  assert.doesNotMatch(fileinput, /onNysFileRemove/);
+
+  const global = fs.readFileSync(path.join(outDir, "global.ts"), "utf8");
+  assert.match(global, /interface GlobalComponents {/);
+  assert.match(global, /"nys-textinput": DefineComponent<NysTextinputProps>;/);
+  assert.match(global, /interface IntrinsicElements {/);
+  assert.match(global, /"nys-textinput": NysTextinputProps;/);
+  // Both JSX entry points are augmented.
+  assert.match(global, /^import type {} from "vue\/jsx-runtime";$/m);
+  assert.match(global, /declare module "vue\/jsx-runtime" {/);
+  assert.match(global, /declare global {/);
+
+  const barrel = fs.readFileSync(path.join(outDir, "index.ts"), "utf8");
+  assert.match(barrel, /export \* from ".\/NysTextinput.js";/);
+  assert.match(barrel, /import ".\/global.js";/);
 });
 
 // ---------------------------------------------------------------------------
