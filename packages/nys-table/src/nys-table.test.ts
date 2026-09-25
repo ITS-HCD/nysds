@@ -423,6 +423,77 @@ describe("nys-table", () => {
     expect(events[1].detail.columnLabel).to.equal("Name");
   });
 
+  it("sorts numeric columns containing comma-formatted numbers correctly", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <th>Number</th>
+          <th>Word Form</th>
+          <tr>
+            <td>1</td>
+            <td>One</td>
+          </tr>
+          <tr>
+            <td>100</td>
+            <td>One Hundred</td>
+          </tr>
+          <tr>
+            <td>1,000</td>
+            <td>One Thousand</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Eleven</td>
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Forty</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Five</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+    const table = el.querySelector("table");
+    const firstButton = table?.querySelector("th nys-button");
+    expect(firstButton).to.exist;
+
+    // Click to sort ascending
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    const sortedValues = Array.from(
+      table?.querySelectorAll("tbody tr") ?? [],
+    ).map((row) => row.querySelector("td")?.textContent?.trim());
+
+    // Numeric order, not lexicographic — "1,000" must be treated as 1000,
+    // not fall back to string comparison because Number("1,000") is NaN.
+    expect(sortedValues).to.deep.equal(["1", "5", "11", "40", "100", "1,000"]);
+
+    // Click to sort descending
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    const sortedValuesDesc = Array.from(
+      table?.querySelectorAll("tbody tr") ?? [],
+    ).map((row) => row.querySelector("td")?.textContent?.trim());
+
+    expect(sortedValuesDesc).to.deep.equal([
+      "1,000",
+      "100",
+      "40",
+      "11",
+      "5",
+      "1",
+    ]);
+  });
+
   it("dispatches only one nys-column-sort event when switching to a new column", async () => {
     const el = await fixture<NysTable>(html`
       <nys-table sortable>

@@ -82,6 +82,9 @@ const isFocusable = (el: HTMLElement) => el.getClientRects().length > 0;
  * @summary Agency header with navigation, mobile menu, and active link highlighting.
  * @element nys-globalheader
  *
+ * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
+ * @cssprop [--_nys-globalheader-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
+ *
  * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
  * @slot user-actions - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
  *
