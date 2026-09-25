@@ -290,7 +290,12 @@ export class NysBreadcrumbs extends NysElement {
   }
 
   private _resetItem(li: HTMLLIElement) {
-    li.className = "";
+    li.classList.remove(
+      "nys-breadcrumbitem",
+      "back-to-parent",
+      "hide",
+      "intermediate",
+    );
     li.removeAttribute("aria-current");
 
     li.querySelectorAll(`[${INJECTED_ATTR}]`).forEach((el) => el.remove());
