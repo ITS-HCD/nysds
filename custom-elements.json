@@ -11328,6 +11328,19 @@
               "code": "<nys-pagination currentPage=\"10\" totalPages=\"10\"></nys-pagination>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use for large result sets such as search results, data tables, or directory listings where loading everything at once would hurt performance or usability.",
+            "Use when users need to navigate to a specific part of a result set.",
+            "Set `totalPages` based on your data set and page size; update `currentPage` in response to `nys-change` events.",
+            "Don't set `currentPage` to a value greater than `totalPages`. The component clamps the value automatically, but your application logic should prevent this.",
+            "Position the pagination component below the content it controls.",
+            "Scroll users to the top of the results area when they change pages."
+          ],
+          "usagedonts": [
+            "Use when content fits on a single page (fewer than 3–4 screen heights). Show all items instead.",
+            "Use for step-based workflows where users complete tasks in order. Use `<nys-stepper>` instead.",
+            "Use for infinite-scroll patterns such as a news feed."
           ]
         }
       ],
@@ -11565,6 +11578,19 @@
               "code": "<nys-processlist\nid=\"application-steps-part1\"\naria-label=\"Application steps, part 1\"\n>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>\n\n<p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>\n\n<nys-processlist\nid=\"application-steps-part2\"\ninitialstep=\"4\"\naria-label=\"Application steps, part 2\"\n>\n<nys-processlistitem label=\"Okay let's continue\"></nys-processlistitem>\n<nys-processlistitem label=\"Wow, this might be tricky\"></nys-processlistitem>\n<nys-processlistitem label=\"Cool cool, I got this thing\"></nys-processlistitem>\n</nys-processlist>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use a process list to explain a sequence of steps a user will take, such as how to apply for a benefit or renew a license.",
+            "Keep step labels short and action-oriented, and put supporting detail in the `description`.",
+            "Give the list an accessible name with `aria-labelledby` or `aria-label` so its purpose is clear.",
+            "Use `initialstep` to continue the numbering when one process is split across multiple lists.",
+            "Keep styling consistent across all process lists on the same page."
+          ],
+          "usagedonts": [
+            "Use a process list to show a user's progress through a multi-step form. Use the [Stepper](/components/stepper/) instead.",
+            "Use a process list for items with no inherent order. Use the [Icon List](/components/iconlist/) or a standard list instead.",
+            "Number the steps yourself in the `label`. The list owns the numbering.",
+            "Place interactive controls such as buttons inside a step."
           ]
         }
       ],
