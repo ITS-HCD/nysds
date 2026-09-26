@@ -9,6 +9,22 @@ import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-modal.scss?inline";
 
+/** Detail payload for the `nys-open` event fired by `nys-modal`. */
+export interface NysModalOpenDetail {
+  id: string;
+}
+
+/** The `nys-open` event fired by `nys-modal`. */
+export type NysModalOpenEvent = CustomEvent<NysModalOpenDetail>;
+
+/** Detail payload for the `nys-close` event fired by `nys-modal`. */
+export interface NysModalCloseDetail {
+  id: string;
+}
+
+/** The `nys-close` event fired by `nys-modal`. */
+export type NysModalCloseEvent = CustomEvent<NysModalCloseDetail>;
+
 /**
  * An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.
  *
@@ -21,8 +37,8 @@ import styles from "./nys-modal.scss?inline";
  * @slot - Default slot for body content.
  * @slot actions - Action buttons displayed in footer. Buttons auto-resize on mobile.
  *
- * @fires nys-open - Fired when modal opens. Detail: `{id}`.
- * @fires nys-close - Fired when modal closes. Detail: `{id}`.
+ * @fires {NysModalOpenEvent} nys-open - Fired when modal opens. Detail: `{id}`.
+ * @fires {NysModalCloseEvent} nys-close - Fired when modal closes. Detail: `{id}`.
  *
  * @example Basic
  * ```html

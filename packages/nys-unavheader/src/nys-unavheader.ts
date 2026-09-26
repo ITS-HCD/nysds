@@ -15,11 +15,29 @@ import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavheader.scss?inline";
 
-interface Language {
+export interface Language {
   code: string;
   label: string;
   url?: string;
 }
+
+/** Detail payload for the `nys-language-select` event fired by `nys-unavheader`. */
+export interface NysUnavheaderLanguageSelectDetail {
+  language: Language;
+}
+
+/** The `nys-language-select` event fired by `nys-unavheader`. */
+export type NysUnavheaderLanguageSelectEvent =
+  CustomEvent<NysUnavheaderLanguageSelectDetail>;
+
+/** Detail payload for the `nys-search-submit` event fired by `nys-unavheader`. */
+export interface NysUnavheaderSearchSubmitDetail {
+  query: string;
+}
+
+/** The `nys-search-submit` event fired by `nys-unavheader`. */
+export type NysUnavheaderSearchSubmitEvent =
+  CustomEvent<NysUnavheaderSearchSubmitDetail>;
 
 /**
  * Statewide alert endpoint, read once per page load. Sites don't opt in or out and
@@ -195,9 +213,8 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  *
  * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
  * @cssprop [--_nys-unavheader-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
- *
- * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
- * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
+ * @fires {NysUnavheaderLanguageSelectEvent} nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+ * @fires {NysUnavheaderSearchSubmitEvent} nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  *
  * @example Basic
  * ```html

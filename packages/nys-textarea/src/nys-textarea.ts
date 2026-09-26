@@ -1,7 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { NysFormControlElement } from "@nysds/internals";
+import {
+  NysFormControlElement,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
+} from "@nysds/internals";
 // These internal elements are rendered inside this component's shadow DOM, so
 // they must be registered whenever nys-textarea is used. Importing them here
 // (intentional side effect) guarantees the visible label and error message —
@@ -10,6 +14,45 @@ import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textarea.scss?inline";
+
+/** Detail payload for the `nys-input` event. */
+export interface NysTextareaInputDetail {
+  id: string;
+  name: string;
+  value: string;
+}
+
+/** The `nys-input` event, fired on each keystroke. */
+export type NysTextareaInputEvent = CustomEvent<NysTextareaInputDetail>;
+
+/** Detail payload for the `nys-change` event. */
+export interface NysTextareaChangeDetail {
+  id: string;
+  name: string;
+  value: string;
+}
+
+/** The `nys-change` event, fired when the value is committed. */
+export type NysTextareaChangeEvent = CustomEvent<NysTextareaChangeDetail>;
+
+/** Detail payload for the `nys-select` event. */
+export interface NysTextareaSelectDetail {
+  id: string;
+  value: string;
+}
+
+/** The `nys-select` event, fired when the user selects text. */
+export type NysTextareaSelectEvent = CustomEvent<NysTextareaSelectDetail>;
+
+/** Detail payload for the `nys-selectionchange` event. */
+export interface NysTextareaSelectionchangeDetail {
+  id: string;
+  value: string;
+}
+
+/** The `nys-selectionchange` event, fired when the text selection changes. */
+export type NysTextareaSelectionchangeEvent =
+  CustomEvent<NysTextareaSelectionchangeDetail>;
 
 /**
  * A multi-line text input for collecting longer responses like comments, descriptions, or feedback.
@@ -23,10 +66,14 @@ import styles from "./nys-textarea.scss?inline";
  *
  * @slot description - Custom HTML description content below the label.
  *
- * @fires nys-input - Fired on input change. Detail: `{id, value}`.
- * @fires nys-focus - Fired when textarea gains focus.
- * @fires nys-blur - Fired when textarea loses focus. Triggers validation.
- * @fires nys-select - Fired when user selects text. Detail: `{id, value}`.
+ * @formControl value nys-change nys-input
+ *
+ * @fires {NysTextareaInputEvent} nys-input - Fired on each input. Detail: `{id, name, value}`.
+ * @fires {NysTextareaChangeEvent} nys-change - Fired when the value is committed (native `change`). Detail: `{id, name, value}`.
+ * @fires {Event} nys-focus - Fired when the textarea gains focus.
+ * @fires {Event} nys-blur - Fired when the textarea loses focus. Triggers validation.
+ * @fires {NysTextareaSelectEvent} nys-select - Fired when the user selects text. Detail: `{id, value}`.
+ * @fires {NysTextareaSelectionchangeEvent} nys-selectionchange - Fired when the text selection changes. Detail: `{id, value}`.
  *
  * @example Basic
  * ```html
@@ -193,14 +240,17 @@ export class NysTextarea extends NysFormControlElement {
     this._setValue();
   }
 
+  willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("rows") && this.rows == null) {
+      this.rows = 4;
+    }
+  }
+
   async updated(changedProperties: Map<string | number | symbol, unknown>) {
     await Promise.resolve();
 
     if (changedProperties.has("value")) {
       this._setValue();
-    }
-    if (changedProperties.has("rows")) {
-      this.rows = this.rows ?? 4;
     }
     if (
       changedProperties.has("readonly") ||
@@ -209,6 +259,15 @@ export class NysTextarea extends NysFormControlElement {
       const input = this.shadowRoot?.querySelector("textarea");
 
       if (input) input.required = this.required && !this.readonly;
+
+      // Re-sync ElementInternals, not just the shadow <textarea>: `required`
+      // can arrive as a late property write (e.g. a framework wrapper
+      // setting it post-hydration, after firstUpdated already ran
+      // _setValue()/_manageRequire() once against the old value). Without
+      // this, ElementInternals keeps reporting valid, the native `invalid`
+      // event never fires on submit, and showError never flips even though
+      // the field is genuinely required and empty.
+      this._manageRequire();
     }
   }
 
@@ -227,12 +286,17 @@ export class NysTextarea extends NysFormControlElement {
 
     if (!textarea) return;
 
-    const message = this.errorMessage || "This field is required";
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this.setValidityFromState({ valueMissing: true }, message, textarea);
+      this.internalValidationMessage = "This field is required";
+      this.setValidityFromState(
+        { valueMissing: true },
+        this.resolvedErrorMessage(),
+        textarea,
+      );
     } else {
+      this.internalValidationMessage = "";
       this.clearValidity();
       this._hasUserInteracted = false; // Reset lazy validation when valid
     }
@@ -244,13 +308,16 @@ export class NysTextarea extends NysFormControlElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
-    }
+    // Store the component's own validation text; a consumer-supplied
+    // errorMessage always wins via resolvedErrorMessage().
+    this.internalValidationMessage = message;
 
     if (message) {
-      this.setValidityFromState({ customError: true }, message, textarea);
+      this.setValidityFromState(
+        { customError: true },
+        this.resolvedErrorMessage(),
+        textarea,
+      );
     } else {
       this.clearValidity();
     }
@@ -276,8 +343,10 @@ export class NysTextarea extends NysFormControlElement {
       textarea.setAttribute("aria-invalid", "false");
     }
 
-    // Reset validation UI
+    // Reset validation UI. Clears only the component's own validation text;
+    // a consumer-supplied errorMessage is never touched.
     this.showError = false;
+    this.internalValidationMessage = "";
     this.clearValidity();
 
     // Re-render UI
@@ -340,20 +409,27 @@ export class NysTextarea extends NysFormControlElement {
       this._validate();
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-input", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    dispatchNysEvent<NysTextareaInputDetail>(this, "nys-input", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
+  }
+
+  // Handle native change (value committed on blur after edits)
+  private _handleChange(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    this.value = textarea.value;
+    dispatchNysEvent<NysTextareaChangeDetail>(this, "nys-change", {
+      id: this.id,
+      name: this.name,
+      value: this.value,
+    });
   }
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "focus");
   }
 
   // Handle blur event
@@ -363,32 +439,28 @@ export class NysTextarea extends NysFormControlElement {
     }
 
     this._validate();
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    dispatchNysFocusBlur(this, "blur");
   }
 
   private _handleSelect(e: Event) {
-    const select = e.target as HTMLSelectElement;
-    this.value = select.value;
-    this.dispatchEvent(
-      new CustomEvent("nys-select", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    const textarea = e.target as HTMLTextAreaElement;
+    this.value = textarea.value;
+    dispatchNysEvent<NysTextareaSelectDetail>(this, "nys-select", {
+      id: this.id,
+      value: this.value,
+    });
   }
 
   private _handleSelectionChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
-    this.value = select.value;
-    this.dispatchEvent(
-      new CustomEvent("nys-selectionchange", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
+    const textarea = e.target as HTMLTextAreaElement;
+    this.value = textarea.value;
+    dispatchNysEvent<NysTextareaSelectionchangeDetail>(
+      this,
+      "nys-selectionchange",
+      {
+        id: this.id,
+        value: this.value,
+      },
     );
   }
 
@@ -438,6 +510,7 @@ export class NysTextarea extends NysFormControlElement {
           .rows=${this.rows}
           form=${ifDefined(this.form || undefined)}
           @input=${this._handleInput}
+          @change=${this._handleChange}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
           @select="${this._handleSelect}"
@@ -446,7 +519,7 @@ export class NysTextarea extends NysFormControlElement {
         <nys-errormessage
           id=${this.id + "--error"}
           ?showError=${this.showError}
-          errorMessage=${this.internals!.validationMessage || this.errorMessage}
+          errorMessage=${this.resolvedErrorMessage()}
         ></nys-errormessage>
       </div>
     `;

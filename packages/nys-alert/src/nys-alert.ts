@@ -12,6 +12,16 @@ import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-alert.scss?inline";
 
+/** Detail payload for the `nys-close` event fired by `nys-alert`. */
+export interface NysAlertCloseDetail {
+  id: string;
+  type: "base" | "info" | "success" | "warning" | "danger" | "emergency";
+  label: string;
+}
+
+/** The `nys-close` event fired by `nys-alert`. */
+export type NysAlertCloseEvent = CustomEvent<NysAlertCloseDetail>;
+
 /**
  * Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.
  *
@@ -30,7 +40,7 @@ import styles from "./nys-alert.scss?inline";
  * @cssprop [--nys-alert-border-color] - Color of border accent color
  * @cssprop [--nys-alert-background-color] - Background color of component
  *
- * @fires nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
+ * @fires {NysAlertCloseEvent} nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
  *
  * @example Basic
  * ```html

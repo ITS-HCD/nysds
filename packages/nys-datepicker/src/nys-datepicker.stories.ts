@@ -13,6 +13,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Date picker with calendar popup and form validation. Falls back to native date input\non Safari and mobile.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysDatepicker id="my-datepicker" name="my-datepicker" label="Schedule an appointment" description="Enter in MM/DD/YYYY format" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-datepicker id="my-datepicker" name="my-datepicker" label="Schedule an appointment" description="Enter in MM/DD/YYYY format"></nys-datepicker>\n```',
+      },
     },
   },
 };
