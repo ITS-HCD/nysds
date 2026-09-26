@@ -1,11 +1,13 @@
 /**
  * Framework Resources
  *
- * MCP resources for NYSDS framework packages (@nysds/react, @nysds/angular).
+ * MCP resources for NYSDS framework packages (@nysds/react, @nysds/vue,
+ * @nysds/angular).
  *
  * Resources:
  * - nysds://frameworks - Index of framework packages with version and guide URI
  * - nysds://frameworks/react - @nysds/react guide (synced from its README)
+ * - nysds://frameworks/vue - @nysds/vue guide (synced from its README)
  * - nysds://frameworks/angular - @nysds/angular guide (synced from its README)
  */
 
@@ -19,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const GUIDES_DIR = join(__dirname, "../../data/guides/frameworks");
 
-function loadFrameworkGuide(framework: "react" | "angular"): string {
+function loadFrameworkGuide(framework: "react" | "vue" | "angular"): string {
   try {
     return readFileSync(join(GUIDES_DIR, `${framework}.md`), "utf-8");
   } catch {
@@ -34,7 +36,7 @@ export function registerFrameworkResources(server: McpServer): void {
     "nysds://frameworks",
     {
       description:
-        "Index of NYSDS framework packages (@nysds/react, @nysds/angular) with their published version and guide resource URI",
+        "Index of NYSDS framework packages (@nysds/react, @nysds/vue, @nysds/angular) with their published version and guide resource URI",
       mimeType: "application/json",
     },
     async () => {
@@ -45,6 +47,12 @@ export function registerFrameworkResources(server: McpServer): void {
           packageName: index.react.packageName,
           version: index.react.version,
           guideUri: "nysds://frameworks/react",
+        },
+        {
+          id: "vue",
+          packageName: index.vue.packageName,
+          version: index.vue.version,
+          guideUri: "nysds://frameworks/vue",
         },
         {
           id: "angular",
@@ -81,6 +89,26 @@ export function registerFrameworkResources(server: McpServer): void {
           uri: "nysds://frameworks/react",
           mimeType: "text/markdown",
           text: loadFrameworkGuide("react"),
+        },
+      ],
+    }),
+  );
+
+  // nysds://frameworks/vue - @nysds/vue guide
+  server.resource(
+    "frameworks-vue",
+    "nysds://frameworks/vue",
+    {
+      description:
+        "@nysds/vue install, usage, v-model forms, SSR, and troubleshooting guide",
+      mimeType: "text/markdown",
+    },
+    async () => ({
+      contents: [
+        {
+          uri: "nysds://frameworks/vue",
+          mimeType: "text/markdown",
+          text: loadFrameworkGuide("vue"),
         },
       ],
     }),

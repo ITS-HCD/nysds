@@ -63,14 +63,15 @@ Then use them in HTML:
 
 ## Framework Integration
 
-For framework-specific setup, use the \`get_guide\` tool with a \`topic\` and a \`framework\` parameter (angular, react, dotnet, drupal, or vanilla).
+For framework-specific setup, use the \`get_guide\` tool with a \`topic\` and a \`framework\` parameter (angular, react, vue, dotnet, drupal, or vanilla).
 
-React and Angular are first-class packages, not wrapper snippets:
-\`@nysds/react\` (\`npm install @nysds/react\`) and \`@nysds/angular\`
+React, Vue, and Angular are first-class packages, not wrapper snippets:
+\`@nysds/react\` (\`npm install @nysds/react\`), \`@nysds/vue\`
+(\`npm install @nysds/vue\`), and \`@nysds/angular\`
 (\`npm install @nysds/angular @nysds/components\`) generate typed
 components, props, and events directly from this design system's
 manifest. See the \`nysds://frameworks\` resource for their current
-published versions, \`nysds://frameworks/react\` and
+published versions, \`nysds://frameworks/react\`, \`nysds://frameworks/vue\`, and
 \`nysds://frameworks/angular\` for their full guides, and pass
 \`framework: "react"\` or \`"angular"\` to \`get_component\` for
 per-component import lines and framework-specific code examples.

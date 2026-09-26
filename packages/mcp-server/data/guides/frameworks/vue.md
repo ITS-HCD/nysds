@@ -1,3 +1,8 @@
+<!--
+  GENERATED FILE. Do not edit directly.
+  Source: packages/vue/README.md
+  Regenerate with: npm run sync:guides -w @nysds/mcp-server
+-->
 # @nysds/vue
 
 Vue 3 components and types for the New York State Design System (NYSDS).

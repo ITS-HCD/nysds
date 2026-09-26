@@ -171,7 +171,7 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | Tool                  | Description                                                                                                                                                                                  |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `get_utility_classes` | Grid, flexbox, spacing, display, and typography utility classes                                                                                                                              |
-| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, dotnet, drupal, vanilla). The angular and react guides are the `@nysds/angular` and `@nysds/react` package READMEs. |
+| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, vue, dotnet, drupal, vanilla). The angular, react, and vue guides are the `@nysds/angular`, `@nysds/react`, and `@nysds/vue` package READMEs. |
 
 ## Available Resources
 
@@ -187,8 +187,9 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | `nysds://tokens/space`    | Spacing tokens                                        |
 | `nysds://tokens/size`     | Size tokens                                           |
 | `nysds://installation`    | Installation guide                                    |
-| `nysds://frameworks`      | Index of framework packages (`@nysds/react`, `@nysds/angular`) with version and guide URI |
+| `nysds://frameworks`      | Index of framework packages (`@nysds/react`, `@nysds/vue`, `@nysds/angular`) with version and guide URI |
 | `nysds://frameworks/react`   | `@nysds/react` install, usage, forms, SSR, and troubleshooting guide |
+| `nysds://frameworks/vue`     | `@nysds/vue` install, usage, `v-model` forms, SSR, and troubleshooting guide |
 | `nysds://frameworks/angular` | `@nysds/angular` install, usage, forms, SSR, and troubleshooting guide |
 
 ## Prompts

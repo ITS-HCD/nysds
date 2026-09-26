@@ -131,7 +131,7 @@ function renderVueProps(component) {
   ].sort();
   lines.push(`export const ${className} = createNysComponent<`);
   lines.push(
-    `  NysComponent<${propsName}${modelType}, ${className}Slots>`
+    `  NysComponent<${propsName}${modelType}, ${className}Slots, ${elementAlias}>`
   );
   lines.push(`>({`);
   lines.push(`  tag: "${component.tag}",`);

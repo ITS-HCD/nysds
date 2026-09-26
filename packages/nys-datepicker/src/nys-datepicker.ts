@@ -814,6 +814,7 @@ export class NysDatepicker extends NysFormControlElement {
       this._validate();
 
       this._dispatchInputEvent();
+      this._dispatchChangeEvent();
       this._closeCalendar();
     });
 

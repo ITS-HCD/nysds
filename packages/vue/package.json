@@ -1,6 +1,6 @@
 {
   "name": "@nysds/vue",
-  "version": "1.22.0-alpha-8",
+  "version": "1.22.0-alpha-1",
   "description": "Vue components and types for the New York State Design System web components, generated from the NYSDS custom elements manifest.",
   "type": "module",
   "license": "MIT",
@@ -274,7 +274,7 @@
     "@nysds/nys-video": "1.21.1"
   },
   "peerDependencies": {
-    "vue": "^3.3.0"
+    "vue": "^3.4.0"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

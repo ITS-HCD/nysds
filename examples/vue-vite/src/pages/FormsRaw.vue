@@ -14,7 +14,7 @@ import {
  * The same form written with the raw custom elements, no wrapper
  * components: `:value` / `:checked` bind properties and `@nys-*` listeners
  * write the model back. Vue's own `v-model` doesn't apply here — it listens
- * for native `input` events, which NYSDS components don't dispatch.
+ * for native `input` events instead of the `nys-*` events NYSDS defines.
  */
 const fresh = (): FormsModel => ({
   ...initialModel,

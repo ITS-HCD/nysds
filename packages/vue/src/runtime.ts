@@ -28,10 +28,19 @@ export interface NysComponentOptions {
   model?: NysModelOptions;
 }
 
-/** Public type of a generated wrapper: props, and slots for `<template #name>`. */
-export type NysComponent<Props, Slots> = new () => {
+/**
+ * Public type of a generated wrapper: props, slots for `<template #name>`,
+ * and `$el`, the underlying custom element (a template ref to a wrapper
+ * resolves to the component instance, so call element methods on `$el`).
+ */
+export type NysComponent<
+  Props,
+  Slots,
+  El extends HTMLElement = HTMLElement,
+> = new () => {
   $props: Props;
   $slots: Slots;
+  $el: El;
 };
 
 /** Slot function map for a wrapper; `Names` is the union of its slot names. */

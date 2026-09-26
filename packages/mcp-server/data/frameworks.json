@@ -3,6 +3,10 @@
     "packageName": "@nysds/react",
     "version": "1.22.0-alpha-8"
   },
+  "vue": {
+    "packageName": "@nysds/vue",
+    "version": "1.22.0-alpha-1"
+  },
   "angular": {
     "packageName": "@nysds/angular",
     "version": "1.22.0-alpha-8"

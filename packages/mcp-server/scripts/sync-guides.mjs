@@ -19,9 +19,10 @@ const REPO_ROOT = join(MCP_ROOT, "../..");
 const GUIDES_DIR = join(MCP_ROOT, "data/guides/frameworks");
 const DATA_DIR = join(MCP_ROOT, "data");
 
-/** @type {Array<{ id: "react" | "angular"; packageDir: string }>} */
+/** @type {Array<{ id: "react" | "vue" | "angular"; packageDir: string }>} */
 const FRAMEWORK_PACKAGES = [
   { id: "react", packageDir: join(REPO_ROOT, "packages/react") },
+  { id: "vue", packageDir: join(REPO_ROOT, "packages/vue") },
   { id: "angular", packageDir: join(REPO_ROOT, "packages/angular") },
 ];
 

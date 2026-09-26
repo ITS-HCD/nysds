@@ -2,7 +2,7 @@
  * Framework package index
  *
  * Reads `data/frameworks.json`, written by `scripts/sync-guides.mjs` from
- * `packages/react/package.json` and `packages/angular/package.json`. Gives
+ * the `package.json` of each framework package (react, vue, angular). Gives
  * tools and resources the published package name and version without
  * hand-maintaining either.
  */
@@ -20,6 +20,7 @@ export interface FrameworkPackageInfo {
 
 export interface FrameworksIndex {
   react: FrameworkPackageInfo;
+  vue: FrameworkPackageInfo;
   angular: FrameworkPackageInfo;
 }
 
@@ -48,6 +49,7 @@ export function getFrameworksIndex(): FrameworksIndex {
     console.error("Warning: Could not load data/frameworks.json:", error);
     cached = {
       react: { packageName: "@nysds/react", version: "unknown" },
+      vue: { packageName: "@nysds/vue", version: "unknown" },
       angular: { packageName: "@nysds/angular", version: "unknown" },
     };
   }
