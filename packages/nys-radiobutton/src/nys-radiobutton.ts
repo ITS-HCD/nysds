@@ -39,6 +39,17 @@ function adoptLightStyles() {
  * @fires nys-blur - Fired when radio loses focus.
  * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
+ * @usagedos
+ * - Use when a user needs to select only one option from a list of 7 or fewer choices.
+ * - Always wrap a group of `<nys-radiobutton>` with a `<nys-radiogroup>`.
+ * - Group radio buttons vertically for easier scanning, especially when labels are lengthy.
+ * - Set a clear default when one choice is recommended or most common. Don't leave all options unselected if a helpful default can guide users.
+ * - Use concise, descriptive labels for each option.
+ *
+ * @usagedonts
+ * - Use when users need to select multiple options. Use checkboxes instead.
+ * - Use when there are more than 7 options. Use a dropdown for better space utilization.
+ * - Use for yes/no questions. Consider `<nys-toggle>` or `<nys-checkbox>` instead.
  *
  * @example Pre-selected
  * ```html

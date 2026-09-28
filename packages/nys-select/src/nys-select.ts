@@ -31,6 +31,15 @@ import styles from "./nys-select.scss?inline";
  * @fires nys-focus - Fired when select gains focus.
  * @fires nys-blur - Fired when select loses focus. Triggers validation.
  *
+ * @usagedos
+ * - Use when a user needs to select a single item from a dropdown list.
+ * - Use the `<option>` element to define options and the native `<optgroup>` to group them.
+ *
+ * @usagedonts
+ * - Use when users need to select multiple items. Use a checkbox group instead.
+ * - Use the custom `<nys-option>` element. It will be deprecated in the 2.0 release.
+ * - Use `<nys-select multiple>`. Use a checkbox group instead.
+ *
  * @example Basic
  * ```html
  *  <nys-select label="Select your favorite borough" id="borough">
