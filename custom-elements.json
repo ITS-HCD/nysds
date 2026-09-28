@@ -17899,6 +17899,17 @@
               "code": "<!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->\n<nys-unavfooter landmarkLabel=\"Statewide\"></nys-unavfooter>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Place the `<nys-unavfooter>` as the last element on every public-facing page, immediately after `<nys-globalfooter>`.",
+            "Use on every page of every NYS site and application. This component is required per NYS web policy, including on error pages, login screens, and landing pages.",
+            "Place as the very last element on the page, immediately after `<nys-globalfooter>`.",
+            "Use as-is with no configuration. The component handles its own content and styling."
+          ],
+          "usagedonts": [
+            "Don't use on back office applications or internal sites that are not public-facing.",
+            "Place anywhere other than the absolute bottom of the page.",
+            "Customize, restyle, or override the component's content or appearance. Consistency across all state sites is the purpose of this component."
           ]
         }
       ],
@@ -18534,6 +18545,16 @@
               "code": "<nys-unavheader id=\"my-header2\"></nys-unavheader>\n<script>\ndocument.querySelector('#my-header2').addEventListener('nys-language-select', (event) => {\nevent.preventDefault();\nconst selectedLanguage = event.detail.language.label;\n});\n</script>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Place at the top of every public-facing page.",
+            "Toggle search (`hideSearch`) and translate (`hideTranslate`) on/off depending on your needs.",
+            "Design your page so content below the header can shift down, since a statewide alert can appear at any time and adds height to the header."
+          ],
+          "usagedonts": [
+            "Use on back office applications or internal sites that are not public-facing, instead use the `<nys-globalheader>` with the `nysLogo` property applied.",
+            "Place anywhere other than the top of the page.",
+            "Modify the universal header."
           ]
         }
       ],
