@@ -13843,6 +13843,14 @@
               "code": "<nys-skipnav href=\"#content-area\"></nys-skipnav>\n<p id=\"content-area\">...</p>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on pages with a large header, navigation, or other repeated content before the main section.",
+            "Ensure the `href` on `<nys-skipnav>` matches the `id` of the main content container."
+          ],
+          "usagedonts": [
+            "Use if your layout already starts with the main content and there is nothing to skip over.",
+            "Mismatch the `href` and target `id`."
           ]
         }
       ],
@@ -14247,6 +14255,14 @@
               "lang": "html",
               "render": "<div class=\"nys-grid-row\">\n<nys-stepper\nid=\"stepper\"\nname=\"stepper\"\nlabel=\"Register for Design System Office Hours\"\nclass=\"nys-desktop:nys-grid-col-3\"\n>\n<nys-step label=\"Personal Details\" href=\"/nys-stepper/personal.html\"></nys-step>\n<nys-step label=\"Team Info\" selected href=\"/nys-stepper/team.html\"></nys-step>\n<nys-step label=\"Usage Survey\" current href=\"/nys-stepper/survey.html\"></nys-step>\n<nys-step label=\"Newsletter Opt-In\" href=\"/nys-stepper/newsletter.html\"></nys-step>\n<div slot=\"actions\">\n<nys-button variant=\"outline\" label=\"Save & Exit\" fullWidth></nys-button>\n</div>\n</nys-stepper>\n<div class=\"nys-desktop:nys-grid-col-9\" id=\"nys-stepper-content\">\nLoading...\n</div>\n</div>\n<script>\ndocument.addEventListener(\"DOMContentLoaded\", async () => {\nconst stepper = document.querySelector(\"nys-stepper\");\nif (stepper?.updateComplete) await stepper.updateComplete;\nconst selectedStep = document.querySelector(\"nys-step[selected]\");\nconst href = selectedStep?.getAttribute(\"href\");\nif (!href) return;\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n\ndocument.addEventListener(\"nys-step-click\", async (e) => {\nconst href = e.detail?.href;\nif (!href) return;\ne.preventDefault();\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n</script>"
             }
+          ],
+          "usagedos": [
+            "Use for linear, ordered forms with more than 2 sections to show progress through a multi-step process.",
+            "Ensure users can navigate back to previous steps to review or change information."
+          ],
+          "usagedonts": [
+            "Use when a form has only 1 or 2 sections.",
+            "Use for forms that are nonlinear and can be completed in any order."
           ]
         }
       ],
@@ -14791,6 +14807,18 @@
               "code": "<style>\nnys-tabpanel {\n--_nys-tabpanel-background-color: var(--nys-color-theme-faint);\nborder: solid 2px var(--nys-color-theme-strong);\n--nys-button-background-color: var(--nys-color-success);\n}\n</style>\n<nys-tabgroup>\n<nys-tab label=\"Tab 1\"></nys-tab>\n<nys-tab label=\"Tab 2\"></nys-tab>\n<nys-tabpanel>\n<p>Content for tab 1</p>\n<nys-button>Click me</nys-button>\n</nys-tabpanel>\n<nys-tabpanel>\n<p>Content for tab 2</p>\n</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to organize related content into distinct sections within the same context (e.g., Overview, Specs, Reviews), especially when a page would otherwise be overwhelmingly long.",
+            "Keep tab labels short and clear, limited to 2–9 tabs and one row. Avoid wrapping.",
+            "Only one tab should ever be in the active state."
+          ],
+          "usagedonts": [
+            "Use when users need to compare information across sections simultaneously. Tabs require clicking back and forth.",
+            "Use for linear, step-by-step processes. Use a stepper instead.",
+            "Use when you only have two small pieces of content. Display them consecutively instead.",
+            "Nest tabs inside other tabs.",
+            "Use tabs for page navigation."
           ]
         }
       ],

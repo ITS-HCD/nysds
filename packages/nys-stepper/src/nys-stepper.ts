@@ -57,6 +57,14 @@ import styles from "./nys-stepper.scss?inline";
  * @slot - Default slot for `nys-step` elements. Only `nys-step` children are accepted; others are removed.
  * @slot actions - Persistent navigation buttons. Must contain exactly one `<div>` wrapping only `<nys-button>` elements.
  *
+ * @usagedos
+ * - Use for linear, ordered forms with more than 2 sections to show progress through a multi-step process.
+ * - Ensure users can navigate back to previous steps to review or change information.
+ *
+ * @usagedonts
+ * - Use when a form has only 1 or 2 sections.
+ * - Use for forms that are nonlinear and can be completed in any order.
+ *
  * @example Basic
  * ```html
  * <div class="nys-grid-row">
