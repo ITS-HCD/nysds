@@ -40,7 +40,7 @@ function adoptLightStyles() {
  * @slot - Footer content (links, contact info). Use `<h4>` for column headings.
  *
  * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
- * @cssprop [--_nys-globalfooter-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
+ * @cssprop [--nys-globalfooter-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
  *
  * @example Basic
  * ```html
