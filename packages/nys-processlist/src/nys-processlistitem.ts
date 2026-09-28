@@ -72,7 +72,7 @@ export class NysProcesslistitem extends NysElement {
              number is the only thing conveying sequence to assistive tech. -->
         <div class="nys-processlistitem__stepwrapper">
           <div class="nys-processlistitem__step">${this._step}</div>
-          <div class="nys-processlistitem__connector"></div>
+          <div class="nys-processlistitem__connector" part="connector"></div>
         </div>
         <div class="nys-processlistitem__content">
           <div class="nys-processlistitem__label">${this.label}</div>
