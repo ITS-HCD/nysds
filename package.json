@@ -86,6 +86,7 @@
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@figma/code-connect": "^1.4.0",
     "@floating-ui/dom": "^1.7.4",
+    "@nysds/cem-plugin-examples": "^1.1.0",
     "@open-wc/testing": "^4.0.0",
     "@storybook/addon-a11y": "10.3.5",
     "@storybook/addon-docs": "10.3.5",
@@ -99,10 +100,7 @@
     "@web/test-runner": "^1.0.0",
     "@web/test-runner-commands": "^1.0.1",
     "@web/test-runner-playwright": "^1.0.0",
-    "cem-plugin-examples": "github:its-hcd/cem-plugin-examples",
     "cross-env": "^10.1.0",
-    "custom-element-jsx-integration": "^1.6.0",
-    "custom-element-react-wrappers": "^1.7.3",
     "custom-element-vs-code-integration": "^1.5.0",
     "dotenv-cli": "^10.0.0",
     "eslint": "^10.0.0",
@@ -144,5 +142,12 @@
   "sideEffects": true,
   "peerDependencies": {
     "lit": "^3.3.1"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "@parcel/watcher": true,
+    "lmdb@3.4.2": true,
+    "msgpackr-extract@3.0.4": true,
+    "rs-module-lexer": true
   }
 }

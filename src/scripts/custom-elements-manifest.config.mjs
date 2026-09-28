@@ -1,5 +1,5 @@
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
-import { cemExamplesPlugin } from "cem-plugin-examples";
+import { cemExamplesPlugin } from "@nysds/cem-plugin-examples";
 import {
   formControlPlugin,
   reactPlugin,
@@ -89,7 +89,7 @@ const renderTagsPlugin = () => {
               example.render = code;
             } else {
               console.warn(
-                `[nysds-render-tags] ${mod.path}: @render "${title}" has no matching @example — skipped.`
+                `[nysds-render-tags] ${mod.path}: @render "${title}" has no matching @example — skipped.`,
               );
             }
           }
@@ -115,7 +115,7 @@ const customJsDocTagsPlugin = () => ({
 
         const classNameRegex = new RegExp(
           `(\\/\\*\\*[\\s\\S]*?\\*\\/)?\\s*export\\s+class\\s+${decl.name}`,
-          "m"
+          "m",
         );
         const match = content.match(classNameRegex);
         if (!match || !match[1]) continue;
@@ -125,11 +125,16 @@ const customJsDocTagsPlugin = () => ({
         const extractBullets = (raw) =>
           raw
             .split(/\n\s*\*\s*-\s*/)
-            .map((s) => s.replace(/^\*?\s*-?\s*/, "").replace(/\n\s*\*\s*/g, " ").trim())
+            .map((s) =>
+              s
+                .replace(/^\*?\s*-?\s*/, "")
+                .replace(/\n\s*\*\s*/g, " ")
+                .trim(),
+            )
             .filter(Boolean);
 
         const usageMatch = docComment.match(
-          /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
+          /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/,
         );
         if (usageMatch) {
           decl.usage = extractBullets(usageMatch[1]);
@@ -181,23 +186,23 @@ export default {
       packageLinkPhase({ customElementsManifest }) {
         // Sort top-level modules
         customElementsManifest.modules.sort((a, b) =>
-          a.path.localeCompare(b.path)
+          a.path.localeCompare(b.path),
         );
 
         for (const mod of customElementsManifest.modules) {
           if (mod.declarations) {
             mod.declarations.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
 
           if (mod.exports) {
             mod.exports.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
         }
-      }
+      },
     },
     cemExamplesPlugin(),
     renderTagsPlugin(),
