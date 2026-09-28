@@ -146,7 +146,7 @@ jobs:
         run: npm i --no-audit --no-fund -w framework-examples/${{ matrix.app }} "vue@${{ matrix.version }}"
       - name: Pin Next.js ${{ matrix.version }}
         if: matrix.framework == 'next'
-        run: npm i --no-audit --no-fund -w examples/${{ matrix.app }} "next@${{ matrix.version }}"
+        run: npm i --no-audit --no-fund -w framework-examples/${{ matrix.app }} "next@${{ matrix.version }}"
       - name: Pin Angular ${{ matrix.version }}
         if: matrix.framework == 'angular' && matrix.version != '20'
         run: node framework-examples/scripts/pin-angular.mjs "${{ matrix.version }}" "framework-examples/${{ matrix.app }}"
