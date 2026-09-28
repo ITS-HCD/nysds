@@ -140,11 +140,12 @@ const TRANSLATE_TRIGGER_IDS = [
  * `href` is set — is the element that actually carries the button/link role, the
  * tab stop, and any ARIA; it lives in its own shadow root.
  */
-type ButtonElement = HTMLElement & { updateComplete?: Promise<unknown> };
+// type ButtonElement = HTMLElement & { updateComplete?: Promise<unknown> };
+type HTMLDivElement = HTMLElement & { updateComplete?: Promise<unknown> };
 
 /** The real control inside a `nys-button`, once it has rendered. */
-const innerControl = (button: ButtonElement): HTMLElement =>
-  button.shadowRoot?.querySelector(".nys-button") ?? button;
+const innerControl = (div: HTMLDivElement): HTMLElement =>
+  div.shadowRoot?.querySelector(".nys-unavheader__languagelink") ?? div;
 
 /**
  * Language code → BCP 47 tag for the option's `lang` attribute.
@@ -155,8 +156,8 @@ const innerControl = (button: ButtonElement): HTMLElement =>
  * option in the page's own voice — "Español" announced as English.
  */
 const LANGUAGE_TAGS: Record<string, string> = {
-  zh: "zh-Hans",
-  "zh-traditional": "zh-Hant",
+  zh: "zh-cn",
+  "zh-traditional": "zh-hk",
 };
 
 const languageTag = (code: string) => LANGUAGE_TAGS[code] ?? code;
@@ -1300,6 +1301,7 @@ export class NysUnavHeader extends NysElement {
                           label="Translate"
                           ariaControls="${LANGUAGE_LIST_ID}"
                           ariaExpanded="${this.languageVisible}"
+                          ariaHasPopup="menu"
                           size="sm"
                           prefixIcon="language"
                           suffixIcon=${this.languageVisible
@@ -1312,6 +1314,7 @@ export class NysUnavHeader extends NysElement {
                       `
                     : null}
                   <div
+                    role="list"
                     id="${LANGUAGE_LIST_ID}"
                     aria-label="${LANGUAGE_MENU_LABEL}"
                     class="nys-unavheader__languagelist ${this.languageVisible
@@ -1323,17 +1326,31 @@ export class NysUnavHeader extends NysElement {
                         languageTag(lang.code) ===
                         document.documentElement.lang;
                       return html`<div
-                        lang="${languageTag(lang.code)}"
+                        role="listitem"
                         class="${LANGUAGE_OPTION_CLASS}"
                         href=${ifDefined(this._languageHref(lang))}
                         @click="${(e: Event) =>
                           this._handleLanguageSelect(e, lang)}"
+                        @keydown="${(e: KeyboardEvent) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            this._handleLanguageSelect(e, lang);
+                          }
+                        }}"
                       >
-                        <span notranslate>${lang.label}</span>
+                        <span
+                          class="nys-unavheader__languagelink--abs"
+                          lang="${languageTag(lang.code)}"
+                          notranslate
+                        >
+                          ${lang.label}
+                        </span>
                         ${isCurrent || !lang.nativeText
                           ? nothing
-                          : html`<span lang="${this._locale}"
-                              >&nbsp;(${lang.nativeText})</span
+                          : html`<span
+                              class="nys-unavheader__languagelink-var"
+                              lang="${this._locale}"
+                              >${lang.nativeText}</span
                             >`}
                       </div>`;
                     })}
