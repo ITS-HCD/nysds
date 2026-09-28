@@ -18886,6 +18886,20 @@
               "lang": "html",
               "render": "<style>\n.page-layout__body {\nbackground-color: var(--nys-color-white, #ffffff);\n}\n.page-layout__nav {\npadding: var(--nys-space-300, 24px) var(--nys-space-50, 4px) var(--nys-space-300, 24px) 0;\n}\n.page-layout__main {\npadding: var(--nys-space-400, 32px);\n}\n</style>\n<div>\n<nys-unavheader></nys-unavheader>\n<nys-globalheader homepageLink=\"https://ny.gov\" agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov/services\">Services</a></li>\n<li><a href=\"https://its.ny.gov/get-help\">Help Center</a></li>\n</ul>\n</nys-globalheader>\n<div class=\"page-layout__body\">\n<div class=\"nys-grid-container nys-grid-gap-400\">\n<div class=\"nys-grid-row\">\n<div class=\"nys-desktop:nys-grid-col page-layout__nav\">\n <nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n   <ul>\n     <li><a href=\"/\">Foundations</a></li>\n     <li><a href=\"/components\">Components</a></li>\n     <li>\n       <nys-verticalnavgroup label=\"Accessibility\">\n         <ul>\n           <li><a href=\"\">WCAG Guidelines</a></li>\n           <li><a href=\"\">Screen Readers</a></li>\n           <li><a href=\"\">Color Contrast</a></li>\n         </ul>\n       </nys-verticalnavgroup>\n     </li>\n     <li>\n       <h3>Resources</h3>\n       <ul>\n         <li><a href=\"\">Design Tokens</a></li>\n         <li><a href=\"\">Utilities</a></li>\n       </ul>\n     </li>\n   </ul>\n </nys-verticalnav>\n</div>\n<main class=\"nys-desktop:nys-grid-col page-layout__main\">\n <p>Place content here.</p>\n</main>\n</div>\n</div>\n</div>\n<nys-globalfooter agencyName=\"Agency Name\" homepageLink=\"https://ny.gov\">\n<ul>\n<li><a href=\"https://\"> Privacy Policy </a></li>\n<li><a href=\"https://\"> Terms of Service </a></li>\n</ul>\n</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>\n</div>\n```"
             }
+          ],
+          "usagedos": [
+            "Use for navigation where every item links to a different page.",
+            "Use for section-level navigation within a site.",
+            "Support up to two levels of navigation: top-level links and one level of nested links.",
+            "Set `aria-current=\"page\"` on the active link so the component can apply active styles and expand the current group.",
+            "Avoid excessive use of icons, colors, or badges in navigation items."
+          ],
+          "usagedonts": [
+            "Use for in-page navigation, such as scrolling to sections on the same page.",
+            "Use for linear task flows, such as multi-step forms or wizards.",
+            "Use for filtering, tab switching, or other in-page interactions.",
+            "Nest more than one level of sub-items.",
+            "Overload with excessive use of icons, colors, or badges in navigation items."
           ]
         }
       ],
@@ -19398,6 +19412,19 @@
               "code": "<nys-video\nsize=\"sm\"\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"Small (width: 320-439px)\"\n></nys-video>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use when motion or audio communicates something better than text or images alone.",
+            "Keep `titleText` to 50–60 characters.",
+            "Use a clear, high-quality thumbnail so users recognize it as a video.",
+            "Maintain the default `lazy` loading for better page performance.",
+            "Reserve space for the 16:9 ratio box to prevent layout shift.",
+            "Let users choose to start the video; avoid `autoplay` unless necessary."
+          ],
+          "usagedonts": [
+            "Use video if the same message can be delivered clearly with text or a static image.",
+            "Rely on video alone to convey critical information. Always provide a text alternative.",
+            "Set `autoplay` without understanding that the video will be muted. `nys-video` enforces this automatically to protect users from unexpected noise."
           ]
         }
       ],
