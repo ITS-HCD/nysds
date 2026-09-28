@@ -30,7 +30,7 @@ declare global {
  * @summary YouTube video player with thumbnail preview and accessibility announcements.
  * @element nys-video
  *
- * @fires nys-video-play - Fired when the user clicks the thumbnail to load the player.
+ * @fires {Event} nys-video-play - Fired when the user clicks the thumbnail to load the player.
  *
  * @usagedos
  * - Use when motion or audio communicates something better than text or images alone.

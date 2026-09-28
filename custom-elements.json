@@ -4419,10 +4419,6 @@
               "lang": "html"
             }
           ],
-          "formControl": {
-            "kind": "checked",
-            "changeEvent": "nys-change"
-          }
           "usagedos": [
             "Use for binary decisions (agree/disagree), confirmation, or multi-select lists.",
             "Use for selecting multiple options from a list of up to 10 choices.",
@@ -4433,7 +4429,11 @@
             "Use a checkbox when changing its state immediately affects the system. Use a `<nys-toggle>` instead (e.g., enabling Dark Mode).",
             "Use when you have more than 10 options to choose from.",
             "Change the state of one checkbox based on another being clicked."
-          ]
+          ],
+          "formControl": {
+            "kind": "checked",
+            "changeEvent": "nys-change"
+          }
         }
       ],
       "exports": [
@@ -5838,11 +5838,6 @@
           ],
           "tagName": "nys-combobox",
           "customElement": true,
-          "formControl": {
-            "kind": "value",
-            "changeEvent": "nys-change",
-            "inputEvent": "nys-input"
-          }
           "usagedos": [
             "Use when there are more than 15 options to choose from.",
             "Use when screen real estate is limited.",
@@ -5851,7 +5846,12 @@
           "usagedonts": [
             "Use when the number of options is small. Use `<nys-select>` or `<nys-radiobutton>` instead.",
             "Use when options are unfamiliar to users and browsing the full list is necessary."
-          ]
+          ],
+          "formControl": {
+            "kind": "value",
+            "changeEvent": "nys-change",
+            "inputEvent": "nys-input"
+          }
         }
       ],
       "exports": [
@@ -6760,11 +6760,6 @@
               "lang": "html"
             }
           ],
-          "formControl": {
-            "kind": "value",
-            "changeEvent": "nys-change",
-            "inputEvent": "nys-input"
-          }
           "usagedos": [
             "Use when users need to select a single calendar date, such as scheduling an appointment or choosing a filing deadline, especially when the day of the week matters.",
             "Set the `label` property to clearly describe what date is being collected. Every datepicker needs one for accessibility.",
@@ -6778,7 +6773,12 @@
             "Use when users need to select multiple dates or a date range, or when time selection is required alongside the date.",
             "Rely on the calendar popup alone. Safari and mobile browsers use the native date picker instead.",
             "Use `hideTodayButton` and `hideClearButton` together unless users must select a specific date and cannot be allowed to clear it."
-          ]
+          ],
+          "formControl": {
+            "kind": "value",
+            "changeEvent": "nys-change",
+            "inputEvent": "nys-input"
+          }
         }
       ],
       "exports": [
@@ -8492,10 +8492,6 @@
               "lang": "html"
             }
           ],
-          "formControl": {
-            "kind": "files",
-            "changeEvent": "nys-change"
-          }
           "usagedos": [
             "Use when a form requires file upload, including when multiple file selection or drag-and-drop is needed."
           ],
@@ -8505,7 +8501,11 @@
             "Use when uploading sensitive data without encryption.",
             "Use when file preview of uploaded content is needed.",
             "Use when file upload is not necessary for the task."
-          ]
+          ],
+          "formControl": {
+            "kind": "files",
+            "changeEvent": "nys-change"
+          }
         }
       ],
       "exports": [
@@ -13726,10 +13726,6 @@
               "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" errorMessage=\"You did not select a borough\" showError>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>"
             }
           ],
-          "formControl": {
-            "kind": "value",
-            "changeEvent": "nys-change"
-          }
           "usagedos": [
             "Use when a user needs to select a single item from a dropdown list.",
             "Use the `<option>` element to define options and the native `<optgroup>` to group them."
@@ -13738,7 +13734,11 @@
             "Use when users need to select multiple items. Use a checkbox group instead.",
             "Use the custom `<nys-option>` element. It will be deprecated in the 2.0 release.",
             "Use `<nys-select multiple>`. Use a checkbox group instead."
-          ]
+          ],
+          "formControl": {
+            "kind": "value",
+            "changeEvent": "nys-change"
+          }
         }
       ],
       "exports": [
@@ -16073,18 +16073,18 @@
               "lang": "html"
             }
           ],
-          "formControl": {
-            "kind": "value",
-            "changeEvent": "nys-change",
-            "inputEvent": "nys-input"
-          }
           "usagedos": [
             "Use to collect multiple lines of open-ended text input (e.g., comments, descriptions, feedback)."
           ],
           "usagedonts": [
             "Use for short or single-line input. Use `<nys-textinput>` instead.",
             "Use when input should be selected from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead."
-          ]
+          ],
+          "formControl": {
+            "kind": "value",
+            "changeEvent": "nys-change",
+            "inputEvent": "nys-input"
+          }
         }
       ],
       "exports": [
@@ -16906,11 +16906,6 @@
               "lang": "html"
             }
           ],
-          "formControl": {
-            "kind": "value",
-            "changeEvent": "nys-change",
-            "inputEvent": "nys-input"
-          }
           "usagedos": [
             "Use to collect short, single-line, open-ended text input (e.g., names, email addresses, or short descriptions).",
             "Use clear, concise labels that describe the expected input.",
@@ -16922,7 +16917,12 @@
             "Use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.",
             "Overwhelm users with too many fields. Group related inputs.",
             "Use placeholders as labels."
-          ]
+          ],
+          "formControl": {
+            "kind": "value",
+            "changeEvent": "nys-change",
+            "inputEvent": "nys-input"
+          }
         }
       ],
       "exports": [
@@ -17321,10 +17321,6 @@
               "lang": "html"
             }
           ],
-          "formControl": {
-            "kind": "checked",
-            "changeEvent": "nys-change"
-          }
           "usagedos": [
             "Provide a clear label and optional description to explain what the toggle controls.",
             "Ensure the page clearly reflects the toggle's on/off state through visible changes.",
@@ -17336,7 +17332,11 @@
             "Use for complex or multi-state choices.",
             "Overuse for minor settings that don't affect the user experience.",
             "Hide labels unless an accessible alternative is in place."
-          ]
+          ],
+          "formControl": {
+            "kind": "checked",
+            "changeEvent": "nys-change"
+          }
         }
       ],
       "exports": [
@@ -19252,6 +19252,15 @@
               "kind": "method",
               "name": "_renderPlayIcon",
               "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the user clicks the thumbnail to load the player.",
+              "name": "nys-video-play"
             }
           ],
           "attributes": [

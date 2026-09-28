@@ -133,11 +133,6 @@ const customJsDocTagsPlugin = () => ({
             )
             .filter(Boolean);
 
-        const usageMatch = docComment.match(
-          /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/,
-        );
-        if (usageMatch) {
-          decl.usage = extractBullets(usageMatch[1]);
         // Bullet-list JSDoc tags that read to the next @tag (or end of comment)
         // and get attached to the declaration under the matching property name.
         const bulletTags = [

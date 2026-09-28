@@ -24,6 +24,30 @@ import prettier from "prettier";
 import { transformExample } from "@nysds/codegen";
 
 /**
+ * Removes the prose of block comments from TypeScript source, keeping only
+ * the bodies of `@example` tags. Code outside comments is returned as-is.
+ */
+function stripJsDocProse(source) {
+  let inBlock = false;
+  let inExample = false;
+  return source
+    .split("\n")
+    .map((line) => {
+      if (!inBlock && /^\s*\/\*/.test(line)) {
+        inBlock = true;
+        inExample = false;
+      }
+      if (!inBlock) return line;
+      if (/^\s*(?:\/\*+|\*)\s*@example\b/.test(line)) inExample = true;
+      else if (/^\s*(?:\/\*+|\*)\s*@\w+/.test(line)) inExample = false;
+      const keep = inExample;
+      if (line.includes("*/")) inBlock = false;
+      return keep ? line : "";
+    })
+    .join("\n");
+}
+
+/**
  * Known module-scope setup helpers. When a hoisted <script data-scope="module">
  * block references one of these identifiers, the generator emits the matching
  * import in the stories file and prepends the docs snippet to the story's
@@ -684,7 +708,12 @@ async function main() {
         (f) => f.endsWith(".ts") && !f.endsWith(".stories.ts") && !f.endsWith(".test.ts")
       );
     for (const f of componentSourceFiles) {
-      const content = fs.readFileSync(path.join(dir, f), "utf8");
+      // Ignore JSDoc prose (descriptions, usage dos/donts) — it mentions other
+      // components as `<nys-foo>`, which are references, not rendered markup.
+      // @example bodies are real markup and are kept.
+      const content = stripJsDocProse(
+        fs.readFileSync(path.join(dir, f), "utf8")
+      );
       const tagRe = /<(nys-[\w-]+)/g;
       let m;
       while ((m = tagRe.exec(content)) !== null) usedTags.add(m[1]);
