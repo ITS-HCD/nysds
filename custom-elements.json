@@ -15361,6 +15361,15 @@
               "code": "<nys-table id=\"numb-sort-test\" name=\"numb-sort-test\" sortable>\n<table>\n<caption>Testing Sorting Number Logic</caption>\n<tr><th>Number</th><th>Word Form</th></tr>\n<tr><td>1</td><td>One</td></tr>\n<tr><td>100</td><td>One Hundred</td></tr>\n<tr><td>1,000</td><td>One Thousand</td></tr>\n<tr><td>11</td><td>Eleven</td></tr>\n<tr><td>40</td><td>Forty</td></tr>\n<tr><td>5</td><td>Five</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to display tabular data such as statistical information or directories of locations and resources with consistent structure."
+          ],
+          "usagedonts": [
+            "Use in place of a layout grid. Table content should follow a consistent structure using headers and logical columns and rows.",
+            "Use for non-tabular content. Consider definition lists or hierarchical lists instead.",
+            "Use when cell content is long-form; table cells should be brief and scannable. If you need multiple bullet points or paragraphs in a cell, consider page headers or an accordion instead.",
+            "Add `rowspan` or `colspan` with the `sortable` property."
           ]
         }
       ],
@@ -16052,6 +16061,13 @@
               "code": "<nys-textarea label=\"Describe the incident\">\n<div slot=\"description\">Please provide details</div>\n</nys-textarea>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to collect multiple lines of open-ended text input (e.g., comments, descriptions, feedback)."
+          ],
+          "usagedonts": [
+            "Use for short or single-line input. Use `<nys-textinput>` instead.",
+            "Use when input should be selected from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead."
           ]
         }
       ],
@@ -16888,6 +16904,18 @@
               "code": "<nys-textinput id=\"search-demo\" type=\"search\" placeholder=\"Search\">\n<nys-button\nslot=\"endButton\"\nariaLabel=\"Search\"\nprefixIcon=\"search\"\nonclick=\"alert('searching for: ' + document.getElementById('search-demo').value)\"\n></nys-button>\n</nys-textinput>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to collect short, single-line, open-ended text input (e.g., names, email addresses, or short descriptions).",
+            "Use clear, concise labels that describe the expected input.",
+            "Add helper text with the `description` property for context.",
+            "Validate input live to catch errors early (e.g., invalid email formats)."
+          ],
+          "usagedonts": [
+            "Use for long or multi-line responses. Use `<nys-textarea>` instead.",
+            "Use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.",
+            "Overwhelm users with too many fields. Group related inputs.",
+            "Use placeholders as labels."
           ]
         }
       ],
