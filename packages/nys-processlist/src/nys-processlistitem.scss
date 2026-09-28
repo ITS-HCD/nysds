@@ -100,9 +100,8 @@
 }
 
 .nys-processlistitem__connector {
-  height: -moz-available;
-  height: -webkit-fill-available;
-  height: fill-available;
+  flex: 1 1 0;
+  min-height: 0;
   background-color: var(--_nys-processlist-color--connector);
   width: var(--_nys-processlist-width--connector);
 }
