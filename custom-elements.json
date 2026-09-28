@@ -1865,7 +1865,7 @@
             },
             {
               "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-breadcrumbs-max-width--content"
+              "name": "--nys-breadcrumbs-max-width--content"
             }
           ],
           "slots": [
@@ -8550,7 +8550,7 @@
             },
             {
               "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-globalfooter-max-width--content"
+              "name": "--nys-globalfooter-max-width--content"
             }
           ],
           "slots": [
@@ -8799,7 +8799,7 @@
             },
             {
               "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-globalheader-max-width--content"
+              "name": "--nys-globalheader-max-width--content"
             }
           ],
           "slots": [
@@ -17458,7 +17458,7 @@
             },
             {
               "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-unavfooter-max-width--content"
+              "name": "--nys-unavfooter-max-width--content"
             }
           ],
           "members": [
@@ -17577,7 +17577,7 @@
             },
             {
               "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-unavheader-max-width--content"
+              "name": "--nys-unavheader-max-width--content"
             }
           ],
           "members": [

@@ -94,6 +94,6 @@ unnamed. */
  *
  * ### **CSS Properties:**
  *  - **--nys-max-width--content** - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable. _(default: undefined)_
- * - **--_nys-unavheader-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
+ * - **--nys-unavheader-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
  */
 export const NysUnavHeader: React.ForwardRefExoticComponent<NysUnavHeaderProps>;
