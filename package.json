@@ -80,7 +80,7 @@
     "url": "https://github.com/ITS-HCD/nysds/issues"
   },
   "homepage": "https://designsystem.ny.gov/",
-  "packageManager": "npm@11.6.2",
+  "packageManager": "npm@12.1.0",
   "devDependencies": {
     "@chromatic-com/storybook": "^5.1.2",
     "@custom-elements-manifest/analyzer": "^0.11.0",
