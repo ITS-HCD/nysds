@@ -75,6 +75,13 @@ export type NysTextareaSelectionchangeEvent =
  * @fires {NysTextareaSelectEvent} nys-select - Fired when the user selects text. Detail: `{id, value}`.
  * @fires {NysTextareaSelectionchangeEvent} nys-selectionchange - Fired when the text selection changes. Detail: `{id, value}`.
  *
+ * @usagedos
+ * - Use to collect multiple lines of open-ended text input (e.g., comments, descriptions, feedback).
+ *
+ * @usagedonts
+ * - Use for short or single-line input. Use `<nys-textinput>` instead.
+ * - Use when input should be selected from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.
+ *
  * @example Basic
  * ```html
  * <nys-textarea label="Comments"></nys-textarea>
