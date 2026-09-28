@@ -65,5 +65,5 @@ packages/vue/src/generated/
 # rewritten by `npm run cem`.
 packages/angular/.ngbuild/
 # Example app build output. dist/ at any depth is covered by the dist/ rule.
-examples/*/.angular/
-examples/*/.next/
+framework-examples/*/.angular/
+framework-examples/*/.next/

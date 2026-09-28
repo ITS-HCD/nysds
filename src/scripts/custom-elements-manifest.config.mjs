@@ -142,7 +142,9 @@ const customJsDocTagsPlugin = () => ({
 
         for (const { tag, prop } of bulletTags) {
           const tagMatch = docComment.match(
-            new RegExp(`@${tag}\\s+([\\s\\S]*?)(?=\\n\\s*\\*?\\s*@|\\n\\s*\\*\\/)`)
+            new RegExp(
+              `@${tag}\\s+([\\s\\S]*?)(?=\\n\\s*\\*?\\s*@|\\n\\s*\\*\\/)`,
+            ),
           );
           if (tagMatch) {
             decl[prop] = extractBullets(tagMatch[1]);
@@ -179,7 +181,7 @@ export default {
     "**/packages/react/**",
     "**/packages/angular/**",
     "**/packages/codegen/**",
-    "**/examples/**",
+    "**/framework-examples/**",
   ],
   /** Directory to output CEM to */
   outdir: "./",

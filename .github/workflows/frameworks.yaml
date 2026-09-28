@@ -14,7 +14,7 @@ on:
       - 'main'
     paths:
       - 'packages/**'
-      - 'examples/**'
+      - 'framework-examples/**'
       - 'src/scripts/**'
 
 permissions:
@@ -97,10 +97,10 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - id: matrix
-        name: Expand examples/matrix.json into job entries
+        name: Expand framework-examples/matrix.json into job entries
         run: |
           echo "include=$(node -e '
-            const m = require("./examples/matrix.json");
+            const m = require("./framework-examples/matrix.json");
             const inc = [];
             for (const v of m.react) inc.push({ app: "react-vite", framework: "react", version: v });
             for (const v of m.vue) inc.push({ app: "vue-vite", framework: "vue", version: v });
@@ -136,20 +136,20 @@ jobs:
         if: matrix.framework == 'react'
         run: |
           major="${VERSION%%.*}"
-          npm i --no-audit --no-fund -w examples/${{ matrix.app }} \
+          npm i --no-audit --no-fund -w framework-examples/${{ matrix.app }} \
             "react@${VERSION}" "react-dom@${VERSION}" \
             "@types/react@${major}" "@types/react-dom@${major}"
         env:
           VERSION: ${{ matrix.version }}
       - name: Pin Vue ${{ matrix.version }}
         if: matrix.framework == 'vue'
-        run: npm i --no-audit --no-fund -w examples/${{ matrix.app }} "vue@${{ matrix.version }}"
+        run: npm i --no-audit --no-fund -w framework-examples/${{ matrix.app }} "vue@${{ matrix.version }}"
       - name: Pin Next.js ${{ matrix.version }}
         if: matrix.framework == 'next'
         run: npm i --no-audit --no-fund -w examples/${{ matrix.app }} "next@${{ matrix.version }}"
       - name: Pin Angular ${{ matrix.version }}
         if: matrix.framework == 'angular' && matrix.version != '20'
-        run: node examples/scripts/pin-angular.mjs "${{ matrix.version }}" "examples/${{ matrix.app }}"
+        run: node framework-examples/scripts/pin-angular.mjs "${{ matrix.version }}" "framework-examples/${{ matrix.app }}"
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
@@ -158,13 +158,13 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
       - name: Build ${{ matrix.app }}
-        run: npm run build -w examples/${{ matrix.app }}
+        run: npm run build -w framework-examples/${{ matrix.app }}
       - name: Smoke tests
-        run: npm run test -w examples/${{ matrix.app }}
+        run: npm run test -w framework-examples/${{ matrix.app }}
         env:
           CI: 'true'
       - name: Smoke tests (zoneless)
         if: matrix.app == 'angular-app'
-        run: npm run test:zoneless -w examples/${{ matrix.app }}
+        run: npm run test:zoneless -w framework-examples/${{ matrix.app }}
         env:
           CI: 'true'

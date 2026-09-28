@@ -2,7 +2,7 @@
 // Tiny static file server with SPA fallback, used to serve Angular
 // production builds to Playwright. No dependencies.
 //
-// Usage: node examples/scripts/serve-static.mjs <dir> <port>
+// Usage: node framework-examples/scripts/serve-static.mjs <dir> <port>
 
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";

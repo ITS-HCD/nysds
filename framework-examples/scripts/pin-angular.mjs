@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Pins an example app's Angular toolchain to a major version.
 //
-// Usage: node examples/scripts/pin-angular.mjs <major> <workspace-dir> [more-dirs...]
-// Example: node examples/scripts/pin-angular.mjs 21 examples/angular-app
+// Usage: node framework-examples/scripts/pin-angular.mjs <major> <workspace-dir> [more-dirs...]
+// Example: node framework-examples/scripts/pin-angular.mjs 21 framework-examples/angular-app
 //
 // Installs every @angular/* package the app uses at the requested major,
 // plus the TypeScript version that @angular/compiler-cli's peer range
@@ -15,7 +15,7 @@ const [major, ...dirs] = process.argv.slice(2);
 
 if (!major || !/^\d+$/.test(major) || dirs.length === 0) {
   console.error(
-    "Usage: node examples/scripts/pin-angular.mjs <major> <workspace-dir> [more-dirs...]",
+    "Usage: node framework-examples/scripts/pin-angular.mjs <major> <workspace-dir> [more-dirs...]",
   );
   process.exit(1);
 }

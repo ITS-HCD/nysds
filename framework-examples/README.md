@@ -30,13 +30,13 @@ Build the monorepo once, then build and test the app:
 
 ```sh
 npm run build:all              # or at minimum: npm run cem && npm run build:packages && npm run build:frameworks
-npm run build -w examples/react-vite
-npm run test -w examples/react-vite
+npm run build -w framework-examples/react-vite
+npm run test -w framework-examples/react-vite
 ```
 
 The `test` script starts the app's production server through
-Playwright's `webServer`. Use `npm run dev -w examples/<app>` for a dev
-server. `examples/angular-app` also has `npm run test:zoneless`, which
+Playwright's `webServer`. Use `npm run dev -w framework-examples/<app>` for a dev
+server. `framework-examples/angular-app` also has `npm run test:zoneless`, which
 runs the same suite against the zoneless build that `build` produces.
 
 Install Playwright's browser once per machine:
@@ -47,7 +47,7 @@ npx playwright install chromium
 
 ## Version matrix
 
-CI reads `examples/matrix.json` and runs every app at every listed
+CI reads `framework-examples/matrix.json` and runs every app at every listed
 framework version. To add or bump a version, edit that file — the
 workflow (`.github/workflows/frameworks.yaml`) expands it into jobs.
 
@@ -55,13 +55,13 @@ To reproduce a matrix cell locally:
 
 ```sh
 # React 18 in the react-vite app
-npm i -w examples/react-vite react@18.3 react-dom@18.3 @types/react@18 @types/react-dom@18
+npm i -w framework-examples/react-vite react@18.3 react-dom@18.3 @types/react@18 @types/react-dom@18
 
 # Vue 3.4 in the vue-vite app
-npm i -w examples/vue-vite vue@3.4
+npm i -w framework-examples/vue-vite vue@3.4
 
 # Angular 22 in the angular-app
-node examples/scripts/pin-angular.mjs 22 examples/angular-app
+node framework-examples/scripts/pin-angular.mjs 22 framework-examples/angular-app
 ```
 
 `pin-angular.mjs` installs every `@angular/*` package the app uses at

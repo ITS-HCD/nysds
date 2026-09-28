@@ -1,7 +1,7 @@
 /*
  * Example-app presentation not covered by an NYSDS utility class.
- * Keep this block identical across examples/react-vite, examples/vue-vite,
- * examples/next-app, examples/angular-app, and examples/angular-ngmodule.
+ * Keep this block identical across framework-examples/react-vite, framework-examples/vue-vite,
+ * framework-examples/next-app, framework-examples/angular-app, and framework-examples/angular-ngmodule.
  */
 .app-readout {
   background: var(--nys-color-surface-raised);
