@@ -1348,7 +1348,7 @@ export class NysUnavHeader extends NysElement {
                         ${isCurrent || !lang.nativeText
                           ? nothing
                           : html`<span
-                              class="nys-unavheader__languagelink-var"
+                              class="nys-unavheader__languagelink--var"
                               lang="${this._locale}"
                               >${lang.nativeText}</span
                             >`}
