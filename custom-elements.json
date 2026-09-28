@@ -199,6 +199,18 @@
               "code": "<h2>Fishing licenses</h2>\n<nys-accordion headingLevel=\"h3\">\n<nys-accordionitem heading=\"Who needs a license?\">\n<p>Anyone 16 or older fishing in New York State freshwater.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"How long is a license valid?\">\n<p>Annual licenses are valid for 365 days from the date of purchase.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use accordions for FAQs on state services like DMV procedures or benefits information.",
+            "Break up long program descriptions or supplemental details (such as optional steps, extra instructions, or secondary eligibility notes) into manageable sections without overwhelming the reader.",
+            "Label headings clearly so users understand the content before expanding.",
+            "Consider accordions in mobile layouts to keep pages compact while still allowing access to full details."
+          ],
+          "usagedonts": [
+            "Hide time-sensitive deadlines, required steps, or critical eligibility criteria in a collapsed section. Keep essential information visible by default.",
+            "Use vague or unclear headings that make it hard to know what is inside.",
+            "Overuse accordions for content that is short enough to display fully on the page.",
+            "Use an accordion when users need to compare details from multiple sections at once. Consider a table or side-by-side layout instead."
           ]
         }
       ],
@@ -873,6 +885,29 @@
               "code": "<nys-alert\nheading=\"Alert with links\"\nprimaryLabel=\"{primaryAction}\"\nsecondaryLabel=\"{secondaryAction}\"\nprimaryAction=\"https://www.ny.gov/\"\nsecondaryAction=\"https://www.ny.gov/\"\n></nys-alert>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Communicate important, time-sensitive information to users in a visually prominent way.",
+            "Use for messages such as success notifications, danger alerts, warnings, or informational updates.",
+            "Use for dismissible or temporary alerts when the message is not critical to user workflow.",
+            "Use the appropriate theme (e.g., info, success, warning, or danger) to match the intent of the alert.",
+            "Use the dismissible property for non-critical alerts.",
+            "Keep the alert content concise and focused on the message.",
+            "Limit alerts to one per page.",
+            "Use success type to confirm a positive system status to users such as saving a form.",
+            "Use danger type to display system status error messages.",
+            "Only use emergency for real emergencies (e.g., missing person, severe weather). Remember to swap icon if a more relevant one exists."
+          ],
+          "usagedonts": [
+            "Use alerts for information that is not time-sensitive or critical; consider using an inline message instead.",
+            "Use alerts for repetitive or non-actionable content that could frustrate users.",
+            "Remove the left icon, it is required for accessibility.",
+            "Use alerts to highlight actions that should be clear in the UI itself.",
+            "Use error messages to communicate form field validation issues; use field error states instead.",
+            "Include more than two link actions in an alert.",
+            "Overuse alerts for low-priority info. This can desensitize users.",
+            "Use alerts as toasts. Place them at the top of the page content.",
+            "Add any shadows to alerts."
           ]
         }
       ],
@@ -1233,6 +1268,20 @@
               "code": "<nys-avatar lazy></nys-avatar>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use for clear, simple user or entity representation in UIs such as profiles, account settings, or comment threads.",
+            "Prefer showing the full name next to the avatar on tablets and larger breakpoints.",
+            "Place the full name of the user or entity to the right of the avatar.",
+            "Ensure the text of initial avatars meets WCAG 2.1 contrast ratio against the avatar's background.",
+            "Use the `<nys-icon>` slot only when the icon prop isn't sufficient."
+          ],
+          "usagedonts": [
+            "Skip the `ariaLabel` attribute for screen reader users.",
+            "Use the `<nys-icon>` as a slot when the icon prop can satisfy your use.",
+            "Overload the avatar with unnecessary customizations or override default avatar icons unless additional context is essential. Doing so creates inconsistency across NYS interfaces.",
+            "Use an avatar when a large visual representation is needed; use a photo instead.",
+            "Replace an avatar with a simple label or text when that would communicate the information more clearly."
           ]
         }
       ],
@@ -1412,6 +1461,18 @@
               "lang": "html",
               "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             }
+          ],
+          "usagedos": [
+            "Place exactly one `<nys-backtotop>` per page, above the `<nys-globalfooter>` in your markup.",
+            "Use on long-form content pages such as state policy documents, agency service directories, program eligibility guides, extensive search results, or data tables.",
+            "Set `position=\"left\"` when the bottom-right corner is occupied by another floating element, such as a chatbot button.",
+            "Let the component manage its own visibility. The auto-show behavior activates after 1.5 viewport heights on pages that are at least 4 screens tall."
+          ],
+          "usagedonts": [
+            "Don't add multiple `<nys-backtotop>` components to a single page.",
+            "Don't use on pages where content fits within a single viewport without scrolling.",
+            "Don't use if your page already has anchor-based in-page navigation such as a table of contents. A back-to-top button is likely redundant.",
+            "Don't set `visible` in production unless you have a specific reason to override the auto-show behavior. Forcing visibility on short pages creates unnecessary clutter."
           ]
         }
       ],
@@ -1813,6 +1874,24 @@
               "code": "<nys-badge intent=\"warning\" label=\"Caution\" prefixIcon srText=\"concern\"></nys-badge>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Indicate the status of an item, such as \"new\", \"updated\", or \"beta\".",
+            "Provide additional context or information about an item without cluttering the interface.",
+            "Keep badge labels short -- one or two words like \"New\", \"Beta\", or \"Updated\".",
+            "Use the `intent` property to match the badge's visual style to its meaning (e.g., `success` for positive statuses, `warning` for caution).",
+            "Place badges near the element they describe so the relationship is clear.",
+            "Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.",
+            "Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis."
+          ],
+          "usagedonts": [
+            "Use badges when the information is too complex to be conveyed in a small badge.",
+            "Use badges when they would not add significant value to the user experience.",
+            "Use badges as interactive elements -- they are not buttons or links.",
+            "Pack long sentences or multiple values into a single badge label.",
+            "Mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.",
+            "Rely on color alone to convey meaning; always include a text label.",
+            "Stack multiple badges on a single element unless each communicates a distinct, necessary status."
           ]
         }
       ],
@@ -2295,6 +2374,19 @@
               "code": "<nys-breadcrumbs disabled>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li><a href=\"/tickets\">Ticket System</a></li>\n<li>Del Water Gap</li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on pages at level 2 and deeper in a site hierarchy. If a level 2 page has child pages, all pages starting at that level should include a breadcrumb.",
+            "Place breadcrumb below the header and above the main content.",
+            "Show the site hierarchy, not the path a user took.",
+            "For the home page of a site, use a specific label rather than a generic \"Home.\" This differentiates the main site home from other landing pages (e.g., \"myBenefits Home\" instead of just \"Home\")."
+          ],
+          "usagedonts": [
+            "Use on top-level pages, or on sites with only one or two levels of hierarchy.",
+            "Make the current page clickable.",
+            "Use breadcrumbs as the only navigation method.",
+            "Use breadcrumbs for sequential processes like multi-step forms or wizards. Use a stepper instead.",
+            "Add breadcrumbs when they don't provide meaningful context or navigation value."
           ]
         }
       ],
@@ -3115,6 +3207,21 @@
               "code": "<nys-button\nlabel=\"Here's how you know\"\nariaExpanded=\"false\"\nariaControls=\"trust-bar\"\n></nys-button>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use for the most important actions you want users to take, such as \"Download\", \"Sign up\", or \"Log out\".",
+            "Use `variant=\"fill\"` for the primary action on the page. There should be only one primary action per page.",
+            "Use `variant=\"outline\"` for secondary actions, placed next to the primary Fill button.",
+            "Use `variant=\"ghost\"` buttons for additional actions beyond primary and secondary.",
+            "Use `variant=\"text\"` buttons when an action needs to appear within a text block. If clicking takes the user somewhere else, use a Link instead.",
+            "Always set the `type` attribute (`submit`, `button`, or `reset`). The default is `button`.",
+            "Use sentence case for button labels, only capitalizing the first word.",
+            "Place a `chevron_down icon` on the right for buttons that open a dropdown."
+          ],
+          "usagedonts": [
+            "Use buttons for navigation. Use an `<a>` element or Text button for links that take users somewhere else.",
+            "Use icons in buttons without a text label. Very few icons are universally understood.",
+            "Create custom button styles (color, shape, size). Consistency helps users recognize buttons and predict behavior."
           ]
         }
       ],
@@ -3717,6 +3824,26 @@
               "code": "<div class=\"nys-grid-row nys-grid-gap\" style=\"--nys-card-height: 100%\">\n<div\nclass=\"nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex\"\n>\n<nys-card\nheading=\"Roosevelt Island Four Freedoms State Park\"\ndescription=\"A memorial park on Roosevelt Island dedicated to Franklin D. Roosevelt, featuring sweeping lawns, formal gardens, and panoramic views of the Manhattan and Queens waterfronts on all sides.\"\n>\n<img slot=\"media\" src=\"/assets/images/card/manhattan.png\" role=\"presentation\" />\n<nys-button slot=\"footer\" label=\"Visit Manhattan\" fullWidth></nys-button>\n</nys-card>\n</div>\n<div\nclass=\"nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex\"\n>\n<nys-card heading=\"Astoria Park\" description=\"A waterfront park.\">\n<img slot=\"media\" src=\"/assets/images/card/astoria.jpg\" role=\"presentation\" />\n<nys-button slot=\"footer\" label=\"Visit Queens\" fullWidth></nys-button>\n</nys-card>\n</div>\n<div\nclass=\"nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4 nys-display-flex\"\n>\n<nys-card heading=\"Brooklyn Bridge Park\" description=\"A park.\">\n<img slot=\"media\" src=\"/assets/images/card/brooklynbridge.png\" role=\"presentation\" />\n<nys-button slot=\"footer\" label=\"Visit Brooklyn\" fullWidth></nys-button>\n</nys-card>\n</div>\n</div>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use a card to group content and actions about a single subject, such as one program, event, or news item.",
+            "Set `headingLevel` so the card heading fits the surrounding page hierarchy.",
+            "Keep headings short and specific, so a card is understandable on its own.",
+            "Put actions in the `footer` slot as real buttons or links.",
+            "Use `href` or `onClick` when the whole card leads to one destination or performs one action, and add an icon to the footer slot so the interaction is visible.",
+            "Keep cards in the same group consistent in structure, so they are easy to scan and compare.",
+            "Repeat any information shown in the `media` or the `media-accent` slot in the card's text.",
+            "Place each card in a grid column to control its width, and set `--nys-card-height: 100%` when a row of cards should share one height."
+          ],
+          "usagedonts": [
+            "Use a card as a substitute for a page section heading or for content that belongs in the page flow.",
+            "Put buttons, links, or other interactive elements in the slots of a card that has `href` or a click handler. That card is already a single control.",
+            "Set both `href` and a click handler on the same card.",
+            "Put more than one primary action in a card.",
+            "Rely on the `media` image or the `media-accent` slot to convey information that appears nowhere else.",
+            "Mix `elevated` and non-elevated cards within the same group.",
+            "Skip heading levels to get a particular text size. Use `headingLevel` for structure, not for styling.",
+            "Use cards for long-form content that a user needs to read in order."
           ]
         }
       ],
@@ -4423,6 +4550,17 @@
               "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" checked></nys-checkbox>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use for binary decisions (agree/disagree), confirmation, or multi-select lists.",
+            "Use for selecting multiple options from a list of up to 10 choices.",
+            "Use `nys-checkboxgroup` to group checkboxes with a shared label and description."
+          ],
+          "usagedonts": [
+            "Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a <nys-select> for 7 or more.",
+            "Use a checkbox when changing its state immediately affects the system. Use a `<nys-toggle>` instead (e.g., enabling Dark Mode).",
+            "Use when you have more than 10 options to choose from.",
+            "Change the state of one checkbox based on another being clicked."
           ]
         }
       ],
@@ -5742,7 +5880,16 @@
             }
           ],
           "tagName": "nys-combobox",
-          "customElement": true
+          "customElement": true,
+          "usagedos": [
+            "Use when there are more than 15 options to choose from.",
+            "Use when screen real estate is limited.",
+            "Use when users can predict or recognize the value they're looking for."
+          ],
+          "usagedonts": [
+            "Use when the number of options is small. Use `<nys-select>` or `<nys-radiobutton>` instead.",
+            "Use when options are unfamiliar to users and browsing the full list is necessary."
+          ]
         }
       ],
       "exports": [
@@ -6619,6 +6766,20 @@
               "code": "<nys-datepicker\nlabel=\"Start Date\"\noptional>\n</nys-datepicker>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use when users need to select a single calendar date, such as scheduling an appointment or choosing a filing deadline, especially when the day of the week matters.",
+            "Set the `label` property to clearly describe what date is being collected. Every datepicker needs one for accessibility.",
+            "Add `description` text to specify the expected format or provide context.",
+            "Set `required` when the date is mandatory for form submission; don't set both `required` and `optional` on the same component.",
+            "Use `startDate` to open the calendar to a relevant month when the expected date is far from today.",
+            "Pass date values as ISO strings (`\"YYYY-MM-DD\"`) rather than `Date` objects to avoid timezone issues."
+          ],
+          "usagedonts": [
+            "Use for dates users know from memory, such as date of birth or document issue dates. A text input with separate month/day/year fields is more efficient.",
+            "Use when users need to select multiple dates or a date range, or when time selection is required alongside the date.",
+            "Rely on the calendar popup alone. Safari and mobile browsers use the native date picker instead.",
+            "Use `hideTodayButton` and `hideClearButton` together unless users must select a specific date and cannot be allowed to clear it."
           ]
         }
       ],
@@ -6752,6 +6913,15 @@
               "code": "<p>Section one content</p>\n<nys-divider subtle></nys-divider>\n<p>Section two content</p>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Ensure consistent padding/margin above and below dividers to avoid crowding.",
+            "Use the `inverted` option on dark backgrounds."
+          ],
+          "usagedonts": [
+            "Overuse dividers and clutter the interface, reducing scannability.",
+            "Use the divider to separate content appearing side bys side.",
+            "Use the `inverted` option on light backgrounds."
           ]
         }
       ],
@@ -7189,6 +7359,20 @@
               "lang": "html",
               "render": "<div style=\"margin: 200px; display: flex; justify-content: center; align-items: center;\">\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>"
             }
+          ],
+          "usagedos": [
+            "Use to display a list of 5–15 actions or links under a single trigger, such as navigation, commands, or user profile access.",
+            "Keep to 3–7 actions when possible.",
+            "Order actions by frequency or importance.",
+            "Separate destructive actions with a divider.",
+            "Use clear, specific labels (e.g., \"Profile\", \"Account Settings\", \"Sign out\")."
+          ],
+          "usagedonts": [
+            "Use for form inputs or selectable values. Use `<nys-select>` for standard selection or `<nys-combobox>` when users need to filter or search through many options.",
+            "Use when the action is always visible and frequently used. Use `<nys-button>` instead.",
+            "Use without a label or accessible description on the trigger.",
+            "Nest dropdown menus inside other dropdown menus.",
+            "Use vague labels like \"Manage\" or \"Options\"."
           ]
         }
       ],
@@ -8273,6 +8457,16 @@
               "code": "<nys-fileinput label=\"Upload a file\">\n<div slot=\"description\">Make sure the file is <strong>legible</strong></div>\n</nys-fileinput>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use when a form requires file upload, including when multiple file selection or drag-and-drop is needed."
+          ],
+          "usagedonts": [
+            "Use when uploading large files that require resumable upload logic.",
+            "Use when selecting only from camera input or other device-native features.",
+            "Use when uploading sensitive data without encryption.",
+            "Use when file preview of uploaded content is needed.",
+            "Use when file upload is not necessary for the task."
           ]
         }
       ],
@@ -8747,6 +8941,21 @@
               "code": "<!-- Names the contentinfo landmark directly instead of from the visible\nheading. Keep it distinct from nys-unavfooter's (\"New York State\"). -->\n<nys-globalfooter\nagencyName=\"Office of Information Technology Services\"\nlandmarkLabel=\"ITS\"\n></nys-globalfooter>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on every agency site and application. The Global Footer is a required page element.",
+            "Use to surface essential site-wide links such as contact information, privacy policies, accessibility statements, and related program pages.",
+            "Set `agencyName` to your agency's full official name (e.g., \"Office of Information Technology Services\").",
+            "Set `homepageLink` to make the agency name a clickable link back to your site's homepage.",
+            "Keep footer link lists concise. Group related links under `<span>` headings when you have more than 5–6 links.",
+            "Use slotted `<ul>` content for single-list links, or nested `<ul>` with `<span>` headings for multi-column layouts.",
+            "Place `<nys-globalfooter>` above `<nys-unavfooter>` and below your page content and `<nys-backtotop>`."
+          ],
+          "usagedonts": [
+            "Use for primary navigation. That belongs in `<nys-globalheader>`.",
+            "Include page-specific content or calls to action. Footer content should be relevant site-wide.",
+            "Use for statewide universal links (Agencies, Services, Counties). Those belong in `<nys-unavfooter>`, which renders below this component.",
+            "Embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security."
           ]
         }
       ],
@@ -9184,6 +9393,23 @@
               "code": "<!-- Names the banner landmark directly instead of from the visible title.\nKeep it distinct from nys-unavheader's (\"New York State\"). -->\n<nys-globalheader\nagencyName=\"Office of Information Technology Services\"\nlandmarkLabel=\"ITS\"\n></nys-globalheader>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on every agency site and application. The Global Header is a required page element.",
+            "Place below `<nys-unavheader>` when using the Universal Navigation Header.",
+            "Use `agencyName` alone for public-facing agency websites not tied to a specific application; omit it for statewide portals that aren't agency-specific.",
+            "Use `appName` for named applications (e.g., \"Employee Time Tracker\" or \"License Renewal Portal\").",
+            "Combine `appName` and `agencyName` when an application belongs to a specific agency.",
+            "Set `homepageLink` to make the header title clickable. On public-facing sites, this is the primary path back to the homepage.",
+            "Use the `user-actions` slot for authenticated applications that need log-out buttons or user profile controls.",
+            "Keep navigation link lists to 6 items or fewer. On mobile, these collapse into a full-width menu.",
+            "Add the `nysLogo` property to display the NYS brand mark for internal applications that don't require public-facing agency branding."
+          ],
+          "usagedonts": [
+            "Use `appName` for an agency name. Use the `agencyName` prop instead.",
+            "Add navigation links to application headers where users should remain focused on a task (e.g., a multi-step form).",
+            "Place secondary or utility navigation in the Global Header. Use `<nys-globalfooter>` for secondary links.",
+            "Use the `nysLogo` property on public-facing sites, instead use the `<nys-unavheader>` for statewide branding."
           ]
         }
       ],
@@ -9808,6 +10034,22 @@
               "lang": "html",
               "render": "<nys-icon name=\"favorite\" library=\"material\"></nys-icon>\n<script data-scope=\"module\">\nregisterIconLibrary(\"material\", {\nresolver: (name) =>\n`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,\nmutator: (svg) => {\nsvg.setAttribute(\"fill\", \"currentColor\");\n},\n});\n</script>"
             }
+          ],
+          "usagedos": [
+            "Use icons to draw attention to actions, help users scan for key information, or enhance recognizable common actions (e.g., search, download, share).",
+            "Pair icons with a text label—few icons are universally understood alone.",
+            "Use icons consistently: same icon and label for the same meaning throughout your app.",
+            "Use `ariaLabel` when the icon conveys meaning, so screen readers can announce its purpose.",
+            "Use icons from the NYS Design System library; if unavailable, use Google Material Symbols (rounded, unfilled).",
+            "Match icon size and color to the design system."
+          ],
+          "usagedonts": [
+            "Use an icon if its meaning isn't immediately clear—if you suspect users won't recognize it, remove it.",
+            "Use icons to compensate for unclear page hierarchy or confusing content organization.",
+            "Use standalone icons for actions—use `<nys-button>` with an icon inside instead.",
+            "Replace meaningful text with icons unless the icon is universally recognized or paired with a label.",
+            "Overuse icons—too many create visual noise and reduce focus.",
+            "Use excessive icon customization that breaks design consistency."
           ]
         }
       ],
@@ -9988,6 +10230,19 @@
               "code": "<nys-iconlist id=\"requirements\">\n<nys-iconlistitem icon=\"check_circle\">Recent pay stubs</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current rent/mortgage statement</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current property tax bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Current homeowner's insurance bill</nys-iconlistitem>\n<nys-iconlistitem icon=\"check_circle\">Social Security card</nys-iconlistitem>\n</nys-iconlist>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use an icon list to highlight key attributes, features, requirements, or metadata that help users quickly scan content.",
+            "Keep list items short and concise—ideally a single line of text or a brief phrase.",
+            "Limit the number of items shown (typically 3–5) to maintain scannability and keep the list from becoming overly dense.",
+            "Order items by importance, placing the most relevant information first.",
+            "Make sure icons add meaning and are not purely decorative. If all items use the same icon, consider whether a standard list would communicate the content just as effectively."
+          ],
+          "usagedonts": [
+            "Use an icon list when the items represent steps in a process. Use the `<nys-stepper>` instead.",
+            "Use an icon list for long descriptions, complex instructions, or content that requires hierarchy. Use standard lists or body text instead.",
+            "Mix icon styles within a single list, which makes the list harder to scan.",
+            "Place interactive controls such as buttons inside list items."
           ]
         }
       ],
@@ -10735,6 +10990,18 @@
               "lang": "html",
               "render": "<div id=\"modal-wrapper4\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal4').open = true; document.getElementById('modal-wrapper4').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal4\"\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\" onclick=\"alert('Ok, ok. You can go now.'); document.querySelector('.modal4').open = false; document.getElementById('modal-wrapper4').style.padding = '0'\"></nys-button>\n</div>\n</nys-modal>\n</div>"
             }
+          ],
+          "usagedos": [
+            "Use to confirm important actions, present focused forms (e.g., login, feedback), or require acknowledgment of alerts without navigating away from the page.",
+            "Keep content short and focused. Use a dedicated page for long or complex content.",
+            "Keep the `subheading` short and use `<p>` tags within the modal for longer information.",
+            "Use the `mandatory` prop to disable the dismiss button only when the user must make a critical decision or acknowledge essential information."
+          ],
+          "usagedonts": [
+            "Stack multiple modals.",
+            "Use for trivial information or inline status messages. Use `<nys-alert>` instead.",
+            "Use for quick hints on form fields. Use `<nys-tooltip>` instead.",
+            "Force the `mandatory` prop unnecessarily."
           ]
         }
       ],
@@ -11061,6 +11328,19 @@
               "code": "<nys-pagination currentPage=\"10\" totalPages=\"10\"></nys-pagination>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use for large result sets such as search results, data tables, or directory listings where loading everything at once would hurt performance or usability.",
+            "Use when users need to navigate to a specific part of a result set.",
+            "Set `totalPages` based on your data set and page size; update `currentPage` in response to `nys-change` events.",
+            "Don't set `currentPage` to a value greater than `totalPages`. The component clamps the value automatically, but your application logic should prevent this.",
+            "Position the pagination component below the content it controls.",
+            "Scroll users to the top of the results area when they change pages."
+          ],
+          "usagedonts": [
+            "Use when content fits on a single page (fewer than 3–4 screen heights). Show all items instead.",
+            "Use for step-based workflows where users complete tasks in order. Use `<nys-stepper>` instead.",
+            "Use for infinite-scroll patterns such as a news feed."
           ]
         }
       ],
@@ -11298,6 +11578,19 @@
               "code": "<nys-processlist\nid=\"application-steps-part1\"\naria-label=\"Application steps, part 1\"\n>\n<nys-processlistitem label=\"Gather your documents\"></nys-processlistitem>\n<nys-processlistitem label=\"Complete the application\"></nys-processlistitem>\n<nys-processlistitem label=\"Submit and await review\"></nys-processlistitem>\n</nys-processlist>\n\n<p>OK, intermission time. Get up, stretch, and drink the glass of lemonade.</p>\n\n<nys-processlist\nid=\"application-steps-part2\"\ninitialstep=\"4\"\naria-label=\"Application steps, part 2\"\n>\n<nys-processlistitem label=\"Okay let's continue\"></nys-processlistitem>\n<nys-processlistitem label=\"Wow, this might be tricky\"></nys-processlistitem>\n<nys-processlistitem label=\"Cool cool, I got this thing\"></nys-processlistitem>\n</nys-processlist>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use a process list to explain a sequence of steps a user will take, such as how to apply for a benefit or renew a license.",
+            "Keep step labels short and action-oriented, and put supporting detail in the `description`.",
+            "Give the list an accessible name with `aria-labelledby` or `aria-label` so its purpose is clear.",
+            "Use `initialstep` to continue the numbering when one process is split across multiple lists.",
+            "Keep styling consistent across all process lists on the same page."
+          ],
+          "usagedonts": [
+            "Use a process list to show a user's progress through a multi-step form. Use the [Stepper](/components/stepper/) instead.",
+            "Use a process list for items with no inherent order. Use the [Icon List](/components/iconlist/) or a standard list instead.",
+            "Number the steps yourself in the `label`. The list owns the numbering.",
+            "Place interactive controls such as buttons inside a step."
           ]
         }
       ],
@@ -13417,6 +13710,15 @@
               "title": "Error Message",
               "code": "<nys-select label=\"Select your favorite borough\" id=\"borough\" errorMessage=\"You did not select a borough\" showError>\n<option value=\"bronx\" label=\"The Bronx\"></option>\n<option value=\"brooklyn\" label=\"Brooklyn\"></option>\n<option value=\"manhattan\" label=\"Manhattan\"></option>\n<option value=\"staten_island\" label=\"Staten Island\"></option>\n<option value=\"queens\" label=\"Queens\"></option>\n</nys-select>"
             }
+          ],
+          "usagedos": [
+            "Use when a user needs to select a single item from a dropdown list.",
+            "Use the `<option>` element to define options and the native `<optgroup>` to group them."
+          ],
+          "usagedonts": [
+            "Use when users need to select multiple items. Use a checkbox group instead.",
+            "Use the custom `<nys-option>` element. It will be deprecated in the 2.0 release.",
+            "Use `<nys-select multiple>`. Use a checkbox group instead."
           ]
         }
       ],
@@ -13541,6 +13843,14 @@
               "code": "<nys-skipnav href=\"#content-area\"></nys-skipnav>\n<p id=\"content-area\">...</p>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use on pages with a large header, navigation, or other repeated content before the main section.",
+            "Ensure the `href` on `<nys-skipnav>` matches the `id` of the main content container."
+          ],
+          "usagedonts": [
+            "Use if your layout already starts with the main content and there is nothing to skip over.",
+            "Mismatch the `href` and target `id`."
           ]
         }
       ],
@@ -13945,6 +14255,14 @@
               "lang": "html",
               "render": "<div class=\"nys-grid-row\">\n<nys-stepper\nid=\"stepper\"\nname=\"stepper\"\nlabel=\"Register for Design System Office Hours\"\nclass=\"nys-desktop:nys-grid-col-3\"\n>\n<nys-step label=\"Personal Details\" href=\"/nys-stepper/personal.html\"></nys-step>\n<nys-step label=\"Team Info\" selected href=\"/nys-stepper/team.html\"></nys-step>\n<nys-step label=\"Usage Survey\" current href=\"/nys-stepper/survey.html\"></nys-step>\n<nys-step label=\"Newsletter Opt-In\" href=\"/nys-stepper/newsletter.html\"></nys-step>\n<div slot=\"actions\">\n<nys-button variant=\"outline\" label=\"Save & Exit\" fullWidth></nys-button>\n</div>\n</nys-stepper>\n<div class=\"nys-desktop:nys-grid-col-9\" id=\"nys-stepper-content\">\nLoading...\n</div>\n</div>\n<script>\ndocument.addEventListener(\"DOMContentLoaded\", async () => {\nconst stepper = document.querySelector(\"nys-stepper\");\nif (stepper?.updateComplete) await stepper.updateComplete;\nconst selectedStep = document.querySelector(\"nys-step[selected]\");\nconst href = selectedStep?.getAttribute(\"href\");\nif (!href) return;\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n\ndocument.addEventListener(\"nys-step-click\", async (e) => {\nconst href = e.detail?.href;\nif (!href) return;\ne.preventDefault();\nconst res = await fetch(href);\nif (!res.ok) return;\nconst container = document.querySelector(\"#nys-stepper-content\");\nif (container) container.innerHTML = await res.text();\n});\n</script>"
             }
+          ],
+          "usagedos": [
+            "Use for linear, ordered forms with more than 2 sections to show progress through a multi-step process.",
+            "Ensure users can navigate back to previous steps to review or change information."
+          ],
+          "usagedonts": [
+            "Use when a form has only 1 or 2 sections.",
+            "Use for forms that are nonlinear and can be completed in any order."
           ]
         }
       ],
@@ -14489,6 +14807,18 @@
               "code": "<style>\nnys-tabpanel {\n--_nys-tabpanel-background-color: var(--nys-color-theme-faint);\nborder: solid 2px var(--nys-color-theme-strong);\n--nys-button-background-color: var(--nys-color-success);\n}\n</style>\n<nys-tabgroup>\n<nys-tab label=\"Tab 1\"></nys-tab>\n<nys-tab label=\"Tab 2\"></nys-tab>\n<nys-tabpanel>\n<p>Content for tab 1</p>\n<nys-button>Click me</nys-button>\n</nys-tabpanel>\n<nys-tabpanel>\n<p>Content for tab 2</p>\n</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to organize related content into distinct sections within the same context (e.g., Overview, Specs, Reviews), especially when a page would otherwise be overwhelmingly long.",
+            "Keep tab labels short and clear, limited to 2–9 tabs and one row. Avoid wrapping.",
+            "Only one tab should ever be in the active state."
+          ],
+          "usagedonts": [
+            "Use when users need to compare information across sections simultaneously. Tabs require clicking back and forth.",
+            "Use for linear, step-by-step processes. Use a stepper instead.",
+            "Use when you only have two small pieces of content. Display them consecutively instead.",
+            "Nest tabs inside other tabs.",
+            "Use tabs for page navigation."
           ]
         }
       ],
@@ -15031,6 +15361,15 @@
               "code": "<nys-table id=\"numb-sort-test\" name=\"numb-sort-test\" sortable>\n<table>\n<caption>Testing Sorting Number Logic</caption>\n<tr><th>Number</th><th>Word Form</th></tr>\n<tr><td>1</td><td>One</td></tr>\n<tr><td>100</td><td>One Hundred</td></tr>\n<tr><td>1,000</td><td>One Thousand</td></tr>\n<tr><td>11</td><td>Eleven</td></tr>\n<tr><td>40</td><td>Forty</td></tr>\n<tr><td>5</td><td>Five</td></tr>\n</table>\n</nys-table>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to display tabular data such as statistical information or directories of locations and resources with consistent structure."
+          ],
+          "usagedonts": [
+            "Use in place of a layout grid. Table content should follow a consistent structure using headers and logical columns and rows.",
+            "Use for non-tabular content. Consider definition lists or hierarchical lists instead.",
+            "Use when cell content is long-form; table cells should be brief and scannable. If you need multiple bullet points or paragraphs in a cell, consider page headers or an accordion instead.",
+            "Add `rowspan` or `colspan` with the `sortable` property."
           ]
         }
       ],
@@ -15722,6 +16061,13 @@
               "code": "<nys-textarea label=\"Describe the incident\">\n<div slot=\"description\">Please provide details</div>\n</nys-textarea>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to collect multiple lines of open-ended text input (e.g., comments, descriptions, feedback)."
+          ],
+          "usagedonts": [
+            "Use for short or single-line input. Use `<nys-textinput>` instead.",
+            "Use when input should be selected from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead."
           ]
         }
       ],
@@ -16558,6 +16904,18 @@
               "code": "<nys-textinput id=\"search-demo\" type=\"search\" placeholder=\"Search\">\n<nys-button\nslot=\"endButton\"\nariaLabel=\"Search\"\nprefixIcon=\"search\"\nonclick=\"alert('searching for: ' + document.getElementById('search-demo').value)\"\n></nys-button>\n</nys-textinput>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to collect short, single-line, open-ended text input (e.g., names, email addresses, or short descriptions).",
+            "Use clear, concise labels that describe the expected input.",
+            "Add helper text with the `description` property for context.",
+            "Validate input live to catch errors early (e.g., invalid email formats)."
+          ],
+          "usagedonts": [
+            "Use for long or multi-line responses. Use `<nys-textarea>` instead.",
+            "Use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.",
+            "Overwhelm users with too many fields. Group related inputs.",
+            "Use placeholders as labels."
           ]
         }
       ],
@@ -16967,6 +17325,18 @@
               "code": "<nys-toggle\nlabel=\"Opt Out of emails\"\nname=\"toggle-switch\"\nvalue=\"emails\"\n>\n<p slot=\"description\">We <strong>REALLY</strong> encourage you to keep emails enabled for contact purposes.</p>\n</nys-toggle>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Provide a clear label and optional description to explain what the toggle controls.",
+            "Ensure the page clearly reflects the toggle's on/off state through visible changes.",
+            "Use when the state change will be implemented immediately."
+          ],
+          "usagedonts": [
+            "Use for forms where immediate action isn't expected. Use `<nys-checkbox>` instead.",
+            "Use for selecting one or more options from a list. Use `<nys-checkbox>` or `<nys-radiobutton>` instead.",
+            "Use for complex or multi-state choices.",
+            "Overuse for minor settings that don't affect the user experience.",
+            "Hide labels unless an accessible alternative is in place."
           ]
         }
       ],
@@ -17406,6 +17776,19 @@
               "code": "<div style=\"background-color: #1b1b1b; color: #ffffff; padding: 40px; display: flex; gap: 5px\">\n<p>Hover over the icon</p>\n<nys-tooltip\nfor=\"my-tooltip3\"\ntext=\"I am a tooltip.\"\ninverted\n>\n</nys-tooltip>\n<nys-icon id=\"my-tooltip3\" name=\"info\" size=\"3xl\"></nys-icon>\n</div>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to provide supplemental hints on form fields (e.g., explaining what \"FEIN\" means) or on icon buttons that need additional context.",
+            "Use on NYSDS form components (`<nys-textinput>`, `<nys-select>`, `<nys-checkbox>`, etc.) where the tooltip automatically renders as a hint icon next to the label.",
+            "Keep tooltip content brief and helpful.",
+            "Position tooltips so they don't block related content."
+          ],
+          "usagedonts": [
+            "Use for information critical to task completion. Use inline description text instead, as tooltips are easy to miss.",
+            "Use when content is long or includes links, actions, or structured content.",
+            "Use interactive elements such as links or buttons inside a tooltip.",
+            "Rely on tooltips when you have room to provide inline explanation.",
+            "Use when mobile users are a primary audience. Tooltips rely on hover, which is unavailable on touch devices."
           ]
         }
       ],
@@ -17516,6 +17899,17 @@
               "code": "<!-- Renames the contentinfo landmark. Keep it distinct from the agency footer's. -->\n<nys-unavfooter landmarkLabel=\"Statewide\"></nys-unavfooter>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Place the `<nys-unavfooter>` as the last element on every public-facing page, immediately after `<nys-globalfooter>`.",
+            "Use on every page of every NYS site and application. This component is required per NYS web policy, including on error pages, login screens, and landing pages.",
+            "Place as the very last element on the page, immediately after `<nys-globalfooter>`.",
+            "Use as-is with no configuration. The component handles its own content and styling."
+          ],
+          "usagedonts": [
+            "Don't use on back office applications or internal sites that are not public-facing.",
+            "Place anywhere other than the absolute bottom of the page.",
+            "Customize, restyle, or override the component's content or appearance. Consistency across all state sites is the purpose of this component."
           ]
         }
       ],
@@ -18151,6 +18545,16 @@
               "code": "<nys-unavheader id=\"my-header2\"></nys-unavheader>\n<script>\ndocument.querySelector('#my-header2').addEventListener('nys-language-select', (event) => {\nevent.preventDefault();\nconst selectedLanguage = event.detail.language.label;\n});\n</script>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Place at the top of every public-facing page.",
+            "Toggle search (`hideSearch`) and translate (`hideTranslate`) on/off depending on your needs.",
+            "Design your page so content below the header can shift down, since a statewide alert can appear at any time and adds height to the header."
+          ],
+          "usagedonts": [
+            "Use on back office applications or internal sites that are not public-facing, instead use the `<nys-globalheader>` with the `nysLogo` property applied.",
+            "Place anywhere other than the top of the page.",
+            "Modify the universal header."
           ]
         }
       ],
@@ -18482,6 +18886,20 @@
               "lang": "html",
               "render": "<style>\n.page-layout__body {\nbackground-color: var(--nys-color-white, #ffffff);\n}\n.page-layout__nav {\npadding: var(--nys-space-300, 24px) var(--nys-space-50, 4px) var(--nys-space-300, 24px) 0;\n}\n.page-layout__main {\npadding: var(--nys-space-400, 32px);\n}\n</style>\n<div>\n<nys-unavheader></nys-unavheader>\n<nys-globalheader homepageLink=\"https://ny.gov\" agencyName=\"Office of Information Technology Services\">\n<ul>\n<li><a href=\"https://its.ny.gov/services\">Services</a></li>\n<li><a href=\"https://its.ny.gov/get-help\">Help Center</a></li>\n</ul>\n</nys-globalheader>\n<div class=\"page-layout__body\">\n<div class=\"nys-grid-container nys-grid-gap-400\">\n<div class=\"nys-grid-row\">\n<div class=\"nys-desktop:nys-grid-col page-layout__nav\">\n <nys-verticalnav heading=\"NYS Design System\" headingLevel=\"h2\">\n   <ul>\n     <li><a href=\"/\">Foundations</a></li>\n     <li><a href=\"/components\">Components</a></li>\n     <li>\n       <nys-verticalnavgroup label=\"Accessibility\">\n         <ul>\n           <li><a href=\"\">WCAG Guidelines</a></li>\n           <li><a href=\"\">Screen Readers</a></li>\n           <li><a href=\"\">Color Contrast</a></li>\n         </ul>\n       </nys-verticalnavgroup>\n     </li>\n     <li>\n       <h3>Resources</h3>\n       <ul>\n         <li><a href=\"\">Design Tokens</a></li>\n         <li><a href=\"\">Utilities</a></li>\n       </ul>\n     </li>\n   </ul>\n </nys-verticalnav>\n</div>\n<main class=\"nys-desktop:nys-grid-col page-layout__main\">\n <p>Place content here.</p>\n</main>\n</div>\n</div>\n</div>\n<nys-globalfooter agencyName=\"Agency Name\" homepageLink=\"https://ny.gov\">\n<ul>\n<li><a href=\"https://\"> Privacy Policy </a></li>\n<li><a href=\"https://\"> Terms of Service </a></li>\n</ul>\n</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>\n</div>\n```"
             }
+          ],
+          "usagedos": [
+            "Use for navigation where every item links to a different page.",
+            "Use for section-level navigation within a site.",
+            "Support up to two levels of navigation: top-level links and one level of nested links.",
+            "Set `aria-current=\"page\"` on the active link so the component can apply active styles and expand the current group.",
+            "Avoid excessive use of icons, colors, or badges in navigation items."
+          ],
+          "usagedonts": [
+            "Use for in-page navigation, such as scrolling to sections on the same page.",
+            "Use for linear task flows, such as multi-step forms or wizards.",
+            "Use for filtering, tab switching, or other in-page interactions.",
+            "Nest more than one level of sub-items.",
+            "Overload with excessive use of icons, colors, or badges in navigation items."
           ]
         }
       ],
@@ -18994,6 +19412,19 @@
               "code": "<nys-video\nsize=\"sm\"\nvideourl=\"https://www.youtube.com/watch?v=TBfFzt0150Q\"\ntitleText=\"Small (width: 320-439px)\"\n></nys-video>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use when motion or audio communicates something better than text or images alone.",
+            "Keep `titleText` to 50–60 characters.",
+            "Use a clear, high-quality thumbnail so users recognize it as a video.",
+            "Maintain the default `lazy` loading for better page performance.",
+            "Reserve space for the 16:9 ratio box to prevent layout shift.",
+            "Let users choose to start the video; avoid `autoplay` unless necessary."
+          ],
+          "usagedonts": [
+            "Use video if the same message can be delivered clearly with text or a static image.",
+            "Rely on video alone to convey critical information. Always provide a text alternative.",
+            "Set `autoplay` without understanding that the video will be muted. `nys-video` enforces this automatically to protect users from unexpected noise."
           ]
         }
       ],

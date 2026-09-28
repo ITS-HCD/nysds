@@ -30,6 +30,18 @@ import styles from "./nys-tab.scss?inline";
  *   tablist and panel containers; they stay in the light DOM. Any other
  *   children remain in the default slot, rendered below the panels.
  *
+ * @usagedos
+ * - Use to organize related content into distinct sections within the same context (e.g., Overview, Specs, Reviews), especially when a page would otherwise be overwhelmingly long.
+ * - Keep tab labels short and clear, limited to 2–9 tabs and one row. Avoid wrapping.
+ * - Only one tab should ever be in the active state.
+ *
+ * @usagedonts
+ * - Use when users need to compare information across sections simultaneously. Tabs require clicking back and forth.
+ * - Use for linear, step-by-step processes. Use a stepper instead.
+ * - Use when you only have two small pieces of content. Display them consecutively instead.
+ * - Nest tabs inside other tabs.
+ * - Use tabs for page navigation.
+ *
  * @example Basic
  * ```html
  * <nys-tabgroup>

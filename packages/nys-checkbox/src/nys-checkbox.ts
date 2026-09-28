@@ -33,6 +33,17 @@ import styles from "./nys-checkbox.scss?inline";
  * @fires nys-blur - Fired when checkbox loses focus.
  * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
+ * @usagedos
+ * - Use for binary decisions (agree/disagree), confirmation, or multi-select lists.
+ * - Use for selecting multiple options from a list of up to 10 choices.
+ * - Use `nys-checkboxgroup` to group checkboxes with a shared label and description.
+ *
+ * @usagedonts
+ * - Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a <nys-select> for 7 or more.
+ * - Use a checkbox when changing its state immediately affects the system. Use a `<nys-toggle>` instead (e.g., enabling Dark Mode).
+ * - Use when you have more than 10 options to choose from.
+ * - Change the state of one checkbox based on another being clicked.
+ *
  * @example Single
  * ```html
  * <nys-checkbox label="I agree to the terms" name="terms"></nys-checkbox>

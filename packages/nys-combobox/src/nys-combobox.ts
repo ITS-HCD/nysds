@@ -44,6 +44,14 @@ interface ComboboxOption {
  * @fires nys-focus - Fired when combobox receives focus.
  * @fires nys-blur - Fired when combobox loses focus.
  *
+ * @usagedos
+ * - Use when there are more than 15 options to choose from.
+ * - Use when screen real estate is limited.
+ * - Use when users can predict or recognize the value they're looking for.
+ *
+ * @usagedonts
+ * - Use when the number of options is small. Use `<nys-select>` or `<nys-radiobutton>` instead.
+ * - Use when options are unfamiliar to users and browsing the full list is necessary.
  *
  * @example Basic
  * ```html

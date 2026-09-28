@@ -33,6 +33,18 @@ import styles from "./nys-textinput.scss?inline";
  * @fires nys-focus - Fired when input gains focus.
  * @fires nys-blur - Fired when input loses focus. Triggers validation.
  *
+ * @usagedos
+ * - Use to collect short, single-line, open-ended text input (e.g., names, email addresses, or short descriptions).
+ * - Use clear, concise labels that describe the expected input.
+ * - Add helper text with the `description` property for context.
+ * - Validate input live to catch errors early (e.g., invalid email formats).
+ *
+ * @usagedonts
+ * - Use for long or multi-line responses. Use `<nys-textarea>` instead.
+ * - Use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.
+ * - Overwhelm users with too many fields. Group related inputs.
+ * - Use placeholders as labels.
+ *
  * @example Basic
  * ```html
  * <nys-textinput label="Full Name"></nys-textinput>
