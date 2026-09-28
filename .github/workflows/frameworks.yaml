@@ -1,8 +1,8 @@
-# Framework package CI (framework-support plan, WS0 task 0.6 + WS5).
+# Framework package CI
 #
 # Builds the monorepo and checks the framework packages (@nysds/react,
-# @nysds/angular) on PRs that touch package, example, or build-script code.
-# The examples job then builds each example app against every framework
+# @nysds/angular, @nysds/vue) on PRs that touch package, example, or
+# build-script code. The examples job then builds each example app against every framework
 # version in examples/matrix.json and runs its Playwright smoke tests.
 
 name: Frameworks
