@@ -17325,6 +17325,18 @@
               "code": "<nys-toggle\nlabel=\"Opt Out of emails\"\nname=\"toggle-switch\"\nvalue=\"emails\"\n>\n<p slot=\"description\">We <strong>REALLY</strong> encourage you to keep emails enabled for contact purposes.</p>\n</nys-toggle>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Provide a clear label and optional description to explain what the toggle controls.",
+            "Ensure the page clearly reflects the toggle's on/off state through visible changes.",
+            "Use when the state change will be implemented immediately."
+          ],
+          "usagedonts": [
+            "Use for forms where immediate action isn't expected. Use `<nys-checkbox>` instead.",
+            "Use for selecting one or more options from a list. Use `<nys-checkbox>` or `<nys-radiobutton>` instead.",
+            "Use for complex or multi-state choices.",
+            "Overuse for minor settings that don't affect the user experience.",
+            "Hide labels unless an accessible alternative is in place."
           ]
         }
       ],
@@ -17764,6 +17776,19 @@
               "code": "<div style=\"background-color: #1b1b1b; color: #ffffff; padding: 40px; display: flex; gap: 5px\">\n<p>Hover over the icon</p>\n<nys-tooltip\nfor=\"my-tooltip3\"\ntext=\"I am a tooltip.\"\ninverted\n>\n</nys-tooltip>\n<nys-icon id=\"my-tooltip3\" name=\"info\" size=\"3xl\"></nys-icon>\n</div>",
               "lang": "html"
             }
+          ],
+          "usagedos": [
+            "Use to provide supplemental hints on form fields (e.g., explaining what \"FEIN\" means) or on icon buttons that need additional context.",
+            "Use on NYSDS form components (`<nys-textinput>`, `<nys-select>`, `<nys-checkbox>`, etc.) where the tooltip automatically renders as a hint icon next to the label.",
+            "Keep tooltip content brief and helpful.",
+            "Position tooltips so they don't block related content."
+          ],
+          "usagedonts": [
+            "Use for information critical to task completion. Use inline description text instead, as tooltips are easy to miss.",
+            "Use when content is long or includes links, actions, or structured content.",
+            "Use interactive elements such as links or buttons inside a tooltip.",
+            "Rely on tooltips when you have room to provide inline explanation.",
+            "Use when mobile users are a primary audience. Tooltips rely on hover, which is unavailable on touch devices."
           ]
         }
       ],
