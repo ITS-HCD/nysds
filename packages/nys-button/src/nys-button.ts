@@ -42,6 +42,21 @@ import styles from "./nys-button.scss?inline";
  * @fires nys-focus - Fired when the button receives focus.
  * @fires nys-blur - Fired when the button loses focus.
  *
+ * @usagedos
+ * - Use for the most important actions you want users to take, such as "Download", "Sign up", or "Log out".
+ * - Use `variant="fill"` for the primary action on the page. There should be only one primary action per page.
+ * - Use `variant="outline"` for secondary actions, placed next to the primary Fill button.
+ * - Use `variant="ghost"` buttons for additional actions beyond primary and secondary.
+ * - Use `variant="text"` buttons when an action needs to appear within a text block. If clicking takes the user somewhere else, use a Link instead.
+ * - Always set the `type` attribute (`submit`, `button`, or `reset`). The default is `button`.
+ * - Use sentence case for button labels, only capitalizing the first word.
+ * - Place a `chevron_down icon` on the right for buttons that open a dropdown.
+ *
+ * @usagedonts
+ * - Use buttons for navigation. Use an `<a>` element or Text button for links that take users somewhere else.
+ * - Use icons in buttons without a text label. Very few icons are universally understood.
+ * - Create custom button styles (color, shape, size). Consistency helps users recognize buttons and predict behavior.
+ *
  * @example Basic
  * ```html
  * <nys-button label="Button" variant="filled"></nys-button>

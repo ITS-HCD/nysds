@@ -208,6 +208,16 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.
  * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  *
+ * @usagedos
+ * - Place at the top of every public-facing page.
+ * - Toggle search (`hideSearch`) and translate (`hideTranslate`) on/off depending on your needs.
+ * - Design your page so content below the header can shift down, since a statewide alert can appear at any time and adds height to the header.
+ *
+ * @usagedonts
+ * - Use on back office applications or internal sites that are not public-facing, instead use the `<nys-globalheader>` with the `nysLogo` property applied.
+ * - Place anywhere other than the top of the page.
+ * - Modify the universal header.
+ *
  * @example Basic
  * ```html
  * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>

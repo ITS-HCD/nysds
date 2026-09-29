@@ -44,6 +44,19 @@ function adoptLightStyles() {
  * `aria-describedby` for supporting copy such as an intro paragraph. Because the host renders
  * in the light DOM, these native attributes work with zero component code.
  *
+ * @usagedos
+ * - Use a process list to explain a sequence of steps a user will take, such as how to apply for a benefit or renew a license.
+ * - Keep step labels short and action-oriented, and put supporting detail in the `description`.
+ * - Give the list an accessible name with `aria-labelledby` or `aria-label` so its purpose is clear.
+ * - Use `initialstep` to continue the numbering when one process is split across multiple lists.
+ * - Keep styling consistent across all process lists on the same page.
+ *
+ * @usagedonts
+ * - Use a process list to show a user's progress through a multi-step form. Use the [Stepper](/components/stepper/) instead.
+ * - Use a process list for items with no inherent order. Use the [Icon List](/components/iconlist/) or a standard list instead.
+ * - Number the steps yourself in the `label`. The list owns the numbering.
+ * - Place interactive controls such as buttons inside a step.
+ *
  * @example Basic
  * ```html
  * <nys-processlist id="application-steps">

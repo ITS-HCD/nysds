@@ -26,6 +26,20 @@ interface SpaceAvailable {
  * @summary Action menu with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-dropdownmenu
  *
+ * @usagedos
+ * - Use to display a list of 5–15 actions or links under a single trigger, such as navigation, commands, or user profile access.
+ * - Keep to 3–7 actions when possible.
+ * - Order actions by frequency or importance.
+ * - Separate destructive actions with a divider.
+ * - Use clear, specific labels (e.g., "Profile", "Account Settings", "Sign out").
+ *
+ * @usagedonts
+ * - Use for form inputs or selectable values. Use `<nys-select>` for standard selection or `<nys-combobox>` when users need to filter or search through many options.
+ * - Use when the action is always visible and frequently used. Use `<nys-button>` instead.
+ * - Use without a label or accessible description on the trigger.
+ * - Nest dropdown menus inside other dropdown menus.
+ * - Use vague labels like "Manage" or "Options".
+ *
  * @example Basic
  * ```html
  * <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
