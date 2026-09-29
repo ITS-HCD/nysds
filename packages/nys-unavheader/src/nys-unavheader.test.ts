@@ -573,15 +573,15 @@ describe("nys-unavheader", () => {
 
     const langButtons = el.shadowRoot?.querySelectorAll(
       ".nys-unavheader__languagelink",
-    ) as NodeListOf<HTMLElement & { href: string }>;
+    ) as NodeListOf<HTMLElement>;
 
-    // No translateKey: every option is a real link to its Smartling subdomain,
+    // No translateKey: every option targets its Smartling subdomain,
     // preserving whatever path/query/hash the current page already has
     const esUrl = new URL(window.location.href);
     esUrl.hostname = `es.${window.location.hostname}`;
 
-    expect(langButtons[0].href).to.equal(window.location.href);
-    expect(langButtons[1].href).to.equal(esUrl.toString());
+    expect(langButtons[0].getAttribute("href")).to.equal(window.location.href);
+    expect(langButtons[1].getAttribute("href")).to.equal(esUrl.toString());
   });
 
   it("dispatches nys-language-select with correct detail on click, and does not navigate when the event is prevented", async () => {
@@ -633,11 +633,13 @@ describe("nys-unavheader", () => {
 
     const langButtons = el.shadowRoot?.querySelectorAll(
       ".nys-unavheader__languagelink",
-    ) as NodeListOf<HTMLElement & { href: string }>;
+    ) as NodeListOf<HTMLElement>;
 
-    // An explicit per-language url always wins as a real link, even though a
-    // translateKey is configured for the rest of the menu
-    expect(langButtons[1].href).to.equal("https://www.google.com");
+    // An explicit per-language url always wins, even though a translateKey is
+    // configured for the rest of the list
+    expect(langButtons[1].getAttribute("href")).to.equal(
+      "https://www.google.com",
+    );
   });
 
   it("does not render a link and calls Localize.setLanguage when a translateKey is configured", async () => {
@@ -653,11 +655,11 @@ describe("nys-unavheader", () => {
 
     const langButtons = el.shadowRoot?.querySelectorAll(
       ".nys-unavheader__languagelink",
-    ) as NodeListOf<HTMLElement & { href: string }>;
+    ) as NodeListOf<HTMLElement>;
 
-    // With a translateKey and no per-language override, options render as
-    // plain buttons (no href) — Localize handles translation in place.
-    expect(langButtons[1].href).to.equal("");
+    // With a translateKey and no per-language override, options carry no
+    // href — Localize handles translation in place.
+    expect(langButtons[1].hasAttribute("href")).to.be.false;
 
     const calls: string[] = [];
     (window as any).Localize = {
@@ -893,9 +895,6 @@ describe("nys-unavheader", () => {
         expect(innerButton(el, id)?.getAttribute("aria-expanded"), id).to.equal(
           "false",
         );
-        expect(innerButton(el, id)?.getAttribute("aria-haspopup"), id).to.equal(
-          "menu",
-        );
       }
 
       el.languageVisible = true;
@@ -1005,28 +1004,29 @@ describe("nys-unavheader", () => {
       );
       expect(options).to.have.lengthOf(el.languages.length);
 
+      // The lang lives on the native-name span inside each option.
+      const labelOf = (option: Element) =>
+        option.querySelector("span[notranslate]");
+
       // Every option is tagged, so its label is announced in its own language
       // rather than the page's (WCAG 3.1.2).
       options.forEach((option, i) => {
         const code = el.languages[i].code;
-        expect(option.getAttribute("lang"), code).to.be.a("string").and.not.be
-          .empty;
+        expect(labelOf(option)?.getAttribute("lang"), code).to.be.a("string")
+          .and.not.be.empty;
       });
 
-      // The label is slotted markup now, not an attribute: the native name in
-      // a notranslate span, with the English name in parens beside it.
-      const byLabel = (label: string) =>
-        options.find(
-          (o) =>
-            o.querySelector("span[notranslate]")?.textContent?.trim() === label,
-        );
+      const langOf = (label: string) =>
+        options
+          .map(labelOf)
+          .find((span) => span?.textContent?.trim() === label)
+          ?.getAttribute("lang");
 
-      // The codes double as Localize language codes, so the Chinese ones are
-      // not valid language tags and have to be mapped.
-      expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-cn");
-      expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-hk");
-      expect(byLabel("Español")?.getAttribute("lang")).to.equal("es");
-      expect(byLabel("Kreyòl Ayisyen")?.getAttribute("lang")).to.equal("ht");
+      // Language codes map to BCP 47 tags where they differ.
+      expect(langOf("中文")).to.equal("zh-cn");
+      expect(langOf("繁體中文")).to.equal("zh-hk");
+      expect(langOf("Español")).to.equal("es");
+      expect(langOf("Kreyòl Ayisyen")).to.equal("ht");
     });
 
     it("tags author-supplied languages from their own codes", async () => {
@@ -1042,32 +1042,25 @@ describe("nys-unavheader", () => {
       const options = Array.from(
         el.shadowRoot?.querySelectorAll(".nys-unavheader__languagelink") ?? [],
       );
-      expect(options.map((o) => o.getAttribute("lang"))).to.deep.equal([
-        "en",
-        "pt",
-      ]);
+      expect(
+        options.map((o) =>
+          o.querySelector("span[notranslate]")?.getAttribute("lang"),
+        ),
+      ).to.deep.equal(["en", "pt"]);
     });
   });
 
-  // --- Regression: #1114 / #1412 — the language list is the popup half of the
-  // APG menu button pattern the trigger already advertises, so it needs menu
-  // semantics and arrow-key navigation of its own. ---
-  describe("translate menu — APG menu button semantics", () => {
+  // --- Regression: #1114 / #1412 — the language list needs list semantics and
+  // arrow-key navigation of its own. ---
+  describe("translate list — semantics and keyboard", () => {
     const OPTION = ".nys-unavheader__languagelink";
 
     const options = (el: NysUnavHeader) =>
       Array.from(el.shadowRoot?.querySelectorAll<HTMLElement>(OPTION) ?? []);
 
-    // The menuitem role and the roving tabindex live on the real <button> inside
-    // each nys-button, not on the host — the host has no role to carry them.
-    const control = (option: HTMLElement) =>
-      option.shadowRoot?.querySelector("button");
-
-    /** Index of the option holding the menu's single tab stop. */
+    /** Index of the option holding the list's single tab stop. */
     const activeIndex = (el: NysUnavHeader) =>
-      options(el).findIndex(
-        (o) => control(o)?.getAttribute("tabindex") === "0",
-      );
+      options(el).findIndex((o) => o.getAttribute("tabindex") === "0");
 
     const settle = async (el: NysUnavHeader) => {
       await el.updateComplete;
@@ -1090,43 +1083,34 @@ describe("nys-unavheader", () => {
       await settle(el);
     };
 
-    it("gives the option list menu semantics", async () => {
+    it("gives the option list list semantics", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
 
-      const menu = el.shadowRoot?.getElementById(
+      const list = el.shadowRoot?.getElementById(
         "nys-unavheader__languagelist",
       );
-      expect(menu?.getAttribute("role")).to.equal("menu");
-      // A menu needs a name of its own; it matches the trigger that opens it.
-      expect(menu?.getAttribute("aria-label")).to.equal("Translate");
+      expect(list?.getAttribute("role")).to.equal("list");
+      // The list is named to match the trigger that opens it.
+      expect(list?.getAttribute("aria-label")).to.equal("Translate");
 
       const items = options(el);
       expect(items).to.have.lengthOf(el.languages.length);
 
       items.forEach((option, i) => {
-        // The nys-button host would otherwise sit between the menu and its items
-        // in the accessibility tree as a generic container.
-        expect(option.getAttribute("role"), `option ${i} host`).to.equal(
-          "presentation",
-        );
-        expect(control(option)?.getAttribute("role"), `option ${i}`).to.equal(
-          "menuitem",
-        );
+        expect(option.getAttribute("role"), `option ${i}`).to.equal("listitem");
       });
     });
 
-    it("keeps the open menu to a single tab stop", async () => {
+    it("keeps the open list to a single tab stop", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await open(el);
 
-      const tabIndexes = options(el).map((o) =>
-        control(o)?.getAttribute("tabindex"),
-      );
+      const tabIndexes = options(el).map((o) => o.getAttribute("tabindex"));
       // Tab enters and leaves the menu; the arrows move within it.
       expect(tabIndexes.filter((t) => t === "0")).to.have.lengthOf(1);
       expect(tabIndexes[0]).to.equal("0");
@@ -1189,7 +1173,7 @@ describe("nys-unavheader", () => {
       expect(activeIndex(el)).to.equal(0);
     });
 
-    it("jumps to either end of the menu with Home and End", async () => {
+    it("jumps to either end of the list with Home and End", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
@@ -1217,9 +1201,11 @@ describe("nys-unavheader", () => {
       if (el.shadowRoot?.activeElement !== first) return;
 
       await press(el, first, "ArrowDown");
-      // Compare ids, not elements — a failed element-to-element diff makes chai
-      // serialize the whole Lit component graph, which freezes the test page.
-      expect(el.shadowRoot?.activeElement?.id).to.equal(options(el)[1].id);
+      // Compare indexes, not elements — a failed element-to-element diff makes
+      // chai serialize the whole Lit component graph, which freezes the test page.
+      expect(
+        options(el).indexOf(el.shadowRoot?.activeElement as HTMLElement),
+      ).to.equal(1);
     });
 
     it("keeps the tab stop in range when the language list shrinks", async () => {
@@ -1237,7 +1223,7 @@ describe("nys-unavheader", () => {
       ];
       await settle(el);
 
-      // A shorter list would otherwise leave the menu with no tab stop at all.
+      // A shorter list would otherwise leave it with no tab stop at all.
       expect(activeIndex(el)).to.equal(0);
     });
 
