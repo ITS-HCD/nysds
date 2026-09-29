@@ -17831,7 +17831,7 @@
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": "ButtonElement[]"
+                  "text": "HTMLDivElement[]"
                 }
               },
               "description": "The language options, in the order they are rendered."
