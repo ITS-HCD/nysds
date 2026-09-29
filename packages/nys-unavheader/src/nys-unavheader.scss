@@ -336,9 +336,9 @@ a#nys-unavheader__logolink {
   flex-direction: column;
   justify-content: center;
   line-height: 1;
-  min-height: 3rem;
-  padding-block: 0.625rem;
-  padding-inline: 1.125rem;
+  min-height: var(--nys-space-600, 48px);
+  padding-block: var(--nys-space-100, 8px);
+  padding-inline: var(--nys-space-300, 24px);
 
   &:hover {
     background-color: var(--_nys-button-background-color--hover, #0000001a);
