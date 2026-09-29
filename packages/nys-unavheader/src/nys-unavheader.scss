@@ -341,12 +341,12 @@ a#nys-unavheader__logolink {
   padding-inline: var(--nys-space-300, 24px);
 
   &:hover {
-    background-color: var(--_nys-button-background-color--hover, #0000001a);
+    background-color: var(--nys-color-black-transparent-100, #0000001a);
     cursor: pointer;
   }
 
   &:active {
-    background-color: var(--_nys-button-background-color--active, #00000033);
+    background-color: var(--nys-color-black-transparent-200, #00000033);
   }
 
   /* Arrow keys move focus between options, so the focus ring is the only thing
