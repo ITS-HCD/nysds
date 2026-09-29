@@ -140,11 +140,12 @@ const TRANSLATE_TRIGGER_IDS = [
  * `href` is set — is the element that actually carries the button/link role, the
  * tab stop, and any ARIA; it lives in its own shadow root.
  */
-type ButtonElement = HTMLElement & { updateComplete?: Promise<unknown> };
+// type ButtonElement = HTMLElement & { updateComplete?: Promise<unknown> };
+type HTMLDivElement = HTMLElement & { updateComplete?: Promise<unknown> };
 
 /** The real control inside a `nys-button`, once it has rendered. */
-const innerControl = (button: ButtonElement): HTMLElement =>
-  button.shadowRoot?.querySelector(".nys-button") ?? button;
+const innerControl = (div: HTMLDivElement): HTMLElement =>
+  div.shadowRoot?.querySelector(".nys-unavheader__languagelink") ?? div;
 
 /**
  * Language code → BCP 47 tag for the option's `lang` attribute.
@@ -155,8 +156,8 @@ const innerControl = (button: ButtonElement): HTMLElement =>
  * option in the page's own voice — "Español" announced as English.
  */
 const LANGUAGE_TAGS: Record<string, string> = {
-  zh: "zh-Hans",
-  "zh-traditional": "zh-Hant",
+  zh: "zh-cn",
+  "zh-traditional": "zh-hk",
 };
 
 const languageTag = (code: string) => LANGUAGE_TAGS[code] ?? code;
@@ -201,11 +202,10 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * alert endpoint and renders whatever is currently published, so an emergency message
  * reaches every NYS site with no per-site work. If the endpoint is unreachable or nothing
  * is published, the header renders normally. It takes no children.
- *
  * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
  * @cssprop [--_nys-unavheader-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
  *
- * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
+ * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.
  * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  *
  * @example Basic
@@ -550,21 +550,19 @@ export class NysUnavHeader extends NysElement {
     for (const id of TRANSLATE_TRIGGER_IDS) {
       const trigger = this.shadowRoot?.getElementById(
         id,
-      ) as ButtonElement | null;
+      ) as HTMLDivElement | null;
       if (!trigger) continue;
 
       // The inner button only exists once nys-button has rendered. aria-expanded
       // and aria-controls travel through nys-button's ariaExpanded/ariaControls
       // props; only aria-haspopup has no prop equivalent yet.
-      await trigger.updateComplete;
-      innerControl(trigger).setAttribute("aria-haspopup", "menu");
     }
   }
 
   /** The language options, in the order they are rendered. */
-  private _languageOptions(): ButtonElement[] {
+  private _languageOptions(): HTMLDivElement[] {
     return Array.from(
-      this.shadowRoot?.querySelectorAll<ButtonElement>(
+      this.shadowRoot?.querySelectorAll<HTMLDivElement>(
         `.${LANGUAGE_OPTION_CLASS}`,
       ) ?? [],
     );
@@ -583,11 +581,8 @@ export class NysUnavHeader extends NysElement {
     // A shorter `languages` array can leave the tab stop past the end of the menu
     if (this._activeOption > options.length - 1) this._activeOption = 0;
 
-    await Promise.all(options.map((option) => option.updateComplete));
-
     options.forEach((option, index) => {
       const control = innerControl(option);
-      control.setAttribute("role", "menuitem");
       // Exactly one tab stop: Tab enters and leaves the menu, arrows move within it
       control.setAttribute(
         "tabindex",
@@ -934,7 +929,7 @@ export class NysUnavHeader extends NysElement {
   }
 
   private _handleOptionKeydown(e: KeyboardEvent) {
-    const current = this._languageOptions().indexOf(e.target as ButtonElement);
+    const current = this._languageOptions().indexOf(e.target as HTMLDivElement);
     if (current < 0) return;
 
     switch (e.key) {
@@ -1308,6 +1303,7 @@ export class NysUnavHeader extends NysElement {
                           label="Translate"
                           ariaControls="${LANGUAGE_LIST_ID}"
                           ariaExpanded="${this.languageVisible}"
+                          ariaHasPopup="menu"
                           size="sm"
                           prefixIcon="language"
                           suffixIcon=${this.languageVisible
@@ -1320,8 +1316,8 @@ export class NysUnavHeader extends NysElement {
                       `
                     : null}
                   <div
+                    role="list"
                     id="${LANGUAGE_LIST_ID}"
-                    role="menu"
                     aria-label="${LANGUAGE_MENU_LABEL}"
                     class="nys-unavheader__languagelist ${this.languageVisible
                       ? "show"
@@ -1331,23 +1327,34 @@ export class NysUnavHeader extends NysElement {
                       const isCurrent =
                         languageTag(lang.code) ===
                         document.documentElement.lang;
-                      return html`<nys-button
-                        role="presentation"
-                        variant="ghost"
-                        fullWidth
-                        lang="${languageTag(lang.code)}"
+                      return html`<div
+                        role="listitem"
                         class="${LANGUAGE_OPTION_CLASS}"
                         href=${ifDefined(this._languageHref(lang))}
                         @click="${(e: Event) =>
                           this._handleLanguageSelect(e, lang)}"
+                        @keydown="${(e: KeyboardEvent) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            this._handleLanguageSelect(e, lang);
+                          }
+                        }}"
                       >
-                        <span notranslate>${lang.label}</span>
-                        ${isCurrent || !lang.nativeText
+                        <span
+                          class="nys-unavheader__languagelink--abs"
+                          lang="${languageTag(lang.code)}"
+                          notranslate
+                        >
+                          ${lang.label}
+                        </span>
+                        <!--${isCurrent || !lang.nativeText
                           ? nothing
-                          : html`<span lang="${this._locale}"
-                              >&nbsp;(${lang.nativeText})</span
-                            >`}
-                      </nys-button>`;
+                          : html`<span
+                              class="nys-unavheader__languagelink--var"
+                              lang="${this._locale}"
+                              >${lang.nativeText}</span
+                            >`}-->
+                      </div>`;
                     })}
                   </div>
                 </div>`
