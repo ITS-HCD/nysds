@@ -342,6 +342,7 @@ a#nys-unavheader__logolink {
 
   &:hover {
     background-color: var(--_nys-button-background-color--hover, #0000001a);
+    cursor: pointer;
   }
 
   &:active {
