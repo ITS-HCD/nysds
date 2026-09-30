@@ -175,11 +175,13 @@ export default {
     // Keep dependencies, generated framework output, and example apps out of
     // the manifest. A prior branch shipped a manifest polluted with
     // packages/angular/node_modules paths; these guards prevent a repeat.
+    // packages/vue/** covers the generated src/generated/*.ts wrappers.
     // packages/react/** also covers the generated nysds-jsx.d.ts, which used
     // to cause circular references when analyzed.
     "**/node_modules/**",
     "**/packages/react/**",
     "**/packages/angular/**",
+    "**/packages/vue/**",
     "**/packages/codegen/**",
     "**/framework-examples/**",
   ],
