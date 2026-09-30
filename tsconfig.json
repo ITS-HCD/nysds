@@ -28,6 +28,18 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true
 	},
-	"include": ["src/**/*", "packages/**/*", "src/scripts/custom-elements-manifest.config.mjs"],
-	"exclude": ["**/*.stories.ts", "**/*.styles.ts", "**/*.test.ts", "node_modules", "dist", "storybook-static", "coverage"]
+	"include": [
+		"src/**/*",
+		"packages/**/*",
+		"src/scripts/custom-elements-manifest.config.mjs"
+	],
+	"exclude": [
+		"**/*.stories.ts",
+		"**/*.styles.ts",
+		"**/*.test.ts",
+		"node_modules",
+		"dist",
+		"storybook-static",
+		"coverage"
+	]
 }
