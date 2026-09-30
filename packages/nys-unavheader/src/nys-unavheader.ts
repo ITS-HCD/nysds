@@ -1352,11 +1352,11 @@ export class NysUnavHeader extends NysElement {
                           this._handleLanguageSelect(e, lang)}"
                       >
                         <span notranslate>${lang.label}</span>
-                        ${isCurrent || !lang.nativeText
+                        <!--${isCurrent || !lang.nativeText
                           ? nothing
                           : html`<span lang="${this._locale}"
                               >&nbsp;(${lang.nativeText})</span
-                            >`}
+                            >`}-->
                       </nys-button>`;
                     })}
                   </div>
