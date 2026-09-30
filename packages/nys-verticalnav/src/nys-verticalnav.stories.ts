@@ -3,7 +3,6 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-verticalnav";
 import "./nys-verticalnavgroup";
 import "@nysds/nys-accordion";
-import "@nysds/nys-button";
 import "@nysds/nys-divider";
 import "@nysds/nys-globalfooter";
 import "@nysds/nys-globalheader";

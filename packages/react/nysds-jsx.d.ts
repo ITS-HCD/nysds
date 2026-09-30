@@ -1267,7 +1267,7 @@ unnamed. */
   /** The list of languages this site can be translated to, default to use Localize */
   languages?: Language[];
 
-  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration. */
+  /** Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect. */
   "onnys-language-select"?: (e: CustomEvent<never>) => void;
   /** Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect. */
   "onnys-search-submit"?: (e: CustomEvent<never>) => void;
@@ -2008,7 +2008,7 @@ export type CustomElements = {
    *
    *
    * ### **Events:**
-   *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.
+   *  - **nys-language-select** - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
    * - **nys-search-submit** - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
    *
    * ### **CSS Properties:**
