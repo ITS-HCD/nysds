@@ -141,11 +141,11 @@ const TRANSLATE_TRIGGER_IDS = [
  * tab stop, and any ARIA; it lives in its own shadow root.
  */
 // type ButtonElement = HTMLElement & { updateComplete?: Promise<unknown> };
-type HTMLDivElement = HTMLElement & { updateComplete?: Promise<unknown> };
+type HTMLLinkElement = HTMLElement & { updateComplete?: Promise<unknown> };
 
 /** The real control inside a `nys-button`, once it has rendered. */
-const innerControl = (div: HTMLDivElement): HTMLElement =>
-  div.shadowRoot?.querySelector(".nys-unavheader__languagelink") ?? div;
+const innerControl = (a: HTMLLinkElement): HTMLElement =>
+  a.shadowRoot?.querySelector(".nys-unavheader__languagelink") ?? a;
 
 /**
  * Language code → BCP 47 tag for the option's `lang` attribute.
@@ -550,7 +550,7 @@ export class NysUnavHeader extends NysElement {
     for (const id of TRANSLATE_TRIGGER_IDS) {
       const trigger = this.shadowRoot?.getElementById(
         id,
-      ) as HTMLDivElement | null;
+      ) as HTMLLinkElement | null;
       if (!trigger) continue;
 
       // The inner button only exists once nys-button has rendered. aria-expanded
@@ -560,9 +560,9 @@ export class NysUnavHeader extends NysElement {
   }
 
   /** The language options, in the order they are rendered. */
-  private _languageOptions(): HTMLDivElement[] {
+  private _languageOptions(): HTMLLinkElement[] {
     return Array.from(
-      this.shadowRoot?.querySelectorAll<HTMLDivElement>(
+      this.shadowRoot?.querySelectorAll<HTMLLinkElement>(
         `.${LANGUAGE_OPTION_CLASS}`,
       ) ?? [],
     );
@@ -929,7 +929,9 @@ export class NysUnavHeader extends NysElement {
   }
 
   private _handleOptionKeydown(e: KeyboardEvent) {
-    const current = this._languageOptions().indexOf(e.target as HTMLDivElement);
+    const current = this._languageOptions().indexOf(
+      e.target as HTMLLinkElement,
+    );
     if (current < 0) return;
 
     switch (e.key) {
@@ -1327,7 +1329,7 @@ export class NysUnavHeader extends NysElement {
                       const isCurrent =
                         languageTag(lang.code) ===
                         document.documentElement.lang;
-                      return html`<div
+                      return html`<a
                         role="listitem"
                         class="${LANGUAGE_OPTION_CLASS}"
                         href=${ifDefined(this._languageHref(lang))}
@@ -1347,14 +1349,14 @@ export class NysUnavHeader extends NysElement {
                         >
                           ${lang.label}
                         </span>
-                        <!--${isCurrent || !lang.nativeText
+                        ${isCurrent || !lang.nativeText
                           ? nothing
                           : html`<span
                               class="nys-unavheader__languagelink--var"
                               lang="${this._locale}"
                               >${lang.nativeText}</span
-                            >`}-->
-                      </div>`;
+                            >`}
+                      </a>`;
                     })}
                   </div>
                 </div>`
