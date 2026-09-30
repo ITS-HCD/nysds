@@ -31,7 +31,6 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * @element nys-unavfooter
  *
  * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
- * @cssprop [--_nys-unavfooter-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
  *
  * @usagedos
  * - Place the `<nys-unavfooter>` as the last element on every public-facing page, immediately after `<nys-globalfooter>`.
