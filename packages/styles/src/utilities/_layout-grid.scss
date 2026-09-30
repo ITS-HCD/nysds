@@ -3,6 +3,7 @@
 // Grid containers, rows, columns, gaps, and offsets
 // ============================================
 
+@use "sass:list";
 @use "sass:math";
 @use "config" as *;
 
@@ -170,7 +171,7 @@
 $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
 
 @each $suffix, $value in $spacing {
-  $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
+  $needs-responsive: list.index($responsive-gap-suffixes, $suffix) != null;
 
   @if $needs-responsive {
     // Horizontal gap
@@ -244,7 +245,7 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
 @each $bp-name, $bp-value in $breakpoints {
   @media all and (min-width: #{$bp-value}) {
     @each $suffix, $value in $spacing {
-      $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
+      $needs-responsive: list.index($responsive-gap-suffixes, $suffix) != null;
 
       @if $needs-responsive {
         // Horizontal gap

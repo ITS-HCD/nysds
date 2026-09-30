@@ -865,6 +865,208 @@ describe("nys-button internals migration", () => {
   });
 });
 
+// WS1 event contract: nys-click / nys-focus / nys-blur always bubble and
+// are composed, and nys-click never fires while disabled.
+describe("nys-button event contract", () => {
+  it("nys-click bubbles and is composed", async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div><nys-button label="Bubble"></nys-button></div>`,
+    );
+    const el = wrapper.querySelector<NysButton>("nys-button")!;
+    await el.updateComplete;
+
+    let received: Event | null = null;
+    wrapper.addEventListener("nys-click", (e) => (received = e));
+
+    el.shadowRoot!.querySelector("button")!.click();
+    await el.updateComplete;
+
+    expect(received).to.exist;
+    expect(received!.bubbles).to.be.true;
+    expect(received!.composed).to.be.true;
+  });
+
+  it("nys-focus and nys-blur bubble and are composed", async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div><nys-button label="Focus"></nys-button></div>`,
+    );
+    const el = wrapper.querySelector<NysButton>("nys-button")!;
+    await el.updateComplete;
+    const button = el.shadowRoot!.querySelector("button")!;
+
+    const focusPromise = oneEvent(wrapper, "nys-focus");
+    button.focus();
+    const focusEvent = await focusPromise;
+    expect(focusEvent.bubbles).to.be.true;
+    expect(focusEvent.composed).to.be.true;
+
+    const blurPromise = oneEvent(wrapper, "nys-blur");
+    button.blur();
+    const blurEvent = await blurPromise;
+    expect(blurEvent.bubbles).to.be.true;
+    expect(blurEvent.composed).to.be.true;
+  });
+
+  it("does not dispatch nys-click when disabled via pointer click", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Disabled" disabled></nys-button>`,
+    );
+
+    let fired = false;
+    el.addEventListener("nys-click", () => (fired = true));
+
+    // A real pointer never delivers click to a disabled native button; a
+    // synthetic dispatch does reach the handler, so this proves the
+    // component's own disabled guard.
+    el.shadowRoot!.querySelector("button")!.dispatchEvent(
+      new MouseEvent("click", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(fired).to.be.false;
+  });
+});
+
+// WS1 submit-value semantics: a form-associated custom element cannot be a
+// native submitter, so nys-button stages its value via ElementInternals only
+// for the duration of a submission it triggers, then clears it.
+describe("nys-button submit value", () => {
+  const captureSubmitData = (form: HTMLFormElement) => {
+    const captured: { data: FormData | null } = { data: null };
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      captured.data = new FormData(form);
+    });
+    return captured;
+  };
+
+  it("includes name=value in form data when this submit button triggers submission", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    try {
+      const btn = await fixture<NysButton>(
+        html`<nys-button
+          type="submit"
+          name="action"
+          value="save"
+          label="Save"
+        ></nys-button>`,
+      );
+      form.appendChild(btn);
+
+      const captured = captureSubmitData(form);
+      btn.shadowRoot!.querySelector("button")!.click();
+      await btn.updateComplete;
+
+      expect(captured.data).to.exist;
+      expect(captured.data!.get("action")).to.equal("save");
+
+      // Cleared after the submission: the value never leaks into later
+      // reads or later submissions (native submitter semantics).
+      expect(new FormData(form).get("action")).to.equal(null);
+    } finally {
+      document.body.removeChild(form);
+    }
+  });
+
+  it("does not include its value when the form is submitted another way", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    try {
+      const btn = await fixture<NysButton>(
+        html`<nys-button
+          type="submit"
+          name="action"
+          value="save"
+          label="Save"
+        ></nys-button>`,
+      );
+      form.appendChild(btn);
+
+      const captured = captureSubmitData(form);
+      form.requestSubmit(); // not triggered by the button
+      expect(captured.data).to.exist;
+      expect(captured.data!.get("action")).to.equal(null);
+    } finally {
+      document.body.removeChild(form);
+    }
+  });
+
+  it("only the clicked submit button contributes its value", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    try {
+      const saveBtn = await fixture<NysButton>(
+        html`<nys-button
+          type="submit"
+          name="action"
+          value="save"
+          label="Save"
+        ></nys-button>`,
+      );
+      const deleteBtn = await fixture<NysButton>(
+        html`<nys-button
+          type="submit"
+          name="action"
+          value="delete"
+          label="Delete"
+        ></nys-button>`,
+      );
+      form.appendChild(saveBtn);
+      form.appendChild(deleteBtn);
+
+      const captured = captureSubmitData(form);
+      deleteBtn.shadowRoot!.querySelector("button")!.click();
+      await deleteBtn.updateComplete;
+
+      expect(captured.data).to.exist;
+      expect(captured.data!.getAll("action")).to.deep.equal(["delete"]);
+    } finally {
+      document.body.removeChild(form);
+    }
+  });
+
+  it("type='reset' and type='button' never contribute a form value", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    try {
+      const resetBtn = await fixture<NysButton>(
+        html`<nys-button
+          type="reset"
+          name="reset-name"
+          value="reset-value"
+          label="Reset"
+        ></nys-button>`,
+      );
+      const plainBtn = await fixture<NysButton>(
+        html`<nys-button
+          type="button"
+          name="plain-name"
+          value="plain-value"
+          label="Plain"
+        ></nys-button>`,
+      );
+      form.appendChild(resetBtn);
+      form.appendChild(plainBtn);
+
+      resetBtn.shadowRoot!.querySelector("button")!.click();
+      plainBtn.shadowRoot!.querySelector("button")!.click();
+      await resetBtn.updateComplete;
+      await plainBtn.updateComplete;
+
+      const data = new FormData(form);
+      expect(data.get("reset-name")).to.equal(null);
+      expect(data.get("plain-name")).to.equal(null);
+    } finally {
+      document.body.removeChild(form);
+    }
+  });
+});
+
 describe("nys-button self-registration", () => {
   it("registers every nys-* element it renders", async () => {
     const el = await fixture<NysButton>(

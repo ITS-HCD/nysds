@@ -22,6 +22,14 @@ function adoptLightStyles() {
 
 const INJECTED_ATTR = "data-nys-injected";
 
+/** Detail payload for the `nys-expand` event fired by `nys-breadcrumbs`. */
+export interface NysBreadcrumbsExpandDetail {
+  id: string;
+}
+
+/** The `nys-expand` event fired by `nys-breadcrumbs`. */
+export type NysBreadcrumbsExpandEvent = CustomEvent<NysBreadcrumbsExpandDetail>;
+
 /**
  * A breadcrumb navigation trail composed of `li` elements.
  * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
@@ -34,9 +42,8 @@ const INJECTED_ATTR = "data-nys-injected";
  * @slot - One or more `li` elements defining the trail.
  *
  * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
- * @cssprop [--_nys-breadcrumbs-max-width--content] - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).
  *
- * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
+ * @fires {NysBreadcrumbsExpandEvent} nys-expand - Fired when the user clicks the ellipsis to expand the trail. Detail: `{id}`.
  *
  * @usagedos
  * - Use on pages at level 2 and deeper in a site hierarchy. If a level 2 page has child pages, all pages starting at that level should include a breadcrumb.

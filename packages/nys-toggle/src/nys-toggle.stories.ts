@@ -11,6 +11,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.\n\nUse when changing a setting takes effect immediately (e.g., dark mode, notifications).\nFor binary choices in forms that submit later, use `nys-checkbox` instead.\n\nA toggle has no validation surface: it exposes no `required`, `showError`,\nor `errorMessage` and never reports invalid state. Framework adapters (for\nexample an Angular ControlValueAccessor) must not try to sync errors to it.\n\nSetting `checked` programmatically updates the form value but does not fire\n`nys-change`; the event fires only on user interaction.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysToggle label="Enable notifications" name="notifications" value="enabled-notifications" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-toggle label="Enable notifications" name="notifications" value="enabled-notifications"></nys-toggle>\n```',
+      },
     },
   },
 };

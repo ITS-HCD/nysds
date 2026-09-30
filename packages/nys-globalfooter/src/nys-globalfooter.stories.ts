@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.\n\nPlace above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements\nto create multi-column layouts; without `<h4>`, renders as compact single section.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysGlobalFooter agencyName="Office of Information Technology Services" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-globalfooter agencyName="Office of Information Technology Services"></nys-globalfooter>\n```',
+      },
     },
   },
 };
