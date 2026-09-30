@@ -3,7 +3,9 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-dropdownmenu";
 import "./nys-dropdownmenuitem";
 import "@nysds/nys-button";
+import "@nysds/nys-combobox";
 import "@nysds/nys-icon";
+import "@nysds/nys-select";
 
 const meta: Meta = {
   title: "Components/Dropdownmenu",

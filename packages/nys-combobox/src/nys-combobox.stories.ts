@@ -5,6 +5,8 @@ import "@nysds/nys-button";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";
 import "@nysds/nys-label";
+import "@nysds/nys-radiobutton";
+import "@nysds/nys-select";
 
 const meta: Meta = {
   title: "Components/Combobox",

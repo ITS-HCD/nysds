@@ -1,7 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalfooter";
+import "@nysds/nys-backtotop";
 import "@nysds/nys-divider";
+import "@nysds/nys-globalheader";
+import "@nysds/nys-unavfooter";
 
 const meta: Meta = {
   title: "Components/Globalfooter",

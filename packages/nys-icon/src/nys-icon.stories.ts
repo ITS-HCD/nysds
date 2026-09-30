@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-icon";
+import "@nysds/nys-button";
 import { registerIconLibrary } from "./icon-library-registry";
 
 // Module-scope setup hoisted from <script data-scope="module"> blocks in

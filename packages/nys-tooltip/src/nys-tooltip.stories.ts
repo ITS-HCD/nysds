@@ -2,7 +2,10 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-tooltip";
 import "@nysds/nys-button";
+import "@nysds/nys-checkbox";
 import "@nysds/nys-icon";
+import "@nysds/nys-select";
+import "@nysds/nys-textinput";
 
 const meta: Meta = {
   title: "Components/Tooltip",

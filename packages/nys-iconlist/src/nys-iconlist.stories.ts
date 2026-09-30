@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-iconlist";
 import "./nys-iconlistitem";
 import "@nysds/nys-icon";
+import "@nysds/nys-stepper";
 
 const meta: Meta = {
   title: "Components/Iconlist",
