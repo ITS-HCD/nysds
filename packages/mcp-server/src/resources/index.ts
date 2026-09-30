@@ -8,9 +8,11 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { registerComponentResources } from "./components.js";
 import { registerTokenResources } from "./tokens.js";
 import { registerGuideResources } from "./guides.js";
+import { registerFrameworkResources } from "./frameworks.js";
 
 export function registerResources(server: McpServer): void {
   registerComponentResources(server);
   registerTokenResources(server);
   registerGuideResources(server);
+  registerFrameworkResources(server);
 }

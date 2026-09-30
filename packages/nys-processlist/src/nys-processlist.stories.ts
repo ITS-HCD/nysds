@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A process list is a component that displays a sequence of numbered steps, making it easy to communicate a multi-step process across web projects.\n\nAdd `<nys-processlistitem>` elements as children. Each item takes a `label` and an optional\n`description`. Steps are numbered by the list — from 1, or from `initialStep` — so items never\nset their own number.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysProcesslist id="application-steps">\n  <NysProcesslistitem label="Gather your documents" />\n  <NysProcesslistitem label="Complete the application" />\n  <NysProcesslistitem label="Submit and await review" />\n</NysProcesslist>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-processlist id="application-steps">\n  <nys-processlistitem label="Gather your documents"></nys-processlistitem>\n  <nys-processlistitem label="Complete the application"></nys-processlistitem>\n  <nys-processlistitem label="Submit and await review"></nys-processlistitem>\n</nys-processlist>\n```',
+      },
     },
   },
 };

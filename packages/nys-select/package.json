@@ -5,8 +5,8 @@
   "module": "dist/nys-select.js",
   "exports": {
     ".": {
-      "import": "./dist/nys-select.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/nys-select.js"
     }
   },
   "type": "module",

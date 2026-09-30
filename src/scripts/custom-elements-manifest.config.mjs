@@ -1,7 +1,12 @@
-import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
-import { customElementJsxPlugin } from "custom-element-jsx-integration";
-import { cemExamplesPlugin } from "cem-plugin-examples";
+import { cemExamplesPlugin } from "@nysds/cem-plugin-examples";
+import {
+  formControlPlugin,
+  reactPlugin,
+  angularPlugin,
+  vuePlugin,
+  depsPlugin,
+} from "@nysds/codegen/cem-plugins";
 
 // Plugin to extract custom JSDoc tags (@accessibility, @usage, etc.) from source files
 import fs from "fs";
@@ -84,7 +89,7 @@ const renderTagsPlugin = () => {
               example.render = code;
             } else {
               console.warn(
-                `[nysds-render-tags] ${mod.path}: @render "${title}" has no matching @example — skipped.`
+                `[nysds-render-tags] ${mod.path}: @render "${title}" has no matching @example — skipped.`,
               );
             }
           }
@@ -110,7 +115,7 @@ const customJsDocTagsPlugin = () => ({
 
         const classNameRegex = new RegExp(
           `(\\/\\*\\*[\\s\\S]*?\\*\\/)?\\s*export\\s+class\\s+${decl.name}`,
-          "m"
+          "m",
         );
         const match = content.match(classNameRegex);
         if (!match || !match[1]) continue;
@@ -120,7 +125,12 @@ const customJsDocTagsPlugin = () => ({
         const extractBullets = (raw) =>
           raw
             .split(/\n\s*\*\s*-\s*/)
-            .map((s) => s.replace(/^\*?\s*-?\s*/, "").replace(/\n\s*\*\s*/g, " ").trim())
+            .map((s) =>
+              s
+                .replace(/^\*?\s*-?\s*/, "")
+                .replace(/\n\s*\*\s*/g, " ")
+                .trim(),
+            )
             .filter(Boolean);
 
         // Bullet-list JSDoc tags that read to the next @tag (or end of comment)
@@ -132,7 +142,9 @@ const customJsDocTagsPlugin = () => ({
 
         for (const { tag, prop } of bulletTags) {
           const tagMatch = docComment.match(
-            new RegExp(`@${tag}\\s+([\\s\\S]*?)(?=\\n\\s*\\*?\\s*@|\\n\\s*\\*\\/)`)
+            new RegExp(
+              `@${tag}\\s+([\\s\\S]*?)(?=\\n\\s*\\*?\\s*@|\\n\\s*\\*\\/)`,
+            ),
           );
           if (tagMatch) {
             decl[prop] = extractBullets(tagMatch[1]);
@@ -143,29 +155,9 @@ const customJsDocTagsPlugin = () => ({
   },
 });
 
-const reactOpts = {
-  /** Output directory for the generated React wrappers — published separately as @nysds/react */
-  outdir: "./packages/react",
-  // ssrSafe: true, // Commented out but kept here in case we run into any issues with SSR
-  /**
-   * Path to the compiled bundle, relative to the output wrapper files.
-   * packages/react/ is two levels below the root, so ../../dist/nysds.es.js
-   * points at the built ES module. Using dist/ (not raw src/) means the import
-   * path stays stable even if files inside src/ are moved around.
-   */
-  modulePath: () => "../../dist/nysds.es.js",
-};
-
 const vscodeOpts = {
   /** Output directory to write the VSCode autocompletes to- default is the root of the project */
   outdir: "./dist/.vscode",
-};
-
-// JSX output for React-like libraries like Preact
-const jsxOpts = {
-  /** Output directory to write the VSCode autocompletes to- default is the root of the project */
-  outdir: "./packages/react",
-  fileName: "nysds-jsx.d.ts",
 };
 
 export default {
@@ -180,7 +172,18 @@ export default {
     "**/packages/styles/**",
     "**/packages/internals/**",
     "**/packages/mcp-server/**",
-    "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
+    // Keep dependencies, generated framework output, and example apps out of
+    // the manifest. A prior branch shipped a manifest polluted with
+    // packages/angular/node_modules paths; these guards prevent a repeat.
+    // packages/vue/** covers the generated src/generated/*.ts wrappers.
+    // packages/react/** also covers the generated nysds-jsx.d.ts, which used
+    // to cause circular references when analyzed.
+    "**/node_modules/**",
+    "**/packages/react/**",
+    "**/packages/angular/**",
+    "**/packages/vue/**",
+    "**/packages/codegen/**",
+    "**/framework-examples/**",
   ],
   /** Directory to output CEM to */
   outdir: "./",
@@ -196,29 +199,36 @@ export default {
       packageLinkPhase({ customElementsManifest }) {
         // Sort top-level modules
         customElementsManifest.modules.sort((a, b) =>
-          a.path.localeCompare(b.path)
+          a.path.localeCompare(b.path),
         );
 
         for (const mod of customElementsManifest.modules) {
           if (mod.declarations) {
             mod.declarations.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
 
           if (mod.exports) {
             mod.exports.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
+              (a.name || "").localeCompare(b.name || ""),
             );
           }
         }
-      }
+      },
     },
     cemExamplesPlugin(),
     renderTagsPlugin(),
+    // @nysds/codegen plugins (framework-support WS2). formControlPlugin must
+    // run before the wrapper plugins so they see declaration.formControl.
+    // strict: true — every form component carries an @formControl tag
+    // (WS1); a missing or malformed tag fails the analyze run.
+    formControlPlugin({ strict: true }),
+    reactPlugin(),
+    angularPlugin(),
+    vuePlugin(),
+    depsPlugin(),
     customElementVsCodePlugin(vscodeOpts),
-    customElementReactWrapperPlugin(reactOpts),
-    customElementJsxPlugin(jsxOpts),
   ],
   /**
    * Resolution options when using `dependencies: true`

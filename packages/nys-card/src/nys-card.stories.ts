@@ -13,6 +13,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A reusable, self-contained container that groups related content and actions\nabout a single subject into a distinct, flexible container.\n\nText content is supplied through the `preheading`, `heading`, `subheading`, and\n`description` properties. For richer content, use the `preheading`, default, and\n`footer` slots to project custom markup such as buttons, lists, or links.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<div className="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">\n  <NysCard heading="Heading" description="A short description of the card\'s subject." />\n</div>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<div class="nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3">\n  <nys-card heading="Heading" description="A short description of the card\'s subject."></nys-card>\n</div>\n```',
+      },
     },
   },
 };

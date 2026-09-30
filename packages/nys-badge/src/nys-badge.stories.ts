@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.\n\nUse badges to highlight metadata like status ("Approved"), counts ("3 new"), or categories.\nSet `intent` to apply semantic meaning. Add `prefixIcon` or `suffixIcon` as boolean for default icons,\nor pass icon name strings for custom icons.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysBadge label="Basic badge" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-badge label="Basic badge"></nys-badge>\n```',
+      },
     },
   },
 };

@@ -9,6 +9,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A horizontal rule for visual separation between content sections. The host\nelement carries `role="separator"` via ElementInternals.\n\nUse to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<p>Section one content</p>\n<NysDivider />\n<p>Section two content</p>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<p>Section one content</p>\n<nys-divider></nys-divider>\n<p>Section two content</p>\n```',
+      },
     },
   },
 };
