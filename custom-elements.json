@@ -18315,8 +18315,13 @@
           "summary": "Universal NYS header with trust bar, search, and translation. Required site-wide.",
           "examples": [
             {
-              "title": "Basic",
+              "title": "Basic - Localize",
               "code": "<nys-unavheader translateKey=\"NEf4Y5qMb9PGP\"></nys-unavheader>",
+              "lang": "html"
+            },
+            {
+              "title": "Basic - Smartling",
+              "code": "<nys-unavheader></nys-unavheader>",
               "lang": "html"
             },
             {

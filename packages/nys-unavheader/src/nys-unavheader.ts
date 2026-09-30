@@ -208,9 +208,14 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * @fires nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Localize integration.
  * @fires nys-search-submit - Fired when a search is submitted. Detail: `{query}`. Cancelable; `preventDefault()` overrides the default search redirect.
  *
- * @example Basic
+ * @example Basic - Localize
  * ```html
  * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
+ * ```
+ *
+ * @example Basic - Smartling
+ * ```html
+ * <nys-unavheader></nys-unavheader>
  * ```
  *
  * @example Hide search
