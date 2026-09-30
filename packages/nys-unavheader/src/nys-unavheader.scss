@@ -317,7 +317,6 @@ a#nys-unavheader__logolink {
 }
 
 .nys-unavheader__languagelist.show {
-  box-shadow: var(--nys-shadow-raised);
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -331,42 +330,19 @@ a#nys-unavheader__logolink {
 }
 
 .nys-unavheader__languagelink {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 1;
-  min-height: var(--nys-space-600, 48px);
-  padding-block: var(--nys-space-100, 8px);
-  padding-inline: var(--nys-space-300, 24px);
-
-  &:hover {
-    background-color: var(--nys-color-black-transparent-100, #0000001a);
-    cursor: pointer;
-  }
-
-  &:active {
-    background-color: var(--nys-color-black-transparent-200, #00000033);
-  }
+  --_nys-button-padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
+  --nys-button-color: var(--nys-color-state-blue-700, #154973);
+  --nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
+  --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
+  --_nys-button-border-radius: 0;
+  --_nys-button-justify-content: start;
 
   /* Arrow keys move focus between options, so the focus ring is the only thing
      showing which one is active. The options are full-bleed and stacked with no
      gap, so an outward ring would be drawn over its neighbors — inset it instead.
      Width and offset must stay equal and opposite. */
-  &:focus-visible {
-    outline-offset: calc(-1 * var(--nys-border-width-md, 2px));
-    outline: solid var(--_nys-button-outline-width, 2px)
-      var(--_nys-button-outline-color, #004dd1);
-  }
-}
-
-.nys-unavheader__languagelink--abs {
-  line-height: 1;
-}
-
-.nys-unavheader__languagelink--var {
-  font-size: 0.75rem;
-  line-height: 1;
+  --_nys-button-outline-width: var(--nys-border-width-md, 2px);
+  --_nys-button-outline-offset: calc(-1 * var(--nys-border-width-md, 2px));
 }
 
 /* Breakpoints using NYSDS Grid Guidelines */
@@ -507,13 +483,13 @@ a#nys-unavheader__logolink {
 /* Visually hidden text projected into icon-only nys-buttons so the real
    <button> has a discernible accessible name (axe: button-name). */
 .sr-only {
-  border: 0;
-  clip-path: inset(50%);
+  position: absolute;
+  width: 1px;
   height: 1px;
+  padding: 0;
   margin: -1px;
   overflow: hidden;
-  padding: 0;
-  position: absolute;
+  clip-path: inset(50%);
   white-space: nowrap;
-  width: 1px;
+  border: 0;
 }
