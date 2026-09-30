@@ -21,7 +21,9 @@ const overrideConfig = {
     lib: {
       fileName: () => "nys-combobox.js",
     },
-    emptyOutDir: true, // Since we're building both ES and UMD formats
+    // Never wipe dist: `tsc -b` writes the package declarations there first
+    // (repo convention; `emptyOutDir: true` here destroyed them).
+    emptyOutDir: false,
     rollupOptions: {
       output: { banner },
     },

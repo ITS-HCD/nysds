@@ -24,7 +24,7 @@
     "lit-analyze": "lit-analyzer 'src/**/*.ts'"
   },
   "dependencies": {
-{{#if formRelated}}    "@nysds/nys-label": "^{{versionNumber}}",
+{{#if (ne formControl "none")}}    "@nysds/nys-label": "^{{versionNumber}}",
     "@nysds/nys-errormessage": "^{{versionNumber}}"
 {{/if}}  },
   "devDependencies": {

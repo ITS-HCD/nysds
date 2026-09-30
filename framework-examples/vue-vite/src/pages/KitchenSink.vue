@@ -1,0 +1,251 @@
+<script setup lang="ts">
+import {
+  NysAccordion,
+  NysAccordionItem,
+  NysAlert,
+  NysAvatar,
+  NysBacktotop,
+  NysBadge,
+  NysBreadcrumbs,
+  NysButton,
+  NysCard,
+  NysCheckbox,
+  NysCheckboxgroup,
+  NysCombobox,
+  NysDatepicker,
+  NysDivider,
+  NysDropdownMenu,
+  NysDropdownMenuItem,
+  NysErrorMessage,
+  NysFileinput,
+  NysFileItem,
+  NysGlobalFooter,
+  NysGlobalHeader,
+  NysIcon,
+  NysIconlist,
+  NysIconlistitem,
+  NysLabel,
+  NysModal,
+  NysPagination,
+  NysProcesslist,
+  NysProcesslistitem,
+  NysRadiobutton,
+  NysRadiogroup,
+  NysSelect,
+  NysSkipnav,
+  NysStep,
+  NysStepper,
+  NysTab,
+  NysTabgroup,
+  NysTable,
+  NysTabpanel,
+  NysTextarea,
+  NysTextinput,
+  NysToggle,
+  NysTooltip,
+  NysUnavFooter,
+  NysUnavHeader,
+  NysVerticalnav,
+  NysVerticalnavGroup,
+  NysVideo,
+} from "@nysds/vue";
+
+/**
+ * Renders every NYSDS component once with representative props, grouped
+ * into labeled sections. The smoke test asserts that every nys-* tag on
+ * this page is a defined, upgraded custom element.
+ */
+</script>
+
+<template>
+  <NysSkipnav href="#main-content" />
+  <h1 id="main-content">Kitchen sink</h1>
+  <p>
+    Every NYSDS component rendered once through the Vue wrappers, grouped by
+    role.
+  </p>
+
+  <section>
+    <h2>Page chrome</h2>
+    <div class="nys-display-flex nys-flex-column nys-flex-gap-300">
+      <NysUnavHeader hide-translate hide-search />
+      <NysGlobalHeader app-name="Example app" agency-name="Example Agency" />
+      <NysBreadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/kitchen-sink">Kitchen sink</a></li>
+        </ol>
+      </NysBreadcrumbs>
+    </div>
+  </section>
+
+  <section>
+    <h2>Content</h2>
+    <div class="nys-display-flex nys-flex-column nys-flex-align-start nys-flex-gap-300">
+      <NysAccordion>
+        <NysAccordionItem heading="First accordion item">
+          <p>Accordion content.</p>
+        </NysAccordionItem>
+      </NysAccordion>
+
+      <div class="nys-display-flex nys-flex-align-center nys-flex-gap-200">
+        <NysAvatar initials="NY" />
+        <NysBadge label="New" />
+        <NysIcon name="close" aria-label="Close icon" />
+      </div>
+
+      <NysCard
+        heading="Card heading"
+        description="A representative card."
+        href="https://ny.gov"
+      />
+
+      <NysDivider />
+
+      <NysIconlist>
+        <NysIconlistitem v-for="n in 5" :key="n" icon="close">
+          Icon list item
+        </NysIconlistitem>
+      </NysIconlist>
+
+      <NysProcesslist>
+        <NysProcesslistitem
+          v-for="n in 5"
+          :key="n"
+          label="Step one"
+          description="Do the first thing"
+        />
+      </NysProcesslist>
+
+      <NysStepper label="Stepper">
+        <NysStep label="Step A" />
+        <NysStep label="Step B" current />
+      </NysStepper>
+
+      <NysTabgroup>
+        <NysTab id="ks-tab-1" label="First" selected />
+        <NysTab id="ks-tab-2" label="Second" />
+        <NysTabpanel id="ks-tab-1">First panel</NysTabpanel>
+        <NysTabpanel id="ks-tab-2">Second panel</NysTabpanel>
+      </NysTabgroup>
+
+      <NysTable bordered>
+        <table>
+          <thead>
+            <tr>
+              <th>Column</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Cell</td>
+            </tr>
+          </tbody>
+        </table>
+      </NysTable>
+
+      <NysVideo title-text="Example video" videourl="" />
+    </div>
+  </section>
+
+  <section>
+    <h2>Form controls</h2>
+    <div class="nys-display-flex nys-flex-column nys-flex-gap-300">
+      <NysLabel label="A standalone label" description="With a description" />
+      <NysErrorMessage show-error error-message="A representative error" />
+
+      <NysTextinput label="Text input" name="ks-text" />
+      <NysTextarea label="Textarea" name="ks-textarea" />
+      <NysSelect label="Select" name="ks-select">
+        <option value="a">Option A</option>
+        <option value="b">Option B</option>
+      </NysSelect>
+      <NysCombobox label="Combobox" name="ks-combobox">
+        <option value="one">One</option>
+        <option value="two">Two</option>
+      </NysCombobox>
+      <NysDatepicker label="Datepicker" name="ks-date" />
+      <NysCheckbox label="Checkbox" name="ks-checkbox" value="yes" />
+      <NysCheckboxgroup label="Checkbox group" name="ks-group">
+        <NysCheckbox label="Grouped checkbox" value="g1" />
+      </NysCheckboxgroup>
+      <NysRadiogroup label="Radio group" name="ks-radio">
+        <NysRadiobutton label="Radio one" value="r1" name="ks-radio" />
+        <NysRadiobutton label="Radio two" value="r2" name="ks-radio" />
+      </NysRadiogroup>
+      <NysToggle label="Toggle" name="ks-toggle" />
+      <NysFileinput label="File input" name="ks-file" />
+      <NysFileItem filename="example.pdf" />
+
+      <div class="nys-display-flex nys-flex-align-center nys-flex-gap-200">
+        <NysButton label="Primary action" />
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Feedback and overlays</h2>
+    <div class="nys-display-flex nys-flex-column nys-flex-align-start nys-flex-gap-300">
+      <NysAlert
+        heading="Informational alert"
+        text="This alert is part of the kitchen sink."
+        type="info"
+        dismissible
+      />
+
+      <NysTooltip text="Tooltip text">
+        <NysButton label="Hover me" variant="outline" />
+      </NysTooltip>
+
+      <NysButton id="ks-menu-trigger" label="Open menu" />
+      <NysDropdownMenu for="ks-menu-trigger" label="Kitchen sink menu">
+        <NysDropdownMenuItem label="Menu item" />
+      </NysDropdownMenu>
+
+      <NysModal heading="Kitchen sink modal" :open="false">
+        <p>Modal body.</p>
+      </NysModal>
+    </div>
+  </section>
+
+  <section>
+    <h2>Navigation</h2>
+    <div class="nys-display-flex nys-flex-column nys-flex-align-start nys-flex-gap-300">
+      <NysPagination :total-pages="5" :current-page="1" />
+
+      <NysVerticalnav heading="NYS Design System" heading-level="h2">
+        <ul>
+          <li><a href="/">Foundations</a></li>
+          <li><a href="/components">Components</a></li>
+          <li>
+            <NysVerticalnavGroup label="Accessibility">
+              <ul>
+                <li><a href="">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </NysVerticalnavGroup>
+          </li>
+          <li>
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="">Design Tokens</a></li>
+              <li><a href="">Utilities</a></li>
+            </ul>
+          </li>
+        </ul>
+      </NysVerticalnav>
+      <NysBacktotop />
+    </div>
+  </section>
+
+  <section>
+    <h2>Footer</h2>
+    <div class="nys-display-flex nys-flex-column nys-flex-gap-300">
+      <NysGlobalFooter agency-name="Example Agency" homepage-link="https://ny.gov" />
+      <NysUnavFooter />
+    </div>
+  </section>
+
+  <div data-testid="kitchen-sink-ready" />
+</template>
