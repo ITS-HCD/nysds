@@ -1,13 +1,9 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-textarea";
-import "@nysds/nys-checkbox";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";
 import "@nysds/nys-label";
-import "@nysds/nys-radiobutton";
-import "@nysds/nys-select";
-import "@nysds/nys-textinput";
 
 const meta: Meta = {
   title: "Components/Textarea",

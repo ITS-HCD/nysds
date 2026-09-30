@@ -4,9 +4,7 @@ import "./nys-globalheader";
 import "@nysds/nys-avatar";
 import "@nysds/nys-button";
 import "@nysds/nys-dropdownmenu";
-import "@nysds/nys-globalfooter";
 import "@nysds/nys-icon";
-import "@nysds/nys-unavheader";
 
 const meta: Meta = {
   title: "Components/Globalheader",

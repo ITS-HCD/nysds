@@ -2,7 +2,6 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-pagination";
 import "@nysds/nys-button";
-import "@nysds/nys-stepper";
 
 const meta: Meta = {
   title: "Components/Pagination",
