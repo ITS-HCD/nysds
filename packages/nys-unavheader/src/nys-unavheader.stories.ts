@@ -25,6 +25,7 @@ export const BasicLocalize: Story = {
     hideTranslate: false,
     hideSearch: false,
     searchUrl: "",
+    translateKey: "NEf4Y5qMb9PGP",
     landmarkLabel: "New York State",
   },
   render: (args) => {
