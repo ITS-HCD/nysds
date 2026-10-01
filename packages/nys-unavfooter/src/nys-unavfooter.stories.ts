@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-unavfooter";
+import "@nysds/nys-button";
 
 const meta: Meta = {
   title: "Components/Unavfooter",

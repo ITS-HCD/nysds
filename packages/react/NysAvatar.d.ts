@@ -84,5 +84,8 @@ Whitespace-only values — including a non-breaking space — count as no name. 
  *
  * ### **Slots:**
  *  - _default_ - Custom icon content. Overrides default icon when no image or initials.
+ *
+ * ### **CSS Properties:**
+ *  - **--nys-avatar-size** - Width and height of the component _(default: undefined)_
  */
 export const NysAvatar: React.ForwardRefExoticComponent<NysAvatarProps>;

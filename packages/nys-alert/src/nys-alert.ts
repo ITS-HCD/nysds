@@ -22,6 +22,13 @@ import styles from "./nys-alert.scss?inline";
  * @element nys-alert
  *
  * @slot - Default slot for custom body content. Overrides `text` prop when provided.
+ * 
+ * @cssprop [--nys-alert-color] - Text color of heading and description
+ * @cssprop [--nys-alert-color-link] - Text color of action links
+ * @cssprop [--nys-alert-color--link--hover] - Text color of action links when hovered
+ * @cssprop [--nys-alert-color--link--active] - Text color of action links when active
+ * @cssprop [--nys-alert-border-color] - Color of border accent color
+ * @cssprop [--nys-alert-background-color] - Background color of component
  *
  * @fires nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
  *

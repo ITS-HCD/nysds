@@ -496,7 +496,6 @@ export class NysDatepicker extends NysFormControlElement {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
     this._setValue(today);
-    this._setFocusOnTodayDate();
   }
 
   private async _setFocusOnTodayDate(visualFocusOnly = false) {
@@ -551,11 +550,24 @@ export class NysDatepicker extends NysFormControlElement {
     );
   }
 
+  private _closeCalendar() {
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    datepicker?.classList.remove("active");
+    this.datepickerIsOpen = false;
+    this._stopDatepickerPositioning();
+    this.removeEventListener("keydown", this._handleFocusTrap);
+  }
+
+  // We need to return focus to input after the calendar closes
+  private _focusInput() {
+    const input = this.shadowRoot?.querySelector("input");
+    input?.focus();
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
    */
-
   private _handleInputKeydown(event: KeyboardEvent) {
     if (this.disabled || this._shouldUseNativeDatepicker()) return;
 
@@ -566,8 +578,13 @@ export class NysDatepicker extends NysFormControlElement {
 
     if (event.key === "Escape" || event.code === "Escape") {
       event.preventDefault();
-      const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
-      datepicker?.classList.remove("active");
+      this._closeCalendar();
+    }
+
+    if (event.key === "Enter" || event.code === "Enter") {
+      if (this.datepickerIsOpen) {
+        this._closeCalendar();
+      }
     }
   }
 
@@ -590,9 +607,7 @@ export class NysDatepicker extends NysFormControlElement {
       this._hasUserInteracted = true;
     }
 
-    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
-    datepicker?.classList.remove("active");
-    this.datepickerIsOpen = false;
+    this._closeCalendar();
 
     this._validate();
     this.dispatchEvent(
@@ -636,14 +651,8 @@ export class NysDatepicker extends NysFormControlElement {
     event.preventDefault();
     event.stopPropagation();
 
-    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
-    datepicker?.classList.remove("active");
-    this.datepickerIsOpen = false;
-    this.removeEventListener("keydown", this._handleFocusTrap);
-
-    // Return focus to input
-    const input = this.shadowRoot?.querySelector("input");
-    input?.focus();
+    this._closeCalendar();
+    this._focusInput();
   };
 
   private _toggleDatepicker() {
@@ -669,6 +678,7 @@ export class NysDatepicker extends NysFormControlElement {
       this.addEventListener("keydown", this._handleFocusTrap);
     } else {
       this._stopDatepickerPositioning();
+      this.removeEventListener("keydown", this._handleFocusTrap);
     }
   }
 
@@ -707,19 +717,47 @@ export class NysDatepicker extends NysFormControlElement {
       this._validate();
 
       this._dispatchInputEvent();
-      datepicker.classList.remove("active");
-      this.datepickerIsOpen = false;
-      this.removeEventListener("keydown", this._handleFocusTrap);
+      this._closeCalendar();
+    });
+
+    /**
+     * wc-datepicker doesn't emit "selectDate" when the already-selected date
+     * is clicked again (no value change), so the calendar would otherwise stay
+     * open. Detect that case here and close it ourselves.
+     */
+    datepicker.addEventListener("click", (event: Event) => {
+      const cell = (event.target as HTMLElement)?.closest(
+        "td[data-date]",
+      ) as HTMLElement | null;
+      if (!cell) return;
+
+      const clickedDate = cell.getAttribute("data-date");
+      if (!clickedDate) return;
+
+      const dateValue = this._parseLocalDate(clickedDate);
+      if (this._isOutOfRange(dateValue)) return;
+
+      this._closeCalendar();
     });
   }
 
   private _handleTodayClick() {
     if (this.disabled) return;
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // If today's date is out-of-range, leave the calendar open
+    if (this._isOutOfRange(today)) {
+      return;
+    }
+
     this._setTodayDate();
     this._hasUserInteracted = true;
     this._validate();
     this._dispatchInputEvent();
+
+    this._closeCalendar();
   }
 
   private _handleClearClick() {
@@ -784,12 +822,6 @@ export class NysDatepicker extends NysFormControlElement {
     if (!this.datepickerIsOpen) return;
     if (event.key !== "Tab") return;
 
-    const calendarPopup = this.shadowRoot?.querySelector(
-      ".wc-datepicker--container",
-    ) as HTMLElement | null;
-
-    if (!calendarPopup) return;
-
     const focusableSelectors = [
       "button:not([disabled])",
       "input:not([disabled])",
@@ -799,17 +831,40 @@ export class NysDatepicker extends NysFormControlElement {
 
     const focusableElements: HTMLElement[] = [];
 
-    // Add the "Today" and "Clear" <nys-button> if they exist
-    calendarPopup.querySelectorAll<HTMLElement>("nys-button").forEach((btn) => {
-      focusableElements.push(btn);
-    });
+    // Add input to focus trap
+    const input = this.shadowRoot?.querySelector(
+      ".nys-datepicker--input",
+    ) as HTMLInputElement | null;
+    if (input && !input.disabled) {
+      focusableElements.push(input);
+    }
 
-    // Populating the focusableElements list in order of focus of the elements in wc-datepicker
-    focusableElements.push(
-      ...Array.from<HTMLElement>(
-        calendarPopup.querySelectorAll(focusableSelectors.join(",")),
-      ).filter((el) => el.offsetParent !== null),
-    );
+    // Add calendar icon button to focus trap
+    const calendarButton = this.shadowRoot?.querySelector(
+      "#calendar-button",
+    ) as HTMLButtonElement | null;
+    if (calendarButton && !calendarButton.disabled) {
+      focusableElements.push(calendarButton);
+    }
+
+    const calendarPopup = this.shadowRoot?.querySelector(
+      ".wc-datepicker--container",
+    ) as HTMLElement | null;
+    if (calendarPopup) {
+      // Add to focus trap "Today" and "Clear" <nys-button> if they exist
+      calendarPopup
+        .querySelectorAll<HTMLElement>("nys-button")
+        .forEach((btn) => {
+          focusableElements.push(btn);
+        });
+
+      // Populating the focusableElements list in order of focus of the elements in wc-datepicker
+      focusableElements.push(
+        ...Array.from<HTMLElement>(
+          calendarPopup.querySelectorAll(focusableSelectors.join(",")),
+        ).filter((el) => el.offsetParent !== null),
+      );
+    }
 
     if (focusableElements.length === 0) return;
 

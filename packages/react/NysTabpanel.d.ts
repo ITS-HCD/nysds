@@ -66,5 +66,8 @@ Reflected to the DOM attribute so `aria-controls` references on sibling
  *
  * ### **Slots:**
  *  - _default_ - Default slot for panel content. Rendered directly under the host, which is the scrollable, focusable (`tabindex="0"`) `role="tabpanel"` region.
+ *
+ * ### **CSS Properties:**
+ *  - **--nys-tabpanel-max-height** - Maximum height of the tab panel content area. _(default: undefined)_
  */
 export const NysTabpanel: React.ForwardRefExoticComponent<NysTabpanelProps>;

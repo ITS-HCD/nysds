@@ -78,5 +78,9 @@ An explicit name replaces the reference to the visible title. */
  * ### **Slots:**
  *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
  * - **user-actions** - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
+ *
+ * ### **CSS Properties:**
+ *  - **--nys-max-width--content** - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable. _(default: undefined)_
+ * - **--_nys-globalheader-max-width--content** - Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px). _(default: undefined)_
  */
 export const NysGlobalHeader: React.ForwardRefExoticComponent<NysGlobalHeaderProps>;

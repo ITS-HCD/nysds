@@ -20,11 +20,12 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Basic: Story = {
+export const BasicLocalize: Story = {
   args: {
     hideTranslate: false,
     hideSearch: false,
     searchUrl: "",
+    translateKey: "NEf4Y5qMb9PGP",
     landmarkLabel: "New York State",
   },
   render: (args) => {
@@ -33,9 +34,25 @@ export const Basic: Story = {
         ?hideTranslate=${args.hideTranslate}
         ?hideSearch=${args.hideSearch}
         searchUrl=${args.searchUrl}
+        translateKey=${args.translateKey}
         landmarkLabel=${args.landmarkLabel}
       ></nys-unavheader>
     `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const BasicSmartling: Story = {
+  render: () => {
+    return html` <nys-unavheader></nys-unavheader> `;
   },
   parameters: {
     docs: {

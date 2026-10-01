@@ -430,3 +430,86 @@ export const Downloadable: Story = {
     },
   },
 };
+
+export const SortableNumbers: Story = {
+  render: () => {
+    return html`
+      <nys-table id="numb-sort-test" name="numb-sort-test" sortable>
+        <table>
+          <caption>
+            Testing Sorting Number Logic
+          </caption>
+          <tr>
+            <th>Number</th>
+            <th>Word Form</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>One</td>
+          </tr>
+          <tr>
+            <td>100</td>
+            <td>One Hundred</td>
+          </tr>
+          <tr>
+            <td>1,000</td>
+            <td>One Thousand</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Eleven</td>
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Forty</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Five</td>
+          </tr>
+        </table>
+      </nys-table>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-table id="numb-sort-test" name="numb-sort-test" sortable>
+  <table>
+    <caption>Testing Sorting Number Logic</caption>
+    <tr>
+      <th>Number</th>
+      <th>Word Form</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>One</td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td>One Hundred</td>
+    </tr>
+    <tr>
+      <td>1,000</td>
+      <td>One Thousand</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Eleven</td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td>Forty</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Five</td>
+    </tr>
+  </table>
+</nys-table>`,
+        type: "auto",
+      },
+    },
+  },
+};

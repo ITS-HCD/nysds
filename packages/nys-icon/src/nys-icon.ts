@@ -24,6 +24,8 @@ import styles from "./nys-icon.scss?inline";
  * @summary SVG icon with swappable library support, size, rotation, and color options.
  * @element nys-icon
  *
+ * @cssprop [--nys-icon-size] - Width and height of the component
+ *
  * @example Basic
  * ```html
  * <nys-icon name="check_circle"></nys-icon>
