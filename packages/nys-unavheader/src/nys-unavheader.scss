@@ -332,6 +332,7 @@ a#nys-unavheader__logolink {
 
 .nys-unavheader__languagelink {
   box-sizing: border-box;
+  color: var(--nys-color-state-blue-700, #154973);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -339,6 +340,7 @@ a#nys-unavheader__logolink {
   min-height: var(--nys-space-600, 48px);
   padding-block: var(--nys-space-100, 8px);
   padding-inline: var(--nys-space-300, 24px);
+  text-decoration: none;
 
   &:hover {
     background-color: var(--nys-color-black-transparent-100, #0000001a);
