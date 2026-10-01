@@ -1899,10 +1899,6 @@
             {
               "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
               "name": "--nys-max-width--content"
-            },
-            {
-              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-breadcrumbs-max-width--content"
             }
           ],
           "slots": [
@@ -8782,10 +8778,6 @@
             {
               "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
               "name": "--nys-max-width--content"
-            },
-            {
-              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-globalfooter-max-width--content"
             }
           ],
           "slots": [
@@ -9041,10 +9033,6 @@
             {
               "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
               "name": "--nys-max-width--content"
-            },
-            {
-              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-globalheader-max-width--content"
             }
           ],
           "slots": [
@@ -17832,10 +17820,6 @@
             {
               "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
               "name": "--nys-max-width--content"
-            },
-            {
-              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-unavfooter-max-width--content"
             }
           ],
           "members": [
@@ -17961,10 +17945,6 @@
             {
               "description": "Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.",
               "name": "--nys-max-width--content"
-            },
-            {
-              "description": "Maximum width for the inner container. Defaults to the size's max width (e.g. 1280px).",
-              "name": "--_nys-unavheader-max-width--content"
             }
           ],
           "members": [
