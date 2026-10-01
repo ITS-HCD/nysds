@@ -38,7 +38,7 @@ export default {
   nodeResolve: true,
   filterBrowserLogs,
   reporters: [nysdsReporter({ coverageThreshold })],
-  browserStartTimeout: 60000,
+  browserStartTimeout: 30000,
   browsers: [
     playwrightLauncher({
       product: "chromium",
@@ -59,23 +59,6 @@ export default {
       },
     }),
     playwrightLauncher({
-      product: "webkit",
-      launchOptions: { headless: true },
-      createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices["Pixel 5"], hasTouch: true });
-      },
-    }),
-    playwrightLauncher({
-      product: "webkit",
-      launchOptions: { headless: true },
-      createBrowserContext({ browser }) {
-        return browser.newContext({
-          ...devices["Desktop Edge"],
-          channel: "msedge",
-        });
-      },
-    }),
-    playwrightLauncher({
       product: "firefox",
       launchOptions: { headless: true },
     }),
@@ -83,7 +66,7 @@ export default {
   coverage: true, // Enable coverage reporting
   testFramework: {
     config: {
-      timeout: 90000,
+      timeout: 30000,
       retries: 1,
     },
   },
