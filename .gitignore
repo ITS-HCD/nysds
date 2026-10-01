@@ -67,3 +67,6 @@ packages/angular/.ngbuild/
 # Example app build output. dist/ at any depth is covered by the dist/ rule.
 framework-examples/*/.angular/
 framework-examples/*/.next/
+
+# Local visual regression output
+.visual/
