@@ -2,13 +2,20 @@
 
 Angular components for the New York State Design System. Generated from the NYSDS web components library, with full support for template-driven forms, Reactive Forms, and Signal Forms.
 
-## Install
+NYSDS Angular components are true Angular components, not raw custom elements. They work with Angular's template type-checking out of the box, and `CUSTOM_ELEMENTS_SCHEMA` is not needed.
+
+## Requirements
+ 
+- Angular `>=20.0.0` (core, common, forms)
+
+## Installation
+Install the two NYSDS packages: `@nysds/angular` for the Angular-wrapped components and `@nysds/styles` for the design tokens and global CSS.
 
 ```bash
-npm install @nysds/angular
+npm install @nysds/angular @nysds/styles
 ```
 
-Peer dependencies: Angular `>=20.0.0` (core, common, forms).
+> **Note:** Both packages are versioned together. Always install matching versions to avoid token/component mismatches.
 
 ## Load styles
 
@@ -22,7 +29,7 @@ Add NYSDS styles to your `angular.json`:
         "build": {
           "options": {
             "styles": [
-              "node_modules/@nysds/styles/full.css"
+              "node_modules/@nysds/styles/dist/nysds-full.min.css"
             ]
           }
         }
@@ -38,27 +45,38 @@ Or import in your main component:
 import "@nysds/styles/full.css";
 ```
 
-## First component
-
-Import standalone components directly into your component:
-
+## Basic usage
+ 
+### Standalone components
+ 
+Import individual NYSDS components directly into your standalone component's `imports` array:
+ 
 ```typescript
 import { Component } from "@angular/core";
-import { NysTextinputComponent, NysButtonComponent } from "@nysds/angular";
-
+import { NysButtonComponent } from "@nysds/angular";
+ 
 @Component({
-  selector: "app-example",
+  selector: "app-my-component",
   standalone: true,
-  imports: [NysTextinputComponent, NysButtonComponent],
+  imports: [NysButtonComponent],
   template: `
-    <nys-textinput label="Your name"></nys-textinput>
-    <nys-button>Submit</nys-button>
+    <nys-button
+      label="Submit"
+      variant="primary"
+      (nysClick)="handleSubmit()"
+    ></nys-button>
   `,
 })
-export class ExampleComponent {}
+export class MyComponent {
+  handleSubmit() {
+    console.log("Button clicked!");
+  }
+}
 ```
 
-Or use `NysAngularModule` in an NgModule app:
+### NgModule apps
+ 
+If you're using an NgModule-based architecture, or want to import all components at once, import `NysAngularModule` into your app or feature module:
 
 ```typescript
 import { NgModule } from "@angular/core";
@@ -69,6 +87,26 @@ import { NysAngularModule } from "@nysds/angular";
   // ...
 })
 export class AppModule {}
+```
+
+### Forms integration
+ 
+Components support `ControlValueAccessor` natively, so they work with Template-driven forms (`[(ngModel)]`) and Reactive Forms (`formControlName`), including built-in form validation:
+ 
+```html
+<!-- Template-driven forms -->
+<nys-textinput
+  label="First name"
+  name="firstName"
+  [(ngModel)]="firstName"
+></nys-textinput>
+ 
+<!-- Reactive forms -->
+<nys-textinput
+  label="First name"
+  name="firstName"
+  formControlName="firstName"
+></nys-textinput>
 ```
 
 ## Inputs, outputs, and two-way binding
@@ -91,9 +129,14 @@ onEmailChange(event: NysTextinputChangeEvent) {
 }
 ```
 
-## Publishing
-
-The `dist/` directory is the publishable package root. It contains the ng-packagr output (optimized FESM bundles, type definitions, and package.json). Publishing runs from `dist/`, not from the source directory.
+### Subpath imports
+ 
+Import individual components:
+ 
+```typescript
+import { NysTextinputComponent } from "@nysds/angular/textinput";
+import { NysCheckboxComponent } from "@nysds/angular/checkbox";
+```
 
 ## Signal Forms Known Limitations
 
@@ -218,14 +261,10 @@ Or use `provideClientHydration` if registering components client-only.
 
 The component outputs use Angular's `output()` function, which integrates with zoneless change detection. Zoneless apps work without extra configuration.
 
-## Subpath imports
 
-Import individual components:
+## Publishing
 
-```typescript
-import { NysTextinputComponent } from "@nysds/angular/textinput";
-import { NysCheckboxComponent } from "@nysds/angular/checkbox";
-```
+The `dist/` directory is the publishable package root. It contains the ng-packagr output (optimized FESM bundles, type definitions, and package.json). Publishing runs from `dist/`, not from the source directory.
 
 ## License
 

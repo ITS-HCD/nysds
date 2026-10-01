@@ -9,14 +9,20 @@ web components without hand maintenance.
 
 Works with React 18 and React 19, including Next.js App Router.
 
-## Install
-
-```sh
-npm install @nysds/react
+## Requirements
+ 
+- React and React DOM `18` or `19` (peer dependencies)
+The matching `@nysds/nys-*` component packages install automatically.
+ 
+## Installation
+ 
+Install the two NYSDS packages: `@nysds/react` for the React-wrapped web components and `@nysds/styles` for the design tokens and global CSS.
+ 
+```bash
+npm install @nysds/react @nysds/styles
 ```
 
-`react` and `react-dom` (18 or 19) are peer dependencies. The matching
-`@nysds/nys-*` component packages install automatically.
+> **Note:** Both packages are versioned together. Always install matching versions to avoid token/component mismatches.
 
 ## Load styles
 
@@ -30,7 +36,17 @@ Without it, components render unstyled. `@nysds/styles` ships the
 design tokens and global styles; component-level styles live in each
 component's shadow DOM and need no extra setup.
 
-## First component
+Or reference it directly from the installed package in `index.html`:
+ 
+```html
+<link rel="stylesheet" href="node_modules/@nysds/styles/dist/nysds-full.min.css" />
+```
+
+Either way, do this once. Without it, components render unstyled. The stylesheet provides the design tokens and global styles; each component's own styles live in its shadow DOM and need no extra setup.
+ 
+## Basic usage
+ 
+Import components from `@nysds/react`. Importing a component registers its custom element as a side effect, so there is no registration step.
 
 ```tsx
 import { NysButton } from "@nysds/react";
@@ -40,65 +56,28 @@ export function Save() {
 }
 ```
 
-Importing a component registers its custom element as a side effect.
-You can also import from a subpath to keep the dependency graph narrow:
-
+To keep the dependency graph narrow, import from a subpath instead:
+ 
 ```tsx
 import { NysTextinput } from "@nysds/react/textinput";
 ```
 
-## Props, events, refs
+### Events
 
-**Props** are typed from the underlying element class and set as DOM
-properties, not attributes. Use the camelCase property names
-(`showError`, `errorMessage`), not the kebab-case attribute names.
-
-**Events** keep their full NYSDS names, mapped to `onNys*` props:
-`nys-change` becomes `onNysChange`, `nys-input` becomes `onNysInput`.
-The handler parameter is the typed event, so `e.detail` autocompletes:
-
+Events keep their NYSDS names, mapped to `onNys*` props: `nys-change` becomes `onNysChange` and `nys-input` becomes `onNysInput`. The handler receives the typed event, so `e.detail` autocompletes:
+ 
 ```tsx
 <NysTextinput
   label="First name"
   onNysInput={(e) => console.log(e.detail.value)}
 />
 ```
+ 
+There is no synthetic `onChange`. React's `onChange` prop attaches a native `change` listener, which NYSDS components don't dispatch. Use `onNysChange` or `onNysInput`.
+ 
+### Forms
 
-There is no synthetic `onChange`. React's `onChange` prop attaches a
-native `change` listener, which NYSDS components don't dispatch — use
-`onNysChange`.
-
-**Refs** resolve to the element instance:
-
-```tsx
-const ref = React.useRef<NysTextinputElement>(null);
-<NysTextinput ref={ref} label="Name" />;
-// ref.current?.checkValidity()
-```
-
-## Forms
-
-### Controlled
-
-Bind `value` and update state from `onNysInput`:
-
-```tsx
-const [name, setName] = React.useState("");
-
-<NysTextinput
-  label="Name"
-  value={name}
-  onNysInput={(e) => setName(e.detail.value)}
-/>;
-```
-
-The wrapper re-sets properties on every commit, so re-rendering with
-the same value snaps the element back to your state.
-
-### Uncontrolled with a native form
-
-NYSDS form components are form-associated custom elements: they submit
-with a plain `<form>` like native inputs.
+NYSDS form components are form-associated custom elements, so they submit with a plain `<form>` like native inputs:
 
 ```tsx
 function ContactForm() {
@@ -117,10 +96,39 @@ function ContactForm() {
 }
 ```
 
+### Props and refs
+ 
+**Props** are typed from the underlying element class and set as DOM properties, not attributes. Use the camelCase property names (`showError`, `errorMessage`), not the kebab-case attribute names.
+ 
+**Refs** resolve to the element instance:
+ 
+```tsx
+const ref = React.useRef<NysTextinputElement>(null);
+<NysTextinput ref={ref} label="Name" />;
+// ref.current?.checkValidity()
+```
+
+### Controlled inputs
+
+Bind `value` and update state from `onNysInput`:
+
+```tsx
+const [name, setName] = React.useState("");
+
+<NysTextinput
+  label="Name"
+  value={name}
+  onNysInput={(e) => setName(e.detail.value)}
+/>;
+```
+
+The wrapper re-sets properties on every commit, so re-rendering with
+the same value snaps the element back to your state.
+
 ### React Hook Form
-
+ 
 Use `Controller` and wire the field through the event detail:
-
+ 
 ```tsx
 <Controller
   name="firstName"
@@ -135,10 +143,9 @@ Use `Controller` and wire the field through the event detail:
   )}
 />
 ```
-
-The `useNysField` helper collapses that to a prop bag. Pass the kind of
-form control: `"value"` (default), `"checked"`, or `"files"`.
-
+ 
+The `useNysField` helper collapses that to a prop bag. Pass the kind of form control: `"value"` (default), `"checked"`, or `"files"`.
+ 
 ```tsx
 <Controller
   name="subscribed"
@@ -148,9 +155,9 @@ form control: `"value"` (default), `"checked"`, or `"files"`.
   )}
 />
 ```
-
+ 
 To surface validation errors through the component's own error slot:
-
+ 
 ```tsx
 <NysTextinput
   label="Name"
