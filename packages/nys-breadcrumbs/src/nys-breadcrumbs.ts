@@ -22,6 +22,14 @@ function adoptLightStyles() {
 
 const INJECTED_ATTR = "data-nys-injected";
 
+/** Detail payload for the `nys-expand` event fired by `nys-breadcrumbs`. */
+export interface NysBreadcrumbsExpandDetail {
+  id: string;
+}
+
+/** The `nys-expand` event fired by `nys-breadcrumbs`. */
+export type NysBreadcrumbsExpandEvent = CustomEvent<NysBreadcrumbsExpandDetail>;
+
 /**
  * A breadcrumb navigation trail composed of `li` elements.
  * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
@@ -33,7 +41,22 @@ const INJECTED_ATTR = "data-nys-injected";
  *
  * @slot - One or more `li` elements defining the trail.
  *
- * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
+ * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
+ *
+ * @fires {NysBreadcrumbsExpandEvent} nys-expand - Fired when the user clicks the ellipsis to expand the trail. Detail: `{id}`.
+ *
+ * @usagedos
+ * - Use on pages at level 2 and deeper in a site hierarchy. If a level 2 page has child pages, all pages starting at that level should include a breadcrumb.
+ * - Place breadcrumb below the header and above the main content.
+ * - Show the site hierarchy, not the path a user took.
+ * - For the home page of a site, use a specific label rather than a generic "Home." This differentiates the main site home from other landing pages (e.g., "myBenefits Home" instead of just "Home").
+ *
+ * @usagedonts
+ * - Use on top-level pages, or on sites with only one or two levels of hierarchy.
+ * - Make the current page clickable.
+ * - Use breadcrumbs as the only navigation method.
+ * - Use breadcrumbs for sequential processes like multi-step forms or wizards. Use a stepper instead.
+ * - Add breadcrumbs when they don't provide meaningful context or navigation value.
  *
  * @example Basic
  * ```html
@@ -287,7 +310,12 @@ export class NysBreadcrumbs extends NysElement {
   }
 
   private _resetItem(li: HTMLLIElement) {
-    li.className = "";
+    li.classList.remove(
+      "nys-breadcrumbitem",
+      "back-to-parent",
+      "hide",
+      "intermediate",
+    );
     li.removeAttribute("aria-current");
 
     li.querySelectorAll(`[${INJECTED_ATTR}]`).forEach((el) => el.remove());

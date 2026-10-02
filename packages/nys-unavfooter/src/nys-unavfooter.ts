@@ -30,6 +30,19 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * @summary Universal NYS footer with logo and statewide links. Required site-wide.
  * @element nys-unavfooter
  *
+ * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
+ *
+ * @usagedos
+ * - Place the `<nys-unavfooter>` as the last element on every public-facing page, immediately after `<nys-globalfooter>`.
+ * - Use on every page of every NYS site and application. This component is required per NYS web policy, including on error pages, login screens, and landing pages.
+ * - Place as the very last element on the page, immediately after `<nys-globalfooter>`.
+ * - Use as-is with no configuration. The component handles its own content and styling.
+ *
+ * @usagedonts
+ * - Don't use on back office applications or internal sites that are not public-facing.
+ * - Place anywhere other than the absolute bottom of the page.
+ * - Customize, restyle, or override the component's content or appearance. Consistency across all state sites is the purpose of this component.
+ *
  * @example Basic
  * ```html
  * <nys-unavfooter></nys-unavfooter>

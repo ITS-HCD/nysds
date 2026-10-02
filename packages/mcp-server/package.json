@@ -1,6 +1,6 @@
 {
   "name": "@nysds/mcp-server",
-  "version": "1.21.1",
+  "version": "1.22.0",
   "description": "MCP server for the New York State Design System. Exposes components, tokens, and documentation to AI assistants.",
   "type": "module",
   "bin": {
@@ -20,18 +20,20 @@
   ],
   "scripts": {
     "copy-data": "mkdir -p data/cem data/tokens && cp ../../custom-elements.json data/cem/ && cp ../tokens/src/tokens.json data/tokens/ && cp ../tokens/dist/tokens.css data/tokens/",
-    "build": "npm run copy-data && tsc",
+    "sync:guides": "node scripts/sync-guides.mjs",
+    "build": "npm run copy-data && npm run sync:guides && tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
     "inspect": "npx -y @modelcontextprotocol/inspector node dist/index.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
+    "@nysds/codegen": "^1.20.1",
     "zod": "^3.25"
   },
   "devDependencies": {
-    "@nysds/styles": "^1.21.1",
-    "@nysds/tokens": "^1.21.1",
+    "@nysds/styles": "^1.22.0",
+    "@nysds/tokens": "^1.22.0",
     "@types/node": "^22.0.0",
     "typescript": "^5.9.3"
   },

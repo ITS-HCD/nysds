@@ -22,7 +22,23 @@ import styles from "./nys-avatar.scss?inline";
  * @summary User avatar with image, initials, or icon fallback and contrast-aware colors.
  * @element nys-avatar
  *
+ * @cssprop [--nys-avatar-size] - Width and height of the component
+ *
  * @slot - Custom icon content. Overrides default icon when no image or initials.
+ *
+ * @usagedos
+ * - Use for clear, simple user or entity representation in UIs such as profiles, account settings, or comment threads.
+ * - Prefer showing the full name next to the avatar on tablets and larger breakpoints.
+ * - Place the full name of the user or entity to the right of the avatar.
+ * - Ensure the text of initial avatars meets WCAG 2.1 contrast ratio against the avatar's background.
+ * - Use the `<nys-icon>` slot only when the icon prop isn't sufficient.
+ *
+ * @usagedonts
+ * - Skip the `ariaLabel` attribute for screen reader users.
+ * - Use the `<nys-icon>` as a slot when the icon prop can satisfy your use.
+ * - Overload the avatar with unnecessary customizations or override default avatar icons unless additional context is essential. Doing so creates inconsistency across NYS interfaces.
+ * - Use an avatar when a large visual representation is needed; use a photo instead.
+ * - Replace an avatar with a simple label or text when that would communicate the information more clearly.
  *
  * @example Basic
  * ```html

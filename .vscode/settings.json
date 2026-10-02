@@ -1,12 +1,7 @@
 {
-  "cSpell.words": [
-    "radiobutton"
-  ],
-  "html.customData": [
-    ".vscode/vscode.html-custom-data.json"
-  ],
-  "css.customData": [
-    ".vscode/vscode.css-custom-data.json"
-  ],
-  "editor.formatOnSave": true
+  "cSpell.words": ["radiobutton"],
+  "html.customData": [".vscode/vscode.html-custom-data.json"],
+  "css.customData": [".vscode/vscode.css-custom-data.json"],
+  "editor.formatOnSave": true,
+  "liveServer.settings.port": 5501
 }

@@ -30,6 +30,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Renders SVG icons from a registered icon library. The built-in NYSDS icon\nlibrary (Material Symbols) is the default. Custom libraries (Font Awesome,\nMaterial Icons, etc.) can be registered via `registerIconLibrary()`.\n\nPass `name` to select an icon. Use `library` to choose a registered library\n(defaults to `"default"` for NYSDS icons). Use `ariaLabel` to make the icon\naccessible (removes `aria-hidden`). Supports size presets, rotation,\nflipping, and custom colors.',
+      },
     },
   },
 };

@@ -13,6 +13,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes "official site" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysUnavHeader />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-unavheader></nys-unavheader>\n```',
+      },
     },
   },
 };

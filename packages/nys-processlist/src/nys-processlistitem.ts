@@ -39,7 +39,7 @@ export class NysProcesslistitem extends NysElement {
    * A description is shown when either the property or the slot has content, so an item with
    * neither renders no empty paragraph.
    */
-  get _hasDescription() {
+  private get _hasDescription() {
     return !!this.description || !!this.querySelector('[slot="description"]');
   }
 
@@ -72,7 +72,7 @@ export class NysProcesslistitem extends NysElement {
              number is the only thing conveying sequence to assistive tech. -->
         <div class="nys-processlistitem__stepwrapper">
           <div class="nys-processlistitem__step">${this._step}</div>
-          <div class="nys-processlistitem__connector"></div>
+          <div class="nys-processlistitem__connector" part="connector"></div>
         </div>
         <div class="nys-processlistitem__content">
           <div class="nys-processlistitem__label">${this.label}</div>

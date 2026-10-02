@@ -39,6 +39,23 @@ function adoptLightStyles() {
  *
  * @slot - Footer content (links, contact info). Use `<h4>` for column headings.
  *
+ * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
+ *
+ * @usagedos
+ * - Use on every agency site and application. The Global Footer is a required page element.
+ * - Use to surface essential site-wide links such as contact information, privacy policies, accessibility statements, and related program pages.
+ * - Set `agencyName` to your agency's full official name (e.g., "Office of Information Technology Services").
+ * - Set `homepageLink` to make the agency name a clickable link back to your site's homepage.
+ * - Keep footer link lists concise. Group related links under `<span>` headings when you have more than 5–6 links.
+ * - Use slotted `<ul>` content for single-list links, or nested `<ul>` with `<span>` headings for multi-column layouts.
+ * - Place `<nys-globalfooter>` above `<nys-unavfooter>` and below your page content and `<nys-backtotop>`.
+ *
+ * @usagedonts
+ * - Use for primary navigation. That belongs in `<nys-globalheader>`.
+ * - Include page-specific content or calls to action. Footer content should be relevant site-wide.
+ * - Use for statewide universal links (Agencies, Services, Counties). Those belong in `<nys-unavfooter>`, which renders below this component.
+ * - Embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security.
+ *
  * @example Basic
  * ```html
  * <nys-globalfooter agencyName="Office of Information Technology Services"></nys-globalfooter>

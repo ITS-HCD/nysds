@@ -21,6 +21,19 @@ import styles from "./nys-tooltip.scss?inline";
  * @summary Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-tooltip
  *
+ * @usagedos
+ * - Use to provide supplemental hints on form fields (e.g., explaining what "FEIN" means) or on icon buttons that need additional context.
+ * - Use on NYSDS form components (`<nys-textinput>`, `<nys-select>`, `<nys-checkbox>`, etc.) where the tooltip automatically renders as a hint icon next to the label.
+ * - Keep tooltip content brief and helpful.
+ * - Position tooltips so they don't block related content.
+ *
+ * @usagedonts
+ * - Use for information critical to task completion. Use inline description text instead, as tooltips are easy to miss.
+ * - Use when content is long or includes links, actions, or structured content.
+ * - Use interactive elements such as links or buttons inside a tooltip.
+ * - Rely on tooltips when you have room to provide inline explanation.
+ * - Use when mobile users are a primary audience. Tooltips rely on hover, which is unavailable on touch devices.
+ *
  * @example  Basic
  * ```html
  * <div style="display: flex; justify-content: center; gap: 5px; padding: 40px;">

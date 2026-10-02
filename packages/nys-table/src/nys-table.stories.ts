@@ -11,6 +11,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          '`<nys-table>` is a responsive table component that can display native HTML tables,\nsupports striped and bordered styling, sortable columns, and CSV download.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysTable id="table1" name="table1">\n  <table>\n    <caption>New York State High Peaks and Popular Hikes</caption>\n    <tbody>\n      <tr>\n        <th>Mountain</th>\n        <th>Peak Height (ft)</th>\n        <th>Hike Name</th>\n      </tr>\n      <tr>\n        <td>Marcy</td>\n        <td>5,344</td>\n        <td>Van Hoevenberg Trail</td>\n      </tr>\n      <tr>\n        <td>Algonquin</td>\n        <td>5,114</td>\n        <td>Northeast Trail</td>\n      </tr>\n      <tr>\n        <td>Haystack</td>\n        <td>4,960</td>\n        <td>Johns Brook Trail</td>\n      </tr>\n      <tr>\n        <td>Skylight</td>\n        <td>4,926</td>\n        <td>Lake Tear Trail</td>\n      </tr>\n      <tr>\n        <td>Whiteface</td>\n        <td>4,867</td>\n        <td>Whiteface Mountain Trail</td>\n      </tr>\n    </tbody>\n  </table>\n</NysTable>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-table id="table1" name="table1">\n  <table>\n    <caption>New York State High Peaks and Popular Hikes</caption>\n    <tbody>\n      <tr>\n        <th>Mountain</th>\n        <th>Peak Height (ft)</th>\n        <th>Hike Name</th>\n      </tr>\n      <tr>\n        <td>Marcy</td>\n        <td>5,344</td>\n        <td>Van Hoevenberg Trail</td>\n      </tr>\n      <tr>\n        <td>Algonquin</td>\n        <td>5,114</td>\n        <td>Northeast Trail</td>\n      </tr>\n      <tr>\n        <td>Haystack</td>\n        <td>4,960</td>\n        <td>Johns Brook Trail</td>\n      </tr>\n      <tr>\n        <td>Skylight</td>\n        <td>4,926</td>\n        <td>Lake Tear Trail</td>\n      </tr>\n      <tr>\n        <td>Whiteface</td>\n        <td>4,867</td>\n        <td>Whiteface Mountain Trail</td>\n      </tr>\n    </tbody>\n  </table>\n</nys-table>\n```',
+      },
     },
   },
 };
@@ -422,6 +426,89 @@ export const Downloadable: Story = {
       <td>Whiteface</td>
       <td>4,867</td>
       <td>Whiteface Mountain Trail</td>
+    </tr>
+  </table>
+</nys-table>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SortableNumbers: Story = {
+  render: () => {
+    return html`
+      <nys-table id="numb-sort-test" name="numb-sort-test" sortable>
+        <table>
+          <caption>
+            Testing Sorting Number Logic
+          </caption>
+          <tr>
+            <th>Number</th>
+            <th>Word Form</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>One</td>
+          </tr>
+          <tr>
+            <td>100</td>
+            <td>One Hundred</td>
+          </tr>
+          <tr>
+            <td>1,000</td>
+            <td>One Thousand</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Eleven</td>
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Forty</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Five</td>
+          </tr>
+        </table>
+      </nys-table>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-table id="numb-sort-test" name="numb-sort-test" sortable>
+  <table>
+    <caption>Testing Sorting Number Logic</caption>
+    <tr>
+      <th>Number</th>
+      <th>Word Form</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>One</td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td>One Hundred</td>
+    </tr>
+    <tr>
+      <td>1,000</td>
+      <td>One Thousand</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Eleven</td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td>Forty</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Five</td>
     </tr>
   </table>
 </nys-table>`,
