@@ -2,7 +2,8 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Verticalnav Styles */
-  --_nys-verticalnav-color: var(--nys-color-text-weak, #4a4d4f);
+  --_nys-verticalnav-color: var(--nys-color-text, #1b1b1b);
+  --_nys-verticalnav-color--accordion: var(--nys-color-text-weak, #4a4d4f);
   --_nys-verticalnav-background-color: var(--nys-color-surface, #ffffff);
   --_nys-verticalnav-border-color: var(--nys-color-neutral-50, #bec0c1);
 
@@ -10,6 +11,7 @@
   --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
   --_nys-verticalnav-font-weight--header: var(--nys-font-weight-bold, 700);
+  --_nys-verticalnav-font-weight--header-accordion: var(--nys-font-weight-semibold, 600);
   --_nys-verticalnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-verticalnav-font-family: var(
     --nys-font-family-ui,
@@ -94,10 +96,10 @@ nys-accordion {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    color: var(--_nys-verticalnav-color);
+    color: var(--_nys-verticalnav-color--accordion);
     font-family: var(--_nys-verticalnav-font-family);
     font-size: var(--_nys-verticalnav-font-size);
-    font-weight: var(--_nys-verticalnav-font-weight--header);
+    font-weight: var(--_nys-verticalnav-font-weight--header-accordion);
     line-height: var(--_nys-verticalnav-line-height);
 
     &:not(:disabled):hover {
