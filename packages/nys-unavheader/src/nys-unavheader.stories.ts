@@ -24,7 +24,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Basic: Story = {
+export const BasicLocalize: Story = {
   args: {
     hideTranslate: false,
     hideSearch: false,
@@ -48,6 +48,21 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const BasicSmartling: Story = {
+  render: () => {
+    return html` <nys-unavheader></nys-unavheader> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-unavheader></nys-unavheader>`,
         type: "auto",
       },
     },
