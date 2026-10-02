@@ -41,7 +41,7 @@ component's shadow DOM and need no extra setup.
 import { NysButton } from "@nysds/react";
 
 export function Save() {
-  return <NysButton label="Save" variant="primary" onNysClick={() => save()} />;
+  return <NysButton label="Save" variant="filled" onNysClick={() => save()} />;
 }
 ```
 
