@@ -5,11 +5,7 @@
 -->
 # @nysds/vue
 
-Vue 3 components and types for the New York State Design System (NYSDS).
-Every component renders the matching NYSDS web component, and every
-wrapper is generated from the design system's `custom-elements.json` —
-props, events, slots, and types stay in sync with the web components
-without hand maintenance.
+Vue 3 components for the New York State Design System (NYSDS). Generated from the NYSDS web components library.
 
 You get two ways to use the design system, and can mix them freely:
 
@@ -21,33 +17,24 @@ You get two ways to use the design system, and can mix them freely:
 
 Requires Vue 3.4 or later (tested on 3.4 and 3.5).
 
-## Set up a new app
+## Install
 
-### 1. Create a project
+### Setup a new React project
 
-Skip this if you already have a Vue 3 app. Otherwise, with Vite:
-
-```sh
-npm create vue@latest my-app   # choose TypeScript; Router if you want it
-cd my-app
+```bash
+npm create vue@latest
 ```
 
-### 2. Install
-
-```sh
+### Install NYS Design System
+```bash
 npm install @nysds/vue @nysds/styles
 ```
 
-`vue` is a peer dependency. The matching `@nysds/nys-*` component
-packages install automatically. Pin the exact version in `package.json`
-so the wrappers stay aligned with the components.
+## Load styles
 
-### 3. Load styles
+Import the design system stylesheet once, in your app's main.ts:
 
-Import the design system stylesheet once, at the top of your entry file:
-
-```ts
-// src/main.ts
+```tsx
 import "@nysds/styles/full";
 ```
 
@@ -61,10 +48,6 @@ resolve, and a stylesheet isn't a module. If `npm run build` fails with
 declare module "@nysds/styles/*";
 ```
 
-Without it, components render unstyled. `@nysds/styles` ships the design
-tokens and global styles; component-level styles live in each component's
-shadow DOM and need no extra setup.
-
 Optional agency theme: `<html data-theme="health">`. Themes: `admin`,
 `business`, `environment`, `health`, `local`, `safety`, `transportation`.
 Fonts aren't bundled. Load them the way your agency normally does.
@@ -76,6 +59,7 @@ Fonts aren't bundled. Load them the way your agency normally does.
 import { NysAlert, NysButton } from "@nysds/vue";
 
 const start = () => console.log("started");
+
 </script>
 
 <template>
