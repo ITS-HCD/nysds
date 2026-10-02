@@ -1,162 +1,383 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NYSDS Visual Review</title>
-<style>
-  :root { --bg:#f6f7f9; --card:#fff; --ink:#1b1b1b; --mute:#626a75; --line:#dde1e6; --accent:#154973;
-          --changed:#b5490d; --new:#0a6b3a; --removed:#7a2a8c; --error:#b00020; --pass:#626a75; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#16181b; --card:#1f2226; --ink:#eceef0; --mute:#9aa3ad; --line:#333940; --accent:#7fb4e0; }
-  }
-  * { box-sizing:border-box }
-  body { margin:0; font:14px/1.45 system-ui,sans-serif; background:var(--bg); color:var(--ink) }
-  header { position:sticky; top:0; z-index:5; background:var(--card); border-bottom:1px solid var(--line);
-           padding:12px 24px; display:flex; flex-wrap:wrap; gap:12px 20px; align-items:center }
-  h1 { font-size:16px; margin:0 }
-  .meta { color:var(--mute); font-size:12px }
-  .tabs { display:flex; gap:6px; flex-wrap:wrap }
-  button { font:inherit; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--ink);
-           padding:5px 12px; border-radius:6px }
-  button:hover { border-color:var(--accent) }
-  button[aria-pressed="true"] { background:var(--accent); color:#fff; border-color:var(--accent) }
-  button.primary { background:var(--accent); color:#fff; border-color:var(--accent) }
-  button:disabled { opacity:.5; cursor:default }
-  input[type=search] { font:inherit; padding:5px 10px; border:1px solid var(--line); border-radius:6px;
-                       background:var(--card); color:var(--ink); min-width:200px }
-  main { padding:20px 24px; max-width:1600px; margin:0 auto }
-  .item { background:var(--card); border:1px solid var(--line); border-radius:8px; margin-bottom:12px; overflow:hidden }
-  .item > summary { list-style:none; display:flex; gap:12px; align-items:center; padding:10px 14px; cursor:pointer }
-  .item > summary::-webkit-details-marker { display:none }
-  .badge { font-size:11px; font-weight:600; text-transform:uppercase; padding:2px 8px; border-radius:99px;
-           color:#fff; background:var(--pass) }
-  .badge.changed { background:var(--changed) } .badge.new { background:var(--new) }
-  .badge.removed { background:var(--removed) } .badge.error { background:var(--error) }
-  .name { flex:1; font-weight:600 } .name small { font-weight:400; color:var(--mute); margin-left:6px }
-  .impact { width:140px } .impact .bar { height:6px; background:var(--line); border-radius:3px; overflow:hidden }
-  .impact .bar i { display:block; height:100%; background:var(--changed) }
-  .impact span { font-size:12px; color:var(--mute) }
-  .body { border-top:1px solid var(--line); padding:14px }
-  .controls { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap }
-  .controls .spacer { flex:1 }
-  .panes { display:grid; gap:12px; grid-template-columns:repeat(3,minmax(0,1fr)) }
-  .pane h4 { margin:0 0 6px; font-size:12px; color:var(--mute); font-weight:600 }
-  .pane .frame { border:1px solid var(--line); background:
-     repeating-conic-gradient(#0000000d 0 25%, transparent 0 50%) 0 0/16px 16px; overflow:auto; max-height:70vh }
-  img { display:block; max-width:100%; height:auto }
-  .overlay { position:relative; display:inline-block; max-width:100% }
-  .overlay img:last-child { position:absolute; inset:0; width:100%; height:100% }
-  .empty { padding:60px; text-align:center; color:var(--mute) }
-  @media (max-width:900px) { .panes { grid-template-columns:1fr } }
-</style>
-</head>
-<body>
-<header>
-  <h1>NYSDS Visual Review</h1>
-  <div class="tabs" id="tabs"></div>
-  <input type="search" id="q" placeholder="Filter stories…" aria-label="Filter stories">
-  <span class="meta" id="meta"></span>
-  <button class="primary" id="approveAll"></button>
-</header>
-<main id="list"></main>
-<script>
-const $ = (s) => document.querySelector(s);
-let data, status = "attention", query = "";
-const canApprove = location.protocol.startsWith("http");
-const ATTENTION = ["changed", "new", "removed", "error"];
-const APPROVABLE = ["changed", "new", "removed"];
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NYSDS Visual Review</title>
+    <link rel="stylesheet" href="/_nysds/css/nysds-full.min.css" />
+    <script src="/_nysds/nysds.js"></script>
+    <style>
+      /* Layout only — color, type, spacing and radius all come from NYSDS tokens. */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--nys-font-family-ui);
+        font-size: var(--nys-font-size-ui-md);
+        background: var(--nys-color-neutral-10);
+        color: var(--nys-color-text);
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: var(--nys-color-surface);
+        border-bottom: 1px solid var(--nys-color-neutral-100);
+        padding: var(--nys-space-150) var(--nys-space-300);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--nys-space-150) var(--nys-space-300);
+        align-items: center;
+      }
+      h1 {
+        font-size: var(--nys-font-size-lg);
+        font-weight: var(--nys-font-weight-semibold);
+        margin: 0;
+      }
+      .meta {
+        color: var(--nys-color-text-weak);
+        font-size: var(--nys-font-size-sm);
+      }
+      nys-textinput {
+        min-width: 240px;
+      }
+      main {
+        padding: var(--nys-space-300);
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .item {
+        background: var(--nys-color-surface);
+        border: 1px solid var(--nys-color-neutral-100);
+        border-radius: var(--nys-radius-lg);
+        margin-bottom: var(--nys-space-150);
+        overflow: hidden;
+      }
+      .item > summary {
+        list-style: none;
+        display: flex;
+        gap: var(--nys-space-150);
+        align-items: center;
+        padding: var(--nys-space-100) var(--nys-space-200);
+        cursor: pointer;
+      }
+      .item > summary::-webkit-details-marker {
+        display: none;
+      }
+      .item > summary:focus-visible {
+        outline: var(--nys-border-width-md, 2px) solid var(--nys-color-focus);
+        outline-offset: -2px;
+      }
+      .name {
+        flex: 1;
+        font-weight: var(--nys-font-weight-semibold);
+      }
+      .name small {
+        font-weight: var(--nys-font-weight-regular, 400);
+        color: var(--nys-color-text-weak);
+        margin-left: var(--nys-space-100);
+      }
+      .impact {
+        width: 160px;
+      }
+      .impact .bar {
+        height: 6px;
+        background: var(--nys-color-neutral-50);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .impact .bar i {
+        display: block;
+        height: 100%;
+        background: var(--nys-color-warning, var(--nys-color-neutral-600));
+      }
+      .impact span {
+        font-size: var(--nys-font-size-sm);
+        color: var(--nys-color-text-weak);
+      }
+      .body {
+        border-top: 1px solid var(--nys-color-neutral-100);
+        padding: var(--nys-space-200);
+      }
+      .controls {
+        display: flex;
+        gap: var(--nys-space-100);
+        align-items: center;
+        margin-bottom: var(--nys-space-150);
+        flex-wrap: wrap;
+      }
+      .controls .spacer {
+        flex: 1;
+      }
+      .controls input[type="range"] {
+        accent-color: var(--nys-color-link);
+      }
+      .panes {
+        display: grid;
+        gap: var(--nys-space-150);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .pane h4 {
+        margin: 0 0 var(--nys-space-100);
+        font-size: var(--nys-font-size-sm);
+        color: var(--nys-color-text-weak);
+        font-weight: var(--nys-font-weight-semibold);
+      }
+      .pane .frame {
+        border: 1px solid var(--nys-color-neutral-100);
+        background: repeating-conic-gradient(#0000000d 0 25%, transparent 0 50%)
+          0 0/16px 16px;
+        overflow: auto;
+        max-height: 70vh;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      .overlay {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+      }
+      .overlay img:last-child {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .empty {
+        padding: 60px;
+        text-align: center;
+        color: var(--nys-color-text-weak);
+      }
+      @media (max-width: 900px) {
+        .panes {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>NYSDS Visual Review</h1>
+      <nys-textinput
+        type="search"
+        id="q"
+        ariaLabel="Filter stories"
+        placeholder="Filter stories…"
+        width="lg"
+      ></nys-textinput>
+      <nys-toggle id="vp" label="Mobile" size="sm" noIcon></nys-toggle>
+      <span class="meta" id="meta"></span>
+      <nys-button
+        id="approveAll"
+        variant="filled"
+        size="sm"
+        prefixIcon="check"
+      ></nys-button>
+    </header>
+    <main>
+      <nys-tabgroup id="tabs" name="Result status">
+        <nys-tab id="tab-attention" label="Needs review" selected></nys-tab>
+        <nys-tab id="tab-changed" label="Changed"></nys-tab>
+        <nys-tab id="tab-new" label="New"></nys-tab>
+        <nys-tab id="tab-removed" label="Removed"></nys-tab>
+        <nys-tab id="tab-passed" label="Unchanged"></nys-tab>
+        <nys-tab id="tab-all" label="All"></nys-tab>
+        <nys-tabpanel id="panel-attention" aria-labelledby="tab-attention"></nys-tabpanel>
+        <nys-tabpanel id="panel-changed" aria-labelledby="tab-changed"></nys-tabpanel>
+        <nys-tabpanel id="panel-new" aria-labelledby="tab-new"></nys-tabpanel>
+        <nys-tabpanel id="panel-removed" aria-labelledby="tab-removed"></nys-tabpanel>
+        <nys-tabpanel id="panel-passed" aria-labelledby="tab-passed"></nys-tabpanel>
+        <nys-tabpanel id="panel-all" aria-labelledby="tab-all"></nys-tabpanel>
+      </nys-tabgroup>
+    </main>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      let data,
+        status = "attention",
+        vp = "desktop",
+        query = "";
+      const canApprove = location.protocol.startsWith("http");
+      const ATTENTION = ["changed", "new", "removed", "error"];
+      const BADGE_INTENT = {
+        changed: "warning",
+        new: "success",
+        removed: "info",
+        error: "danger",
+        passed: "base",
+      };
+      const APPROVABLE = ["changed", "new", "removed"];
 
-async function load() {
-  data = await (await fetch("results.json?" + Date.now())).json();
-  render();
-}
+      async function load() {
+        data = await (await fetch("results.json?" + Date.now())).json();
+        render();
+      }
 
-const matches = (r) =>
-  (status === "attention" ? ATTENTION.includes(r.status) : status === "all" || r.status === status) &&
-  (r.title + " " + r.name + " " + r.id).toLowerCase().includes(query);
+      const matches = (r) =>
+        r.viewport === vp &&
+        (status === "attention"
+          ? ATTENTION.includes(r.status)
+          : status === "all" || r.status === status) &&
+        (r.title + " " + r.name + " " + r.id).toLowerCase().includes(query);
 
-function render() {
-  const counts = {};
-  data.results.forEach((r) => (counts[r.status] = (counts[r.status] || 0) + 1));
-  const attn = ATTENTION.reduce((n, s) => n + (counts[s] || 0), 0);
-  const tabs = [["attention", `Needs review (${attn})`], ["changed", `Changed (${counts.changed || 0})`],
-    ["new", `New (${counts.new || 0})`], ["removed", `Removed (${counts.removed || 0})`],
-    ["passed", `Unchanged (${counts.passed || 0})`], ["all", "All"]];
-  $("#tabs").innerHTML = tabs.map(([k, l]) => `<button data-tab="${k}" aria-pressed="${k === status}">${l}</button>`).join("");
-  $("#meta").textContent = `${new Date(data.generated).toLocaleString()} · ${data.viewport.join("×")}`;
-  const ab = $("#approveAll");
-  ab.textContent = `Approve all visible (${data.results.filter((r) => matches(r) && APPROVABLE.includes(r.status)).length})`;
-  ab.disabled = !canApprove;
-  ab.title = canApprove ? "" : "Run npm run vr:review to approve from this page";
+      function render() {
+        const counts = {};
+        data.results
+          .filter((r) => r.viewport === vp)
+          .forEach((r) => (counts[r.status] = (counts[r.status] || 0) + 1));
+        const attn = ATTENTION.reduce((n, s) => n + (counts[s] || 0), 0);
+        const labels = {
+          attention: `Needs review (${attn})`,
+          changed: `Changed (${counts.changed || 0})`,
+          new: `New (${counts.new || 0})`,
+          removed: `Removed (${counts.removed || 0})`,
+          passed: `Unchanged (${counts.passed || 0})`,
+          all: "All",
+        };
+        for (const [k, l] of Object.entries(labels)) $(`#tab-${k}`).label = l;
+        document.querySelectorAll("nys-tabpanel").forEach((p) => (p.innerHTML = ""));
+        const list = $(`#panel-${status}`);
+        $("#meta").textContent =
+          `${new Date(data.generated).toLocaleString()} · ${vp} ${data.viewports[vp].join("×")}` +
+          (data.minChange ? ` · ≥${data.minChange}% = changed` : "");
+        const ab = $("#approveAll");
+        ab.label = `Approve all visible (${data.results.filter((r) => matches(r) && APPROVABLE.includes(r.status)).length})`;
+        ab.disabled = !canApprove;
+        ab.title = canApprove
+          ? ""
+          : "Run npm run vr:review to approve from this page";
 
-  const weight = (r) => r.diffPercent ?? (ATTENTION.includes(r.status) ? 0.0001 : -1);
-  const rows = data.results.filter(matches).sort((a, b) => weight(b) - weight(a) || a.id.localeCompare(b.id));
-  if (!rows.length) { $("#list").innerHTML = `<div class="empty">Nothing here.</div>`; return; }
-  const maxPct = Math.max(...rows.map((r) => r.diffPercent || 0), 0.01);
-  $("#list").innerHTML = rows.map((r) => item(r, maxPct)).join("");
-}
+        const weight = (r) =>
+          r.diffPercent ?? (ATTENTION.includes(r.status) ? 0.0001 : -1);
+        const rows = data.results
+          .filter(matches)
+          .sort((a, b) => weight(b) - weight(a) || a.id.localeCompare(b.id));
+        if (!rows.length) {
+          list.innerHTML = `<div class="empty">Nothing here.</div>`;
+          return;
+        }
+        const maxPct = Math.max(...rows.map((r) => r.diffPercent || 0), 0.01);
+        list.innerHTML = rows.map((r) => item(r, maxPct)).join("");
+      }
 
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+      const esc = (s) =>
+        String(s).replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
 
-function item(r, maxPct) {
-  const pct = r.diffPercent;
-  const impact = r.status === "changed"
-    ? `<div class="impact"><div class="bar"><i style="width:${Math.max(4, (pct / maxPct) * 100)}%"></i></div>
-       <span>${pct < 0.01 ? "<0.01" : pct.toFixed(2)}% · ${r.diffPixels.toLocaleString()} px</span></div>` : `<div class="impact"></div>`;
-  return `<details class="item" data-id="${r.id}"><summary>
-    <span class="badge ${r.status}">${r.status}</span>
+      function item(r, maxPct) {
+        const pct = r.diffPercent;
+        const impact =
+          r.status === "changed"
+            ? `<div class="impact"><div class="bar"><i style="width:${Math.max(4, (pct / maxPct) * 100)}%"></i></div>
+       <span>${pct < 0.01 ? "<0.01" : pct.toFixed(2)}% · ${r.diffPixels.toLocaleString()} px</span></div>`
+            : `<div class="impact"></div>`;
+        return `<details class="item" data-id="${r.key}"><summary>
+    <nys-badge size="sm" intent="${BADGE_INTENT[r.status]}" label="${r.status}"></nys-badge>
     <span class="name">${esc(r.name || r.id)}<small>${esc(r.title)}</small></span>${impact}</summary>
     <div class="body" data-body></div></details>`;
-}
+      }
 
-function body(r, mode) {
-  const b = `baselines/${r.id}.png`, c = `current/${r.id}.png`, d = `diff/${r.id}.png`;
-  const t = `?${Date.parse(data.generated)}`;
-  const info = r.status === "changed"
-    ? `<span class="meta">${r.sizeChanged ? `Size changed ${r.baselineSize.join("×")} → ${r.currentSize.join("×")} · ` : ""}${r.bbox ? `changed region ${r.bbox.w}×${r.bbox.h} at (${r.bbox.x}, ${r.bbox.y})` : ""}</span>` : "";
-  const ctl = `<div class="controls">
-    ${r.status === "changed" ? ["side","overlay"].map((m) => `<button data-mode="${m}" aria-pressed="${m === mode}">${m === "side" ? "Side by side" : "Overlay"}</button>`).join("") : ""}
+      function body(r, mode) {
+        const b = `baselines/${r.key}.png`,
+          c = `current/${r.key}.png`,
+          d = `diff/${r.key}.png`;
+        const t = `?${Date.parse(data.generated)}`;
+        const info =
+          r.status === "changed"
+            ? `<span class="meta">${r.sizeChanged ? `Size changed ${r.baselineSize.join("×")} → ${r.currentSize.join("×")} · ` : ""}${r.bbox ? `changed region ${r.bbox.w}×${r.bbox.h} at (${r.bbox.x}, ${r.bbox.y})` : ""}</span>`
+            : "";
+        const ctl = `<div class="controls">
+    ${r.status === "changed" ? ["side", "overlay"].map((m) => `<nys-button size="sm" data-mode="${m}" variant="${m === mode ? "filled" : "outline"}" label="${m === "side" ? "Side by side" : "Overlay"}"></nys-button>`).join("") : ""}
     ${info}<span class="spacer"></span>
-    ${APPROVABLE.includes(r.status) ? `<button class="primary" data-approve ${canApprove ? "" : "disabled"}>${r.status === "removed" ? "Accept removal" : "Approve"}</button>` : ""}</div>`;
-  const pane = (title, src) => `<div class="pane"><h4>${title}</h4><div class="frame"><img src="${src}${t}" loading="lazy" alt="${title}"></div></div>`;
-  const one = (title, src) => `<div class="panes" style="grid-template-columns:1fr">${pane(title, src)}</div>`;
-  let main;
-  if (r.status === "error") main = `<p>Capture failed: <code>${esc(r.error)}</code></p>`;
-  else if (r.status === "new") main = one("New story (no baseline)", c);
-  else if (r.status === "removed") main = one("Baseline (story no longer exists)", b);
-  else if (r.status === "passed") main = one("Current", c);
-  else if (mode === "overlay") main = `<div class="controls"><label>Baseline <input type="range" min="0" max="100" value="50" data-fade> Current</label></div>
+    ${APPROVABLE.includes(r.status) ? `<nys-button size="sm" data-approve prefixIcon="check" label="${r.status === "removed" ? "Accept removal" : "Approve"}" ${canApprove ? "" : "disabled"}></nys-button>` : ""}</div>`;
+        const pane = (title, src) =>
+          `<div class="pane"><h4>${title}</h4><div class="frame"><img src="${src}${t}" loading="lazy" alt="${title}"></div></div>`;
+        const one = (title, src) =>
+          `<div class="panes" style="grid-template-columns:1fr">${pane(title, src)}</div>`;
+        let main;
+        if (r.status === "error")
+          main = `<p>Capture failed: <code>${esc(r.error)}</code></p>`;
+        else if (r.status === "new") main = one("New story (no baseline)", c);
+        else if (r.status === "removed")
+          main = one("Baseline (story no longer exists)", b);
+        else if (r.status === "passed") main = one("Current", c);
+        else if (mode === "overlay")
+          main = `<div class="controls"><label>Baseline <input type="range" min="0" max="100" value="50" data-fade> Current</label></div>
     <div class="overlay"><img src="${b}${t}" alt="Baseline"><img src="${c}${t}" alt="Current" style="opacity:.5" data-top></div>`;
-  else main = `<div class="panes">${pane("Baseline", b)}${pane("Current", c)}${pane("Diff", d)}</div>`;
-  return ctl + main;
-}
+        else
+          main = `<div class="panes">${pane("Baseline", b)}${pane("Current", c)}${pane("Diff", d)}</div>`;
+        return ctl + main;
+      }
 
-async function approve(ids) {
-  data = await (await fetch("approve", { method: "POST", body: JSON.stringify({ ids }) })).json();
-  render();
-}
+      async function approve(ids) {
+        data = await (
+          await fetch("approve", {
+            method: "POST",
+            body: JSON.stringify({ ids }),
+          })
+        ).json();
+        render();
+      }
 
-document.addEventListener("click", (e) => {
-  const t = e.target.closest("button"); if (!t) return;
-  if (t.dataset.tab) { status = t.dataset.tab; render(); }
-  else if (t.id === "approveAll") approve(data.results.filter((r) => matches(r) && APPROVABLE.includes(r.status)).map((r) => r.id));
-  else if ("approve" in t.dataset) approve([t.closest(".item").dataset.id]);
-  else if (t.dataset.mode) {
-    const it = t.closest(".item");
-    it.querySelector("[data-body]").innerHTML = body(data.results.find((x) => x.id === it.dataset.id), t.dataset.mode);
-  }
-});
-document.addEventListener("toggle", (e) => {
-  const it = e.target; if (!it.matches?.(".item") || !it.open) return;
-  const slot = it.querySelector("[data-body]");
-  if (!slot.innerHTML) slot.innerHTML = body(data.results.find((x) => x.id === it.dataset.id), "side");
-}, true);
-document.addEventListener("input", (e) => {
-  if (e.target.matches("[data-fade]")) e.target.closest(".body").querySelector("[data-top]").style.opacity = e.target.value / 100;
-  if (e.target.id === "q") { query = e.target.value.toLowerCase(); render(); }
-});
-load();
-</script>
-</body>
+      document.addEventListener("click", (e) => {
+        const t = e.target.closest("nys-button");
+        if (!t) return;
+        if (t.id === "approveAll")
+          approve(
+            data.results
+              .filter((r) => matches(r) && APPROVABLE.includes(r.status))
+              .map((r) => r.key),
+          );
+        else if ("approve" in t.dataset)
+          approve([t.closest(".item").dataset.id]);
+        else if (t.dataset.mode) {
+          const it = t.closest(".item");
+          it.querySelector("[data-body]").innerHTML = body(
+            data.results.find((x) => x.key === it.dataset.id),
+            t.dataset.mode,
+          );
+        }
+      });
+      document.addEventListener(
+        "toggle",
+        (e) => {
+          const it = e.target;
+          if (!it.matches?.(".item") || !it.open) return;
+          const slot = it.querySelector("[data-body]");
+          if (!slot.innerHTML)
+            slot.innerHTML = body(
+              data.results.find((x) => x.key === it.dataset.id),
+              "side",
+            );
+        },
+        true,
+      );
+      document.addEventListener("nys-tab-select", (e) => {
+        status = e.detail.id.replace("tab-", "");
+        render();
+      });
+      document.addEventListener("nys-change", (e) => {
+        if (e.target.id !== "vp") return;
+        vp = e.detail.checked ? "mobile" : "desktop";
+        render();
+      });
+      document.addEventListener("nys-input", (e) => {
+        if (e.target.id === "q") {
+          query = (e.detail?.value ?? "").toLowerCase();
+          render();
+        }
+      });
+      document.addEventListener("input", (e) => {
+        if (e.target.matches("[data-fade]"))
+          e.target.closest(".body").querySelector("[data-top]").style.opacity =
+            e.target.value / 100;
+      });
+      load();
+    </script>
+  </body>
 </html>
