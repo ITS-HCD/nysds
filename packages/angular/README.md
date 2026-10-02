@@ -39,12 +39,6 @@ Add NYSDS styles to your `angular.json`:
 }
 ```
 
-Or import in your main component:
-
-```typescript
-import "@nysds/styles/full.css";
-```
-
 ## Basic usage
  
 ### Standalone components

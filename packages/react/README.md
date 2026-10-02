@@ -52,7 +52,7 @@ Import components from `@nysds/react`. Importing a component registers its custo
 import { NysButton } from "@nysds/react";
 
 export function Save() {
-  return <NysButton label="Save" variant="primary" onNysClick={() => save()} />;
+  return <NysButton label="Save" variant="filled" onNysClick={() => save()} />;
 }
 ```
 
