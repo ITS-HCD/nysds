@@ -1,11 +1,20 @@
 # @nysds/angular
 
-Angular components for the New York State Design System. Generated from the NYSDS web components library, with full support for template-driven forms, Reactive Forms, and Signal Forms.
+Angular components for the New York State Design System (NYSDS). Generated from the NYSDS web components library, with full support for template-driven forms, Reactive Forms, and Signal Forms.
 
 ## Install
 
+### Setup a new Angular project
+
 ```bash
-npm install @nysds/angular
+npm install -g @angular/cli
+ng new my-angular-app
+```
+
+### Install NYS Design System 
+
+```bash
+npm install @nysds/angular @nysds/styles
 ```
 
 Peer dependencies: Angular `>=20.0.0` (core, common, forms).
@@ -22,7 +31,7 @@ Add NYSDS styles to your `angular.json`:
         "build": {
           "options": {
             "styles": [
-              "node_modules/@nysds/styles/full.css"
+              "node_modules/@nysds/styles/nysds-full.min.css"
             ]
           }
         }
@@ -32,50 +41,37 @@ Add NYSDS styles to your `angular.json`:
 }
 ```
 
-Or import in your main component:
-
-```typescript
-import "@nysds/styles/full.css";
-```
-
 ## First component
 
 Import standalone components directly into your component:
 
 ```typescript
-import { Component } from "@angular/core";
-import { NysTextinputComponent, NysButtonComponent } from "@nysds/angular";
-
+import { Component, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NysButtonComponent } from '@nysds/angular';
 @Component({
-  selector: "app-example",
-  standalone: true,
-  imports: [NysTextinputComponent, NysButtonComponent],
-  template: `
-    <nys-textinput label="Your name"></nys-textinput>
-    <nys-button>Submit</nys-button>
-  `,
+  imports: [RouterOutlet, NysButtonComponent],
+  selector: 'app-root',
+  styleUrl: './app.css',
+  templateUrl: './app.html',
 })
-export class ExampleComponent {}
+export class App {
+  protected readonly title = signal('my-angular-app');
+  handleSubmit() {
+    console.log('Button clicked!');
+  }
+}
 ```
 
-Or use `NysAngularModule` in an NgModule app:
+## NgModule support has been deprecated
 
-```typescript
-import { NgModule } from "@angular/core";
-import { NysAngularModule } from "@nysds/angular";
-
-@NgModule({
-  imports: [NysAngularModule],
-  // ...
-})
-export class AppModule {}
-```
+Use "Standalone Components" instead.
 
 ## Inputs, outputs, and two-way binding
 
 All properties are typed inputs; events are typed outputs. No `CUSTOM_ELEMENTS_SCHEMA` needed:
 
-```typescript
+```html
 <nys-textinput
   [label]="'Email'"
   [required]="true"
@@ -91,10 +87,6 @@ onEmailChange(event: NysTextinputChangeEvent) {
 }
 ```
 
-## Publishing
-
-The `dist/` directory is the publishable package root. It contains the ng-packagr output (optimized FESM bundles, type definitions, and package.json). Publishing runs from `dist/`, not from the source directory.
-
 ## Signal Forms Known Limitations
 
 When using Angular's Signal Forms with `[formField]`, be aware of these constraints:
@@ -108,7 +100,7 @@ When using Angular's Signal Forms with `[formField]`, be aware of these constrai
 
 Use `[(ngModel)]` with form components:
 
-```typescript
+```html
 <form>
   <nys-textinput [(ngModel)]="email" name="email"></nys-textinput>
   <nys-checkbox [(ngModel)]="agreed" name="agreed"></nys-checkbox>
