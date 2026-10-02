@@ -1357,8 +1357,7 @@ export class NysUnavHeader extends NysElement {
                       const isCurrent =
                         languageTag(lang.code) ===
                         document.documentElement.lang;
-                      return html`
-                      <nys-button
+                      return html` <nys-button
                         role="presentation"
                         variant="ghost"
                         fullWidth
@@ -1367,10 +1366,14 @@ export class NysUnavHeader extends NysElement {
                         @click="${(e: Event) =>
                           this._handleLanguageSelect(e, lang)}"
                       >
-                        <span lang="${languageTag(lang.code)}" notranslate>${lang.label}</span>
+                        <span lang="${languageTag(lang.code)}" notranslate
+                          >${lang.label}</span
+                        >
                         ${isCurrent || !lang.nativeText
                           ? nothing
-                          : html`<span class="sr-only" lang="${this._locale}">${lang.nativeText}</span>`}
+                          : html`<span class="sr-only" lang="${this._locale}"
+                              >${lang.nativeText}</span
+                            >`}
                       </nys-button>`;
                     })}
                   </div>
