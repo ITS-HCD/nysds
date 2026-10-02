@@ -92,12 +92,12 @@ nys-verticalnav {
         font-weight: var(--nys-font-weight-semibold, 600);
 
         &:not(:disabled):hover {
-          color: var(--nys-color-theme-strong, #0E324F);
+          color: var(--nys-color-theme-strong, #0e324f);
           background-color: var(--nys-color-theme-weaker, #eff6fb);
         }
 
         &:not(:disabled):active {
-          color: var(--nys-color-theme-stronger, #081B2B);
+          color: var(--nys-color-theme-stronger, #081b2b);
           background-color: var(--nys-color-theme-weak, #cddde9);
         }
       }
