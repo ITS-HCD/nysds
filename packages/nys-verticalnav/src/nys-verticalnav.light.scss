@@ -85,16 +85,19 @@ nys-verticalnav {
       }
 
       &[aria-current="page"] {
-        color: var(--nys-color-text, #1b1b1b);
+        color: var(--nys-color-theme, #154973);
         background-color: var(--nys-color-theme-faint, #f7fafd);
         border-left: var(--nys-border-width-lg, 4px) solid
           var(--nys-color-theme, #154973);
+        font-weight: var(--nys-font-weight-semibold, 600);
 
         &:not(:disabled):hover {
+          color: var(--nys-color-theme-strong, #0e324f);
           background-color: var(--nys-color-theme-weaker, #eff6fb);
         }
 
         &:not(:disabled):active {
+          color: var(--nys-color-theme-stronger, #081b2b);
           background-color: var(--nys-color-theme-weak, #cddde9);
         }
       }

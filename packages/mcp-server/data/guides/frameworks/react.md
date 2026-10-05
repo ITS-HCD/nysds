@@ -5,30 +5,29 @@
 -->
 # @nysds/react
 
-React components for the New York State Design System (NYSDS). Every
-component wraps the matching NYSDS web component with
-[`@lit/react`](https://github.com/lit/lit/tree/main/packages/react), and
-every wrapper is generated from the design system's
-`custom-elements.json` — props, events, and types stay in sync with the
-web components without hand maintenance.
+React components for the New York State Design System (NYSDS). Generated from the NYSDS web components library.
 
 Works with React 18 and React 19, including Next.js App Router.
 
 ## Install
 
-```sh
-npm install @nysds/react
+### Setup a new React project
+
+```bash
+npm create vite@latest my-app -- --template react-ts
 ```
 
-`react` and `react-dom` (18 or 19) are peer dependencies. The matching
-`@nysds/nys-*` component packages install automatically.
+### Install NYS Design System
+```sh
+npm install @nysds/react @nysds/styles
+```
 
 ## Load styles
 
-Import the design system stylesheet once, at your app's entry point:
+Import the design system stylesheet once, in your app's main.tsx:
 
 ```tsx
-import "@nysds/styles";
+import "@nysds/styles/full";
 ```
 
 Without it, components render unstyled. `@nysds/styles` ships the
@@ -37,19 +36,11 @@ component's shadow DOM and need no extra setup.
 
 ## First component
 
-```tsx
-import { NysButton } from "@nysds/react";
-
-export function Save() {
-  return <NysButton label="Save" variant="primary" onNysClick={() => save()} />;
-}
-```
-
-Importing a component registers its custom element as a side effect.
-You can also import from a subpath to keep the dependency graph narrow:
+Edit your App.tsx file to import NYSDS components
 
 ```tsx
-import { NysTextinput } from "@nysds/react/textinput";
+import { NysButton } from "@nysds/react/button";
+<NysButton label="Submit" variant="filled" />
 ```
 
 ## Props, events, refs

@@ -26,7 +26,9 @@ const SOURCES = {
   components: path.join(PROJECT_ROOT, "dist"),
   styles: path.join(PROJECT_ROOT, "packages", "styles", "dist"),
   tokens: path.join(PROJECT_ROOT, "packages", "tokens", "dist"),
-  react: path.join(PROJECT_ROOT, "packages", "react"),
+  angular: path.join(PROJECT_ROOT, "packages", "angular", "dist"),
+  react: path.join(PROJECT_ROOT, "packages", "react", "dist"),
+  vue: path.join(PROJECT_ROOT, "packages", "vue", "dist"),
 };
 
 const RELEASE_DIR = path.join(PROJECT_ROOT, "release");
