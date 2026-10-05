@@ -548,6 +548,7 @@ export class NysUnavHeader extends NysElement {
 
     this.languageVisible = !this.languageVisible;
     if (this.languageVisible) {
+      this._openWithFocus ??= "first";
       this.trustbarVisible = false;
       this.searchDropdownVisible = false;
     }
