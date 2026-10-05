@@ -1005,12 +1005,16 @@ describe("nys-unavheader", () => {
       );
       expect(options).to.have.lengthOf(el.languages.length);
 
+      // The lang lives on the label span, not the nys-button host, so the
+      // sr-only native-name span can carry the page locale separately.
+      const labelOf = (o: Element) => o.querySelector("span[notranslate]");
+
       // Every option is tagged, so its label is announced in its own language
       // rather than the page's (WCAG 3.1.2).
       options.forEach((option, i) => {
         const code = el.languages[i].code;
-        expect(option.getAttribute("lang"), code).to.be.a("string").and.not.be
-          .empty;
+        expect(labelOf(option)?.getAttribute("lang"), code).to.be.a("string")
+          .and.not.be.empty;
       });
 
       // The label is slotted markup now, not an attribute: the native name in
@@ -1023,10 +1027,26 @@ describe("nys-unavheader", () => {
 
       // The codes double as Localize language codes, so the Chinese ones are
       // not valid language tags and have to be mapped.
-      expect(byLabel("中文")?.getAttribute("lang")).to.equal("zh-cn");
-      expect(byLabel("繁體中文")?.getAttribute("lang")).to.equal("zh-hk");
-      expect(byLabel("Español")?.getAttribute("lang")).to.equal("es");
-      expect(byLabel("Kreyòl Ayisyen")?.getAttribute("lang")).to.equal("ht");
+      expect(
+        byLabel("中文")
+          ?.querySelector("span[notranslate]")
+          ?.getAttribute("lang"),
+      ).to.equal("zh-cn");
+      expect(
+        byLabel("繁體中文")
+          ?.querySelector("span[notranslate]")
+          ?.getAttribute("lang"),
+      ).to.equal("zh-hk");
+      expect(
+        byLabel("Español")
+          ?.querySelector("span[notranslate]")
+          ?.getAttribute("lang"),
+      ).to.equal("es");
+      expect(
+        byLabel("Kreyòl Ayisyen")
+          ?.querySelector("span[notranslate]")
+          ?.getAttribute("lang"),
+      ).to.equal("ht");
     });
 
     it("tags author-supplied languages from their own codes", async () => {
@@ -1042,10 +1062,11 @@ describe("nys-unavheader", () => {
       const options = Array.from(
         el.shadowRoot?.querySelectorAll(".nys-unavheader__languagelink") ?? [],
       );
-      expect(options.map((o) => o.getAttribute("lang"))).to.deep.equal([
-        "en",
-        "pt",
-      ]);
+      expect(
+        options.map((o) =>
+          o.querySelector("span[notranslate]")?.getAttribute("lang"),
+        ),
+      ).to.deep.equal(["en", "pt"]);
     });
   });
 
@@ -1058,7 +1079,7 @@ describe("nys-unavheader", () => {
     const options = (el: NysUnavHeader) =>
       Array.from(el.shadowRoot?.querySelectorAll<HTMLElement>(OPTION) ?? []);
 
-    // The menuitem role and the roving tabindex live on the real <button> inside
+    // The listitem role and the roving tabindex live on the real <button> inside
     // each nys-button, not on the host — the host has no role to carry them.
     const control = (option: HTMLElement) =>
       option.shadowRoot?.querySelector("button");
@@ -1090,7 +1111,7 @@ describe("nys-unavheader", () => {
       await settle(el);
     };
 
-    it("gives the option list menu semantics", async () => {
+    it("gives the option list list semantics", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
@@ -1099,7 +1120,7 @@ describe("nys-unavheader", () => {
       const menu = el.shadowRoot?.getElementById(
         "nys-unavheader__languagelist",
       );
-      expect(menu?.getAttribute("role")).to.equal("menu");
+      expect(menu?.getAttribute("role")).to.equal("list");
       // A menu needs a name of its own; it matches the trigger that opens it.
       expect(menu?.getAttribute("aria-label")).to.equal("Translate");
 
@@ -1113,7 +1134,7 @@ describe("nys-unavheader", () => {
           "presentation",
         );
         expect(control(option)?.getAttribute("role"), `option ${i}`).to.equal(
-          "menuitem",
+          "listitem",
         );
       });
     });
