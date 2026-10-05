@@ -234,9 +234,14 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * - Place anywhere other than the top of the page.
  * - Modify the universal header.
  *
- * @example Basic
+ * @example Basic - Localize
  * ```html
  * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
+ * ```
+ *
+ * @example Basic - Smartling
+ * ```html
+ * <nys-unavheader></nys-unavheader>
  * ```
  *
  * @example Hide search
@@ -613,7 +618,7 @@ export class NysUnavHeader extends NysElement {
 
     options.forEach((option, index) => {
       const control = innerControl(option);
-      control.setAttribute("role", "menuitem");
+      control.setAttribute("role", "listitem");
       // Exactly one tab stop: Tab enters and leaves the menu, arrows move within it
       control.setAttribute(
         "tabindex",
@@ -1347,7 +1352,7 @@ export class NysUnavHeader extends NysElement {
                     : null}
                   <div
                     id="${LANGUAGE_LIST_ID}"
-                    role="menu"
+                    role="list"
                     aria-label="${LANGUAGE_MENU_LABEL}"
                     class="nys-unavheader__languagelist ${this.languageVisible
                       ? "show"
@@ -1357,22 +1362,23 @@ export class NysUnavHeader extends NysElement {
                       const isCurrent =
                         languageTag(lang.code) ===
                         document.documentElement.lang;
-                      return html`<nys-button
+                      return html` <nys-button
                         role="presentation"
                         variant="ghost"
                         fullWidth
-                        lang="${languageTag(lang.code)}"
                         class="${LANGUAGE_OPTION_CLASS}"
                         href=${ifDefined(this._languageHref(lang))}
                         @click="${(e: Event) =>
                           this._handleLanguageSelect(e, lang)}"
                       >
-                        <span notranslate>${lang.label}</span>
-                        <!--${isCurrent || !lang.nativeText
+                        <span lang="${languageTag(lang.code)}" notranslate
+                          >${lang.label}</span
+                        >
+                        ${isCurrent || !lang.nativeText
                           ? nothing
-                          : html`<span lang="${this._locale}"
-                              >&nbsp;(${lang.nativeText})</span
-                            >`}-->
+                          : html`<span class="sr-only" lang="${this._locale}"
+                              >${lang.nativeText}</span
+                            >`}
                       </nys-button>`;
                     })}
                   </div>
