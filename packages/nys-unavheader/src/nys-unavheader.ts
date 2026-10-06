@@ -21,7 +21,6 @@ export interface Language {
   label: string;
   nativeText: string;
   disclaimer?: string;
-  rtl?: boolean;
   url?: string;
 }
 
@@ -361,7 +360,6 @@ export class NysUnavHeader extends NysElement {
       label: "יידיש",
       nativeText: "Yiddish",
       disclaimer: `קיין איין אויטאמאטישע איבערזעצונג איז נישט אינגאנצן פארלעסליך, און עס איז נישט געמאכט צו ערזעצן א מענטשליכע איבערזעצער. טייל בלעטער אדער אינהאלט זענען מעגליך נישט פונקטליך איבערגעזעצט צוליב די באגרעניצטע מעגליכקייטן פון די איבערזעצונג טעכנאלאגיע. <a href="https://ny.gov/web-translation-services">לייענט די פולע אויסקלארונג</a>`,
-      rtl: true,
     },
     {
       code: "ru",
@@ -398,7 +396,6 @@ export class NysUnavHeader extends NysElement {
       label: "العربية",
       nativeText: "Arabic",
       disclaimer: `الترجمة الآلية لا تكون مثالية بأي حال من الأحوال، ولا يقصد بها أن تحل محل المترجمين من بني البشر. قد تكون ترجمة بعض المحتويات أو الصفحات غير دقيقة بسبب محددات برمجية الترجمة. <a href="https://ny.gov/web-translation-services">اقرأ بيان إخلاء المسؤولية بالكامل</a>`,
-      rtl: true,
     },
     {
       code: "pl",
@@ -417,7 +414,6 @@ export class NysUnavHeader extends NysElement {
       label: "اردو",
       nativeText: "Urdu",
       disclaimer: `کوئی بھی خود کار ترجمہ بالکل درست نہیں ہوتا ہے، نہ ہی اس کا مقصد انسانی ترجمہ نگاروں کی جگہ لینا ہوتا ہے۔ ممکن ہے کہ ترجمہ سافٹ ویئر کی محدود صلاحیتوں کی وجہ سے کچھ صفحات یا مواد کا ترجمہ بالکل درست نہ ہو پائے۔ <a href="https://ny.gov/web-translation-services">مکمل براءت نامہ پڑھیں</a>`,
-      rtl: true,
     },
   ];
 
@@ -747,18 +743,18 @@ export class NysUnavHeader extends NysElement {
           key: this.translateKey,
           rememberLanguage: true,
           autoApprove: true,
-          showWidget: false,
+          enableLanguageDirections: true,
+          languageDirections: [
+            { language: "ar", direction: "rtl" },
+            { language: "ur", direction: "rtl" },
+            { language: "yi", direction: "rtl" },
+          ],
         });
-        // The document's RTL/LTR direction has to track whatever language is
-        // actually showing — including a remembered language Localize restores
-        // on load, not just a click in this dropdown — so it's synced from
-        // Localize's own "setLanguage" event rather than from the click handler.
-        // The disclaimer is *not* wired here: it must only ever appear as the
-        // direct result of a user clicking a language (see _handleLanguageSelect),
-        // never as a side effect of Localize's own state changes.
-        (window as any).Localize.on("setLanguage", (data: any) => {
-          this._syncDocumentDirection(data?.to ?? data?.language);
-        });
+        (window as any).Localize.hideWidget();
+        // The disclaimer is *not* wired to Localize: it must only ever
+        // appear as a direct result of a user clicking a language (see
+        // _handleLanguageSelect), never as a side effect of Localize's own
+        // state changes.
       }
     };
 
@@ -784,32 +780,6 @@ export class NysUnavHeader extends NysElement {
       this.trustbarVisible = false;
       this.languageVisible = false;
     }
-  }
-
-  /**
-   * Syncs the document's RTL/LTR direction to the given language code.
-   *
-   * Wired to Localize's own "setLanguage" event (see `_initLocalize`) so it
-   * tracks whichever language is actually showing — including a remembered
-   * language Localize restores on load — not just a click in this dropdown.
-   * Also called directly from `_handleLanguageSelect` when Localize isn't
-   * available, since then no "setLanguage" event will ever fire.
-   */
-  private _syncDocumentDirection(languageCode: string) {
-    if (languageCode === "en") {
-      document.documentElement.dir = "ltr";
-      return;
-    }
-
-    const baseLang = (document.documentElement.lang || "")
-      .toLowerCase()
-      .split("-")[0];
-    const checkLang =
-      this.languages.find(
-        (lang) => lang.code.toLowerCase() === languageCode.toLowerCase(),
-      ) || this.languages.find((lang) => lang.code.toLowerCase() === baseLang);
-
-    document.documentElement.dir = checkLang?.rtl ? "rtl" : "ltr";
   }
 
   /**
@@ -884,12 +854,8 @@ export class NysUnavHeader extends NysElement {
     // restoring a remembered language on load), and the disclaimer must not
     // appear unprompted.
     if (typeof (window as any).Localize !== "undefined") {
-      // Localize's own "setLanguage" event (wired up in _initLocalize) syncs
-      // the document direction once this takes effect.
+      // Localize sets the document direction itself (see `languageDirections`).
       (window as any).Localize.setLanguage(language.code);
-    } else {
-      // No Localize instance to fire that event — sync it directly.
-      this._syncDocumentDirection(language.code);
     }
     this._updateTranslateDisclaimer(language.code);
 
