@@ -711,42 +711,7 @@ describe("nys-unavheader", () => {
     delete (window as any).Localize;
   });
 
-  it("syncs document direction from Localize's own setLanguage event, without showing the disclaimer", async () => {
-    // Localize fires "setLanguage" for reasons that aren't a user clicking a
-    // language in this dropdown — restoring a remembered language on load
-    // chief among them. The document direction has to track the language
-    // that's actually showing regardless of how it got there, so it's wired
-    // to that event; the disclaimer is not, and must only ever appear as the
-    // direct result of a click (see _handleLanguageSelect).
-    const el = await fixture<NysUnavHeader>(
-      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
-    );
-    await el.updateComplete;
-
-    let setLanguageListener: ((data: unknown) => void) | undefined;
-    (window as any).Localize = {
-      initialize: () => {},
-      setLanguage: () => {},
-      on: (event: string, cb: (data: unknown) => void) => {
-        if (event === "setLanguage") setLanguageListener = cb;
-      },
-    };
-
-    (el as any)._initLocalize();
-    setLanguageListener?.({ to: "yi" }); // Yiddish is RTL
-
-    expect(document.documentElement.dir).to.equal("rtl");
-    expect(
-      document.body.querySelector(
-        "nys-alert[data-translate-disclaimer='true']",
-      ),
-    ).to.not.exist;
-
-    document.documentElement.dir = "ltr";
-    delete (window as any).Localize;
-  });
-
-  it("initializes Localize with its default widget hidden", async () => {
+  it("initializes Localize with its default widget hidden and language directions configured", async () => {
     // The header's own translate menu drives Localize through setLanguage, so
     // Localize's floating widget would be a redundant second control.
     const el = await fixture<NysUnavHeader>(
@@ -755,20 +720,28 @@ describe("nys-unavheader", () => {
     await el.updateComplete;
 
     let initOptions: Record<string, unknown> | undefined;
+    let hideWidgetCalled = false;
     (window as any).Localize = {
       initialize: (options: Record<string, unknown>) => {
         initOptions = options;
       },
+      hideWidget: () => {
+        hideWidgetCalled = true;
+      },
       setLanguage: () => {},
-      on: () => {},
     };
 
     (el as any)._initLocalize();
 
     expect(initOptions, "Localize.initialize should have been called").to.exist;
-    // Strict false: an omitted option would leave Localize's default (shown).
-    expect(initOptions?.showWidget).to.equal(false);
-    // The rest of the config must survive the change.
+    expect(hideWidgetCalled, "Localize.hideWidget should have been called").to
+      .be.true;
+    expect(initOptions?.enableLanguageDirections).to.be.true;
+    expect(initOptions?.languageDirections).to.deep.equal([
+      { language: "ar", direction: "rtl" },
+      { language: "ur", direction: "rtl" },
+      { language: "yi", direction: "rtl" },
+    ]);
     expect(initOptions?.key).to.equal("test-key");
     expect(initOptions?.rememberLanguage).to.equal(true);
     expect(initOptions?.autoApprove).to.equal(true);
@@ -797,20 +770,6 @@ describe("nys-unavheader", () => {
       // Reset document direction
       document.documentElement.dir = "ltr";
       document.documentElement.lang = "en";
-    });
-
-    it("correctly sets document.documentElement.dir based on the selected language's rtl property", async () => {
-      // Test RTL language (Yiddish is RTL)
-      (el as any)._syncDocumentDirection("yi");
-      expect(document.documentElement.dir).to.equal("rtl");
-
-      // Test LTR language (Spanish is LTR)
-      (el as any)._syncDocumentDirection("es");
-      expect(document.documentElement.dir).to.equal("ltr");
-
-      // Test English (Reset to LTR)
-      (el as any)._syncDocumentDirection("en");
-      expect(document.documentElement.dir).to.equal("ltr");
     });
 
     it("renders the correct disclaimer text for the active language if defined", async () => {

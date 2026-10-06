@@ -750,7 +750,7 @@ export class NysUnavHeader extends NysElement {
             { language: "yi", direction: "rtl" },
           ],
         });
-        (window as any).Localize.hideWidget();
+        (window as any).Localize?.hideWidget?.();
         // The disclaimer is *not* wired to Localize: it must only ever
         // appear as a direct result of a user clicking a language (see
         // _handleLanguageSelect), never as a side effect of Localize's own
