@@ -746,6 +746,36 @@ describe("nys-unavheader", () => {
     delete (window as any).Localize;
   });
 
+  it("initializes Localize with its default widget hidden", async () => {
+    // The header's own translate menu drives Localize through setLanguage, so
+    // Localize's floating widget would be a redundant second control.
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+    );
+    await el.updateComplete;
+
+    let initOptions: Record<string, unknown> | undefined;
+    (window as any).Localize = {
+      initialize: (options: Record<string, unknown>) => {
+        initOptions = options;
+      },
+      setLanguage: () => {},
+      on: () => {},
+    };
+
+    (el as any)._initLocalize();
+
+    expect(initOptions, "Localize.initialize should have been called").to.exist;
+    // Strict false: an omitted option would leave Localize's default (shown).
+    expect(initOptions?.showWidget).to.equal(false);
+    // The rest of the config must survive the change.
+    expect(initOptions?.key).to.equal("test-key");
+    expect(initOptions?.rememberLanguage).to.equal(true);
+    expect(initOptions?.autoApprove).to.equal(true);
+
+    delete (window as any).Localize;
+  });
+
   describe("localization and translation disclaimer updates", () => {
     let el: NysUnavHeader;
 

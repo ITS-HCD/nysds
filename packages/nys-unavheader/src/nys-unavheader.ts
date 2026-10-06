@@ -747,6 +747,7 @@ export class NysUnavHeader extends NysElement {
           key: this.translateKey,
           rememberLanguage: true,
           autoApprove: true,
+          showWidget: false,
         });
         // The document's RTL/LTR direction has to track whatever language is
         // actually showing — including a remembered language Localize restores
