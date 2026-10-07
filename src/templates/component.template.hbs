@@ -50,6 +50,11 @@ export type Nys{{capitalize componentName}}InputEvent = CustomEvent<Nys{{capital
  * Extends {{#if (ne formControl "none")}}`NysFormControlElement`{{else}}`NysElement`{{/if}} from `@nysds/internals`, which provides
  * {{#if (ne formControl "none")}}form association (ElementInternals), validity helpers, and {{/if}}automatic
  * id generation. See `nys-{{#if (ne formControl "none")}}textinput{{else}}alert{{/if}}` for a reference implementation.
+ *
+ * @example Basic
+ * ```html
+ * <nys-{{componentName}}></nys-{{componentName}}>
+ * ```
 {{#if (ne formControl "none")}} *
  * @formControl {{formControl}} nys-change{{#if (eq formControl "value")}} nys-input{{/if}}
  *
@@ -196,7 +201,6 @@ export class Nys{{capitalize componentName}} extends {{#if (ne formControl "none
    * Functions
    * --------------------------------------------------------------------------
    */
-  // Placeholder for component-specific functions
 
   /**
    * Event Handlers
