@@ -1,0 +1,41 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Onthispage Styles */
+  --_nys-onthispage-width: fit-content;
+  --_nys-onthispage-height: var(--nys-size-600, 48px);
+  --_nys-onthispage-border-radius: var(--nys-radius-xl, 12px);
+  --_nys-onthispage-padding: var(--nys-space-100, 8px);
+  --_nys-onthispage-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-onthispage-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-onthispage-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-onthispage-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-onthispage-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+.nys-onthispage {
+  width: var(--_nys-onthispage-width);
+  height: var(--_nys-onthispage-height);
+  border-radius: var(--_nys-onthispage-radius);
+  padding: var(--_nys-onthispage-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_nys-onthispage-gap);
+  font-family: var(--_nys-onthispage-font-family);
+  font-size: var(--_nys-onthispage-font-size);
+  font-weight: var(--_nys-onthispage-font-weight);
+  line-height: var(--_nys-onthispage-line-height);
+}

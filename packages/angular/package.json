@@ -134,6 +134,10 @@
       "types": "./dist/modal/index.d.ts",
       "default": "./dist/fesm2022/nysds-angular-modal.mjs"
     },
+    "./onthispage": {
+      "types": "./dist/onthispage/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-onthispage.mjs"
+    },
     "./option": {
       "types": "./dist/option/index.d.ts",
       "default": "./dist/fesm2022/nysds-angular-option.mjs"
@@ -265,6 +269,7 @@
     "@nysds/nys-iconlist": "1.22.0",
     "@nysds/nys-label": "1.22.0",
     "@nysds/nys-modal": "1.22.0",
+    "@nysds/nys-onthispage": "1.22.0",
     "@nysds/nys-pagination": "1.22.0",
     "@nysds/nys-processlist": "1.22.0",
     "@nysds/nys-radiobutton": "1.22.0",

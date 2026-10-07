@@ -33,6 +33,7 @@ const packages = [
   { name: "nys-iconlist", path: "packages/nys-iconlist" },
   { name: "nys-card", path: "packages/nys-card" },
   { name: "nys-modal", path: "packages/nys-modal" },
+  { name: "nys-onthispage", path: "packages/nys-onthispage" },
   { name: "nys-pagination", path: "packages/nys-pagination" },
   { name: "nys-processlist", path: "packages/nys-processlist" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },

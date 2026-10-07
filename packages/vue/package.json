@@ -133,6 +133,10 @@
       "types": "./dist/generated/NysModal.d.ts",
       "import": "./dist/generated/NysModal.js"
     },
+    "./onthispage": {
+      "types": "./dist/generated/NysOnthispage.d.ts",
+      "import": "./dist/generated/NysOnthispage.js"
+    },
     "./option": {
       "types": "./dist/generated/NysOption.d.ts",
       "import": "./dist/generated/NysOption.js"
@@ -256,6 +260,7 @@
     "@nysds/nys-iconlist": "1.22.0",
     "@nysds/nys-label": "1.22.0",
     "@nysds/nys-modal": "1.22.0",
+    "@nysds/nys-onthispage": "1.22.0",
     "@nysds/nys-pagination": "1.22.0",
     "@nysds/nys-processlist": "1.22.0",
     "@nysds/nys-radiobutton": "1.22.0",
