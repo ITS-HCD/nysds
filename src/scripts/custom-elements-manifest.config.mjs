@@ -13,36 +13,6 @@ import fs from "fs";
 import path from "path";
 
 /**
- * Derives `dependencies` for each custom element from side-effect imports of
- * the form `import "@nysds/nys-*";` in its source module.
- * Emits tag names (e.g. "nys-label"), sorted and de-duplicated.
- */
-const NYSDS_IMPORT_RE = /^\s*import\s+["']@nysds\/(nys-[\w-]+)["']\s*;?/gm;
-
-const importDepsPlugin = () => ({
-  name: "nysds-import-deps",
-  packageLinkPhase({ customElementsManifest }) {
-    for (const mod of customElementsManifest.modules) {
-      if (!mod.declarations || !fs.existsSync(mod.path)) continue;
-
-      const content = fs.readFileSync(mod.path, "utf-8");
-      const deps = [
-        ...new Set(
-          Array.from(content.matchAll(NYSDS_IMPORT_RE), (m) => m[1]),
-        ),
-      ].sort();
-      if (!deps.length) continue;
-
-      for (const decl of mod.declarations) {
-        if (decl.kind === "class" && decl.customElement) {
-          decl.dependencies = deps;
-        }
-      }
-    }
-  },
-});
-
-/**
  * Extracts `@render <Title>` JSDoc tags and attaches them as `render` onto the
  * matching `@example <Title>` entry produced by cem-plugin-examples.
  *
@@ -249,7 +219,6 @@ export default {
     },
     cemExamplesPlugin(),
     renderTagsPlugin(),
-    importDepsPlugin(),
     // @nysds/codegen plugins (framework-support WS2). formControlPlugin must
     // run before the wrapper plugins so they see declaration.formControl.
     // strict: true — every form component carries an @formControl tag

@@ -434,9 +434,6 @@
               "code": "<nys-accordion headingLevel=\"h2\">\n<nys-accordionitem heading=\"Sits at h2, inherited from the group\">\n<p>Every item follows the group unless it says otherwise.</p>\n</nys-accordionitem>\n<nys-accordionitem headingLevel=\"h3\" heading=\"Sits at h3, set on the item\">\n<p>An item that nests under the preceding one sets its own level.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
-          ],
-          "dependencies": [
-            "nys-icon"
           ]
         }
       ],
@@ -891,10 +888,6 @@
             "Overuse alerts for low-priority info. This can desensitize users.",
             "Use alerts as toasts. Place them at the top of the page content.",
             "Add any shadows to alerts."
-          ],
-          "dependencies": [
-            "nys-button",
-            "nys-icon"
           ]
         }
       ],
@@ -1260,9 +1253,6 @@
             "Overload the avatar with unnecessary customizations or override default avatar icons unless additional context is essential. Doing so creates inconsistency across NYS interfaces.",
             "Use an avatar when a large visual representation is needed; use a photo instead.",
             "Replace an avatar with a simple label or text when that would communicate the information more clearly."
-          ],
-          "dependencies": [
-            "nys-icon"
           ]
         }
       ],
@@ -1451,9 +1441,6 @@
             "Don't use on pages where content fits within a single viewport without scrolling.",
             "Don't use if your page already has anchor-based in-page navigation such as a table of contents. A back-to-top button is likely redundant.",
             "Don't set `visible` in production unless you have a specific reason to override the auto-show behavior. Forcing visibility on short pages creates unnecessary clutter."
-          ],
-          "dependencies": [
-            "nys-button"
           ]
         }
       ],
@@ -1863,9 +1850,6 @@
             "Mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.",
             "Rely on color alone to convey meaning; always include a text label.",
             "Stack multiple badges on a single element unless each communicates a distinct, necessary status."
-          ],
-          "dependencies": [
-            "nys-icon"
           ]
         }
       ],
@@ -2347,9 +2331,6 @@
             "Use breadcrumbs as the only navigation method.",
             "Use breadcrumbs for sequential processes like multi-step forms or wizards. Use a stepper instead.",
             "Add breadcrumbs when they don't provide meaningful context or navigation value."
-          ],
-          "dependencies": [
-            "nys-icon"
           ]
         }
       ],
@@ -3165,9 +3146,6 @@
             "Use buttons for navigation. Use an `<a>` element or Text button for links that take users somewhere else.",
             "Use icons in buttons without a text label. Very few icons are universally understood.",
             "Create custom button styles (color, shape, size). Consistency helps users recognize buttons and predict behavior."
-          ],
-          "dependencies": [
-            "nys-icon"
           ]
         }
       ],
@@ -4434,12 +4412,6 @@
             "Use when you have more than 10 options to choose from.",
             "Change the state of one checkbox based on another being clicked."
           ],
-          "dependencies": [
-            "nys-errormessage",
-            "nys-icon",
-            "nys-label",
-            "nys-textinput"
-          ],
           "formControl": {
             "kind": "checked",
             "changeEvent": "nys-change"
@@ -5059,10 +5031,6 @@
               "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<div slot=\"description\">Your <strong>ABSOLUTE</strong> favorite one.</div>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
-          ],
-          "dependencies": [
-            "nys-errormessage",
-            "nys-label"
           ],
           "formControl": {
             "kind": "value",
@@ -5860,12 +5828,6 @@
           "usagedonts": [
             "Use when the number of options is small. Use `<nys-select>` or `<nys-radiobutton>` instead.",
             "Use when options are unfamiliar to users and browsing the full list is necessary."
-          ],
-          "dependencies": [
-            "nys-button",
-            "nys-errormessage",
-            "nys-icon",
-            "nys-label"
           ],
           "formControl": {
             "kind": "value",
@@ -6794,12 +6756,6 @@
             "Rely on the calendar popup alone. Safari and mobile browsers use the native date picker instead.",
             "Use `hideTodayButton` and `hideClearButton` together unless users must select a specific date and cannot be allowed to clear it."
           ],
-          "dependencies": [
-            "nys-button",
-            "nys-errormessage",
-            "nys-icon",
-            "nys-label"
-          ],
           "formControl": {
             "kind": "value",
             "changeEvent": "nys-change",
@@ -7579,10 +7535,7 @@
           },
           "tagName": "nys-dropdownmenuitem",
           "customElement": true,
-          "summary": "Dropdown item to display label and provide href link.",
-          "dependencies": [
-            "nys-icon"
-          ]
+          "summary": "Dropdown item to display label and provide href link."
         }
       ],
       "exports": [
@@ -7735,9 +7688,6 @@
               "code": "<nys-errormessage showError errorMessage=\"This is an error message\" showDivider></nys-errormessage>",
               "lang": "html"
             }
-          ],
-          "dependencies": [
-            "nys-icon"
           ]
         }
       ],
@@ -8534,10 +8484,6 @@
             "Use when file preview of uploaded content is needed.",
             "Use when file upload is not necessary for the task."
           ],
-          "dependencies": [
-            "nys-errormessage",
-            "nys-label"
-          ],
           "formControl": {
             "kind": "files",
             "changeEvent": "nys-change"
@@ -8730,11 +8676,7 @@
           },
           "tagName": "nys-fileitem",
           "customElement": true,
-          "summary": "Internal file item display with status, progress bar, and remove action.",
-          "dependencies": [
-            "nys-button",
-            "nys-icon"
-          ]
+          "summary": "Internal file item display with status, progress bar, and remove action."
         }
       ],
       "exports": [
@@ -9028,9 +8970,6 @@
             "Include page-specific content or calls to action. Footer content should be relevant site-wide.",
             "Use for statewide universal links (Agencies, Services, Counties). Those belong in `<nys-unavfooter>`, which renders below this component.",
             "Embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security."
-          ],
-          "dependencies": [
-            "nys-divider"
           ]
         }
       ],
@@ -9476,9 +9415,6 @@
             "Add navigation links to application headers where users should remain focused on a task (e.g., a multi-step form).",
             "Place secondary or utility navigation in the Global Header. Use `<nys-globalfooter>` for secondary links.",
             "Use the `nysLogo` property on public-facing sites, instead use the `<nys-unavheader>` for statewide branding."
-          ],
-          "dependencies": [
-            "nys-icon"
           ]
         }
       ],
@@ -10433,10 +10369,7 @@
           },
           "tagName": "nys-iconlistitem",
           "customElement": true,
-          "summary": "An icon-paired list item for use inside `<nys-iconlist>`.",
-          "dependencies": [
-            "nys-icon"
-          ]
+          "summary": "An icon-paired list item for use inside `<nys-iconlist>`."
         }
       ],
       "exports": [
@@ -10673,11 +10606,7 @@
             }
           ],
           "tagName": "nys-label",
-          "customElement": true,
-          "dependencies": [
-            "nys-icon",
-            "nys-tooltip"
-          ]
+          "customElement": true
         }
       ],
       "exports": [
@@ -11063,9 +10992,6 @@
             "Use for trivial information or inline status messages. Use `<nys-alert>` instead.",
             "Use for quick hints on form fields. Use `<nys-tooltip>` instead.",
             "Force the `mandatory` prop unnecessarily."
-          ],
-          "dependencies": [
-            "nys-button"
           ]
         }
       ],
@@ -11380,9 +11306,6 @@
             "Use when content fits on a single page (fewer than 3–4 screen heights). Show all items instead.",
             "Use for step-based workflows where users complete tasks in order. Use `<nys-stepper>` instead.",
             "Use for infinite-scroll patterns such as a news feed."
-          ],
-          "dependencies": [
-            "nys-button"
           ]
         }
       ],
@@ -12334,9 +12257,6 @@
               "lang": "html"
             }
           ],
-          "dependencies": [
-            "nys-label"
-          ],
           "formControl": {
             "kind": "checked",
             "changeEvent": "nys-change"
@@ -13076,11 +12996,6 @@
               "lang": "html"
             }
           ],
-          "dependencies": [
-            "nys-errormessage",
-            "nys-label",
-            "nys-textinput"
-          ],
           "formControl": {
             "kind": "value",
             "changeEvent": "nys-change"
@@ -13793,11 +13708,6 @@
             "Use when users need to select multiple items. Use a checkbox group instead.",
             "Use the custom `<nys-option>` element. It will be deprecated in the 2.0 release.",
             "Use `<nys-select multiple>`. Use a checkbox group instead."
-          ],
-          "dependencies": [
-            "nys-errormessage",
-            "nys-icon",
-            "nys-label"
           ],
           "formControl": {
             "kind": "value",
@@ -15444,10 +15354,6 @@
             "Use for non-tabular content. Consider definition lists or hierarchical lists instead.",
             "Use when cell content is long-form; table cells should be brief and scannable. If you need multiple bullet points or paragraphs in a cell, consider page headers or an accordion instead.",
             "Add `rowspan` or `colspan` with the `sortable` property."
-          ],
-          "dependencies": [
-            "nys-button",
-            "nys-icon"
           ]
         }
       ],
@@ -16147,10 +16053,6 @@
           "usagedonts": [
             "Use for short or single-line input. Use `<nys-textinput>` instead.",
             "Use when input should be selected from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead."
-          ],
-          "dependencies": [
-            "nys-errormessage",
-            "nys-label"
           ],
           "formControl": {
             "kind": "value",
@@ -16990,12 +16892,6 @@
             "Overwhelm users with too many fields. Group related inputs.",
             "Use placeholders as labels."
           ],
-          "dependencies": [
-            "nys-button",
-            "nys-errormessage",
-            "nys-icon",
-            "nys-label"
-          ],
           "formControl": {
             "kind": "value",
             "changeEvent": "nys-change",
@@ -17410,10 +17306,6 @@
             "Use for complex or multi-state choices.",
             "Overuse for minor settings that don't affect the user experience.",
             "Hide labels unless an accessible alternative is in place."
-          ],
-          "dependencies": [
-            "nys-icon",
-            "nys-label"
           ],
           "formControl": {
             "kind": "checked",
@@ -18619,12 +18511,6 @@
             "Use on back office applications or internal sites that are not public-facing, instead use the `<nys-globalheader>` with the `nysLogo` property applied.",
             "Place anywhere other than the top of the page.",
             "Modify the universal header."
-          ],
-          "dependencies": [
-            "nys-alert",
-            "nys-button",
-            "nys-icon",
-            "nys-textinput"
           ]
         }
       ],
@@ -18965,9 +18851,6 @@
             "Use for filtering, tab switching, or other in-page interactions.",
             "Nest more than one level of sub-items.",
             "Overload with excessive use of icons, colors, or badges in navigation items."
-          ],
-          "dependencies": [
-            "nys-accordion"
           ]
         }
       ],
@@ -19118,10 +19001,7 @@
           },
           "tagName": "nys-verticalnavgroup",
           "customElement": true,
-          "summary": "Collapsible link group for use within `<nys-verticalnav>`.",
-          "dependencies": [
-            "nys-icon"
-          ]
+          "summary": "Collapsible link group for use within `<nys-verticalnav>`."
         }
       ],
       "exports": [
