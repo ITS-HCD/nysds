@@ -4225,20 +4225,6 @@
               },
               "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`.",
               "name": "nys-other-input"
-            },
-            {
-              "type": {
-                "text": "NysCheckboxErrorEvent"
-              },
-              "description": "Internal group coordination: reports an empty \"other\" field to the parent `nys-checkboxgroup`. Not part of the public API.",
-              "name": "nys-error"
-            },
-            {
-              "type": {
-                "text": "NysCheckboxErrorClearEvent"
-              },
-              "description": "Internal group coordination: clears a previously reported \"other\" field error. Not part of the public API.",
-              "name": "nys-error-clear"
             }
           ],
           "attributes": [

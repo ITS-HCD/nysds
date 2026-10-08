@@ -93,8 +93,6 @@ export type NysCheckboxErrorClearEvent =
  * @fires {Event} nys-focus - Fired when checkbox gains focus. Bubbles and composed.
  * @fires {Event} nys-blur - Fired when checkbox loses focus. Bubbles and composed.
  * @fires {NysCheckboxOtherInputEvent} nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
- * @fires {NysCheckboxErrorEvent} nys-error - Internal group coordination: reports an empty "other" field to the parent `nys-checkboxgroup`. Not part of the public API.
- * @fires {NysCheckboxErrorClearEvent} nys-error-clear - Internal group coordination: clears a previously reported "other" field error. Not part of the public API.
  *
  * @usagedos
  * - Use for binary decisions (agree/disagree), confirmation, or multi-select lists.
