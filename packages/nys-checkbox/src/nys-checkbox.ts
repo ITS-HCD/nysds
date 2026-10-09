@@ -102,7 +102,7 @@ export type NysCheckboxErrorClearEvent =
  * - Use `nys-checkboxgroup` to group checkboxes with a shared label and description.
  *
  * @usagedonts
- * - Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a <nys-select> for 7 or more.
+ * - Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a `<nys-select>` for 7 or more.
  * - Use a checkbox when changing its state immediately affects the system. Use a `<nys-toggle>` instead (e.g., enabling Dark Mode).
  * - Use when you have more than 10 options to choose from.
  * - Change the state of one checkbox based on another being clicked.

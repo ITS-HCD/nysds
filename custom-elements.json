@@ -3082,7 +3082,7 @@
             },
             {
               "title": "Slotted Icons",
-              "code": "<nys-button label=\"Slotted icons\">\n<nys-icon color=\"#db117d\" slot=\"prefix-icon\" name=\"chevron_left\"></nys-icon>\n<nys-icon color=\"#db117d\" slot=\"suffix-icon\" name=\"chevron_right\"></nys-icon>\n</nys-button>",
+              "code": "<nys-button label=\"Slotted icons\" variant=\"outline\">\n<nys-icon\ncolor=\"#db117d\"\nsize=\"24\"\nslot=\"prefix-icon\"\nname=\"chevron_left\">\n</nys-icon>\n<nys-icon\ncolor=\"#db117d\"\nsize=\"24\"\nslot=\"suffix-icon\"\nname=\"chevron_right\">\n</nys-icon>\n</nys-button>\n<nys-button circle variant=\"outline\">\n<nys-icon\ncolor=\"#db117d\"\nsize=\"24\"\nslot=\"circle-icon\"\nname=\"close\">\n</nys-icon>\n</nys-button>",
               "lang": "html"
             },
             {
@@ -4225,20 +4225,6 @@
               },
               "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`.",
               "name": "nys-other-input"
-            },
-            {
-              "type": {
-                "text": "NysCheckboxErrorEvent"
-              },
-              "description": "Internal group coordination: reports an empty \"other\" field to the parent `nys-checkboxgroup`. Not part of the public API.",
-              "name": "nys-error"
-            },
-            {
-              "type": {
-                "text": "NysCheckboxErrorClearEvent"
-              },
-              "description": "Internal group coordination: clears a previously reported \"other\" field error. Not part of the public API.",
-              "name": "nys-error-clear"
             }
           ],
           "attributes": [
@@ -4421,7 +4407,7 @@
             "Use `nys-checkboxgroup` to group checkboxes with a shared label and description."
           ],
           "usagedonts": [
-            "Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a <nys-select> for 7 or more.",
+            "Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a `<nys-select>` for 7 or more.",
             "Use a checkbox when changing its state immediately affects the system. Use a `<nys-toggle>` instead (e.g., enabling Dark Mode).",
             "Use when you have more than 10 options to choose from.",
             "Change the state of one checkbox based on another being clicked."
