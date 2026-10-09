@@ -3082,7 +3082,7 @@
             },
             {
               "title": "Slotted Icons",
-              "code": "<nys-button label=\"Slotted icons\">\n<nys-icon color=\"#db117d\" slot=\"prefix-icon\" name=\"chevron_left\"></nys-icon>\n<nys-icon color=\"#db117d\" slot=\"suffix-icon\" name=\"chevron_right\"></nys-icon>\n</nys-button>",
+              "code": "<nys-button label=\"Slotted icons\" variant=\"outline\">\n<nys-icon\ncolor=\"#db117d\"\nsize=\"24\"\nslot=\"prefix-icon\"\nname=\"chevron_left\">\n</nys-icon>\n<nys-icon\ncolor=\"#db117d\"\nsize=\"24\"\nslot=\"suffix-icon\"\nname=\"chevron_right\">\n</nys-icon>\n</nys-button>\n<nys-button circle variant=\"outline\">\n<nys-icon\ncolor=\"#db117d\"\nsize=\"24\"\nslot=\"circle-icon\"\nname=\"close\">\n</nys-icon>\n</nys-button>",
               "lang": "html"
             },
             {

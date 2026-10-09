@@ -93,9 +93,27 @@ import styles from "./nys-button.scss?inline";
  *
  * @example Slotted Icons
  * ```html
- * <nys-button label="Slotted icons">
- *   <nys-icon color="#db117d" slot="prefix-icon" name="chevron_left"></nys-icon>
- *   <nys-icon color="#db117d" slot="suffix-icon" name="chevron_right"></nys-icon>
+ * <nys-button label="Slotted icons" variant="outline">
+ *   <nys-icon
+ *     color="#db117d"
+ *     size="24"
+ *     slot="prefix-icon"
+ *     name="chevron_left">
+ *   </nys-icon>
+ *   <nys-icon
+ *     color="#db117d"
+ *     size="24"
+ *     slot="suffix-icon"
+ *     name="chevron_right">
+ *   </nys-icon>
+ * </nys-button>
+ * <nys-button circle variant="outline">
+ *   <nys-icon
+ *     color="#db117d"
+ *     size="24"
+ *     slot="circle-icon"
+ *     name="close">
+ *   </nys-icon>
  * </nys-button>
  * ```
  *
