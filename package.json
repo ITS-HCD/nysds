@@ -26,7 +26,7 @@
   "scripts": {
     "dev": "vite",
     "gen": "plop",
-    "gen-stories": "node src/scripts/generate-stories.mjs",
+    "gen-stories": "npm run cem && node src/scripts/generate-stories.mjs",
     "gen-stories:component": "sh -c 'node src/scripts/generate-stories.mjs \"$@\" && npm run lint:fix' --",
     "build": "tsc --emitDeclarationOnly && vite build",
     "build:umd": "cross-env BUILD_FORMAT=umd vite build",

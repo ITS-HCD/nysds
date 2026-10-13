@@ -11164,7 +11164,15 @@
             },
             {
               "kind": "field",
-              "name": "_rebuildFrame",
+              "name": "_observer",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_scrollFrame",
               "type": {
                 "text": "number"
               },
@@ -11173,11 +11181,12 @@
             },
             {
               "kind": "field",
-              "name": "_observer",
+              "name": "_rebuildFrame",
               "type": {
-                "text": "MutationObserver | undefined"
+                "text": "number"
               },
-              "privacy": "private"
+              "privacy": "private",
+              "default": "0"
             },
             {
               "kind": "method",
@@ -11201,7 +11210,8 @@
                     "text": "HTMLElement"
                   }
                 }
-              ]
+              ],
+              "description": "Checks if the header element is trackable:\nAka the element doesn't contain hidden data attribute, or is hidden, or is inside an accordion.\nVisibility must be true."
             },
             {
               "kind": "field",
@@ -11221,7 +11231,7 @@
                 {
                   "name": "text",
                   "type": {
-                    "text": "String"
+                    "text": "string"
                   }
                 }
               ]
@@ -11237,6 +11247,11 @@
               "name": "_computeActive",
               "privacy": "private",
               "description": "Active item = the last tracked heading with the top edge at or above the trigger line. Not \"nearest to top\" since that would flicker at the boundaries"
+            },
+            {
+              "kind": "field",
+              "name": "_onScroll",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -11364,7 +11379,47 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-onthispage></nys-onthispage>",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage style=\"flex: 0 0 220px;\"></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n<p>Use this guide to find out if you qualify and how to apply.</p>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n<p>Additional eligibility requirements may apply.</p>\n<p>Review the requirements before submitting your application.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n<p>Make sure all information is accurate before submitting.</p>\n<p>Keep a copy of your application for your records.</p>\n\n<h2>Required documents</h2>\n<p>Bring a valid proof of identity, proof of address, and any other supporting documentation.</p>\n<p>Additional documents may be requested during review.</p>\n<p>Ensure your documents are current and legible.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n<p>You may be contacted if additional information is needed.</p>\n<p>You will receive a notification when a decision has been made.</p>\n</main>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Sticky",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage sticky offset=\"24\"></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n<p>Use this guide to find out if you qualify and how to apply.</p>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n<p style=\"min-height: 60vh;\">Review the requirements before submitting your application.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n<p style=\"min-height: 60vh;\">Keep a copy of your application for your records.</p>\n\n<h2>Required documents</h2>\n<p>Bring a valid proof of identity, proof of address, and any other supporting documentation.</p>\n<p style=\"min-height: 60vh;\">Ensure your documents are current and legible.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n<p style=\"min-height: 60vh;\">You will receive a notification when a decision has been made.</p>\n</main>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom heading",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage\nheading=\"In this guide\"\nhideHeading\n></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n</main>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Track a different heading level",
+              "code": "<nys-onthispage headingTracker=\"h3\" scope=\"#guide\"></nys-onthispage>\n\n<article id=\"guide\">\n<h1>Part 1 (h1 tag)</h2>\n<h2>Part 2 (h2 tag)</h2>\n<h3>Eligibility (h3 tag)</h3>\n<h3>How to apply (h3 tag)</h3>\n</article>",
+              "lang": "html"
+            },
+            {
+              "title": "Exclude a heading",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n\n<h2 data-nys-onthispage-ignore>Related links</h2>\n<p>This heading does not appear in the list.</p>\n</main>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Use your own heading ids",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage style=\"flex: 0 0 220px;\"></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2 id=\"eligibility\">Eligibility</h2>\n<p>The link uses your id: #eligibility.</p>\n\n<h2>How to apply</h2>\n<p>No id set, so one is generated: #how-to-apply.</p>\n\n<h2>How to apply</h2>\n<p>Same text, so the generated id gets a suffix: #how-to-apply-2.</p>\n</main>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Update the URL hash",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage\nhashBehavior=\"replace\"\nstyle=\"flex: 0 0 220px;\"\n></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p style=\"min-height: 80vh;\">You must be a New York State resident.</p>\n\n<h2>How to apply</h2>\n<p style=\"min-height: 80vh;\">Complete the online form.</p>\n\n<h2>What happens next</h2>\n<p style=\"min-height: 80vh;\">We review applications within 10 business days.</p>\n</main>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Turn off smooth scrolling",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage\nsmoothScroll=\"false\"\nstyle=\"flex: 0 0 220px;\"\n></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p style=\"min-height: 80vh;\">You must be a New York State resident.</p>\n\n<h2>How to apply</h2>\n<p style=\"min-height: 80vh;\">Complete the online form.</p>\n\n<h2>What happens next</h2>\n<p style=\"min-height: 80vh;\">We review applications within 10 business days.</p>\n</main>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Listen for link activation",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage id=\"toc\" style=\"flex: 0 0 220px;\"></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n</main>\n</div>\n\n<script>\ndocument.querySelector(\"#toc\").addEventListener(\"nys-click\", (e) => {\nconst { id, label, index } = e.detail;\nconsole.log(`Clicked \"${label}\" (#${id}, position ${index})`);\n});\n</script>",
               "lang": "html"
             }
           ],

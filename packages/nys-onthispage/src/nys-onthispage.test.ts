@@ -14,7 +14,9 @@ describe("nys-onthispage", () => {
   });
 
   it("generates an id if not provided", async () => {
-    const el = await fixture<NysOnthispage>(html`<nys-onthispage></nys-onthispage>`);
+    const el = await fixture<NysOnthispage>(
+      html`<nys-onthispage></nys-onthispage>`,
+    );
     await el.updateComplete;
 
     expect(el.id).to.not.be.empty;
@@ -31,7 +33,9 @@ describe("nys-onthispage", () => {
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-onthispage label="My Label"></nys-onthispage>`);
+    const el = await fixture(
+      html`<nys-onthispage label="My Label"></nys-onthispage>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -43,4 +47,4 @@ describe("nys-onthispage", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

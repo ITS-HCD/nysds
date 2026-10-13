@@ -33,8 +33,217 @@ export type NysOnThisPageChangeEvent = CustomEvent<NysOnThisPageChangeDetail>;
  *
  * @example Basic
  * ```html
- * <nys-onthispage></nys-onthispage>
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage style="flex: 0 0 220px;"></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *     <p>Use this guide to find out if you qualify and how to apply.</p>
+ *
+ *     <h2>Eligibility</h2>
+ *     <p>You must be a New York State resident aged 18 or older.</p>
+ *     <p>Additional eligibility requirements may apply.</p>
+ *     <p>Review the requirements before submitting your application.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p>Complete the online form and upload your supporting documents.</p>
+ *     <p>Make sure all information is accurate before submitting.</p>
+ *     <p>Keep a copy of your application for your records.</p>
+ *
+ *     <h2>Required documents</h2>
+ *     <p>Bring a valid proof of identity, proof of address, and any other supporting documentation.</p>
+ *     <p>Additional documents may be requested during review.</p>
+ *     <p>Ensure your documents are current and legible.</p>
+ *
+ *     <h2>What happens next</h2>
+ *     <p>We review applications within 10 business days.</p>
+ *     <p>You may be contacted if additional information is needed.</p>
+ *     <p>You will receive a notification when a decision has been made.</p>
+ *   </main>
+ * </div>
  * ```
+ *
+ * @example Sticky
+ * ```html
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage sticky offset="24"></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *     <p>Use this guide to find out if you qualify and how to apply.</p>
+ *
+ *     <h2>Eligibility</h2>
+ *     <p>You must be a New York State resident aged 18 or older.</p>
+ *     <p style="min-height: 60vh;">Review the requirements before submitting your application.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p>Complete the online form and upload your supporting documents.</p>
+ *     <p style="min-height: 60vh;">Keep a copy of your application for your records.</p>
+ *
+ *     <h2>Required documents</h2>
+ *     <p>Bring a valid proof of identity, proof of address, and any other supporting documentation.</p>
+ *     <p style="min-height: 60vh;">Ensure your documents are current and legible.</p>
+ *
+ *     <h2>What happens next</h2>
+ *     <p>We review applications within 10 business days.</p>
+ *     <p style="min-height: 60vh;">You will receive a notification when a decision has been made.</p>
+ *   </main>
+ * </div>
+ * ```
+ *
+ * @example Custom heading
+ * ```html
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage
+ *     heading="In this guide"
+ *     hideHeading
+ *   ></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *
+ *     <h2>Eligibility</h2>
+ *     <p>You must be a New York State resident aged 18 or older.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p>Complete the online form and upload your supporting documents.</p>
+ *
+ *     <h2>What happens next</h2>
+ *     <p>We review applications within 10 business days.</p>
+ *   </main>
+ * </div>
+ * ```
+ *
+ * @example Track a different heading level
+ * ```html
+ * <nys-onthispage headingTracker="h3" scope="#guide"></nys-onthispage>
+ *
+ * <article id="guide">
+ *   <h1>Part 1 (h1 tag)</h2>
+ *   <h2>Part 2 (h2 tag)</h2>
+ *   <h3>Eligibility (h3 tag)</h3>
+ *   <h3>How to apply (h3 tag)</h3>
+ * </article>
+ * ```
+ *
+ * @example Exclude a heading
+ * ```html
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *
+ *     <h2>Eligibility</h2>
+ *     <p>You must be a New York State resident aged 18 or older.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p>Complete the online form and upload your supporting documents.</p>
+ *
+ *     <h2 data-nys-onthispage-ignore>Related links</h2>
+ *     <p>This heading does not appear in the list.</p>
+ *   </main>
+ * </div>
+ * ```
+ *
+ * @example Use your own heading ids
+ * ```html
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage style="flex: 0 0 220px;"></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *
+ *     <h2 id="eligibility">Eligibility</h2>
+ *     <p>The link uses your id: #eligibility.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p>No id set, so one is generated: #how-to-apply.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p>Same text, so the generated id gets a suffix: #how-to-apply-2.</p>
+ *   </main>
+ * </div>
+ * ```
+ *
+ * @example Update the URL hash
+ * ```html
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage
+ *     hashBehavior="replace"
+ *     style="flex: 0 0 220px;"
+ *   ></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *
+ *     <h2>Eligibility</h2>
+ *     <p style="min-height: 80vh;">You must be a New York State resident.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p style="min-height: 80vh;">Complete the online form.</p>
+ *
+ *     <h2>What happens next</h2>
+ *     <p style="min-height: 80vh;">We review applications within 10 business days.</p>
+ *   </main>
+ * </div>
+ * ```
+ * Clicking a link updates the URL to `#how-to-apply`, for example.
+ * `hash` adds a history entry per click, `replace` does not, and `none`
+ * (the default) leaves the URL alone.
+ *
+ * @example Turn off smooth scrolling
+ * ```html
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage
+ *     smoothScroll="false"
+ *     style="flex: 0 0 220px;"
+ *   ></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *
+ *     <h2>Eligibility</h2>
+ *     <p style="min-height: 80vh;">You must be a New York State resident.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p style="min-height: 80vh;">Complete the online form.</p>
+ *
+ *     <h2>What happens next</h2>
+ *     <p style="min-height: 80vh;">We review applications within 10 business days.</p>
+ *   </main>
+ * </div>
+ * ```
+ * Smooth scrolling is also turned off automatically for visitors who have
+ * `prefers-reduced-motion` enabled.
+ *
+ * @example Listen for link activation
+ * ```html
+ * <div style="display: flex; gap: 2rem; align-items: flex-start;">
+ *   <nys-onthispage id="toc" style="flex: 0 0 220px;"></nys-onthispage>
+ *
+ *   <main style="flex: 1; min-width: 0;">
+ *     <h1>Apply for a permit</h1>
+ *
+ *     <h2>Eligibility</h2>
+ *     <p>You must be a New York State resident aged 18 or older.</p>
+ *
+ *     <h2>How to apply</h2>
+ *     <p>Complete the online form and upload your supporting documents.</p>
+ *
+ *     <h2>What happens next</h2>
+ *     <p>We review applications within 10 business days.</p>
+ *   </main>
+ * </div>
+ *
+ * <script>
+ *   document.querySelector("#toc").addEventListener("nys-click", (e) => {
+ *     const { id, label, index } = e.detail;
+ *     console.log(`Clicked "${label}" (#${id}, position ${index})`);
+ *   });
+ * </script>
+ * ```
+ * For example, clicking "How to apply" logs: `Clicked "How to apply" (#how-to-apply, position 1)`.
  */
 
 export class NysOnthispage extends NysElement {
@@ -77,8 +286,9 @@ export class NysOnthispage extends NysElement {
   @state() private _items: TrackedHeading[] = [];
   @state() private _activeId: string | null = null;
 
-  private _rebuildFrame = 0;
   private _observer?: MutationObserver;
+  private _scrollFrame = 0;
+  private _rebuildFrame = 0;
 
   /**
    * Lifecycle methods
@@ -87,6 +297,8 @@ export class NysOnthispage extends NysElement {
    */
   connectedCallback() {
     super.connectedCallback(); // assigns an auto id when none is provided
+
+    window.addEventListener("scroll", this._onScroll, { passive: true });
 
     this._observer = new MutationObserver(this._scheduleRebuild);
     this._observer.observe(document.body, {
@@ -100,7 +312,9 @@ export class NysOnthispage extends NysElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    window.removeEventListener("scroll", this._onScroll);
     this._observer?.disconnect();
+    cancelAnimationFrame(this._scrollFrame);
     cancelAnimationFrame(this._rebuildFrame);
   }
 
@@ -115,9 +329,17 @@ export class NysOnthispage extends NysElement {
    * Reserve `updated()` for work that needs the rendered DOM: measuring
    * layout, syncing a native element, or `ElementInternals` calls.
    */
-  willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has("id")) {
-      // e.g. this._describedById = `${this.id}--description`;
+  willUpdate(changeProperties: Map<string | number | symbol, unknown>) {
+    if (
+      changeProperties.has("scope") ||
+      changeProperties.has("headingTracker")
+    ) {
+      this._rebuild();
+    }
+
+    if (changeProperties.has("offset")) {
+      this.style.setProperty("--_nys-onthispage-offset", `${this.offset}px`);
+      this._computeActive();
     }
   }
 
@@ -133,7 +355,13 @@ export class NysOnthispage extends NysElement {
     }
   }
 
-  // Not of hidden data attribute, or the hidde, or accordion. Visilibity must be true.
+  /**
+   * Checks if the header element is trackable:
+   * Aka the element doesn't contain hidden data attribute, or is hidden, or is inside an accordion.
+   * Visibility must be true.
+   *
+   * @returns {boolean} True if the element is trackable
+   */
   private _isTrackable(el: HTMLElement): boolean {
     if (el.hasAttribute("data-nys-onthispage-ignore")) return false;
     if (el.closest("nys-accordion")) return false;
@@ -149,13 +377,13 @@ export class NysOnthispage extends NysElement {
     });
   };
 
-  private _slugify(text: String): string {
+  private _slugify(text: string): string {
     return (
       text
         .toLowerCase()
-        .normalize("NDF")
-        .replace(/[u0300-\u036f]/g, "")
-        .replace(/^-+ | -+$/g, "") || "section"
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/^-+|-+$/g, "") || "section"
     );
   }
 
@@ -178,7 +406,11 @@ export class NysOnthispage extends NysElement {
     // Note: existing ids always win, so reserve them before generating new ones.
     const usedId = new Set(foundHeaders.map((el) => el.id).filter(Boolean));
 
-    // Generate "id" for any header element that doesn't have one.
+    /**
+     * Generate "id" for any header element that doesn't have one.
+     * Existing `id` always used as the link target. Headings without one get
+     * a generated id, with `-2`, `-3` suffixes on collisions.
+     */
     const items = foundHeaders.map((el) => {
       const label = (el.textContent ?? "").replace(/\s+/g, " ").trim();
       if (!el.id) {
@@ -201,13 +433,13 @@ export class NysOnthispage extends NysElement {
     // To prevent a re-render of the navigation,
     // the following checks prevents a full recompute when nothing is changed.
     const isSameList =
-      items.length !== this._items.length &&
+      items.length === this._items.length &&
       items.every((item, index) => {
         item.id === this._items[index].id &&
           item.label === this._items[index].label &&
           item.el === this._items[index].el;
       });
-
+    console.log("HERE we are", this._items);
     if (!isSameList) {
       this._items = items;
       this._computeActive();
@@ -221,21 +453,29 @@ export class NysOnthispage extends NysElement {
     let active: string | null = null;
     for (const item of this._items) {
       if (item.el.getBoundingClientRect().top <= this.offset + 1) {
-        item.el.getBoundingClientRect().top;
         active = item.id;
+        console.log("COMPUTING ACTIVE");
       } else {
         break;
       }
     }
-    if (active != this._activeId) this._activeId = active;
+    if (active !== this._activeId) this._activeId = active;
   }
+
+  private _onScroll = () => {
+    if (this._scrollFrame) return;
+    this._scrollFrame = requestAnimationFrame(() => {
+      this._scrollFrame = 0;
+      this._computeActive();
+    });
+  };
 
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
    */
   private _handleClick(e: MouseEvent, item: TrackedHeading, index: number) {
-    // . .. . . . 
+    // . .. . . .
     e.preventDefault();
     dispatchNysEvent<NysOnThisPageChangeDetail>(this, "nys-change", {
       id: item.id,
@@ -245,27 +485,32 @@ export class NysOnthispage extends NysElement {
   }
 
   render() {
-    if (this._items.length > 2) return;
+    if (this._items.length < 2) return;
 
-    return html` <h2 class="nys-onthispage__heading">${this.heading}</h2>
-      <nav class="nys-onthispage">
-        <ul class="nys-onthispage__list">
-          ${this._items.map((item, index) => {
-            const active = this._activeId === item.id;
-            return html`
-              <li class="nys-onthispage__item">
-                <a
-                  class="nys-onthispage__link ${active ? "active" : ""}"
-                  href="#${item.id}"
-                  aria-current=${ifDefined(active ? "location" : undefined)}
-                  @click=${(e: MouseEvent) => this._handleClick(e, item, index)}
-                  >${item.label}</a
-                >
-              </li>
-            `;
-          })}
-        </ul>
-      </nav>`;
+    return html`
+      <div class="nys-onthispage">
+        <h2 id="${this.id}" class="nys-onthispage__heading">${this.heading}</h2>
+        <nav class="nys-onthispage__nav" aria-labelledby="${this.id}">
+          <ul class="nys-onthispage__list">
+            ${this._items.map((item, index) => {
+              const active = this._activeId === item.id;
+              return html`
+                <li class="nys-onthispage__item ${active ? "active" : ""}">
+                  <a
+                    class="nys-onthispage__link ${active ? "active" : ""}"
+                    href="#${item.id}"
+                    aria-current=${ifDefined(active ? "location" : undefined)}
+                    @click=${(e: MouseEvent) =>
+                      this._handleClick(e, item, index)}
+                    >${item.label}</a
+                  >
+                </li>
+              `;
+            })}
+          </ul>
+        </nav>
+      </div>
+    `;
   }
 }
 

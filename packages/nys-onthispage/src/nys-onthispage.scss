@@ -1,16 +1,32 @@
 :host {
-  /* Anything that can be overridden should be defined here */
-
   /* Global Onthispage Styles */
-  --_nys-onthispage-width: fit-content;
-  --_nys-onthispage-height: var(--nys-size-600, 48px);
-  --_nys-onthispage-border-radius: var(--nys-radius-xl, 12px);
-  --_nys-onthispage-padding: var(--nys-space-100, 8px);
-  --_nys-onthispage-gap: var(--nys-space-100, 8px);
+  // --_nys-onthispage-width: fit-content;
+  // --_nys-onthispage-height: var(--nys-size-600, 48px);
+  // --_nys-onthispage-border-radius: var(--nys-radius-xl, 12px);
+  --_nys-onthispage-gap: var(--nys-space-150, 12px);
+  --_nys-onthispage-border-radius: var(--nys-radius-round, 1776px);
+
+  /* List Item */
+  --_nys-onthispage-color--item: var(--nys-color-text-weak, #4a4d4f);
+  --_nys-onthispage-color--item-active: var(--nys-color-theme, #154973);
+  --_nys-onthispage-border-width--item: var(--nys-size-50, 4px);
+  --_nys-onthispage-border-background-color--item: var(
+    --nys-color-neutral-50,
+    #ededed
+  );
+  --_nys-onthispage-border-background--item--active: var(
+    --nys-color-theme,
+    #154973
+  );
+  --_nys-onthispage-padding--item: var(--nys-space-100, 8px)
+    var(--nys-space-2-px, 2px) var(--nys-space-100, 8px)
+    var(--nys-space-200, 16px);
 
   /* Typography */
-  --_nys-onthispage-font-size: var(--nys-font-size-ui-md, 16px);
-  --_nys-onthispage-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-onthispage-font-size--header: var(--nys-font-size-ui-md, 16px);
+  --_nys-onthispage-font-weight--header: var(--nys-font-weight-bold, 700);
+  --_nys-onthispage-font-weight: var(--nys-font-weight-regular, 400);
+  --_nys-onthispage-font-weight--active: var(--nys-font-weight-semibold, 600);
   --_nys-onthispage-line-height: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-onthispage-font-family: var(
     --nys-font-family-ui,
@@ -25,17 +41,75 @@
   );
 }
 
+// Sticky is desktop-only.
+@media (min-width: 768px) and (min-height: 600px) {
+  :host([sticky]) {
+    position: sticky;
+    top: var(--_nys-onthispage-offset, 80px);
+  }
+}
+
 .nys-onthispage {
+  display: flex;
+  flex-direction: column;
   width: var(--_nys-onthispage-width);
   height: var(--_nys-onthispage-height);
   border-radius: var(--_nys-onthispage-radius);
   padding: var(--_nys-onthispage-padding);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: var(--_nys-onthispage-gap);
   font-family: var(--_nys-onthispage-font-family);
   font-size: var(--_nys-onthispage-font-size);
   font-weight: var(--_nys-onthispage-font-weight);
   line-height: var(--_nys-onthispage-line-height);
+  .nys-onthispage__heading {
+    margin: 0;
+    font-weight: var(--_nys-onthispage-font-weight--header);
+    font-size: var(--_nys-onthispage-font-size);
+  }
+  .nys-onthispage__nav {
+    .nys-onthispage__list {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      &::before {
+        content: "";
+        width: var(--_nys-onthispage-border-width--item);
+        background-color: var(--_nys-onthispage-border-background-color--item);
+        border-radius: var(--_nys-onthispage-border-radius);
+        top: 0;
+        bottom: 0;
+        position: absolute;
+      }
+      .nys-onthispage__item {
+        position: relative;
+        padding: var(--_nys-onthispage-padding--item);
+        &.active {
+          &::before {
+            content: "";
+            width: var(--_nys-onthispage-border-width--item);
+            background-color: var(
+              --_nys-onthispage-border-background--item--active
+            );
+            border-radius: var(--_nys-onthispage-border-radius);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            position: absolute;
+          }
+        }
+        .nys-onthispage__link {
+          text-decoration: none;
+          color: var(--_nys-onthispage-color--item);
+          &.active {
+            color: var(--_nys-onthispage-color--item-active);
+            font-weight: var(--_nys-onthispage-font-weight--active);
+          }
+        }
+      }
+    }
+  }
 }
