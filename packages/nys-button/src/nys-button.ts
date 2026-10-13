@@ -45,8 +45,8 @@ import styles from "./nys-button.scss?inline";
  * @fires {Event} nys-click - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
  * @fires {Event} nys-focus - Fired when the button receives focus.
  * @fires {Event} nys-blur - Fired when the button loses focus.
- *
- * @usagedos
+ * 
+ * @usage
  * - Use for the most important actions you want users to take, such as "Download", "Sign up", or "Log out".
  * - Use `variant="fill"` for the primary action on the page. There should be only one primary action per page.
  * - Use `variant="outline"` for secondary actions, placed next to the primary Fill button.
@@ -55,11 +55,9 @@ import styles from "./nys-button.scss?inline";
  * - Always set the `type` attribute (`submit`, `button`, or `reset`). The default is `button`.
  * - Use sentence case for button labels, only capitalizing the first word.
  * - Place a `chevron_down icon` on the right for buttons that open a dropdown.
- *
- * @usagedonts
- * - Use buttons for navigation. Use an `<a>` element or Text button for links that take users somewhere else.
- * - Use icons in buttons without a text label. Very few icons are universally understood.
- * - Create custom button styles (color, shape, size). Consistency helps users recognize buttons and predict behavior.
+ * - Don't use buttons for navigation. Use an `<a>` element or Text button for links that take users somewhere else.
+ * - Don't use icons in buttons without a text label. Very few icons are universally understood.
+ * - Don't create custom button styles (color, shape, size). Consistency helps users recognize buttons and predict behavior.
  *
  * @example Basic
  * ```html
@@ -543,47 +541,47 @@ export class NysButton extends NysFormControlElement {
                   ?hidden=${!this.prefixIcon && !this._hasPrefixSlot}
                 >
                   ${this.prefixIcon
-                    ? html`<nys-icon
+            ? html`<nys-icon
                         size="16"
                         name=${this.prefixIcon}
                       ></nys-icon>`
-                    : ""}
+            : ""}
                 </slot>
                 ${this.circle
-                  ? html`<div class="nys-button__text sr-only">
+            ? html`<div class="nys-button__text sr-only">
                       ${this.label}
                     </div>`
-                  : this.label
-                    ? html`<div class="nys-button__text">${this.label}</div>`
-                    : html` <slot class="nys-button__default-slot"></slot> `}
+            : this.label
+              ? html`<div class="nys-button__text">${this.label}</div>`
+              : html` <slot class="nys-button__default-slot"></slot> `}
                 <slot
                   name="suffix-icon"
                   @slotchange=${this._onSuffixSlotChange}
                   ?hidden=${!this.suffixIcon && !this._hasSuffixSlot}
                 >
                   ${this.suffixIcon
-                    ? html`<nys-icon
+            ? html`<nys-icon
                         size="16"
                         name=${this.suffixIcon}
                       ></nys-icon>`
-                    : ""}
+            : ""}
                 </slot>
                 <slot
                   name="circle-icon"
                   @slotchange=${this._onCircleSlotChange}
                   ?hidden=${!this.circle ||
-                  (!this.icon && !this._hasCircleSlot)}
+          (!this.icon && !this._hasCircleSlot)}
                 >
                   ${this.icon
-                    ? html`<nys-icon
+            ? html`<nys-icon
                         size=${this.size === "sm"
-                          ? "24"
-                          : this.size === "lg"
-                            ? "40"
-                            : "32"}
+                ? "24"
+                : this.size === "lg"
+                  ? "40"
+                  : "32"}
                         name=${this.icon}
                       ></nys-icon>`
-                    : ""}
+            : ""}
                 </slot>
               </a>
             </div>
@@ -612,30 +610,30 @@ export class NysButton extends NysFormControlElement {
                 ?hidden=${!this.prefixIcon && !this._hasPrefixSlot}
               >
                 ${this.prefixIcon
-                  ? html`<nys-icon
+            ? html`<nys-icon
                       size="16"
                       name=${this.prefixIcon}
                     ></nys-icon>`
-                  : ""}
+            : ""}
               </slot>
               ${this.circle
-                ? html`<div class="nys-button__text sr-only">
+            ? html`<div class="nys-button__text sr-only">
                     ${this.label}
                   </div>`
-                : this.label
-                  ? html`<div class="nys-button__text">${this.label}</div>`
-                  : html` <slot class="nys-button__default-slot"></slot> `}
+            : this.label
+              ? html`<div class="nys-button__text">${this.label}</div>`
+              : html` <slot class="nys-button__default-slot"></slot> `}
               <slot
                 name="suffix-icon"
                 @slotchange=${this._onSuffixSlotChange}
                 ?hidden=${!this.suffixIcon && !this._hasSuffixSlot}
               >
                 ${this.suffixIcon
-                  ? html`<nys-icon
+            ? html`<nys-icon
                       size="16"
                       name=${this.suffixIcon}
                     ></nys-icon>`
-                  : ""}
+            : ""}
               </slot>
               <slot
                 name="circle-icon"
@@ -643,15 +641,15 @@ export class NysButton extends NysFormControlElement {
                 ?hidden=${!this.circle || (!this.icon && !this._hasCircleSlot)}
               >
                 ${this.icon
-                  ? html`<nys-icon
+            ? html`<nys-icon
                       size=${this.size === "sm"
-                        ? "24"
-                        : this.size === "lg"
-                          ? "40"
-                          : "32"}
+                ? "24"
+                : this.size === "lg"
+                  ? "40"
+                  : "32"}
                       name=${this.icon}
                     ></nys-icon>`
-                  : ""}
+            : ""}
               </slot>
             </button>
           `}
