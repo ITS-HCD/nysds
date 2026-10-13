@@ -42,7 +42,7 @@ export type NysAlertCloseEvent = CustomEvent<NysAlertCloseDetail>;
  *
  * @fires {NysAlertCloseEvent} nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
  *
- * @usagedos
+ * @usage
  * - Communicate important, time-sensitive information to users in a visually prominent way.
  * - Use for messages such as success notifications, danger alerts, warnings, or informational updates.
  * - Use for dismissible or temporary alerts when the message is not critical to user workflow.
@@ -53,17 +53,15 @@ export type NysAlertCloseEvent = CustomEvent<NysAlertCloseDetail>;
  * - Use success type to confirm a positive system status to users such as saving a form.
  * - Use danger type to display system status error messages.
  * - Only use emergency for real emergencies (e.g., missing person, severe weather). Remember to swap icon if a more relevant one exists.
- *
- * @usagedonts
- * - Use alerts for information that is not time-sensitive or critical; consider using an inline message instead.
- * - Use alerts for repetitive or non-actionable content that could frustrate users.
- * - Remove the left icon, it is required for accessibility.
- * - Use alerts to highlight actions that should be clear in the UI itself.
- * - Use error messages to communicate form field validation issues; use field error states instead.
- * - Include more than two link actions in an alert.
- * - Overuse alerts for low-priority info. This can desensitize users.
- * - Use alerts as toasts. Place them at the top of the page content.
- * - Add any shadows to alerts.
+ * - Don't use alerts for information that is not time-sensitive or critical; consider using an inline message instead.
+ * - Don't use alerts for repetitive or non-actionable content that could frustrate users.
+ * - Don't remove the left icon, it is required for accessibility.
+ * - Don't use alerts to highlight actions that should be clear in the UI itself.
+ * - Don't use error messages to communicate form field validation issues; use field error states instead.
+ * - Don't include more than two link actions in an alert.
+ * - Don't overuse alerts for low-priority info. This can desensitize users.
+ * - Don't use alerts as toasts. Place them at the top of the page content.
+ * - Don't add any shadows to alerts.
  *
  * @example Basic
  * ```html
@@ -331,8 +329,8 @@ export class NysAlert extends NysElement {
             this.text?.trim().length > 0 ||
             this.primaryAction ||
             this.secondaryAction
-              ? ""
-              : "nys-alert--centered"}"
+            ? ""
+            : "nys-alert--centered"}"
           >
             <div part="nys-alert__icon" class="nys-alert__icon">
               <nys-icon
@@ -348,17 +346,17 @@ export class NysAlert extends NysElement {
               aria-atomic="true"
             >
               ${this.heading?.trim()
-                ? html`<p class="nys-alert__header">${this.heading}</p>`
-                : ""}
+            ? html`<p class="nys-alert__header">${this.heading}</p>`
+            : ""}
               ${this._slotHasContent
-                ? html`<slot></slot>`
-                : this.text?.trim().length > 0
-                  ? html`<p class="nys-alert__text">${this.text}</p>`
-                  : ""}
+            ? html`<slot></slot>`
+            : this.text?.trim().length > 0
+              ? html`<p class="nys-alert__text">${this.text}</p>`
+              : ""}
               ${this.primaryAction || this.secondaryAction
-                ? html`<div class="nys-alert__actions">
+            ? html`<div class="nys-alert__actions">
                     ${this.primaryAction
-                      ? html`<nys-button
+                ? html`<nys-button
                           variant="text"
                           target="_blank"
                           href=${this.primaryAction}
@@ -366,9 +364,9 @@ export class NysAlert extends NysElement {
                           ?inverted=${this.type === "emergency"}
                           id="primary-action"
                         ></nys-button>`
-                      : ""}
+                : ""}
                     ${this.secondaryAction
-                      ? html`<nys-button
+                ? html`<nys-button
                           variant="text"
                           target="_blank"
                           href=${this.secondaryAction}
@@ -376,12 +374,12 @@ export class NysAlert extends NysElement {
                           ?inverted=${this.type === "emergency"}
                           id="secondary-action"
                         ></nys-button>`
-                      : ""}
-                  </div> `
                 : ""}
+                  </div> `
+            : ""}
             </div>
             ${this.dismissible
-              ? html` <nys-button
+            ? html` <nys-button
                   id="dismiss-btn"
                   variant="ghost"
                   circle
@@ -391,12 +389,12 @@ export class NysAlert extends NysElement {
                   label="${this.heading}, alert, Close"
                   @nys-click=${this._closeAlert}
                   style=${ifDefined(
-                    this.type === "emergency"
-                      ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
-                      : undefined,
-                  )}
+              this.type === "emergency"
+                ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
+                : undefined,
+            )}
                 ></nys-button>`
-              : ""}
+            : ""}
           </div>`
         : ""}
     `;
