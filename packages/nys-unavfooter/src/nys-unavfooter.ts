@@ -301,14 +301,23 @@ export class NysUnavFooter extends NysElement {
             </div>
             <nav class="nys-unavfooter__content" aria-label="New York State">
               <ul>
-                <li><a href="https://www.ny.gov/agencies">Agencies</a></li>
                 <li>
-                  <a href="https://www.ny.gov/mobileapps">App Directory</a>
+                  <a href="https://www.ny.gov/state-agencies">State Agencies</a>
+                </li>
+                <li>
+                  <a href="https://www.ny.gov/mobileapps">Mobile Apps</a>
                 </li>
                 <li><a href="https://www.ny.gov/counties">Counties</a></li>
-                <li><a href="https://www.ny.gov/events">Events</a></li>
-                <li><a href="https://www.ny.gov/programs">Programs</a></li>
-                <li><a href="https://www.ny.gov/services">Services</a></li>
+                <li>
+                  <a href="https://www.ny.gov/services-and-benefits"
+                    >Services & Benefits</a
+                  >
+                </li>
+                <li>
+                  <a href="https://www.ny.gov/visit-and-explore"
+                    >Explore New York</a
+                  >
+                </li>
               </ul>
             </nav>
           </div>
