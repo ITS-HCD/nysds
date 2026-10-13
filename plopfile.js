@@ -99,12 +99,12 @@ export default function (plop) {
         path: "packages/nys-{{componentName}}/web-test-runner.config.js",
         templateFile: "src/templates/webtestrunner.template.hbs",
       },
-      {
-        type: "modify",
-        path: "src/scripts/build-order.js",
-        pattern: /(\];)/,
-        template: `  { name: "nys-{{componentName}}", path: "packages/nys-{{componentName}}" },\n$1`,
-      },
+      // {
+      //   type: "modify",
+      //   path: "src/scripts/build-order.js",
+      //   pattern: /(\];)/,
+      //   template: `  { name: "nys-{{componentName}}", path: "packages/nys-{{componentName}}" },\n$1`,
+      // },
       {
         type: "modify",
         path: "packages/styles/src/nysds.scss",
