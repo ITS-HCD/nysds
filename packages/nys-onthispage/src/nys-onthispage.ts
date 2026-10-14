@@ -357,7 +357,7 @@ export class NysOnthispage extends NysElement {
 
   /**
    * Checks if the header element is trackable:
-   * Aka the element doesn't contain hidden data attribute, or is hidden, or is inside an accordion.
+   * Meaning the element doesn't contain hidden data attribute, or is hidden, or is inside an accordion.
    * Visibility must be true.
    *
    * @returns {boolean} True if the element is trackable
@@ -377,19 +377,21 @@ export class NysOnthispage extends NysElement {
     });
   };
 
+  // "How to apply!" -> "how-to-apply". Falls back to "section" if nothing is left. */
   private _slugify(text: string): string {
     return (
       text
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "") || "section"
     );
   }
 
   /***
    * Collects the headings, assigns ids where missing, and updates state if changed.
-   * Rebuilds the content through this function.
+   * Rebuilds the content in this function.
    */
   private _rebuild = () => {
     const scopeEl = this._getScope();
@@ -475,8 +477,24 @@ export class NysOnthispage extends NysElement {
    * --------------------------------------------------------------------------
    */
   private _handleClick(e: MouseEvent, item: TrackedHeading, index: number) {
-    // . .. . . .
     e.preventDefault();
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce",
+    ).matches;
+    item.el.scrollIntoView({
+      behavior: this.smoothScroll && !reduceMotion ? "smooth" : "auto",
+    });
+
+    item.el.setAttribute("tabindex", "-1");
+    item.el.focus({ preventScroll: true });
+
+    if (this.hashBehavior === "hash") {
+      history.pushState(null, "", `#${item.id}`);
+    } else if (this.hashBehavior === "replace") {
+      history.replaceState(null, "", `#${item.id}`);
+    }
+
     dispatchNysEvent<NysOnThisPageChangeDetail>(this, "nys-change", {
       id: item.id,
       label: item.label,
