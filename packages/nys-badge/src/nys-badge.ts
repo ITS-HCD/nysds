@@ -25,6 +25,7 @@ import styles from "./nys-badge.scss?inline";
  * - Use the `intent` property to match the badge's visual style to its meaning (e.g., `success` for positive statuses, `warning` for caution).
  * - Place badges near the element they describe so the relationship is clear.
  * - Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.
+ * - Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.
  * - Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis.
  *
  * @usagedonts
@@ -166,37 +167,13 @@ export class NysBadge extends NysElement {
   /** Strong visual intent with bolder text and background. */
   @property({ type: Boolean, reflect: true }) strong = false;
 
-  // Icons (string or boolean)
-  private _prefixIcon: string | boolean = "";
+  /** The prefix icon for the badge */
   @property({ type: String, attribute: "prefixicon" })
-  get prefixIcon(): string | boolean {
-    return this._prefixIcon;
-  }
-  set prefixIcon(value: string | boolean) {
-    if (value === "" || value === null) {
-      // boolean attribute without value → true
-      this._prefixIcon = true;
-    } else if (value === "false" || value === false) {
-      this._prefixIcon = "";
-    } else {
-      this._prefixIcon = value;
-    }
-  }
+  prefixIcon: string | boolean | null = null;
 
-  private _suffixIcon: string | boolean = "";
+  /** The suffix icon for the badge */
   @property({ type: String, attribute: "suffixicon" })
-  get suffixIcon(): string | boolean {
-    return this._suffixIcon;
-  }
-  set suffixIcon(value: string | boolean) {
-    if (value === "" || value === null) {
-      this._suffixIcon = true;
-    } else if (value === "false" || value === false) {
-      this._suffixIcon = "";
-    } else {
-      this._suffixIcon = value;
-    }
-  }
+  suffixIcon: string | boolean | null = null;
 
   /**
    * Lifecycle methods
@@ -264,11 +241,11 @@ export class NysBadge extends NysElement {
    * @param icon The icon property value (string or boolean)
    * @returns Icon name or null if no icon should be rendered
    */
-  private resolveIcon(icon: string | boolean): string | null {
-    if (icon === true) {
+  private resolveIcon(icon: string | boolean | null): string | null {
+    if (icon === true || icon === "") {
       return NysBadge.DEFAULT_ICONS[this.intent] ?? "info";
     }
-    if (typeof icon === "string" && icon.trim() !== "") {
+    if (typeof icon === "string" && icon.trim() !== "" && icon !== "false") {
       return icon;
     }
     return null;
