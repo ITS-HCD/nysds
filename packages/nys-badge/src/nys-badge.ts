@@ -167,11 +167,11 @@ export class NysBadge extends NysElement {
   /** Strong visual intent with bolder text and background. */
   @property({ type: Boolean, reflect: true }) strong = false;
 
-  /** The prefix icon for the badge */
+  /** Icon shown before the label. */
   @property({ type: String, attribute: "prefixicon" })
   prefixIcon: string | boolean | null = null;
 
-  /** The suffix icon for the badge */
+  /** Icon shown after the label. */
   @property({ type: String, attribute: "suffixicon" })
   suffixIcon: string | boolean | null = null;
 
@@ -186,16 +186,6 @@ export class NysBadge extends NysElement {
     // static, non-interactive label content, so no host role is reflected
     // (defaultRole stays null).
     super.connectedCallback();
-
-    const attr = this.getAttribute("prefixicon");
-    if (attr !== null && this.prefixIcon === "") {
-      this.prefixIcon = attr;
-    }
-
-    const suffixAttr = this.getAttribute("suffixicon");
-    if (suffixAttr !== null && this.suffixIcon === "") {
-      this.suffixIcon = suffixAttr;
-    }
   }
 
   /**

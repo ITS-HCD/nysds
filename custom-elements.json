@@ -1579,7 +1579,7 @@
                 "text": "string | boolean | null"
               },
               "default": "null",
-              "description": "The prefix icon for the badge: `true` or `\"\"` for the intent's default icon, an icon name, or `null` for none.",
+              "description": "Icon shown before the label.",
               "attribute": "prefixicon"
             },
             {
@@ -1589,7 +1589,7 @@
                 "text": "string | boolean | null"
               },
               "default": "null",
-              "description": "The suffix icon for the badge: `true` or `\"\"` for the intent's default icon, an icon name, or `null` for none.",
+              "description": "Icon shown after the label.",
               "attribute": "suffixicon"
             },
             {
@@ -1726,7 +1726,7 @@
                 "text": "string | boolean | null"
               },
               "default": "null",
-              "description": "The prefix icon for the badge: `true` or `\"\"` for the intent's default icon, an icon name, or `null` for none.",
+              "description": "Icon shown before the label.",
               "fieldName": "prefixIcon"
             },
             {
@@ -1735,7 +1735,7 @@
                 "text": "string | boolean | null"
               },
               "default": "null",
-              "description": "The suffix icon for the badge: `true` or `\"\"` for the intent's default icon, an icon name, or `null` for none.",
+              "description": "Icon shown after the label.",
               "fieldName": "suffixIcon"
             }
           ],
