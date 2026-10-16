@@ -180,7 +180,7 @@ $ul-styles: (disc, circle, square);
 @for $i from 1 through list.length($ul-styles) {
   $selector: "ul";
 
-  @for $j from 2 through $i {
+  @for $j from 1 to $i {
     $selector: $selector + " ul";
   }
 
@@ -199,7 +199,7 @@ $ol-styles: (decimal, lower-alpha, lower-roman);
 @for $i from 1 through list.length($ol-styles) {
   $selector: "ol";
 
-  @for $j from 2 through $i {
+  @for $j from 1 to $i {
     $selector: $selector + " ol";
   }
 
