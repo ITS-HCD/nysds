@@ -91,8 +91,14 @@ request diff doesn't show what a change does to them. To see that, run the
 review script from the repository root:
 
 ```sh
-npm run review:codegen -- --pr 1951
+npm run review:codegen -- --pr 1951 --html
 ```
+
+With `--html`, the script writes the report as a standalone web page in your
+temp folder, outside the repo, and opens it in your browser. The page loads
+NYSDS styles and components from jsDelivr and stays readable offline. To save
+the page somewhere else, pass `--html-file <path>`. Without `--html`, the
+report prints to the terminal.
 
 The script exports the base and head commits to a temporary directory, runs
 `cem analyze` in each, and compares the results. Your checkout and
