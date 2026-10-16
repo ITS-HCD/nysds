@@ -64,6 +64,32 @@ interface SpaceAvailable {
  *   </nys-dropdownmenu>
  * </div>
  * ```
+ *
+ * @example Prefix & Suffix Icon
+ * ```html
+ * <div>
+ *   <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
+ *   <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+ *     <nys-dropdownmenuitem label="Profile" href="/profile" prefixIcon="account_circle"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos" prefixIcon="drive_folder_upload" suffixIcon="open_in_new"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Organizations" href="/organizations" prefixIcon="account_balance_filled" suffixIcon="chevron_right"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Sign out" href="/logout" suffixIcon="lock_filled"></nys-dropdownmenuitem>
+ *   </nys-dropdownmenu>
+ * </div>
+ * ```
+ *
+ * @render Prefix & Suffix Icon
+ * ```html
+ * <div style="margin: 200px; display: flex; justify-content: center; align-items: center;">
+ *   <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
+ *   <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+ *     <nys-dropdownmenuitem label="Profile" href="/profile" prefixIcon="account_circle"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos" prefixIcon="drive_folder_upload" suffixIcon="open_in_new"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Organizations" href="/organizations" prefixIcon="account_balance_filled" suffixIcon="chevron_right"></nys-dropdownmenuitem>
+ *     <nys-dropdownmenuitem label="Sign out" href="/logout" suffixIcon="lock_filled"></nys-dropdownmenuitem>
+ *   </nys-dropdownmenu>
+ * </div>
+ * ```
  */
 
 export class NysDropdownMenu extends NysElement {
