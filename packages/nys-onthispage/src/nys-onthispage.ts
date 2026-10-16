@@ -339,6 +339,7 @@ export class NysOnthispage extends NysElement {
 
     if (changeProperties.has("offset")) {
       this.style.setProperty("--_nys-onthispage-offset", `${this.offset}px`);
+      this._applyScrollMargin();
       this._computeActive();
     }
   }
@@ -389,6 +390,12 @@ export class NysOnthispage extends NysElement {
     );
   }
 
+  private _applyScrollMargin() {
+    for (const { el } of this._items) {
+      el.style.scrollMarginTop = `${this.offset}px`;
+    }
+  }
+
   /***
    * Collects the headings, assigns ids where missing, and updates state if changed.
    * Rebuilds the content in this function.
@@ -417,20 +424,19 @@ export class NysOnthispage extends NysElement {
       const label = (el.textContent ?? "").replace(/\s+/g, " ").trim();
       if (!el.id) {
         const base = this._slugify(label);
-        let candidate = base;
+        let candidateId = base;
         let n = 2;
-        while (usedId.has(candidate) || document.getElementById?.(candidate)) {
-          candidate = `${base}-${n++}`;
+        while (
+          usedId.has(candidateId) ||
+          document.getElementById?.(candidateId)
+        ) {
+          candidateId = `${base}-${n++}`;
         }
-        el.id = candidate;
-        usedId.add(candidate);
+        el.id = candidateId;
+        usedId.add(candidateId);
       }
       return { id: el.id, label, el };
     });
-
-    //......
-    //...... 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟
-    //......
 
     // To prevent a re-render of the navigation,
     // the following checks prevents a full recompute when nothing is changed.
@@ -441,9 +447,10 @@ export class NysOnthispage extends NysElement {
           item.label === this._items[index].label &&
           item.el === this._items[index].el;
       });
-    console.log("HERE we are", this._items);
+
     if (!isSameList) {
       this._items = items;
+      this._applyScrollMargin();
       this._computeActive();
     }
   };
@@ -461,6 +468,17 @@ export class NysOnthispage extends NysElement {
         break;
       }
     }
+
+    // a short last section can never scroll up to the trigger line,
+    // so at the bottom of the page the last heading counts as active.
+    const atBottom =
+      window.scrollY > 0 &&
+      window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+    if (atBottom && this._items.length) {
+      active = this._items[this._items.length - 1].id;
+    }
+
     if (active !== this._activeId) this._activeId = active;
   }
 
