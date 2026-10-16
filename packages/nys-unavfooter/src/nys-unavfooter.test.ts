@@ -25,14 +25,13 @@ describe("nys-unavfooter", () => {
     const links = el.shadowRoot?.querySelectorAll("ul li a");
 
     const linkTexts = Array.from(links || []);
-    expect(linkTexts).to.have.lengthOf(6);
+    expect(linkTexts).to.have.lengthOf(5);
 
-    expect(linkTexts[0].textContent?.trim()).to.equal("Agencies");
-    expect(linkTexts[1].textContent?.trim()).to.equal("App Directory");
+    expect(linkTexts[0].textContent?.trim()).to.equal("State Agencies");
+    expect(linkTexts[1].textContent?.trim()).to.equal("Mobile Apps");
     expect(linkTexts[2].textContent?.trim()).to.equal("Counties");
-    expect(linkTexts[3].textContent?.trim()).to.equal("Events");
-    expect(linkTexts[4].textContent?.trim()).to.equal("Programs");
-    expect(linkTexts[5].textContent?.trim()).to.equal("Services");
+    expect(linkTexts[3].textContent?.trim()).to.equal("Services & Benefits");
+    expect(linkTexts[4].textContent?.trim()).to.equal("Explore New York");
   });
 
   it("renders the navigation links", async () => {
@@ -42,15 +41,14 @@ describe("nys-unavfooter", () => {
     const linkHrefs = Array.from(links || []).map((link) =>
       link.getAttribute("href"),
     );
-    expect(linkHrefs).to.have.lengthOf(6);
+    expect(linkHrefs).to.have.lengthOf(5);
 
     expect(linkHrefs).to.include.members([
-      "https://www.ny.gov/agencies",
+      "https://www.ny.gov/state-agencies",
       "https://www.ny.gov/mobileapps",
       "https://www.ny.gov/counties",
-      "https://www.ny.gov/events",
-      "https://www.ny.gov/programs",
-      "https://www.ny.gov/services",
+      "https://www.ny.gov/services-and-benefits",
+      "https://www.ny.gov/visit-and-explore",
     ]);
   });
 });
@@ -74,7 +72,7 @@ describe("nys-unavfooter accessibility", () => {
     expect(nav, "a <nav> landmark should wrap the links").to.exist;
     expect(nav?.getAttribute("aria-label")).to.equal("New York State");
     // The link list lives inside the nav landmark.
-    expect(nav?.querySelectorAll("ul li a")).to.have.lengthOf(6);
+    expect(nav?.querySelectorAll("ul li a")).to.have.lengthOf(5);
   });
 
   it("renders the statewide content-info footer landmark", async () => {
