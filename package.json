@@ -68,6 +68,7 @@
     "clean:all": "npm run clean:dist && npm run clean:node && npm run clean:cache && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
     "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && node src/scripts/verify-form-contract.mjs && mkdir -p dist && cp ./custom-elements.json dist/",
+    "review:codegen": "node src/scripts/review-codegen.mjs",
     "verify:a11y-names": "node src/scripts/verify-a11y-names.mjs",
     "verify:utility-docs": "npm run build:mcp && node src/scripts/verify-utility-docs.mjs"
   },
