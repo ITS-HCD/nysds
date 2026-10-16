@@ -420,4 +420,31 @@ describe("nys-dropdownmenuitem", () => {
     );
     expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
+
+  it("renders prefixIcon and suffixIcon on a button", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem
+        label="Docs"
+        prefixIcon="description"
+        suffixIcon="open_in_new"
+      ></nys-dropdownmenuitem>
+    `);
+    const icons = el.shadowRoot!.querySelectorAll("button nys-icon");
+    expect(icons[0].getAttribute("name")).to.equal("description");
+    expect(icons[1].getAttribute("name")).to.equal("open_in_new");
+  });
+
+  it("renders prefixIcon and suffixIcon on a link", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem
+        label="Docs"
+        href="/docs"
+        prefixIcon="description"
+        suffixIcon="open_in_new"
+      ></nys-dropdownmenuitem>
+    `);
+    const icons = el.shadowRoot!.querySelectorAll("a nys-icon");
+    expect(icons[0].getAttribute("name")).to.equal("description");
+    expect(icons[1].getAttribute("name")).to.equal("open_in_new");
+  });
 });
