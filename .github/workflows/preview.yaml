@@ -65,15 +65,19 @@ jobs:
       - name: Deploy to Netlify
         id: deploy
         if: steps.preview.outputs.pages != '0'
+        # The CLI treats the repo's npm workspaces as a monorepo and refuses to
+        # deploy without a project filter, so deploy a copy from outside it.
         run: |
-          npx --yes netlify-cli@27.13.0 deploy \
+          site_dir="$RUNNER_TEMP/a11y-preview"
+          cp -R .preview/dist "$site_dir"
+          (cd "$RUNNER_TEMP" && npx --yes netlify-cli@27.13.0 deploy \
             --no-build \
-            --dir=.preview/dist \
+            --dir="$site_dir" \
             --alias="pr-${PR_NUMBER}" \
             --site="$NETLIFY_SITE_ID" \
             --auth="$NETLIFY_AUTH_TOKEN" \
             --message="PR #${PR_NUMBER} @ ${HEAD_SHA}" \
-            --json > .preview/deploy.json
+            --json) > .preview/deploy.json
           echo "url=$(node -p 'require("./.preview/deploy.json").deploy_url')" >> "$GITHUB_OUTPUT"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
