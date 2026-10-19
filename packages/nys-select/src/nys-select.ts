@@ -47,14 +47,12 @@ export type NysSelectChangeEvent = CustomEvent<NysSelectChangeDetail>;
  * @fires {Event} nys-focus - Fired when the select gains focus.
  * @fires {Event} nys-blur - Fired when the select loses focus. Triggers validation.
  *
- * @usagedos
+ * @usage
  * - Use when a user needs to select a single item from a dropdown list.
  * - Use the `<option>` element to define options and the native `<optgroup>` to group them.
- *
- * @usagedonts
- * - Use when users need to select multiple items. Use a checkbox group instead.
- * - Use the custom `<nys-option>` element. It will be deprecated in the 2.0 release.
- * - Use `<nys-select multiple>`. Use a checkbox group instead.
+ * - Don't use when users need to select multiple items. Use a checkbox group instead.
+ * - Don't use the custom `<nys-option>` element. It will be deprecated in the 2.0 release.
+ * - Don't use `<nys-select multiple>`. Use a checkbox group instead.
  *
  * @example Basic
  * ```html
@@ -601,16 +599,16 @@ export class NysSelect extends NysFormControlElement {
             ?required=${this.required}
             aria-disabled="${this.disabled}"
             aria-labelledby=${ifDefined(
-              this.label ? this.id + "--label" : undefined,
-            )}
+      this.label ? this.id + "--label" : undefined,
+    )}
             aria-label=${ifDefined(
-              !this.label && this.ariaLabel ? this.ariaLabel : undefined,
-            )}
+      !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+    )}
             aria-invalid=${this.showError ? "true" : "false"}
             aria-errormessage=${this.id + "--error"}
             aria-describedby=${ifDefined(
-              this.showError ? this.id + "--error" : undefined,
-            )}
+      this.showError ? this.id + "--error" : undefined,
+    )}
             .value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
