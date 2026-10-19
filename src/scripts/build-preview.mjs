@@ -4,8 +4,9 @@
  *
  * Every story in the affected packages' *.stories.ts files becomes its own
  * static page: the story's markup inside <main>, the component's script, the
- * @nysds/styles stylesheet, and a prev/next bar when there is more than one
- * page. Nothing else — the pages are for testers using assistive technology.
+ * @nysds/styles stylesheet, and a bar at the bottom of the viewport with
+ * previous/next links and a Home link. Nothing else — the pages are for testers
+ * using assistive technology. The home page is an ordered list of every story.
  *
  * Affected packages are the nys-* packages changed since the base branch plus
  * every package that depends on them, directly or transitively. A change to a
@@ -31,7 +32,10 @@ import { build, createServer } from "vite";
 import { chromium } from "playwright";
 import prettier from "prettier";
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const ROOT = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../..",
+);
 const OUT = path.join(ROOT, ".preview");
 const DIST = path.join(OUT, "dist");
 const SHARED_PACKAGES = new Set(["tokens", "styles", "internals", "codegen"]);
@@ -56,15 +60,23 @@ function readComponentPackages() {
 
 function changedFiles(base) {
   const git = (...args) =>
-    execFileSync("git", args, { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
+    execFileSync("git", args, { cwd: ROOT, encoding: "utf8" })
+      .split("\n")
+      .filter(Boolean);
   // Committed changes on this branch, plus uncommitted ones for local runs.
-  return [...new Set([...git("diff", "--name-only", `${base}...HEAD`), ...git("diff", "--name-only", "HEAD")])];
+  return [
+    ...new Set([
+      ...git("diff", "--name-only", `${base}...HEAD`),
+      ...git("diff", "--name-only", "HEAD"),
+    ]),
+  ];
 }
 
 /** Returns [{ dir, reason }] — changed packages first, then their dependents. */
 function affectedPackages(packages, args) {
   const all = [...packages.keys()].sort();
-  if (args.includes("--all")) return all.map((dir) => ({ dir, reason: "All components" }));
+  if (args.includes("--all"))
+    return all.map((dir) => ({ dir, reason: "All components" }));
 
   let changed;
   const named = args.filter((a) => !a.startsWith("--"));
@@ -77,10 +89,16 @@ function affectedPackages(packages, args) {
   } else {
     const base = process.env.PREVIEW_BASE || "origin/develop";
     const files = changedFiles(base);
-    const dirs = new Set(files.map((f) => f.match(/^packages\/([^/]+)\//)?.[1]).filter(Boolean));
-    const sharedHit = [...dirs].find((d) => SHARED_PACKAGES.has(d)) ?? files.find((f) => SHARED_FILES.has(f));
+    const dirs = new Set(
+      files.map((f) => f.match(/^packages\/([^/]+)\//)?.[1]).filter(Boolean),
+    );
+    const sharedHit =
+      [...dirs].find((d) => SHARED_PACKAGES.has(d)) ??
+      files.find((f) => SHARED_FILES.has(f));
     if (sharedHit) {
-      console.log(`Shared code changed (${sharedHit}) — previewing every component.`);
+      console.log(
+        `Shared code changed (${sharedHit}) — previewing every component.`,
+      );
       return all.map((dir) => ({ dir, reason: `Uses ${sharedHit}` }));
     }
     changed = [...dirs].filter((d) => packages.has(d)).sort();
@@ -257,7 +275,10 @@ async function snapshotStories(components) {
 // --- Page output ------------------------------------------------------------
 
 const escapeHtml = (s) =>
-  String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  String(s).replace(
+    /[&<>"]/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+  );
 
 const kebab = (s) =>
   s
@@ -274,11 +295,13 @@ async function formatMarkup(html) {
   }
 }
 
-// Only what @nysds/styles utilities cannot express: the bar's offset, surface
-// and divider, keeping focused content clear of it (WCAG 2.4.11), and dropping
-// it into the page flow on short viewports such as 400% zoom (WCAG 1.4.10).
+// Only what @nysds/styles utilities cannot express: a full-height body so the
+// bar sits at the bottom of the viewport on short pages, the bar's offset,
+// surface and divider, keeping focused content clear of it (WCAG 2.4.11), and
+// dropping it into the page flow on short viewports such as 400% zoom (WCAG 1.4.10).
 const BAR_STYLE = `<style>
       html { scroll-padding-bottom: var(--nys-space-1200); }
+      body { min-height: 100dvh; }
       .nysds-preview-bar {
         bottom: 0;
         background: var(--nys-color-surface);
@@ -289,18 +312,126 @@ const BAR_STYLE = `<style>
 
 const pageLabel = (p) => `${p.title}, ${p.story}`;
 
+function headHtml(title, extra = "") {
+  return `<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>${escapeHtml(title)}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
+    <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />${extra}
+  </head>`;
+}
+
+// Landing page styles, built only from @nysds/styles tokens. Each link is at
+// least 44px tall (--nys-size-550) so it's easy to activate on touch screens.
+const HOME_STYLE = `
+    <style>
+      .nysds-preview-hero {
+        background: var(--nys-color-theme);
+        color: var(--nys-color-text-reverse);
+      }
+      .nysds-preview-hero h1 { margin: 0 0 var(--nys-space-200); }
+      .nysds-preview-hero p {
+        margin: 0;
+        max-width: 40rem;
+        font-size: var(--nys-font-size-body-lg);
+      }
+      .nysds-preview-hero .nysds-preview-eyebrow {
+        margin-bottom: var(--nys-space-100);
+        font-size: var(--nys-font-size-ui-sm);
+        font-weight: var(--nys-font-weight-semibold);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      main h2 { margin-top: 0; }
+      .nysds-preview-list {
+        margin: var(--nys-space-300) 0 0;
+        padding-inline-start: var(--nys-space-600);
+      }
+      .nysds-preview-list li::marker {
+        color: var(--nys-color-text-weak);
+        font-variant-numeric: tabular-nums;
+      }
+      .nysds-preview-list a {
+        display: flex;
+        align-items: center;
+        min-height: var(--nys-size-550);
+        padding: var(--nys-space-100) var(--nys-space-200);
+        border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+      }
+      .nysds-preview-list li:first-child a {
+        border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+      }
+      .nysds-preview-list a:hover { background: var(--nys-color-theme-faint); }
+      .nysds-preview-list a:focus-visible {
+        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
+        outline-offset: calc(var(--nys-border-width-md) * -1);
+      }
+      .nysds-preview-component { font-weight: var(--nys-font-weight-semibold); }
+    </style>`;
+
+/** The landing page: every story, in testing order. */
+function homeHtml(pages) {
+  const components = new Set(pages.map((p) => p.dir)).size;
+  const stories = `${pages.length} ${pages.length === 1 ? "story" : "stories"}`;
+  const from = `${components} ${components === 1 ? "component" : "components"}`;
+  return `<!doctype html>
+<html lang="en">
+  ${headHtml("NYSDS accessibility preview", HOME_STYLE)}
+  <body>
+    <header class="nysds-preview-hero">
+      <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-600">
+        <p class="nysds-preview-eyebrow">NYS Design System</p>
+        <h1 style="font-size: var(--nys-font-size-ui);">Accessibility Testing Environment</h1>
+        <p>
+          ${stories} from ${from}.
+        </p>
+      </div>
+    </header>
+    <main class="nys-grid-container nys-grid-container-tablet nys-padding-y-600">
+      <h2>Stories to test</h2>
+      <ol class="nysds-preview-list nys-font-ui-md">
+${pages
+  .map(
+    (p) =>
+      `        <li><a href="/${p.path}/"><span><span class="nysds-preview-component">${escapeHtml(p.title)}</span>, ${escapeHtml(p.story)}</span></a></li>`,
+  )
+  .join("\n")}
+      </ol>
+    </main>
+  </body>
+</html>
+`;
+}
+
 function navBar(pages, i) {
-  if (pages.length < 2) return "";
   const prev = pages[i - 1];
   const next = pages[i + 1];
+  const stepper =
+    pages.length < 2
+      ? ""
+      : `
+      <div class="nys-display-flex nys-flex-justify-space-between nys-flex-align-center nys-flex-gap-200">
+        ${prev ? `<a href="/${prev.path}/">Previous: ${escapeHtml(pageLabel(prev))}</a>` : "<span></span>"}
+        <span>${i + 1} of ${pages.length}</span>
+        ${next ? `<a href="/${next.path}/">Next: ${escapeHtml(pageLabel(next))}</a>` : "<span></span>"}
+      </div>`;
   return `
     <nav
       aria-label="Stories to test"
-      class="nysds-preview-bar nys-position-sticky nys-display-flex nys-flex-justify-space-between nys-flex-align-center nys-flex-gap-200 nys-padding-x-400 nys-padding-y-200 nys-font-ui-md"
-    >
-      ${prev ? `<a href="/${prev.path}/">Previous: ${escapeHtml(pageLabel(prev))}</a>` : "<span></span>"}
-      <span>${i + 1} of ${pages.length}</span>
-      ${next ? `<a href="/${next.path}/">Next: ${escapeHtml(pageLabel(next))}</a>` : "<span></span>"}
+      class="nysds-preview-bar nys-position-sticky nys-display-flex nys-flex-column nys-flex-gap-100 nys-padding-x-400 nys-padding-y-200 nys-font-ui-md"
+    >${stepper}
+      <p><a href="/"
+      style="display: block;
+        text-align: center;
+        font-size: var(--nys-font-size-ui-lg);
+        background-color: var(--nys-color-theme);
+        color: #fff;
+        text-decoration: none;
+        padding: 1rem 0;">Home</a>
+      </p>
     </nav>`;
 }
 
@@ -309,19 +440,14 @@ function pageHtml(pages, i) {
   const position = pages.length > 1 ? ` (${i + 1} of ${pages.length})` : "";
   return `<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>${escapeHtml(`${pageLabel(p)}${position}`)}</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
-    <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />
-    ${pages.length > 1 ? BAR_STYLE : ""}
-    <script type="module" src="/assets/js/${p.dir}.js"></script>
-  </head>
-  <body>
-    <main class="nys-padding-400">
+  ${headHtml(
+    `${pageLabel(p)}${position}`,
+    `
+    ${BAR_STYLE}
+    <script type="module" src="/assets/js/${p.dir}.js"></script>`,
+  )}
+  <body class="nys-display-flex nys-flex-column">
+    <main class="nys-flex-1 nys-padding-400">
 ${p.html
   .split("\n")
   .map((line) => (line ? `      ${line}` : line))
@@ -343,7 +469,8 @@ function copyDir(from, to) {
 // --- Main -------------------------------------------------------------------
 
 function writeOutput(name, value) {
-  if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${value}\n`);
+  if (process.env.GITHUB_OUTPUT)
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${value}\n`);
 }
 
 async function main() {
@@ -356,11 +483,16 @@ async function main() {
   );
   if (!components.length) {
     console.log("No affected components with stories — nothing to preview.");
-    fs.writeFileSync(path.join(OUT, "manifest.json"), JSON.stringify({ pages: [], components: [] }, null, 2));
+    fs.writeFileSync(
+      path.join(OUT, "manifest.json"),
+      JSON.stringify({ pages: [], components: [] }, null, 2),
+    );
     writeOutput("pages", 0);
     return;
   }
-  console.log(`Previewing ${components.length} component(s): ${components.map((c) => c.dir).join(", ")}`);
+  console.log(
+    `Previewing ${components.length} component(s): ${components.map((c) => c.dir).join(", ")}`,
+  );
 
   await snapshotStories(components);
 
@@ -382,7 +514,9 @@ async function main() {
   // Component scripts: a package's stories modules, minus their story objects,
   // register the component (and its dependencies) and run module-scope setup.
   const ENTRY = "\0preview-entry:";
-  const entries = new Map(components.map((c) => [c.dir, c.files.map((f) => f.file)]));
+  const entries = new Map(
+    components.map((c) => [c.dir, c.files.map((f) => f.file)]),
+  );
   await build({
     ...viteBase,
     publicDir: false,
@@ -406,10 +540,16 @@ async function main() {
       sourcemap: true,
       rollupOptions: {
         onwarn(warning, defaultHandler) {
-          if (warning.code === "INVALID_ANNOTATION" && warning.message.includes("@stencil/core")) return;
+          if (
+            warning.code === "INVALID_ANNOTATION" &&
+            warning.message.includes("@stencil/core")
+          )
+            return;
           defaultHandler(warning);
         },
-        input: Object.fromEntries(components.map((c) => [c.dir, `${ENTRY}${c.dir}`])),
+        input: Object.fromEntries(
+          components.map((c) => [c.dir, `${ENTRY}${c.dir}`]),
+        ),
         output: {
           entryFileNames: "assets/js/[name].js",
           chunkFileNames: "assets/js/[name]-[hash].js",
@@ -425,18 +565,41 @@ async function main() {
   }
 
   // Same asset paths Storybook serves, so story markup that references them works.
-  copyDir(path.join(ROOT, "packages/styles/dist"), path.join(DIST, "assets/css"));
-  copyDir(path.join(ROOT, ".storybook/assets/fonts"), path.join(DIST, "assets/fonts"));
-  copyDir(path.join(ROOT, ".storybook/assets/images"), path.join(DIST, "assets/images"));
-  copyDir(path.join(ROOT, "packages/nys-icon/dist/icons"), path.join(DIST, "assets/icons"));
+  copyDir(
+    path.join(ROOT, "packages/styles/dist"),
+    path.join(DIST, "assets/css"),
+  );
+  copyDir(
+    path.join(ROOT, ".storybook/assets/fonts"),
+    path.join(DIST, "assets/fonts"),
+  );
+  copyDir(
+    path.join(ROOT, ".storybook/assets/images"),
+    path.join(DIST, "assets/images"),
+  );
+  copyDir(
+    path.join(ROOT, "packages/nys-icon/dist/icons"),
+    path.join(DIST, "assets/icons"),
+  );
   copyDir(path.join(ROOT, "public"), DIST);
-  fs.copyFileSync(path.join(ROOT, "favicon.svg"), path.join(DIST, "favicon.svg"));
+  fs.copyFileSync(
+    path.join(ROOT, "favicon.svg"),
+    path.join(DIST, "favicon.svg"),
+  );
 
-  fs.writeFileSync(path.join(DIST, "_redirects"), `/  /${pages[0].path}/  302\n`);
-  fs.writeFileSync(path.join(DIST, "robots.txt"), "User-agent: *\nDisallow: /\n");
+  fs.writeFileSync(path.join(DIST, "index.html"), homeHtml(pages));
+  fs.writeFileSync(
+    path.join(DIST, "robots.txt"),
+    "User-agent: *\nDisallow: /\n",
+  );
 
   const manifest = {
-    pages: pages.map(({ dir, title, story, path: p }) => ({ dir, title, story, path: p })),
+    pages: pages.map(({ dir, title, story, path: p }) => ({
+      dir,
+      title,
+      story,
+      path: p,
+    })),
     components: components.map((c) => ({
       dir: c.dir,
       title: c.title,
@@ -445,10 +608,15 @@ async function main() {
       stories: pages.filter((p) => p.dir === c.dir).length,
     })),
   };
-  fs.writeFileSync(path.join(OUT, "manifest.json"), JSON.stringify(manifest, null, 2));
+  fs.writeFileSync(
+    path.join(OUT, "manifest.json"),
+    JSON.stringify(manifest, null, 2),
+  );
   writeOutput("pages", pages.length);
 
-  console.log(`✓ Wrote ${pages.length} page(s) to ${path.relative(ROOT, DIST)}/ — start at /${pages[0].path}/`);
+  console.log(
+    `✓ Wrote ${pages.length} page(s) to ${path.relative(ROOT, DIST)}/ — home page lists them at /`,
+  );
 }
 
 main().catch((err) => {
