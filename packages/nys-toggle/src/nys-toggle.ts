@@ -55,17 +55,15 @@ export type NysToggleChangeEvent = CustomEvent<NysToggleChangeDetail>;
  * @fires {Event} nys-focus Fired when toggle gains focus.
  * @fires {Event} nys-blur Fired when toggle loses focus.
  *
- * @usagedos
+ * @usage
  * - Provide a clear label and optional description to explain what the toggle controls.
  * - Ensure the page clearly reflects the toggle's on/off state through visible changes.
  * - Use when the state change will be implemented immediately.
- *
- * @usagedonts
- * - Use for forms where immediate action isn't expected. Use `<nys-checkbox>` instead.
- * - Use for selecting one or more options from a list. Use `<nys-checkbox>` or `<nys-radiobutton>` instead.
- * - Use for complex or multi-state choices.
- * - Overuse for minor settings that don't affect the user experience.
- * - Hide labels unless an accessible alternative is in place.
+ * - Don't use for forms where immediate action isn't expected. Use `<nys-checkbox>` instead.
+ * - Don't use for selecting one or more options from a list. Use `<nys-checkbox>` or `<nys-radiobutton>` instead.
+ * - Don't use for complex or multi-state choices.
+ * - Don't overuse for minor settings that don't affect the user experience.
+ * - Don't hide labels unless an accessible alternative is in place.
  *
  * @example Basic
  * ```html
@@ -251,8 +249,8 @@ export class NysToggle extends NysFormControlElement {
               aria-checked="${this.checked ? "true" : "false"}"
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-labelledby=${ifDefined(
-                this.label ? this.id + "--label" : undefined,
-              )}
+      this.label ? this.id + "--label" : undefined,
+    )}
               aria-label=${ifDefined(!this.label ? "Toggle switch" : undefined)}
               @click=${this._handleClick}
               @focus=${this._handleFocus}
@@ -262,8 +260,8 @@ export class NysToggle extends NysFormControlElement {
             <span class="slider" @click=${this._handleSliderClick}>
               <div class="knob">
                 ${this.noIcon
-                  ? ""
-                  : html`<nys-icon
+        ? ""
+        : html`<nys-icon
                       class="toggle-icon"
                       name="${this.checked ? "check" : "close"}"
                       size="2xl"
@@ -272,7 +270,7 @@ export class NysToggle extends NysFormControlElement {
             </span>
           </div>
           ${this.label &&
-          html`<nys-label
+      html`<nys-label
             id="${this.id}--label"
             label=${this.label}
             description=${ifDefined(this.description || undefined)}
