@@ -87,7 +87,7 @@ const isFocusable = (el: HTMLElement) => el.getClientRects().length > 0;
  * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
  * @slot user-actions - User-account controls (e.g. profile link, settings, log-out button) shown in the header.
  *
- * @usagedos
+ * @usage
  * - Use on every agency site and application. The Global Header is a required page element.
  * - Place below `<nys-unavheader>` when using the Universal Navigation Header.
  * - Use `agencyName` alone for public-facing agency websites not tied to a specific application; omit it for statewide portals that aren't agency-specific.
@@ -97,12 +97,10 @@ const isFocusable = (el: HTMLElement) => el.getClientRects().length > 0;
  * - Use the `user-actions` slot for authenticated applications that need log-out buttons or user profile controls.
  * - Keep navigation link lists to 6 items or fewer. On mobile, these collapse into a full-width menu.
  * - Add the `nysLogo` property to display the NYS brand mark for internal applications that don't require public-facing agency branding.
- *
- * @usagedonts
- * - Use `appName` for an agency name. Use the `agencyName` prop instead.
- * - Add navigation links to application headers where users should remain focused on a task (e.g., a multi-step form).
- * - Place secondary or utility navigation in the Global Header. Use `<nys-globalfooter>` for secondary links.
- * - Use the `nysLogo` property on public-facing sites, instead use the `<nys-unavheader>` for statewide branding.
+ * - Don't use `appName` for an agency name. Use the `agencyName` prop instead.
+ * - Don't add navigation links to application headers where users should remain focused on a task (e.g., a multi-step form).
+ * - Don't place secondary or utility navigation in the Global Header. Use `<nys-globalfooter>` for secondary links.
+ * - Don't use the `nysLogo` property on public-facing sites, instead use the `<nys-unavheader>` for statewide branding.
  *
  * @example Basic
  * ```html
@@ -384,10 +382,10 @@ export class NysGlobalHeader extends NysElement {
     const slot = this._navSlot;
     const slotted = slot
       ? slot
-          .assignedElements({ flatten: true })
-          .flatMap((el) =>
-            Array.from(el.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)),
-          )
+        .assignedElements({ flatten: true })
+        .flatMap((el) =>
+          Array.from(el.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)),
+        )
       : [];
 
     return [this._menuButton, ...slotted].filter(
@@ -552,7 +550,7 @@ export class NysGlobalHeader extends NysElement {
       >
         <div class="nys-globalheader__main-container">
           ${this._hasLinkContent
-            ? html` <div class="nys-globalheader__button-container">
+        ? html` <div class="nys-globalheader__button-container">
                 <button
                   class="nys-globalheader__mobile-menu-button"
                   aria-expanded="${this._isMobileMenuOpen}"
@@ -569,54 +567,54 @@ export class NysGlobalHeader extends NysElement {
                   >
                 </button>
               </div>`
-            : ""}
+        : ""}
           ${this._renderBrandMark()}
           ${!this.homepageLink?.trim()
-            ? html`
+        ? html`
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0
-                    ? html`<div
+            ? html`<div
                         id="${this.id}-appname"
                         class="nys-globalheader__appName nys-globalheader__name"
                       >
                         ${this.appName}
                       </div> `
-                    : ""}
+            : ""}
                   ${this.agencyName?.trim().length > 0
-                    ? html`<div
+            ? html`<div
                         id="${this.id}-agencyname"
                         class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
+                .length > 0
+                ? ""
+                : "main"}"
                       >
                         ${this.agencyName}
                       </div> `
-                    : ""}
+            : ""}
                 </div>
               `
-            : html`<a
+        : html`<a
                 class="nys-globalheader__name-container-link"
                 href=${this.homepageLink?.trim()}
               >
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0
-                    ? html`<div
+            ? html`<div
                         class="nys-globalheader__appName nys-globalheader__name"
                       >
                         ${this.appName}
                       </div> `
-                    : ""}
+            : ""}
                   ${this.agencyName?.trim().length > 0
-                    ? html`<div
+            ? html`<div
                         class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
+                .length > 0
+                ? ""
+                : "main"}"
                       >
                         ${this.agencyName}
                       </div> `
-                    : ""}
+            : ""}
                 </div>
               </a>`}
           <nav
