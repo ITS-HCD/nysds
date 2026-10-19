@@ -63,19 +63,17 @@ export type NysDatepickerChangeEvent = CustomEvent<NysDatepickerChangeDetail>;
  * @fires {Event} nys-focus - Fired when focus enters the component from outside.
  * @fires {Event} nys-blur - Fired when input or calendar loses focus. Triggers validation.
  *
- * @usagedos
+ * @usage
  * - Use when users need to select a single calendar date, such as scheduling an appointment or choosing a filing deadline, especially when the day of the week matters.
  * - Set the `label` property to clearly describe what date is being collected. Every datepicker needs one for accessibility.
  * - Add `description` text to specify the expected format or provide context.
  * - Set `required` when the date is mandatory for form submission; don't set both `required` and `optional` on the same component.
  * - Use `startDate` to open the calendar to a relevant month when the expected date is far from today.
  * - Pass date values as ISO strings (`"YYYY-MM-DD"`) rather than `Date` objects to avoid timezone issues.
- *
- * @usagedonts
- * - Use for dates users know from memory, such as date of birth or document issue dates. A text input with separate month/day/year fields is more efficient.
- * - Use when users need to select multiple dates or a date range, or when time selection is required alongside the date.
- * - Rely on the calendar popup alone. Safari and mobile browsers use the native date picker instead.
- * - Use `hideTodayButton` and `hideClearButton` together unless users must select a specific date and cannot be allowed to clear it.
+ * - Don't use for dates users know from memory, such as date of birth or document issue dates. A text input with separate month/day/year fields is more efficient.
+ * - Don't use when users need to select multiple dates or a date range, or when time selection is required alongside the date.
+ * - Don't rely on the calendar popup alone. Safari and mobile browsers use the native date picker instead.
+ * - Don't use `hideTodayButton` and `hideClearButton` together unless users must select a specific date and cannot be allowed to clear it.
  *
  * @example Basic
  * ```html
@@ -1101,8 +1099,8 @@ export class NysDatepicker extends NysFormControlElement {
         ></nys-label>
         <div
           class="nys-datepicker--input-container ${this.disabled
-            ? "disabled"
-            : ""}"
+        ? "disabled"
+        : ""}"
         >
           <input
             id=${this.id}
@@ -1112,29 +1110,29 @@ export class NysDatepicker extends NysFormControlElement {
             max=${this.maxDate || "9999-12-31"}
             ?required=${this.required}
             .value=${this.value instanceof Date
-              ? this.value.toISOString().split("T")[0]
-              : this.value || ""}
+        ? this.value.toISOString().split("T")[0]
+        : this.value || ""}
             ?disabled=${this.disabled}
             aria-labelledby=${ifDefined(
-              this.label ? this.id + "--label" : undefined,
-            )}
+          this.label ? this.id + "--label" : undefined,
+        )}
             aria-label=${ifDefined(
-              !this.label && this.ariaLabel ? this.ariaLabel : undefined,
-            )}
+          !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+        )}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
             aria-required=${ifDefined(this.required ? "true" : undefined)}
             aria-invalid=${this.showError ? "true" : "false"}
             aria-errormessage=${this.id + "--error"}
             aria-describedby=${ifDefined(
-              this.showError ? this.id + "--error" : undefined,
-            )}
+          this.showError ? this.id + "--error" : undefined,
+        )}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
             @keydown=${this._handleInputKeydown}
           />
           ${!useNative
-            ? html`
+        ? html`
                 <button
                   id="calendar-button"
                   @click=${this._toggleDatepicker}
@@ -1148,7 +1146,7 @@ export class NysDatepicker extends NysFormControlElement {
                   <nys-icon name="calendar_month" size="24"></nys-icon>
                 </button>
               `
-            : null}
+        : null}
         </div>
 
         <div class="wc-datepicker--container">
@@ -1156,10 +1154,10 @@ export class NysDatepicker extends NysFormControlElement {
             id="wc-datepicker-popup"
             locale="en-US"
             .value=${this.value instanceof Date
-              ? this.value
-              : this.value
-                ? this._parseLocalDate(this.value)
-                : undefined}
+        ? this.value
+        : this.value
+          ? this._parseLocalDate(this.value)
+          : undefined}
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
             min-date=${ifDefined(this.minDate || undefined)}
@@ -1168,10 +1166,10 @@ export class NysDatepicker extends NysFormControlElement {
             aria-modal=${this.datepickerIsOpen ? "true" : "false"}
           >
             ${!this.hideTodayButton || !this.hideClearButton
-              ? html`
+        ? html`
                   <div class="wc-datepicker--button-container">
                     ${!this.hideTodayButton
-                      ? html`
+            ? html`
                           <nys-button
                             label="Today"
                             size="sm"
@@ -1181,9 +1179,9 @@ export class NysDatepicker extends NysFormControlElement {
                             @nys-click=${this._handleTodayClick}
                           ></nys-button>
                         `
-                      : null}
+            : null}
                     ${!this.hideClearButton
-                      ? html`
+            ? html`
                           <nys-button
                             label="Clear"
                             size="sm"
@@ -1193,10 +1191,10 @@ export class NysDatepicker extends NysFormControlElement {
                             @nys-click=${this._handleClearClick}
                           ></nys-button>
                         `
-                      : null}
+            : null}
                   </div>
                 `
-              : null}
+        : null}
           </wc-datepicker>
         </div>
       </div>
