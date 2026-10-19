@@ -1,9 +1,9 @@
-# Accessibility preview sweep
+# NYSDS Component Preview Deletion
 #
 # Safety net for preview.yaml: deletes the Netlify preview deploys of any PR
 # that is merged or closed, in case its cleanup job didn't run or failed.
 
-name: Accessibility Preview Sweep
+name: NYSDS Component Preview Deletion
 
 on:
   schedule:

@@ -1,4 +1,4 @@
-# Accessibility preview
+# NYSDS Component Preview Site Generation
 #
 # Builds one static page per story for the components a PR into develop
 # changes (plus every component that uses them) and deploys them to the
