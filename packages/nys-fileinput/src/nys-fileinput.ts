@@ -67,15 +67,13 @@ export type NysFileinputChangeEvent = CustomEvent<NysFileinputChangeDetail>;
  * @fires {Event} nys-focus Fired when focus enters the component from outside.
  * @fires {Event} nys-blur Fired when focus leaves the component. Triggers validation.
  *
- * @usagedos
+ * @usage
  * - Use when a form requires file upload, including when multiple file selection or drag-and-drop is needed.
- *
- * @usagedonts
- * - Use when uploading large files that require resumable upload logic.
- * - Use when selecting only from camera input or other device-native features.
- * - Use when uploading sensitive data without encryption.
- * - Use when file preview of uploaded content is needed.
- * - Use when file upload is not necessary for the task.
+ * - Don't use when uploading large files that require resumable upload logic.
+ * - Don't use when selecting only from camera input or other device-native features.
+ * - Don't use when uploading sensitive data without encryption.
+ * - Don't use when file preview of uploaded content is needed.
+ * - Don't use when file upload is not necessary for the task.
  *
  * @example Basic
  * ```html
@@ -374,8 +372,8 @@ export class NysFileinput extends NysFormControlElement {
 
     const errorEl = this.showError
       ? (this.renderRoot?.querySelector(
-          "nys-errormessage",
-        ) as HTMLElement | null)
+        "nys-errormessage",
+      ) as HTMLElement | null)
       : null;
 
     // Only present in dropzone mode, and only while the drag-active state
@@ -384,8 +382,8 @@ export class NysFileinput extends NysFormControlElement {
     const hintEl =
       this.dropzone && !this._dragActive
         ? (this.renderRoot?.querySelector(
-            ".nys-fileinput__dropzone-hint",
-          ) as HTMLElement | null)
+          ".nys-fileinput__dropzone-hint",
+        ) as HTMLElement | null)
         : null;
 
     control.setAttribute("aria-invalid", errorEl ? "true" : "false");
@@ -833,13 +831,13 @@ export class NysFileinput extends NysFormControlElement {
         ?multiple=${this.multiple}
         ?required=${this.required}
         ?disabled=${this.disabled ||
-        (!this.multiple && this._selectedFiles.length > 0)}
+      (!this.multiple && this._selectedFiles.length > 0)}
         aria-labelledby=${ifDefined(
-          this.label ? this.id + "--label" : undefined,
-        )}
+        this.label ? this.id + "--label" : undefined,
+      )}
         aria-label=${ifDefined(
-          !this.label && this.ariaLabel ? this.ariaLabel : undefined,
-        )}
+        !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+      )}
         aria-disabled="${this.disabled}"
         aria-hidden="true"
         @change=${this._handleFileChange}
@@ -853,7 +851,7 @@ export class NysFileinput extends NysFormControlElement {
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
             ?disabled=${this.disabled ||
-            (!this.multiple && this._selectedFiles.length > 0)}
+          (!this.multiple && this._selectedFiles.length > 0)}
             @nys-click=${this._openFileDialog}
           ></nys-button>`
         : html`<div
@@ -862,37 +860,37 @@ export class NysFileinput extends NysFormControlElement {
             ${this._isDropDisabled ? "disabled" : ""}
             ${this.showError && !this._isDropDisabled ? "error" : ""}"
             @click=${this._isDropDisabled
-              ? null
-              : (e: MouseEvent) => {
-                  const target = e.target as HTMLElement;
+            ? null
+            : (e: MouseEvent) => {
+              const target = e.target as HTMLElement;
 
-                  // Ignore clicks that originated within a nys-button
-                  if (target.closest("nys-button")) return;
+              // Ignore clicks that originated within a nys-button
+              if (target.closest("nys-button")) return;
 
-                  // Only handle direct wrapper clicks (outside of buttons). This
-                  // is a pointer-only convenience — the div carries no role or
-                  // tabindex, so it is never part of the keyboard path. Keyboard
-                  // users activate the real <nys-button> below (Enter/Space),
-                  // which opens the native file picker the same as a click here.
-                  this._openFileDialog();
-                }}
+              // Only handle direct wrapper clicks (outside of buttons). This
+              // is a pointer-only convenience — the div carries no role or
+              // tabindex, so it is never part of the keyboard path. Keyboard
+              // users activate the real <nys-button> below (Enter/Space),
+              // which opens the native file picker the same as a click here.
+              this._openFileDialog();
+            }}
             @dragover=${this._isDropDisabled ? null : this._onDragOver}
             @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
             @drop=${this._isDropDisabled ? null : this._onDrop}
           >
             ${this._dragActive
-              ? html`<p>Drop file to upload</p>`
-              : html` <nys-button
+            ? html`<p>Drop file to upload</p>`
+            : html` <nys-button
                     id="choose-files-btn-drag"
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
                     ?disabled=${this._isDropDisabled}
                     @nys-click="${(e: CustomEvent) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      this._openFileDialog();
-                    }}"
+                e.preventDefault();
+                e.stopPropagation();
+                this._openFileDialog();
+              }}"
                   ></nys-button>
                   <p
                     id="${this.id}--dropzone-hint"
@@ -914,8 +912,8 @@ export class NysFileinput extends NysFormControlElement {
         ? html`
             <ul>
               ${this._selectedFiles.map(
-                (entry) =>
-                  html`<li>
+          (entry) =>
+            html`<li>
                     <nys-fileitem
                       filename=${entry.file.name}
                       status=${entry.status}
@@ -923,7 +921,7 @@ export class NysFileinput extends NysFormControlElement {
                       errorMessage=${entry.errorMsg || ""}
                     ></nys-fileitem>
                   </li>`,
-              )}
+        )}
             </ul>
           `
         : null}
