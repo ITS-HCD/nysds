@@ -1,4 +1,4 @@
-import { html, unsafeCSS } from "lit";
+import { html, unsafeCSS, nothing } from "lit";
 import { NysElement } from "@nysds/internals";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -15,7 +15,7 @@ interface TrackedHeading {
   el: HTMLElement;
 }
 
-/** Detail payload for the `nys-change` event. */
+/** Detail payload for the `nys-click` event. */
 interface NysOnThisPageClickDetail {
   // The `id` of the target heading.
   id: string;
@@ -25,7 +25,7 @@ interface NysOnThisPageClickDetail {
   index: number;
 }
 
-/** The `nys-change` event, fired on a committed selection. */
+/** The `nys-click` event, fired on a committed selection. */
 export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
 
 /**
@@ -301,6 +301,7 @@ export class NysOnthispage extends NysElement {
     super.connectedCallback(); // assigns an auto id when none is provided
 
     window.addEventListener("scroll", this._onScroll, { passive: true });
+    window.addEventListener("resize", this._onScroll, { passive: true });
 
     this._observer = new MutationObserver(this._scheduleRebuild);
     this._observer.observe(document.body, {
@@ -315,6 +316,7 @@ export class NysOnthispage extends NysElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener("scroll", this._onScroll);
+    window.removeEventListener("resize", this._onScroll);
     this._observer?.disconnect();
     cancelAnimationFrame(this._scrollFrame);
     cancelAnimationFrame(this._rebuildFrame);
@@ -445,9 +447,11 @@ export class NysOnthispage extends NysElement {
     const isSameList =
       items.length === this._items.length &&
       items.every((item, index) => {
-        item.id === this._items[index].id &&
+        return (
+          item.id === this._items[index].id &&
           item.label === this._items[index].label &&
-          item.el === this._items[index].el;
+          item.el === this._items[index].el
+        );
       });
 
     if (!isSameList) {
@@ -541,7 +545,7 @@ export class NysOnthispage extends NysElement {
   }
 
   render() {
-    if (this._items.length < 2) return;
+    if (this._items.length < 2) return nothing;
     const headingId = `${this.id}--heading`;
 
     return html`
