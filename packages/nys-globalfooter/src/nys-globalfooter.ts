@@ -41,7 +41,7 @@ function adoptLightStyles() {
  *
  * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
  *
- * @usagedos
+ * @usage
  * - Use on every agency site and application. The Global Footer is a required page element.
  * - Use to surface essential site-wide links such as contact information, privacy policies, accessibility statements, and related program pages.
  * - Set `agencyName` to your agency's full official name (e.g., "Office of Information Technology Services").
@@ -49,12 +49,10 @@ function adoptLightStyles() {
  * - Keep footer link lists concise. Group related links under `<span>` headings when you have more than 5–6 links.
  * - Use slotted `<ul>` content for single-list links, or nested `<ul>` with `<span>` headings for multi-column layouts.
  * - Place `<nys-globalfooter>` above `<nys-unavfooter>` and below your page content and `<nys-backtotop>`.
- *
- * @usagedonts
- * - Use for primary navigation. That belongs in `<nys-globalheader>`.
- * - Include page-specific content or calls to action. Footer content should be relevant site-wide.
- * - Use for statewide universal links (Agencies, Services, Counties). Those belong in `<nys-unavfooter>`, which renders below this component.
- * - Embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security.
+ * - Don't use for primary navigation. That belongs in `<nys-globalheader>`.
+ * - Don't include page-specific content or calls to action. Footer content should be relevant site-wide.
+ * - Don't use for statewide universal links (Agencies, Services, Counties). Those belong in `<nys-unavfooter>`, which renders below this component.
+ * - Don't embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security.
  *
  * @example Basic
  * ```html
@@ -270,19 +268,19 @@ export class NysGlobalFooter extends NysElement {
         <div class="nys-globalfooter__main-container">
           <div class="nys-globalfooter__heading-container">
             ${!this.homepageLink?.trim()
-              ? heading
-              : html`<a href=${this.homepageLink?.trim()}>${heading}</a>`}
+        ? heading
+        : html`<a href=${this.homepageLink?.trim()}>${heading}</a>`}
             ${this.agencySubheading
-              ? html`<p class="nys-globalfooter__subheading">
+        ? html`<p class="nys-globalfooter__subheading">
                   ${this.agencySubheading}
                 </p>`
-              : nothing}
+        : nothing}
           </div>
           ${this.slotHasContent
-            ? html`<div class="nys-globalfooter__content">
+        ? html`<div class="nys-globalfooter__content">
                 <slot @slotchange="${this._handleSlotChange}"></slot>
               </div>`
-            : ""}
+        : ""}
         </div>
       </footer>
     `;
