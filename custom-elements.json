@@ -11211,7 +11211,7 @@
                   }
                 }
               ],
-              "description": "Checks if the header element is trackable:\nAka the element doesn't contain hidden data attribute, or is hidden, or is inside an accordion.\nVisibility must be true."
+              "description": "Checks if the header element is trackable:\nMeaning the element doesn't contain hidden data attribute, or is hidden, or is inside an accordion.\nVisibility must be true."
             },
             {
               "kind": "field",
@@ -11237,10 +11237,15 @@
               ]
             },
             {
+              "kind": "method",
+              "name": "_applyScrollMargin",
+              "privacy": "private"
+            },
+            {
               "kind": "field",
               "name": "_rebuild",
               "privacy": "private",
-              "description": "*\nCollects the headings, assigns ids where missing, and updates state if changed.\nRebuilds the content through this function."
+              "description": "*\nCollects the headings, assigns ids where missing, and updates state if changed.\nRebuilds the content in this function."
             },
             {
               "kind": "method",
@@ -11394,7 +11399,7 @@
             },
             {
               "title": "Track a different heading level",
-              "code": "<nys-onthispage headingTracker=\"h3\" scope=\"#guide\"></nys-onthispage>\n\n<article id=\"guide\">\n<h1>Part 1 (h1 tag)</h2>\n<h2>Part 2 (h2 tag)</h2>\n<h3>Eligibility (h3 tag)</h3>\n<h3>How to apply (h3 tag)</h3>\n</article>",
+              "code": "<nys-onthispage headingTracker=\"h3\" scope=\"#guide\"></nys-onthispage>\n\n<article id=\"guide\">\n<h1>Part 1 (h1 tag)</h1>\n<h2>Part 2 (h2 tag)</h2>\n<h3>Eligibility (h3 tag)</h3>\n<h3>How to apply (h3 tag)</h3>\n</article>",
               "lang": "html"
             },
             {

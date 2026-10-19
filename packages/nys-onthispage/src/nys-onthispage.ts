@@ -16,20 +16,22 @@ interface TrackedHeading {
 }
 
 /** Detail payload for the `nys-change` event. */
-interface NysOnThisPageChangeDetail {
+interface NysOnThisPageClickDetail {
+  // The `id` of the target heading.
   id: string;
+  // The link text, taken from the heading text.
   label: string;
-  /** The committed date, always a `YYYY-MM-DD` string. Empty string when cleared. */
+  // Zero-based position of the link in the list.
   index: number;
 }
 
 /** The `nys-change` event, fired on a committed selection. */
-export type NysOnThisPageChangeEvent = CustomEvent<NysOnThisPageChangeDetail>;
+export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
 
 /**
  * `<nys-onthispage>` is an in-page navigation component.
  *
- * @fires {NysOnThisPageChangeEvent} nys-click - A link was activated. `detail: { id, label, index }`
+ * @fires {NysOnThisPageClickEvent} nys-click - A link was activated. `detail: { id, label, index }`
  *
  * @example Basic
  * ```html
@@ -96,7 +98,6 @@ export type NysOnThisPageChangeEvent = CustomEvent<NysOnThisPageChangeDetail>;
  * <div style="display: flex; gap: 2rem; align-items: flex-start;">
  *   <nys-onthispage
  *     heading="In this guide"
- *     hideHeading
  *   ></nys-onthispage>
  *
  *   <main style="flex: 1; min-width: 0;">
@@ -119,7 +120,7 @@ export type NysOnThisPageChangeEvent = CustomEvent<NysOnThisPageChangeDetail>;
  * <nys-onthispage headingTracker="h3" scope="#guide"></nys-onthispage>
  *
  * <article id="guide">
- *   <h1>Part 1 (h1 tag)</h2>
+ *   <h1>Part 1 (h1 tag)</h1>
  *   <h2>Part 2 (h2 tag)</h2>
  *   <h3>Eligibility (h3 tag)</h3>
  *   <h3>How to apply (h3 tag)</h3>
@@ -258,9 +259,6 @@ export class NysOnthispage extends NysElement {
   /** Nav heading text. */
   @property({ type: String }) heading = "On this page";
 
-  /** Visually hides the nav heading. It stays in the DOM as the accessible name. */
-  @property({ type: Boolean }) hideHeading = false;
-
   /** CSS selector for the container whose headings are tracked. */
   @property({ type: String }) scope = "main";
 
@@ -290,6 +288,10 @@ export class NysOnthispage extends NysElement {
   private _scrollFrame = 0;
   private _rebuildFrame = 0;
 
+  /** True while a link-click scroll is in flight, so scroll events don't override the clicked link. */
+  private _holdingActive = false;
+  private _holdTimer = 0;
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -316,6 +318,7 @@ export class NysOnthispage extends NysElement {
     this._observer?.disconnect();
     cancelAnimationFrame(this._scrollFrame);
     cancelAnimationFrame(this._rebuildFrame);
+    clearTimeout(this._holdTimer);
   }
 
   /**
@@ -406,9 +409,9 @@ export class NysOnthispage extends NysElement {
       ? this.headingTracker
       : "h2";
     const foundHeaders = scopeEl
-      ? Array.from(scopeEl.querySelectorAll(targetHeaderTag)).filter((el) =>
-          this._isTrackable(el),
-        )
+      ? Array.from(
+          scopeEl.querySelectorAll<HTMLElement>(targetHeaderTag),
+        ).filter((el) => this._isTrackable(el))
       : [];
 
     // A set of header elements that we want to generate in the navigation
@@ -438,8 +441,7 @@ export class NysOnthispage extends NysElement {
       return { id: el.id, label, el };
     });
 
-    // To prevent a re-render of the navigation,
-    // the following checks prevents a full recompute when nothing is changed.
+    // Skip the re-render when nothing changed.
     const isSameList =
       items.length === this._items.length &&
       items.every((item, index) => {
@@ -463,7 +465,6 @@ export class NysOnthispage extends NysElement {
     for (const item of this._items) {
       if (item.el.getBoundingClientRect().top <= this.offset + 1) {
         active = item.id;
-        console.log("COMPUTING ACTIVE");
       } else {
         break;
       }
@@ -482,7 +483,23 @@ export class NysOnthispage extends NysElement {
     if (active !== this._activeId) this._activeId = active;
   }
 
+  /**
+   * Keeps the clicked link active until scrolling has been idle for 150ms.
+   */
+  private _holdActive() {
+    this._holdingActive = true;
+    clearTimeout(this._holdTimer);
+    this._holdTimer = window.setTimeout(() => {
+      this._holdingActive = false;
+    }, 150);
+  }
+
   private _onScroll = () => {
+    if (this._holdingActive) {
+      this._holdActive();
+      return;
+    }
+
     if (this._scrollFrame) return;
     this._scrollFrame = requestAnimationFrame(() => {
       this._scrollFrame = 0;
@@ -497,8 +514,11 @@ export class NysOnthispage extends NysElement {
   private _handleClick(e: MouseEvent, item: TrackedHeading, index: number) {
     e.preventDefault();
 
+    this._activeId = item.id;
+    this._holdActive();
+
     const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce",
+      "(prefers-reduced-motion: reduce)",
     ).matches;
     item.el.scrollIntoView({
       behavior: this.smoothScroll && !reduceMotion ? "smooth" : "auto",
@@ -513,7 +533,7 @@ export class NysOnthispage extends NysElement {
       history.replaceState(null, "", `#${item.id}`);
     }
 
-    dispatchNysEvent<NysOnThisPageChangeDetail>(this, "nys-change", {
+    dispatchNysEvent<NysOnThisPageClickDetail>(this, "nys-click", {
       id: item.id,
       label: item.label,
       index,
@@ -522,11 +542,14 @@ export class NysOnthispage extends NysElement {
 
   render() {
     if (this._items.length < 2) return;
+    const headingId = `${this.id}--heading`;
 
     return html`
       <div class="nys-onthispage">
-        <h2 id="${this.id}" class="nys-onthispage__heading">${this.heading}</h2>
-        <nav class="nys-onthispage__nav" aria-labelledby="${this.id}">
+        <h2 id="${headingId}" class="nys-onthispage__heading">
+          ${this.heading}
+        </h2>
+        <nav class="nys-onthispage__nav" aria-labelledby="${headingId}">
           <ul class="nys-onthispage__list">
             ${this._items.map((item, index) => {
               const active = this._activeId === item.id;

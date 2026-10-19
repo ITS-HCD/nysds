@@ -241,10 +241,10 @@ export const TrackADifferentHeadingLevel: Story = {
       <nys-onthispage headingTracker="h3" scope="#guide"></nys-onthispage>
 
       <article id="guide">
-      <h1>Part 1 (h1 tag)</h2>
-      <h2>Part 2 (h2 tag)</h2>
-      <h3>Eligibility (h3 tag)</h3>
-      <h3>How to apply (h3 tag)</h3>
+        <h1>Part 1 (h1 tag)</h1>
+        <h2>Part 2 (h2 tag)</h2>
+        <h3>Eligibility (h3 tag)</h3>
+        <h3>How to apply (h3 tag)</h3>
       </article>
     `;
   },
@@ -255,10 +255,10 @@ export const TrackADifferentHeadingLevel: Story = {
 <nys-onthispage headingTracker="h3" scope="#guide"></nys-onthispage>
 
 <article id="guide">
-<h1>Part 1 (h1 tag)</h2>
-<h2>Part 2 (h2 tag)</h2>
-<h3>Eligibility (h3 tag)</h3>
-<h3>How to apply (h3 tag)</h3>
+  <h1>Part 1 (h1 tag)</h1>
+  <h2>Part 2 (h2 tag)</h2>
+  <h3>Eligibility (h3 tag)</h3>
+  <h3>How to apply (h3 tag)</h3>
 </article>`,
         type: "auto",
       },

@@ -42,7 +42,7 @@
 }
 
 // Sticky is desktop-only.
-@media (min-width: 768px) and (min-height: 600px) {
+@media (width >= 768px) and (height >= 600px) {
   :host([sticky]) {
     position: sticky;
     top: var(--_nys-onthispage-offset, 80px);
@@ -50,7 +50,6 @@
 }
 
 .nys-onthispage {
-  display: flex;
   flex-direction: column;
   width: var(--_nys-onthispage-width);
   height: var(--_nys-onthispage-height);
@@ -64,17 +63,20 @@
   font-size: var(--_nys-onthispage-font-size);
   font-weight: var(--_nys-onthispage-font-weight);
   line-height: var(--_nys-onthispage-line-height);
+
   .nys-onthispage__heading {
     margin: 0;
     font-weight: var(--_nys-onthispage-font-weight--header);
     font-size: var(--_nys-onthispage-font-size);
   }
+
   .nys-onthispage__nav {
     .nys-onthispage__list {
       position: relative;
       margin: 0;
       padding: 0;
       list-style-type: none;
+
       &::before {
         content: "";
         width: var(--_nys-onthispage-border-width--item);
@@ -84,9 +86,11 @@
         bottom: 0;
         position: absolute;
       }
+
       .nys-onthispage__item {
         position: relative;
         padding: var(--_nys-onthispage-padding--item);
+
         &.active {
           &::before {
             content: "";
@@ -101,9 +105,11 @@
             position: absolute;
           }
         }
+
         .nys-onthispage__link {
           text-decoration: none;
           color: var(--_nys-onthispage-color--item);
+
           &.active {
             color: var(--_nys-onthispage-color--item-active);
             font-weight: var(--_nys-onthispage-font-weight--active);
