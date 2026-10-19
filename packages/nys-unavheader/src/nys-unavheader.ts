@@ -48,6 +48,7 @@ export type NysUnavheaderSearchSubmitEvent =
  *
  * Production is https://alerts-cta.static-assets.ny.gov/alerts.json.
  * For dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json
+ * For staging use: https://alerts-cta-stage.static-assets.ny.gov/alerts.json
  */
 export const NYS_ALERT_URL =
   "https://alerts-cta.static-assets.ny.gov/alerts.json";
