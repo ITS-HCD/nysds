@@ -1,0 +1,120 @@
+# Accessibility preview
+#
+# Builds one static page per story for the components a PR into develop
+# changes (plus every component that uses them) and deploys them to the
+# preview Netlify site under the alias pr-<number>. Testers using assistive
+# technology get a link in a PR comment. When the PR is merged or closed, every
+# deploy under that alias is deleted.
+#
+# Requires repo secrets NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID. PRs from forks
+# don't receive secrets, so they are skipped.
+
+name: Accessibility Preview
+
+on:
+  pull_request:
+    branches:
+      - 'develop'
+    types: [opened, synchronize, reopened, closed]
+
+# One run per PR; closing a PR cancels a deploy still in progress so it can't
+# publish after cleanup.
+concurrency:
+  group: a11y-preview-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  deploy:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # the build diffs against the base branch
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.17.0'
+
+      - name: Install dependencies
+        run: npm i # default is `npm ci` but that causes issues ALL THE TIME, so we're reverting back to `npm i` this should NOT be changed back to npm ci.
+
+      - name: Install Chromium
+        # Renders each story to static markup. See test-node-js.yaml for why
+        # the root playwright package is called directly.
+        run: node node_modules/playwright/cli.js install --with-deps chromium
+        env:
+          DEBIAN_FRONTEND: noninteractive
+
+      - name: Build packages
+        run: npm run build:packages
+
+      - name: Regenerate stories from JSDoc
+        run: npm run gen:stories
+
+      - name: Build preview pages
+        id: preview
+        run: node src/scripts/build-preview.mjs
+        env:
+          PREVIEW_BASE: origin/${{ github.base_ref }}
+
+      - name: Deploy to Netlify
+        id: deploy
+        if: steps.preview.outputs.pages != '0'
+        run: |
+          npx --yes netlify-cli@27.13.0 deploy \
+            --no-build \
+            --dir=.preview/dist \
+            --alias="pr-${PR_NUMBER}" \
+            --site="$NETLIFY_SITE_ID" \
+            --auth="$NETLIFY_AUTH_TOKEN" \
+            --message="PR #${PR_NUMBER} @ ${HEAD_SHA}" \
+            --json > .preview/deploy.json
+          echo "url=$(node -p 'require("./.preview/deploy.json").deploy_url')" >> "$GITHUB_OUTPUT"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+        with:
+          script: |
+            const { deployedBody, upsertComment } = require("./src/scripts/preview-comment.cjs");
+            const body = deployedBody({
+              manifestPath: ".preview/manifest.json",
+              previewUrl: process.env.PREVIEW_URL,
+              sha: context.payload.pull_request.head.sha,
+            });
+            await upsertComment({ github, context, body });
+
+  cleanup:
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.17.0'
+
+      - name: Delete preview deploys
+        run: node src/scripts/cleanup-preview.mjs "${{ github.event.pull_request.number }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Update PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { removedBody, upsertComment } = require("./src/scripts/preview-comment.cjs");
+            const body = removedBody({ merged: context.payload.pull_request.merged });
+            await upsertComment({ github, context, body, createIfMissing: false });

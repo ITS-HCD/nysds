@@ -69,7 +69,9 @@
     "code-connect": "dotenv -- npx figma connect publish",
     "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && node src/scripts/verify-form-contract.mjs && mkdir -p dist && cp ./custom-elements.json dist/",
     "verify:a11y-names": "node src/scripts/verify-a11y-names.mjs",
-    "verify:utility-docs": "npm run build:mcp && node src/scripts/verify-utility-docs.mjs"
+    "verify:utility-docs": "npm run build:mcp && node src/scripts/verify-utility-docs.mjs",
+    "preview:a11y": "node src/scripts/build-preview.mjs",
+    "preview:a11y:serve": "vite preview --outDir .preview/dist --port 4310 --strictPort"
   },
   "repository": {
     "type": "git",
