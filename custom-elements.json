@@ -7360,6 +7360,12 @@
               "code": "<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>",
               "lang": "html",
               "render": "<div style=\"margin: 200px; display: flex; justify-content: center; align-items: center;\">\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>"
+            },
+            {
+              "title": "Prefix & Suffix Icon",
+              "code": "<div>\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\" prefixIcon=\"account_circle\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\" prefixIcon=\"drive_folder_upload\" suffixIcon=\"open_in_new\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" prefixIcon=\"account_balance_filled\" suffixIcon=\"chevron_right\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\" suffixIcon=\"lock_filled\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>",
+              "lang": "html",
+              "render": "<div style=\"margin: 200px; display: flex; justify-content: center; align-items: center;\">\n<nys-button id=\"my-trigger-id\" label=\"Open Menu\"></nys-button>\n<nys-dropdownmenu id=\"my-dropdownmenu\" for=\"my-trigger-id\">\n<nys-dropdownmenuitem label=\"Profile\" href=\"/profile\" prefixIcon=\"account_circle\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Repositories & Github Pages\" href=\"/repos\" prefixIcon=\"drive_folder_upload\" suffixIcon=\"open_in_new\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Organizations\" href=\"/organizations\" prefixIcon=\"account_balance_filled\" suffixIcon=\"chevron_right\"></nys-dropdownmenuitem>\n<nys-dropdownmenuitem label=\"Sign out\" href=\"/logout\" suffixIcon=\"lock_filled\"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n</div>"
             }
           ],
           "usagedos": [
@@ -7422,6 +7428,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Text shown in the item. Also the accessible name and the `nys-click` detail label.",
               "attribute": "label"
             },
             {
@@ -7431,6 +7438,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Link URL. Renders a link when set, a button when empty.",
               "attribute": "href"
             },
             {
@@ -7440,6 +7448,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Disables the item. No `nys-click` event and no link navigation.",
               "attribute": "disabled",
               "reflects": true
             },
@@ -7450,6 +7459,7 @@
                 "text": "string"
               },
               "default": "\"_self\"",
+              "description": "Where the link opens (e.g. `_self`, `_blank`). Only used with `href`.",
               "attribute": "target"
             },
             {
@@ -7459,16 +7469,18 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Icon name shown before the label.",
               "attribute": "prefixIcon"
             },
             {
               "kind": "field",
-              "name": "divider",
+              "name": "suffixIcon",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "attribute": "divider"
+              "description": "Icon name shown after the label.",
+              "attribute": "suffixIcon"
             },
             {
               "kind": "method",
@@ -7479,6 +7491,19 @@
                   "name": "e",
                   "type": {
                     "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_renderIcon",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "iconName",
+                  "type": {
+                    "text": "string"
                   }
                 }
               ]
@@ -7500,6 +7525,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Text shown in the item. Also the accessible name and the `nys-click` detail label.",
               "fieldName": "label"
             },
             {
@@ -7508,6 +7534,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Link URL. Renders a link when set, a button when empty.",
               "fieldName": "href"
             },
             {
@@ -7516,6 +7543,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Disables the item. No `nys-click` event and no link navigation.",
               "fieldName": "disabled"
             },
             {
@@ -7524,6 +7552,7 @@
                 "text": "string"
               },
               "default": "\"_self\"",
+              "description": "Where the link opens (e.g. `_self`, `_blank`). Only used with `href`.",
               "fieldName": "target"
             },
             {
@@ -7532,15 +7561,17 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Icon name shown before the label.",
               "fieldName": "prefixIcon"
             },
             {
-              "name": "divider",
+              "name": "suffixIcon",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "divider"
+              "description": "Icon name shown after the label.",
+              "fieldName": "suffixIcon"
             }
           ],
           "superclass": {
