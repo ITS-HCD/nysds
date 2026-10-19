@@ -18,7 +18,7 @@ import styles from "./nys-badge.scss?inline";
  * @summary Compact label for status, counts, or categorization with semantic styling.
  * @element nys-badge
  *
- * @usagedos
+ * @usage
  * - Indicate the status of an item, such as "new", "updated", or "beta".
  * - Provide additional context or information about an item without cluttering the interface.
  * - Keep badge labels short -- one or two words like "New", "Beta", or "Updated".
@@ -26,15 +26,13 @@ import styles from "./nys-badge.scss?inline";
  * - Place badges near the element they describe so the relationship is clear.
  * - Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.
  * - Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis.
- *
- * @usagedonts
- * - Use badges when the information is too complex to be conveyed in a small badge.
- * - Use badges when they would not add significant value to the user experience.
- * - Use badges as interactive elements -- they are not buttons or links.
- * - Pack long sentences or multiple values into a single badge label.
- * - Mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.
- * - Rely on color alone to convey meaning; always include a text label.
- * - Stack multiple badges on a single element unless each communicates a distinct, necessary status.
+ * - Don't use badges when the information is too complex to be conveyed in a small badge.
+ * - Don't use badges when they would not add significant value to the user experience.
+ * - Don't use badges as interactive elements -- they are not buttons or links.
+ * - Don't pack long sentences or multiple values into a single badge label.
+ * - Don't mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.
+ * - Don't rely on color alone to convey meaning; always include a text label.
+ * - Don't stack multiple badges on a single element unless each communicates a distinct, necessary status.
  *
  * @example Basic
  * ```html
@@ -282,28 +280,28 @@ export class NysBadge extends NysElement {
     return html`
       <mark class="nys-badge">
         ${prefixIconName
-          ? html`<nys-icon size="16" name=${prefixIconName}></nys-icon>`
-          : ""}
+        ? html`<nys-icon size="16" name=${prefixIconName}></nys-icon>`
+        : ""}
         ${this.prefixLabel
-          ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
-          : ""}
+        ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
+        : ""}
         <div class="nys-badge__label">
           ${intentSrText
-            ? html`<span class="nys-badge__sr-only"
+        ? html`<span class="nys-badge__sr-only"
                 >${intentSrText + ": "}</span
               >`
-            : ""}
+        : ""}
           ${this.label}
           ${this.srText
-            ? html`<span class="nys-badge__sr-only"
+        ? html`<span class="nys-badge__sr-only"
                 >${": " + this.srText}</span
               >`
-            : ""}
+        : ""}
         </div>
 
         ${suffixIconName
-          ? html`<nys-icon size="16" name=${suffixIconName}></nys-icon>`
-          : ""}
+        ? html`<nys-icon size="16" name=${suffixIconName}></nys-icon>`
+        : ""}
       </mark>
     `;
   }
