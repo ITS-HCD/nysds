@@ -66,17 +66,15 @@ export type NysTextinputChangeEvent = CustomEvent<NysTextinputChangeDetail>;
  * @fires {Event} nys-focus - Fired when the input gains focus.
  * @fires {Event} nys-blur - Fired when the input loses focus. Triggers validation.
  *
- * @usagedos
+ * @usage
  * - Use to collect short, single-line, open-ended text input (e.g., names, email addresses, or short descriptions).
  * - Use clear, concise labels that describe the expected input.
  * - Add helper text with the `description` property for context.
  * - Validate input live to catch errors early (e.g., invalid email formats).
- *
- * @usagedonts
- * - Use for long or multi-line responses. Use `<nys-textarea>` instead.
- * - Use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.
- * - Overwhelm users with too many fields. Group related inputs.
- * - Use placeholders as labels.
+ * - Don't use for long or multi-line responses. Use `<nys-textarea>` instead.
+ * - Don't use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.
+ * - Don't overwhelm users with too many fields. Group related inputs.
+ * - Don't use placeholders as labels.
  *
  * @example Basic
  * ```html
@@ -654,8 +652,8 @@ export class NysTextinput extends NysFormControlElement {
       } else {
         console.warn(
           "The '" +
-            slotName +
-            "' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
+          slotName +
+          "' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
           node,
         );
         node.remove();
@@ -677,10 +675,10 @@ export class NysTextinput extends NysFormControlElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
-            ? "required"
-            : this.optional
-              ? "optional"
-              : ""}
+        ? "required"
+        : this.optional
+          ? "optional"
+          : ""}
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
@@ -696,37 +694,37 @@ export class NysTextinput extends NysFormControlElement {
             <input
               class="nys-textinput__input"
               type=${this.type === "password"
-                ? this.showPassword
-                  ? "text"
-                  : "password"
-                : this.type}
+        ? this.showPassword
+          ? "text"
+          : "password"
+        : this.type}
               name=${this.name}
               id=${this.id + "--native"}
               ?disabled=${this.disabled}
               ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
               aria-labelledby=${ifDefined(
-                this.label ? this.id + "--label" : undefined,
-              )}
+          this.label ? this.id + "--label" : undefined,
+        )}
               aria-label=${ifDefined(
-                !this.label && this.ariaLabel ? this.ariaLabel : undefined,
-              )}
+          !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+        )}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
               aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
               aria-describedby=${ifDefined(
-                this.showError ? this.id + "--error" : undefined,
-              )}
+          this.showError ? this.id + "--error" : undefined,
+        )}
               .value=${this.value}
               placeholder=${ifDefined(
-                this.placeholder ? this.placeholder : undefined,
-              )}
+          this.placeholder ? this.placeholder : undefined,
+        )}
               pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
               min=${ifDefined(this.min !== null ? this.min : undefined)}
               maxlength=${ifDefined(
-                this.maxlength !== null ? this.maxlength : undefined,
-              )}
+          this.maxlength !== null ? this.maxlength : undefined,
+        )}
               step=${ifDefined(this.step !== null ? this.step : undefined)}
               max=${ifDefined(this.max !== null ? this.max : undefined)}
               form=${ifDefined(this.form || undefined)}
@@ -736,7 +734,7 @@ export class NysTextinput extends NysFormControlElement {
               @blur="${this._handleBlur}"
             />
             ${this.type === "password"
-              ? html` <nys-button
+        ? html` <nys-button
                   class="inline-icon"
                   id="password-toggle"
                   ariaLabel="password toggle"
@@ -744,7 +742,7 @@ export class NysTextinput extends NysFormControlElement {
                   circle
                   size="sm"
                   @nys-click=${() =>
-                    !this.disabled && this._togglePasswordVisibility()}
+            !this.disabled && this._togglePasswordVisibility()}
                 >
                   <nys-icon
                     slot="circle-icon"
@@ -752,12 +750,12 @@ export class NysTextinput extends NysFormControlElement {
                     name=${this.showPassword ? "visibility_off" : "visibility"}
                   ></nys-icon>
                 </nys-button>`
-              : ""}
+        : ""}
             ${this.type === "search" &&
-            this.value &&
-            !this.disabled &&
-            !this.readonly
-              ? html` <nys-button
+        this.value &&
+        !this.disabled &&
+        !this.readonly
+        ? html` <nys-button
                   class="inline-icon"
                   id="search-clear"
                   ariaLabel="clear search"
@@ -772,7 +770,7 @@ export class NysTextinput extends NysFormControlElement {
                     name="close"
                   ></nys-icon>
                 </nys-button>`
-              : ""}
+        : ""}
           </div>
           <slot
             name="endButton"
