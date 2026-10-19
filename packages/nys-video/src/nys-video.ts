@@ -32,18 +32,16 @@ declare global {
  *
  * @fires {Event} nys-video-play - Fired when the user clicks the thumbnail to load the player.
  *
- * @usagedos
+ * @usage
  * - Use when motion or audio communicates something better than text or images alone.
  * - Keep `titleText` to 50–60 characters.
  * - Use a clear, high-quality thumbnail so users recognize it as a video.
  * - Maintain the default `lazy` loading for better page performance.
  * - Reserve space for the 16:9 ratio box to prevent layout shift.
  * - Let users choose to start the video; avoid `autoplay` unless necessary.
- *
- * @usagedonts
- * - Use video if the same message can be delivered clearly with text or a static image.
- * - Rely on video alone to convey critical information. Always provide a text alternative.
- * - Set `autoplay` without understanding that the video will be muted. `nys-video` enforces this automatically to protect users from unexpected noise.
+ * - Don't use video if the same message can be delivered clearly with text or a static image.
+ * - Don't rely on video alone to convey critical information. Always provide a text alternative.
+ * - Don't set `autoplay` without understanding that the video will be muted. `nys-video` enforces this automatically to protect users from unexpected noise.
  *
  * @example Basic
  * ```html
@@ -357,8 +355,8 @@ export class NysVideo extends NysElement {
       return html`
         <div
           class="nys-video nys-video--${effectiveSize} ${this.disabled
-            ? "nys-video--disabled"
-            : ""}"
+          ? "nys-video--disabled"
+          : ""}"
         >
           ${this._renderAnnouncer()}
           <div class="nys-video__ratio-box">
@@ -377,7 +375,7 @@ export class NysVideo extends NysElement {
             </div>
           </div>
           ${this.titleText &&
-          html`<div class="nys-video__title-text">
+        html`<div class="nys-video__title-text">
             <p>${this.titleText}</p>
           </div>`}
         </div>
