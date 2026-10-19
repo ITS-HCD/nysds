@@ -18,15 +18,44 @@ import styles from "./nys-unavfooter.scss?inline";
 const DEFAULT_LANDMARK_LABEL = "New York State";
 
 /**
- * Statewide CTA endpoint, read once per page load. Sites don't opt in or out and
- * never author the content, so a CTA reads identically everywhere it appears.
+ * Statewide CTA endpoint. Sites don't opt in or out and never author the
+ * content, so a CTA reads identically everywhere it appears.
+ *
+ * Which one is read is chosen by the page's `<body data-environment="...">`:
+ * `dev` → development, `stage` → stage, anything else (or absent) → production.
  *
  * PRODUCTION: https://alerts-cta.static-assets.ny.gov/cta.json
  *
  * DEVELOPMENT: https://alerts-cta-dev.static-assets.ny.gov/cta.json
  *
+ * STAGE: https://alerts-cta-stage.static-assets.ny.gov/cta.json
+ *
  */
 export const NYS_CTA_URL = "https://alerts-cta.static-assets.ny.gov/cta.json";
+export const NYS_CTA_URL_DEV =
+  "https://alerts-cta-dev.static-assets.ny.gov/cta.json";
+export const NYS_CTA_URL_STAGE =
+  "https://alerts-cta-stage.static-assets.ny.gov/cta.json";
+
+/** Attribute on `<body>` that selects the CTA environment. */
+const ENVIRONMENT_ATTRIBUTE = "data-environment";
+
+/**
+ * Picks the CTA endpoint from `<body data-environment>`. Only the exact values
+ * `dev` and `stage` (case-insensitive, trimmed) leave production; anything else,
+ * including a missing body or attribute, falls through to production so a typo
+ * can never point a live site at a non-production feed.
+ */
+const resolveCtaUrl = (): string => {
+  const environment = document.body
+    ?.getAttribute(ENVIRONMENT_ATTRIBUTE)
+    ?.trim()
+    .toLowerCase();
+
+  if (environment === "dev") return NYS_CTA_URL_DEV;
+  if (environment === "stage") return NYS_CTA_URL_STAGE;
+  return NYS_CTA_URL;
+};
 
 /** The `cta` entry in the feed. */
 interface FeedCta {
@@ -71,6 +100,10 @@ const CTA_BUTTON_ID = "nys-unavfooter__cta-button";
  * CTA endpoint and renders whatever is currently published, so a call to action
  * reaches every NYS site with no per-site work. If the endpoint is unreachable or
  * nothing is published, the footer renders normally.
+ *
+ * The endpoint's environment follows `<body data-environment="dev|stage">`,
+ * read once when the footer connects (it is not watched for later changes);
+ * any other value, or none, reads production.
  *
  * @summary Universal NYS footer with logo and statewide links. Required site-wide.
  * @element nys-unavfooter
@@ -202,16 +235,16 @@ export class NysUnavFooter extends NysElement {
     const request = new AbortController();
     this._ctaRequest = request;
 
-    const feed = await this._readCtaFeed(request);
+    const feed = await this._readCtaFeed(request, resolveCtaUrl());
     if (!feed?.cta || !isPublished(feed.cta.status)) return;
 
     this._cta = feed.cta;
   }
 
   /** Fetches the CTA feed. Resolves to null on any failure. */
-  private async _readCtaFeed(request: AbortController) {
+  private async _readCtaFeed(request: AbortController, url: string) {
     try {
-      const response = await fetch(NYS_CTA_URL, {
+      const response = await fetch(url, {
         signal: request.signal,
         credentials: "omit",
         // A CTA that is switched off must go away everywhere on the next page

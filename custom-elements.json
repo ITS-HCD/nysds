@@ -17819,7 +17819,23 @@
             "text": "string"
           },
           "default": "\"https://alerts-cta.static-assets.ny.gov/cta.json\"",
-          "description": "Statewide CTA endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so a CTA reads identically everywhere it appears.\n\nPRODUCTION: https://alerts-cta.static-assets.ny.gov/cta.json\n\nDEVELOPMENT: https://alerts-cta-dev.static-assets.ny.gov/cta.json"
+          "description": "Statewide CTA endpoint. Sites don't opt in or out and never author the\ncontent, so a CTA reads identically everywhere it appears.\n\nWhich one is read is chosen by the page's `<body data-environment=\"...\">`:\n`dev` → development, `stage` → stage, anything else (or absent) → production.\n\nPRODUCTION: https://alerts-cta.static-assets.ny.gov/cta.json\n\nDEVELOPMENT: https://alerts-cta-dev.static-assets.ny.gov/cta.json\n\nSTAGE: https://alerts-cta-stage.static-assets.ny.gov/cta.json"
+        },
+        {
+          "kind": "variable",
+          "name": "NYS_CTA_URL_DEV",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta-dev.static-assets.ny.gov/cta.json\""
+        },
+        {
+          "kind": "variable",
+          "name": "NYS_CTA_URL_STAGE",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta-stage.static-assets.ny.gov/cta.json\""
         },
         {
           "kind": "class",
@@ -17894,6 +17910,12 @@
                   "type": {
                     "text": "AbortController"
                   }
+                },
+                {
+                  "name": "url",
+                  "type": {
+                    "text": "string"
+                  }
                 }
               ],
               "description": "Fetches the CTA feed. Resolves to null on any failure."
@@ -17960,6 +17982,22 @@
           }
         },
         {
+          "kind": "js",
+          "name": "NYS_CTA_URL_DEV",
+          "declaration": {
+            "name": "NYS_CTA_URL_DEV",
+            "module": "packages/nys-unavfooter/src/nys-unavfooter.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NYS_CTA_URL_STAGE",
+          "declaration": {
+            "name": "NYS_CTA_URL_STAGE",
+            "module": "packages/nys-unavfooter/src/nys-unavfooter.ts"
+          }
+        },
+        {
           "kind": "custom-element-definition",
           "name": "nys-unavfooter",
           "declaration": {
@@ -18003,7 +18041,23 @@
             "text": "string"
           },
           "default": "\"https://alerts-cta.static-assets.ny.gov/alerts.json\"",
-          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nProduction is https://alerts-cta.static-assets.ny.gov/alerts.json.\nFor dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json"
+          "description": "Statewide alert endpoint, read once per page load. Sites don't opt in or out and\nnever author the content, so an alert reads identically everywhere it appears.\n\nWhich one is read is chosen by the page's `<body data-environment=\"...\">`:\n`dev` → development, `stage` → stage, anything else (or absent) → production.\n\nProduction is https://alerts-cta.static-assets.ny.gov/alerts.json.\nDevelopment is https://alerts-cta-dev.static-assets.ny.gov/alerts.json\nStage is https://alerts-cta-stage.static-assets.ny.gov/alerts.json"
+        },
+        {
+          "kind": "variable",
+          "name": "NYS_ALERT_URL_DEV",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta-dev.static-assets.ny.gov/alerts.json\""
+        },
+        {
+          "kind": "variable",
+          "name": "NYS_ALERT_URL_STAGE",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"https://alerts-cta-stage.static-assets.ny.gov/alerts.json\""
         },
         {
           "kind": "class",
@@ -18722,6 +18776,22 @@
           "name": "NYS_ALERT_URL",
           "declaration": {
             "name": "NYS_ALERT_URL",
+            "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NYS_ALERT_URL_DEV",
+          "declaration": {
+            "name": "NYS_ALERT_URL_DEV",
+            "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NYS_ALERT_URL_STAGE",
+          "declaration": {
+            "name": "NYS_ALERT_URL_STAGE",
             "module": "packages/nys-unavheader/src/nys-unavheader.ts"
           }
         },

@@ -46,12 +46,39 @@ export type NysUnavheaderSearchSubmitEvent =
  * Statewide alert endpoint, read once per page load. Sites don't opt in or out and
  * never author the content, so an alert reads identically everywhere it appears.
  *
+ * Which one is read is chosen by the page's `<body data-environment="...">`:
+ * `dev` → development, `stage` → stage, anything else (or absent) → production.
+ *
  * Production is https://alerts-cta.static-assets.ny.gov/alerts.json.
- * For dev testing use: https://alerts-cta-dev.static-assets.ny.gov/alerts.json
- * For staging use: https://alerts-cta-stage.static-assets.ny.gov/alerts.json
+ * Development is https://alerts-cta-dev.static-assets.ny.gov/alerts.json
+ * Stage is https://alerts-cta-stage.static-assets.ny.gov/alerts.json
  */
 export const NYS_ALERT_URL =
   "https://alerts-cta.static-assets.ny.gov/alerts.json";
+export const NYS_ALERT_URL_DEV =
+  "https://alerts-cta-dev.static-assets.ny.gov/alerts.json";
+export const NYS_ALERT_URL_STAGE =
+  "https://alerts-cta-stage.static-assets.ny.gov/alerts.json";
+
+/** Attribute on `<body>` that selects the alert environment. */
+const ENVIRONMENT_ATTRIBUTE = "data-environment";
+
+/**
+ * Picks the alert endpoint from `<body data-environment>`. Only the exact values
+ * `dev` and `stage` (case-insensitive, trimmed) leave production; anything else,
+ * including a missing body or attribute, falls through to production so a typo
+ * can never point a live site at a non-production feed.
+ */
+const resolveAlertUrl = (): string => {
+  const environment = document.body
+    ?.getAttribute(ENVIRONMENT_ATTRIBUTE)
+    ?.trim()
+    .toLowerCase();
+
+  if (environment === "dev") return NYS_ALERT_URL_DEV;
+  if (environment === "stage") return NYS_ALERT_URL_STAGE;
+  return NYS_ALERT_URL;
+};
 
 /** An `alert` entry in the feed. */
 interface FeedAlert {
@@ -219,6 +246,10 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * alert endpoint and renders whatever is currently published, so an emergency message
  * reaches every NYS site with no per-site work. If the endpoint is unreachable or nothing
  * is published, the header renders normally. It takes no children.
+ *
+ * The endpoint's environment follows `<body data-environment="dev|stage">`,
+ * read once when the header connects (it is not watched for later changes);
+ * any other value, or none, reads production.
  *
  * @cssprop [--nys-max-width--content] - Overrides the inner content max width across the grid, header, footer, and breadcrumb. Set at a higher level like `:root` to apply to all instances. Takes priority over the size-specific variable.
  * @fires {NysUnavheaderLanguageSelectEvent} nys-language-select - Fired when a language is selected. Detail: `{language: {code, label, url?}}`. Cancelable; `preventDefault()` overrides the default Smartling redirect.
@@ -1063,7 +1094,7 @@ export class NysUnavHeader extends NysElement {
   /** Fetches the alert feed. Resolves to null on any failure. */
   private async _readFeed(request: AbortController) {
     try {
-      const response = await fetch(NYS_ALERT_URL, {
+      const response = await fetch(resolveAlertUrl(), {
         signal: request.signal,
         credentials: "omit",
         // An alert that is switched off must go away everywhere on the next page
