@@ -345,6 +345,17 @@ const HOME_STYLE = `
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
+      .nysds-preview-hero .nysds-preview-pr {
+        margin-bottom: var(--nys-space-100);
+        font-weight: var(--nys-font-weight-semibold);
+      }
+      .nysds-preview-hero a,
+      .nysds-preview-hero a:focus,
+      .nysds-preview-hero a:active { color: var(--nys-color-link-reverse); }
+      .nysds-preview-hero a:focus-visible {
+        outline: var(--nys-border-width-md) solid var(--nys-color-focus-reverse);
+        outline-offset: var(--nys-border-width-md);
+      }
       main h2 { margin-top: 0; }
       .nysds-preview-list {
         margin: var(--nys-space-300) 0 0;
@@ -372,19 +383,53 @@ const HOME_STYLE = `
       .nysds-preview-component { font-weight: var(--nys-font-weight-semibold); }
     </style>`;
 
+/**
+ * The pull request being previewed: from PR_NUMBER/PR_TITLE/PR_URL in CI, or
+ * the current branch's PR via the GitHub CLI locally. Null when neither is available.
+ */
+function pullRequest() {
+  const { PR_NUMBER, PR_TITLE, PR_URL } = process.env;
+  if (PR_NUMBER)
+    return { number: PR_NUMBER, title: PR_TITLE ?? "", url: PR_URL ?? "" };
+  try {
+    const out = execFileSync(
+      "gh",
+      ["pr", "view", "--json", "number,title,url"],
+      {
+        cwd: ROOT,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      },
+    );
+    return JSON.parse(out);
+  } catch {
+    return null;
+  }
+}
+
+function pullRequestHtml(pr) {
+  if (!pr) return "";
+  const label = `Pull request #${escapeHtml(pr.number)}`;
+  const link = pr.url
+    ? `<a href="${escapeHtml(pr.url)}">${pr.title}</a>`
+    : label;
+  return `
+        <p class="nysds-preview-pr">${link}${pr.title ? `: ${escapeHtml(pr.title)}` : ""}</p>`;
+}
+
 /** The landing page: every story, in testing order. */
-function homeHtml(pages) {
+function homeHtml(pages, pr) {
   const components = new Set(pages.map((p) => p.dir)).size;
   const stories = `${pages.length} ${pages.length === 1 ? "story" : "stories"}`;
   const from = `${components} ${components === 1 ? "component" : "components"}`;
   return `<!doctype html>
 <html lang="en">
-  ${headHtml("NYSDS Component Testing Environment", HOME_STYLE)}
+  ${headHtml(`${pr ? `PR #${pr.number} – ` : ""}NYSDS Component Testing Environment`, HOME_STYLE)}
   <body>
     <header class="nysds-preview-hero">
       <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200">
-        <p class="nysds-preview-eyebrow">NYS Design System</p>
-        <h1 style="font-size: var(--nys-font-size-ui);">NYSDS Component Testing Environment</h1>
+        <p class="nysds-preview-eyebrow">NYSDS Component Testing</p>
+        <h1 style="font-size: var(--nys-font-size-ui);">${pullRequestHtml(pr)}</h1>
         <p>
           ${stories} from ${from}.
         </p>
@@ -587,7 +632,10 @@ async function main() {
     path.join(DIST, "favicon.svg"),
   );
 
-  fs.writeFileSync(path.join(DIST, "index.html"), homeHtml(pages));
+  fs.writeFileSync(
+    path.join(DIST, "index.html"),
+    homeHtml(pages, pullRequest()),
+  );
   fs.writeFileSync(
     path.join(DIST, "robots.txt"),
     "User-agent: *\nDisallow: /\n",

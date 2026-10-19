@@ -61,6 +61,11 @@ jobs:
         run: node src/scripts/build-preview.mjs
         env:
           PREVIEW_BASE: origin/${{ github.base_ref }}
+          # Shown on the landing page. Passed through env, never interpolated
+          # into the script, because the PR title is user-controlled text.
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
 
       - name: Deploy to Netlify
         id: deploy
