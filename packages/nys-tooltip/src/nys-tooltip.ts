@@ -21,18 +21,16 @@ import styles from "./nys-tooltip.scss?inline";
  * @summary Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-tooltip
  *
- * @usagedos
+ * @usage
  * - Use to provide supplemental hints on form fields (e.g., explaining what "FEIN" means) or on icon buttons that need additional context.
  * - Use on NYSDS form components (`<nys-textinput>`, `<nys-select>`, `<nys-checkbox>`, etc.) where the tooltip automatically renders as a hint icon next to the label.
  * - Keep tooltip content brief and helpful.
  * - Position tooltips so they don't block related content.
- *
- * @usagedonts
- * - Use for information critical to task completion. Use inline description text instead, as tooltips are easy to miss.
- * - Use when content is long or includes links, actions, or structured content.
- * - Use interactive elements such as links or buttons inside a tooltip.
- * - Rely on tooltips when you have room to provide inline explanation.
- * - Use when mobile users are a primary audience. Tooltips rely on hover, which is unavailable on touch devices.
+ * - Don't use for information critical to task completion. Use inline description text instead, as tooltips are easy to miss.
+ * - Don't use when content is long or includes links, actions, or structured content.
+ * - Don't use interactive elements such as links or buttons inside a tooltip.
+ * - Don't rely on tooltips when you have room to provide inline explanation.
+ * - Don't use when mobile users are a primary audience. Tooltips rely on hover, which is unavailable on touch devices.
  *
  * @example  Basic
  * ```html
@@ -661,20 +659,20 @@ export class NysTooltip extends NysElement {
     return html`
       <div class="nys-tooltip__main">
         ${this.text?.trim()
-          ? html`<div
+        ? html`<div
               id=${this.id}
               class="nys-tooltip__content"
               role="tooltip"
               aria-hidden=${this._active && !this._hideTimeout
-                ? "false"
-                : "true"}
+            ? "false"
+            : "true"}
               ?active=${this._active}
               style="visibility: ${this._active ? "visible" : "hidden"}; "
             >
               <div class="nys-tooltip__inner">${this.text}</div>
               <span class="nys-tooltip__arrow"></span>
             </div>`
-          : ""}
+        : ""}
       </div>
     `;
   }
