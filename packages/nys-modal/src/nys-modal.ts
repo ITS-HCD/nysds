@@ -40,17 +40,15 @@ export type NysModalCloseEvent = CustomEvent<NysModalCloseDetail>;
  * @fires {NysModalOpenEvent} nys-open - Fired when modal opens. Detail: `{id}`.
  * @fires {NysModalCloseEvent} nys-close - Fired when modal closes. Detail: `{id}`.
  *
- * @usagedos
+ * @usage
  * - Use to confirm important actions, present focused forms (e.g., login, feedback), or require acknowledgment of alerts without navigating away from the page.
  * - Keep content short and focused. Use a dedicated page for long or complex content.
  * - Keep the `subheading` short and use `<p>` tags within the modal for longer information.
  * - Use the `mandatory` prop to disable the dismiss button only when the user must make a critical decision or acknowledge essential information.
- *
- * @usagedonts
- * - Stack multiple modals.
- * - Use for trivial information or inline status messages. Use `<nys-alert>` instead.
- * - Use for quick hints on form fields. Use `<nys-tooltip>` instead.
- * - Force the `mandatory` prop unnecessarily.
+ * - Don't stack multiple modals.
+ * - Don't use for trivial information or inline status messages. Use `<nys-alert>` instead.
+ * - Don't use for quick hints on form fields. Use `<nys-tooltip>` instead.
+ * - Don't force the `mandatory` prop unnecessarily.
  *
  * @example Basic
  * ```html
@@ -512,10 +510,10 @@ export class NysModal extends NysElement {
             <div class="nys-modal_header">
               <div class="nys-modal_header-inner">
                 ${hasHeading
-                  ? html`<h2 id="${this.id}-heading">${this.heading}</h2>`
-                  : ""}
+          ? html`<h2 id="${this.id}-heading">${this.heading}</h2>`
+          : ""}
                 ${!this.mandatory
-                  ? html`<nys-button
+          ? html`<nys-button
                       id="dismiss-modal"
                       circle
                       icon="close"
@@ -523,11 +521,11 @@ export class NysModal extends NysElement {
                       label="Close this window"
                       @nys-click=${this._closeModal}
                     ></nys-button>`
-                  : ""}
+          : ""}
               </div>
               ${this.subheading
-                ? html`<p id="${this.id}-subheading">${this.subheading}</p>`
-                : ""}
+          ? html`<p id="${this.id}-subheading">${this.subheading}</p>`
+          : ""}
             </div>
 
             <div
