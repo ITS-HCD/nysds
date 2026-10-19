@@ -379,12 +379,12 @@ function homeHtml(pages) {
   const from = `${components} ${components === 1 ? "component" : "components"}`;
   return `<!doctype html>
 <html lang="en">
-  ${headHtml("NYSDS accessibility preview", HOME_STYLE)}
+  ${headHtml("NYSDS Component Testing Environment", HOME_STYLE)}
   <body>
     <header class="nysds-preview-hero">
-      <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-600">
+      <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200">
         <p class="nysds-preview-eyebrow">NYS Design System</p>
-        <h1 style="font-size: var(--nys-font-size-ui);">Accessibility Testing Environment</h1>
+        <h1 style="font-size: var(--nys-font-size-ui);">NYSDS Component Testing Environment</h1>
         <p>
           ${stories} from ${from}.
         </p>
