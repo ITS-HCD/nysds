@@ -57,13 +57,11 @@ import styles from "./nys-stepper.scss?inline";
  * @slot - Default slot for `nys-step` elements. Only `nys-step` children are accepted; others are removed.
  * @slot actions - Persistent navigation buttons. Must contain exactly one `<div>` wrapping only `<nys-button>` elements.
  *
- * @usagedos
+ * @usage
  * - Use for linear, ordered forms with more than 2 sections to show progress through a multi-step process.
  * - Ensure users can navigate back to previous steps to review or change information.
- *
- * @usagedonts
- * - Use when a form has only 1 or 2 sections.
- * - Use for forms that are nonlinear and can be completed in any order.
+ * - Don't use when a form has only 1 or 2 sections.
+ * - Don't use for forms that are nonlinear and can be completed in any order.
  *
  * @example Basic
  * ```html
@@ -462,8 +460,8 @@ export class NysStepper extends NysElement {
               role="button"
               tabindex="0"
               aria-label=${this.isCompactExpanded
-                ? "Collapse step navigation to view the form"
-                : `Expand step navigation. You are on ${this.counterText}`}
+        ? "Collapse step navigation to view the form"
+        : `Expand step navigation. You are on ${this.counterText}`}
               aria-expanded=${this.isCompactExpanded ? "true" : "false"}
             >
               ${this.counterText}
@@ -473,8 +471,8 @@ export class NysStepper extends NysElement {
         <nav
           class="nys-stepper__nav"
           aria-label=${this.label?.trim()
-            ? `${this.label} progress`
-            : "Progress"}
+        ? `${this.label} progress`
+        : "Progress"}
         >
           <ol class="nys-stepper__steps" role="list">
             <slot></slot>
