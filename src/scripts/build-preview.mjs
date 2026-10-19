@@ -411,10 +411,10 @@ function pullRequestHtml(pr) {
   if (!pr) return "";
   const label = `Pull request #${escapeHtml(pr.number)}`;
   const link = pr.url
-    ? `<a href="${escapeHtml(pr.url)}">${pr.title}</a>`
+    ? `<a href="${escapeHtml(pr.url)}" style="color: var(--nys-color-ink-reverse);">${pr.title}</a>`
     : label;
   return `
-        <p class="nysds-preview-pr">${link}${pr.title ? `: ${escapeHtml(pr.title)}` : ""}</p>`;
+        <p class="nysds-preview-pr">${link} - ${label}</p>`;
 }
 
 /** The landing page: every story, in testing order. */
@@ -430,13 +430,10 @@ function homeHtml(pages, pr) {
       <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200">
         <p class="nysds-preview-eyebrow">NYSDS Component Testing</p>
         <h1 style="font-size: var(--nys-font-size-ui);">${pullRequestHtml(pr)}</h1>
-        <p>
-          ${stories} from ${from}.
-        </p>
       </div>
     </header>
     <main class="nys-grid-container nys-grid-container-tablet nys-padding-y-600">
-      <h2>Stories to test</h2>
+      <h2>${stories} from ${from}</h2>
       <ol class="nysds-preview-list nys-font-ui-md">
 ${pages
   .map(
