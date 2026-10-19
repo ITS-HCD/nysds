@@ -11085,16 +11085,6 @@
             },
             {
               "kind": "field",
-              "name": "hideHeading",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Visually hides the nav heading. It stays in the DOM as the accessible name.",
-              "attribute": "hideHeading"
-            },
-            {
-              "kind": "field",
               "name": "scope",
               "type": {
                 "text": "string"
@@ -11189,6 +11179,25 @@
               "default": "0"
             },
             {
+              "kind": "field",
+              "name": "_holdingActive",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "True while a link-click scroll is in flight, so scroll events don't override the clicked link."
+            },
+            {
+              "kind": "field",
+              "name": "_holdTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
               "kind": "method",
               "name": "_getScope",
               "privacy": "private",
@@ -11254,6 +11263,12 @@
               "description": "Active item = the last tracked heading with the top edge at or above the trigger line. Not \"nearest to top\" since that would flicker at the boundaries"
             },
             {
+              "kind": "method",
+              "name": "_holdActive",
+              "privacy": "private",
+              "description": "Keeps the clicked link active until scrolling has been idle for 150ms."
+            },
+            {
               "kind": "field",
               "name": "_onScroll",
               "privacy": "private"
@@ -11288,7 +11303,7 @@
           "events": [
             {
               "type": {
-                "text": "NysOnThisPageChangeEvent"
+                "text": "NysOnThisPageClickEvent"
               },
               "description": "A link was activated. `detail: { id, label, index }`",
               "name": "nys-click"
@@ -11321,15 +11336,6 @@
               "default": "\"On this page\"",
               "description": "Nav heading text.",
               "fieldName": "heading"
-            },
-            {
-              "name": "hideHeading",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Visually hides the nav heading. It stays in the DOM as the accessible name.",
-              "fieldName": "hideHeading"
             },
             {
               "name": "scope",
@@ -11394,7 +11400,7 @@
             },
             {
               "title": "Custom heading",
-              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage\nheading=\"In this guide\"\nhideHeading\n></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n</main>\n</div>",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage\nheading=\"In this guide\"\n></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n</main>\n</div>",
               "lang": "html"
             },
             {

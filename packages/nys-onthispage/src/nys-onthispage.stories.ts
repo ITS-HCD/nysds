@@ -23,7 +23,6 @@ type Story = StoryObj;
 export const Basic: Story = {
   args: {
     heading: "On this page",
-    hideHeading: false,
     scope: "main",
     sticky: false,
     offset: 80,
@@ -35,7 +34,6 @@ export const Basic: Story = {
         <nys-onthispage
           style="flex: 0 0 220px"
           heading=${args.heading}
-          ?hideHeading=${args.hideHeading}
           scope=${args.scope}
           ?sticky=${args.sticky}
           offset=${args.offset}
@@ -192,7 +190,7 @@ export const CustomHeading: Story = {
   render: () => {
     return html`
       <div style="display: flex; gap: 2rem; align-items: flex-start">
-        <nys-onthispage heading="In this guide" hideHeading></nys-onthispage>
+        <nys-onthispage heading="In this guide"></nys-onthispage>
 
         <main style="flex: 1; min-width: 0">
           <h1>Apply for a permit</h1>
@@ -214,7 +212,7 @@ export const CustomHeading: Story = {
       source: {
         code: `
 <div style="display: flex; gap: 2rem; align-items: flex-start">
-  <nys-onthispage heading="In this guide" hideHeading></nys-onthispage>
+  <nys-onthispage heading="In this guide"></nys-onthispage>
 
   <main style="flex: 1; min-width: 0">
     <h1>Apply for a permit</h1>
