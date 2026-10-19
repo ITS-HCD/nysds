@@ -9,7 +9,7 @@
 # Requires repo secrets NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID. PRs from forks
 # don't receive secrets, so they are skipped.
 
-name: Accessibility Preview
+name: NYSDS Component Preview Site Generation
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ on:
 # One run per PR; closing a PR cancels a deploy still in progress so it can't
 # publish after cleanup.
 concurrency:
-  group: a11y-preview-pr-${{ github.event.pull_request.number }}
+  group: preview-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
