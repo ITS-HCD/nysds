@@ -38,8 +38,8 @@
   );
 }
 
-// Sticky is desktop-only.
-@media (width >= 768px) and (height >= 600px) {
+// Sticky is desktop-only + tablet (not sticky for mobile).
+@media (width >= 480px) {
   :host([sticky]) {
     position: sticky;
     top: var(--_nys-onthispage-offset, 80px);

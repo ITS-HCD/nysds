@@ -562,6 +562,7 @@ export class NysOnthispage extends NysElement {
                   <a
                     class="nys-onthispage__link ${active ? "active" : ""}"
                     href="#${item.id}"
+                    data-text=${item.label}
                     aria-current=${ifDefined(active ? "location" : undefined)}
                     @click=${(e: MouseEvent) =>
                       this._handleClick(e, item, index)}
