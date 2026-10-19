@@ -556,8 +556,8 @@ export class NysTable extends NysElement {
         ? html` <nys-button
             id="${this.id}-download-button"
             label=${this._captionText
-            ? `Download ${this._captionText}`
-            : "Download table"}
+              ? `Download ${this._captionText}`
+              : "Download table"}
             size="sm"
             variant="outline"
             prefixIcon="download"

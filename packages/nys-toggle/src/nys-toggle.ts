@@ -249,8 +249,8 @@ export class NysToggle extends NysFormControlElement {
               aria-checked="${this.checked ? "true" : "false"}"
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-labelledby=${ifDefined(
-      this.label ? this.id + "--label" : undefined,
-    )}
+                this.label ? this.id + "--label" : undefined,
+              )}
               aria-label=${ifDefined(!this.label ? "Toggle switch" : undefined)}
               @click=${this._handleClick}
               @focus=${this._handleFocus}
@@ -260,8 +260,8 @@ export class NysToggle extends NysFormControlElement {
             <span class="slider" @click=${this._handleSliderClick}>
               <div class="knob">
                 ${this.noIcon
-        ? ""
-        : html`<nys-icon
+                  ? ""
+                  : html`<nys-icon
                       class="toggle-icon"
                       name="${this.checked ? "check" : "close"}"
                       size="2xl"
@@ -270,7 +270,7 @@ export class NysToggle extends NysFormControlElement {
             </span>
           </div>
           ${this.label &&
-      html`<nys-label
+          html`<nys-label
             id="${this.id}--label"
             label=${this.label}
             description=${ifDefined(this.description || undefined)}

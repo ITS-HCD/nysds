@@ -599,16 +599,16 @@ export class NysSelect extends NysFormControlElement {
             ?required=${this.required}
             aria-disabled="${this.disabled}"
             aria-labelledby=${ifDefined(
-      this.label ? this.id + "--label" : undefined,
-    )}
+              this.label ? this.id + "--label" : undefined,
+            )}
             aria-label=${ifDefined(
-      !this.label && this.ariaLabel ? this.ariaLabel : undefined,
-    )}
+              !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+            )}
             aria-invalid=${this.showError ? "true" : "false"}
             aria-errormessage=${this.id + "--error"}
             aria-describedby=${ifDefined(
-      this.showError ? this.id + "--error" : undefined,
-    )}
+              this.showError ? this.id + "--error" : undefined,
+            )}
             .value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"

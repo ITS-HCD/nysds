@@ -659,20 +659,20 @@ export class NysTooltip extends NysElement {
     return html`
       <div class="nys-tooltip__main">
         ${this.text?.trim()
-        ? html`<div
+          ? html`<div
               id=${this.id}
               class="nys-tooltip__content"
               role="tooltip"
               aria-hidden=${this._active && !this._hideTimeout
-            ? "false"
-            : "true"}
+                ? "false"
+                : "true"}
               ?active=${this._active}
               style="visibility: ${this._active ? "visible" : "hidden"}; "
             >
               <div class="nys-tooltip__inner">${this.text}</div>
               <span class="nys-tooltip__arrow"></span>
             </div>`
-        : ""}
+          : ""}
       </div>
     `;
   }

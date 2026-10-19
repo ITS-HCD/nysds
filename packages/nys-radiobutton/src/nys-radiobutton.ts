@@ -549,8 +549,8 @@ export class NysRadiobutton extends NysFormControlElement {
             type="radio"
             class="nys-radiobutton__radio"
             name="${ifDefined(
-      this.name && !this._isGrouped() ? this.name : undefined,
-    )}"
+              this.name && !this._isGrouped() ? this.name : undefined,
+            )}"
             .checked=${this.checked}
             ?disabled=${this.disabled}
             .value=${this.value}
@@ -563,13 +563,13 @@ export class NysRadiobutton extends NysFormControlElement {
             aria-label=${ifDefined(this._fallbackAriaLabel)}
           />
           ${this._renderInternalLabel
-        ? html`<nys-label
+            ? html`<nys-label
                 id="${this._internalLabelId}"
                 label="${this._labelText}"
                 description=${ifDefined(this.description || undefined)}
               >
               </nys-label>`
-        : nothing}
+            : nothing}
         </div>
       </div>
     `;

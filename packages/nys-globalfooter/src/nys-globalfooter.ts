@@ -268,19 +268,19 @@ export class NysGlobalFooter extends NysElement {
         <div class="nys-globalfooter__main-container">
           <div class="nys-globalfooter__heading-container">
             ${!this.homepageLink?.trim()
-        ? heading
-        : html`<a href=${this.homepageLink?.trim()}>${heading}</a>`}
+              ? heading
+              : html`<a href=${this.homepageLink?.trim()}>${heading}</a>`}
             ${this.agencySubheading
-        ? html`<p class="nys-globalfooter__subheading">
+              ? html`<p class="nys-globalfooter__subheading">
                   ${this.agencySubheading}
                 </p>`
-        : nothing}
+              : nothing}
           </div>
           ${this.slotHasContent
-        ? html`<div class="nys-globalfooter__content">
+            ? html`<div class="nys-globalfooter__content">
                 <slot @slotchange="${this._handleSlotChange}"></slot>
               </div>`
-        : ""}
+            : ""}
         </div>
       </footer>
     `;

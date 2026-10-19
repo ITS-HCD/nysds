@@ -477,10 +477,10 @@ export class NysTextarea extends NysFormControlElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
-        ? "required"
-        : this.optional
-          ? "optional"
-          : ""}
+            ? "required"
+            : this.optional
+              ? "optional"
+              : ""}
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >

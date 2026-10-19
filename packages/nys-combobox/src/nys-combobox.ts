@@ -857,8 +857,8 @@ export class NysCombobox extends NysFormControlElement {
       elements.push(html`
         <div
           class="nys-combobox__option ${isFocused
-          ? "nys-combobox__option--focused"
-          : ""} ${isSelected ? "nys-combobox__option--selected" : ""}"
+            ? "nys-combobox__option--focused"
+            : ""} ${isSelected ? "nys-combobox__option--selected" : ""}"
           role="option"
           id="${this.id}--option-${index}"
           data-index="${index}"
@@ -899,8 +899,8 @@ export class NysCombobox extends NysFormControlElement {
         </nys-label>
         <div
           class="nys-combobox__container ${this._isOpen
-        ? "nys-combobox__container--open"
-        : ""}"
+            ? "nys-combobox__container--open"
+            : ""}"
         >
           <div class="nys-combobox__input-wrapper">
             <input
@@ -911,8 +911,8 @@ export class NysCombobox extends NysFormControlElement {
               aria-expanded="${this._isOpen}"
               aria-controls="${this.id}--listbox"
               aria-activedescendant="${this._highlightedIndex >= 0
-        ? `${this.id}--option-${this._highlightedIndex}`
-        : ""}"
+                ? `${this.id}--option-${this._highlightedIndex}`
+                : ""}"
               name=${this.name}
               id=${this.id + "--native"}
               ?disabled=${this.disabled}
@@ -920,16 +920,16 @@ export class NysCombobox extends NysFormControlElement {
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
               aria-labelledby=${ifDefined(
-          this.label ? this.id + "--label" : undefined,
-        )}
+                this.label ? this.id + "--label" : undefined,
+              )}
               aria-label=${ifDefined(
-          !this.label && this.description ? this.description : undefined,
-        )}
+                !this.label && this.description ? this.description : undefined,
+              )}
               aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
               aria-describedby=${ifDefined(
-          this.showError ? this.id + "--error" : undefined,
-        )}
+                this.showError ? this.id + "--error" : undefined,
+              )}
               .value=${this._filterText}
               form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
@@ -939,7 +939,7 @@ export class NysCombobox extends NysFormControlElement {
             />
             <div class="nys-combobox__buttons">
               ${this.value
-        ? html`
+                ? html`
                     <nys-button
                       class="nys-combobox__clear"
                       label="Clear selection"
@@ -956,7 +956,7 @@ export class NysCombobox extends NysFormControlElement {
                       ></nys-icon>
                     </nys-button>
                   `
-        : ""}
+                : ""}
               <nys-button
                 class="nys-combobox__chevron"
                 label="Toggle dropdown"
@@ -975,11 +975,11 @@ export class NysCombobox extends NysFormControlElement {
             </div>
           </div>
           ${this._isOpen
-        ? html`
+            ? html`
                 <div
                   class="nys-combobox__listbox ${this._dropdownAbove
-            ? "nys-combobox__listbox--above"
-            : ""}"
+                    ? "nys-combobox__listbox--above"
+                    : ""}"
                   id="${this.id}--listbox"
                   role="listbox"
                   tabindex="-1"
@@ -987,7 +987,7 @@ export class NysCombobox extends NysFormControlElement {
                   ${this._renderOptions()}
                 </div>
               `
-        : ""}
+            : ""}
         </div>
         <slot
           style="display: none;"

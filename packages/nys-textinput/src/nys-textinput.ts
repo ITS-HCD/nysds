@@ -652,8 +652,8 @@ export class NysTextinput extends NysFormControlElement {
       } else {
         console.warn(
           "The '" +
-          slotName +
-          "' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
+            slotName +
+            "' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
           node,
         );
         node.remove();
@@ -675,10 +675,10 @@ export class NysTextinput extends NysFormControlElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
-        ? "required"
-        : this.optional
-          ? "optional"
-          : ""}
+            ? "required"
+            : this.optional
+              ? "optional"
+              : ""}
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
@@ -694,37 +694,37 @@ export class NysTextinput extends NysFormControlElement {
             <input
               class="nys-textinput__input"
               type=${this.type === "password"
-        ? this.showPassword
-          ? "text"
-          : "password"
-        : this.type}
+                ? this.showPassword
+                  ? "text"
+                  : "password"
+                : this.type}
               name=${this.name}
               id=${this.id + "--native"}
               ?disabled=${this.disabled}
               ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
               aria-labelledby=${ifDefined(
-          this.label ? this.id + "--label" : undefined,
-        )}
+                this.label ? this.id + "--label" : undefined,
+              )}
               aria-label=${ifDefined(
-          !this.label && this.ariaLabel ? this.ariaLabel : undefined,
-        )}
+                !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+              )}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
               aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
               aria-describedby=${ifDefined(
-          this.showError ? this.id + "--error" : undefined,
-        )}
+                this.showError ? this.id + "--error" : undefined,
+              )}
               .value=${this.value}
               placeholder=${ifDefined(
-          this.placeholder ? this.placeholder : undefined,
-        )}
+                this.placeholder ? this.placeholder : undefined,
+              )}
               pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
               min=${ifDefined(this.min !== null ? this.min : undefined)}
               maxlength=${ifDefined(
-          this.maxlength !== null ? this.maxlength : undefined,
-        )}
+                this.maxlength !== null ? this.maxlength : undefined,
+              )}
               step=${ifDefined(this.step !== null ? this.step : undefined)}
               max=${ifDefined(this.max !== null ? this.max : undefined)}
               form=${ifDefined(this.form || undefined)}
@@ -734,7 +734,7 @@ export class NysTextinput extends NysFormControlElement {
               @blur="${this._handleBlur}"
             />
             ${this.type === "password"
-        ? html` <nys-button
+              ? html` <nys-button
                   class="inline-icon"
                   id="password-toggle"
                   ariaLabel="password toggle"
@@ -742,7 +742,7 @@ export class NysTextinput extends NysFormControlElement {
                   circle
                   size="sm"
                   @nys-click=${() =>
-            !this.disabled && this._togglePasswordVisibility()}
+                    !this.disabled && this._togglePasswordVisibility()}
                 >
                   <nys-icon
                     slot="circle-icon"
@@ -750,12 +750,12 @@ export class NysTextinput extends NysFormControlElement {
                     name=${this.showPassword ? "visibility_off" : "visibility"}
                   ></nys-icon>
                 </nys-button>`
-        : ""}
+              : ""}
             ${this.type === "search" &&
-        this.value &&
-        !this.disabled &&
-        !this.readonly
-        ? html` <nys-button
+            this.value &&
+            !this.disabled &&
+            !this.readonly
+              ? html` <nys-button
                   class="inline-icon"
                   id="search-clear"
                   ariaLabel="clear search"
@@ -770,7 +770,7 @@ export class NysTextinput extends NysFormControlElement {
                     name="close"
                   ></nys-icon>
                 </nys-button>`
-        : ""}
+              : ""}
           </div>
           <slot
             name="endButton"

@@ -830,18 +830,18 @@ export class NysUnavHeader extends NysElement {
           icon=${icon}
         >
           ${alert.description
-        ? html`<p class="nys-unavheader__alert-text">
+            ? html`<p class="nys-unavheader__alert-text">
                 ${alert.description}
               </p>`
-        : nothing}
+            : nothing}
           ${alert.link
-        ? html`<a
+            ? html`<a
                 class="nys-unavheader__alert-link"
                 href=${alert.link}
                 aria-label=${alert.linkAriaLabel?.trim() || nothing}
                 >${linkLabel}</a
               >`
-        : nothing}
+            : nothing}
         </nys-alert>
       </div>
     `;
@@ -867,14 +867,14 @@ export class NysUnavHeader extends NysElement {
         <div
           class="nys-unavheader__trustbar wrapper"
           @click="${(e: MouseEvent) => {
-        const target = e.target as HTMLElement;
+            const target = e.target as HTMLElement;
 
-        // Ignore clicks that originated within a nys-button
-        if (target.closest("nys-button")) return;
+            // Ignore clicks that originated within a nys-button
+            if (target.closest("nys-button")) return;
 
-        // Only handle direct wrapper clicks (outside of buttons)
-        this._toggleTrustbar("no focus");
-      }}"
+            // Only handle direct wrapper clicks (outside of buttons)
+            this._toggleTrustbar("no focus");
+          }}"
         >
           <div class="content">
             <span class="nys-unavheader__official"
@@ -888,10 +888,10 @@ export class NysUnavHeader extends NysElement {
               ariaControls="nys-unavheader__trustpanel"
               ariaExpanded="${this.trustbarVisible}"
               @nys-click="${(e: CustomEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this._toggleTrustbar("nys-unavheader__know");
-      }}"
+                e.preventDefault();
+                e.stopPropagation();
+                this._toggleTrustbar("nys-unavheader__know");
+              }}"
             >
               <nys-icon
                 slot="suffix-icon"
@@ -905,8 +905,8 @@ export class NysUnavHeader extends NysElement {
           id="nys-unavheader__trustpanel"
           id="nys-unavheader__trustpanel"
           class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
-        ? "show"
-        : "hide"}"
+            ? "show"
+            : "hide"}"
         >
           <div class="nys-unavheader__trustpanel content">
             <nys-button
@@ -920,7 +920,7 @@ export class NysUnavHeader extends NysElement {
               ariaControls="nys-unavheader__trustpanel"
               ariaExpanded="${this.trustbarVisible}"
               @nys-click="${() =>
-        this._toggleTrustbar("nys-unavheader__know--inline")}"
+                this._toggleTrustbar("nys-unavheader__know--inline")}"
             ></nys-button>
             <div class="nys-unavheader__messagewrapper">
               <div
@@ -970,7 +970,7 @@ export class NysUnavHeader extends NysElement {
                 variant="text"
                 size="sm"
                 @nys-click="${() =>
-        this._toggleTrustbar("nys-unavheader__know--inline")}"
+                  this._toggleTrustbar("nys-unavheader__know--inline")}"
               >
                 <nys-icon
                   slot="suffix-icon"
@@ -981,7 +981,7 @@ export class NysUnavHeader extends NysElement {
             </div>
             <div class="nys-unavheader__spacer"></div>
             ${!this.hideTranslate
-        ? html`<div
+              ? html`<div
                   class="nys-unavheader__translatewrapper"
                   @keydown=${this._handleTranslateKeydown}
                   @focusout=${this._handleTranslateFocusout}
@@ -995,7 +995,7 @@ export class NysUnavHeader extends NysElement {
                     id="nys-unavheader__translate--mobile"
                     class="nys-unavheader__iconbutton"
                     @nys-click=${() =>
-            this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
+                      this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
                   >
                     <nys-icon
                       slot="circle-icon"
@@ -1004,7 +1004,7 @@ export class NysUnavHeader extends NysElement {
                     ></nys-icon>
                   </nys-button>
                   ${!this.isSearchFocused
-            ? html`
+                    ? html`
                         <nys-button
                           variant="ghost"
                           label="Translate"
@@ -1013,30 +1013,30 @@ export class NysUnavHeader extends NysElement {
                           size="sm"
                           prefixIcon="language"
                           suffixIcon=${this.languageVisible
-                ? "chevron_up"
-                : "chevron_down"}
+                            ? "chevron_up"
+                            : "chevron_down"}
                           id="nys-unavheader__translate--desktop"
                           @nys-click="${() =>
-                this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
+                            this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
                         ></nys-button>
                       `
-            : null}
+                    : null}
                   <div
                     id="${LANGUAGE_LIST_ID}"
                     role="menu"
                     aria-label="${LANGUAGE_MENU_LABEL}"
                     class="nys-unavheader__languagelist ${this.languageVisible
-            ? "show"
-            : "hide"}"
+                      ? "show"
+                      : "hide"}"
                   >
                     ${this.languages.map(
-              (lang) =>
-                // role="presentation" drops the nys-button host out of the
-                // accessibility tree, so the menu owns the menuitem inside
-                // it directly instead of a generic wrapper. The menuitem
-                // role and the roving tabindex are written onto that inner
-                // button by _syncLanguageMenuAria.
-                html`<nys-button
+                      (lang) =>
+                        // role="presentation" drops the nys-button host out of the
+                        // accessibility tree, so the menu owns the menuitem inside
+                        // it directly instead of a generic wrapper. The menuitem
+                        // role and the roving tabindex are written onto that inner
+                        // button by _syncLanguageMenuAria.
+                        html`<nys-button
                           role="presentation"
                           variant="ghost"
                           fullWidth
@@ -1045,12 +1045,12 @@ export class NysUnavHeader extends NysElement {
                           class="${LANGUAGE_OPTION_CLASS}"
                           @click="${() => this._handleLanguageSelect(lang)}"
                         ></nys-button>`,
-            )}
+                    )}
                   </div>
                 </div>`
-        : null}
+              : null}
             ${!this.hideSearch
-        ? html`
+              ? html`
                   <nys-button
                     variant="ghost"
                     circle
@@ -1082,21 +1082,21 @@ export class NysUnavHeader extends NysElement {
                       type="submit"
                       prefixIcon="search"
                       @nys-click=${() => {
-            this._handleSearchButton("nys-unavheader__searchbar");
-          }}
+                        this._handleSearchButton("nys-unavheader__searchbar");
+                      }}
                       ><span class="sr-only">Search</span></nys-button
                     >
                   </nys-textinput>
                 `
-        : null}
+              : null}
           </div>
         </div>
         <div
           id="nys-unavheader__searchdropdown"
           class="nys-unavheader__searchdropdown wrapper ${this
-        .searchDropdownVisible
-        ? "show"
-        : "hide"}"
+            .searchDropdownVisible
+            ? "show"
+            : "hide"}"
         >
           <div class="content">
             <nys-textinput
@@ -1114,8 +1114,8 @@ export class NysUnavHeader extends NysElement {
                 type="submit"
                 prefixIcon="search"
                 @nys-click=${() => {
-        this._handleSearchButton("nys-unavheader__searchbardropdown");
-      }}
+                  this._handleSearchButton("nys-unavheader__searchbardropdown");
+                }}
                 ><span class="sr-only">Search</span></nys-button
               ></nys-textinput
             >

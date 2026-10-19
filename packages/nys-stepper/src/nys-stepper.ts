@@ -460,8 +460,8 @@ export class NysStepper extends NysElement {
               role="button"
               tabindex="0"
               aria-label=${this.isCompactExpanded
-        ? "Collapse step navigation to view the form"
-        : `Expand step navigation. You are on ${this.counterText}`}
+                ? "Collapse step navigation to view the form"
+                : `Expand step navigation. You are on ${this.counterText}`}
               aria-expanded=${this.isCompactExpanded ? "true" : "false"}
             >
               ${this.counterText}
@@ -471,8 +471,8 @@ export class NysStepper extends NysElement {
         <nav
           class="nys-stepper__nav"
           aria-label=${this.label?.trim()
-        ? `${this.label} progress`
-        : "Progress"}
+            ? `${this.label} progress`
+            : "Progress"}
         >
           <ol class="nys-stepper__steps" role="list">
             <slot></slot>

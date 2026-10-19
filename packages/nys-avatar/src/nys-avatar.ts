@@ -227,7 +227,7 @@ export class NysAvatar extends NysElement {
 
     console.warn(
       `nys-avatar: interactive avatar "${this.id}" has no accessible name — ` +
-      `set ariaLabel to describe who or what it represents (WCAG 4.1.2).`,
+        `set ariaLabel to describe who or what it represents (WCAG 4.1.2).`,
     );
   }
 
@@ -304,11 +304,11 @@ export class NysAvatar extends NysElement {
           : html`<div part="nys-avatar__icon">
               <slot @slotchange=${this._handleSlotChange}></slot>
               ${!this._slotHasContent
-              ? html`<nys-icon
+                ? html`<nys-icon
                     aria-hidden="true"
                     name=${this.icon?.length > 0 ? this.icon : "account_circle"}
                   ></nys-icon>`
-              : null}
+                : null}
             </div>`;
 
     const container = this.interactive

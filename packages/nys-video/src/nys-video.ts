@@ -355,8 +355,8 @@ export class NysVideo extends NysElement {
       return html`
         <div
           class="nys-video nys-video--${effectiveSize} ${this.disabled
-          ? "nys-video--disabled"
-          : ""}"
+            ? "nys-video--disabled"
+            : ""}"
         >
           ${this._renderAnnouncer()}
           <div class="nys-video__ratio-box">
@@ -375,7 +375,7 @@ export class NysVideo extends NysElement {
             </div>
           </div>
           ${this.titleText &&
-        html`<div class="nys-video__title-text">
+          html`<div class="nys-video__title-text">
             <p>${this.titleText}</p>
           </div>`}
         </div>

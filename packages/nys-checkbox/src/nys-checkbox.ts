@@ -587,8 +587,8 @@ export class NysCheckbox extends NysFormControlElement {
       <div class="nys-checkbox">
         <div
           class="nys-checkbox__main-container ${this._hasDescription
-        ? "has-description"
-        : ""}"
+            ? "has-description"
+            : ""}"
         >
           <div class="nys-checkbox__checkbox-wrapper">
             <input
@@ -607,32 +607,32 @@ export class NysCheckbox extends NysFormControlElement {
               aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
               aria-describedby=${ifDefined(
-          this.showError ? this.id + "--error" : undefined,
-        )}
+                this.showError ? this.id + "--error" : undefined,
+              )}
               @change="${this._handleChange}"
               @focus="${this._handleFocus}"
               @keydown="${this._handleKeydown}"
               aria-labelledby=${ifDefined(
-          !this.labelledby && (this.label || this.other)
-            ? this.id + "--label"
-            : undefined,
-        )}
+                !this.labelledby && (this.label || this.other)
+                  ? this.id + "--label"
+                  : undefined,
+              )}
             />
             ${this.checked
-        ? html`<nys-icon
+              ? html`<nys-icon
                   name="check"
                   size="${this.size === "md"
-            ? "4xl"
-            : this.size === "sm"
-              ? "2xl"
-              : "4xl"}"
+                    ? "4xl"
+                    : this.size === "sm"
+                      ? "2xl"
+                      : "4xl"}"
                   class="nys-checkbox__icon"
                 ></nys-icon>`
-        : ""}
+              : ""}
           </div>
           ${this.hideLabel || this.labelledby || !(this.label || this.other)
-        ? nothing
-        : html`<nys-label
+            ? nothing
+            : html`<nys-label
                 id="${this.id}--label"
                 tooltip=${this.tooltip}
                 label="${this.label || (this.other ? "Other" : "")}"
@@ -647,7 +647,7 @@ export class NysCheckbox extends NysFormControlElement {
         </div>
         <div class="nys-checkbox__other-container">
           ${this.other && this.checked
-        ? html`
+            ? html`
                 <nys-textinput
                   .value=${this.value}
                   id=${"radiobutton-other-" + this.id}
@@ -659,7 +659,7 @@ export class NysCheckbox extends NysFormControlElement {
                   ?disabled=${this.disabled}
                 ></nys-textinput>
               `
-        : ""}
+            : ""}
         </div>
       </div>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"

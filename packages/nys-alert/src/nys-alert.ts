@@ -329,8 +329,8 @@ export class NysAlert extends NysElement {
             this.text?.trim().length > 0 ||
             this.primaryAction ||
             this.secondaryAction
-            ? ""
-            : "nys-alert--centered"}"
+              ? ""
+              : "nys-alert--centered"}"
           >
             <div part="nys-alert__icon" class="nys-alert__icon">
               <nys-icon
@@ -346,17 +346,17 @@ export class NysAlert extends NysElement {
               aria-atomic="true"
             >
               ${this.heading?.trim()
-            ? html`<p class="nys-alert__header">${this.heading}</p>`
-            : ""}
+                ? html`<p class="nys-alert__header">${this.heading}</p>`
+                : ""}
               ${this._slotHasContent
-            ? html`<slot></slot>`
-            : this.text?.trim().length > 0
-              ? html`<p class="nys-alert__text">${this.text}</p>`
-              : ""}
+                ? html`<slot></slot>`
+                : this.text?.trim().length > 0
+                  ? html`<p class="nys-alert__text">${this.text}</p>`
+                  : ""}
               ${this.primaryAction || this.secondaryAction
-            ? html`<div class="nys-alert__actions">
+                ? html`<div class="nys-alert__actions">
                     ${this.primaryAction
-                ? html`<nys-button
+                      ? html`<nys-button
                           variant="text"
                           target="_blank"
                           href=${this.primaryAction}
@@ -364,9 +364,9 @@ export class NysAlert extends NysElement {
                           ?inverted=${this.type === "emergency"}
                           id="primary-action"
                         ></nys-button>`
-                : ""}
+                      : ""}
                     ${this.secondaryAction
-                ? html`<nys-button
+                      ? html`<nys-button
                           variant="text"
                           target="_blank"
                           href=${this.secondaryAction}
@@ -374,12 +374,12 @@ export class NysAlert extends NysElement {
                           ?inverted=${this.type === "emergency"}
                           id="secondary-action"
                         ></nys-button>`
-                : ""}
+                      : ""}
                   </div> `
-            : ""}
+                : ""}
             </div>
             ${this.dismissible
-            ? html` <nys-button
+              ? html` <nys-button
                   id="dismiss-btn"
                   variant="ghost"
                   circle
@@ -389,12 +389,12 @@ export class NysAlert extends NysElement {
                   label="${this.heading}, alert, Close"
                   @nys-click=${this._closeAlert}
                   style=${ifDefined(
-              this.type === "emergency"
-                ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
-                : undefined,
-            )}
+                    this.type === "emergency"
+                      ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
+                      : undefined,
+                  )}
                 ></nys-button>`
-            : ""}
+              : ""}
           </div>`
         : ""}
     `;

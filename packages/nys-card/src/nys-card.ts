@@ -530,8 +530,8 @@ export class NysCard extends NysElement {
       <div class="nys-card__main-content">
         <div>
           ${showPreheadingText
-        ? html`<p class="nys-card__preheading">${this.preheading}</p>`
-        : ""}
+            ? html`<p class="nys-card__preheading">${this.preheading}</p>`
+            : ""}
           <slot
             name="preheading"
             class="nys-card__preheading-slot"
@@ -540,12 +540,12 @@ export class NysCard extends NysElement {
           ></slot>
           ${this.renderHeading()}
           ${this.subheading
-        ? html`<p class="nys-card__subheading">${this.subheading}</p>`
-        : ""}
+            ? html`<p class="nys-card__subheading">${this.subheading}</p>`
+            : ""}
         </div>
         ${this.description
-        ? html`<p class="nys-card__description">${this.description}</p>`
-        : ""}
+          ? html`<p class="nys-card__description">${this.description}</p>`
+          : ""}
         <slot></slot>
       </div>
       <slot name="footer" class="nys-card__footer"></slot>

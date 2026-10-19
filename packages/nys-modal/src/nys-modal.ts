@@ -510,10 +510,10 @@ export class NysModal extends NysElement {
             <div class="nys-modal_header">
               <div class="nys-modal_header-inner">
                 ${hasHeading
-          ? html`<h2 id="${this.id}-heading">${this.heading}</h2>`
-          : ""}
+                  ? html`<h2 id="${this.id}-heading">${this.heading}</h2>`
+                  : ""}
                 ${!this.mandatory
-          ? html`<nys-button
+                  ? html`<nys-button
                       id="dismiss-modal"
                       circle
                       icon="close"
@@ -521,11 +521,11 @@ export class NysModal extends NysElement {
                       label="Close this window"
                       @nys-click=${this._closeModal}
                     ></nys-button>`
-          : ""}
+                  : ""}
               </div>
               ${this.subheading
-          ? html`<p id="${this.id}-subheading">${this.subheading}</p>`
-          : ""}
+                ? html`<p id="${this.id}-subheading">${this.subheading}</p>`
+                : ""}
             </div>
 
             <div
