@@ -6,3 +6,4 @@ packages/styles/uswds
 storybook-static
 coverage
 packages/angular/.ngbuild
+.visual

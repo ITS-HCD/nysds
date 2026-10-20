@@ -27,6 +27,10 @@
  * When a visual regression report exists (.visual/report, from
  * src/scripts/visual/visual.mjs), it is published at /visual/ and the home page
  * links to it — even when no component has stories to preview.
+ *
+ * The visual regression run screenshots these same pages: it imports
+ * buildPages() to render every story, for both the base branch (from its git
+ * worktree) and this branch, without the bottom bar.
  */
 import fs from "fs";
 import path from "path";
@@ -49,11 +53,11 @@ const SHARED_FILES = new Set(["src/scripts/generate-stories.mjs"]);
 
 // --- Affected packages ------------------------------------------------------
 
-function readComponentPackages() {
+export function readComponentPackages(root = ROOT) {
   const packages = new Map();
-  for (const dir of fs.readdirSync(path.join(ROOT, "packages"))) {
+  for (const dir of fs.readdirSync(path.join(root, "packages"))) {
     if (!dir.startsWith("nys-")) continue;
-    const pkgPath = path.join(ROOT, "packages", dir, "package.json");
+    const pkgPath = path.join(root, "packages", dir, "package.json");
     if (!fs.existsSync(pkgPath)) continue;
     const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
     const deps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies })
@@ -134,8 +138,8 @@ function affectedPackages(packages, args) {
 
 // --- Story snapshots --------------------------------------------------------
 
-function storyFiles(dir) {
-  const src = path.join(ROOT, "packages", dir, "src");
+export function storyFiles(dir, root = ROOT) {
+  const src = path.join(root, "packages", dir, "src");
   return fs
     .readdirSync(src)
     .filter((f) => f.endsWith(".stories.ts"))
@@ -217,7 +221,8 @@ window.__snapshotStories = async (url, order) => {
     container.remove();
     // Setup-only stories (e.g. registering an icon library) render nothing to test.
     if (!html.trim()) continue;
-    stories.push({ exportName, name: story.name ?? toTitle(exportName), html });
+    const tags = [...(meta.tags ?? []), ...(story.tags ?? [])];
+    stories.push({ exportName, name: story.name ?? toTitle(exportName), tags, html });
   }
   return { title: (meta.title ?? "").split("/").pop() || meta.component, stories };
 };
@@ -236,24 +241,26 @@ const stubStorybook = {
   load: (id) => (id === "\0storybook-stub" ? "export {};" : null),
 };
 
-const viteBase = {
+const viteBase = (root) => ({
   configFile: false,
-  root: ROOT,
+  root,
   logLevel: "warn",
   css: { postcss: null },
   plugins: [stubStorybook],
-};
+});
 
-async function snapshotStories(components) {
-  const harnessDir = path.join(OUT, "harness");
+/** Renders each component's stories to markup; harnessDir must be inside root. */
+async function snapshotStories(root, harnessDir, components) {
   fs.mkdirSync(harnessDir, { recursive: true });
   fs.writeFileSync(path.join(harnessDir, "index.html"), HARNESS_HTML);
 
   const server = await createServer({
-    ...viteBase,
+    ...viteBase(root),
     publicDir: false,
     optimizeDeps: { noDiscovery: true, include: [] },
-    server: { port: 0, host: "127.0.0.1", hmr: false },
+    // A one-off render: no file watching, which would otherwise walk the
+    // whole repo, including the base-branch worktree in .visual/base.
+    server: { port: 0, host: "127.0.0.1", hmr: false, watch: null },
   });
   await server.listen();
   const origin = server.resolvedUrls.local[0].replace(/\/$/, "");
@@ -262,13 +269,14 @@ async function snapshotStories(components) {
   try {
     const page = await browser.newPage();
     page.on("pageerror", (err) => console.warn(`⚠ ${err.message}`));
-    await page.goto(`${origin}/.preview/harness/index.html`);
+    const harnessUrl = path.relative(root, harnessDir).split(path.sep).join("/");
+    await page.goto(`${origin}/${harnessUrl}/index.html`);
     await page.waitForFunction(() => window.__ready === true);
 
     for (const component of components) {
       component.files = [];
-      for (const file of storyFiles(component.dir)) {
-        const url = "/" + path.relative(ROOT, file).split(path.sep).join("/");
+      for (const file of storyFiles(component.dir, root)) {
+        const url = "/" + path.relative(root, file).split(path.sep).join("/");
         const { title, stories } = await page.evaluate(
           ([u, order]) => window.__snapshotStories(u, order),
           [url, storyExportOrder(file)],
@@ -577,15 +585,16 @@ function navBar(pages, i) {
     </nav>`;
 }
 
-function pageHtml(pages, i) {
+/** A story page. Bare pages (for screenshots) have no bottom bar. */
+function pageHtml(pages, i, bare = false) {
   const p = pages[i];
-  const position = pages.length > 1 ? ` (${i + 1} of ${pages.length})` : "";
+  const position = pages.length > 1 && !bare ? ` (${i + 1} of ${pages.length})` : "";
   return `<!doctype html>
 <html lang="en">
   ${headHtml(
     `${pageLabel(p)}${position}`,
-    `
-    ${BAR_STYLE}
+    `${bare ? "" : `
+    ${BAR_STYLE}`}
     <script type="module" src="/assets/js/${p.dir}.js"></script>`,
   )}
   <body class="nys-display-flex nys-flex-column">
@@ -594,7 +603,7 @@ ${p.html
   .split("\n")
   .map((line) => (line ? `      ${line}` : line))
   .join("\n")}
-    </main>${navBar(pages, i)}
+    </main>${bare ? "" : navBar(pages, i)}
   </body>
 </html>
 `;
@@ -615,30 +624,33 @@ function writeOutput(name, value) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${value}\n`);
 }
 
-/** Everything besides the story pages: shared assets, the VR report, home page. */
-function writeSite(pages, vr) {
-  // Same asset paths Storybook serves, so story markup that references them works.
+/** Stylesheets, fonts, images and icons, at the same paths Storybook serves them. */
+function copyAssets(root, dist) {
   copyDir(
-    path.join(ROOT, "packages/styles/dist"),
-    path.join(DIST, "assets/css"),
+    path.join(root, "packages/styles/dist"),
+    path.join(dist, "assets/css"),
   );
   copyDir(
-    path.join(ROOT, ".storybook/assets/fonts"),
-    path.join(DIST, "assets/fonts"),
+    path.join(root, ".storybook/assets/fonts"),
+    path.join(dist, "assets/fonts"),
   );
   copyDir(
-    path.join(ROOT, ".storybook/assets/images"),
-    path.join(DIST, "assets/images"),
+    path.join(root, ".storybook/assets/images"),
+    path.join(dist, "assets/images"),
   );
   copyDir(
-    path.join(ROOT, "packages/nys-icon/dist/icons"),
-    path.join(DIST, "assets/icons"),
+    path.join(root, "packages/nys-icon/dist/icons"),
+    path.join(dist, "assets/icons"),
   );
-  copyDir(path.join(ROOT, "public"), DIST);
+  copyDir(path.join(root, "public"), dist);
   fs.copyFileSync(
-    path.join(ROOT, "favicon.svg"),
-    path.join(DIST, "favicon.svg"),
+    path.join(root, "favicon.svg"),
+    path.join(dist, "favicon.svg"),
   );
+}
+
+/** The site around the story pages: the VR report, home page and robots.txt. */
+function writeSite(pages, vr) {
   // Self-contained (relative paths), so it works as-is under /visual/.
   if (vr) copyDir(VR_REPORT, path.join(DIST, "visual"));
 
@@ -652,39 +664,21 @@ function writeSite(pages, vr) {
   );
 }
 
-async function main() {
-  const args = process.argv.slice(2);
-  fs.rmSync(OUT, { recursive: true, force: true });
-  fs.mkdirSync(OUT, { recursive: true });
-
-  const vr = visualReport();
-  writeOutput("vr", vr ? 1 : 0);
-
-  const components = affectedPackages(readComponentPackages(), args).filter(
-    (c) => storyFiles(c.dir).length > 0,
-  );
-  if (!components.length) {
-    console.log("No affected components with stories — nothing to preview.");
-    fs.writeFileSync(
-      path.join(OUT, "manifest.json"),
-      JSON.stringify({ pages: [], components: [] }, null, 2),
-    );
-    writeOutput("pages", 0);
-    // The visual report still gets published, with a home page linking to it.
-    if (vr) {
-      fs.mkdirSync(DIST, { recursive: true });
-      writeSite([], vr);
-      console.log(
-        `✓ Wrote the visual report to ${path.relative(ROOT, DIST)}/visual/`,
-      );
-    }
-    return;
-  }
-  console.log(
-    `Previewing ${components.length} component(s): ${components.map((c) => c.dir).join(", ")}`,
-  );
-
-  await snapshotStories(components);
+/**
+ * Builds one static page per story of the given components ([{ dir }]) into
+ * `dist`, with each component's script and the shared assets. `root` is the
+ * project to build from (the visual regression run passes the base branch's
+ * worktree). Bare pages leave out the bottom bar. Returns the pages in testing
+ * order: [{ dir, title, story, exportName, path, tags }].
+ */
+export async function buildPages({ components, dist, root = ROOT, bare = false }) {
+  // Vite identifies modules by real path. Through a symlink (macOS's /var is
+  // /private/var, where the base worktree lives) the harness page's inline
+  // script is registered under one path and looked up under the other.
+  root = fs.realpathSync(root);
+  fs.mkdirSync(path.dirname(dist), { recursive: true });
+  dist = path.join(fs.realpathSync(path.dirname(dist)), path.basename(dist));
+  await snapshotStories(root, path.join(path.dirname(dist), "harness"), components);
 
   const pages = [];
   for (const c of components) {
@@ -694,6 +688,8 @@ async function main() {
           dir: c.dir,
           title: c.title,
           story: s.name,
+          exportName: s.exportName,
+          tags: s.tags,
           path: `${c.dir}/${kebab(s.exportName)}`,
           html: await formatMarkup(s.html),
         });
@@ -708,10 +704,10 @@ async function main() {
     components.map((c) => [c.dir, c.files.map((f) => f.file)]),
   );
   await build({
-    ...viteBase,
+    ...viteBase(root),
     publicDir: false,
     plugins: [
-      ...viteBase.plugins,
+      stubStorybook,
       {
         name: "preview-entries",
         resolveId: (id) => (id.startsWith(ENTRY) ? id : null),
@@ -725,7 +721,7 @@ async function main() {
       },
     ],
     build: {
-      outDir: DIST,
+      outDir: dist,
       emptyOutDir: true,
       sourcemap: true,
       rollupOptions: {
@@ -750,10 +746,47 @@ async function main() {
   });
 
   for (const [i, p] of pages.entries()) {
-    fs.mkdirSync(path.join(DIST, p.path), { recursive: true });
-    fs.writeFileSync(path.join(DIST, p.path, "index.html"), pageHtml(pages, i));
+    fs.mkdirSync(path.join(dist, p.path), { recursive: true });
+    fs.writeFileSync(path.join(dist, p.path, "index.html"), pageHtml(pages, i, bare));
   }
+  copyAssets(root, dist);
+  return pages;
+}
 
+async function main() {
+  const args = process.argv.slice(2);
+  fs.rmSync(OUT, { recursive: true, force: true });
+  fs.mkdirSync(OUT, { recursive: true });
+
+  const vr = visualReport();
+  writeOutput("vr", vr ? 1 : 0);
+
+  const components = affectedPackages(readComponentPackages(), args).filter(
+    (c) => storyFiles(c.dir).length > 0,
+  );
+  if (!components.length) {
+    console.log("No affected components with stories — nothing to preview.");
+    fs.writeFileSync(
+      path.join(OUT, "manifest.json"),
+      JSON.stringify({ pages: [], components: [] }, null, 2),
+    );
+    writeOutput("pages", 0);
+    // The visual report still gets published, with a home page linking to it.
+    if (vr) {
+      fs.mkdirSync(DIST, { recursive: true });
+      copyAssets(ROOT, DIST);
+      writeSite([], vr);
+      console.log(
+        `✓ Wrote the visual report to ${path.relative(ROOT, DIST)}/visual/`,
+      );
+    }
+    return;
+  }
+  console.log(
+    `Previewing ${components.length} component(s): ${components.map((c) => c.dir).join(", ")}`,
+  );
+
+  const pages = await buildPages({ components, dist: DIST });
   writeSite(pages, vr);
 
   const manifest = {
@@ -782,7 +815,10 @@ async function main() {
   );
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+// Run only as a script; visual.mjs imports buildPages() without building the site.
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

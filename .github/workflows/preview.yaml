@@ -66,14 +66,15 @@ jobs:
         run: npm run build:umd
 
       - name: Visual regression
-        # Builds the base branch in a separate worktree for the baselines, then
-        # captures this branch and writes .visual/report. Capture errors exit 1
-        # but are listed in the report, so they don't block the deploy.
+        # Renders every story as a static page (the same pages the preview
+        # publishes) for the base branch, in a separate worktree, and for this
+        # branch, then compares them and writes .visual/report. Packages are
+        # already built above, so no --build. Capture errors exit 1 but are
+        # listed in the report, so they don't block the deploy.
         continue-on-error: true
-        run: node src/scripts/visual/visual.mjs test --build
+        run: node src/scripts/visual/visual.mjs test
         env:
           VR_BASE: origin/${{ github.base_ref }}
-          VR_BASE_DIR: ${{ runner.temp }}
 
       - name: Build preview pages
         id: preview
