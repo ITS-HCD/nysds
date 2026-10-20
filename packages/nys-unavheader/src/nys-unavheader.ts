@@ -1352,10 +1352,7 @@ export class NysUnavHeader extends NysElement {
                     ></nys-icon>
                   </nys-button>
                   ${!this.isSearchFocused
-                    ? html`
-
-                        <!-- See Aaron's PR comment; 'ariaControls' removed -->
-
+                    ? html`<!-- See Aaron's PR comment; 'ariaControls' removed, and nys-button role changed from presentation to listitem -->
                         <nys-button
                           variant="ghost"
                           label="Translate"
@@ -1368,8 +1365,7 @@ export class NysUnavHeader extends NysElement {
                           id="nys-unavheader__translate--desktop"
                           @nys-click="${() =>
                             this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
-                        ></nys-button>
-                      `
+                        ></nys-button>`
                     : null}
                   <div
                     id="${LANGUAGE_LIST_ID}"
