@@ -319,6 +319,37 @@ const BAR_STYLE = `<style>
         border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-200);
       }
       @media (max-height: 480px) { .nysds-preview-bar { position: static; } }
+      /* Long story names wrap; keep every line centered. */
+      .nysds-preview-current {
+        text-align: center;
+        font-weight: var(--nys-font-weight-semibold);
+      }
+      /* Previous/Next links styled like nys-button's outline variant. */
+      .nysds-preview-step {
+        min-height: var(--nys-size-600);
+        padding: calc(var(--nys-space-150) - var(--nys-border-width-md))
+          calc(var(--nys-space-250) - var(--nys-border-width-md));
+        border: var(--nys-border-width-md) solid var(--nys-color-theme);
+        border-radius: var(--nys-radius-xl);
+        background: var(--nys-color-surface);
+        color: var(--nys-color-theme);
+        font-weight: var(--nys-font-weight-semibold);
+        text-decoration: none;
+      }
+      .nysds-preview-step:hover { background: var(--nys-color-theme-weaker); }
+      .nysds-preview-step:active { background: var(--nys-color-theme-weak); }
+      .nysds-preview-step:focus-visible {
+        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
+        outline-offset: var(--nys-space-2px);
+      }
+      .nysds-preview-visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
       .nysds-preview-bar .nysds-preview-home {
         text-align: center;
         background: var(--nys-color-theme);
@@ -500,24 +531,37 @@ ${list}
 `;
 }
 
+// An outline-button-styled link to a neighbouring story. The arrow is visual
+// only; "Previous:"/"Next:" stays in the accessible name for screen readers.
+function stepLink(page, direction, arrow) {
+  const icon = `<span aria-hidden="true">${arrow}</span>`;
+  const label = `<span><span class="nysds-preview-visually-hidden">${direction}: </span>${escapeHtml(pageLabel(page))}</span>`;
+  return `<a class="nysds-preview-step nys-display-inline-flex nys-flex-align-center nys-flex-gap-100" href="/${page.path}/">${
+    direction === "Previous" ? icon + label : label + icon
+  }</a>`;
+}
+
 function navBar(pages, i) {
   const prev = pages[i - 1];
   const next = pages[i + 1];
+  // The current story sits on its own centered line, so Previous/Next links of
+  // different lengths can't push it off-center.
+  const current = `
+      <p class="nysds-preview-current nys-margin-1px">${escapeHtml(pageLabel(pages[i]))}</p>`;
   const stepper =
     pages.length < 2
       ? ""
       : `
-      <div class="nys-display-flex nys-flex-justify-space-between nys-flex-align-center nys-flex-gap-200">
-        ${prev ? `<a href="/${prev.path}/">Previous: ${escapeHtml(pageLabel(prev))}</a>` : "<span></span>"}
-        <span>${i + 1} of ${pages.length}</span>
-        ${next ? `<a href="/${next.path}/">Next: ${escapeHtml(pageLabel(next))}</a>` : "<span></span>"}
+      <div class="nys-display-flex nys-flex-justify-space-between nys-flex-align-center nys-flex-gap-200 nys-margin-1px">
+        ${prev ? stepLink(prev, "Previous", "←") : "<span></span>"}
+        ${next ? stepLink(next, "Next", "→") : "<span></span>"}
       </div>`;
   return `
     <nav
       aria-label="Stories to test"
       class="nysds-preview-bar nys-position-sticky nys-display-flex nys-flex-column nys-flex-gap-100 nys-padding-x-400 nys-padding-y-200 nys-font-ui-md"
-    >${stepper}
-      <p><a href="/" class="nysds-preview-home nys-display-block nys-font-ui-lg nys-padding-y-200">Home</a></p>
+    >${current}${stepper}
+      <p class="nys-margin-1px"><a href="/" class="nysds-preview-home nys-display-block nys-font-ui-lg nys-padding-y-200">Home</a></p>
     </nav>`;
 }
 
