@@ -70,10 +70,15 @@ function changedFiles(base) {
       .split("\n")
       .filter(Boolean);
   // Committed changes on this branch, plus uncommitted ones for local runs.
+  // Whitespace-only edits (an editor reflowing a comment) are ignored: they
+  // can't change rendering, and one in a shared component such as nys-icon
+  // would pull every component that uses it into the preview. Real comment
+  // edits still count, since stories are generated from JSDoc.
+  const ignoreWhitespace = ["-w", "--ignore-blank-lines"];
   return [
     ...new Set([
-      ...git("diff", "--name-only", `${base}...HEAD`),
-      ...git("diff", "--name-only", "HEAD"),
+      ...git("diff", "--name-only", ...ignoreWhitespace, `${base}...HEAD`),
+      ...git("diff", "--name-only", ...ignoreWhitespace, "HEAD"),
     ]),
   ];
 }
