@@ -9,124 +9,92 @@
     <script src="assets/nysds.js"></script>
     <script src="results.js"></script>
     <style>
-      /* Layout only — color, type, spacing and radius all come from NYSDS tokens. */
-      * {
-        box-sizing: border-box;
-      }
+      /* Only what @nysds/styles utility classes cannot express. Layout,
+         spacing and type come from utility classes in the markup; the
+         stylesheet's reset handles box-sizing and heading/body margins. */
       body {
-        margin: 0;
-        font-family: var(--nys-font-family-ui);
-        font-size: var(--nys-font-size-ui-md);
         background: var(--nys-color-neutral-10);
         color: var(--nys-color-text);
       }
       header {
         position: sticky;
         top: 0;
-        z-index: 5;
         background: var(--nys-color-surface);
-        border-bottom: 1px solid var(--nys-color-neutral-100);
-        padding: var(--nys-space-150) var(--nys-space-300);
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--nys-space-150) var(--nys-space-300);
-        align-items: center;
+        border-bottom: var(--nys-border-width-sm) solid
+          var(--nys-color-neutral-100);
       }
       h1 {
-        font-size: var(--nys-font-size-lg);
         font-weight: var(--nys-font-weight-semibold);
-        margin: 0;
       }
       .back {
         color: var(--nys-color-link);
-        font-size: var(--nys-font-size-sm);
       }
       .meta {
         color: var(--nys-color-text-weak);
-        font-size: var(--nys-font-size-sm);
         flex-basis: 100%;
       }
       nys-textinput {
         min-width: 240px;
       }
       main {
-        padding: var(--nys-space-300);
-        max-width: 1600px;
-        margin: 0 auto;
+        /* Wider than the widescreen container's 80rem: three screenshots side by side. */
+        --nys-grid-container-max-width: 100rem;
       }
       .item {
         background: var(--nys-color-surface);
-        border: 1px solid var(--nys-color-neutral-100);
+        border: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
         border-radius: var(--nys-radius-lg);
-        margin-bottom: var(--nys-space-150);
         overflow: hidden;
       }
       .item > summary {
         list-style: none;
-        display: flex;
-        gap: var(--nys-space-150);
-        align-items: center;
-        padding: var(--nys-space-100) var(--nys-space-200);
         cursor: pointer;
       }
       .item > summary::-webkit-details-marker {
         display: none;
       }
       .item > summary:focus-visible {
-        outline: var(--nys-border-width-md, 2px) solid var(--nys-color-focus);
-        outline-offset: -2px;
+        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
+        outline-offset: calc(var(--nys-border-width-md) * -1);
       }
       .name {
-        flex: 1;
         font-weight: var(--nys-font-weight-semibold);
       }
       .impact {
-        width: 160px;
+        width: 10rem;
       }
       .impact .bar {
-        height: 6px;
+        height: var(--nys-size-100);
         background: var(--nys-color-neutral-50);
-        border-radius: 3px;
+        border-radius: var(--nys-radius-round);
         overflow: hidden;
       }
       .impact .bar i {
         display: block;
         height: 100%;
-        background: var(--nys-color-warning, var(--nys-color-neutral-600));
+        background: var(--nys-color-warning);
       }
       .impact span {
-        font-size: var(--nys-font-size-sm);
         color: var(--nys-color-text-weak);
       }
       .body {
-        border-top: 1px solid var(--nys-color-neutral-100);
-        padding: var(--nys-space-200);
-      }
-      .controls {
-        display: flex;
-        gap: var(--nys-space-100);
-        align-items: center;
-        margin-bottom: var(--nys-space-150);
-        flex-wrap: wrap;
+        border-top: var(--nys-border-width-sm) solid
+          var(--nys-color-neutral-100);
       }
       .controls input[type="range"] {
         accent-color: var(--nys-color-link);
       }
-      .panes {
-        display: grid;
-        gap: var(--nys-space-150);
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
       .pane h4 {
-        margin: 0 0 var(--nys-space-100);
-        font-size: var(--nys-font-size-sm);
         color: var(--nys-color-text-weak);
         font-weight: var(--nys-font-weight-semibold);
       }
       .pane .frame {
-        border: 1px solid var(--nys-color-neutral-100);
-        background: repeating-conic-gradient(#0000000d 0 25%, transparent 0 50%)
-          0 0/16px 16px;
+        border: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+        background: repeating-conic-gradient(
+            var(--nys-color-black-transparent-100) 0 25%,
+            transparent 0 50%
+          )
+          0 0 / var(--nys-size-200) var(--nys-size-200);
         overflow: auto;
         max-height: 70vh;
       }
@@ -147,22 +115,18 @@
         height: 100%;
       }
       .empty {
-        padding: 60px;
         text-align: center;
         color: var(--nys-color-text-weak);
       }
-      @media (max-width: 900px) {
-        .panes {
-          grid-template-columns: 1fr;
-        }
-      }
     </style>
   </head>
-  <body>
-    <header>
+  <body class="nys-font-ui-md">
+    <header
+      class="nys-z-100 nys-display-flex nys-flex-wrap nys-flex-align-center nys-flex-row-gap-150 nys-flex-column-gap-300 nys-padding-y-150 nys-padding-x-300"
+    >
       <!-- The PR preview publishes this report at /visual/; "../" is its landing page. -->
-      <a class="back" href="../">← Component preview</a>
-      <h1>NYSDS Visual Changes</h1>
+      <a class="back nys-font-ui-sm" href="../">← Component preview</a>
+      <h1 class="nys-font-ui-lg nys-margin-1px">NYSDS Visual Changes</h1>
       <nys-textinput
         type="search"
         id="q"
@@ -171,28 +135,35 @@
         width="lg"
       ></nys-textinput>
       <nys-toggle id="vp" label="Mobile" size="sm" noIcon></nys-toggle>
-      <span class="meta" id="meta"></span>
+      <span class="meta nys-font-ui-sm" id="meta"></span>
     </header>
-    <main>
-      <nys-tabgroup id="tabs" name="Result status">
-        <nys-tab id="tab-attention" label="All changes" selected></nys-tab>
-        <nys-tab id="tab-changed" label="Changed"></nys-tab>
-        <nys-tab id="tab-new" label="New"></nys-tab>
-        <nys-tab id="tab-removed" label="Removed"></nys-tab>
-        <nys-tabpanel
-          id="panel-attention"
-          aria-labelledby="tab-attention"
-        ></nys-tabpanel>
-        <nys-tabpanel
-          id="panel-changed"
-          aria-labelledby="tab-changed"
-        ></nys-tabpanel>
-        <nys-tabpanel id="panel-new" aria-labelledby="tab-new"></nys-tabpanel>
-        <nys-tabpanel
-          id="panel-removed"
-          aria-labelledby="tab-removed"
-        ></nys-tabpanel>
-      </nys-tabgroup>
+    <main class="nys-grid-container-widescreen nys-padding-y-300">
+      <div class="nys-grid-row">
+        <div class="nys-grid-col-12">
+          <nys-tabgroup id="tabs" name="Result status">
+            <nys-tab id="tab-attention" label="All changes" selected></nys-tab>
+            <nys-tab id="tab-changed" label="Changed"></nys-tab>
+            <nys-tab id="tab-new" label="New"></nys-tab>
+            <nys-tab id="tab-removed" label="Removed"></nys-tab>
+            <nys-tabpanel
+              id="panel-attention"
+              aria-labelledby="tab-attention"
+            ></nys-tabpanel>
+            <nys-tabpanel
+              id="panel-changed"
+              aria-labelledby="tab-changed"
+            ></nys-tabpanel>
+            <nys-tabpanel
+              id="panel-new"
+              aria-labelledby="tab-new"
+            ></nys-tabpanel>
+            <nys-tabpanel
+              id="panel-removed"
+              aria-labelledby="tab-removed"
+            ></nys-tabpanel>
+          </nys-tabgroup>
+        </div>
+      </div>
     </main>
     <script>
       const $ = (s) => document.querySelector(s);
@@ -212,7 +183,7 @@
         data = window.VR_DATA;
         if (!data) {
           $("main").innerHTML =
-            `<div class="empty">No results. Run npm run vr:test first.</div>`;
+            `<div class="empty nys-padding-y-800">No results. Run npm run vr:test first.</div>`;
           return;
         }
         render();
@@ -242,7 +213,9 @@
         const list = $(`#panel-${status}`);
         $("#meta").textContent =
           `${new Date(data.generated).toLocaleString()} · ${vp} ${data.viewports[vp].join("×")}` +
-          (data.base ? ` · Baseline: ${data.base.ref} @ ${data.base.sha.slice(0, 7)}` : "") +
+          (data.base
+            ? ` · Baseline: ${data.base.ref} @ ${data.base.sha.slice(0, 7)}`
+            : "") +
           ` · ${data.unchanged?.[vp] ?? 0} unchanged (not shown)` +
           (data.minChange ? ` · ≥${data.minChange}% = changed` : "");
 
@@ -251,7 +224,7 @@
           .filter(matches)
           .sort((a, b) => weight(b) - weight(a) || a.id.localeCompare(b.id));
         if (!rows.length) {
-          list.innerHTML = `<div class="empty">No visual changes.</div>`;
+          list.innerHTML = `<div class="empty nys-padding-y-800">No visual changes.</div>`;
           return;
         }
         const maxPct = Math.max(...rows.map((r) => r.diffPercent || 0), 0.01);
@@ -274,12 +247,12 @@
         const impact =
           r.status === "changed"
             ? `<div class="impact"><div class="bar"><i style="width:${Math.max(4, (pct / maxPct) * 100)}%"></i></div>
-       <span>${pct < 0.01 ? "<0.01" : pct.toFixed(2)}% · ${r.diffPixels.toLocaleString()} px</span></div>`
+       <span class="nys-font-ui-sm">${pct < 0.01 ? "<0.01" : pct.toFixed(2)}% · ${r.diffPixels.toLocaleString()} px</span></div>`
             : `<div class="impact"></div>`;
-        return `<details class="item" data-id="${r.key}"><summary>
+        return `<details class="item nys-margin-b-150" data-id="${r.key}"><summary class="nys-display-flex nys-flex-align-center nys-flex-gap-150 nys-padding-y-100 nys-padding-x-200">
     <nys-badge size="sm" intent="${BADGE_INTENT[r.status]}" label="${r.status}"></nys-badge>
-    <span class="name">${esc(label(r))}</span>${impact}</summary>
-    <div class="body" data-body></div></details>`;
+    <span class="name nys-flex-1">${esc(label(r))}</span>${impact}</summary>
+    <div class="body nys-padding-200" data-body></div></details>`;
       }
 
       function body(r, mode) {
@@ -289,15 +262,18 @@
         const t = `?${Date.parse(data.generated)}`;
         const info =
           r.status === "changed"
-            ? `<span class="meta">${r.sizeChanged ? `Size changed ${r.baselineSize.join("×")} → ${r.currentSize.join("×")} · ` : ""}${r.bbox ? `changed region ${r.bbox.w}×${r.bbox.h} at (${r.bbox.x}, ${r.bbox.y})` : ""}</span>`
+            ? `<span class="meta nys-font-ui-sm">${r.sizeChanged ? `Size changed ${r.baselineSize.join("×")} → ${r.currentSize.join("×")} · ` : ""}${r.bbox ? `changed region ${r.bbox.w}×${r.bbox.h} at (${r.bbox.x}, ${r.bbox.y})` : ""}</span>`
             : "";
-        const ctl = `<div class="controls">
+        const controls = `controls nys-display-flex nys-flex-wrap nys-flex-align-center nys-flex-gap-100 nys-margin-b-150`;
+        const ctl = `<div class="${controls}">
     ${r.status === "changed" ? ["side", "overlay"].map((m) => `<nys-button size="sm" data-mode="${m}" variant="${m === mode ? "filled" : "outline"}" label="${m === "side" ? "Side by side" : "Overlay"}"></nys-button>`).join("") : ""}
     ${info}</div>`;
-        const pane = (title, src) =>
-          `<div class="pane"><h4>${title}</h4><div class="frame"><img src="${src}${t}" loading="lazy" alt="${title}"></div></div>`;
-        const one = (title, src) =>
-          `<div class="panes" style="grid-template-columns:1fr">${pane(title, src)}</div>`;
+        // Panes stack below the desktop breakpoint and sit three across above it.
+        const pane = (title, src, cols = "nys-desktop:nys-grid-col-4") =>
+          `<div class="pane nys-grid-col-12 ${cols}"><h4 class="nys-font-ui-sm nys-margin-b-100">${title}</h4><div class="frame"><img src="${src}${t}" loading="lazy" alt="${title}"></div></div>`;
+        const panes = (html) =>
+          `<div class="nys-grid-row nys-grid-gap-150">${html}</div>`;
+        const one = (title, src) => panes(pane(title, src, ""));
         let main;
         if (r.status === "error")
           main = `<p>Capture failed: <code>${esc(r.error)}</code></p>`;
@@ -305,10 +281,12 @@
         else if (r.status === "removed")
           main = one("Baseline (story no longer exists)", b);
         else if (mode === "overlay")
-          main = `<div class="controls"><label>Baseline <input type="range" min="0" max="100" value="50" data-fade> Current</label></div>
-    <div class="overlay"><img src="${b}${t}" alt="Baseline"><img src="${c}${t}" alt="Current" style="opacity:.5" data-top></div>`;
+          main = `<div class="${controls}"><label>Baseline <input type="range" min="0" max="100" value="50" data-fade> Current</label></div>
+    <div class="overlay"><img src="${b}${t}" alt="Baseline"><img src="${c}${t}" alt="Current" class="nys-opacity-50" data-top></div>`;
         else
-          main = `<div class="panes">${pane("Baseline", b)}${pane("Current", c)}${pane("Diff", d)}</div>`;
+          main = panes(
+            pane("Baseline", b) + pane("Current", c) + pane("Diff", d),
+          );
         return ctl + main;
       }
 

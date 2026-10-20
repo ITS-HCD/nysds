@@ -314,6 +314,12 @@ const BAR_STYLE = `<style>
         border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-200);
       }
       @media (max-height: 480px) { .nysds-preview-bar { position: static; } }
+      .nysds-preview-bar .nysds-preview-home {
+        text-align: center;
+        background: var(--nys-color-theme);
+        color: var(--nys-color-text-reverse);
+        text-decoration: none;
+      }
     </style>`;
 
 const pageLabel = (p) => `${p.title}, ${p.story}`;
@@ -330,52 +336,36 @@ function headHtml(title, extra = "") {
   </head>`;
 }
 
-// Landing page styles, built only from @nysds/styles tokens. Each link is at
-// least 44px tall (--nys-size-550) so it's easy to activate on touch screens.
+// Landing page styles: only what @nysds/styles utility classes cannot express
+// (color, borders, weight, case). Layout, spacing and type are utility classes
+// in the markup, and the stylesheet's reset already zeroes heading, paragraph
+// and list margins. Each link is at least 44px tall (--nys-size-550) so it's
+// easy to activate on touch screens.
 const HOME_STYLE = `
     <style>
       .nysds-preview-hero {
         background: var(--nys-color-theme);
         color: var(--nys-color-text-reverse);
       }
-      .nysds-preview-hero h1 { margin: 0 0 var(--nys-space-200); }
-      .nysds-preview-hero p {
-        margin: 0;
-        max-width: 40rem;
-        font-size: var(--nys-font-size-body-lg);
-      }
-      .nysds-preview-hero .nysds-preview-eyebrow {
-        margin-bottom: var(--nys-space-100);
-        font-size: var(--nys-font-size-ui-sm);
+      .nysds-preview-eyebrow {
         font-weight: var(--nys-font-weight-semibold);
-        letter-spacing: 0.08em;
+        letter-spacing: 0.08em; /* no token for uppercase label tracking */
         text-transform: uppercase;
       }
-      .nysds-preview-hero .nysds-preview-pr {
-        margin-bottom: var(--nys-space-100);
-        font-weight: var(--nys-font-weight-semibold);
-      }
+      .nysds-preview-hero h1 { font-weight: var(--nys-font-weight-semibold); }
       .nysds-preview-hero a,
       .nysds-preview-hero a:focus,
-      .nysds-preview-hero a:active { color: var(--nys-color-link-reverse); }
+      .nysds-preview-hero a:active { color: var(--nys-color-ink-reverse); }
       .nysds-preview-hero a:focus-visible {
         outline: var(--nys-border-width-md) solid var(--nys-color-focus-reverse);
         outline-offset: var(--nys-border-width-md);
-      }
-      main h2 { margin-top: 0; }
-      .nysds-preview-list {
-        margin: var(--nys-space-300) 0 0;
-        padding-inline-start: var(--nys-space-600);
       }
       .nysds-preview-list li::marker {
         color: var(--nys-color-text-weak);
         font-variant-numeric: tabular-nums;
       }
       .nysds-preview-list a {
-        display: flex;
-        align-items: center;
         min-height: var(--nys-size-550);
-        padding: var(--nys-space-100) var(--nys-space-200);
         border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
       }
       .nysds-preview-list li:first-child a {
@@ -391,10 +381,7 @@ const HOME_STYLE = `
         background: var(--nys-color-theme-faint);
         border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
       }
-      .nysds-preview-vr p { margin: 0; }
       .nysds-preview-vr a {
-        display: inline-flex;
-        align-items: center;
         min-height: var(--nys-size-550);
         font-weight: var(--nys-font-weight-semibold);
       }
@@ -428,14 +415,13 @@ function pullRequest() {
   }
 }
 
+/** The page heading's content. The PR title is user-controlled, so it's escaped. */
 function pullRequestHtml(pr) {
-  if (!pr) return "";
+  if (!pr) return "Component preview";
   const label = `Pull request #${escapeHtml(pr.number)}`;
-  const link = pr.url
-    ? `<a href="${escapeHtml(pr.url)}" style="color: var(--nys-color-ink-reverse);">${pr.title}</a>`
+  return pr.url
+    ? `<a href="${escapeHtml(pr.url)}">${escapeHtml(pr.title)}</a> - ${label}`
     : label;
-  return `
-        <p class="nysds-preview-pr">${link} - ${label}</p>`;
 }
 
 /**
@@ -467,7 +453,7 @@ function visualReportHtml(vr) {
   return `
     <div class="nysds-preview-vr">
       <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200 nys-font-ui-md">
-        <p><a href="/visual/">Review Visual Testing</a>${
+        <p><a class="nys-display-inline-flex nys-flex-align-center" href="/visual/">Review Visual Testing</a>${
           vr.counts ? ` — ${summary || "no visual changes"}` : ""
         }</p>
       </div>
@@ -481,11 +467,11 @@ function homeHtml(pages, pr, vr) {
   const from = `${components} ${components === 1 ? "component" : "components"}`;
   const list = pages.length
     ? `      <h2>${stories} from ${from}</h2>
-      <ol class="nysds-preview-list nys-font-ui-md">
+      <ol class="nysds-preview-list nys-font-ui-md nys-margin-t-300 nys-padding-l-600">
 ${pages
   .map(
     (p) =>
-      `        <li><a href="/${p.path}/"><span><span class="nysds-preview-component">${escapeHtml(p.title)}</span>, ${escapeHtml(p.story)}</span></a></li>`,
+      `        <li><a class="nys-display-flex nys-flex-align-center nys-padding-y-100 nys-padding-x-200" href="/${p.path}/"><span><span class="nysds-preview-component">${escapeHtml(p.title)}</span>, ${escapeHtml(p.story)}</span></a></li>`,
   )
   .join("\n")}
       </ol>`
@@ -497,8 +483,8 @@ ${pages
   <body>
     <header class="nysds-preview-hero">
       <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200">
-        <p class="nysds-preview-eyebrow">NYSDS Component Testing</p>
-        <h1 style="font-size: var(--nys-font-size-ui);">${pullRequestHtml(pr)}</h1>
+        <p class="nysds-preview-eyebrow nys-font-ui-sm nys-margin-b-100">NYSDS Component Testing</p>
+        <h1 class="nys-font-ui-lg nys-margin-1px">${pullRequestHtml(pr)}</h1>
       </div>
     </header>${visualReportHtml(vr)}
     <main class="nys-grid-container nys-grid-container-tablet nys-padding-y-600">
@@ -526,15 +512,7 @@ function navBar(pages, i) {
       aria-label="Stories to test"
       class="nysds-preview-bar nys-position-sticky nys-display-flex nys-flex-column nys-flex-gap-100 nys-padding-x-400 nys-padding-y-200 nys-font-ui-md"
     >${stepper}
-      <p><a href="/"
-      style="display: block;
-        text-align: center;
-        font-size: var(--nys-font-size-ui-lg);
-        background-color: var(--nys-color-theme);
-        color: #fff;
-        text-decoration: none;
-        padding: 1rem 0;">Home</a>
-      </p>
+      <p><a href="/" class="nysds-preview-home nys-display-block nys-font-ui-lg nys-padding-y-200">Home</a></p>
     </nav>`;
 }
 
