@@ -70,3 +70,6 @@ framework-examples/*/.next/
 
 # Ignore accessibility preview build (src/scripts/build-preview.mjs)
 .preview/
+
+# Local visual regression output
+.visual/

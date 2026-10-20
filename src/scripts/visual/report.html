@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NYSDS Visual Changes</title>
+    <!-- Relative paths only: this page is deployed as a static site. -->
+    <link rel="stylesheet" href="assets/nysds-full.min.css" />
+    <script src="assets/nysds.js"></script>
+    <script src="results.js"></script>
+    <style>
+      /* Layout only — color, type, spacing and radius all come from NYSDS tokens. */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--nys-font-family-ui);
+        font-size: var(--nys-font-size-ui-md);
+        background: var(--nys-color-neutral-10);
+        color: var(--nys-color-text);
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: var(--nys-color-surface);
+        border-bottom: 1px solid var(--nys-color-neutral-100);
+        padding: var(--nys-space-150) var(--nys-space-300);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--nys-space-150) var(--nys-space-300);
+        align-items: center;
+      }
+      h1 {
+        font-size: var(--nys-font-size-lg);
+        font-weight: var(--nys-font-weight-semibold);
+        margin: 0;
+      }
+      .meta {
+        color: var(--nys-color-text-weak);
+        font-size: var(--nys-font-size-sm);
+        flex-basis: 100%;
+      }
+      nys-textinput {
+        min-width: 240px;
+      }
+      main {
+        padding: var(--nys-space-300);
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .item {
+        background: var(--nys-color-surface);
+        border: 1px solid var(--nys-color-neutral-100);
+        border-radius: var(--nys-radius-lg);
+        margin-bottom: var(--nys-space-150);
+        overflow: hidden;
+      }
+      .item > summary {
+        list-style: none;
+        display: flex;
+        gap: var(--nys-space-150);
+        align-items: center;
+        padding: var(--nys-space-100) var(--nys-space-200);
+        cursor: pointer;
+      }
+      .item > summary::-webkit-details-marker {
+        display: none;
+      }
+      .item > summary:focus-visible {
+        outline: var(--nys-border-width-md, 2px) solid var(--nys-color-focus);
+        outline-offset: -2px;
+      }
+      .name {
+        flex: 1;
+        font-weight: var(--nys-font-weight-semibold);
+      }
+      .name small {
+        font-weight: var(--nys-font-weight-regular, 400);
+        color: var(--nys-color-text-weak);
+        margin-left: var(--nys-space-100);
+      }
+      .impact {
+        width: 160px;
+      }
+      .impact .bar {
+        height: 6px;
+        background: var(--nys-color-neutral-50);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .impact .bar i {
+        display: block;
+        height: 100%;
+        background: var(--nys-color-warning, var(--nys-color-neutral-600));
+      }
+      .impact span {
+        font-size: var(--nys-font-size-sm);
+        color: var(--nys-color-text-weak);
+      }
+      .body {
+        border-top: 1px solid var(--nys-color-neutral-100);
+        padding: var(--nys-space-200);
+      }
+      .controls {
+        display: flex;
+        gap: var(--nys-space-100);
+        align-items: center;
+        margin-bottom: var(--nys-space-150);
+        flex-wrap: wrap;
+      }
+      .controls input[type="range"] {
+        accent-color: var(--nys-color-link);
+      }
+      .panes {
+        display: grid;
+        gap: var(--nys-space-150);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .pane h4 {
+        margin: 0 0 var(--nys-space-100);
+        font-size: var(--nys-font-size-sm);
+        color: var(--nys-color-text-weak);
+        font-weight: var(--nys-font-weight-semibold);
+      }
+      .pane .frame {
+        border: 1px solid var(--nys-color-neutral-100);
+        background: repeating-conic-gradient(#0000000d 0 25%, transparent 0 50%)
+          0 0/16px 16px;
+        overflow: auto;
+        max-height: 70vh;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      .overlay {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+      }
+      .overlay img:last-child {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .empty {
+        padding: 60px;
+        text-align: center;
+        color: var(--nys-color-text-weak);
+      }
+      @media (max-width: 900px) {
+        .panes {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>NYSDS Visual Changes</h1>
+      <nys-textinput
+        type="search"
+        id="q"
+        ariaLabel="Filter stories"
+        placeholder="Filter stories…"
+        width="lg"
+      ></nys-textinput>
+      <nys-toggle id="vp" label="Mobile" size="sm" noIcon></nys-toggle>
+      <span class="meta" id="meta"></span>
+    </header>
+    <main>
+      <nys-tabgroup id="tabs" name="Result status">
+        <nys-tab id="tab-attention" label="All changes" selected></nys-tab>
+        <nys-tab id="tab-changed" label="Changed"></nys-tab>
+        <nys-tab id="tab-new" label="New"></nys-tab>
+        <nys-tab id="tab-removed" label="Removed"></nys-tab>
+        <nys-tabpanel
+          id="panel-attention"
+          aria-labelledby="tab-attention"
+        ></nys-tabpanel>
+        <nys-tabpanel
+          id="panel-changed"
+          aria-labelledby="tab-changed"
+        ></nys-tabpanel>
+        <nys-tabpanel id="panel-new" aria-labelledby="tab-new"></nys-tabpanel>
+        <nys-tabpanel
+          id="panel-removed"
+          aria-labelledby="tab-removed"
+        ></nys-tabpanel>
+      </nys-tabgroup>
+    </main>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      let data,
+        status = "attention",
+        vp = "desktop",
+        query = "";
+      // Results only contain changes; unchanged stories are counted, not listed.
+      const BADGE_INTENT = {
+        changed: "warning",
+        new: "success",
+        removed: "info",
+        error: "danger",
+      };
+
+      function load() {
+        data = window.VR_DATA;
+        if (!data) {
+          $("main").innerHTML =
+            `<div class="empty">No results. Run npm run vr:test first.</div>`;
+          return;
+        }
+        render();
+      }
+
+      const matches = (r) =>
+        r.viewport === vp &&
+        (status === "attention" || r.status === status) &&
+        (r.title + " " + r.name + " " + r.id).toLowerCase().includes(query);
+
+      function render() {
+        const counts = {};
+        data.results
+          .filter((r) => r.viewport === vp)
+          .forEach((r) => (counts[r.status] = (counts[r.status] || 0) + 1));
+        const attn = Object.values(counts).reduce((n, c) => n + c, 0);
+        const labels = {
+          attention: `All changes (${attn})`,
+          changed: `Changed (${counts.changed || 0})`,
+          new: `New (${counts.new || 0})`,
+          removed: `Removed (${counts.removed || 0})`,
+        };
+        for (const [k, l] of Object.entries(labels)) $(`#tab-${k}`).label = l;
+        document
+          .querySelectorAll("nys-tabpanel")
+          .forEach((p) => (p.innerHTML = ""));
+        const list = $(`#panel-${status}`);
+        $("#meta").textContent =
+          `${new Date(data.generated).toLocaleString()} · ${vp} ${data.viewports[vp].join("×")}` +
+          ` · ${data.unchanged?.[vp] ?? 0} unchanged (not shown)` +
+          (data.minChange ? ` · ≥${data.minChange}% = changed` : "");
+
+        const weight = (r) => r.diffPercent ?? 0.0001;
+        const rows = data.results
+          .filter(matches)
+          .sort((a, b) => weight(b) - weight(a) || a.id.localeCompare(b.id));
+        if (!rows.length) {
+          list.innerHTML = `<div class="empty">No visual changes.</div>`;
+          return;
+        }
+        const maxPct = Math.max(...rows.map((r) => r.diffPercent || 0), 0.01);
+        list.innerHTML = rows.map((r) => item(r, maxPct)).join("");
+      }
+
+      const esc = (s) =>
+        String(s).replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+
+      function item(r, maxPct) {
+        const pct = r.diffPercent;
+        const impact =
+          r.status === "changed"
+            ? `<div class="impact"><div class="bar"><i style="width:${Math.max(4, (pct / maxPct) * 100)}%"></i></div>
+       <span>${pct < 0.01 ? "<0.01" : pct.toFixed(2)}% · ${r.diffPixels.toLocaleString()} px</span></div>`
+            : `<div class="impact"></div>`;
+        return `<details class="item" data-id="${r.key}"><summary>
+    <nys-badge size="sm" intent="${BADGE_INTENT[r.status]}" label="${r.status}"></nys-badge>
+    <span class="name">${esc(r.name || r.id)}<small>${esc(r.title)}</small></span>${impact}</summary>
+    <div class="body" data-body></div></details>`;
+      }
+
+      function body(r, mode) {
+        const b = `baselines/${r.key}.png`,
+          c = `current/${r.key}.png`,
+          d = `diff/${r.key}.png`;
+        const t = `?${Date.parse(data.generated)}`;
+        const info =
+          r.status === "changed"
+            ? `<span class="meta">${r.sizeChanged ? `Size changed ${r.baselineSize.join("×")} → ${r.currentSize.join("×")} · ` : ""}${r.bbox ? `changed region ${r.bbox.w}×${r.bbox.h} at (${r.bbox.x}, ${r.bbox.y})` : ""}</span>`
+            : "";
+        const ctl = `<div class="controls">
+    ${r.status === "changed" ? ["side", "overlay"].map((m) => `<nys-button size="sm" data-mode="${m}" variant="${m === mode ? "filled" : "outline"}" label="${m === "side" ? "Side by side" : "Overlay"}"></nys-button>`).join("") : ""}
+    ${info}</div>`;
+        const pane = (title, src) =>
+          `<div class="pane"><h4>${title}</h4><div class="frame"><img src="${src}${t}" loading="lazy" alt="${title}"></div></div>`;
+        const one = (title, src) =>
+          `<div class="panes" style="grid-template-columns:1fr">${pane(title, src)}</div>`;
+        let main;
+        if (r.status === "error")
+          main = `<p>Capture failed: <code>${esc(r.error)}</code></p>`;
+        else if (r.status === "new") main = one("New story (no baseline)", c);
+        else if (r.status === "removed")
+          main = one("Baseline (story no longer exists)", b);
+        else if (mode === "overlay")
+          main = `<div class="controls"><label>Baseline <input type="range" min="0" max="100" value="50" data-fade> Current</label></div>
+    <div class="overlay"><img src="${b}${t}" alt="Baseline"><img src="${c}${t}" alt="Current" style="opacity:.5" data-top></div>`;
+        else
+          main = `<div class="panes">${pane("Baseline", b)}${pane("Current", c)}${pane("Diff", d)}</div>`;
+        return ctl + main;
+      }
+
+      document.addEventListener("click", (e) => {
+        const t = e.target.closest("nys-button");
+        if (!t) return;
+        if (t.dataset.mode) {
+          const it = t.closest(".item");
+          it.querySelector("[data-body]").innerHTML = body(
+            data.results.find((x) => x.key === it.dataset.id),
+            t.dataset.mode,
+          );
+        }
+      });
+      document.addEventListener(
+        "toggle",
+        (e) => {
+          const it = e.target;
+          if (!it.matches?.(".item") || !it.open) return;
+          const slot = it.querySelector("[data-body]");
+          if (!slot.innerHTML)
+            slot.innerHTML = body(
+              data.results.find((x) => x.key === it.dataset.id),
+              "side",
+            );
+        },
+        true,
+      );
+      document.addEventListener("nys-tab-select", (e) => {
+        status = e.detail.id.replace("tab-", "");
+        render();
+      });
+      document.addEventListener("nys-change", (e) => {
+        if (e.target.id !== "vp") return;
+        vp = e.detail.checked ? "mobile" : "desktop";
+        render();
+      });
+      document.addEventListener("nys-input", (e) => {
+        if (e.target.id === "q") {
+          query = (e.detail?.value ?? "").toLowerCase();
+          render();
+        }
+      });
+      document.addEventListener("input", (e) => {
+        if (e.target.matches("[data-fade]"))
+          e.target.closest(".body").querySelector("[data-top]").style.opacity =
+            e.target.value / 100;
+      });
+      load();
+    </script>
+  </body>
+</html>
