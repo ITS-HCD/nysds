@@ -6,6 +6,10 @@
 # technology get a link in a PR comment. When the PR is merged or closed, every
 # deploy under that alias is deleted.
 #
+# The same deploy carries the visual regression report at /visual/: every story
+# is screenshotted on the base branch (the baselines) and on the PR branch, and
+# the differences are listed. Baselines are rendered fresh each run, never stored.
+#
 # Requires repo secrets NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID. PRs from forks
 # don't receive secrets, so they are skipped.
 
@@ -56,6 +60,21 @@ jobs:
       - name: Regenerate stories from JSDoc
         run: npm run gen:stories
 
+      - name: Build component bundle
+        # dist/nysds.js (the UMD bundle) powers the visual regression report's
+        # search, viewport toggle and tabs.
+        run: npm run build:umd
+
+      - name: Visual regression
+        # Builds the base branch in a separate worktree for the baselines, then
+        # captures this branch and writes .visual/report. Capture errors exit 1
+        # but are listed in the report, so they don't block the deploy.
+        continue-on-error: true
+        run: node src/scripts/visual/visual.mjs test --build
+        env:
+          VR_BASE: origin/${{ github.base_ref }}
+          VR_BASE_DIR: ${{ runner.temp }}
+
       - name: Build preview pages
         id: preview
         run: node src/scripts/build-preview.mjs
@@ -69,7 +88,7 @@ jobs:
 
       - name: Deploy to Netlify
         id: deploy
-        if: steps.preview.outputs.pages != '0'
+        if: steps.preview.outputs.pages != '0' || steps.preview.outputs.vr == '1'
         # The CLI treats the repo's npm workspaces as a monorepo and refuses to
         # deploy without a project filter, so deploy a copy from outside it.
         run: |

@@ -23,6 +23,10 @@
  * so the snapshot is the authored markup, not the upgraded DOM.
  *
  * A story tagged "!preview" (tags: ["!preview"]) is skipped.
+ *
+ * When a visual regression report exists (.visual/report, from
+ * src/scripts/visual/visual.mjs), it is published at /visual/ and the home page
+ * links to it — even when no component has stories to preview.
  */
 import fs from "fs";
 import path from "path";
@@ -38,6 +42,8 @@ const ROOT = path.resolve(
 );
 const OUT = path.join(ROOT, ".preview");
 const DIST = path.join(OUT, "dist");
+const VR_REPORT = path.join(ROOT, ".visual/report");
+const VR_RESULTS = path.join(ROOT, ".visual/results.json");
 const SHARED_PACKAGES = new Set(["tokens", "styles", "internals", "codegen"]);
 const SHARED_FILES = new Set(["src/scripts/generate-stories.mjs"]);
 
@@ -381,6 +387,21 @@ const HOME_STYLE = `
         outline-offset: calc(var(--nys-border-width-md) * -1);
       }
       .nysds-preview-component { font-weight: var(--nys-font-weight-semibold); }
+      .nysds-preview-vr {
+        background: var(--nys-color-theme-faint);
+        border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+      }
+      .nysds-preview-vr p { margin: 0; }
+      .nysds-preview-vr a {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--nys-size-550);
+        font-weight: var(--nys-font-weight-semibold);
+      }
+      .nysds-preview-vr a:focus-visible {
+        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
+        outline-offset: var(--nys-border-width-md);
+      }
     </style>`;
 
 /**
@@ -417,11 +438,59 @@ function pullRequestHtml(pr) {
         <p class="nysds-preview-pr">${link} - ${label}</p>`;
 }
 
+/**
+ * The visual regression report, when one has been generated: the number of
+ * stories per status (a story counts once, whichever viewport changed). Null
+ * when there is no report.
+ */
+function visualReport() {
+  if (!fs.existsSync(path.join(VR_REPORT, "index.html"))) return null;
+  try {
+    const { results } = JSON.parse(fs.readFileSync(VR_RESULTS, "utf8"));
+    const ids = {};
+    for (const r of results) (ids[r.status] ??= new Set()).add(r.id);
+    const counts = {};
+    for (const [status, set] of Object.entries(ids)) counts[status] = set.size;
+    return { counts };
+  } catch {
+    // The link still works without a summary.
+    return { counts: null };
+  }
+}
+
+function visualReportHtml(vr) {
+  if (!vr) return "";
+  const summary = ["changed", "new", "removed", "error"]
+    .filter((s) => vr.counts?.[s])
+    .map((s) => `${vr.counts[s]} ${s === "error" ? "failed to capture" : s}`)
+    .join(" · ");
+  return `
+    <div class="nysds-preview-vr">
+      <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200 nys-font-ui-md">
+        <p><a href="/visual/">Review Visual Testing</a>${
+          vr.counts ? ` — ${summary || "no visual changes"}` : ""
+        }</p>
+      </div>
+    </div>`;
+}
+
 /** The landing page: every story, in testing order. */
-function homeHtml(pages, pr) {
+function homeHtml(pages, pr, vr) {
   const components = new Set(pages.map((p) => p.dir)).size;
   const stories = `${pages.length} ${pages.length === 1 ? "story" : "stories"}`;
   const from = `${components} ${components === 1 ? "component" : "components"}`;
+  const list = pages.length
+    ? `      <h2>${stories} from ${from}</h2>
+      <ol class="nysds-preview-list nys-font-ui-md">
+${pages
+  .map(
+    (p) =>
+      `        <li><a href="/${p.path}/"><span><span class="nysds-preview-component">${escapeHtml(p.title)}</span>, ${escapeHtml(p.story)}</span></a></li>`,
+  )
+  .join("\n")}
+      </ol>`
+    : `      <h2>No components to preview</h2>
+      <p>This pull request changes no components with stories.</p>`;
   return `<!doctype html>
 <html lang="en">
   ${headHtml(`${pr ? `PR #${pr.number} – ` : ""}NYSDS Component Testing Environment`, HOME_STYLE)}
@@ -431,17 +500,9 @@ function homeHtml(pages, pr) {
         <p class="nysds-preview-eyebrow">NYSDS Component Testing</p>
         <h1 style="font-size: var(--nys-font-size-ui);">${pullRequestHtml(pr)}</h1>
       </div>
-    </header>
+    </header>${visualReportHtml(vr)}
     <main class="nys-grid-container nys-grid-container-tablet nys-padding-y-600">
-      <h2>${stories} from ${from}</h2>
-      <ol class="nysds-preview-list nys-font-ui-md">
-${pages
-  .map(
-    (p) =>
-      `        <li><a href="/${p.path}/"><span><span class="nysds-preview-component">${escapeHtml(p.title)}</span>, ${escapeHtml(p.story)}</span></a></li>`,
-  )
-  .join("\n")}
-      </ol>
+${list}
     </main>
   </body>
 </html>
@@ -515,10 +576,50 @@ function writeOutput(name, value) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${value}\n`);
 }
 
+/** Everything besides the story pages: shared assets, the VR report, home page. */
+function writeSite(pages, vr) {
+  // Same asset paths Storybook serves, so story markup that references them works.
+  copyDir(
+    path.join(ROOT, "packages/styles/dist"),
+    path.join(DIST, "assets/css"),
+  );
+  copyDir(
+    path.join(ROOT, ".storybook/assets/fonts"),
+    path.join(DIST, "assets/fonts"),
+  );
+  copyDir(
+    path.join(ROOT, ".storybook/assets/images"),
+    path.join(DIST, "assets/images"),
+  );
+  copyDir(
+    path.join(ROOT, "packages/nys-icon/dist/icons"),
+    path.join(DIST, "assets/icons"),
+  );
+  copyDir(path.join(ROOT, "public"), DIST);
+  fs.copyFileSync(
+    path.join(ROOT, "favicon.svg"),
+    path.join(DIST, "favicon.svg"),
+  );
+  // Self-contained (relative paths), so it works as-is under /visual/.
+  if (vr) copyDir(VR_REPORT, path.join(DIST, "visual"));
+
+  fs.writeFileSync(
+    path.join(DIST, "index.html"),
+    homeHtml(pages, pullRequest(), vr),
+  );
+  fs.writeFileSync(
+    path.join(DIST, "robots.txt"),
+    "User-agent: *\nDisallow: /\n",
+  );
+}
+
 async function main() {
   const args = process.argv.slice(2);
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(OUT, { recursive: true });
+
+  const vr = visualReport();
+  writeOutput("vr", vr ? 1 : 0);
 
   const components = affectedPackages(readComponentPackages(), args).filter(
     (c) => storyFiles(c.dir).length > 0,
@@ -530,6 +631,14 @@ async function main() {
       JSON.stringify({ pages: [], components: [] }, null, 2),
     );
     writeOutput("pages", 0);
+    // The visual report still gets published, with a home page linking to it.
+    if (vr) {
+      fs.mkdirSync(DIST, { recursive: true });
+      writeSite([], vr);
+      console.log(
+        `✓ Wrote the visual report to ${path.relative(ROOT, DIST)}/visual/`,
+      );
+    }
     return;
   }
   console.log(
@@ -606,37 +715,7 @@ async function main() {
     fs.writeFileSync(path.join(DIST, p.path, "index.html"), pageHtml(pages, i));
   }
 
-  // Same asset paths Storybook serves, so story markup that references them works.
-  copyDir(
-    path.join(ROOT, "packages/styles/dist"),
-    path.join(DIST, "assets/css"),
-  );
-  copyDir(
-    path.join(ROOT, ".storybook/assets/fonts"),
-    path.join(DIST, "assets/fonts"),
-  );
-  copyDir(
-    path.join(ROOT, ".storybook/assets/images"),
-    path.join(DIST, "assets/images"),
-  );
-  copyDir(
-    path.join(ROOT, "packages/nys-icon/dist/icons"),
-    path.join(DIST, "assets/icons"),
-  );
-  copyDir(path.join(ROOT, "public"), DIST);
-  fs.copyFileSync(
-    path.join(ROOT, "favicon.svg"),
-    path.join(DIST, "favicon.svg"),
-  );
-
-  fs.writeFileSync(
-    path.join(DIST, "index.html"),
-    homeHtml(pages, pullRequest()),
-  );
-  fs.writeFileSync(
-    path.join(DIST, "robots.txt"),
-    "User-agent: *\nDisallow: /\n",
-  );
+  writeSite(pages, vr);
 
   const manifest = {
     pages: pages.map(({ dir, title, story, path: p }) => ({
@@ -660,7 +739,7 @@ async function main() {
   writeOutput("pages", pages.length);
 
   console.log(
-    `✓ Wrote ${pages.length} page(s) to ${path.relative(ROOT, DIST)}/ — home page lists them at /`,
+    `✓ Wrote ${pages.length} page(s) to ${path.relative(ROOT, DIST)}/ — home page lists them at /${vr ? ", visual report at /visual/" : ""}`,
   );
 }
 

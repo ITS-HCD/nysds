@@ -37,6 +37,10 @@
         font-weight: var(--nys-font-weight-semibold);
         margin: 0;
       }
+      .back {
+        color: var(--nys-color-link);
+        font-size: var(--nys-font-size-sm);
+      }
       .meta {
         color: var(--nys-color-text-weak);
         font-size: var(--nys-font-size-sm);
@@ -75,11 +79,6 @@
       .name {
         flex: 1;
         font-weight: var(--nys-font-weight-semibold);
-      }
-      .name small {
-        font-weight: var(--nys-font-weight-regular, 400);
-        color: var(--nys-color-text-weak);
-        margin-left: var(--nys-space-100);
       }
       .impact {
         width: 160px;
@@ -161,6 +160,8 @@
   </head>
   <body>
     <header>
+      <!-- The PR preview publishes this report at /visual/; "../" is its landing page. -->
+      <a class="back" href="../">← Component preview</a>
       <h1>NYSDS Visual Changes</h1>
       <nys-textinput
         type="search"
@@ -241,6 +242,7 @@
         const list = $(`#panel-${status}`);
         $("#meta").textContent =
           `${new Date(data.generated).toLocaleString()} · ${vp} ${data.viewports[vp].join("×")}` +
+          (data.base ? ` · Baseline: ${data.base.ref} @ ${data.base.sha.slice(0, 7)}` : "") +
           ` · ${data.unchanged?.[vp] ?? 0} unchanged (not shown)` +
           (data.minChange ? ` · ≥${data.minChange}% = changed` : "");
 
@@ -262,6 +264,11 @@
           (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
         );
 
+      // "Components/Accordion" + "Bordered" → "Accordion - Bordered". Removed
+      // stories and capture errors only have an id.
+      const label = (r) =>
+        r.name ? `${r.title.split("/").pop()} - ${r.name}` : r.id;
+
       function item(r, maxPct) {
         const pct = r.diffPercent;
         const impact =
@@ -271,7 +278,7 @@
             : `<div class="impact"></div>`;
         return `<details class="item" data-id="${r.key}"><summary>
     <nys-badge size="sm" intent="${BADGE_INTENT[r.status]}" label="${r.status}"></nys-badge>
-    <span class="name">${esc(r.name || r.id)}<small>${esc(r.title)}</small></span>${impact}</summary>
+    <span class="name">${esc(label(r))}</span>${impact}</summary>
     <div class="body" data-body></div></details>`;
       }
 

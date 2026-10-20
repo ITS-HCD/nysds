@@ -2,26 +2,35 @@
 /**
  * Local visual regression for NYSDS — no hosted service.
  *
- *   npm run vr:baseline [-- --build] [--filter button] [--viewport desktop|mobile|all]
- *                                    capture reference screenshots (run on main)
- *   npm run vr:test [-- --build] [--filter button] [--threshold 0.1] [--min-change 0.05] [--viewport desktop|mobile|all]
- *                                    compare every story against the baselines
+ *   npm run vr:test [-- --build] [--base origin/develop] [--skip-baseline] [--filter button]
+ *                   [--threshold 0.05] [--min-change 0.05] [--viewport desktop|mobile|all]
+ *                                    capture baselines from the base branch, then compare
+ *                                    every story on this branch against them
+ *   npm run vr:baseline [-- --base origin/develop] [--filter button] [--viewport desktop|mobile|all]
+ *                                    only capture the baselines
  *   npm run vr:report [-- --port 6007] [--no-open]
  *                                    serve the generated report locally
  *
- * Every Storybook story is screenshotted with Playwright and compared against
- * baselines in .visual/baselines. The report is read-only: it shows what changed
+ * Baselines are never stored in the repo. They are rendered from the base branch
+ * (--base, else $VR_BASE, else origin/develop): that commit is checked out in a
+ * git worktree outside this repo, built, and its Storybook captured into
+ * .visual/baselines. The worktree is kept per commit, so reruns against an
+ * unchanged base skip the build. --base-storybook <dir> uses an already-built
+ * base Storybook instead.
+ *
+ * Every Storybook story on this branch is then screenshotted with Playwright and
+ * compared against those baselines. The report is read-only: it shows what changed
  * and nothing more. It is written to .visual/report/ as a self-contained static
  * site (relative paths, no server endpoints), so the folder can be opened from
- * disk or deployed as-is to Netlify:  netlify deploy --dir .visual/report
+ * disk or deployed as-is. The PR preview (build-preview.mjs) publishes it at /visual/.
  */
-import { spawnSync, exec } from "node:child_process";
+import { spawnSync, execFileSync, exec } from "node:child_process";
 import {
   copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync,
-  readdirSync, renameSync, rmSync, statSync, writeFileSync,
+  readdirSync, rmSync, statSync, writeFileSync,
 } from "node:fs";
 import { createHash } from "node:crypto";
-import { availableParallelism } from "node:os";
+import { availableParallelism, tmpdir } from "node:os";
 import { createServer } from "node:http";
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -39,6 +48,14 @@ const DIRS = {
 };
 const RESULTS = join(OUT, "results.json");
 const REPORT = join(OUT, "report");
+// Which base commit the current baselines were captured from.
+const BASE_INFO = join(OUT, "base.json");
+// Base worktrees live outside the repo so lint, tsc and npm workspaces never see
+// a second copy of the source. One folder per clone.
+const BASE_WORKTREES = join(
+  process.env.VR_BASE_DIR || tmpdir(),
+  `nysds-vr-base-${createHash("sha1").update(ROOT).digest("hex").slice(0, 8)}`,
+);
 
 const args = process.argv.slice(2);
 const cmd = args[0] && !args[0].startsWith("--") ? args[0] : "test";
@@ -49,7 +66,10 @@ const flag = (name, fallback) => {
   return next && !next.startsWith("--") ? next : true;
 };
 const filter = flag("filter", "");
-const threshold = Number(flag("threshold", 0.1)); // pixelmatch per-pixel sensitivity
+// pixelmatch per-pixel color tolerance (0-1, lower = stricter). Base and head are
+// rendered by the same browser, so this can sit below pixelmatch's 0.1 default,
+// which treats light grays such as neutral-50 (#ededed) as white.
+const threshold = Number(flag("threshold", 0.05));
 // Minimum % of changed pixels (0-100) before a story counts as "changed".
 // Anything below it is reported as "passed". 0 = any differing pixel counts.
 const minChange = Number(flag("min-change", 0.05));
@@ -249,59 +269,126 @@ async function capture(stories, baseUrl, vp, kind = "current") {
   return failures;
 }
 
-// Baselines used to live flat in baselines/ (desktop only); move them under baselines/desktop.
-function migrateLegacyBaselines() {
-  for (const f of readdirSync(DIRS.baselines).filter((f) => f.endsWith(".png"))) {
-    renameSync(join(DIRS.baselines, f), join(DIRS.baselines, "desktop", f));
-  }
+function run(command, argv, cwd) {
+  const r = spawnSync(command, argv, { cwd, stdio: "inherit" });
+  if (r.status) process.exit(r.status);
 }
 
-function loadStories() {
+const git = (...argv) => execFileSync("git", argv, { cwd: ROOT, encoding: "utf8" }).trim();
+
+/** The base ref and the commit it points to, fetched first when it's a remote branch. */
+function resolveBase() {
+  const ref = String(flag("base", process.env.VR_BASE || "origin/develop"));
+  const [remote, ...branch] = ref.split("/");
+  if (branch.length && git("remote").split("\n").includes(remote)) {
+    // Offline is fine: fall back to whatever the ref already points to.
+    spawnSync("git", ["fetch", "--quiet", remote, branch.join("/")], {
+      cwd: ROOT, stdio: "inherit", env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+    });
+  }
+  return { ref, sha: git("rev-parse", "--verify", `${ref}^{commit}`) };
+}
+
+/** Builds Storybook for the base commit in its own worktree; returns its storybook-static. */
+function buildBaseStorybook({ ref, sha }) {
+  const override = flag("base-storybook", "");
+  if (override) return resolve(String(override));
+
+  const dir = join(BASE_WORKTREES, sha.slice(0, 12));
+  const storybook = join(dir, "storybook-static");
+  // Keep only the current base: each worktree carries its own node_modules.
+  if (existsSync(BASE_WORKTREES)) {
+    for (const d of readdirSync(BASE_WORKTREES).map((d) => join(BASE_WORKTREES, d))) {
+      if (d === dir) continue;
+      spawnSync("git", ["worktree", "remove", "--force", d], { cwd: ROOT, stdio: "ignore" });
+      rmSync(d, { recursive: true, force: true });
+    }
+  }
+  spawnSync("git", ["worktree", "prune"], { cwd: ROOT });
+
+  if (existsSync(join(storybook, "index.json"))) {
+    console.log(`Reusing baseline Storybook for ${ref} @ ${sha.slice(0, 7)}`);
+    return storybook;
+  }
+  if (!existsSync(dir)) run("git", ["worktree", "add", "--detach", dir, sha], ROOT);
+  console.log(`Building baseline Storybook from ${ref} @ ${sha.slice(0, 7)} in ${dir}…`);
+  // Same steps the preview workflow runs on the PR branch.
+  run("npm", ["i"], dir);
+  run("npm", ["run", "build:packages"], dir);
+  run("npm", ["run", "cem"], dir);
+  run("node", ["src/scripts/generate-stories.mjs"], dir);
+  run("npm", ["run", "storybook:cibuild"], dir);
+  return storybook;
+}
+
+/** This branch's Storybook, built when missing or with --build. */
+function buildHeadStorybook() {
   if (flag("build", false) || !existsSync(join(STORYBOOK, "index.json"))) {
     console.log("Building Storybook…");
-    const r = spawnSync("npm", ["run", "storybook:cibuild"], { cwd: ROOT, stdio: "inherit" });
-    if (r.status) process.exit(r.status);
+    run("npm", ["run", "storybook:cibuild"], ROOT);
   }
-  const index = JSON.parse(readFileSync(join(STORYBOOK, "index.json"), "utf8"));
+  return STORYBOOK;
+}
+
+function loadStories(storybook) {
+  const index = JSON.parse(readFileSync(join(storybook, "index.json"), "utf8"));
   const all = Object.values(index.entries).filter(
     (e) => e.type === "story" && !(e.tags ?? []).includes("skip-vr"),
   );
   const needle = String(filter).toLowerCase();
   const stories = all.filter((e) => e.id.includes(needle) || e.title.toLowerCase().includes(needle));
-  for (const d of Object.values(DIRS)) for (const vp of Object.keys(VIEWPORTS)) mkdirSync(join(d, vp), { recursive: true });
-  migrateLegacyBaselines();
   return { all, stories };
 }
 
-async function runBaseline() {
-  const { all, stories } = loadStories();
-  const server = await serveDir(STORYBOOK);
+/** Captures fresh baselines from the base branch's Storybook. Returns { ref, sha, failures }. */
+async function captureBaselines() {
+  const base = resolveBase();
+  const storybook = buildBaseStorybook(base);
+  const { stories } = loadStories(storybook);
+  rmSync(DIRS.baselines, { recursive: true, force: true });
+  rmSync(BASE_INFO, { force: true });
+  for (const vp of Object.keys(VIEWPORTS)) mkdirSync(join(DIRS.baselines, vp), { recursive: true });
+
+  const server = await serveDir(storybook);
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
   const failures = [];
   for (const vp of viewports) {
-    console.log(`Capturing ${stories.length} baselines at ${VIEWPORTS[vp].join("x")} (${vp})…`);
+    console.log(`Capturing ${stories.length} baselines from ${base.ref} at ${VIEWPORTS[vp].join("x")} (${vp})…`);
     failures.push(...(await capture(stories, baseUrl, vp, "baselines")));
-    if (!filter) {
-      const live = new Set(all.map((s) => s.id));
-      for (const f of readdirSync(join(DIRS.baselines, vp))) {
-        if (!live.has(f.replace(/\.png$/, ""))) rmSync(join(DIRS.baselines, vp, f));
-      }
-    }
   }
   server.close();
-  for (const f of failures) console.error(`  ✗ ${f.viewport}/${f.id}: ${f.error}`);
-  console.log(`\n  Baselines saved to ${DIRS.baselines}\n`);
+  for (const f of failures) console.error(`  ✗ baseline ${f.viewport}/${f.id}: ${f.error}`);
+  writeFileSync(BASE_INFO, JSON.stringify({ ref: base.ref, sha: base.sha }));
+  console.log(`\n  Baselines from ${base.ref} @ ${base.sha.slice(0, 7)} saved to ${DIRS.baselines}\n`);
+  return { ...base, failures };
+}
+
+async function runBaseline() {
+  const { failures } = await captureBaselines();
   process.exitCode = failures.length ? 1 : 0;
 }
 
 async function runTest() {
-  const { all, stories } = loadStories();
+  let base;
+  if (flag("skip-baseline", false)) {
+    if (!existsSync(BASE_INFO)) {
+      console.error("No baselines yet. Run without --skip-baseline first.");
+      process.exit(1);
+    }
+    base = JSON.parse(readFileSync(BASE_INFO, "utf8"));
+    console.log(`Reusing baselines from ${base.ref} @ ${base.sha.slice(0, 7)}`);
+  } else {
+    base = await captureBaselines();
+  }
+
+  const storybook = buildHeadStorybook();
+  const { all, stories } = loadStories(storybook);
   for (const d of [DIRS.current, DIRS.diff]) {
     rmSync(d, { recursive: true, force: true });
     for (const vp of Object.keys(VIEWPORTS)) mkdirSync(join(d, vp), { recursive: true });
   }
 
-  const server = await serveDir(STORYBOOK);
+  const server = await serveDir(storybook);
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
   const results = [];
   const failures = [];
@@ -334,7 +421,11 @@ async function runTest() {
   for (const f of failures) results.push({ ...f, title: f.id, name: "", status: "error" });
   for (const r of results) r.key = `${r.viewport}/${r.id}`;
 
-  const data = { generated: new Date().toISOString(), viewports: VIEWPORTS, minChange, unchanged, results };
+  const data = {
+    generated: new Date().toISOString(),
+    base: { ref: base.ref, sha: base.sha },
+    viewports: VIEWPORTS, minChange, unchanged, results,
+  };
   writeFileSync(RESULTS, JSON.stringify(data, null, 2));
   writeReport(data);
 
@@ -357,9 +448,15 @@ const REPORT_IMAGES = {
 function writeReport(data) {
   rmSync(REPORT, { recursive: true, force: true });
   mkdirSync(join(REPORT, "assets"), { recursive: true });
+  // The report's search field, viewport toggle and tabs are NYSDS components
+  // from the single-file UMD bundle, which `npm run build` doesn't produce.
+  if (!existsSync(join(NYSDS_DIST, "nysds.js"))) {
+    console.log("Building dist/nysds.js for the report UI…");
+    spawnSync("npm", ["run", "build:umd"], { cwd: ROOT, stdio: "inherit" });
+  }
   for (const src of [join(NYSDS_DIST, "nysds.js"), join(NYSDS_CSS, "nysds-full.min.css")]) {
     if (existsSync(src)) copyFileSync(src, join(REPORT, "assets", src.split("/").pop()));
-    else console.warn(`  Missing ${src}; run npm run build and npm run build:packages for a styled report.`);
+    else console.warn(`  Missing ${src}; run npm run build:umd and npm run build:packages, or the report has no controls.`);
   }
   for (const r of data.results) {
     for (const kind of REPORT_IMAGES[r.status] ?? []) {

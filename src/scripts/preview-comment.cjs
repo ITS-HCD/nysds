@@ -11,10 +11,14 @@ const MARKER = "<!-- nysds-preview -->";
 function deployedBody({ manifestPath, previewUrl, sha }) {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   if (!manifest.pages.length) {
+    // Deployed anyway when there is a visual regression report to show.
+    const visual = previewUrl
+      ? `\n\n**[Review Visual Testing](${previewUrl}/visual/)**`
+      : "";
     return `${MARKER}
 ### Component preview
 
-This PR changes no components with stories, so there is nothing to preview.`;
+This PR changes no components with stories, so there is nothing to preview.${visual}`;
   }
   const rows = manifest.components.map(
     (c) =>
