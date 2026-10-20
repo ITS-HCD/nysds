@@ -2,12 +2,18 @@
 /**
  * Local visual regression for NYSDS — no hosted service.
  *
+ *   npm run vr:baseline [-- --build] [--filter button] [--viewport desktop|mobile|all]
+ *                                    capture reference screenshots (run on main)
  *   npm run vr:test [-- --build] [--filter button] [--threshold 0.1] [--min-change 0.05] [--viewport desktop|mobile|all]
- *   npm run vr:approve [-- --filter button]     approve every changed/new story
- *   npm run vr:review                           open the review UI (with per-story Approve buttons)
+ *                                    compare every story against the baselines
+ *   npm run vr:report [-- --port 6007] [--no-open]
+ *                                    serve the generated report locally
  *
  * Every Storybook story is screenshotted with Playwright and compared against
- * baselines in .visual/baselines. Results land in .visual/ (gitignored).
+ * baselines in .visual/baselines. The report is read-only: it shows what changed
+ * and nothing more. It is written to .visual/report/ as a self-contained static
+ * site (relative paths, no server endpoints), so the folder can be opened from
+ * disk or deployed as-is to Netlify:  netlify deploy --dir .visual/report
  */
 import { spawnSync, exec } from "node:child_process";
 import {
@@ -17,7 +23,7 @@ import {
 import { createHash } from "node:crypto";
 import { availableParallelism } from "node:os";
 import { createServer } from "node:http";
-import { extname, join, resolve } from "node:path";
+import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { PNG } from "pngjs";
@@ -32,6 +38,7 @@ const DIRS = {
   diff: join(OUT, "diff"),
 };
 const RESULTS = join(OUT, "results.json");
+const REPORT = join(OUT, "report");
 
 const args = process.argv.slice(2);
 const cmd = args[0] && !args[0].startsWith("--") ? args[0] : "test";
@@ -63,10 +70,9 @@ const MIME = {
   ".ico": "image/x-icon", ".map": "application/json",
 };
 
-function serveDir(dir, port = 0, onRequest) {
+function serveDir(dir, port = 0) {
   return new Promise((res) => {
     const server = createServer((req, resp) => {
-      if (onRequest?.(req, resp)) return;
       const path = decodeURIComponent(new URL(req.url, "http://x").pathname);
       const file = join(dir, path === "/" ? "index.html" : path);
       if (!file.startsWith(dir) || !existsSync(file) || statSync(file).isDirectory()) {
@@ -83,18 +89,6 @@ function serveDir(dir, port = 0, onRequest) {
 // The review UI is built with NYSDS itself: serve the built component bundle and styles.
 const NYSDS_DIST = join(ROOT, "dist");
 const NYSDS_CSS = join(ROOT, "packages/styles/dist");
-function serveNysds(req, resp) {
-  const rel = decodeURIComponent(new URL(req.url, "http://x").pathname).slice("/_nysds/".length);
-  const [base, sub] = rel.startsWith("css/") ? [NYSDS_CSS, rel.slice(4)] : [NYSDS_DIST, rel];
-  const file = join(base, sub);
-  if (!file.startsWith(base) || !existsSync(file) || statSync(file).isDirectory()) {
-    resp.writeHead(404).end("Not found (run npm run build and npm run build:packages first)");
-    return true;
-  }
-  resp.writeHead(200, { "Content-Type": MIME[extname(file)] ?? "application/octet-stream" });
-  createReadStream(file).pipe(resp);
-  return true;
-}
 
 const readPng = (p) => PNG.sync.read(readFileSync(p));
 const pad = (img, w, h) => {
@@ -212,7 +206,7 @@ async function cacheRemote(context) {
   });
 }
 
-async function capture(stories, baseUrl, vp) {
+async function capture(stories, baseUrl, vp, kind = "current") {
   const [vw, vh] = VIEWPORTS[vp];
   const browser = await chromium.launch();
   const context = await browser.newContext({
@@ -233,13 +227,15 @@ async function capture(stories, baseUrl, vp) {
         await page.addStyleTag({
           content: `*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}`,
         });
-        const out = file("current", vp, s.id);
+        const out = file(kind, vp, s.id);
         await page.waitForLoadState("networkidle", { timeout: 3000 }).catch(() => {});
         await page.evaluate(settle);
         await page.screenshot({ path: out, fullPage: true });
         // Fast path: a frame identical to the baseline is already stable.
         const base = file("baselines", vp, s.id);
-        if (!existsSync(base) || !readFileSync(base).equals(readFileSync(out))) await stabilize(page, out);
+        if (kind === "baselines" || !existsSync(base) || !readFileSync(base).equals(readFileSync(out))) {
+          await stabilize(page, out);
+        }
       } catch (e) {
         failures.push({ viewport: vp, id: s.id, error: String(e.message).split("\n")[0] });
       }
@@ -260,7 +256,7 @@ function migrateLegacyBaselines() {
   }
 }
 
-async function runTest() {
+function loadStories() {
   if (flag("build", false) || !existsSync(join(STORYBOOK, "index.json"))) {
     console.log("Building Storybook…");
     const r = spawnSync("npm", ["run", "storybook:cibuild"], { cwd: ROOT, stdio: "inherit" });
@@ -272,23 +268,60 @@ async function runTest() {
   );
   const needle = String(filter).toLowerCase();
   const stories = all.filter((e) => e.id.includes(needle) || e.title.toLowerCase().includes(needle));
-
-  for (const d of [DIRS.current, DIRS.diff]) rmSync(d, { recursive: true, force: true });
   for (const d of Object.values(DIRS)) for (const vp of Object.keys(VIEWPORTS)) mkdirSync(join(d, vp), { recursive: true });
   migrateLegacyBaselines();
+  return { all, stories };
+}
+
+async function runBaseline() {
+  const { all, stories } = loadStories();
+  const server = await serveDir(STORYBOOK);
+  const baseUrl = `http://127.0.0.1:${server.address().port}`;
+  const failures = [];
+  for (const vp of viewports) {
+    console.log(`Capturing ${stories.length} baselines at ${VIEWPORTS[vp].join("x")} (${vp})…`);
+    failures.push(...(await capture(stories, baseUrl, vp, "baselines")));
+    if (!filter) {
+      const live = new Set(all.map((s) => s.id));
+      for (const f of readdirSync(join(DIRS.baselines, vp))) {
+        if (!live.has(f.replace(/\.png$/, ""))) rmSync(join(DIRS.baselines, vp, f));
+      }
+    }
+  }
+  server.close();
+  for (const f of failures) console.error(`  ✗ ${f.viewport}/${f.id}: ${f.error}`);
+  console.log(`\n  Baselines saved to ${DIRS.baselines}\n`);
+  process.exitCode = failures.length ? 1 : 0;
+}
+
+async function runTest() {
+  const { all, stories } = loadStories();
+  for (const d of [DIRS.current, DIRS.diff]) {
+    rmSync(d, { recursive: true, force: true });
+    for (const vp of Object.keys(VIEWPORTS)) mkdirSync(join(d, vp), { recursive: true });
+  }
 
   const server = await serveDir(STORYBOOK);
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
   const results = [];
   const failures = [];
+  const unchanged = {};
   for (const vp of viewports) {
     console.log(`Capturing ${stories.length} stories at ${VIEWPORTS[vp].join("x")} (${vp})…`);
     const failed = await capture(stories, baseUrl, vp);
     failures.push(...failed);
     const bad = new Set(failed.map((f) => f.id));
-    for (const s of stories) if (!bad.has(s.id)) results.push(compare(vp, s.id, { title: s.title, name: s.name }));
+    unchanged[vp] = 0;
+    for (const s of stories) {
+      if (bad.has(s.id)) continue;
+      const r = compare(vp, s.id, { title: s.title, name: s.name });
+      // Unchanged screenshots are neither kept nor reported — only changes are.
+      if (r.status === "passed") {
+        rmSync(file("current", vp, s.id));
+        unchanged[vp]++;
+      } else results.push(r);
+    }
 
-    // Baselines with no matching story (only meaningful for an unfiltered run).
     if (!filter) {
       const live = new Set(all.map((s) => s.id));
       for (const f of readdirSync(join(DIRS.baselines, vp))) {
@@ -301,62 +334,55 @@ async function runTest() {
   for (const f of failures) results.push({ ...f, title: f.id, name: "", status: "error" });
   for (const r of results) r.key = `${r.viewport}/${r.id}`;
 
-  writeFileSync(RESULTS, JSON.stringify({ generated: new Date().toISOString(), viewports: VIEWPORTS, minChange, results }, null, 2));
-  writeFileSync(join(OUT, "index.html"), REPORT_HTML);
+  const data = { generated: new Date().toISOString(), viewports: VIEWPORTS, minChange, unchanged, results };
+  writeFileSync(RESULTS, JSON.stringify(data, null, 2));
+  writeReport(data);
 
   const n = (s) => results.filter((r) => r.status === s).length;
-  console.log(`\n  ${n("passed")} unchanged · ${n("changed")} changed · ${n("new")} new · ${n("removed")} removed · ${n("error")} errors`);
-  console.log(`  Review: npm run vr:review\n`);
-  process.exitCode = n("changed") + n("removed") + n("error") ? 1 : 0;
+  const same = Object.values(unchanged).reduce((a, b) => a + b, 0);
+  console.log(`\n  ${same} unchanged · ${n("changed")} changed · ${n("new")} new · ${n("removed")} removed · ${n("error")} errors`);
+  console.log(`  Report: ${REPORT}  (npm run vr:report to view)\n`);
+  // Changes are informational only; just capture failures fail the run.
+  process.exitCode = n("error") ? 1 : 0;
 }
 
-function approve(keys) {
-  const data = JSON.parse(readFileSync(RESULTS, "utf8"));
-  for (const r of data.results) {
-    if (!keys.includes(r.key)) continue;
-    if (r.status === "removed") rmSync(file("baselines", r.viewport, r.id), { force: true });
-    else if (r.status === "changed" || r.status === "new") {
-      copyFileSync(file("current", r.viewport, r.id), file("baselines", r.viewport, r.id));
-    } else continue;
-    r.status = "passed";
-    r.approved = true;
+// Images each status shows in the report.
+const REPORT_IMAGES = {
+  changed: ["baselines", "current", "diff"],
+  new: ["current"],
+  removed: ["baselines"],
+};
+
+/** Writes a self-contained static site to .visual/report (deployable as-is). */
+function writeReport(data) {
+  rmSync(REPORT, { recursive: true, force: true });
+  mkdirSync(join(REPORT, "assets"), { recursive: true });
+  for (const src of [join(NYSDS_DIST, "nysds.js"), join(NYSDS_CSS, "nysds-full.min.css")]) {
+    if (existsSync(src)) copyFileSync(src, join(REPORT, "assets", src.split("/").pop()));
+    else console.warn(`  Missing ${src}; run npm run build and npm run build:packages for a styled report.`);
   }
-  writeFileSync(RESULTS, JSON.stringify(data, null, 2));
-  return data;
+  for (const r of data.results) {
+    for (const kind of REPORT_IMAGES[r.status] ?? []) {
+      const dest = join(REPORT, kind, r.viewport, `${r.id}.png`);
+      mkdirSync(dirname(dest), { recursive: true });
+      copyFileSync(file(kind, r.viewport, r.id), dest);
+    }
+  }
+  // A script rather than JSON so the report also works when opened via file://.
+  writeFileSync(join(REPORT, "results.js"), `window.VR_DATA = ${JSON.stringify(data)};\n`);
+  writeFileSync(join(REPORT, "index.html"), REPORT_HTML);
 }
 
-async function runApprove() {
-  if (!existsSync(RESULTS)) return console.error("No results. Run npm run vr:test first.");
-  const data = JSON.parse(readFileSync(RESULTS, "utf8"));
-  const keys = data.results
-    .filter((r) => ["changed", "new", "removed"].includes(r.status) && r.id.includes(filter))
-    .filter((r) => vpFlag === "all" || r.viewport === vpFlag)
-    .map((r) => r.key);
-  approve(keys);
-  console.log(`Approved ${keys.length} screenshots.`);
-}
-
-async function runReview() {
-  if (!existsSync(RESULTS)) return console.error("No results. Run npm run vr:test first.");
-  writeFileSync(join(OUT, "index.html"), REPORT_HTML);
-  const server = await serveDir(OUT, Number(flag("port", 6007)), (req, resp) => {
-    if (req.method === "GET" && req.url.startsWith("/_nysds/")) return serveNysds(req, resp);
-    if (req.method !== "POST" || req.url !== "/approve") return false;
-    let body = "";
-    req.on("data", (c) => (body += c));
-    req.on("end", () => {
-      const { ids } = JSON.parse(body); // keys: "<viewport>/<story id>"
-      resp.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify(approve(ids)));
-    });
-    return true;
-  });
+async function runReport() {
+  if (!existsSync(join(REPORT, "index.html"))) return console.error("No report. Run npm run vr:test first.");
+  const server = await serveDir(REPORT, Number(flag("port", 6007)));
   const url = `http://127.0.0.1:${server.address().port}/`;
-  console.log(`Visual review at ${url}  (Ctrl+C to stop)`);
+  console.log(`Visual report at ${url}  (Ctrl+C to stop)`);
   if (!flag("no-open", false)) exec(`open ${url}`);
 }
 
 const REPORT_HTML = readFileSync(join(fileURLToPath(import.meta.url), "../report.html"), "utf8");
 
-const commands = { test: runTest, approve: runApprove, review: runReview };
+const commands = { test: runTest, baseline: runBaseline, report: runReport };
 if (commands[cmd]) commands[cmd]();
 else console.error(`Unknown command: ${cmd}`);

@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>NYSDS Visual Review</title>
-    <link rel="stylesheet" href="/_nysds/css/nysds-full.min.css" />
-    <script src="/_nysds/nysds.js"></script>
+    <title>NYSDS Visual Changes</title>
+    <!-- Relative paths only: this page is deployed as a static site. -->
+    <link rel="stylesheet" href="assets/nysds-full.min.css" />
+    <script src="assets/nysds.js"></script>
+    <script src="results.js"></script>
     <style>
       /* Layout only — color, type, spacing and radius all come from NYSDS tokens. */
       * {
@@ -38,6 +40,7 @@
       .meta {
         color: var(--nys-color-text-weak);
         font-size: var(--nys-font-size-sm);
+        flex-basis: 100%;
       }
       nys-textinput {
         min-width: 240px;
@@ -107,9 +110,6 @@
         margin-bottom: var(--nys-space-150);
         flex-wrap: wrap;
       }
-      .controls .spacer {
-        flex: 1;
-      }
       .controls input[type="range"] {
         accent-color: var(--nys-color-link);
       }
@@ -161,7 +161,7 @@
   </head>
   <body>
     <header>
-      <h1>NYSDS Visual Review</h1>
+      <h1>NYSDS Visual Changes</h1>
       <nys-textinput
         type="search"
         id="q"
@@ -171,27 +171,26 @@
       ></nys-textinput>
       <nys-toggle id="vp" label="Mobile" size="sm" noIcon></nys-toggle>
       <span class="meta" id="meta"></span>
-      <nys-button
-        id="approveAll"
-        variant="filled"
-        size="sm"
-        prefixIcon="check"
-      ></nys-button>
     </header>
     <main>
       <nys-tabgroup id="tabs" name="Result status">
-        <nys-tab id="tab-attention" label="Needs review" selected></nys-tab>
+        <nys-tab id="tab-attention" label="All changes" selected></nys-tab>
         <nys-tab id="tab-changed" label="Changed"></nys-tab>
         <nys-tab id="tab-new" label="New"></nys-tab>
         <nys-tab id="tab-removed" label="Removed"></nys-tab>
-        <nys-tab id="tab-passed" label="Unchanged"></nys-tab>
-        <nys-tab id="tab-all" label="All"></nys-tab>
-        <nys-tabpanel id="panel-attention" aria-labelledby="tab-attention"></nys-tabpanel>
-        <nys-tabpanel id="panel-changed" aria-labelledby="tab-changed"></nys-tabpanel>
+        <nys-tabpanel
+          id="panel-attention"
+          aria-labelledby="tab-attention"
+        ></nys-tabpanel>
+        <nys-tabpanel
+          id="panel-changed"
+          aria-labelledby="tab-changed"
+        ></nys-tabpanel>
         <nys-tabpanel id="panel-new" aria-labelledby="tab-new"></nys-tabpanel>
-        <nys-tabpanel id="panel-removed" aria-labelledby="tab-removed"></nys-tabpanel>
-        <nys-tabpanel id="panel-passed" aria-labelledby="tab-passed"></nys-tabpanel>
-        <nys-tabpanel id="panel-all" aria-labelledby="tab-all"></nys-tabpanel>
+        <nys-tabpanel
+          id="panel-removed"
+          aria-labelledby="tab-removed"
+        ></nys-tabpanel>
       </nys-tabgroup>
     </main>
     <script>
@@ -200,27 +199,27 @@
         status = "attention",
         vp = "desktop",
         query = "";
-      const canApprove = location.protocol.startsWith("http");
-      const ATTENTION = ["changed", "new", "removed", "error"];
+      // Results only contain changes; unchanged stories are counted, not listed.
       const BADGE_INTENT = {
         changed: "warning",
         new: "success",
         removed: "info",
         error: "danger",
-        passed: "base",
       };
-      const APPROVABLE = ["changed", "new", "removed"];
 
-      async function load() {
-        data = await (await fetch("results.json?" + Date.now())).json();
+      function load() {
+        data = window.VR_DATA;
+        if (!data) {
+          $("main").innerHTML =
+            `<div class="empty">No results. Run npm run vr:test first.</div>`;
+          return;
+        }
         render();
       }
 
       const matches = (r) =>
         r.viewport === vp &&
-        (status === "attention"
-          ? ATTENTION.includes(r.status)
-          : status === "all" || r.status === status) &&
+        (status === "attention" || r.status === status) &&
         (r.title + " " + r.name + " " + r.id).toLowerCase().includes(query);
 
       function render() {
@@ -228,35 +227,29 @@
         data.results
           .filter((r) => r.viewport === vp)
           .forEach((r) => (counts[r.status] = (counts[r.status] || 0) + 1));
-        const attn = ATTENTION.reduce((n, s) => n + (counts[s] || 0), 0);
+        const attn = Object.values(counts).reduce((n, c) => n + c, 0);
         const labels = {
-          attention: `Needs review (${attn})`,
+          attention: `All changes (${attn})`,
           changed: `Changed (${counts.changed || 0})`,
           new: `New (${counts.new || 0})`,
           removed: `Removed (${counts.removed || 0})`,
-          passed: `Unchanged (${counts.passed || 0})`,
-          all: "All",
         };
         for (const [k, l] of Object.entries(labels)) $(`#tab-${k}`).label = l;
-        document.querySelectorAll("nys-tabpanel").forEach((p) => (p.innerHTML = ""));
+        document
+          .querySelectorAll("nys-tabpanel")
+          .forEach((p) => (p.innerHTML = ""));
         const list = $(`#panel-${status}`);
         $("#meta").textContent =
           `${new Date(data.generated).toLocaleString()} · ${vp} ${data.viewports[vp].join("×")}` +
+          ` · ${data.unchanged?.[vp] ?? 0} unchanged (not shown)` +
           (data.minChange ? ` · ≥${data.minChange}% = changed` : "");
-        const ab = $("#approveAll");
-        ab.label = `Approve all visible (${data.results.filter((r) => matches(r) && APPROVABLE.includes(r.status)).length})`;
-        ab.disabled = !canApprove;
-        ab.title = canApprove
-          ? ""
-          : "Run npm run vr:review to approve from this page";
 
-        const weight = (r) =>
-          r.diffPercent ?? (ATTENTION.includes(r.status) ? 0.0001 : -1);
+        const weight = (r) => r.diffPercent ?? 0.0001;
         const rows = data.results
           .filter(matches)
           .sort((a, b) => weight(b) - weight(a) || a.id.localeCompare(b.id));
         if (!rows.length) {
-          list.innerHTML = `<div class="empty">Nothing here.</div>`;
+          list.innerHTML = `<div class="empty">No visual changes.</div>`;
           return;
         }
         const maxPct = Math.max(...rows.map((r) => r.diffPercent || 0), 0.01);
@@ -293,8 +286,7 @@
             : "";
         const ctl = `<div class="controls">
     ${r.status === "changed" ? ["side", "overlay"].map((m) => `<nys-button size="sm" data-mode="${m}" variant="${m === mode ? "filled" : "outline"}" label="${m === "side" ? "Side by side" : "Overlay"}"></nys-button>`).join("") : ""}
-    ${info}<span class="spacer"></span>
-    ${APPROVABLE.includes(r.status) ? `<nys-button size="sm" data-approve prefixIcon="check" label="${r.status === "removed" ? "Accept removal" : "Approve"}" ${canApprove ? "" : "disabled"}></nys-button>` : ""}</div>`;
+    ${info}</div>`;
         const pane = (title, src) =>
           `<div class="pane"><h4>${title}</h4><div class="frame"><img src="${src}${t}" loading="lazy" alt="${title}"></div></div>`;
         const one = (title, src) =>
@@ -305,7 +297,6 @@
         else if (r.status === "new") main = one("New story (no baseline)", c);
         else if (r.status === "removed")
           main = one("Baseline (story no longer exists)", b);
-        else if (r.status === "passed") main = one("Current", c);
         else if (mode === "overlay")
           main = `<div class="controls"><label>Baseline <input type="range" min="0" max="100" value="50" data-fade> Current</label></div>
     <div class="overlay"><img src="${b}${t}" alt="Baseline"><img src="${c}${t}" alt="Current" style="opacity:.5" data-top></div>`;
@@ -314,28 +305,10 @@
         return ctl + main;
       }
 
-      async function approve(ids) {
-        data = await (
-          await fetch("approve", {
-            method: "POST",
-            body: JSON.stringify({ ids }),
-          })
-        ).json();
-        render();
-      }
-
       document.addEventListener("click", (e) => {
         const t = e.target.closest("nys-button");
         if (!t) return;
-        if (t.id === "approveAll")
-          approve(
-            data.results
-              .filter((r) => matches(r) && APPROVABLE.includes(r.status))
-              .map((r) => r.key),
-          );
-        else if ("approve" in t.dataset)
-          approve([t.closest(".item").dataset.id]);
-        else if (t.dataset.mode) {
+        if (t.dataset.mode) {
           const it = t.closest(".item");
           it.querySelector("[data-body]").innerHTML = body(
             data.results.find((x) => x.key === it.dataset.id),
