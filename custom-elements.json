@@ -18273,12 +18273,6 @@
             },
             {
               "kind": "method",
-              "name": "_syncTranslateTriggerAria",
-              "privacy": "private",
-              "description": "`nys-button` renders the real `<button>` inside its own shadow root, so an\n`aria-expanded` written on the host never reaches the element that carries the\nbutton role — assistive tech was never told the translate menu collapses. Mirror\nthe state onto the inner control, the same way `nys-dropdownmenu` does for its\ntrigger (WCAG 4.1.2)."
-            },
-            {
-              "kind": "method",
               "name": "_languageOptions",
               "privacy": "private",
               "return": {
