@@ -412,7 +412,6 @@ const HOME_STYLE = `
         outline: var(--nys-border-width-md) solid var(--nys-color-focus);
         outline-offset: calc(var(--nys-border-width-md) * -1);
       }
-      .nysds-preview-component { font-weight: var(--nys-font-weight-semibold); }
       .nysds-preview-vr {
         background: var(--nys-color-theme-faint);
         border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
@@ -501,16 +500,29 @@ function homeHtml(pages, pr, vr) {
   const components = new Set(pages.map((p) => p.dir)).size;
   const stories = `${pages.length} ${pages.length === 1 ? "story" : "stories"}`;
   const from = `${components} ${components === 1 ? "component" : "components"}`;
+  // One group per component, in testing order, listing only the story names.
+  const groups = new Map();
+  for (const p of pages) {
+    if (!groups.has(p.dir)) groups.set(p.dir, { title: p.title, pages: [] });
+    groups.get(p.dir).pages.push(p);
+  }
   const list = pages.length
     ? `      <h2>${stories} from ${from}</h2>
-      <ol class="nysds-preview-list nys-font-ui-md nys-margin-t-300 nys-padding-l-600">
-${pages
+${[...groups.values()]
+  .map(
+    (g) => `      <section class="nys-margin-t-400">
+        <h3 class="nys-font-ui-lg">${escapeHtml(g.title)}</h3>
+        <ol class="nysds-preview-list nys-font-ui-md nys-margin-t-150 nys-padding-l-600">
+${g.pages
   .map(
     (p) =>
-      `        <li><a class="nys-display-flex nys-flex-align-center nys-padding-y-100 nys-padding-x-200" href="/${p.path}/"><span><span class="nysds-preview-component">${escapeHtml(p.title)}</span>, ${escapeHtml(p.story)}</span></a></li>`,
+      `          <li><a class="nys-display-flex nys-flex-align-center nys-padding-y-100 nys-padding-x-200" href="/${p.path}/">${escapeHtml(p.story)}</a></li>`,
   )
   .join("\n")}
-      </ol>`
+        </ol>
+      </section>`,
+  )
+  .join("\n")}`
     : `      <h2>No components to preview</h2>
       <p>This pull request changes no components with stories.</p>`;
   return `<!doctype html>
