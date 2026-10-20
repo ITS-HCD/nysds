@@ -483,10 +483,15 @@ export class NysUnavHeader extends NysElement {
 
     // Both of these write ARIA into nys-button's shadow root, so they have to run
     // after every render — a new `languages` array renders brand new buttons.
+
     /*
-    // See Aaron's PR comment and line 615 above; no longer set invalid 'menu'
+    // See Aaron's PR comment https://github.com/ITS-HCD/nysds/pull/1863#issuecomment-6069819059
+    // and line 615 below; no longer set invalid 'menu'.
+    // Given the current HTML shape, menu is an invalid value for aria-haspopup, and there is no valid option.
+    // It can be removed with zero effect on user experience.
     this._syncTranslateTriggerAria();
     */
+
     this._syncLanguageMenuAria();
 
     if (!changed.has("languageVisible")) return;
@@ -611,7 +616,7 @@ export class NysUnavHeader extends NysElement {
    */
 
   /*
-  // See Aaron's PR comment https://github.com/ITS-HCD/nysds/pull/1863#issuecomment-6069819059
+  // See Aaron's PR comment
   // Given the current HTML shape, menu is an invalid value for aria-haspopup, and there is no valid option.
   // It can be removed with zero effect on user experience.
   private async _syncTranslateTriggerAria() {
@@ -656,8 +661,12 @@ export class NysUnavHeader extends NysElement {
 
     options.forEach((option, index) => {
       const control = innerControl(option);
+
+      /*
       // See Aaron's PR comment; 'listitem' is moved to nys-button
-      // control.setAttribute("role", "listitem");
+      control.setAttribute("role", "listitem");
+      */
+
       // Exactly one tab stop: Tab enters and leaves the menu, arrows move within it
       control.setAttribute(
         "tabindex",
@@ -1344,7 +1353,9 @@ export class NysUnavHeader extends NysElement {
                   </nys-button>
                   ${!this.isSearchFocused
                     ? html`
-                        <!--See Aaron's PR comment; 'ariaControls' removed-->
+
+                        <!-- See Aaron's PR comment; 'ariaControls' removed -->
+
                         <nys-button
                           variant="ghost"
                           label="Translate"
@@ -1373,7 +1384,7 @@ export class NysUnavHeader extends NysElement {
                         languageTag(lang.code) ===
                         document.documentElement.lang;
                       return html` <nys-button
-                        role="listitem/"
+                        role="listitem"
                         variant="ghost"
                         fullWidth
                         class="${LANGUAGE_OPTION_CLASS}"
