@@ -14,9 +14,9 @@
  * affects every component.
  *
  * Usage:
- *   node src/scripts/build-preview.mjs                  changed vs $PREVIEW_BASE (default origin/develop)
- *   node src/scripts/build-preview.mjs nys-select ...   treat these packages as changed
- *   node src/scripts/build-preview.mjs --all            every component
+ *   node src/scripts/nysds-review/build-preview.mjs                  changed vs $PREVIEW_BASE (default origin/develop)
+ *   node src/scripts/nysds-review/build-preview.mjs nys-select ...   treat these packages as changed
+ *   node src/scripts/nysds-review/build-preview.mjs --all            every component
  *
  * Requires built packages (npm run build:packages). Story markup is captured by
  * rendering each story in Chromium with custom element registration disabled,
@@ -26,12 +26,12 @@
  *
  * The site's landing page (/) links to the three review tools: this preview's
  * story list at /preview/, the visual regression report at /visual/ (from
- * src/scripts/visual/visual.mjs, when .visual/report exists) and the codegen
+ * visual.mjs, when .visual/report exists) and the codegen
  * review at /code-review/ (from npm run review:codegen -- --html-file
  * .code-review/index.html, when that file exists). The landing page is the
- * template src/scripts/landing/index.html, filled in from a generated
+ * template templates/landing.html, filled in from a generated
  * site-data.js. The story list at /preview/ is likewise the template
- * src/scripts/preview/index.html, filled in from a generated pages.js. The
+ * templates/preview.html, filled in from a generated pages.js. The
  * site is written even when no component has stories to preview, so the
  * other tools are still reachable.
  *
@@ -47,18 +47,17 @@ import { build, createServer } from "vite";
 import { chromium } from "playwright";
 import prettier from "prettier";
 
-const ROOT = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../..",
-);
+// This script lives in src/scripts/nysds-review/, three levels below the root.
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(SCRIPT_DIR, "../../..");
 const OUT = path.join(ROOT, ".preview");
 const DIST = path.join(OUT, "dist");
 const VR_REPORT = path.join(ROOT, ".visual/report");
 const VR_RESULTS = path.join(ROOT, ".visual/results.json");
 const CODE_REVIEW_PAGE = path.join(ROOT, ".code-review/index.html");
-const LANDING_TEMPLATE = path.join(ROOT, "src/scripts/landing/index.html");
+const LANDING_TEMPLATE = path.join(SCRIPT_DIR, "templates/landing.html");
 // The story list at /preview/, filled in from a generated pages.js.
-const PREVIEW_TEMPLATE = path.join(ROOT, "src/scripts/preview/index.html");
+const PREVIEW_TEMPLATE = path.join(SCRIPT_DIR, "templates/preview.html");
 // The landing page's header, footer and cards come from the full NYSDS bundle.
 const NYSDS_BUNDLE = path.join(ROOT, "dist/nysds.js");
 const SHARED_PACKAGES = new Set(["tokens", "styles", "internals", "codegen"]);
@@ -675,7 +674,7 @@ function siteData(pages, vr, hasCodeReview, pr) {
       codeReview: hasCodeReview
         ? {
             href: "/code-review/",
-            summary: "Generated wrappers, base vs. head",
+            summary: "Generated code, Current vs. Proposed",
           }
         : null,
     },
@@ -683,7 +682,7 @@ function siteData(pages, vr, hasCodeReview, pr) {
 }
 
 /**
- * The data the story list template (src/scripts/preview/index.html) fills
+ * The data the story list template (templates/preview.html) fills
  * itself in from: the pull request, the visual regression summary (null
  * without a report), and the stories grouped by component in testing order.
  */

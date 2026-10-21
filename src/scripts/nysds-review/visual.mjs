@@ -82,7 +82,7 @@ import {
   buildPages,
   readComponentPackages,
   storyFiles,
-} from "../build-preview.mjs";
+} from "./build-preview.mjs";
 
 // --- Paths ------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ const NYSDS_BUNDLE = join(ROOT, "dist/nysds.js");
 const NYSDS_STYLESHEET = join(ROOT, "packages/styles/dist/nysds-full.min.css");
 
 const REPORT_TEMPLATE = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), "report.html"),
+  join(dirname(fileURLToPath(import.meta.url)), "templates/visual-report.html"),
   "utf8",
 );
 
@@ -722,12 +722,12 @@ function fileHash(...filePaths) {
 // Pages built by a different build-preview.mjs are stale, even for the same
 // commit. Screenshots are also stale when the capture code or states change.
 const PAGE_BUILDER_VERSION = fileHash(
-  join(ROOT, "src/scripts/build-preview.mjs"),
+  join(ROOT, "src/scripts/nysds-review/build-preview.mjs"),
 );
 const CAPTURE_VERSION = fileHash(
-  join(ROOT, "src/scripts/build-preview.mjs"),
+  join(ROOT, "src/scripts/nysds-review/build-preview.mjs"),
   fileURLToPath(import.meta.url),
-  join(ROOT, "src/scripts/visual/states.mjs"),
+  join(ROOT, "src/scripts/nysds-review/states.mjs"),
 );
 
 /**

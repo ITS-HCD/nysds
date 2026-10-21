@@ -54,9 +54,9 @@
     "test:examples": "npm run test -w framework-examples/react-vite -w framework-examples/vue-vite -w framework-examples/next-app -w framework-examples/angular-app -w framework-examples/angular-ngmodule && npm run test:zoneless -w framework-examples/angular-app",
     "test:report": "wtr --node-resolve || true && open coverage/lcov-report/index.html",
     "test:compact": "export NYSDS_TEST_OUTPUT=compact && wtr --node-resolve",
-    "vr:test": "node src/scripts/visual/visual.mjs test",
-    "vr:baseline": "node src/scripts/visual/visual.mjs baseline",
-    "vr:report": "node src/scripts/visual/visual.mjs report",
+    "vr:test": "node src/scripts/nysds-review/visual.mjs test",
+    "vr:baseline": "node src/scripts/nysds-review/visual.mjs baseline",
+    "vr:report": "node src/scripts/nysds-review/visual.mjs report",
     "test:ai": "export NYSDS_TEST_OUTPUT=ai && wtr --node-resolve",
     "test:all": "npm run test && npm run test:examples",
     "storybook": "cross-env NODE_ENV=production storybook dev -p 6006",
@@ -73,9 +73,9 @@
     "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && node src/scripts/verify-form-contract.mjs && mkdir -p dist && cp ./custom-elements.json dist/",
     "verify:a11y-names": "node src/scripts/verify-a11y-names.mjs",
     "verify:utility-docs": "npm run build:mcp && node src/scripts/verify-utility-docs.mjs",
-    "preview:a11y": "node src/scripts/build-preview.mjs",
+    "preview:a11y": "node src/scripts/nysds-review/build-preview.mjs",
     "preview:a11y:serve": "vite preview --outDir .preview/dist --port 4310 --strictPort",
-    "review:codegen": "node src/scripts/review-codegen.mjs"
+    "review:codegen": "node src/scripts/nysds-review/review-codegen.mjs"
   },
   "repository": {
     "type": "git",

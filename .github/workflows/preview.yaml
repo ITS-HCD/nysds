@@ -72,7 +72,7 @@ jobs:
         # already built above, so no --build. Capture errors exit 1 but are
         # listed in the report, so they don't block the deploy.
         continue-on-error: true
-        run: node src/scripts/visual/visual.mjs test
+        run: node src/scripts/nysds-review/visual.mjs test
         env:
           VR_BASE: origin/${{ github.base_ref }}
 
@@ -90,7 +90,7 @@ jobs:
 
       - name: Build preview pages
         id: preview
-        run: node src/scripts/build-preview.mjs
+        run: node src/scripts/nysds-review/build-preview.mjs
         env:
           PREVIEW_BASE: origin/${{ github.base_ref }}
           # Shown on the landing page. Passed through env, never interpolated
@@ -129,7 +129,7 @@ jobs:
           PREVIEW_URL: ${{ steps.deploy.outputs.url }}
         with:
           script: |
-            const { deployedBody, upsertComment } = require("./src/scripts/preview-comment.cjs");
+            const { deployedBody, upsertComment } = require("./src/scripts/nysds-review/preview-comment.cjs");
             const body = deployedBody({
               manifestPath: ".preview/manifest.json",
               previewUrl: process.env.PREVIEW_URL,

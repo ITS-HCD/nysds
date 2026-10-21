@@ -1411,12 +1411,12 @@ function render(
 // ---------------------------------------------------------------------------
 
 /**
- * The HTML report is a static template, review-codegen/report.html, next to
- * this script. It renders itself from a review-data.js written beside it,
+ * The HTML report is a static template, templates/codegen-review.html, next
+ * to this script. It renders itself from a review-data.js written beside it,
  * which holds plain data only (no HTML): the template does all the markup.
  */
 const REPORT_TEMPLATE = new URL(
-  "./review-codegen/report.html",
+  "./templates/codegen-review.html",
   import.meta.url,
 );
 const REPORT_DATA_FILE = "review-data.js";

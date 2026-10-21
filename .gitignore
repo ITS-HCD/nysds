@@ -68,7 +68,7 @@ packages/angular/.ngbuild/
 framework-examples/*/.angular/
 framework-examples/*/.next/
 
-# Ignore accessibility preview build (src/scripts/build-preview.mjs)
+# Ignore accessibility preview build (src/scripts/nysds-review/build-preview.mjs)
 .preview/
 
 # Local visual regression output

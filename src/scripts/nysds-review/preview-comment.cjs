@@ -13,7 +13,7 @@ function deployedBody({ manifestPath, previewUrl, sha }) {
   // The deploy's landing page links every review tool: the story list,
   // the visual regression report and the code review.
   const tools = previewUrl
-    ? `**[Review tools](${previewUrl}/)**: [accessibility preview](${previewUrl}/preview/) · [visual regression](${previewUrl}/visual/) · [code review](${previewUrl}/code-review/)`
+    ? `**[NYSDS Review](${previewUrl}/)**: [accessibility tests](${previewUrl}/preview/) · [visual changes](${previewUrl}/visual/) · [codegen review](${previewUrl}/code-review/)`
     : "";
   if (!manifest.pages.length) {
     return `${MARKER}
@@ -27,11 +27,11 @@ This PR changes no components with stories, so there are no story pages to test.
   );
   return [
     MARKER,
-    "### Component preview",
+    "### PR Review",
     "",
     tools,
     "",
-    `**[Start testing](${previewUrl}/preview/)** — ${manifest.pages.length} stories, one per page. Use the bar at the bottom of each page to move to the previous or next story.`,
+    `${manifest.pages.length} stories to test, one per page. Use the bar at the bottom of each page to move to the previous or next story.`,
     "",
     "| Component | Stories | Why it's included |",
     "| --- | --- | --- |",

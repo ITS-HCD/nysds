@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />
     <script src="/assets/js/nysds.js"></script>
     <style>
+      /* Components set display on :host, which would beat the hidden attribute. */
+      [hidden] {
+        display: none !important;
+      }
+
       .review code,
       .diff,
       .api {
@@ -82,41 +87,10 @@
       .facts dd {
         margin: 0;
       }
-      .tiles {
-        list-style: none;
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: var(--nys-space-200, 16px);
-        padding: 0;
-        margin: 0 0 var(--nys-space-400, 32px);
-      }
-      @media (max-width: 40em) {
-        .tiles {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-      .tile {
-        padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
-        background: var(--nys-color-surface-raised, #f6f6f6);
-        border-left: 4px solid var(--nys-color-base, #62666a);
-        border-radius: var(--nys-radius-md, 4px);
-      }
-      .tile strong {
-        display: block;
-        font-size: var(--nys-font-size-h2, 2rem);
-        line-height: 1.1;
-      }
-      .tile--expected {
-        border-left-color: var(--nys-color-success, #1e752e);
-      }
-      .tile--generator {
-        border-left-color: var(--nys-color-info, #004dd1);
-      }
-      .tile--check {
-        border-left-color: var(--nys-color-warning, #face00);
-      }
-      .tile--api {
-        border-left-color: var(--nys-color-theme, #154973);
+      /* Count cards in a row share one height (see nys-card's --nys-card-height). */
+      .counts {
+        --nys-card-height: 100%;
+        margin-bottom: var(--nys-space-400, 32px);
       }
       .files table {
         width: 100%;
@@ -303,11 +277,10 @@
       to a review-data.js it generates, and the script at the bottom renders
       the review from that data.
     -->
-    <main class="review">
     <nys-skipnav></nys-skipnav>
     <nys-unavheader hideTranslate hideSearch></nys-unavheader>
     <nys-globalheader
-      appName="NYSDS PR Review"
+      appName="NYSDS Review"
       agencyName="NYS Design System"
       homepageLink="/"
     >
@@ -315,169 +288,203 @@
         <li data-app="preview">
           <a href="/preview/">Accessibility Tests</a>
         </li>
-        <li data-app="visual"><a href="/visual/">Visual Tests</a></li>
+        <li data-app="visual"><a href="/visual/">Visual Changes</a></li>
         <li data-app="codeReview">
           <a href="/code-review/">Codegen Review</a>
         </li>
       </ul>
     </nys-globalheader>
 
-    <main id="main-content">
+    <main id="main-content" class="review">
       <!-- Widescreen, so the content lines up with the global header and footer. -->
       <div class="nys-grid-container-widescreen nys-padding-y-600">
         <div class="nys-grid-row">
           <div class="nys-grid-col-12">
-            <h1>Codegen review: <span id="review-name"></span></h1>
+            <h1>Codegen Review: <span id="review-name"></span></h1>
             <p class="lede" id="review-title"></p>
-
-      <section
-        class="band nys-grid-row nys-grid-gap-400"
-        aria-labelledby="glance"
-      >
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-          <h2 id="glance">At a glance</h2>
-        </div>
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
-          <div id="notes"></div>
-          <ul class="tiles">
-            <li class="tile tile--expected">
-              <strong id="count-expected">0</strong>expected
-            </li>
-            <li class="tile tile--generator">
-              <strong id="count-generator">0</strong>from generator changes
-            </li>
-            <li class="tile tile--check">
-              <strong id="count-check">0</strong>to check
-            </li>
-            <li class="tile tile--api">
-              <strong id="count-api">0</strong
-              ><span id="count-api-label">component APIs changed</span>
-            </li>
-          </ul>
-          <h3>What this compares</h3>
-          <dl class="facts" id="compare-facts"></dl>
-          <h3>Verdicts</h3>
-          <p>
-            Generated wrapper files are gitignored, so the pull request diff
-            doesn't show them. This page regenerates them for both commits and
-            compares the results. Each changed file gets one verdict:
-          </p>
-          <dl class="facts">
-            <dt data-badge="expected"></dt>
-            <dd>
-              The PR changed the file's component source, its override, or the
-              file itself.
-            </dd>
-            <dt data-badge="generator"></dt>
-            <dd>
-              Only a codegen plugin, the CEM config, or the lockfile changed.
-            </dd>
-            <dt data-badge="check"></dt>
-            <dd>Nothing in the PR explains the change. Look at it closely.</dd>
-          </dl>
-        </div>
-      </section>
-
-      <section
-        class="band nys-grid-row nys-grid-gap-400"
-        aria-labelledby="files"
-      >
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-          <h2 id="files">Changed files</h2>
-        </div>
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
-          <p id="files-empty">No generated files changed.</p>
-          <nys-table striped class="files" id="files-table" hidden>
-            <table>
-              <caption>
-                Generated files that changed, what produced each one, and why it
-                changed
-              </caption>
-              <thead>
-                <tr>
-                  <th>Verdict</th>
-                  <th>File</th>
-                  <th>Change</th>
-                  <th>Produced by</th>
-                  <th>Why</th>
-                </tr>
-              </thead>
-              <tbody id="files-body"></tbody>
-            </table>
-          </nys-table>
-        </div>
-      </section>
-
-      <section class="band nys-grid-row nys-grid-gap-400" aria-labelledby="api">
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-          <h2 id="api">API changes</h2>
-        </div>
-        <div
-          class="nys-grid-col-12 nys-desktop:nys-grid-col-10"
-          id="api-content"
-        >
-          <p>No component API changed.</p>
-        </div>
-      </section>
-
-      <section
-        class="band nys-grid-row nys-grid-gap-400"
-        aria-labelledby="quiet-heading"
-        id="quiet"
-        hidden
-      >
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-          <h2 id="quiet-heading">No generated change</h2>
-        </div>
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
-          <p>
-            These components changed in the PR, but their generated output
-            didn't. That's expected for internal logic and styles. If you
-            expected a wrapper change, the API lines show what the manifest saw.
-          </p>
-          <div id="quiet-content"></div>
-        </div>
-      </section>
-
-      <section
-        class="band nys-grid-row nys-grid-gap-400"
-        aria-labelledby="diffs"
-      >
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-          <h2 id="diffs">Diffs</h2>
-        </div>
-        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
-          <p id="diffs-empty">No generated files changed.</p>
-          <div class="toolbar" id="diffs-toolbar" hidden>
-            <nys-button
-              id="expand-all"
-              type="button"
-              variant="outline"
-              size="sm"
-              label="Expand all"
-            ></nys-button>
-            <nys-button
-              id="collapse-all"
-              type="button"
-              variant="outline"
-              size="sm"
-              label="Collapse all"
-            ></nys-button>
           </div>
-          <div id="diffs-list"></div>
         </div>
-      </section>
 
-      <footer class="weak">
-        Made by <code id="footer-command"></code> on
-        <span id="footer-generated"></span>. Running <code>cem analyze</code> on
-        both commits took <span id="footer-seconds"></span>s. This page lives
-        outside the repository, and the generated files stay gitignored.
-      </footer>
-    </div>
-    </div>
-    </div>
+        <section
+          class="band nys-grid-row nys-grid-gap-400"
+          aria-labelledby="glance"
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="glance">At a glance</h2>
+          </div>
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+            <div id="notes"></div>
+            <div class="counts nys-grid-row nys-grid-gap-200">
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-expected"
+                  heading="0"
+                  headingLevel="h3"
+                  description="expected"
+                >
+                </nys-card>
+              </div>
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-generator"
+                  heading="0"
+                  headingLevel="h3"
+                  description="from generator changes"
+                >
+                </nys-card>
+              </div>
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-check"
+                  heading="0"
+                  headingLevel="h3"
+                  description="to check"
+                >
+                </nys-card>
+              </div>
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-api"
+                  heading="0"
+                  headingLevel="h3"
+                  description="component APIs changed"
+                >
+                </nys-card>
+              </div>
+            </div>
+            <h3>What this compares</h3>
+            <dl class="facts" id="compare-facts"></dl>
+            <h3>Verdicts</h3>
+            <p>
+              Generated wrapper files are gitignored, so the pull request diff
+              doesn't show them. This page regenerates them for both commits and
+              compares the results. Each changed file gets one verdict:
+            </p>
+            <dl class="facts">
+              <dt data-badge="expected"></dt>
+              <dd>
+                The PR changed the file's component source, its override, or the
+                file itself.
+              </dd>
+              <dt data-badge="generator"></dt>
+              <dd>
+                Only a codegen plugin, the CEM config, or the lockfile changed.
+              </dd>
+              <dt data-badge="check"></dt>
+              <dd>
+                Nothing in the PR explains the change. Look at it closely.
+              </dd>
+            </dl>
+          </div>
+        </section>
+
+        <section
+          class="band nys-grid-row nys-grid-gap-400"
+          aria-labelledby="files"
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="files">Changed files</h2>
+          </div>
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+            <p id="files-empty">No generated files changed.</p>
+            <nys-table striped class="files" id="files-table" hidden>
+              <table>
+                <caption>
+                  Generated files that changed, what produced each one, and why
+                  it changed
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Verdict</th>
+                    <th>File</th>
+                    <th>Change</th>
+                    <th>Produced by</th>
+                    <th>Why</th>
+                  </tr>
+                </thead>
+                <tbody id="files-body"></tbody>
+              </table>
+            </nys-table>
+          </div>
+        </section>
+
+        <section
+          class="band nys-grid-row nys-grid-gap-400"
+          aria-labelledby="api"
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="api">API changes</h2>
+          </div>
+          <div
+            class="nys-grid-col-12 nys-desktop:nys-grid-col-10"
+            id="api-content"
+          >
+            <p>No component API changed.</p>
+          </div>
+        </section>
+
+        <section
+          class="band nys-grid-row nys-grid-gap-400"
+          aria-labelledby="quiet-heading"
+          id="quiet"
+          hidden
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="quiet-heading">No generated changes found</h2>
+          </div>
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+            <p>
+              These components changed in the PR, but their generated output
+              didn't. That's expected for internal logic and styles. If you
+              expected a wrapper change, the API lines show what the manifest
+              saw.
+            </p>
+            <div id="quiet-content"></div>
+          </div>
+        </section>
+
+        <section
+          class="band nys-grid-row nys-grid-gap-400"
+          aria-labelledby="diffs"
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="diffs">Diffs</h2>
+          </div>
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+            <p id="diffs-empty">No generated files changed.</p>
+            <div class="toolbar" id="diffs-toolbar" hidden>
+              <nys-button
+                id="expand-all"
+                type="button"
+                variant="outline"
+                size="sm"
+                label="Expand all"
+              ></nys-button>
+              <nys-button
+                id="collapse-all"
+                type="button"
+                variant="outline"
+                size="sm"
+                label="Collapse all"
+              ></nys-button>
+            </div>
+            <div id="diffs-list"></div>
+          </div>
+        </section>
+      </div>
     </main>
+    <nys-backtotop></nys-backtotop>
+    <nys-globalfooter agencyName="NYS Design System" homepageLink="/">
+    </nys-globalfooter>
+    <nys-unavfooter></nys-unavfooter>
 
     <!-- A script rather than JSON, so the page also works opened from disk. -->
     <script src="review-data.js"></script>
@@ -648,14 +655,18 @@
             `<nys-alert type="info" heading="Notes about this run"><ul>${notes.join("")}</ul></nys-alert>`;
         }
 
-        document.querySelector("#count-expected").textContent =
-          data.counts.expected;
-        document.querySelector("#count-generator").textContent =
-          data.counts.generator;
-        document.querySelector("#count-check").textContent = data.counts.check;
-        document.querySelector("#count-api").textContent =
-          data.counts.apiChanged;
-        document.querySelector("#count-api-label").textContent =
+        document.querySelector("#count-expected").heading = String(
+          data.counts.expected,
+        );
+        document.querySelector("#count-generator").heading = String(
+          data.counts.generator,
+        );
+        document.querySelector("#count-check").heading = String(
+          data.counts.check,
+        );
+        const apiCard = document.querySelector("#count-api");
+        apiCard.heading = String(data.counts.apiChanged);
+        apiCard.description =
           data.counts.apiChanged === 1
             ? "component API changed"
             : "component APIs changed";

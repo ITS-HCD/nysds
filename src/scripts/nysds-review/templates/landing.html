@@ -25,7 +25,7 @@
     <nys-skipnav></nys-skipnav>
     <nys-unavheader hideTranslate hideSearch></nys-unavheader>
     <nys-globalheader
-      appName="NYSDS PR Review"
+      appName="NYSDS Review"
       agencyName="NYS Design System"
       homepageLink="/"
     >
@@ -33,7 +33,7 @@
         <li data-app="preview">
           <a href="/preview/">Accessibility Tests</a>
         </li>
-        <li data-app="visual"><a href="/visual/">Visual Tests</a></li>
+        <li data-app="visual"><a href="/visual/">Visual Changes</a></li>
         <li data-app="codeReview">
           <a href="/code-review/">Codegen Review</a>
         </li>
@@ -60,8 +60,8 @@
           >
             <nys-card
               data-app="preview"
-              heading="Accessibility Preview"
-              description="Every story of the changed components on its own page, for testing with screen readers, keyboards and zoom."
+              heading="Accessibility Tests"
+              description="Every story of the changed components on its own page, for testing with screen readers, keyboards, and zoom."
               elevated
             >
               <nys-icon
@@ -76,7 +76,7 @@
           >
             <nys-card
               data-app="visual"
-              heading="Visual Regression"
+              heading="Visual Changes"
               description="Screenshots of every story and its hover, press and focus states, compared with the base branch."
               elevated
             >
@@ -92,7 +92,7 @@
           >
             <nys-card
               data-app="codeReview"
-              heading="Code Review"
+              heading="Codegen Review"
               description="What this change does to the generated framework wrappers, which are gitignored and missing from the pull request diff."
               elevated
             >

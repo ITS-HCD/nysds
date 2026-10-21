@@ -98,7 +98,7 @@ With `--html`, the script writes the report as a standalone web page in your
 temp folder, outside the repo, and prints its path. The page loads
 NYSDS styles and components from jsDelivr and stays readable offline. To save
 the page somewhere else, pass `--html-file <path>`. The page is the template
-`src/scripts/review-codegen/report.html`, and it reads its contents from a
+`src/scripts/nysds-review/templates/codegen-review.html`, and it reads its contents from a
 `review-data.js` written beside it, so keep the two files together. Without
 `--html`, the report prints to the terminal.
 
