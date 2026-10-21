@@ -8,6 +8,7 @@
   --_nys-onthispage-padding--item: var(--nys-space-100, 8px)
     var(--nys-space-4px, 4px) var(--nys-space-100, 8px)
     var(--nys-space-200, 16px);
+
   // ---- THE BORDER ----
   --_nys-onthispage-border-width--item: var(--nys-size-50, 4px);
   --_nys-onthispage-border-color--item: var(--nys-color-neutral-50, #ededed);
@@ -20,6 +21,7 @@
     #d0d0ce
   );
   --_nys-onthispage-border-color--item--active: var(--nys-color-theme, #154973);
+
   // ---- THE BACKGROUND ----
   --_nys-onthispage-background-color--item--hover: var(
     --nys-color-neutral-10,
@@ -177,8 +179,10 @@
             }
             color: var(--_nys-onthispage-color--item-target);
             font-weight: var(--_nys-onthispage-font-weight--active);
+
             &:hover {
               color: var(--_nys-onthispage-color--item-target--hover);
+
               --_nys-onthispage-border-color--item--active: var(
                 --nys-color-theme-strong,
                 #0e324f
@@ -186,8 +190,10 @@
 
               text-decoration-line: none;
             }
+
             &:active {
               color: var(--_nys-onthispage-color--item-target--pressed);
+
               --_nys-onthispage-border-color--item--active: var(
                 --nys-color-theme-stronger,
                 #081b2b

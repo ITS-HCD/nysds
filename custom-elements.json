@@ -11101,7 +11101,7 @@
                 "text": "HeadingTag"
               },
               "default": "\"h2\"",
-              "description": "Heading level to track and link. `h1` is excluded",
+              "description": "Heading level to track and link. `h1` is excluded.",
               "attribute": "headingTracker"
             },
             {
@@ -11356,7 +11356,7 @@
                 "text": "HeadingTag"
               },
               "default": "\"h2\"",
-              "description": "Heading level to track and link. `h1` is excluded",
+              "description": "Heading level to track and link. `h1` is excluded.",
               "fieldName": "headingTracker"
             },
             {
