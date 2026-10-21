@@ -74,7 +74,8 @@
     "verify:a11y-names": "node src/scripts/verify-a11y-names.mjs",
     "verify:utility-docs": "npm run build:mcp && node src/scripts/verify-utility-docs.mjs",
     "preview:a11y": "node src/scripts/build-preview.mjs",
-    "preview:a11y:serve": "vite preview --outDir .preview/dist --port 4310 --strictPort"
+    "preview:a11y:serve": "vite preview --outDir .preview/dist --port 4310 --strictPort",
+    "review:codegen": "node src/scripts/review-codegen.mjs"
   },
   "repository": {
     "type": "git",

@@ -36,10 +36,6 @@
       nys-textinput {
         min-width: 240px;
       }
-      main {
-        /* Wider than the widescreen container's 80rem: three screenshots side by side. */
-        --nys-grid-container-max-width: 100rem;
-      }
       .item {
         background: var(--nys-color-surface);
         border: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
@@ -118,28 +114,118 @@
         text-align: center;
         color: var(--nys-color-text-weak);
       }
+
+      /* Screenshots open full size in the lightbox. */
+      .zoom-trigger {
+        display: block;
+        width: 100%;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+      }
+      .zoom-trigger:focus-visible {
+        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
+        outline-offset: calc(var(--nys-border-width-md) * -1);
+      }
+
+      /* Full-size lightbox: a native modal dialog. */
+      .lightbox {
+        width: min(96vw, 1600px);
+        height: 92vh;
+        max-width: none;
+        max-height: none;
+        padding: 0;
+        border: 0;
+        border-radius: var(--nys-radius-lg);
+        background: var(--nys-color-surface);
+        color: var(--nys-color-text);
+        box-shadow: var(--nys-shadow-overlay);
+      }
+      .lightbox[open] {
+        display: flex;
+        flex-direction: column;
+      }
+      .lightbox::backdrop {
+        background: var(--nys-color-black-transparent-700);
+      }
+      .lightbox-header,
+      .lightbox-footer {
+        flex: none;
+      }
+      .lightbox-header {
+        border-bottom: var(--nys-border-width-sm) solid
+          var(--nys-color-neutral-100);
+      }
+      .lightbox-footer {
+        border-top: var(--nys-border-width-sm) solid
+          var(--nys-color-neutral-100);
+      }
+      .lightbox-hint,
+      .lightbox-position {
+        color: var(--nys-color-text-weak);
+      }
+      /* Scrolls in both directions so the image keeps its real size. */
+      .lightbox-viewport {
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+        background: repeating-conic-gradient(
+            var(--nys-color-black-transparent-100) 0 25%,
+            transparent 0 50%
+          )
+          0 0 / var(--nys-size-200) var(--nys-size-200);
+      }
+      .lightbox-viewport:focus-visible {
+        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
+        outline-offset: calc(var(--nys-border-width-md) * -1);
+      }
+      .lightbox-viewport img {
+        max-width: none;
+      }
+      /* The page behind an open lightbox doesn't scroll. */
+      html:has(.lightbox[open]) {
+        overflow: hidden;
+      }
     </style>
   </head>
   <body class="nys-font-ui-md">
-    <header
-      class="nys-z-100 nys-display-flex nys-flex-wrap nys-flex-align-center nys-flex-row-gap-150 nys-flex-column-gap-300 nys-padding-y-150 nys-padding-x-300"
+    <nys-skipnav></nys-skipnav>
+    <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+    <nys-globalheader
+      appName="NYSDS PR Review"
+      agencyName="NYS Design System"
+      homepageLink="/"
     >
-      <!-- The PR preview publishes this report at /visual/; "../" is its landing page. -->
-      <a class="back nys-font-ui-sm" href="../">← Component preview</a>
-      <h1 class="nys-font-ui-lg nys-margin-1px">NYSDS Visual Changes</h1>
-      <nys-textinput
-        type="search"
-        id="q"
-        ariaLabel="Filter stories"
-        placeholder="Filter stories…"
-        width="lg"
-      ></nys-textinput>
-      <nys-toggle id="vp" label="Mobile" size="sm" noIcon></nys-toggle>
-      <span class="meta nys-font-ui-sm" id="meta"></span>
-    </header>
+      <ul id="app-links">
+        <li data-app="preview">
+          <a href="/preview/">Accessibility Tests</a>
+        </li>
+        <li data-app="visual"><a href="/visual/">Visual Tests</a></li>
+        <li data-app="codeReview">
+          <a href="/code-review/">Codegen Review</a>
+        </li>
+      </ul>
+    </nys-globalheader>
+
     <main class="nys-grid-container-widescreen nys-padding-y-300">
       <div class="nys-grid-row">
         <div class="nys-grid-col-12">
+          <h1 class="nys-font-ui-lg nys-margin-1px">NYSDS Visual Changes</h1>
+          <div class="nys-grid-row nys-grid-gap-600 nys-flex-align-center">
+            <div class="nys-grid-col-auto">
+              <nys-textinput
+                type="search"
+                id="q"
+                ariaLabel="Filter stories"
+                placeholder="Filter stories…"
+                width="lg"
+              ></nys-textinput>
+            </div>
+            <div class="nys-grid-col-fill">
+              <nys-toggle id="vp" label="Mobile"></nys-toggle>
+            </div>
+          </div>
           <nys-tabgroup id="tabs" name="Result status">
             <nys-tab id="tab-attention" label="All changes" selected></nys-tab>
             <nys-tab id="tab-changed" label="Changed"></nys-tab>
@@ -162,16 +248,71 @@
               aria-labelledby="tab-removed"
             ></nys-tabpanel>
           </nys-tabgroup>
+          <p><span class="meta nys-font-ui-sm" id="meta"></span></p>
         </div>
       </div>
     </main>
+
+    <!--
+      Full-size view of one screenshot, opened by clicking any screenshot in an
+      open row. A native modal dialog: the page behind it is inert, Escape
+      closes it, and focus returns to the screenshot that opened it.
+    -->
+    <dialog id="lightbox" class="lightbox" aria-labelledby="lightbox-title">
+      <div
+        class="lightbox-header nys-display-flex nys-flex-justify-space-between nys-flex-align-center nys-flex-gap-200 nys-padding-y-150 nys-padding-x-300"
+      >
+        <div>
+          <h2 id="lightbox-title" class="nys-font-ui-lg"></h2>
+          <p class="lightbox-hint nys-font-ui-sm">
+            Move between screenshots with the arrow buttons or the Left and
+            Right arrow keys. Press Escape to close.
+          </p>
+        </div>
+        <nys-button
+          id="lightbox-close"
+          circle
+          icon="close"
+          label="Close full-size view"
+          variant="ghost"
+        ></nys-button>
+      </div>
+      <div
+        id="lightbox-viewport"
+        class="lightbox-viewport"
+        tabindex="0"
+        role="region"
+        aria-label="Screenshot at full size. Scroll to see all of it."
+      >
+        <img id="lightbox-image" alt="" />
+      </div>
+      <div
+        class="lightbox-footer nys-display-flex nys-flex-justify-space-between nys-flex-align-center nys-flex-gap-200 nys-padding-y-150 nys-padding-x-300"
+      >
+        <nys-button
+          id="lightbox-previous"
+          circle
+          icon="arrow_back"
+          label="Previous screenshot"
+          variant="outline"
+        ></nys-button>
+        <p
+          id="lightbox-position"
+          class="lightbox-position nys-font-ui-md"
+          aria-live="polite"
+        ></p>
+        <nys-button
+          id="lightbox-next"
+          circle
+          icon="arrow_forward"
+          label="Next screenshot"
+          variant="outline"
+        ></nys-button>
+      </div>
+    </dialog>
+
     <script>
-      const $ = (s) => document.querySelector(s);
-      let data,
-        status = "attention",
-        vp = "desktop",
-        query = "";
-      // Results only contain changes; unchanged stories are counted, not listed.
+      // Unchanged stories are only counted; results list changes only.
       const BADGE_INTENT = {
         changed: "warning",
         new: "success",
@@ -179,166 +320,404 @@
         error: "danger",
       };
 
-      function load() {
-        data = window.VR_DATA;
-        if (!data) {
-          $("main").innerHTML =
-            `<div class="empty nys-padding-y-800">No results. Run npm run vr:test first.</div>`;
-          return;
-        }
-        render();
+      // Every class the button rows and overlay slider row use.
+      const CONTROLS_CLASSES =
+        "controls nys-display-flex nys-flex-wrap nys-flex-align-center nys-flex-gap-100 nys-margin-b-150";
+
+      // What the page currently shows.
+      let reportData;
+      let selectedStatus = "attention"; // "attention" means every status
+      let selectedViewport = "desktop";
+      let searchText = "";
+
+      function escapeHtml(text) {
+        const entities = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+        };
+        return String(text).replace(
+          /[&<>"]/g,
+          (character) => entities[character],
+        );
       }
 
-      const matches = (r) =>
-        r.viewport === vp &&
-        (status === "attention" || r.status === status) &&
-        (r.title + " " + r.name + " " + r.id).toLowerCase().includes(query);
+      function findResult(key) {
+        return reportData.results.find((result) => result.key === key);
+      }
 
-      function render() {
+      // "Components/Accordion" + "Bordered" → "Accordion - Bordered". Removed
+      // stories and capture errors only have an id.
+      function resultLabel(result) {
+        if (!result.name) return result.id;
+        const componentName = result.title.split("/").pop();
+        return `${componentName} - ${result.name}`;
+      }
+
+      function isVisible(result) {
+        const matchesViewport = result.viewport === selectedViewport;
+        const matchesStatus =
+          selectedStatus === "attention" || result.status === selectedStatus;
+        const searchableText =
+          `${result.title} ${result.name} ${result.id}`.toLowerCase();
+        return (
+          matchesViewport &&
+          matchesStatus &&
+          searchableText.includes(searchText)
+        );
+      }
+
+      /** The summary line under the header: when, where and against what. */
+      function summaryText() {
+        const generated = new Date(reportData.generated).toLocaleString();
+        const size = reportData.viewports[selectedViewport].join("×");
+        const unchanged = reportData.unchanged?.[selectedViewport] ?? 0;
+        const parts = [`${generated}`, `${selectedViewport} ${size}`];
+        if (reportData.base) {
+          const shortSha = reportData.base.sha.slice(0, 7);
+          parts.push(`Baseline: ${reportData.base.ref} @ ${shortSha}`);
+        }
+        parts.push(`${unchanged} unchanged (not shown)`);
+        if (reportData.minChange) {
+          parts.push(`≥${reportData.minChange}% = changed`);
+        }
+        if (reportData.uncovered?.length) {
+          parts.push(
+            `No interactive-state coverage: ${reportData.uncovered.join(", ")}`,
+          );
+        }
+        return parts.join(" · ");
+      }
+
+      function updateTabLabels() {
         const counts = {};
-        data.results
-          .filter((r) => r.viewport === vp)
-          .forEach((r) => (counts[r.status] = (counts[r.status] || 0) + 1));
-        const attn = Object.values(counts).reduce((n, c) => n + c, 0);
-        const labels = {
-          attention: `All changes (${attn})`,
+        for (const result of reportData.results) {
+          if (result.viewport !== selectedViewport) continue;
+          counts[result.status] = (counts[result.status] || 0) + 1;
+        }
+        let total = 0;
+        for (const count of Object.values(counts)) total += count;
+
+        const tabLabels = {
+          attention: `All changes (${total})`,
           changed: `Changed (${counts.changed || 0})`,
           new: `New (${counts.new || 0})`,
           removed: `Removed (${counts.removed || 0})`,
         };
-        for (const [k, l] of Object.entries(labels)) $(`#tab-${k}`).label = l;
-        document
-          .querySelectorAll("nys-tabpanel")
-          .forEach((p) => (p.innerHTML = ""));
-        const list = $(`#panel-${status}`);
-        $("#meta").textContent =
-          `${new Date(data.generated).toLocaleString()} · ${vp} ${data.viewports[vp].join("×")}` +
-          (data.base
-            ? ` · Baseline: ${data.base.ref} @ ${data.base.sha.slice(0, 7)}`
-            : "") +
-          ` · ${data.unchanged?.[vp] ?? 0} unchanged (not shown)` +
-          (data.minChange ? ` · ≥${data.minChange}% = changed` : "") +
-          (data.uncovered?.length
-            ? ` · No interactive-state coverage: ${data.uncovered.join(", ")}`
-            : "");
+        for (const [status, label] of Object.entries(tabLabels)) {
+          document.querySelector(`#tab-${status}`).label = label;
+        }
+      }
 
-        const weight = (r) => r.diffPercent ?? 0.0001;
-        const rows = data.results
-          .filter(matches)
-          .sort((a, b) => weight(b) - weight(a) || a.id.localeCompare(b.id));
-        if (!rows.length) {
+      /** Redraws the selected tab's list from the current filters. */
+      function render() {
+        updateTabLabels();
+        for (const panel of document.querySelectorAll("nys-tabpanel")) {
+          panel.innerHTML = "";
+        }
+        document.querySelector("#meta").textContent = summaryText();
+
+        // Biggest changes first; results without a percentage (new, removed)
+        // sort after them, then alphabetically.
+        const sortWeight = (result) => result.diffPercent ?? 0.0001;
+        const visibleResults = reportData.results
+          .filter(isVisible)
+          .sort(
+            (first, second) =>
+              sortWeight(second) - sortWeight(first) ||
+              first.id.localeCompare(second.id),
+          );
+
+        const list = document.querySelector(`#panel-${selectedStatus}`);
+        if (visibleResults.length === 0) {
           list.innerHTML = `<div class="empty nys-padding-y-800">No visual changes.</div>`;
           return;
         }
-        const maxPct = Math.max(...rows.map((r) => r.diffPercent || 0), 0.01);
-        list.innerHTML = rows.map((r) => item(r, maxPct)).join("");
-      }
-
-      const esc = (s) =>
-        String(s).replace(
-          /[&<>"]/g,
-          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        const largestPercent = Math.max(
+          ...visibleResults.map((result) => result.diffPercent || 0),
+          0.01,
         );
-
-      // "Components/Accordion" + "Bordered" → "Accordion - Bordered". Removed
-      // stories and capture errors only have an id.
-      const label = (r) =>
-        r.name ? `${r.title.split("/").pop()} - ${r.name}` : r.id;
-
-      function item(r, maxPct) {
-        const pct = r.diffPercent;
-        const impact =
-          r.status === "changed"
-            ? `<div class="impact"><div class="bar"><i style="width:${Math.max(4, (pct / maxPct) * 100)}%"></i></div>
-       <span class="nys-font-ui-sm">${pct < 0.01 ? "<0.01" : pct.toFixed(2)}% · ${r.diffPixels.toLocaleString()} px</span></div>`
-            : `<div class="impact"></div>`;
-        return `<details class="item nys-margin-b-150" data-id="${r.key}"><summary class="nys-display-flex nys-flex-align-center nys-flex-gap-150 nys-padding-y-100 nys-padding-x-200">
-    <nys-badge size="sm" intent="${BADGE_INTENT[r.status]}" label="${r.status}"></nys-badge>
-    <span class="name nys-flex-1">${esc(label(r))}</span>${impact}</summary>
-    <div class="body nys-padding-200" data-body></div></details>`;
+        list.innerHTML = visibleResults
+          .map((result) => resultRowHtml(result, largestPercent))
+          .join("");
       }
 
-      function body(r, mode) {
-        const b = `baselines/${r.key}.png`,
-          c = `current/${r.key}.png`,
-          d = `diff/${r.key}.png`;
-        const t = `?${Date.parse(data.generated)}`;
-        const info =
-          r.status === "changed"
-            ? `<span class="meta nys-font-ui-sm">${r.sizeChanged ? `Size changed ${r.baselineSize.join("×")} → ${r.currentSize.join("×")} · ` : ""}${r.bbox ? `changed region ${r.bbox.w}×${r.bbox.h} at (${r.bbox.x}, ${r.bbox.y})` : ""}</span>`
-            : "";
-        const controls = `controls nys-display-flex nys-flex-wrap nys-flex-align-center nys-flex-gap-100 nys-margin-b-150`;
-        const ctl = `<div class="${controls}">
-    ${r.status === "changed" ? ["side", "overlay"].map((m) => `<nys-button size="sm" data-mode="${m}" variant="${m === mode ? "filled" : "outline"}" label="${m === "side" ? "Side by side" : "Overlay"}"></nys-button>`).join("") : ""}
-    ${info}</div>`;
+      /** The bar and numbers showing how much of a changed story changed. */
+      function impactHtml(result, largestPercent) {
+        if (result.status !== "changed") return `<div class="impact"></div>`;
+        const percent = result.diffPercent;
+        const barWidth = Math.max(4, (percent / largestPercent) * 100);
+        const percentText = percent < 0.01 ? "<0.01" : percent.toFixed(2);
+        const pixelsText = result.diffPixels.toLocaleString();
+        return `<div class="impact">
+          <div class="bar"><i style="width:${barWidth}%"></i></div>
+          <span class="nys-font-ui-sm">${percentText}% · ${pixelsText} px</span>
+        </div>`;
+      }
+
+      /** One collapsible row. Its body is filled in when it's first opened. */
+      function resultRowHtml(result, largestPercent) {
+        return `<details class="item nys-margin-b-150" data-id="${result.key}">
+          <summary class="nys-display-flex nys-flex-align-center nys-flex-gap-150 nys-padding-y-100 nys-padding-x-200">
+            <nys-badge size="sm" intent="${BADGE_INTENT[result.status]}" label="${result.status}"></nys-badge>
+            <span class="name nys-flex-1">${escapeHtml(resultLabel(result))}</span>
+            ${impactHtml(result, largestPercent)}
+          </summary>
+          <div class="body nys-padding-200" data-body></div>
+        </details>`;
+      }
+
+      /** Size change and changed region of a changed result, as text. */
+      function changeDetailsHtml(result) {
+        if (result.status !== "changed") return "";
+        let text = "";
+        if (result.sizeChanged) {
+          const before = result.baselineSize.join("×");
+          const after = result.currentSize.join("×");
+          text += `Size changed ${before} → ${after} · `;
+        }
+        if (result.bbox) {
+          const { x, y, w, h } = result.bbox;
+          text += `changed region ${w}×${h} at (${x}, ${y})`;
+        }
+        return `<span class="meta nys-font-ui-sm">${text}</span>`;
+      }
+
+      /** Side-by-side / Overlay buttons, for changed results only. */
+      function modeButtonsHtml(result, mode) {
+        if (result.status !== "changed") return "";
+        const modes = { side: "Side by side", overlay: "Overlay" };
+        return Object.entries(modes)
+          .map(([modeName, label]) => {
+            const variant = modeName === mode ? "filled" : "outline";
+            return `<nys-button size="sm" data-mode="${modeName}" variant="${variant}" label="${label}"></nys-button>`;
+          })
+          .join("");
+      }
+
+      /**
+       * The expanded content of a row. `mode` is "side" (screenshots next to
+       * each other) or "overlay" (one on top of the other, with a slider).
+       */
+      function resultBodyHtml(result, mode) {
+        // The generation time busts the browser cache when a report is redeployed.
+        const cacheBuster = `?${Date.parse(reportData.generated)}`;
+        const baselineImage = `baselines/${result.key}.png${cacheBuster}`;
+        const currentImage = `current/${result.key}.png${cacheBuster}`;
+        const diffImage = `diff/${result.key}.png${cacheBuster}`;
+
         // Panes stack below the desktop breakpoint and sit three across above it.
-        const pane = (title, src, cols = "nys-desktop:nys-grid-col-4") =>
-          `<div class="pane nys-grid-col-12 ${cols}"><h4 class="nys-font-ui-sm nys-margin-b-100">${title}</h4><div class="frame"><img src="${src}${t}" loading="lazy" alt="${title}"></div></div>`;
-        const panes = (html) =>
-          `<div class="nys-grid-row nys-grid-gap-150">${html}</div>`;
-        const one = (title, src) => panes(pane(title, src, ""));
-        let main;
-        if (r.status === "error")
-          main = `<p>Capture failed: <code>${esc(r.error)}</code></p>`;
-        else if (r.status === "new") main = one("New story (no baseline)", c);
-        else if (r.status === "removed")
-          main = one("Baseline (story no longer exists)", b);
-        else if (mode === "overlay")
-          main = `<div class="${controls}"><label>Baseline <input type="range" min="0" max="100" value="50" data-fade> Current</label></div>
-    <div class="overlay"><img src="${b}${t}" alt="Baseline"><img src="${c}${t}" alt="Current" class="nys-opacity-50" data-top></div>`;
-        else
-          main = panes(
-            pane("Baseline", b) + pane("Current", c) + pane("Diff", d),
-          );
-        return ctl + main;
-      }
+        function paneHtml(
+          title,
+          imageSrc,
+          columnClass = "nys-desktop:nys-grid-col-4",
+        ) {
+          // A button, so the screenshot opens full size from a keyboard too.
+          return `<div class="pane nys-grid-col-12 ${columnClass}">
+            <h4 class="nys-font-ui-sm nys-margin-b-100">${title}</h4>
+            <div class="frame">
+              <button type="button" class="zoom-trigger" data-zoom-title="${title}" aria-label="View ${title} screenshot full size">
+                <img src="${imageSrc}" loading="lazy" alt="${title}">
+              </button>
+            </div>
+          </div>`;
+        }
+        function panesHtml(content) {
+          return `<div class="nys-grid-row nys-grid-gap-150">${content}</div>`;
+        }
 
-      document.addEventListener("click", (e) => {
-        const t = e.target.closest("nys-button");
-        if (!t) return;
-        if (t.dataset.mode) {
-          const it = t.closest(".item");
-          it.querySelector("[data-body]").innerHTML = body(
-            data.results.find((x) => x.key === it.dataset.id),
-            t.dataset.mode,
+        const controls = `<div class="${CONTROLS_CLASSES}">
+          ${modeButtonsHtml(result, mode)}
+          ${changeDetailsHtml(result)}
+        </div>`;
+
+        let content;
+        if (result.status === "error") {
+          content = `<p>Capture failed: <code>${escapeHtml(result.error)}</code></p>`;
+        } else if (result.status === "new") {
+          content = panesHtml(
+            paneHtml("New story (no baseline)", currentImage, ""),
+          );
+        } else if (result.status === "removed") {
+          content = panesHtml(
+            paneHtml("Baseline (story no longer exists)", baselineImage, ""),
+          );
+        } else if (mode === "overlay") {
+          content = `<div class="${CONTROLS_CLASSES}">
+            <label>Current <input type="range" min="0" max="100" value="50" data-fade> Proposed</label>
+          </div>
+          <div class="overlay">
+            <img src="${baselineImage}" alt="Current">
+            <img src="${currentImage}" alt="Proposed" class="nys-opacity-50" data-top>
+          </div>`;
+        } else {
+          content = panesHtml(
+            paneHtml("Current", baselineImage) +
+              paneHtml("Proposed", currentImage) +
+              paneHtml("Visual Difference", diffImage),
           );
         }
+        return controls + content;
+      }
+
+      // --- Full-size lightbox ------------------------------------------------
+
+      const lightbox = document.querySelector("#lightbox");
+      const lightboxTitle = document.querySelector("#lightbox-title");
+      const lightboxImage = document.querySelector("#lightbox-image");
+      const lightboxViewport = document.querySelector("#lightbox-viewport");
+      const lightboxPosition = document.querySelector("#lightbox-position");
+
+      // What the lightbox is showing: one row's screenshots and which one.
+      let lightboxScreenshots = [];
+      let lightboxIndex = 0;
+      let lightboxOpener = null;
+
+      function showScreenshot(index) {
+        const count = lightboxScreenshots.length;
+        // Wraps around, so Previous and Next always do something and never
+        // need disabling (a disabled button would drop keyboard focus).
+        lightboxIndex = (index + count) % count;
+        const screenshot = lightboxScreenshots[lightboxIndex];
+
+        lightboxTitle.textContent = `${screenshot.storyLabel}: ${screenshot.title}`;
+        lightboxImage.src = screenshot.src;
+        lightboxImage.alt = `${screenshot.title} screenshot of ${screenshot.storyLabel}`;
+        lightboxPosition.textContent = `${screenshot.title}, ${lightboxIndex + 1} of ${count}`;
+        lightboxViewport.scrollTo(0, 0);
+
+        const single = count < 2;
+        document.querySelector("#lightbox-previous").hidden = single;
+        document.querySelector("#lightbox-next").hidden = single;
+      }
+
+      /** Opens the lightbox on the clicked screenshot, with its row's others. */
+      function openLightbox(trigger) {
+        const row = trigger.closest(".item");
+        const result = findResult(row.dataset.id);
+        const triggers = [...row.querySelectorAll(".zoom-trigger")];
+        lightboxScreenshots = triggers.map((button) => ({
+          title: button.dataset.zoomTitle,
+          src: button.querySelector("img").getAttribute("src"),
+          storyLabel: resultLabel(result),
+        }));
+        lightboxOpener = trigger;
+        showScreenshot(triggers.indexOf(trigger));
+        lightbox.showModal();
+        document.querySelector("#lightbox-close").focus();
+      }
+
+      document
+        .querySelector("#lightbox-close")
+        .addEventListener("click", () => {
+          lightbox.close();
+        });
+      document
+        .querySelector("#lightbox-previous")
+        .addEventListener("click", () => showScreenshot(lightboxIndex - 1));
+      document
+        .querySelector("#lightbox-next")
+        .addEventListener("click", () => showScreenshot(lightboxIndex + 1));
+
+      // Left and Right arrows move between screenshots, except while the
+      // scrollable image has focus: there they scroll it, as expected.
+      lightbox.addEventListener("keydown", (event) => {
+        if (event.target === lightboxViewport) return;
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          showScreenshot(lightboxIndex - 1);
+        } else if (event.key === "ArrowRight") {
+          event.preventDefault();
+          showScreenshot(lightboxIndex + 1);
+        }
       });
+
+      // A click on the backdrop (the dialog element itself, outside its
+      // content) closes the lightbox.
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) lightbox.close();
+      });
+
+      // Back to the screenshot that opened it. If its row was redrawn while
+      // open, fall back to the row's summary.
+      lightbox.addEventListener("close", () => {
+        if (lightboxOpener?.isConnected) {
+          lightboxOpener.focus();
+        } else {
+          document.querySelector(".item[open] > summary")?.focus();
+        }
+        lightboxImage.removeAttribute("src");
+        lightboxOpener = null;
+      });
+
+      document.addEventListener("click", (event) => {
+        const trigger = event.target.closest(".zoom-trigger");
+        if (trigger) openLightbox(trigger);
+      });
+
+      // Side by side / Overlay buttons redraw their row's body.
+      document.addEventListener("click", (event) => {
+        const button = event.target.closest("nys-button");
+        if (!button || !button.dataset.mode) return;
+        const row = button.closest(".item");
+        row.querySelector("[data-body]").innerHTML = resultBodyHtml(
+          findResult(row.dataset.id),
+          button.dataset.mode,
+        );
+      });
+
+      // Fill a row's body the first time it's opened. "toggle" doesn't bubble,
+      // so listen in the capture phase.
       document.addEventListener(
         "toggle",
-        (e) => {
-          const it = e.target;
-          if (!it.matches?.(".item") || !it.open) return;
-          const slot = it.querySelector("[data-body]");
-          if (!slot.innerHTML)
-            slot.innerHTML = body(
-              data.results.find((x) => x.key === it.dataset.id),
+        (event) => {
+          const row = event.target;
+          if (!row.matches?.(".item") || !row.open) return;
+          const rowBody = row.querySelector("[data-body]");
+          if (!rowBody.innerHTML) {
+            rowBody.innerHTML = resultBodyHtml(
+              findResult(row.dataset.id),
               "side",
             );
+          }
         },
         true,
       );
-      document.addEventListener("nys-tab-select", (e) => {
-        status = e.detail.id.replace("tab-", "");
+
+      document.addEventListener("nys-tab-select", (event) => {
+        selectedStatus = event.detail.id.replace("tab-", "");
         render();
       });
-      document.addEventListener("nys-change", (e) => {
-        if (e.target.id !== "vp") return;
-        vp = e.detail.checked ? "mobile" : "desktop";
+
+      document.addEventListener("nys-change", (event) => {
+        if (event.target.id !== "vp") return;
+        selectedViewport = event.detail.checked ? "mobile" : "desktop";
         render();
       });
-      document.addEventListener("nys-input", (e) => {
-        if (e.target.id === "q") {
-          query = (e.detail?.value ?? "").toLowerCase();
-          render();
-        }
+
+      document.addEventListener("nys-input", (event) => {
+        if (event.target.id !== "q") return;
+        searchText = (event.detail?.value ?? "").toLowerCase();
+        render();
       });
-      document.addEventListener("input", (e) => {
-        if (e.target.matches("[data-fade]"))
-          e.target.closest(".body").querySelector("[data-top]").style.opacity =
-            e.target.value / 100;
+
+      // The overlay slider fades the proposed screenshot over the current one.
+      document.addEventListener("input", (event) => {
+        if (!event.target.matches("[data-fade]")) return;
+        const topImage = event.target
+          .closest(".body")
+          .querySelector("[data-top]");
+        topImage.style.opacity = event.target.value / 100;
       });
-      load();
+
+      reportData = window.VR_DATA;
+      if (reportData) {
+        render();
+      } else {
+        document.querySelector("main").innerHTML =
+          `<div class="empty nys-padding-y-800">No results. Run npm run vr:test first.</div>`;
+      }
     </script>
   </body>
 </html>

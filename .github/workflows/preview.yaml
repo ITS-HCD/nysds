@@ -76,6 +76,18 @@ jobs:
         env:
           VR_BASE: origin/${{ github.base_ref }}
 
+      - name: Code review
+        # Regenerates the gitignored framework wrappers for the base branch and
+        # this PR and compares them, writing .code-review/index.html for the
+        # deploy's /code-review/ page. Failures don't block the deploy; the
+        # landing page then marks the code review as not generated.
+        continue-on-error: true
+        run: >-
+          npm run review:codegen --
+          --base origin/${{ github.base_ref }}
+          --head HEAD
+          --html-file .code-review/index.html
+
       - name: Build preview pages
         id: preview
         run: node src/scripts/build-preview.mjs
@@ -89,7 +101,8 @@ jobs:
 
       - name: Deploy to Netlify
         id: deploy
-        if: steps.preview.outputs.pages != '0' || steps.preview.outputs.vr == '1'
+        # Always deployed: the landing page links the visual regression report
+        # and code review even when no component has story pages.
         # The CLI treats the repo's npm workspaces as a monorepo and refuses to
         # deploy without a project filter, so deploy a copy from outside it.
         run: |

@@ -84,6 +84,62 @@ an inline `onclick`-style handler. `formsMode` controls form bindings:
 `"none"` (default) keeps snippets static, `"template"` emits `[(ngModel)]`
 or the React controlled pattern, `"reactive"` emits `formControlName`.
 
+## Review generated output
+
+The wrapper sources in `packages/*/src/generated/` are gitignored, so a pull
+request diff doesn't show what a change does to them. To see that, run the
+review script from the repository root:
+
+```sh
+npm run review:codegen -- --pr 1951 --html
+```
+
+With `--html`, the script writes the report as a standalone web page in your
+temp folder, outside the repo, and prints its path. The page loads
+NYSDS styles and components from jsDelivr and stays readable offline. To save
+the page somewhere else, pass `--html-file <path>`. The page is the template
+`src/scripts/review-codegen/report.html`, and it reads its contents from a
+`review-data.js` written beside it, so keep the two files together. Without
+`--html`, the report prints to the terminal.
+
+The script exports the base and head commits to a temporary directory, runs
+`cem analyze` in each, and compares the results. Your checkout and
+`.gitignore` stay as they are. For every output that changed, the report
+shows:
+
+- The diff of the generated file. When the same edit repeats across every
+  wrapper, the report shows it once and lists the other files.
+- What produced it: the plugin and component source, or the file in
+  `src/overrides/` that replaces the generated one.
+- A verdict:
+  - `expected`: the PR changed that component's source, its override, or
+    the file itself.
+  - `generator`: only a codegen plugin, the CEM config, or the lockfile
+    changed.
+  - `check`: nothing in the PR explains the change.
+
+The report also lists API changes from each commit's regenerated manifest,
+such as an added or removed prop, and components whose source changed with
+no change to the generated output.
+
+Other ways to pick what to compare:
+
+```sh
+npm run review:codegen -- --base origin/develop --head my-branch
+npm run review:codegen -- --working-tree    # include uncommitted changes
+npm run review:codegen -- --pr 1951 --component nys-avatar --framework react
+npm run review:codegen -- --help
+```
+
+By default, the script reuses this checkout's `node_modules` and points
+workspace packages at each commit's own copies, so each commit runs its own
+generator. When a commit's lockfile differs from yours, the report says so.
+For an exact install, pass `--install` to run `npm ci` in each snapshot. To
+keep the snapshots for a closer look, pass `--keep`.
+
+The script runs the codegen config and plugins from both commits. Run it
+only on code you'd be willing to check out and build.
+
 ## Test
 
 ```sh

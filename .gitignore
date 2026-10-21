@@ -73,3 +73,6 @@ framework-examples/*/.next/
 
 # Local visual regression output
 .visual/
+
+# Codegen review page for the PR preview (npm run review:codegen -- --html-file .code-review/index.html)
+.code-review/

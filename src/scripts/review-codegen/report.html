@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Codegen Review</title>
+    <!--
+      NYSDS from jsDelivr. The 1.x range keeps the page loading as releases
+      ship; the `:not(:defined)` rules below keep it readable offline.
+    -->
+    <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
+    <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />
+    <script src="/assets/js/nysds.js"></script>
+    <style>
+      .review code,
+      .diff,
+      .api {
+        font-family: var(
+          --nys-font-family-monospace,
+          "Roboto Mono Web",
+          "Bitstream Vera Sans Mono",
+          Consolas,
+          Courier,
+          monospace
+        );
+      }
+      .review code {
+        font-size: 0.875em;
+        color: inherit;
+        overflow-wrap: break-word;
+      }
+      .review code.flag {
+        white-space: nowrap;
+      }
+      /* Custom element hosts render inline, so spacing on them needs a block box. */
+      nys-alert,
+      nys-accordion {
+        display: block;
+      }
+      nys-alert {
+        margin-bottom: var(--nys-space-300, 24px);
+      }
+      nys-alert ul {
+        margin: var(--nys-space-100, 8px) 0 0;
+        padding-left: 1.25em;
+      }
+      .review a {
+        color: var(--nys-color-link, #004dd1);
+      }
+      h1 {
+        margin: 0 0 var(--nys-space-100, 8px);
+      }
+      .lede {
+        font-size: var(--nys-font-size-body-lg, 1.25rem);
+        max-width: 72ch;
+        margin: 0;
+      }
+      .weak {
+        color: var(--nys-color-text-weak, #4a4d4f);
+      }
+      .band {
+        padding-block: var(--nys-space-500, 40px);
+        border-top: 1px solid var(--nys-color-theme-weak, #cddde9);
+      }
+      .band > div > h2 {
+        font-size: var(--nys-font-size-h4, 1.25rem);
+        margin: 0;
+      }
+      .band h3 {
+        font-size: var(--nys-font-size-h5, 1.125rem);
+        margin: 0 0 var(--nys-space-50, 4px);
+      }
+      .facts {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: var(--nys-space-100, 8px) var(--nys-space-300, 24px);
+        margin: 0 0 var(--nys-space-300, 24px);
+      }
+      .facts dt {
+        font-weight: 600;
+      }
+      .facts dd {
+        margin: 0;
+      }
+      .tiles {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--nys-space-200, 16px);
+        padding: 0;
+        margin: 0 0 var(--nys-space-400, 32px);
+      }
+      @media (max-width: 40em) {
+        .tiles {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      .tile {
+        padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
+        background: var(--nys-color-surface-raised, #f6f6f6);
+        border-left: 4px solid var(--nys-color-base, #62666a);
+        border-radius: var(--nys-radius-md, 4px);
+      }
+      .tile strong {
+        display: block;
+        font-size: var(--nys-font-size-h2, 2rem);
+        line-height: 1.1;
+      }
+      .tile--expected {
+        border-left-color: var(--nys-color-success, #1e752e);
+      }
+      .tile--generator {
+        border-left-color: var(--nys-color-info, #004dd1);
+      }
+      .tile--check {
+        border-left-color: var(--nys-color-warning, #face00);
+      }
+      .tile--api {
+        border-left-color: var(--nys-color-theme, #154973);
+      }
+      .files table {
+        width: 100%;
+      }
+      .files caption {
+        text-align: left;
+        padding-bottom: var(--nys-space-100, 8px);
+      }
+      .files td,
+      .files th {
+        vertical-align: top;
+        text-align: left;
+      }
+      .plain {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .tag {
+        display: inline-block;
+        min-width: 3.5em;
+        font-weight: 600;
+      }
+      .component + .component {
+        margin-top: var(--nys-space-300, 24px);
+      }
+      .api {
+        list-style: none;
+        margin: var(--nys-space-100, 8px) 0 0;
+        padding: 0;
+        font-size: 0.875rem;
+      }
+      .api li {
+        padding: 2px var(--nys-space-100, 8px);
+        border-radius: var(--nys-radius-sm, 2px);
+      }
+      .api li + li {
+        margin-top: 2px;
+      }
+      .api .add {
+        background: var(--nys-color-success-weak, #e8f1ea);
+      }
+      .api .del {
+        background: var(--nys-color-danger-weak, #f7eaea);
+      }
+      .api .mod {
+        background: var(--nys-color-warning-weak, #fefae5);
+      }
+      .api .sign {
+        display: inline-block;
+        width: 2ch;
+        font-weight: 700;
+      }
+      .toolbar {
+        display: flex;
+        gap: var(--nys-space-100, 8px);
+        margin-bottom: var(--nys-space-200, 16px);
+      }
+      nys-accordion {
+        --nys-accordion-content-max-width: none;
+      }
+      .diff-meta {
+        margin-bottom: var(--nys-space-200, 16px);
+      }
+      .diff-meta > p {
+        display: flex;
+        align-items: center;
+        gap: var(--nys-space-100, 8px);
+        margin: 0 0 var(--nys-space-150, 12px);
+      }
+      .diff-meta .facts {
+        margin-bottom: 0;
+      }
+      .diff-scroll {
+        overflow-x: auto;
+        border: 1px solid var(--nys-color-theme-weak, #cddde9);
+        border-radius: var(--nys-radius-md, 4px);
+      }
+      .diff {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.8125rem;
+        line-height: 1.6;
+      }
+      .diff td {
+        padding: 0 var(--nys-space-100, 8px);
+        white-space: pre;
+        vertical-align: top;
+      }
+      .diff .ln {
+        width: 1%;
+        min-width: 4ch;
+        text-align: right;
+        color: var(--nys-color-text-weak, #4a4d4f);
+        user-select: none;
+      }
+      .diff .sign {
+        width: 1%;
+        user-select: none;
+        font-weight: 700;
+      }
+      .diff .add {
+        background: var(--nys-color-success-weak, #e8f1ea);
+      }
+      .diff .add .sign {
+        color: var(--nys-color-success-strong, #0f3d18);
+      }
+      .diff .del {
+        background: var(--nys-color-danger-weak, #f7eaea);
+      }
+      .diff .del .sign {
+        color: var(--nys-color-danger-strong, #721c1c);
+      }
+      .diff .hunk td {
+        background: var(--nys-color-theme-faint, #f7fafd);
+        color: var(--nys-color-text-weak, #4a4d4f);
+      }
+      .diff .note td {
+        color: var(--nys-color-text-weak, #4a4d4f);
+        font-style: italic;
+      }
+      .repeats {
+        margin: var(--nys-space-300, 24px) 0 var(--nys-space-50, 4px);
+      }
+      .same {
+        columns: 16rem;
+        list-style: none;
+        padding: 0;
+        margin: var(--nys-space-100, 8px) 0 0;
+      }
+      footer {
+        margin-top: var(--nys-space-500, 40px);
+        font-size: 0.875rem;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      /* Offline: show what the components would have rendered. */
+      nys-badge:not(:defined)::before {
+        content: attr(label);
+        padding: 0 var(--nys-space-100, 8px);
+        border: 1px solid currentColor;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      nys-accordionitem:not(:defined) {
+        display: block;
+        margin-bottom: var(--nys-space-200, 16px);
+        padding: var(--nys-space-200, 16px);
+        border: 1px solid var(--nys-color-theme-weak, #cddde9);
+      }
+      nys-accordionitem:not(:defined)::before {
+        content: attr(heading);
+        display: block;
+        margin-bottom: var(--nys-space-100, 8px);
+        font-weight: 700;
+      }
+      nys-alert:not(:defined) {
+        padding: var(--nys-space-200, 16px);
+        background: var(--nys-color-info-weak, #e5effa);
+        border-left: 4px solid var(--nys-color-info, #004dd1);
+      }
+      nys-alert:not(:defined)::before {
+        content: attr(heading);
+        display: block;
+        font-weight: 700;
+      }
+      nys-button:not(:defined) {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      The codegen review page. review-codegen.mjs copies this template next
+      to a review-data.js it generates, and the script at the bottom renders
+      the review from that data.
+    -->
+    <main class="review">
+    <nys-skipnav></nys-skipnav>
+    <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+    <nys-globalheader
+      appName="NYSDS PR Review"
+      agencyName="NYS Design System"
+      homepageLink="/"
+    >
+      <ul id="app-links">
+        <li data-app="preview">
+          <a href="/preview/">Accessibility Tests</a>
+        </li>
+        <li data-app="visual"><a href="/visual/">Visual Tests</a></li>
+        <li data-app="codeReview">
+          <a href="/code-review/">Codegen Review</a>
+        </li>
+      </ul>
+    </nys-globalheader>
+
+    <main id="main-content">
+      <!-- Widescreen, so the content lines up with the global header and footer. -->
+      <div class="nys-grid-container-widescreen nys-padding-y-600">
+        <div class="nys-grid-row">
+          <div class="nys-grid-col-12">
+            <h1>Codegen review: <span id="review-name"></span></h1>
+            <p class="lede" id="review-title"></p>
+
+      <section
+        class="band nys-grid-row nys-grid-gap-400"
+        aria-labelledby="glance"
+      >
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+          <h2 id="glance">At a glance</h2>
+        </div>
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+          <div id="notes"></div>
+          <ul class="tiles">
+            <li class="tile tile--expected">
+              <strong id="count-expected">0</strong>expected
+            </li>
+            <li class="tile tile--generator">
+              <strong id="count-generator">0</strong>from generator changes
+            </li>
+            <li class="tile tile--check">
+              <strong id="count-check">0</strong>to check
+            </li>
+            <li class="tile tile--api">
+              <strong id="count-api">0</strong
+              ><span id="count-api-label">component APIs changed</span>
+            </li>
+          </ul>
+          <h3>What this compares</h3>
+          <dl class="facts" id="compare-facts"></dl>
+          <h3>Verdicts</h3>
+          <p>
+            Generated wrapper files are gitignored, so the pull request diff
+            doesn't show them. This page regenerates them for both commits and
+            compares the results. Each changed file gets one verdict:
+          </p>
+          <dl class="facts">
+            <dt data-badge="expected"></dt>
+            <dd>
+              The PR changed the file's component source, its override, or the
+              file itself.
+            </dd>
+            <dt data-badge="generator"></dt>
+            <dd>
+              Only a codegen plugin, the CEM config, or the lockfile changed.
+            </dd>
+            <dt data-badge="check"></dt>
+            <dd>Nothing in the PR explains the change. Look at it closely.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section
+        class="band nys-grid-row nys-grid-gap-400"
+        aria-labelledby="files"
+      >
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+          <h2 id="files">Changed files</h2>
+        </div>
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+          <p id="files-empty">No generated files changed.</p>
+          <nys-table striped class="files" id="files-table" hidden>
+            <table>
+              <caption>
+                Generated files that changed, what produced each one, and why it
+                changed
+              </caption>
+              <thead>
+                <tr>
+                  <th>Verdict</th>
+                  <th>File</th>
+                  <th>Change</th>
+                  <th>Produced by</th>
+                  <th>Why</th>
+                </tr>
+              </thead>
+              <tbody id="files-body"></tbody>
+            </table>
+          </nys-table>
+        </div>
+      </section>
+
+      <section class="band nys-grid-row nys-grid-gap-400" aria-labelledby="api">
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+          <h2 id="api">API changes</h2>
+        </div>
+        <div
+          class="nys-grid-col-12 nys-desktop:nys-grid-col-10"
+          id="api-content"
+        >
+          <p>No component API changed.</p>
+        </div>
+      </section>
+
+      <section
+        class="band nys-grid-row nys-grid-gap-400"
+        aria-labelledby="quiet-heading"
+        id="quiet"
+        hidden
+      >
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+          <h2 id="quiet-heading">No generated change</h2>
+        </div>
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+          <p>
+            These components changed in the PR, but their generated output
+            didn't. That's expected for internal logic and styles. If you
+            expected a wrapper change, the API lines show what the manifest saw.
+          </p>
+          <div id="quiet-content"></div>
+        </div>
+      </section>
+
+      <section
+        class="band nys-grid-row nys-grid-gap-400"
+        aria-labelledby="diffs"
+      >
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+          <h2 id="diffs">Diffs</h2>
+        </div>
+        <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+          <p id="diffs-empty">No generated files changed.</p>
+          <div class="toolbar" id="diffs-toolbar" hidden>
+            <nys-button
+              id="expand-all"
+              type="button"
+              variant="outline"
+              size="sm"
+              label="Expand all"
+            ></nys-button>
+            <nys-button
+              id="collapse-all"
+              type="button"
+              variant="outline"
+              size="sm"
+              label="Collapse all"
+            ></nys-button>
+          </div>
+          <div id="diffs-list"></div>
+        </div>
+      </section>
+
+      <footer class="weak">
+        Made by <code id="footer-command"></code> on
+        <span id="footer-generated"></span>. Running <code>cem analyze</code> on
+        both commits took <span id="footer-seconds"></span>s. This page lives
+        outside the repository, and the generated files stay gitignored.
+      </footer>
+    </div>
+    </div>
+    </div>
+    </main>
+
+    <!-- A script rather than JSON, so the page also works opened from disk. -->
+    <script src="review-data.js"></script>
+    <script>
+      // Renders the review from review-data.js (window.REVIEW_DATA), written
+      // next to this page by review-codegen.mjs. Every value from it is
+      // escaped; file paths and command-line flags are set as code.
+
+      const data = window.REVIEW_DATA;
+
+      /** How each verdict reads on the page, as an nys-badge. */
+      const BADGES = {
+        expected: { intent: "success", label: "Expected" },
+        generator: { intent: "info", label: "Generator" },
+        check: { intent: "warning", label: "Check" },
+      };
+
+      const HTML_ESCAPES = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      };
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char]);
+      }
+
+      function plural(count, noun) {
+        return `${count} ${noun}${count === 1 ? "" : "s"}`;
+      }
+
+      /** A file path as code that can wrap after a slash, never mid-name. */
+      function pathHtml(file) {
+        return `<code>${escapeHtml(file).replaceAll("/", "/<wbr>")}</code>`;
+      }
+
+      /** Escapes text and sets the file paths and command-line flags in it as code. */
+      function withPaths(text) {
+        return escapeHtml(text).replace(
+          /(?:packages|src)\/[^\s,]+|package-lock\.json|--[a-z][a-z-]*/g,
+          (match) =>
+            match.startsWith("--")
+              ? `<code class="flag">${match}</code>`
+              : `<code>${match.replaceAll("/", "/<wbr>")}</code>`,
+        );
+      }
+
+      /** Escapes text and sets its `backtick` spans as code, as GitHub titles do. */
+      function inlineCode(text) {
+        return escapeHtml(text).replace(/`([^`]+)`/g, "<code>$1</code>");
+      }
+
+      function capitalize(text) {
+        return text[0].toUpperCase() + text.slice(1);
+      }
+
+      function badgeHtml(verdict) {
+        const { intent, label } = BADGES[verdict];
+        return `<nys-badge intent="${intent}" label="${label}" size="sm"></nys-badge>`;
+      }
+
+      /** One side of what produced a file: a plugin and its source, or an override. */
+      function producerHtml(producer) {
+        if (producer.verb === "override") {
+          return `Override ${pathHtml(producer.file)} <span class="weak">(hand-written)</span>`;
+        }
+        const from = producer.from
+          ? `<br>from ${withPaths(producer.from)}`
+          : `<br><span class="weak">Shared file: barrel, module, or package config</span>`;
+        return `${capitalize(producer.verb)} ${pathHtml(producer.file)}${from}`;
+      }
+
+      /** What produced a file, with "Was" and "Now" when that changed. */
+      function provenanceHtml(provenance) {
+        return provenance
+          .map((side) =>
+            side.label
+              ? `<span class="tag">${side.label}</span> ${producerHtml(side)}`
+              : producerHtml(side),
+          )
+          .join("<br>");
+      }
+
+      function reasonsHtml(reasons) {
+        if (reasons.length === 0) {
+          return "<strong>Nothing in this PR explains this change.</strong>";
+        }
+        const items = reasons.map((reason) => `<li>${withPaths(reason)}</li>`);
+        return `<ul class="plain">${items.join("")}</ul>`;
+      }
+
+      /** The `+ prop x`, `- event y`, and `~ …` lines of an API change. */
+      function apiHtml(delta) {
+        const kinds = {
+          "+": ["add", "Added"],
+          "-": ["del", "Removed"],
+          "~": ["mod", "Changed"],
+        };
+        const items = delta.map((text) => {
+          const kind = kinds[text[0]];
+          if (!kind || text[1] !== " ") return `<li>${escapeHtml(text)}</li>`;
+          const sign = text[0] === "-" ? "−" : text[0];
+          return `<li class="${kind[0]}"><span class="sign" aria-hidden="true">${sign}</span><span class="visually-hidden">${kind[1]}: </span>${escapeHtml(text.slice(2))}</li>`;
+        });
+        return `<ul class="api">${items.join("")}</ul>`;
+      }
+
+      /** Renders unified diff text as a table with old and new line numbers. */
+      function diffHtml(diff) {
+        const rows = [];
+        const codeCell = (text) => `<td class="code">${text}</td>`;
+        const emptyCells = `<td class="ln"></td><td class="ln"></td><td class="sign"></td>`;
+        let oldLine = 0;
+        let newLine = 0;
+        let inHunk = false;
+
+        for (const text of diff.split("\n")) {
+          const hunk = /^@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@/.exec(text);
+          if (hunk) {
+            oldLine = Number(hunk[1]);
+            newLine = Number(hunk[2]);
+            inHunk = true;
+            rows.push(
+              `<tr class="hunk">${emptyCells}${codeCell(escapeHtml(text))}</tr>`,
+            );
+            continue;
+          }
+          if (!inHunk || text === "") continue;
+
+          const code = escapeHtml(text.slice(1));
+          if (text[0] === "+") {
+            rows.push(
+              `<tr class="add"><td class="ln"></td><td class="ln">${newLine++}</td><td class="sign">+</td>${codeCell(code)}</tr>`,
+            );
+          } else if (text[0] === "-") {
+            rows.push(
+              `<tr class="del"><td class="ln">${oldLine++}</td><td class="ln"></td><td class="sign">−</td>${codeCell(code)}</tr>`,
+            );
+          } else if (text[0] === "\\") {
+            rows.push(
+              `<tr class="note">${emptyCells}${codeCell(escapeHtml(text.slice(2)))}</tr>`,
+            );
+          } else {
+            rows.push(
+              `<tr><td class="ln">${oldLine++}</td><td class="ln">${newLine++}</td><td class="sign"></td>${codeCell(code)}</tr>`,
+            );
+          }
+        }
+        return `<table class="diff"><thead class="visually-hidden"><tr><th>Base line</th><th>Head line</th><th>Change</th><th>Code</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
+      }
+
+      // --- Header and "At a glance" -----------------------------------------
+
+      function renderHeader() {
+        document.title = `Codegen review: ${data.name}`;
+        document.querySelector("#review-name").textContent = data.name;
+        document.querySelector("#review-title").innerHTML = inlineCode(
+          data.title,
+        );
+      }
+
+      function renderGlance() {
+        if (data.notes.length > 0) {
+          const notes = data.notes.map((note) => `<li>${withPaths(note)}</li>`);
+          document.querySelector("#notes").innerHTML =
+            `<nys-alert type="info" heading="Notes about this run"><ul>${notes.join("")}</ul></nys-alert>`;
+        }
+
+        document.querySelector("#count-expected").textContent =
+          data.counts.expected;
+        document.querySelector("#count-generator").textContent =
+          data.counts.generator;
+        document.querySelector("#count-check").textContent = data.counts.check;
+        document.querySelector("#count-api").textContent =
+          data.counts.apiChanged;
+        document.querySelector("#count-api-label").textContent =
+          data.counts.apiChanged === 1
+            ? "component API changed"
+            : "component APIs changed";
+
+        const { base, head, url, changedFiles, generatorChanged, filters } =
+          data.compare;
+        const facts = [
+          [
+            "Base",
+            `<code>${escapeHtml(base.sha)}</code> ${escapeHtml(base.label)}`,
+          ],
+          [
+            "Head",
+            `<code>${escapeHtml(head.sha)}</code> ${inlineCode(head.label)}`,
+          ],
+        ];
+        if (url) {
+          facts.push([
+            "Pull request",
+            `<a href="${escapeHtml(url)}">${escapeHtml(url)}</a>`,
+          ]);
+        }
+        facts.push(["Changed in this PR", plural(changedFiles, "file")]);
+        facts.push([
+          "Generator",
+          generatorChanged.length > 0
+            ? `Changed: ${generatorChanged.map(pathHtml).join(", ")}`
+            : "Unchanged",
+        ]);
+        if (filters.length > 0) {
+          facts.push(["Showing only", escapeHtml(filters.join(", "))]);
+        }
+        document.querySelector("#compare-facts").innerHTML = facts
+          .map(([term, value]) => `<dt>${term}</dt><dd>${value}</dd>`)
+          .join("");
+
+        for (const badge of document.querySelectorAll("[data-badge]")) {
+          badge.innerHTML = badgeHtml(badge.dataset.badge);
+        }
+      }
+
+      // --- Changed files ----------------------------------------------------
+
+      function fileRowHtml(file) {
+        const link = `#${file.diffId}`;
+        // Three or more files with the same change and cause share a row.
+        if (file.folder) {
+          const producer = file.producer.overrideFolder
+            ? `Overrides in ${pathHtml(file.producer.overrideFolder)}`
+            : `${capitalize(file.producer.verb)} ${pathHtml(file.producer.file)}<br><span class="weak">One file per component</span>`;
+          return `<tr><td>${badgeHtml(file.verdict)}</td><td><a href="${link}">${pathHtml(file.folder)}</a><br><span class="weak">${plural(file.fileCount, "file")}</span></td><td>${escapeHtml(file.change)}</td><td>${producer}</td><td>${reasonsHtml(file.reasons)}</td></tr>`;
+        }
+        return `<tr><td>${badgeHtml(file.verdict)}</td><td><a href="${link}">${pathHtml(file.path)}</a></td><td>${escapeHtml(file.change)}</td><td>${provenanceHtml(file.provenance)}</td><td>${reasonsHtml(file.reasons)}</td></tr>`;
+      }
+
+      function renderFiles() {
+        if (data.files.length === 0) return;
+        document.querySelector("#files-body").innerHTML = data.files
+          .map(fileRowHtml)
+          .join("");
+        document.querySelector("#files-empty").remove();
+        document.querySelector("#files-table").hidden = false;
+      }
+
+      // --- API changes and quiet components ---------------------------------
+
+      function renderApiChanges() {
+        if (data.apiChanges.length === 0) return;
+        document.querySelector("#api-content").innerHTML = data.apiChanges
+          .map(
+            (component) => `
+              <div class="component">
+                <h3><code>${escapeHtml(component.tag)}</code></h3>
+                <p class="weak">${withPaths(component.modulePaths.join(", "))}</p>
+                ${apiHtml(component.delta)}
+              </div>`,
+          )
+          .join("");
+      }
+
+      function renderQuiet() {
+        if (data.quiet.length === 0) return;
+        document.querySelector("#quiet").hidden = false;
+        document.querySelector("#quiet-content").innerHTML = data.quiet
+          .map((component) => {
+            const sources =
+              component.sources.length > 0
+                ? `<ul class="plain">${component.sources.map((source) => `<li>${withPaths(source)}</li>`).join("")}</ul>`
+                : "<p>No source change in this PR.</p>";
+            const api =
+              component.delta.length > 0
+                ? apiHtml(component.delta)
+                : '<p class="weak">API unchanged.</p>';
+            return `
+              <div class="component">
+                <h3><code>${escapeHtml(component.tag)}</code></h3>
+                ${sources}
+                ${api}
+              </div>`;
+          })
+          .join("");
+      }
+
+      // --- Diffs ------------------------------------------------------------
+
+      function diffItemHtml(item) {
+        const repeats =
+          item.same.length > 0
+            ? `<p class="repeats">Same change, component names aside, in ${plural(item.sameCount, "more file")}:</p>${item.same
+                .map(
+                  ({ folder, names }) =>
+                    `<p class="weak"><code>${escapeHtml(folder)}/</code></p><ul class="same">${names.map((name) => `<li><code>${escapeHtml(name)}</code></li>`).join("")}</ul>`,
+                )
+                .join("")}`
+            : "";
+        const apiFacts =
+          item.apiDelta.length > 0
+            ? `<dt>API</dt><dd>${apiHtml(item.apiDelta)}</dd>`
+            : "";
+        const diff = item.diff
+          ? `<div class="diff-scroll">${diffHtml(item.diff)}</div>`
+          : '<p class="weak">Same content. Only the file that provides it changed.</p>';
+        return `
+          <nys-accordionitem id="${item.id}" heading="${escapeHtml(item.heading)}"${item.expanded ? " expanded" : ""}>
+            <div class="item-body">
+              <div class="diff-meta">
+                <p>${badgeHtml(item.verdict)} <span class="weak">${escapeHtml(item.change)}</span></p>
+                <dl class="facts">
+                  <dt>Produced by</dt><dd>${provenanceHtml(item.provenance)}</dd>
+                  <dt>Why</dt><dd>${reasonsHtml(item.reasons)}</dd>
+                  ${apiFacts}
+                </dl>
+              </div>
+              ${diff}
+              ${repeats}
+            </div>
+          </nys-accordionitem>`;
+      }
+
+      function renderDiffs() {
+        if (data.diffs.length === 0) return;
+        document.querySelector("#diffs-empty").remove();
+        document.querySelector("#diffs-toolbar").hidden = false;
+        document.querySelector("#diffs-list").innerHTML =
+          `<nys-accordion bordered headingLevel="h3">${data.diffs.map(diffItemHtml).join("")}</nys-accordion>`;
+      }
+
+      function renderFooter() {
+        document.querySelector("#footer-command").textContent =
+          data.footer.command;
+        document.querySelector("#footer-generated").textContent =
+          data.footer.generated;
+        document.querySelector("#footer-seconds").textContent =
+          data.footer.seconds;
+      }
+
+      if (data) {
+        renderHeader();
+        renderGlance();
+        renderFiles();
+        renderApiChanges();
+        renderQuiet();
+        renderDiffs();
+        renderFooter();
+      } else {
+        document.querySelector("main").innerHTML =
+          "<p>No review data. Run npm run review:codegen -- --html to make one.</p>";
+      }
+    </script>
+    <!-- Behavior: summary links open their diff; expand and collapse all. -->
+    <script type="module">
+      const items = () => [...document.querySelectorAll("nys-accordionitem")];
+      const reveal = (id) => {
+        const item = document.getElementById(id);
+        if (!item) return;
+        item.expanded = true;
+        item.scrollIntoView({ block: "start" });
+      };
+      // Summary links open the diff they point to, not only scroll to it.
+      document.addEventListener("click", (event) => {
+        const link = event.target.closest('a[href^="#diff-"]');
+        if (!link) return;
+        event.preventDefault();
+        history.replaceState(null, "", link.hash);
+        reveal(link.hash.slice(1));
+      });
+      document
+        .getElementById("expand-all")
+        ?.addEventListener("nys-click", () => {
+          for (const item of items()) item.expanded = true;
+        });
+      document
+        .getElementById("collapse-all")
+        ?.addEventListener("nys-click", () => {
+          for (const item of items()) item.expanded = false;
+        });
+      if (location.hash.startsWith("#diff-")) {
+        customElements
+          .whenDefined("nys-accordionitem")
+          .then(() => reveal(location.hash.slice(1)));
+      }
+    </script>
+  </body>
+</html>

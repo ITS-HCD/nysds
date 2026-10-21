@@ -2,8 +2,8 @@
  * Interactive states captured by the visual regression run (visual.mjs).
  *
  * Each entry adds one screenshot per state for one story: the story is loaded
- * fresh, the target is hovered, pressed or keyboard-focused, and the page is
- * captured and compared against the base branch like any other story. Results
+ * fresh, the target is hovered, pressed, keyboard-focused or clicked, and the
+ * page is captured and compared against the base branch like any other story. Results
  * show up in the report as "<Component> - <Story> (<state>)".
  *
  *   package    nys-* package whose SCSS has the :hover/:active/:focus-visible rules
@@ -14,7 +14,9 @@
  *              reach into open shadow roots, so "nys-button .nys-button" finds the
  *              <button> inside nys-button's shadow DOM.
  *   states     any of "hover", "active" (mouse held down), "focus" (tabbed to, so
- *              :focus-visible applies)
+ *              :focus-visible applies), "click" (clicked, capturing the result,
+ *              such as an expanded accordion). Only give "click" to targets that
+ *              change in place: a click that navigates fails the shot.
  *   open       optional selector clicked first, for targets that only render once
  *              something is opened (menus)
  *   viewports  optional subset of viewports, for targets hidden at some sizes
@@ -27,7 +29,7 @@ export default [
   {
     package: "nys-accordion",
     target: "nys-accordionitem .nys-accordionitem__heading",
-    states: ["hover", "active", "focus"],
+    states: ["hover", "active", "focus", "click"],
   },
   {
     package: "nys-avatar",
@@ -48,23 +50,24 @@ export default [
   {
     package: "nys-card",
     story: "clickable",
+    // No "click": this story's card runs alert(), which changes nothing visible.
     target: "nys-card .nys-card--clickable",
     states: ["hover", "active", "focus"],
   },
   {
     package: "nys-checkbox",
     target: "nys-checkbox .nys-checkbox__checkbox",
-    states: ["hover", "active", "focus"],
+    states: ["hover", "active", "focus", "click"],
   },
   {
     package: "nys-combobox",
     target: "nys-combobox .nys-combobox__input",
-    states: ["hover"],
+    states: ["hover", "click"],
   },
   {
     package: "nys-datepicker",
     target: "nys-datepicker #calendar-button",
-    states: ["hover", "active", "focus"],
+    states: ["hover", "active", "focus", "click"],
   },
   {
     package: "nys-dropdownmenu",
@@ -101,7 +104,7 @@ export default [
   {
     package: "nys-radiobutton",
     target: "nys-radiogroup .nys-radiobutton__radio",
-    states: ["focus"],
+    states: ["focus", "click"],
   },
   {
     package: "nys-select",
@@ -121,7 +124,7 @@ export default [
   {
     package: "nys-tab",
     target: "nys-tab:not([selected])",
-    states: ["hover", "active", "focus"],
+    states: ["hover", "active", "focus", "click"],
   },
   {
     package: "nys-textarea",
@@ -136,7 +139,7 @@ export default [
   {
     package: "nys-toggle",
     target: "nys-toggle .slider",
-    states: ["hover", "active"],
+    states: ["hover", "active", "click"],
   },
   {
     package: "nys-toggle",
@@ -158,6 +161,8 @@ export default [
   },
   {
     package: "nys-video",
+    // No "click": playing swaps in YouTube's player, loaded from the network,
+    // so the screenshot would track YouTube rather than this code.
     target: "nys-video .nys-video__play-icon",
     states: ["hover", "active", "focus"],
   },

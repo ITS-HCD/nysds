@@ -10,25 +10,28 @@ const MARKER = "<!-- nysds-preview -->";
 /** Comment body after a build; previewUrl is empty when nothing was deployed. */
 function deployedBody({ manifestPath, previewUrl, sha }) {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  // The deploy's landing page links every review tool: the story list,
+  // the visual regression report and the code review.
+  const tools = previewUrl
+    ? `**[Review tools](${previewUrl}/)**: [accessibility preview](${previewUrl}/preview/) · [visual regression](${previewUrl}/visual/) · [code review](${previewUrl}/code-review/)`
+    : "";
   if (!manifest.pages.length) {
-    // Deployed anyway when there is a visual regression report to show.
-    const visual = previewUrl
-      ? `\n\n**[Review Visual Testing](${previewUrl}/visual/)**`
-      : "";
     return `${MARKER}
 ### Component preview
 
-This PR changes no components with stories, so there is nothing to preview.${visual}`;
+This PR changes no components with stories, so there are no story pages to test.${tools ? `\n\n${tools}` : ""}`;
   }
   const rows = manifest.components.map(
-    (c) =>
-      `| [${c.title}](${previewUrl}/${c.firstPath}/) | ${c.stories} | ${c.reason} |`,
+    (component) =>
+      `| [${component.title}](${previewUrl}/${component.firstPath}/) | ${component.stories} | ${component.reason} |`,
   );
   return [
     MARKER,
     "### Component preview",
     "",
-    `**[Start testing](${previewUrl}/)** — ${manifest.pages.length} stories, one per page. Use the bar at the bottom of each page to move to the previous or next story.`,
+    tools,
+    "",
+    `**[Start testing](${previewUrl}/preview/)** — ${manifest.pages.length} stories, one per page. Use the bar at the bottom of each page to move to the previous or next story.`,
     "",
     "| Component | Stories | Why it's included |",
     "| --- | --- | --- |",
@@ -60,7 +63,7 @@ async function upsertComment({
     issue_number,
     per_page: 100,
   });
-  const existing = comments.find((c) => c.body?.includes(MARKER));
+  const existing = comments.find((comment) => comment.body?.includes(MARKER));
   if (existing) {
     await github.rest.issues.updateComment({
       owner,

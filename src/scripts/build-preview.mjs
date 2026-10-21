@@ -24,9 +24,16 @@
  *
  * A story tagged "!preview" (tags: ["!preview"]) is skipped.
  *
- * When a visual regression report exists (.visual/report, from
- * src/scripts/visual/visual.mjs), it is published at /visual/ and the home page
- * links to it — even when no component has stories to preview.
+ * The site's landing page (/) links to the three review tools: this preview's
+ * story list at /preview/, the visual regression report at /visual/ (from
+ * src/scripts/visual/visual.mjs, when .visual/report exists) and the codegen
+ * review at /code-review/ (from npm run review:codegen -- --html-file
+ * .code-review/index.html, when that file exists). The landing page is the
+ * template src/scripts/landing/index.html, filled in from a generated
+ * site-data.js. The story list at /preview/ is likewise the template
+ * src/scripts/preview/index.html, filled in from a generated pages.js. The
+ * site is written even when no component has stories to preview, so the
+ * other tools are still reachable.
  *
  * The visual regression run screenshots these same pages: it imports
  * buildPages() to render every story, for both the base branch (from its git
@@ -34,7 +41,7 @@
  */
 import fs from "fs";
 import path from "path";
-import { execFileSync } from "child_process";
+import { execFileSync, spawnSync } from "child_process";
 import { fileURLToPath } from "url";
 import { build, createServer } from "vite";
 import { chromium } from "playwright";
@@ -48,6 +55,12 @@ const OUT = path.join(ROOT, ".preview");
 const DIST = path.join(OUT, "dist");
 const VR_REPORT = path.join(ROOT, ".visual/report");
 const VR_RESULTS = path.join(ROOT, ".visual/results.json");
+const CODE_REVIEW_PAGE = path.join(ROOT, ".code-review/index.html");
+const LANDING_TEMPLATE = path.join(ROOT, "src/scripts/landing/index.html");
+// The story list at /preview/, filled in from a generated pages.js.
+const PREVIEW_TEMPLATE = path.join(ROOT, "src/scripts/preview/index.html");
+// The landing page's header, footer and cards come from the full NYSDS bundle.
+const NYSDS_BUNDLE = path.join(ROOT, "dist/nysds.js");
 const SHARED_PACKAGES = new Set(["tokens", "styles", "internals", "codegen"]);
 const SHARED_FILES = new Set(["src/scripts/generate-stories.mjs"]);
 
@@ -78,13 +91,15 @@ function changedFiles(base) {
   // can't change rendering, and one in a shared component such as nys-icon
   // would pull every component that uses it into the preview. Real comment
   // edits still count, since stories are generated from JSDoc.
+  // Markdown is ignored too: a README can't change what a component renders,
+  // and one in a shared package (packages/codegen/README.md) would otherwise
+  // put every component in the preview.
   const ignoreWhitespace = ["-w", "--ignore-blank-lines"];
-  return [
-    ...new Set([
-      ...git("diff", "--name-only", ...ignoreWhitespace, `${base}...HEAD`),
-      ...git("diff", "--name-only", ...ignoreWhitespace, "HEAD"),
-    ]),
-  ];
+  const files = new Set([
+    ...git("diff", "--name-only", ...ignoreWhitespace, `${base}...HEAD`),
+    ...git("diff", "--name-only", ...ignoreWhitespace, "HEAD"),
+  ]);
+  return [...files].filter((file) => !file.endsWith(".md"));
 }
 
 /** Returns [{ dir, reason }] — changed packages first, then their dependents. */
@@ -94,7 +109,7 @@ function affectedPackages(packages, args) {
     return all.map((dir) => ({ dir, reason: "All components" }));
 
   let changed;
-  const named = args.filter((a) => !a.startsWith("--"));
+  const named = args.filter((arg) => !arg.startsWith("--"));
   if (named.length) {
     changed = named.filter((dir) => {
       if (packages.has(dir)) return true;
@@ -105,18 +120,20 @@ function affectedPackages(packages, args) {
     const base = process.env.PREVIEW_BASE || "origin/develop";
     const files = changedFiles(base);
     const dirs = new Set(
-      files.map((f) => f.match(/^packages\/([^/]+)\//)?.[1]).filter(Boolean),
+      files
+        .map((file) => file.match(/^packages\/([^/]+)\//)?.[1])
+        .filter(Boolean),
     );
     const sharedHit =
-      [...dirs].find((d) => SHARED_PACKAGES.has(d)) ??
-      files.find((f) => SHARED_FILES.has(f));
+      [...dirs].find((dir) => SHARED_PACKAGES.has(dir)) ??
+      files.find((file) => SHARED_FILES.has(file));
     if (sharedHit) {
       console.log(
         `Shared code changed (${sharedHit}) — previewing every component.`,
       );
       return all.map((dir) => ({ dir, reason: `Uses ${sharedHit}` }));
     }
-    changed = [...dirs].filter((d) => packages.has(d)).sort();
+    changed = [...dirs].filter((dir) => packages.has(dir)).sort();
   }
 
   const dependents = new Map(all.map((dir) => [dir, []]));
@@ -126,11 +143,12 @@ function affectedPackages(packages, args) {
 
   const result = changed.map((dir) => ({ dir, reason: "Changed in this PR" }));
   const seen = new Set(changed);
-  for (let i = 0; i < result.length; i++) {
-    for (const dependent of dependents.get(result[i].dir).sort()) {
+  // `result` grows while it's walked, so dependents of dependents are found too.
+  for (const affected of result) {
+    for (const dependent of dependents.get(affected.dir).sort()) {
       if (seen.has(dependent)) continue;
       seen.add(dependent);
-      result.push({ dir: dependent, reason: `Uses ${result[i].dir}` });
+      result.push({ dir: dependent, reason: `Uses ${affected.dir}` });
     }
   }
   return result;
@@ -142,15 +160,17 @@ export function storyFiles(dir, root = ROOT) {
   const src = path.join(root, "packages", dir, "src");
   return fs
     .readdirSync(src)
-    .filter((f) => f.endsWith(".stories.ts"))
+    .filter((fileName) => fileName.endsWith(".stories.ts"))
     .sort()
-    .map((f) => path.join(src, f));
+    .map((fileName) => path.join(src, fileName));
 }
 
 /** Story export names in source order (module namespaces are alphabetical). */
 function storyExportOrder(file) {
   const source = fs.readFileSync(file, "utf8");
-  return [...source.matchAll(/^export const (\w+)\b/gm)].map((m) => m[1]);
+  return [...source.matchAll(/^export const (\w+)\b/gm)].map(
+    (match) => match[1],
+  );
 }
 
 // Runs in the browser. customElements.define is disabled first, so stories
@@ -209,7 +229,9 @@ window.__snapshotStories = async (url, order) => {
     // attributes (href="", ariaCurrent=""). Drop those; boolean attributes
     // come from boolean args and are kept.
     const emptyArgs = new Set(
-      Object.entries(args).filter(([, v]) => v === "").map(([k]) => k.toLowerCase()),
+      Object.entries(args)
+        .filter(([, value]) => value === "")
+        .map(([name]) => name.toLowerCase()),
     );
     for (const el of container.querySelectorAll("*")) {
       for (const attr of [...el.attributes]) {
@@ -269,7 +291,10 @@ async function snapshotStories(root, harnessDir, components) {
   try {
     const page = await browser.newPage();
     page.on("pageerror", (err) => console.warn(`⚠ ${err.message}`));
-    const harnessUrl = path.relative(root, harnessDir).split(path.sep).join("/");
+    const harnessUrl = path
+      .relative(root, harnessDir)
+      .split(path.sep)
+      .join("/");
     await page.goto(`${origin}/${harnessUrl}/index.html`);
     await page.waitForFunction(() => window.__ready === true);
 
@@ -278,7 +303,8 @@ async function snapshotStories(root, harnessDir, components) {
       for (const file of storyFiles(component.dir, root)) {
         const url = "/" + path.relative(root, file).split(path.sep).join("/");
         const { title, stories } = await page.evaluate(
-          ([u, order]) => window.__snapshotStories(u, order),
+          ([moduleUrl, exportOrder]) =>
+            window.__snapshotStories(moduleUrl, exportOrder),
           [url, storyExportOrder(file)],
         );
         component.title ??= title;
@@ -293,14 +319,18 @@ async function snapshotStories(root, harnessDir, components) {
 
 // --- Page output ------------------------------------------------------------
 
-const escapeHtml = (s) =>
-  String(s).replace(
-    /[&<>"]/g,
-    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
-  );
+const HTML_ENTITIES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
 
-const kebab = (s) =>
-  s
+function escapeHtml(text) {
+  return String(text).replace(
+    /[&<>"]/g,
+    (character) => HTML_ENTITIES[character],
+  );
+}
+
+/** "PeritemHeadingLevel" → "peritem-heading-level", for page paths. */
+const kebab = (text) =>
+  text
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
     .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
     .replace(/[_\s]+/g, "-")
@@ -327,8 +357,28 @@ const BAR_STYLE = `<style>
         border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-200);
       }
       @media (max-height: 480px) { .nysds-preview-bar { position: static; } }
-      /* Long story names wrap; keep every line centered. */
+      /*
+        Previous, the current story and Next share one row. The two side
+        columns always split the leftover width equally, so the title stays
+        centered whatever the links say; each is at least one 48px button
+        wide (--nys-size-600).
+      */
+      .nysds-preview-stepper {
+        display: grid;
+        grid-template-columns:
+          minmax(var(--nys-size-600), 1fr) auto minmax(var(--nys-size-600), 1fr);
+        align-items: center;
+        gap: var(--nys-space-200);
+      }
+      .nysds-preview-stepper > :first-child { justify-self: start; }
+      .nysds-preview-stepper > :last-child { justify-self: end; }
+      /*
+        Long story names wrap; keep every line centered. No margin: the
+        typography styles give a paragraph that isn't last a bottom margin,
+        which would lift the title off the buttons' center line.
+      */
       .nysds-preview-current {
+        margin: 0;
         text-align: center;
         font-weight: var(--nys-font-weight-semibold);
       }
@@ -344,6 +394,14 @@ const BAR_STYLE = `<style>
         font-weight: var(--nys-font-weight-semibold);
         text-decoration: none;
       }
+      /* Long link text wraps inside its column instead of overflowing it. */
+      .nysds-preview-step { max-width: 100%; }
+      .nysds-preview-arrow {
+        flex: none;
+        width: var(--nys-size-250);
+        height: var(--nys-size-250);
+        fill: currentColor;
+      }
       .nysds-preview-step:hover { background: var(--nys-color-theme-weaker); }
       .nysds-preview-step:active { background: var(--nys-color-theme-weak); }
       .nysds-preview-step:focus-visible {
@@ -358,15 +416,46 @@ const BAR_STYLE = `<style>
         clip-path: inset(50%);
         white-space: nowrap;
       }
+      /*
+        Below the tablet breakpoint (40em) the links shrink to 48px arrow
+        buttons, leaving the row to the title. The story names are only
+        hidden visually: they stay in each link's accessible name.
+      */
+      @media (max-width: 39.99em) {
+        .nysds-preview-step {
+          justify-content: center;
+          min-width: var(--nys-size-600);
+          padding: calc(var(--nys-space-150) - var(--nys-border-width-md));
+        }
+        /* The arrow is all that's visible, so make it easy to see. */
+        .nysds-preview-arrow {
+          width: var(--nys-size-300);
+          height: var(--nys-size-300);
+        }
+        .nysds-preview-step-label {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip-path: inset(50%);
+          white-space: nowrap;
+        }
+      }
       .nysds-preview-bar .nysds-preview-home {
         text-align: center;
         background: var(--nys-color-theme);
         color: var(--nys-color-text-reverse);
         text-decoration: none;
+        min-height: var(--nys-size-600);
+        padding: calc(var(--nys-space-150) - var(--nys-border-width-md))
+          calc(var(--nys-space-250) - var(--nys-border-width-md));
+        border: var(--nys-border-width-md) solid var(--nys-color-theme);
+        border-radius: var(--nys-radius-xl);
+        font-weight: var(--nys-font-weight-semibold);
       }
     </style>`;
 
-const pageLabel = (p) => `${p.title}, ${p.story}`;
+const pageLabel = (page) => `${page.title}, ${page.story}`;
 
 function headHtml(title, extra = "") {
   return `<head>
@@ -379,60 +468,6 @@ function headHtml(title, extra = "") {
     <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />${extra}
   </head>`;
 }
-
-// Landing page styles: only what @nysds/styles utility classes cannot express
-// (color, borders, weight, case). Layout, spacing and type are utility classes
-// in the markup, and the stylesheet's reset already zeroes heading, paragraph
-// and list margins. Each link is at least 44px tall (--nys-size-550) so it's
-// easy to activate on touch screens.
-const HOME_STYLE = `
-    <style>
-      .nysds-preview-hero {
-        background: var(--nys-color-theme);
-        color: var(--nys-color-text-reverse);
-      }
-      .nysds-preview-eyebrow {
-        font-weight: var(--nys-font-weight-semibold);
-        letter-spacing: 0.08em; /* no token for uppercase label tracking */
-        text-transform: uppercase;
-      }
-      .nysds-preview-hero h1 { font-weight: var(--nys-font-weight-semibold); }
-      .nysds-preview-hero a,
-      .nysds-preview-hero a:focus,
-      .nysds-preview-hero a:active { color: var(--nys-color-ink-reverse); }
-      .nysds-preview-hero a:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus-reverse);
-        outline-offset: var(--nys-border-width-md);
-      }
-      .nysds-preview-list li::marker {
-        color: var(--nys-color-text-weak);
-        font-variant-numeric: tabular-nums;
-      }
-      .nysds-preview-list a {
-        min-height: var(--nys-size-550);
-        border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
-      }
-      .nysds-preview-list li:first-child a {
-        border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
-      }
-      .nysds-preview-list a:hover { background: var(--nys-color-theme-faint); }
-      .nysds-preview-list a:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: calc(var(--nys-border-width-md) * -1);
-      }
-      .nysds-preview-vr {
-        background: var(--nys-color-theme-faint);
-        border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
-      }
-      .nysds-preview-vr a {
-        min-height: var(--nys-size-550);
-        font-weight: var(--nys-font-weight-semibold);
-      }
-      .nysds-preview-vr a:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: var(--nys-border-width-md);
-      }
-    </style>`;
 
 /**
  * The pull request being previewed: from PR_NUMBER/PR_TITLE/PR_URL in CI, or
@@ -458,15 +493,6 @@ function pullRequest() {
   }
 }
 
-/** The page heading's content. The PR title is user-controlled, so it's escaped. */
-function pullRequestHtml(pr) {
-  if (!pr) return "Component preview";
-  const label = `Pull request #${escapeHtml(pr.number)}`;
-  return pr.url
-    ? `<a href="${escapeHtml(pr.url)}">${escapeHtml(pr.title)}</a> - ${label}`
-    : label;
-}
-
 /**
  * The visual regression report, when one has been generated: the number of
  * stories per status (a story counts once, whichever viewport changed). Null
@@ -476,10 +502,15 @@ function visualReport() {
   if (!fs.existsSync(path.join(VR_REPORT, "index.html"))) return null;
   try {
     const { results } = JSON.parse(fs.readFileSync(VR_RESULTS, "utf8"));
-    const ids = {};
-    for (const r of results) (ids[r.status] ??= new Set()).add(r.id);
+    const storyIdsByStatus = {};
+    for (const result of results) {
+      storyIdsByStatus[result.status] ??= new Set();
+      storyIdsByStatus[result.status].add(result.id);
+    }
     const counts = {};
-    for (const [status, set] of Object.entries(ids)) counts[status] = set.size;
+    for (const [status, storyIds] of Object.entries(storyIdsByStatus)) {
+      counts[status] = storyIds.size;
+    }
     return { counts };
   } catch {
     // The link still works without a summary.
@@ -487,123 +518,76 @@ function visualReport() {
   }
 }
 
-function visualReportHtml(vr) {
-  if (!vr) return "";
+/** "3 changed · 1 new", "no visual changes", or "" when there's no summary. */
+function visualReportSummary(vr) {
+  if (!vr?.counts) return "";
   const summary = ["changed", "new", "removed", "error"]
-    .filter((s) => vr.counts?.[s])
-    .map((s) => `${vr.counts[s]} ${s === "error" ? "failed to capture" : s}`)
+    .filter((status) => vr.counts[status])
+    .map((status) => {
+      const label = status === "error" ? "failed to capture" : status;
+      return `${vr.counts[status]} ${label}`;
+    })
     .join(" · ");
-  return `
-    <div class="nysds-preview-vr">
-      <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200 nys-font-ui-md">
-        <p><a class="nys-display-inline-flex nys-flex-align-center" href="/visual/">Review Visual Testing</a>${
-          vr.counts ? ` — ${summary || "no visual changes"}` : ""
-        }</p>
-      </div>
-    </div>`;
+  return summary || "no visual changes";
 }
 
-/** The landing page: every story, in testing order. */
-function homeHtml(pages, pr, vr) {
-  const components = new Set(pages.map((p) => p.dir)).size;
-  const stories = `${pages.length} ${pages.length === 1 ? "story" : "stories"}`;
-  const from = `${components} ${components === 1 ? "component" : "components"}`;
-  // One group per component, in testing order, listing only the story names.
-  const groups = new Map();
-  for (const p of pages) {
-    if (!groups.has(p.dir)) groups.set(p.dir, { title: p.title, pages: [] });
-    groups.get(p.dir).pages.push(p);
-  }
-  const list = pages.length
-    ? `      <h2>${stories} from ${from}</h2>
-${[...groups.values()]
-  .map(
-    (g) => `      <section class="nys-margin-t-400">
-        <h3 class="nys-font-ui-lg">${escapeHtml(g.title)}</h3>
-        <ol class="nysds-preview-list nys-font-ui-md nys-margin-t-150 nys-padding-l-600">
-${g.pages
-  .map(
-    (p) =>
-      `          <li><a class="nys-display-flex nys-flex-align-center nys-padding-y-100 nys-padding-x-200" href="/${p.path}/">${escapeHtml(p.story)}</a></li>`,
-  )
-  .join("\n")}
-        </ol>
-      </section>`,
-  )
-  .join("\n")}`
-    : `      <h2>No components to preview</h2>
-      <p>This pull request changes no components with stories.</p>`;
-  return `<!doctype html>
-<html lang="en">
-  ${headHtml(`${pr ? `PR #${pr.number} – ` : ""}NYSDS Component Testing Environment`, HOME_STYLE)}
-  <body>
-    <header class="nysds-preview-hero">
-      <div class="nys-grid-container nys-grid-container-tablet nys-padding-y-200">
-        <p class="nysds-preview-eyebrow nys-font-ui-sm nys-margin-b-100">NYSDS Component Testing</p>
-        <h1 class="nys-font-ui-lg nys-margin-1px">${pullRequestHtml(pr)}</h1>
-      </div>
-    </header>${visualReportHtml(vr)}
-    <main class="nys-grid-container nys-grid-container-tablet nys-padding-y-600">
-${list}
-    </main>
-  </body>
-</html>
-`;
-}
+// Material Symbols' arrow_back and arrow_forward, the icons nys-icon uses,
+// inline so story pages don't need the nys-icon component.
+const ARROW_PATHS = {
+  Previous: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z",
+  Next: "M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z",
+};
 
 // An outline-button-styled link to a neighbouring story. The arrow is visual
 // only; "Previous:"/"Next:" stays in the accessible name for screen readers.
-function stepLink(page, direction, arrow) {
-  const icon = `<span aria-hidden="true">${arrow}</span>`;
-  const label = `<span><span class="nysds-preview-visually-hidden">${direction}: </span>${escapeHtml(pageLabel(page))}</span>`;
+function stepLink(page, direction) {
+  const icon = `<svg class="nysds-preview-arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="${ARROW_PATHS[direction]}"/></svg>`;
+  const label = `<span class="nysds-preview-step-label"><span class="nysds-preview-visually-hidden">${direction}: </span>${escapeHtml(pageLabel(page))}</span>`;
   return `<a class="nysds-preview-step nys-display-inline-flex nys-flex-align-center nys-flex-gap-100" href="/${page.path}/">${
     direction === "Previous" ? icon + label : label + icon
   }</a>`;
 }
 
-function navBar(pages, i) {
-  const prev = pages[i - 1];
-  const next = pages[i + 1];
-  // The current story sits on its own centered line, so Previous/Next links of
-  // different lengths can't push it off-center.
-  const current = `
-      <p class="nysds-preview-current nys-margin-1px">${escapeHtml(pageLabel(pages[i]))}</p>`;
-  const stepper =
-    pages.length < 2
-      ? ""
-      : `
-      <div class="nys-display-flex nys-flex-justify-space-between nys-flex-align-center nys-flex-gap-200 nys-margin-1px">
-        ${prev ? stepLink(prev, "Previous", "←") : "<span></span>"}
-        ${next ? stepLink(next, "Next", "→") : "<span></span>"}
+function navBar(pages, index) {
+  const previous = pages[index - 1];
+  const next = pages[index + 1];
+  // Previous, the current story and Next on one row. An empty cell stands in
+  // for a missing link, so the title stays in the middle column.
+  const stepper = `
+      <div class="nysds-preview-stepper nys-margin-1px">
+        ${previous ? stepLink(previous, "Previous") : "<span></span>"}
+        <p class="nysds-preview-current">${escapeHtml(pageLabel(pages[index]))}</p>
+        ${next ? stepLink(next, "Next") : "<span></span>"}
       </div>`;
   return `
     <nav
       aria-label="Stories to test"
       class="nysds-preview-bar nys-position-sticky nys-display-flex nys-flex-column nys-flex-gap-100 nys-padding-x-400 nys-padding-y-200 nys-font-ui-md"
-    >${current}${stepper}
-      <p class="nys-margin-1px"><a href="/" class="nysds-preview-home nys-display-block nys-font-ui-lg nys-padding-y-200">Home</a></p>
+    >${stepper}
+      <p class="nys-margin-1px"><a href="/preview/" class="nysds-preview-home nys-display-block nys-font-ui-lg nys-padding-y-200">Home</a></p>
     </nav>`;
 }
 
 /** A story page. Bare pages (for screenshots) have no bottom bar. */
-function pageHtml(pages, i, bare = false) {
-  const p = pages[i];
-  const position = pages.length > 1 && !bare ? ` (${i + 1} of ${pages.length})` : "";
+function pageHtml(pages, index, bare = false) {
+  const page = pages[index];
+  const position =
+    pages.length > 1 && !bare ? ` (${index + 1} of ${pages.length})` : "";
+  const barStyle = bare ? "" : `\n    ${BAR_STYLE}`;
   return `<!doctype html>
 <html lang="en">
   ${headHtml(
-    `${pageLabel(p)}${position}`,
-    `${bare ? "" : `
-    ${BAR_STYLE}`}
-    <script type="module" src="/assets/js/${p.dir}.js"></script>`,
+    `${pageLabel(page)}${position}`,
+    `${barStyle}
+    <script type="module" src="/assets/js/${page.dir}.js"></script>`,
   )}
   <body class="nys-display-flex nys-flex-column">
     <main class="nys-flex-1 nys-padding-400">
-${p.html
+${page.html
   .split("\n")
   .map((line) => (line ? `      ${line}` : line))
   .join("\n")}
-    </main>${bare ? "" : navBar(pages, i)}
+    </main>${bare ? "" : navBar(pages, index)}
   </body>
 </html>
 `;
@@ -649,15 +633,111 @@ function copyAssets(root, dist) {
   );
 }
 
-/** The site around the story pages: the VR report, home page and robots.txt. */
+/** Copies the full NYSDS component bundle the landing page uses, building it if needed. */
+function copyComponentBundle() {
+  // `npm run build` doesn't produce the single-file UMD bundle.
+  if (!fs.existsSync(NYSDS_BUNDLE)) {
+    console.log("Building dist/nysds.js for the landing page…");
+    spawnSync("npm", ["run", "build:umd"], { cwd: ROOT, stdio: "inherit" });
+  }
+  if (!fs.existsSync(NYSDS_BUNDLE)) {
+    console.warn(
+      "⚠ Missing dist/nysds.js — the landing page's header, footer and cards won't render. Run npm run build:umd.",
+    );
+    return;
+  }
+  fs.mkdirSync(path.join(DIST, "assets/js"), { recursive: true });
+  fs.copyFileSync(NYSDS_BUNDLE, path.join(DIST, "assets/js/nysds.js"));
+}
+
+/** "12 stories from 2 components", or a note that nothing changed. */
+function previewSummary(pages) {
+  if (pages.length === 0) return "No changed components to preview";
+  const components = new Set(pages.map((page) => page.dir)).size;
+  const stories = `${pages.length} ${pages.length === 1 ? "story" : "stories"}`;
+  const from = `${components} ${components === 1 ? "component" : "components"}`;
+  return `${stories} from ${from}`;
+}
+
+/**
+ * The data the landing page template fills itself in from: the pull request
+ * and, for each review tool this build has, where it is and a short summary.
+ * A tool that wasn't generated is null.
+ */
+function siteData(pages, vr, hasCodeReview, pr) {
+  return {
+    pullRequest: pr,
+    apps: {
+      preview: { href: "/preview/", summary: previewSummary(pages) },
+      visual: vr
+        ? { href: "/visual/", summary: visualReportSummary(vr) }
+        : null,
+      codeReview: hasCodeReview
+        ? {
+            href: "/code-review/",
+            summary: "Generated wrappers, base vs. head",
+          }
+        : null,
+    },
+  };
+}
+
+/**
+ * The data the story list template (src/scripts/preview/index.html) fills
+ * itself in from: the pull request, the visual regression summary (null
+ * without a report), and the stories grouped by component in testing order.
+ */
+function previewData(pages, vr, pr) {
+  const components = [];
+  for (const page of pages) {
+    let component = components.find((entry) => entry.dir === page.dir);
+    if (!component) {
+      component = { dir: page.dir, title: page.title, pages: [] };
+      components.push(component);
+    }
+    component.pages.push({ story: page.story, path: page.path });
+  }
+  return {
+    pullRequest: pr,
+    visualReport: vr
+      ? { href: "/visual/", summary: visualReportSummary(vr) }
+      : null,
+    components,
+  };
+}
+
+/**
+ * The site around the story pages: the landing page and its data, the story
+ * list at /preview/, the VR report, the code review page and robots.txt.
+ */
 function writeSite(pages, vr) {
+  const pr = pullRequest();
+
+  // The story list: a static template plus the data it renders.
+  fs.mkdirSync(path.join(DIST, "preview"), { recursive: true });
+  fs.copyFileSync(PREVIEW_TEMPLATE, path.join(DIST, "preview/index.html"));
+  fs.writeFileSync(
+    path.join(DIST, "preview/pages.js"),
+    `window.PREVIEW_DATA = ${JSON.stringify(previewData(pages, vr, pr), null, 2)};\n`,
+  );
+
   // Self-contained (relative paths), so it works as-is under /visual/.
   if (vr) copyDir(VR_REPORT, path.join(DIST, "visual"));
 
+  // The page and its review-data.js; the page loads NYSDS from jsDelivr.
+  const hasCodeReview = fs.existsSync(CODE_REVIEW_PAGE);
+  if (hasCodeReview) {
+    copyDir(path.dirname(CODE_REVIEW_PAGE), path.join(DIST, "code-review"));
+  }
+
+  copyComponentBundle();
+  fs.copyFileSync(LANDING_TEMPLATE, path.join(DIST, "index.html"));
+  // A script rather than JSON, like the VR report's results.js.
   fs.writeFileSync(
-    path.join(DIST, "index.html"),
-    homeHtml(pages, pullRequest(), vr),
+    path.join(DIST, "site-data.js"),
+    `window.SITE_DATA = ${JSON.stringify(siteData(pages, vr, hasCodeReview, pr), null, 2)};\n`,
   );
+
   fs.writeFileSync(
     path.join(DIST, "robots.txt"),
     "User-agent: *\nDisallow: /\n",
@@ -671,27 +751,36 @@ function writeSite(pages, vr) {
  * worktree). Bare pages leave out the bottom bar. Returns the pages in testing
  * order: [{ dir, title, story, exportName, path, tags }].
  */
-export async function buildPages({ components, dist, root = ROOT, bare = false }) {
+export async function buildPages({
+  components,
+  dist,
+  root = ROOT,
+  bare = false,
+}) {
   // Vite identifies modules by real path. Through a symlink (macOS's /var is
   // /private/var, where the base worktree lives) the harness page's inline
   // script is registered under one path and looked up under the other.
   root = fs.realpathSync(root);
   fs.mkdirSync(path.dirname(dist), { recursive: true });
   dist = path.join(fs.realpathSync(path.dirname(dist)), path.basename(dist));
-  await snapshotStories(root, path.join(path.dirname(dist), "harness"), components);
+  await snapshotStories(
+    root,
+    path.join(path.dirname(dist), "harness"),
+    components,
+  );
 
   const pages = [];
-  for (const c of components) {
-    for (const { stories } of c.files) {
-      for (const s of stories) {
+  for (const component of components) {
+    for (const { stories } of component.files) {
+      for (const story of stories) {
         pages.push({
-          dir: c.dir,
-          title: c.title,
-          story: s.name,
-          exportName: s.exportName,
-          tags: s.tags,
-          path: `${c.dir}/${kebab(s.exportName)}`,
-          html: await formatMarkup(s.html),
+          dir: component.dir,
+          title: component.title,
+          story: story.name,
+          exportName: story.exportName,
+          tags: story.tags,
+          path: `${component.dir}/${kebab(story.exportName)}`,
+          html: await formatMarkup(story.html),
         });
       }
     }
@@ -701,7 +790,10 @@ export async function buildPages({ components, dist, root = ROOT, bare = false }
   // register the component (and its dependencies) and run module-scope setup.
   const ENTRY = "\0preview-entry:";
   const entries = new Map(
-    components.map((c) => [c.dir, c.files.map((f) => f.file)]),
+    components.map((component) => [
+      component.dir,
+      component.files.map((storyFile) => storyFile.file),
+    ]),
   );
   await build({
     ...viteBase(root),
@@ -734,7 +826,10 @@ export async function buildPages({ components, dist, root = ROOT, bare = false }
           defaultHandler(warning);
         },
         input: Object.fromEntries(
-          components.map((c) => [c.dir, `${ENTRY}${c.dir}`]),
+          components.map((component) => [
+            component.dir,
+            `${ENTRY}${component.dir}`,
+          ]),
         ),
         output: {
           entryFileNames: "assets/js/[name].js",
@@ -745,9 +840,13 @@ export async function buildPages({ components, dist, root = ROOT, bare = false }
     },
   });
 
-  for (const [i, p] of pages.entries()) {
-    fs.mkdirSync(path.join(dist, p.path), { recursive: true });
-    fs.writeFileSync(path.join(dist, p.path, "index.html"), pageHtml(pages, i, bare));
+  for (const [index, page] of pages.entries()) {
+    const pageDir = path.join(dist, page.path);
+    fs.mkdirSync(pageDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(pageDir, "index.html"),
+      pageHtml(pages, index, bare),
+    );
   }
   copyAssets(root, dist);
   return pages;
@@ -762,7 +861,7 @@ async function main() {
   writeOutput("vr", vr ? 1 : 0);
 
   const components = affectedPackages(readComponentPackages(), args).filter(
-    (c) => storyFiles(c.dir).length > 0,
+    (component) => storyFiles(component.dir).length > 0,
   );
   if (!components.length) {
     console.log("No affected components with stories — nothing to preview.");
@@ -771,37 +870,36 @@ async function main() {
       JSON.stringify({ pages: [], components: [] }, null, 2),
     );
     writeOutput("pages", 0);
-    // The visual report still gets published, with a home page linking to it.
-    if (vr) {
-      fs.mkdirSync(DIST, { recursive: true });
-      copyAssets(ROOT, DIST);
-      writeSite([], vr);
-      console.log(
-        `✓ Wrote the visual report to ${path.relative(ROOT, DIST)}/visual/`,
-      );
-    }
+    // The landing page and the other review tools are still published.
+    fs.mkdirSync(DIST, { recursive: true });
+    copyAssets(ROOT, DIST);
+    writeSite([], vr);
+    console.log(
+      `✓ Wrote the landing page to ${path.relative(ROOT, DIST)}/ — no story pages`,
+    );
     return;
   }
   console.log(
-    `Previewing ${components.length} component(s): ${components.map((c) => c.dir).join(", ")}`,
+    `Previewing ${components.length} component(s): ${components.map((component) => component.dir).join(", ")}`,
   );
 
   const pages = await buildPages({ components, dist: DIST });
   writeSite(pages, vr);
 
   const manifest = {
-    pages: pages.map(({ dir, title, story, path: p }) => ({
+    // `pagePath`, because `path` is the Node path module here.
+    pages: pages.map(({ dir, title, story, path: pagePath }) => ({
       dir,
       title,
       story,
-      path: p,
+      path: pagePath,
     })),
-    components: components.map((c) => ({
-      dir: c.dir,
-      title: c.title,
-      reason: c.reason,
-      firstPath: pages.find((p) => p.dir === c.dir)?.path,
-      stories: pages.filter((p) => p.dir === c.dir).length,
+    components: components.map((component) => ({
+      dir: component.dir,
+      title: component.title,
+      reason: component.reason,
+      firstPath: pages.find((page) => page.dir === component.dir)?.path,
+      stories: pages.filter((page) => page.dir === component.dir).length,
     })),
   };
   fs.writeFileSync(
@@ -811,12 +909,15 @@ async function main() {
   writeOutput("pages", pages.length);
 
   console.log(
-    `✓ Wrote ${pages.length} page(s) to ${path.relative(ROOT, DIST)}/ — home page lists them at /${vr ? ", visual report at /visual/" : ""}`,
+    `✓ Wrote ${pages.length} page(s) to ${path.relative(ROOT, DIST)}/ — landing page at /, story list at /preview/${vr ? ", visual report at /visual/" : ""}${fs.existsSync(CODE_REVIEW_PAGE) ? ", code review at /code-review/" : ""}`,
   );
 }
 
 // Run only as a script; visual.mjs imports buildPages() without building the site.
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
   main().catch((err) => {
     console.error(err);
     process.exit(1);
