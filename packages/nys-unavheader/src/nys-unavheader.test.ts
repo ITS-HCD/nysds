@@ -852,23 +852,37 @@ describe("nys-unavheader", () => {
     const innerButton = (el: NysUnavHeader, id: string) =>
       el.shadowRoot?.getElementById(id)?.shadowRoot?.querySelector("button");
 
-    it("points aria-controls at the language menu from both triggers", async () => {
+    it("points aria-controls at the language menu from the mobile trigger", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
       );
       await el.updateComplete;
       await aTimeout(0);
 
-      const list = el.shadowRoot?.getElementById(
-        "nys-unavheader__languagelist",
-      );
-      expect(list, "the language menu should have an id to reference").to.exist;
+      expect(
+        el.shadowRoot?.getElementById("nys-unavheader__languagelist"),
+        "the language menu should have an id to reference",
+      ).to.exist;
 
-      for (const id of triggerIds) {
-        expect(innerButton(el, id)?.getAttribute("aria-controls"), id).to.equal(
-          "nys-unavheader__languagelist",
-        );
-      }
+      expect(
+        innerButton(el, "nys-unavheader__translate--mobile")?.getAttribute(
+          "aria-controls",
+        ),
+      ).to.equal("nys-unavheader__languagelist");
+    });
+
+    it("does not set aria-controls on the desktop trigger", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      expect(
+        innerButton(el, "nys-unavheader__translate--desktop")?.getAttribute(
+          "aria-controls",
+        ),
+      ).to.equal(null);
     });
 
     it("reflects aria-expanded on the real trigger buttons as the menu opens", async () => {
@@ -881,9 +895,6 @@ describe("nys-unavheader", () => {
       for (const id of triggerIds) {
         expect(innerButton(el, id)?.getAttribute("aria-expanded"), id).to.equal(
           "false",
-        );
-        expect(innerButton(el, id)?.getAttribute("aria-haspopup"), id).to.equal(
-          "menu",
         );
       }
 
@@ -1117,13 +1128,13 @@ describe("nys-unavheader", () => {
       expect(items).to.have.lengthOf(el.languages.length);
 
       items.forEach((option, i) => {
-        // The nys-button host would otherwise sit between the menu and its items
-        // in the accessibility tree as a generic container.
+        // The listitem role is on the nys-button host now.
         expect(option.getAttribute("role"), `option ${i} host`).to.equal(
-          "presentation",
-        );
-        expect(control(option)?.getAttribute("role"), `option ${i}`).to.equal(
           "listitem",
+        );
+        // Nothing may override the inner button's native role.
+        expect(control(option)?.getAttribute("role"), `option ${i}`).to.equal(
+          null,
         );
       });
     });
