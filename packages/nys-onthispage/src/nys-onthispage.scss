@@ -2,10 +2,9 @@
   /* Global Onthispage Styles */
   --_nys-onthispage-gap: var(--nys-space-150, 12px);
   --_nys-onthispage-border-radius: var(--nys-radius-round, 1776px);
+  --_nys-onthispage-border-radius--item: var(--nys-radius-sm, 2px);
 
   /* List Item */
-  --_nys-onthispage-color--item: var(--nys-color-text-weak, #4a4d4f);
-  --_nys-onthispage-color--item-active: var(--nys-color-theme, #154973);
   --_nys-onthispage-border-width--item: var(--nys-size-50, 4px);
   --_nys-onthispage-border-background-color--item: var(
     --nys-color-neutral-50,
@@ -15,9 +14,25 @@
     --nys-color-theme,
     #154973
   );
+  --_nys-onthispage-background-color--item--hover: var(
+    --nys-color-neutral-10,
+    #f6f6f6
+  );
+  --_nys-onthispage-background-color--item--active: var(
+    --nys-color-neutral-50,
+    #ededed
+  );
   --_nys-onthispage-padding--item: var(--nys-space-100, 8px)
-    var(--nys-space-2-px, 2px) var(--nys-space-100, 8px)
+    var(--nys-space-4-px, 4px) var(--nys-space-100, 8px)
     var(--nys-space-200, 16px);
+
+  /* List Item Link */
+  --_nys-onthispage-color--item: var(--nys-color-text-weak, #4a4d4f);
+  --_nys-onthispage-color--item--hover: var(--nys-color-theme, #154973);
+  --_nys-onthispage-color--item--active: var(--nys-color-theme-strong, #0e324f);
+  --_nys-onthispage-color--item-target: var(--nys-color-theme, #154973);
+  --_nys-onthispage-color--item-target--hover: var(--nys-color-theme-strong, #0e324f);
+  --_nys-onthispage-color--item-target--active: var(--nys-color-theme-stronger, #081b2b);
 
   /* Typography */
   --_nys-onthispage-font-size--header: var(--nys-font-size-ui-md, 16px);
@@ -86,9 +101,45 @@
 
       .nys-onthispage__item {
         position: relative;
-        padding: var(--_nys-onthispage-padding--item);
+        border-radius: var(--_nys-onthispage-border-radius--item);
+        &:hover {
+          &::before {
+            content: "";
+            width: var(--_nys-onthispage-border-width--item);
+            background-color: var(
+              --_nys-onthispage-border-background-color--item
+            );
+            border-radius: var(--_nys-onthispage-border-radius);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            position: absolute;
+          }
+          background-color: var(
+            --_nys-onthispage-background-color--item--hover
+          );
+          .nys-onthispage__link {
+            color: var(--_nys-onthispage-color--item--hover);
+            text-decoration-line: underline;
+            text-decoration-thickness: 8%;
+            text-underline-position: from-font;
+          }
+        }
+        &:active {
+          background-color: var(
+            --_nys-onthispage-background-color--item--active
+          );
+          .nys-onthispage__link {
+            color: var(--_nys-onthispage-color--item--active);
+          }
+        }
 
         &.active {
+          &:hover {
+            .nys-onthispage__link {
+              text-decoration-line: none;
+            }
+          }
           &::before {
             content: "";
             width: var(--_nys-onthispage-border-width--item);
@@ -100,16 +151,38 @@
             bottom: 0;
             left: 0;
             position: absolute;
+            &:hover {
+              background-color: var(--nys-color-theme-strong, #0e324f);
+            }
+            &:active {
+              background-color: var(--nys-color-theme-stronger, #081b2b);
+            }
           }
         }
 
         .nys-onthispage__link {
+          display: block;
+          padding: var(--_nys-onthispage-padding--item);
           text-decoration: none;
           color: var(--_nys-onthispage-color--item);
 
           &.active {
-            color: var(--_nys-onthispage-color--item-active);
+            color: var(--_nys-onthispage-color--item-target);
             font-weight: var(--_nys-onthispage-font-weight--active);
+            &:hover {
+              color: var(--_nys-onthispage-color--item-target--hover);
+              text-decoration-line: none;
+
+              &::before {
+                --_nys-onthispage-border-background--item--active: var(
+                  --nys-color-theme-strong,
+                  #0e324f
+                );
+              }
+            }
+            &:active {
+              color: var(--_nys-onthispage-color--item-target--active);
+            }
           }
         }
       }
