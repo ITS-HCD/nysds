@@ -5,34 +5,41 @@
   --_nys-onthispage-border-radius--item: var(--nys-radius-sm, 2px);
 
   /* List Item */
+  --_nys-onthispage-padding--item: var(--nys-space-100, 8px)
+    var(--nys-space-4px, 4px) var(--nys-space-100, 8px)
+    var(--nys-space-200, 16px);
+  // ---- THE BORDER ----
   --_nys-onthispage-border-width--item: var(--nys-size-50, 4px);
   --_nys-onthispage-border-color--item: var(--nys-color-neutral-50, #ededed);
-  --_nys-onthispage-border-color--item--active: var(
-    --nys-color-theme,
-    #154973
+  --_nys-onthispage-border-color--item--hover: var(
+    --nys-color-neutral-50,
+    #ededed
   );
+  --_nys-onthispage-border-color--item--pressed: var(
+    --nys-color-neutral-100,
+    #d0d0ce
+  );
+  --_nys-onthispage-border-color--item--active: var(--nys-color-theme, #154973);
+  // ---- THE BACKGROUND ----
   --_nys-onthispage-background-color--item--hover: var(
     --nys-color-neutral-10,
     #f6f6f6
   );
-  --_nys-onthispage-background-color--item--active: var(
+  --_nys-onthispage-background-color--item--pressed: var(
     --nys-color-neutral-50,
     #ededed
   );
-  --_nys-onthispage-padding--item: var(--nys-space-100, 8px)
-    var(--nys-space-4px, 4px) var(--nys-space-100, 8px)
-    var(--nys-space-200, 16px);
 
   /* List Item Link */
   --_nys-onthispage-color--item: var(--nys-color-text-weak, #4a4d4f);
-  --_nys-onthispage-color--item--hover: var(--nys-color-theme, #154973);
-  --_nys-onthispage-color--item--active: var(--nys-color-theme-strong, #0e324f);
+  --_nys-onthispage-color--item--hover: var(--nys-color-text, #1b1b1b);
+  --_nys-onthispage-color--item--pressed: var(--nys-color-text, #1b1b1b);
   --_nys-onthispage-color--item-target: var(--nys-color-theme, #154973);
   --_nys-onthispage-color--item-target--hover: var(
     --nys-color-theme-strong,
     #0e324f
   );
-  --_nys-onthispage-color--item-target--active: var(
+  --_nys-onthispage-color--item-target--pressed: var(
     --nys-color-theme-stronger,
     #081b2b
   );
@@ -99,99 +106,92 @@
         border-radius: var(--_nys-onthispage-border-radius);
         top: 0;
         bottom: 0;
+        left: 0;
         position: absolute;
       }
 
+      // The list item
       .nys-onthispage__item {
-        position: relative;
-        border-radius: var(--_nys-onthispage-border-radius--item);
-
-        &:hover {
-          &::before {
-            content: "";
-            width: var(--_nys-onthispage-border-width--item);
-            background-color: var(--_nys-onthispage-border-color--item);
-            border-radius: var(--_nys-onthispage-border-radius);
-            top: 0;
-            bottom: 0;
-            left: 0;
-            position: absolute;
-          }
-          background-color: var(
-            --_nys-onthispage-background-color--item--hover
-          );
-
-          .nys-onthispage__link {
-            color: var(--_nys-onthispage-color--item--hover);
-            text-decoration-line: underline;
-            text-decoration-thickness: 8%;
-            text-underline-position: from-font;
-          }
-        }
-
-        &:active {
-          background-color: var(
-            --_nys-onthispage-background-color--item--active
-          );
-
-          .nys-onthispage__link {
-            color: var(--_nys-onthispage-color--item--active);
-          }
-        }
-
-        &.active {
-          &:hover {
-            .nys-onthispage__link {
-              text-decoration-line: none;
-            }
-          }
-
-          &::before {
-            content: "";
-            width: var(--_nys-onthispage-border-width--item);
-            background-color: var(
-              --_nys-onthispage-border-color--item--active
-            );
-            border-radius: var(--_nys-onthispage-border-radius);
-            top: 0;
-            bottom: 0;
-            left: 0;
-            position: absolute;
-
-            &:hover {
-              background-color: var(--nys-color-theme-strong, #0e324f);
-            }
-
-            &:active {
-              background-color: var(--nys-color-theme-stronger, #081b2b);
-            }
-          }
-        }
-
+        // The actual link
         .nys-onthispage__link {
           display: block;
           padding: var(--_nys-onthispage-padding--item);
           text-decoration: none;
           color: var(--_nys-onthispage-color--item);
+          border-radius: var(--_nys-onthispage-border-radius--item);
+          position: relative;
+
+          &:hover {
+            &::before {
+              content: "";
+              width: var(--_nys-onthispage-border-width--item);
+              background-color: var(
+                --_nys-onthispage-border-color--item--hover
+              );
+              border-radius: var(--_nys-onthispage-border-radius);
+              top: 0;
+              bottom: 0;
+              left: 0;
+              position: absolute;
+            }
+            background-color: var(
+              --_nys-onthispage-background-color--item--hover
+            );
+            color: var(--_nys-onthispage-color--item--hover);
+            text-decoration-line: underline;
+            text-decoration-thickness: 8%;
+            text-underline-position: from-font;
+          }
+
+          &:active {
+            &::before {
+              content: "";
+              width: var(--_nys-onthispage-border-width--item);
+              background-color: var(
+                --_nys-onthispage-border-color--item--pressed
+              );
+              border-radius: var(--_nys-onthispage-border-radius);
+              top: 0;
+              bottom: 0;
+              left: 0;
+              position: absolute;
+            }
+            background-color: var(
+              --_nys-onthispage-background-color--item--pressed
+            );
+            color: var(--_nys-onthispage-color--item--pressed);
+          }
 
           &.active {
+            &::before {
+              content: "";
+              width: var(--_nys-onthispage-border-width--item);
+              background-color: var(
+                --_nys-onthispage-border-color--item--active
+              );
+              border-radius: var(--_nys-onthispage-border-radius);
+              top: 0;
+              bottom: 0;
+              left: 0;
+              position: absolute;
+            }
             color: var(--_nys-onthispage-color--item-target);
             font-weight: var(--_nys-onthispage-font-weight--active);
-
             &:hover {
               color: var(--_nys-onthispage-color--item-target--hover);
+              --_nys-onthispage-border-color--item--active: var(
+                --nys-color-theme-strong,
+                #0e324f
+              );
+
               text-decoration-line: none;
-
-              &::before {
-                --_nys-onthispage-border-color--item--active: var(
-                  --nys-color-theme-strong,
-                  #0e324f
-                );
-              }
             }
-
             &:active {
-              color: var(--_nys-onthispage-color--item-target--active);
+              color: var(--_nys-onthispage-color--item-target--pressed);
+              --_nys-onthispage-border-color--item--active: var(
+                --nys-color-theme-stronger,
+                #081b2b
+              );
             }
           }
         }
