@@ -165,7 +165,7 @@ const isPublished = (status?: string) => status?.trim().toLowerCase() === "on";
 const escapeRegExp = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-/** The element the translate menu is rendered into, referenced by `aria-controls`. */
+/** The element the translate menu is rendered into. */
 const LANGUAGE_LIST_ID = "nys-unavheader__languagelist";
 
 /** Accessible name of the menu, matching the name of the trigger that opens it. */
