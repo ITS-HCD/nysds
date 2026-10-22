@@ -15,6 +15,9 @@
       body {
         color: var(--nys-color-text);
       }
+      [hidden] {
+        display: none !important;
+      }
       header {
         position: sticky;
         top: 0;
@@ -240,7 +243,7 @@
               aria-labelledby="tab-removed"
             ></nys-tabpanel>
           </nys-tabgroup>
-          <p><span class="meta nys-font-ui-sm" id="meta"></span></p>
+          <p><span class="meta nys-font-ui-sm" id="meta" hidden></span></p>
         </div>
       </div>
     </main>
