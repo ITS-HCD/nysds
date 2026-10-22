@@ -742,7 +742,6 @@ export class NysCheckboxgroup extends NysFormControlElement {
             : undefined,
         )}
         class="nys-checkboxgroup"
-        role="radiogroup"
       >
         <nys-label
           id="${this.id}--label"
