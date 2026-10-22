@@ -52,9 +52,7 @@
       .review a {
         color: var(--nys-color-link, #004dd1);
       }
-      h1 {
-        margin: 0 0 var(--nys-space-100, 8px);
-      }
+
       .lede {
         font-size: var(--nys-font-size-body-lg, 1.25rem);
         max-width: 72ch;
@@ -279,11 +277,7 @@
     -->
     <nys-skipnav></nys-skipnav>
     <nys-unavheader hideTranslate hideSearch></nys-unavheader>
-    <nys-globalheader
-      appName="NYSDS Review"
-      agencyName="NYS Design System"
-      homepageLink="/"
-    >
+    <nys-globalheader appName="NYSDS Review" homepageLink="/">
       <ul id="app-links">
         <li data-app="preview">
           <a href="/preview/">Accessibility Tests</a>
@@ -297,7 +291,7 @@
 
     <main id="main-content" class="review">
       <!-- Widescreen, so the content lines up with the global header and footer. -->
-      <div class="nys-grid-container-widescreen nys-padding-y-600">
+      <div class="nys-grid-container-widescreen">
         <div class="nys-grid-row">
           <div class="nys-grid-col-12">
             <h1>Codegen Review: <span id="review-name"></span></h1>

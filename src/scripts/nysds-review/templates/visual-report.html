@@ -23,9 +23,6 @@
         border-bottom: var(--nys-border-width-sm) solid
           var(--nys-color-neutral-100);
       }
-      h1 {
-        font-weight: var(--nys-font-weight-semibold);
-      }
       .back {
         color: var(--nys-color-link);
       }
@@ -192,11 +189,7 @@
   <body class="nys-font-ui-md">
     <nys-skipnav></nys-skipnav>
     <nys-unavheader hideTranslate hideSearch></nys-unavheader>
-    <nys-globalheader
-      appName="NYSDS Review"
-      agencyName="NYS Design System"
-      homepageLink="/"
-    >
+    <nys-globalheader appName="NYSDS Review" homepageLink="/">
       <ul id="app-links">
         <li data-app="preview">
           <a href="/preview/">Accessibility Tests</a>
@@ -208,10 +201,10 @@
       </ul>
     </nys-globalheader>
 
-    <main class="nys-grid-container-widescreen nys-padding-y-300">
+    <main class="nys-grid-container-widescreen">
       <div class="nys-grid-row">
         <div class="nys-grid-col-12">
-          <h1 class="nys-margin-1px">NYSDS Visual Changes</h1>
+          <h1>NYSDS Visual Changes</h1>
           <div class="nys-grid-row nys-grid-gap-600 nys-flex-align-center">
             <div class="nys-grid-col-auto">
               <nys-textinput
@@ -252,6 +245,12 @@
         </div>
       </div>
     </main>
+    <nys-backtotop></nys-backtotop>
+    <footer>
+      <nys-globalfooter agencyName="NYS Design System" homepageLink="/">
+      </nys-globalfooter>
+      <nys-unavfooter></nys-unavfooter>
+    </footer>
 
     <!--
       Full-size view of one screenshot, opened by clicking any screenshot in an

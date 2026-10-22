@@ -25,9 +25,6 @@
         letter-spacing: 0.08em; /* no token for uppercase label tracking */
         text-transform: uppercase;
       }
-      .nysds-preview-hero h1 {
-        font-weight: var(--nys-font-weight-semibold);
-      }
       .nysds-preview-hero a,
       .nysds-preview-hero a:focus,
       .nysds-preview-hero a:active {
@@ -81,11 +78,7 @@
     -->
     <nys-skipnav></nys-skipnav>
     <nys-unavheader hideTranslate hideSearch></nys-unavheader>
-    <nys-globalheader
-      appName="NYSDS Review"
-      agencyName="NYS Design System"
-      homepageLink="/"
-    >
+    <nys-globalheader appName="NYSDS Review" homepageLink="/">
       <ul id="app-links">
         <li data-app="preview">
           <a href="/preview/">Accessibility Tests</a>
@@ -97,7 +90,7 @@
       </ul>
     </nys-globalheader>
 
-    <main class="nys-grid-container-widescreen nys-padding-y-600">
+    <main class="nys-grid-container-widescreen">
       <div class="nys-grid-row">
         <div class="nys-grid-col-12">
           <h1 id="story-count">No components to preview</h2>
