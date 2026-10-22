@@ -298,11 +298,6 @@ export class NysUnavFooter extends NysElement {
               class="nys-unavfooter__cta-button"
               label="${buttonText}"
               href="${ifDefined(link || undefined)}"
-              style="
-              --nys-button-background-color: var(--nys-color-ink-reverse, #ffffff);
-              --nys-button-color: var(--nys-color-ink, #b1b1b1);
-              --nys-button-background-color--hover: var(--nys-color-accent, #face00);
-              --nys-button-color--hover: var(--nys-color-ink, #b1b1b1);"
             ></nys-button>`
           : nothing}
         ${description

@@ -103,6 +103,13 @@ a:active {
   color: var(--nys-color-ink-reverse, #ffffff);
   margin-inline-start: var(--nys-space-200, 16px);
   flex-direction: column;
+
+  --nys-button-background-color: var(--nys-color-ink-reverse, #ffffff);
+  --nys-button-background-color--hover: var(--nys-color-accent, #face00);
+  --nys-button-background-color--active: var(--nys-color-accent, #face00);
+  --nys-button-color: var(--nys-color-ink, #1b1b1b);
+  --nys-button-color--hover: var(--nys-color-ink, #1b1b1b);
+  --nys-button-color--active: var(--nys-color-ink, #1b1b1b);
 }
 
 @media (width >= 768px) {
