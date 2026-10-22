@@ -58,6 +58,13 @@ const CODE_REVIEW_PAGE = path.join(ROOT, ".code-review/index.html");
 const LANDING_TEMPLATE = path.join(SCRIPT_DIR, "templates/landing.html");
 // The story list at /preview/, filled in from a generated pages.js.
 const PREVIEW_TEMPLATE = path.join(SCRIPT_DIR, "templates/preview.html");
+// Styles for the landing page and the story list (not the story pages).
+const REVIEW_STYLESHEET = path.join(SCRIPT_DIR, "templates/nysds-review.css");
+// The story pages' bottom bar.
+const PREVIEW_STYLESHEET = path.join(
+  SCRIPT_DIR,
+  "templates/nysds-review-preview.css",
+);
 // The landing page's header, footer and cards come from the full NYSDS bundle.
 const NYSDS_BUNDLE = path.join(ROOT, "dist/nysds.js");
 const SHARED_PACKAGES = new Set(["tokens", "styles", "internals", "codegen"]);
@@ -343,117 +350,6 @@ async function formatMarkup(html) {
   }
 }
 
-// Only what @nysds/styles utilities cannot express: a full-height body so the
-// bar sits at the bottom of the viewport on short pages, the bar's offset,
-// surface and divider, keeping focused content clear of it (WCAG 2.4.11), and
-// dropping it into the page flow on short viewports such as 400% zoom (WCAG 1.4.10).
-const BAR_STYLE = `<style>
-      html { scroll-padding-bottom: var(--nys-space-1200); }
-      body { min-height: 100dvh; }
-      .nysds-preview-bar {
-        bottom: 0;
-        background: var(--nys-color-surface);
-        border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-200);
-      }
-      @media (max-height: 480px) { .nysds-preview-bar { position: static; } }
-      /*
-        Previous, the current story and Next share one row. The two side
-        columns always split the leftover width equally, so the title stays
-        centered whatever the links say; each is at least one 48px button
-        wide (--nys-size-600).
-      */
-      .nysds-preview-stepper {
-        display: grid;
-        grid-template-columns:
-          minmax(var(--nys-size-600), 1fr) auto minmax(var(--nys-size-600), 1fr);
-        align-items: center;
-        gap: var(--nys-space-200);
-      }
-      .nysds-preview-stepper > :first-child { justify-self: start; }
-      .nysds-preview-stepper > :last-child { justify-self: end; }
-      /*
-        Long story names wrap; keep every line centered. No margin: the
-        typography styles give a paragraph that isn't last a bottom margin,
-        which would lift the title off the buttons' center line.
-      */
-      .nysds-preview-current {
-        margin: 0;
-        text-align: center;
-        font-weight: var(--nys-font-weight-semibold);
-      }
-      /* Previous/Next links styled like nys-button's outline variant. */
-      .nysds-preview-step {
-        min-height: var(--nys-size-600);
-        padding: calc(var(--nys-space-150) - var(--nys-border-width-md))
-          calc(var(--nys-space-250) - var(--nys-border-width-md));
-        border: var(--nys-border-width-md) solid var(--nys-color-theme);
-        border-radius: var(--nys-radius-xl);
-        background: var(--nys-color-surface);
-        color: var(--nys-color-theme);
-        font-weight: var(--nys-font-weight-semibold);
-        text-decoration: none;
-      }
-      /* Long link text wraps inside its column instead of overflowing it. */
-      .nysds-preview-step { max-width: 100%; }
-      .nysds-preview-arrow {
-        flex: none;
-        width: var(--nys-size-250);
-        height: var(--nys-size-250);
-        fill: currentColor;
-      }
-      .nysds-preview-step:hover { background: var(--nys-color-theme-weaker); }
-      .nysds-preview-step:active { background: var(--nys-color-theme-weak); }
-      .nysds-preview-step:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: var(--nys-space-2px);
-      }
-      .nysds-preview-visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip-path: inset(50%);
-        white-space: nowrap;
-      }
-      /*
-        Below the tablet breakpoint (40em) the links shrink to 48px arrow
-        buttons, leaving the row to the title. The story names are only
-        hidden visually: they stay in each link's accessible name.
-      */
-      @media (max-width: 39.99em) {
-        .nysds-preview-step {
-          justify-content: center;
-          min-width: var(--nys-size-600);
-          padding: calc(var(--nys-space-150) - var(--nys-border-width-md));
-        }
-        /* The arrow is all that's visible, so make it easy to see. */
-        .nysds-preview-arrow {
-          width: var(--nys-size-300);
-          height: var(--nys-size-300);
-        }
-        .nysds-preview-step-label {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          overflow: hidden;
-          clip-path: inset(50%);
-          white-space: nowrap;
-        }
-      }
-      .nysds-preview-bar .nysds-preview-home {
-        text-align: center;
-        background: var(--nys-color-theme);
-        color: var(--nys-color-text-reverse);
-        text-decoration: none;
-        min-height: var(--nys-size-600);
-        padding: calc(var(--nys-space-150) - var(--nys-border-width-md))
-          calc(var(--nys-space-250) - var(--nys-border-width-md));
-        border: var(--nys-border-width-md) solid var(--nys-color-theme);
-        border-radius: var(--nys-radius-xl);
-        font-weight: var(--nys-font-weight-semibold);
-      }
-    </style>`;
-
 const pageLabel = (page) => `${page.title}, ${page.story}`;
 
 function headHtml(title, extra = "") {
@@ -572,7 +468,9 @@ function pageHtml(pages, index, bare = false) {
   const page = pages[index];
   const position =
     pages.length > 1 && !bare ? ` (${index + 1} of ${pages.length})` : "";
-  const barStyle = bare ? "" : `\n    ${BAR_STYLE}`;
+  const barStyle = bare
+    ? ""
+    : `\n    <link rel="stylesheet" href="/assets/css/nysds-review-preview.css" />`;
   return `<!doctype html>
 <html lang="en">
   ${headHtml(
@@ -626,6 +524,11 @@ function copyAssets(root, dist) {
     path.join(dist, "assets/icons"),
   );
   copyDir(path.join(root, "public"), dist);
+  fs.mkdirSync(path.join(dist, "assets/css"), { recursive: true });
+  fs.copyFileSync(
+    PREVIEW_STYLESHEET,
+    path.join(dist, "assets/css/nysds-review-preview.css"),
+  );
   fs.copyFileSync(
     path.join(root, "favicon.svg"),
     path.join(dist, "favicon.svg"),
@@ -730,6 +633,11 @@ function writeSite(pages, vr) {
   }
 
   copyComponentBundle();
+  fs.mkdirSync(path.join(DIST, "assets/css"), { recursive: true });
+  fs.copyFileSync(
+    REVIEW_STYLESHEET,
+    path.join(DIST, "assets/css/nysds-review.css"),
+  );
   fs.copyFileSync(LANDING_TEMPLATE, path.join(DIST, "index.html"));
   // A script rather than JSON, like the VR report's results.js.
   fs.writeFileSync(

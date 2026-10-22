@@ -114,6 +114,11 @@ const NETWORK_CACHE_DIR = join(OUTPUT_DIR, "net-cache");
 // The report UI is built with NYSDS itself: its component bundle and styles.
 const NYSDS_BUNDLE = join(ROOT, "dist/nysds.js");
 const NYSDS_STYLESHEET = join(ROOT, "packages/styles/dist/nysds-full.min.css");
+// What NYSDS utilities can't express, shared with the other review pages.
+const REVIEW_STYLESHEET = join(
+  dirname(fileURLToPath(import.meta.url)),
+  "templates/nysds-review.css",
+);
 
 const REPORT_TEMPLATE = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "templates/visual-report.html"),
@@ -1102,7 +1107,7 @@ function writeReport(reportData) {
     console.log("Building dist/nysds.js for the report UI…");
     spawnSync("npm", ["run", "build:umd"], { cwd: ROOT, stdio: "inherit" });
   }
-  for (const assetFile of [NYSDS_BUNDLE, NYSDS_STYLESHEET]) {
+  for (const assetFile of [NYSDS_BUNDLE, NYSDS_STYLESHEET, REVIEW_STYLESHEET]) {
     if (existsSync(assetFile)) {
       const assetName = assetFile.split("/").pop();
       copyFileSync(assetFile, join(REPORT_DIR, "assets", assetName));

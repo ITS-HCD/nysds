@@ -11,263 +11,8 @@
     <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
     <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />
     <script src="/assets/js/nysds.js"></script>
-    <style>
-      /* Components set display on :host, which would beat the hidden attribute. */
-      [hidden] {
-        display: none !important;
-      }
-
-      .review code,
-      .diff,
-      .api {
-        font-family: var(
-          --nys-font-family-monospace,
-          "Roboto Mono Web",
-          "Bitstream Vera Sans Mono",
-          Consolas,
-          Courier,
-          monospace
-        );
-      }
-      .review code {
-        font-size: 0.875em;
-        color: inherit;
-        overflow-wrap: break-word;
-      }
-      .review code.flag {
-        white-space: nowrap;
-      }
-      /* Custom element hosts render inline, so spacing on them needs a block box. */
-      nys-alert,
-      nys-accordion {
-        display: block;
-      }
-      nys-alert {
-        margin-bottom: var(--nys-space-300, 24px);
-      }
-      nys-alert ul {
-        margin: var(--nys-space-100, 8px) 0 0;
-        padding-left: 1.25em;
-      }
-      .review a {
-        color: var(--nys-color-link, #004dd1);
-      }
-
-      .lede {
-        font-size: var(--nys-font-size-body-lg, 1.25rem);
-        max-width: 72ch;
-        margin: 0;
-      }
-      .weak {
-        color: var(--nys-color-text-weak, #4a4d4f);
-      }
-      .band {
-        padding-block: var(--nys-space-500, 40px);
-        border-top: 1px solid var(--nys-color-theme-weak, #cddde9);
-      }
-      .band > div > h2 {
-        font-size: var(--nys-font-size-h4, 1.25rem);
-        margin: 0;
-      }
-      .band h3 {
-        font-size: var(--nys-font-size-h5, 1.125rem);
-        margin: 0 0 var(--nys-space-50, 4px);
-      }
-      .facts {
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        gap: var(--nys-space-100, 8px) var(--nys-space-300, 24px);
-        margin: 0 0 var(--nys-space-300, 24px);
-      }
-      .facts dt {
-        font-weight: 600;
-      }
-      .facts dd {
-        margin: 0;
-      }
-      /* Count cards in a row share one height (see nys-card's --nys-card-height). */
-      .counts {
-        --nys-card-height: 100%;
-        margin-bottom: var(--nys-space-400, 32px);
-      }
-      .files table {
-        width: 100%;
-      }
-      .files caption {
-        text-align: left;
-        padding-bottom: var(--nys-space-100, 8px);
-      }
-      .files td,
-      .files th {
-        vertical-align: top;
-        text-align: left;
-      }
-      .plain {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-      .tag {
-        display: inline-block;
-        min-width: 3.5em;
-        font-weight: 600;
-      }
-      .component + .component {
-        margin-top: var(--nys-space-300, 24px);
-      }
-      .api {
-        list-style: none;
-        margin: var(--nys-space-100, 8px) 0 0;
-        padding: 0;
-        font-size: 0.875rem;
-      }
-      .api li {
-        padding: 2px var(--nys-space-100, 8px);
-        border-radius: var(--nys-radius-sm, 2px);
-      }
-      .api li + li {
-        margin-top: 2px;
-      }
-      .api .add {
-        background: var(--nys-color-success-weak, #e8f1ea);
-      }
-      .api .del {
-        background: var(--nys-color-danger-weak, #f7eaea);
-      }
-      .api .mod {
-        background: var(--nys-color-warning-weak, #fefae5);
-      }
-      .api .sign {
-        display: inline-block;
-        width: 2ch;
-        font-weight: 700;
-      }
-      .toolbar {
-        display: flex;
-        gap: var(--nys-space-100, 8px);
-        margin-bottom: var(--nys-space-200, 16px);
-      }
-      nys-accordion {
-        --nys-accordion-content-max-width: none;
-      }
-      .diff-meta {
-        margin-bottom: var(--nys-space-200, 16px);
-      }
-      .diff-meta > p {
-        display: flex;
-        align-items: center;
-        gap: var(--nys-space-100, 8px);
-        margin: 0 0 var(--nys-space-150, 12px);
-      }
-      .diff-meta .facts {
-        margin-bottom: 0;
-      }
-      .diff-scroll {
-        overflow-x: auto;
-        border: 1px solid var(--nys-color-theme-weak, #cddde9);
-        border-radius: var(--nys-radius-md, 4px);
-      }
-      .diff {
-        border-collapse: collapse;
-        width: 100%;
-        font-size: 0.8125rem;
-        line-height: 1.6;
-      }
-      .diff td {
-        padding: 0 var(--nys-space-100, 8px);
-        white-space: pre;
-        vertical-align: top;
-      }
-      .diff .ln {
-        width: 1%;
-        min-width: 4ch;
-        text-align: right;
-        color: var(--nys-color-text-weak, #4a4d4f);
-        user-select: none;
-      }
-      .diff .sign {
-        width: 1%;
-        user-select: none;
-        font-weight: 700;
-      }
-      .diff .add {
-        background: var(--nys-color-success-weak, #e8f1ea);
-      }
-      .diff .add .sign {
-        color: var(--nys-color-success-strong, #0f3d18);
-      }
-      .diff .del {
-        background: var(--nys-color-danger-weak, #f7eaea);
-      }
-      .diff .del .sign {
-        color: var(--nys-color-danger-strong, #721c1c);
-      }
-      .diff .hunk td {
-        background: var(--nys-color-theme-faint, #f7fafd);
-        color: var(--nys-color-text-weak, #4a4d4f);
-      }
-      .diff .note td {
-        color: var(--nys-color-text-weak, #4a4d4f);
-        font-style: italic;
-      }
-      .repeats {
-        margin: var(--nys-space-300, 24px) 0 var(--nys-space-50, 4px);
-      }
-      .same {
-        columns: 16rem;
-        list-style: none;
-        padding: 0;
-        margin: var(--nys-space-100, 8px) 0 0;
-      }
-      footer {
-        margin-top: var(--nys-space-500, 40px);
-        font-size: 0.875rem;
-      }
-      .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        padding: 0;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        white-space: nowrap;
-        border: 0;
-      }
-      /* Offline: show what the components would have rendered. */
-      nys-badge:not(:defined)::before {
-        content: attr(label);
-        padding: 0 var(--nys-space-100, 8px);
-        border: 1px solid currentColor;
-        border-radius: 4px;
-        font-weight: 600;
-      }
-      nys-accordionitem:not(:defined) {
-        display: block;
-        margin-bottom: var(--nys-space-200, 16px);
-        padding: var(--nys-space-200, 16px);
-        border: 1px solid var(--nys-color-theme-weak, #cddde9);
-      }
-      nys-accordionitem:not(:defined)::before {
-        content: attr(heading);
-        display: block;
-        margin-bottom: var(--nys-space-100, 8px);
-        font-weight: 700;
-      }
-      nys-alert:not(:defined) {
-        padding: var(--nys-space-200, 16px);
-        background: var(--nys-color-info-weak, #e5effa);
-        border-left: 4px solid var(--nys-color-info, #004dd1);
-      }
-      nys-alert:not(:defined)::before {
-        content: attr(heading);
-        display: block;
-        font-weight: 700;
-      }
-      nys-button:not(:defined) {
-        display: none;
-      }
-    </style>
+    <!-- Copied next to this page by review-codegen.mjs. -->
+    <link rel="stylesheet" href="nysds-review.css" />
   </head>
   <body>
     <!--
@@ -300,15 +45,17 @@
         </div>
 
         <section
-          class="band nys-grid-row nys-grid-gap-400"
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
           aria-labelledby="glance"
         >
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-            <h2 id="glance">At a glance</h2>
+            <h2 id="glance" class="nys-font-h4">At a glance</h2>
           </div>
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
             <div id="notes"></div>
-            <div class="counts nys-grid-row nys-grid-gap-200">
+            <div
+              class="card-row nys-grid-row nys-grid-gap-200 nys-margin-b-400"
+            >
               <div
                 class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
               >
@@ -354,15 +101,15 @@
                 </nys-card>
               </div>
             </div>
-            <h3>What this compares</h3>
-            <dl class="facts" id="compare-facts"></dl>
-            <h3>Verdicts</h3>
+            <h3 class="nys-font-h5 nys-margin-b-50">What this compares</h3>
+            <dl class="facts nys-margin-b-300" id="compare-facts"></dl>
+            <h3 class="nys-font-h5 nys-margin-b-50">Verdicts</h3>
             <p>
               Generated wrapper files are gitignored, so the pull request diff
               doesn't show them. This page regenerates them for both commits and
               compares the results. Each changed file gets one verdict:
             </p>
-            <dl class="facts">
+            <dl class="facts nys-margin-b-300">
               <dt data-badge="expected"></dt>
               <dd>
                 The PR changed the file's component source, its override, or the
@@ -381,11 +128,11 @@
         </section>
 
         <section
-          class="band nys-grid-row nys-grid-gap-400"
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
           aria-labelledby="files"
         >
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-            <h2 id="files">Changed files</h2>
+            <h2 id="files" class="nys-font-h4">Changed files</h2>
           </div>
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
             <p id="files-empty">No generated files changed.</p>
@@ -411,11 +158,11 @@
         </section>
 
         <section
-          class="band nys-grid-row nys-grid-gap-400"
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
           aria-labelledby="api"
         >
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-            <h2 id="api">API changes</h2>
+            <h2 id="api" class="nys-font-h4">API changes</h2>
           </div>
           <div
             class="nys-grid-col-12 nys-desktop:nys-grid-col-10"
@@ -426,13 +173,15 @@
         </section>
 
         <section
-          class="band nys-grid-row nys-grid-gap-400"
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
           aria-labelledby="quiet-heading"
           id="quiet"
           hidden
         >
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-            <h2 id="quiet-heading">No generated changes found</h2>
+            <h2 id="quiet-heading" class="nys-font-h4">
+              No generated changes found
+            </h2>
           </div>
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
             <p>
@@ -446,15 +195,19 @@
         </section>
 
         <section
-          class="band nys-grid-row nys-grid-gap-400"
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
           aria-labelledby="diffs"
         >
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
-            <h2 id="diffs">Diffs</h2>
+            <h2 id="diffs" class="nys-font-h4">Diffs</h2>
           </div>
           <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
             <p id="diffs-empty">No generated files changed.</p>
-            <div class="toolbar" id="diffs-toolbar" hidden>
+            <div
+              class="nys-display-flex nys-flex-gap-100 nys-margin-b-200"
+              id="diffs-toolbar"
+              hidden
+            >
               <nys-button
                 id="expand-all"
                 type="button"
@@ -569,7 +322,7 @@
           return "<strong>Nothing in this PR explains this change.</strong>";
         }
         const items = reasons.map((reason) => `<li>${withPaths(reason)}</li>`);
-        return `<ul class="plain">${items.join("")}</ul>`;
+        return `<ul>${items.join("")}</ul>`;
       }
 
       /** The `+ prop x`, `- event y`, and `~ …` lines of an API change. */
@@ -585,7 +338,7 @@
           const sign = text[0] === "-" ? "−" : text[0];
           return `<li class="${kind[0]}"><span class="sign" aria-hidden="true">${sign}</span><span class="visually-hidden">${kind[1]}: </span>${escapeHtml(text.slice(2))}</li>`;
         });
-        return `<ul class="api">${items.join("")}</ul>`;
+        return `<ul class="api nys-margin-t-100">${items.join("")}</ul>`;
       }
 
       /** Renders unified diff text as a table with old and new line numbers. */
@@ -646,7 +399,7 @@
         if (data.notes.length > 0) {
           const notes = data.notes.map((note) => `<li>${withPaths(note)}</li>`);
           document.querySelector("#notes").innerHTML =
-            `<nys-alert type="info" heading="Notes about this run"><ul>${notes.join("")}</ul></nys-alert>`;
+            `<nys-alert class="nys-margin-b-300" type="info" heading="Notes about this run"><ul class="nys-margin-t-100 nys-padding-l-250">${notes.join("")}</ul></nys-alert>`;
         }
 
         document.querySelector("#count-expected").heading = String(
@@ -733,7 +486,7 @@
           .map(
             (component) => `
               <div class="component">
-                <h3><code>${escapeHtml(component.tag)}</code></h3>
+                <h3 class="nys-font-h5 nys-margin-b-50"><code>${escapeHtml(component.tag)}</code></h3>
                 <p class="weak">${withPaths(component.modulePaths.join(", "))}</p>
                 ${apiHtml(component.delta)}
               </div>`,
@@ -748,7 +501,7 @@
           .map((component) => {
             const sources =
               component.sources.length > 0
-                ? `<ul class="plain">${component.sources.map((source) => `<li>${withPaths(source)}</li>`).join("")}</ul>`
+                ? `<ul>${component.sources.map((source) => `<li>${withPaths(source)}</li>`).join("")}</ul>`
                 : "<p>No source change in this PR.</p>";
             const api =
               component.delta.length > 0
@@ -756,7 +509,7 @@
                 : '<p class="weak">API unchanged.</p>';
             return `
               <div class="component">
-                <h3><code>${escapeHtml(component.tag)}</code></h3>
+                <h3 class="nys-font-h5 nys-margin-b-50"><code>${escapeHtml(component.tag)}</code></h3>
                 ${sources}
                 ${api}
               </div>`;
@@ -769,10 +522,10 @@
       function diffItemHtml(item) {
         const repeats =
           item.same.length > 0
-            ? `<p class="repeats">Same change, component names aside, in ${plural(item.sameCount, "more file")}:</p>${item.same
+            ? `<p class="nys-margin-t-300 nys-margin-b-50">Same change, component names aside, in ${plural(item.sameCount, "more file")}:</p>${item.same
                 .map(
                   ({ folder, names }) =>
-                    `<p class="weak"><code>${escapeHtml(folder)}/</code></p><ul class="same">${names.map((name) => `<li><code>${escapeHtml(name)}</code></li>`).join("")}</ul>`,
+                    `<p class="weak"><code>${escapeHtml(folder)}/</code></p><ul class="same nys-margin-t-100">${names.map((name) => `<li><code>${escapeHtml(name)}</code></li>`).join("")}</ul>`,
                 )
                 .join("")}`
             : "";
@@ -786,8 +539,8 @@
         return `
           <nys-accordionitem id="${item.id}" heading="${escapeHtml(item.heading)}"${item.expanded ? " expanded" : ""}>
             <div class="item-body">
-              <div class="diff-meta">
-                <p>${badgeHtml(item.verdict)} <span class="weak">${escapeHtml(item.change)}</span></p>
+              <div class="nys-margin-b-200">
+                <p class="nys-display-flex nys-flex-align-center nys-flex-gap-100 nys-margin-b-150">${badgeHtml(item.verdict)} <span class="weak">${escapeHtml(item.change)}</span></p>
                 <dl class="facts">
                   <dt>Produced by</dt><dd>${provenanceHtml(item.provenance)}</dd>
                   <dt>Why</dt><dd>${reasonsHtml(item.reasons)}</dd>
@@ -808,15 +561,6 @@
           `<nys-accordion bordered headingLevel="h3">${data.diffs.map(diffItemHtml).join("")}</nys-accordion>`;
       }
 
-      function renderFooter() {
-        document.querySelector("#footer-command").textContent =
-          data.footer.command;
-        document.querySelector("#footer-generated").textContent =
-          data.footer.generated;
-        document.querySelector("#footer-seconds").textContent =
-          data.footer.seconds;
-      }
-
       if (data) {
         renderHeader();
         renderGlance();
@@ -824,7 +568,6 @@
         renderApiChanges();
         renderQuiet();
         renderDiffs();
-        renderFooter();
       } else {
         document.querySelector("main").innerHTML =
           "<p>No review data. Run npm run review:codegen -- --html to make one.</p>";

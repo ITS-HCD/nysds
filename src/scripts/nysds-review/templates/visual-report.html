@@ -6,187 +6,9 @@
     <title>NYSDS Visual Changes</title>
     <!-- Relative paths only: this page is deployed as a static site. -->
     <link rel="stylesheet" href="assets/nysds-full.min.css" />
+    <link rel="stylesheet" href="assets/nysds-review.css" />
     <script src="assets/nysds.js"></script>
     <script src="results.js"></script>
-    <style>
-      /* Only what @nysds/styles utility classes cannot express. Layout,
-         spacing and type come from utility classes in the markup; the
-         stylesheet's reset handles box-sizing and heading/body margins. */
-      body {
-        color: var(--nys-color-text);
-      }
-      [hidden] {
-        display: none !important;
-      }
-      header {
-        position: sticky;
-        top: 0;
-        background: var(--nys-color-surface);
-        border-bottom: var(--nys-border-width-sm) solid
-          var(--nys-color-neutral-100);
-      }
-      .back {
-        color: var(--nys-color-link);
-      }
-      .meta {
-        color: var(--nys-color-text-weak);
-        flex-basis: 100%;
-      }
-      nys-textinput {
-        min-width: 240px;
-      }
-      .item {
-        background: var(--nys-color-surface);
-        border: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
-        border-radius: var(--nys-radius-lg);
-        overflow: hidden;
-      }
-      .item > summary {
-        list-style: none;
-        cursor: pointer;
-      }
-      .item > summary::-webkit-details-marker {
-        display: none;
-      }
-      .item > summary:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: calc(var(--nys-border-width-md) * -1);
-      }
-      .name {
-        font-weight: var(--nys-font-weight-semibold);
-      }
-      .impact {
-        width: 10rem;
-      }
-      .impact .bar {
-        height: var(--nys-size-100);
-        background: var(--nys-color-neutral-50);
-        border-radius: var(--nys-radius-round);
-        overflow: hidden;
-      }
-      .impact .bar i {
-        display: block;
-        height: 100%;
-        background: var(--nys-color-warning);
-      }
-      .impact span {
-        color: var(--nys-color-text-weak);
-      }
-      .body {
-        border-top: var(--nys-border-width-sm) solid
-          var(--nys-color-neutral-100);
-      }
-      .controls input[type="range"] {
-        accent-color: var(--nys-color-link);
-      }
-      .pane h4 {
-        color: var(--nys-color-text-weak);
-        font-weight: var(--nys-font-weight-semibold);
-      }
-      .pane .frame {
-        border: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
-        background: repeating-conic-gradient(
-            var(--nys-color-black-transparent-100) 0 25%,
-            transparent 0 50%
-          )
-          0 0 / var(--nys-size-200) var(--nys-size-200);
-        overflow: auto;
-        max-height: 70vh;
-      }
-      img {
-        display: block;
-        max-width: 100%;
-        height: auto;
-      }
-      .overlay {
-        position: relative;
-        display: inline-block;
-        max-width: 100%;
-      }
-      .overlay img:last-child {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-      }
-      .empty {
-        text-align: center;
-        color: var(--nys-color-text-weak);
-      }
-
-      /* Screenshots open full size in the lightbox. */
-      .zoom-trigger {
-        display: block;
-        width: 100%;
-        padding: 0;
-        border: 0;
-        background: none;
-        cursor: zoom-in;
-      }
-      .zoom-trigger:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: calc(var(--nys-border-width-md) * -1);
-      }
-
-      /* Full-size lightbox: a native modal dialog. */
-      .lightbox {
-        width: min(96vw, 1600px);
-        height: 92vh;
-        max-width: none;
-        max-height: none;
-        padding: 0;
-        border: 0;
-        border-radius: var(--nys-radius-lg);
-        background: var(--nys-color-surface);
-        color: var(--nys-color-text);
-        box-shadow: var(--nys-shadow-overlay);
-      }
-      .lightbox[open] {
-        display: flex;
-        flex-direction: column;
-      }
-      .lightbox::backdrop {
-        background: var(--nys-color-black-transparent-700);
-      }
-      .lightbox-header,
-      .lightbox-footer {
-        flex: none;
-      }
-      .lightbox-header {
-        border-bottom: var(--nys-border-width-sm) solid
-          var(--nys-color-neutral-100);
-      }
-      .lightbox-footer {
-        border-top: var(--nys-border-width-sm) solid
-          var(--nys-color-neutral-100);
-      }
-      .lightbox-hint,
-      .lightbox-position {
-        color: var(--nys-color-text-weak);
-      }
-      /* Scrolls in both directions so the image keeps its real size. */
-      .lightbox-viewport {
-        flex: 1;
-        min-height: 0;
-        overflow: auto;
-        background: repeating-conic-gradient(
-            var(--nys-color-black-transparent-100) 0 25%,
-            transparent 0 50%
-          )
-          0 0 / var(--nys-size-200) var(--nys-size-200);
-      }
-      .lightbox-viewport:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: calc(var(--nys-border-width-md) * -1);
-      }
-      .lightbox-viewport img {
-        max-width: none;
-      }
-      /* The page behind an open lightbox doesn't scroll. */
-      html:has(.lightbox[open]) {
-        overflow: hidden;
-      }
-    </style>
   </head>
   <body class="nys-font-ui-md">
     <nys-skipnav></nys-skipnav>
@@ -243,7 +65,7 @@
               aria-labelledby="tab-removed"
             ></nys-tabpanel>
           </nys-tabgroup>
-          <p><span class="meta nys-font-ui-sm" id="meta" hidden></span></p>
+          <p><span class="meta weak nys-font-ui-sm" id="meta" hidden></span></p>
         </div>
       </div>
     </main>
@@ -265,7 +87,7 @@
       >
         <div>
           <h2 id="lightbox-title" class="nys-font-ui-lg"></h2>
-          <p class="lightbox-hint nys-font-ui-sm">
+          <p class="weak nys-font-ui-sm">
             Move between screenshots with the arrow buttons or the Left and
             Right arrow keys. Press Escape to close.
           </p>
@@ -299,7 +121,7 @@
         ></nys-button>
         <p
           id="lightbox-position"
-          class="lightbox-position nys-font-ui-md"
+          class="weak nys-font-ui-md"
           aria-live="polite"
         ></p>
         <nys-button
@@ -432,7 +254,7 @@
 
         const list = document.querySelector(`#panel-${selectedStatus}`);
         if (visibleResults.length === 0) {
-          list.innerHTML = `<div class="empty nys-padding-y-800">No visual changes.</div>`;
+          list.innerHTML = `<div class="empty weak nys-padding-y-800">No visual changes.</div>`;
           return;
         }
         const largestPercent = Math.max(
@@ -453,7 +275,7 @@
         const pixelsText = result.diffPixels.toLocaleString();
         return `<div class="impact">
           <div class="bar"><i style="width:${barWidth}%"></i></div>
-          <span class="nys-font-ui-sm">${percentText}% · ${pixelsText} px</span>
+          <span class="weak nys-font-ui-sm">${percentText}% · ${pixelsText} px</span>
         </div>`;
       }
 
@@ -482,7 +304,7 @@
           const { x, y, w, h } = result.bbox;
           text += `changed region ${w}×${h} at (${x}, ${y})`;
         }
-        return `<span class="meta nys-font-ui-sm">${text}</span>`;
+        return `<span class="meta weak nys-font-ui-sm">${text}</span>`;
       }
 
       /** Side-by-side / Overlay buttons, for changed results only. */
@@ -516,7 +338,7 @@
         ) {
           // A button, so the screenshot opens full size from a keyboard too.
           return `<div class="pane nys-grid-col-12 ${columnClass}">
-            <h4 class="nys-font-ui-sm nys-margin-b-100">${title}</h4>
+            <h4 class="weak nys-font-ui-sm nys-margin-b-100">${title}</h4>
             <div class="frame">
               <button type="button" class="zoom-trigger" data-zoom-title="${title}" aria-label="View ${title} screenshot full size">
                 <img src="${imageSrc}" loading="lazy" alt="${title}">
@@ -717,7 +539,7 @@
         render();
       } else {
         document.querySelector("main").innerHTML =
-          `<div class="empty nys-padding-y-800">No results. Run npm run vr:test first.</div>`;
+          `<div class="empty weak nys-padding-y-800">No results. Run npm run vr:test first.</div>`;
       }
     </script>
   </body>

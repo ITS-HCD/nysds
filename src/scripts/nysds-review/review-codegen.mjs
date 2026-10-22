@@ -1419,6 +1419,11 @@ const REPORT_TEMPLATE = new URL(
   "./templates/codegen-review.html",
   import.meta.url,
 );
+// Shared with the other review pages; copied beside the page.
+const REPORT_STYLESHEET = new URL(
+  "./templates/nysds-review.css",
+  import.meta.url,
+);
 const REPORT_DATA_FILE = "review-data.js";
 
 /** What produced one side of a file, labeled "Was"/"Now" when it changed. */
@@ -1462,7 +1467,7 @@ function fileData(group, sides, diffIds) {
 }
 
 /** The data the HTML template renders: everything on the page, as plain values. */
-function reviewData(report, refs, sides, changed, options, viewDir, seconds) {
+function reviewData(report, refs, sides, changed, options, viewDir) {
   const short = (sha) => sha.slice(0, 9);
   const count = (verdict) =>
     report.rows.filter((row) => row.verdict === verdict).length;
@@ -1527,16 +1532,6 @@ function reviewData(report, refs, sides, changed, options, viewDir, seconds) {
       same: [...byFolder(same)].map(([folder, names]) => ({ folder, names })),
       expanded: expandAll || row.verdict === "check",
     })),
-    footer: {
-      command: ["npm run review:codegen --", ...process.argv.slice(2)].join(
-        " ",
-      ),
-      generated: new Date().toLocaleString("en-US", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }),
-      seconds,
-    },
   };
 }
 
@@ -1562,6 +1557,10 @@ function writeHtmlReport(data, refs, options) {
   }
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.copyFileSync(REPORT_TEMPLATE, file);
+  fs.copyFileSync(
+    REPORT_STYLESHEET,
+    path.join(path.dirname(file), "nysds-review.css"),
+  );
   // A script rather than JSON, so the page also works opened from disk.
   fs.writeFileSync(
     path.join(path.dirname(file), REPORT_DATA_FILE),
@@ -1720,7 +1719,7 @@ async function main() {
     const htmlFile =
       options.html || options["html-file"]
         ? writeHtmlReport(
-            reviewData(report, refs, sides, changed, options, viewDir, seconds),
+            reviewData(report, refs, sides, changed, options, viewDir),
             refs,
             options,
           )

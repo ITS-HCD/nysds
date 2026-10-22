@@ -8,66 +8,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
     <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />
-    <style>
-      /*
-        Only what @nysds/styles utility classes cannot express (color, borders,
-        weight, case). Layout, spacing and type are utility classes in the
-        markup, and the stylesheet's reset already zeroes heading, paragraph
-        and list margins. Each link is at least 44px tall (--nys-size-550) so
-        it's easy to activate on touch screens.
-      */
-      .nysds-preview-hero {
-        background: var(--nys-color-theme);
-        color: var(--nys-color-text-reverse);
-      }
-      .nysds-preview-eyebrow {
-        font-weight: var(--nys-font-weight-semibold);
-        letter-spacing: 0.08em; /* no token for uppercase label tracking */
-        text-transform: uppercase;
-      }
-      .nysds-preview-hero a,
-      .nysds-preview-hero a:focus,
-      .nysds-preview-hero a:active {
-        color: var(--nys-color-ink-reverse);
-      }
-      .nysds-preview-hero a:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus-reverse);
-        outline-offset: var(--nys-border-width-md);
-      }
-      .nysds-preview-list li::marker {
-        color: var(--nys-color-text-weak);
-        font-variant-numeric: tabular-nums;
-      }
-      .nysds-preview-list a {
-        min-height: var(--nys-size-550);
-        border-bottom: var(--nys-border-width-sm) solid
-          var(--nys-color-neutral-100);
-      }
-      .nysds-preview-list li:first-child a {
-        border-top: var(--nys-border-width-sm) solid
-          var(--nys-color-neutral-100);
-      }
-      .nysds-preview-list a:hover {
-        background: var(--nys-color-theme-faint);
-      }
-      .nysds-preview-list a:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: calc(var(--nys-border-width-md) * -1);
-      }
-      .nysds-preview-vr {
-        background: var(--nys-color-theme-faint);
-        border-bottom: var(--nys-border-width-sm) solid
-          var(--nys-color-neutral-100);
-      }
-      .nysds-preview-vr a {
-        min-height: var(--nys-size-550);
-        font-weight: var(--nys-font-weight-semibold);
-      }
-      .nysds-preview-vr a:focus-visible {
-        outline: var(--nys-border-width-md) solid var(--nys-color-focus);
-        outline-offset: var(--nys-border-width-md);
-      }
-    </style>
+    <link rel="stylesheet" href="/assets/css/nysds-review.css" />
   </head>
   <body>
     <!--
@@ -93,7 +34,7 @@
     <main class="nys-grid-container-widescreen">
       <div class="nys-grid-row">
         <div class="nys-grid-col-12">
-          <h1 id="story-count">No components to preview</h2>
+          <h1 id="story-count">No components to preview</h1>
           <p id="no-stories">
             This pull request changes no components with stories.
           </p>
