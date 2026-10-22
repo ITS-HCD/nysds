@@ -1,19 +1,25 @@
-# NYSDS Component Preview Site Generation
+# NYSDS Review App
 #
-# Builds one static page per story for the components a PR into develop
-# changes (plus every component that uses them) and deploys them to the
-# preview Netlify site under the alias pr-<number>. Testers using assistive
-# technology get a link in a PR comment. When the PR is merged or closed, every
-# deploy under that alias is deleted.
+# Builds the full NYSDS review app. This app hosts a homepage with three apps:
 #
-# The same deploy carries the visual regression report at /visual/: every story
+# The Accessibility testing builds one static page per story for the components
+# a PR into develop changes (plus every component that uses them) and deploys
+# them to the preview Netlify site under the alias pr-<number>. Testers using
+# assistive technology get a link in a PR comment. 
+#
+# Visual regression report at /visual/: every story
 # is screenshotted on the base branch (the baselines) and on the PR branch, and
 # the differences are listed. Baselines are rendered fresh each run, never stored.
+#
+# Code review at /code-review/: the framework wrappers
+# that are generated are not tracked in git. We still need to check the generated
+# code, so this review app tracks all generated changes and displays rich diffs
+# and the pathway a file takes to generation.
 #
 # Requires repo secrets NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID. PRs from forks
 # don't receive secrets, so they are skipped.
 
-name: NYSDS Component Preview Site Generation
+name: NYSDS Review App
 
 on:
   pull_request:
