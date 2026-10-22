@@ -202,28 +202,26 @@ export class NysStep extends NysElement {
         <div class="nys-step__linewrapper">
           <div class="nys-step__line"></div>
         </div>
-        ${
-          navigable
-            ? html`
-                <button
-                  type="button"
-                  class="nys-step__contentwrapper"
-                  @click=${this._handleActivate}
-                  aria-label=${accessibleName}
-                  aria-current=${ifDefined(this.current ? "step" : undefined)}
-                >
-                  ${rowContent}
-                </button>
-              `
-            : html`
-                <div
-                  class="nys-step__contentwrapper"
-                  aria-label=${accessibleName}
-                >
-                  ${rowContent}
-                </div>
-              `
-        }
+        ${navigable
+          ? html`
+              <button
+                type="button"
+                class="nys-step__contentwrapper"
+                @click=${this._handleActivate}
+                aria-label=${accessibleName}
+                aria-current=${ifDefined(this.current ? "step" : undefined)}
+              >
+                ${rowContent}
+              </button>
+            `
+          : html`
+              <div
+                class="nys-step__contentwrapper"
+                aria-label=${accessibleName}
+              >
+                ${rowContent}
+              </div>
+            `}
       </div>
     `;
   }

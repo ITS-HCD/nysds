@@ -660,23 +660,21 @@ export class NysTooltip extends NysElement {
   render() {
     return html`
       <div class="nys-tooltip__main">
-        ${
-          this.text?.trim()
-            ? html`<div
-                id=${this.id}
-                class="nys-tooltip__content"
-                role="tooltip"
-                aria-hidden=${
-                  this._active && !this._hideTimeout ? "false" : "true"
-                }
-                ?active=${this._active}
-                style="visibility: ${this._active ? "visible" : "hidden"}; "
-              >
-                <div class="nys-tooltip__inner">${this.text}</div>
-                <span class="nys-tooltip__arrow"></span>
-              </div>`
-            : ""
-        }
+        ${this.text?.trim()
+          ? html`<div
+              id=${this.id}
+              class="nys-tooltip__content"
+              role="tooltip"
+              aria-hidden=${this._active && !this._hideTimeout
+                ? "false"
+                : "true"}
+              ?active=${this._active}
+              style="visibility: ${this._active ? "visible" : "hidden"}; "
+            >
+              <div class="nys-tooltip__inner">${this.text}</div>
+              <span class="nys-tooltip__arrow"></span>
+            </div>`
+          : ""}
       </div>
     `;
   }

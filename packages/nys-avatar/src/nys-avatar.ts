@@ -305,14 +305,12 @@ export class NysAvatar extends NysElement {
             >`
           : html`<div part="nys-avatar__icon">
               <slot @slotchange=${this._handleSlotChange}></slot>
-              ${
-                !this._slotHasContent
-                  ? html`<nys-icon
-                      aria-hidden="true"
-                      name=${this.icon?.length > 0 ? this.icon : "account_circle"}
-                    ></nys-icon>`
-                  : null
-              }
+              ${!this._slotHasContent
+                ? html`<nys-icon
+                    aria-hidden="true"
+                    name=${this.icon?.length > 0 ? this.icon : "account_circle"}
+                  ></nys-icon>`
+                : null}
             </div>`;
 
     const container = this.interactive

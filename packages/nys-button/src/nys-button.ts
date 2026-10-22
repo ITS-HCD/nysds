@@ -188,7 +188,10 @@ export class NysButton extends NysFormControlElement {
    * @default "filled"
    */
   @property({ type: String, reflect: true }) variant:
-    "filled" | "outline" | "ghost" | "text" = "filled";
+    | "filled"
+    | "outline"
+    | "ghost"
+    | "text" = "filled";
 
   /**
    * Adjusts colors for dark backgrounds.
@@ -255,7 +258,14 @@ export class NysButton extends NysFormControlElement {
    * ```
    */
   @property({ type: String }) ariaCurrent:
-    "page" | "step" | "location" | "date" | "time" | "true" | "false" | "" = "";
+    | "page"
+    | "step"
+    | "location"
+    | "date"
+    | "time"
+    | "true"
+    | "false"
+    | "" = "";
 
   /**
    * Material Symbol icon before label. Not shown for `circle` mode.
@@ -315,7 +325,9 @@ export class NysButton extends NysFormControlElement {
    * @default "button"
    */
   @property({ type: String, reflect: true }) type:
-    "submit" | "reset" | "button" = "button";
+    | "submit"
+    | "reset"
+    | "button" = "button";
 
   /**
    * Click handler. Use instead of `@click` to ensure keyboard accessibility.
@@ -338,7 +350,11 @@ export class NysButton extends NysFormControlElement {
    * @default "_self"
    */
   @property({ type: String, reflect: true }) target:
-    "_self" | "_blank" | "_parent" | "_top" | "framename" = "_self";
+    | "_self"
+    | "_blank"
+    | "_parent"
+    | "_top"
+    | "framename" = "_self";
 
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
@@ -501,105 +517,22 @@ export class NysButton extends NysFormControlElement {
 
   render() {
     return html`
-      ${
-        this.href
-          ? html`
-              <div class="nys-button__linkwrapper">
-                <a
-                  class="nys-button"
-                  name=${ifDefined(this.name ? this.name : undefined)}
-                  ?disabled=${this.disabled}
-                  aria-disabled="${this.disabled ? "true" : "false"}"
-                  value=${ifDefined(this.value ? this.value : undefined)}
-                  href=${this.href}
-                  target=${this.target}
-                  @click=${this._handleClick}
-                  @focus="${this._handleFocus}"
-                  @blur="${this._handleBlur}"
-                  @keydown="${this._handleKeydown}"
-                  @keyup="${this._handleKeyup}"
-                  aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
-                  aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
-                  aria-current=${ifDefined(this.ariaCurrent || undefined)}
-                >
-                  <slot
-                    name="prefix-icon"
-                    @slotchange=${this._onPrefixSlotChange}
-                    ?hidden=${!this.prefixIcon && !this._hasPrefixSlot}
-                  >
-                    ${
-                      this.prefixIcon
-                        ? html`<nys-icon
-                            size="16"
-                            name=${this.prefixIcon}
-                          ></nys-icon>`
-                        : ""
-                    }
-                  </slot>
-                  ${
-                    this.circle
-                      ? html`<div class="nys-button__text sr-only">
-                          ${this.label}
-                        </div>`
-                      : this.label
-                        ? html`<div class="nys-button__text">
-                            ${this.label}
-                          </div>`
-                        : html` <slot class="nys-button__default-slot"></slot> `
-                  }
-                  <slot
-                    name="suffix-icon"
-                    @slotchange=${this._onSuffixSlotChange}
-                    ?hidden=${!this.suffixIcon && !this._hasSuffixSlot}
-                  >
-                    ${
-                      this.suffixIcon
-                        ? html`<nys-icon
-                            size="16"
-                            name=${this.suffixIcon}
-                          ></nys-icon>`
-                        : ""
-                    }
-                  </slot>
-                  <slot
-                    name="circle-icon"
-                    @slotchange=${this._onCircleSlotChange}
-                    ?hidden=${
-                      !this.circle || (!this.icon && !this._hasCircleSlot)
-                    }
-                  >
-                    ${
-                      this.icon
-                        ? html`<nys-icon
-                            size=${
-                              this.size === "sm"
-                                ? "24"
-                                : this.size === "lg"
-                                  ? "40"
-                                  : "32"
-                            }
-                            name=${this.icon}
-                          ></nys-icon>`
-                        : ""
-                    }
-                  </slot>
-                </a>
-              </div>
-            `
-          : html`
-              <button
+      ${this.href
+        ? html`
+            <div class="nys-button__linkwrapper">
+              <a
                 class="nys-button"
                 name=${ifDefined(this.name ? this.name : undefined)}
                 ?disabled=${this.disabled}
-                form=${ifDefined(this.form || undefined)}
+                aria-disabled="${this.disabled ? "true" : "false"}"
                 value=${ifDefined(this.value ? this.value : undefined)}
-                type=${this.type}
-                aria-controls=${ifDefined(this.ariaControls || undefined)}
+                href=${this.href}
+                target=${this.target}
                 @click=${this._handleClick}
-                @focus=${this._handleFocus}
-                @blur=${this._handleBlur}
-                @keydown=${this._handleKeydown}
-                @keyup=${this._handleKeyup}
+                @focus="${this._handleFocus}"
+                @blur="${this._handleBlur}"
+                @keydown="${this._handleKeydown}"
+                @keyup="${this._handleKeyup}"
                 aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
                 aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
                 aria-current=${ifDefined(this.ariaCurrent || undefined)}
@@ -609,61 +542,119 @@ export class NysButton extends NysFormControlElement {
                   @slotchange=${this._onPrefixSlotChange}
                   ?hidden=${!this.prefixIcon && !this._hasPrefixSlot}
                 >
-                  ${
-                    this.prefixIcon
-                      ? html`<nys-icon
-                          size="16"
-                          name=${this.prefixIcon}
-                        ></nys-icon>`
-                      : ""
-                  }
+                  ${this.prefixIcon
+                    ? html`<nys-icon
+                        size="16"
+                        name=${this.prefixIcon}
+                      ></nys-icon>`
+                    : ""}
                 </slot>
-                ${
-                  this.circle
-                    ? html`<div class="nys-button__text sr-only">
-                        ${this.label}
-                      </div>`
-                    : this.label
-                      ? html`<div class="nys-button__text">${this.label}</div>`
-                      : html` <slot class="nys-button__default-slot"></slot> `
-                }
+                ${this.circle
+                  ? html`<div class="nys-button__text sr-only">
+                      ${this.label}
+                    </div>`
+                  : this.label
+                    ? html`<div class="nys-button__text">${this.label}</div>`
+                    : html` <slot class="nys-button__default-slot"></slot> `}
                 <slot
                   name="suffix-icon"
                   @slotchange=${this._onSuffixSlotChange}
                   ?hidden=${!this.suffixIcon && !this._hasSuffixSlot}
                 >
-                  ${
-                    this.suffixIcon
-                      ? html`<nys-icon
-                          size="16"
-                          name=${this.suffixIcon}
-                        ></nys-icon>`
-                      : ""
-                  }
+                  ${this.suffixIcon
+                    ? html`<nys-icon
+                        size="16"
+                        name=${this.suffixIcon}
+                      ></nys-icon>`
+                    : ""}
                 </slot>
                 <slot
                   name="circle-icon"
                   @slotchange=${this._onCircleSlotChange}
-                  ?hidden=${!this.circle || (!this.icon && !this._hasCircleSlot)}
+                  ?hidden=${!this.circle ||
+                  (!this.icon && !this._hasCircleSlot)}
                 >
-                  ${
-                    this.icon
-                      ? html`<nys-icon
-                          size=${
-                            this.size === "sm"
-                              ? "24"
-                              : this.size === "lg"
-                                ? "40"
-                                : "32"
-                          }
-                          name=${this.icon}
-                        ></nys-icon>`
-                      : ""
-                  }
+                  ${this.icon
+                    ? html`<nys-icon
+                        size=${this.size === "sm"
+                          ? "24"
+                          : this.size === "lg"
+                            ? "40"
+                            : "32"}
+                        name=${this.icon}
+                      ></nys-icon>`
+                    : ""}
                 </slot>
-              </button>
-            `
-      }
+              </a>
+            </div>
+          `
+        : html`
+            <button
+              class="nys-button"
+              name=${ifDefined(this.name ? this.name : undefined)}
+              ?disabled=${this.disabled}
+              form=${ifDefined(this.form || undefined)}
+              value=${ifDefined(this.value ? this.value : undefined)}
+              type=${this.type}
+              aria-controls=${ifDefined(this.ariaControls || undefined)}
+              @click=${this._handleClick}
+              @focus=${this._handleFocus}
+              @blur=${this._handleBlur}
+              @keydown=${this._handleKeydown}
+              @keyup=${this._handleKeyup}
+              aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+              aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
+              aria-current=${ifDefined(this.ariaCurrent || undefined)}
+            >
+              <slot
+                name="prefix-icon"
+                @slotchange=${this._onPrefixSlotChange}
+                ?hidden=${!this.prefixIcon && !this._hasPrefixSlot}
+              >
+                ${this.prefixIcon
+                  ? html`<nys-icon
+                      size="16"
+                      name=${this.prefixIcon}
+                    ></nys-icon>`
+                  : ""}
+              </slot>
+              ${this.circle
+                ? html`<div class="nys-button__text sr-only">
+                    ${this.label}
+                  </div>`
+                : this.label
+                  ? html`<div class="nys-button__text">${this.label}</div>`
+                  : html` <slot class="nys-button__default-slot"></slot> `}
+              <slot
+                name="suffix-icon"
+                @slotchange=${this._onSuffixSlotChange}
+                ?hidden=${!this.suffixIcon && !this._hasSuffixSlot}
+              >
+                ${this.suffixIcon
+                  ? html`<nys-icon
+                      size="16"
+                      name=${this.suffixIcon}
+                    ></nys-icon>`
+                  : ""}
+              </slot>
+              <slot
+                name="circle-icon"
+                @slotchange=${this._onCircleSlotChange}
+                ?hidden=${!this.circle || (!this.icon && !this._hasCircleSlot)}
+              >
+                ${this.icon
+                  ? html`<nys-icon
+                      size=${this.size === "sm"
+                        ? "24"
+                        : this.size === "lg"
+                          ? "40"
+                          : "32"}
+                      name=${this.icon}
+                    ></nys-icon>`
+                  : ""}
+              </slot>
+            </button>
+          `}
     `;
   }
 }

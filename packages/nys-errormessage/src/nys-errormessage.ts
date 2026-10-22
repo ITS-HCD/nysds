@@ -82,14 +82,12 @@ export class NysErrorMessage extends LitElement {
       aria-atomic="true"
       class="nys-errormessage__region"
     >
-      ${
-        this.showError
-          ? html`<div class="nys-errormessage" ?showDivider=${this.showDivider}>
-              <nys-icon name="error" size="2xl"></nys-icon>
-              ${this.errorMessage}
-            </div>`
-          : ""
-      }
+      ${this.showError
+        ? html`<div class="nys-errormessage" ?showDivider=${this.showDivider}>
+            <nys-icon name="error" size="2xl"></nys-icon>
+            ${this.errorMessage}
+          </div>`
+        : ""}
     </div>`;
   }
 }

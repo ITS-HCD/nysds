@@ -261,32 +261,28 @@ export class NysToggle extends NysFormControlElement {
             />
             <span class="slider" @click=${this._handleSliderClick}>
               <div class="knob">
-                ${
-                  this.noIcon
-                    ? ""
-                    : html`<nys-icon
-                        class="toggle-icon"
-                        name="${this.checked ? "check" : "close"}"
-                        size="2xl"
-                      ></nys-icon>`
-                }
+                ${this.noIcon
+                  ? ""
+                  : html`<nys-icon
+                      class="toggle-icon"
+                      name="${this.checked ? "check" : "close"}"
+                      size="2xl"
+                    ></nys-icon>`}
               </div>
             </span>
           </div>
-          ${
-            this.label &&
-            html`<nys-label
-              id="${this.id}--label"
-              label=${this.label}
-              description=${ifDefined(this.description || undefined)}
-              ?inverted=${this.inverted}
-              @nys-label-click=${this._handleClick}
+          ${this.label &&
+          html`<nys-label
+            id="${this.id}--label"
+            label=${this.label}
+            description=${ifDefined(this.description || undefined)}
+            ?inverted=${this.inverted}
+            @nys-label-click=${this._handleClick}
+          >
+            <slot name="description" slot="description"
+              >${this.description}</slot
             >
-              <slot name="description" slot="description"
-                >${this.description}</slot
-              >
-            </nys-label> `
-          }
+          </nys-label> `}
         </div>
       </div>
     `;

@@ -358,7 +358,8 @@ export class NysFileinput extends NysFormControlElement {
    */
   private async _syncControlErrorAssociation() {
     const nysButton = this.renderRoot?.querySelector('[name="file-btn"]') as
-      (HTMLElement & { updateComplete?: Promise<unknown> }) | null;
+      | (HTMLElement & { updateComplete?: Promise<unknown> })
+      | null;
     if (!nysButton) return;
 
     // The trigger lives in <nys-button>'s shadow root, which only exists once
@@ -831,9 +832,8 @@ export class NysFileinput extends NysFormControlElement {
         form=${ifDefined(this.form || undefined)}
         ?multiple=${this.multiple}
         ?required=${this.required}
-        ?disabled=${
-          this.disabled || (!this.multiple && this._selectedFiles.length > 0)
-        }
+        ?disabled=${this.disabled ||
+        (!this.multiple && this._selectedFiles.length > 0)}
         aria-labelledby=${ifDefined(
           this.label ? this.id + "--label" : undefined,
         )}
@@ -846,99 +846,87 @@ export class NysFileinput extends NysFormControlElement {
         hidden
       />
 
-      ${
-        !this.dropzone
-          ? html`<nys-button
-              id="choose-files-btn"
-              name="file-btn"
-              label=${this.multiple ? "Choose files" : "Choose file"}
-              variant="outline"
-              ?disabled=${
-                this.disabled ||
-                (!this.multiple && this._selectedFiles.length > 0)
-              }
-              @nys-click=${this._openFileDialog}
-            ></nys-button>`
-          : html`<div
-              class="nys-fileinput__dropzone
+      ${!this.dropzone
+        ? html`<nys-button
+            id="choose-files-btn"
+            name="file-btn"
+            label=${this.multiple ? "Choose files" : "Choose file"}
+            variant="outline"
+            ?disabled=${this.disabled ||
+            (!this.multiple && this._selectedFiles.length > 0)}
+            @nys-click=${this._openFileDialog}
+          ></nys-button>`
+        : html`<div
+            class="nys-fileinput__dropzone
             ${this._dragActive ? "drag-active" : ""}
             ${this._isDropDisabled ? "disabled" : ""}
             ${this.showError && !this._isDropDisabled ? "error" : ""}"
-              @click=${
-                this._isDropDisabled
-                  ? null
-                  : (e: MouseEvent) => {
-                      const target = e.target as HTMLElement;
+            @click=${this._isDropDisabled
+              ? null
+              : (e: MouseEvent) => {
+                  const target = e.target as HTMLElement;
 
-                      // Ignore clicks that originated within a nys-button
-                      if (target.closest("nys-button")) return;
+                  // Ignore clicks that originated within a nys-button
+                  if (target.closest("nys-button")) return;
 
-                      // Only handle direct wrapper clicks (outside of buttons). This
-                      // is a pointer-only convenience — the div carries no role or
-                      // tabindex, so it is never part of the keyboard path. Keyboard
-                      // users activate the real <nys-button> below (Enter/Space),
-                      // which opens the native file picker the same as a click here.
+                  // Only handle direct wrapper clicks (outside of buttons). This
+                  // is a pointer-only convenience — the div carries no role or
+                  // tabindex, so it is never part of the keyboard path. Keyboard
+                  // users activate the real <nys-button> below (Enter/Space),
+                  // which opens the native file picker the same as a click here.
+                  this._openFileDialog();
+                }}
+            @dragover=${this._isDropDisabled ? null : this._onDragOver}
+            @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
+            @drop=${this._isDropDisabled ? null : this._onDrop}
+          >
+            ${this._dragActive
+              ? html`<p>Drop file to upload</p>`
+              : html` <nys-button
+                    id="choose-files-btn-drag"
+                    name="file-btn"
+                    label=${this.multiple ? "Choose files" : "Choose file"}
+                    variant="outline"
+                    ?disabled=${this._isDropDisabled}
+                    @nys-click="${(e: CustomEvent) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       this._openFileDialog();
-                    }
-              }
-              @dragover=${this._isDropDisabled ? null : this._onDragOver}
-              @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
-              @drop=${this._isDropDisabled ? null : this._onDrop}
-            >
-              ${
-                this._dragActive
-                  ? html`<p>Drop file to upload</p>`
-                  : html` <nys-button
-                        id="choose-files-btn-drag"
-                        name="file-btn"
-                        label=${this.multiple ? "Choose files" : "Choose file"}
-                        variant="outline"
-                        ?disabled=${this._isDropDisabled}
-                        @nys-click="${(e: CustomEvent) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          this._openFileDialog();
-                        }}"
-                      ></nys-button>
-                      <p
-                        id="${this.id}--dropzone-hint"
-                        class="nys-fileinput__dropzone-hint"
-                      >
-                        or drag here
-                      </p>`
-              }
-            </div>`
-      }
-      ${
-        this.showError
-          ? html`
-              <nys-errormessage
-                id=${this.id + "--error"}
-                ?showError=${this.showError}
-                errorMessage=${this.resolvedErrorMessage()}
-              ></nys-errormessage>
-            `
-          : null
-      }
-      ${
-        this._selectedFiles.length > 0
-          ? html`
-              <ul>
-                ${this._selectedFiles.map(
-                  (entry) =>
-                    html`<li>
-                      <nys-fileitem
-                        filename=${entry.file.name}
-                        status=${entry.status}
-                        progress=${entry.progress}
-                        errorMessage=${entry.errorMsg || ""}
-                      ></nys-fileitem>
-                    </li>`,
-                )}
-              </ul>
-            `
-          : null
-      }
+                    }}"
+                  ></nys-button>
+                  <p
+                    id="${this.id}--dropzone-hint"
+                    class="nys-fileinput__dropzone-hint"
+                  >
+                    or drag here
+                  </p>`}
+          </div>`}
+      ${this.showError
+        ? html`
+            <nys-errormessage
+              id=${this.id + "--error"}
+              ?showError=${this.showError}
+              errorMessage=${this.resolvedErrorMessage()}
+            ></nys-errormessage>
+          `
+        : null}
+      ${this._selectedFiles.length > 0
+        ? html`
+            <ul>
+              ${this._selectedFiles.map(
+                (entry) =>
+                  html`<li>
+                    <nys-fileitem
+                      filename=${entry.file.name}
+                      status=${entry.status}
+                      progress=${entry.progress}
+                      errorMessage=${entry.errorMsg || ""}
+                    ></nys-fileitem>
+                  </li>`,
+              )}
+            </ul>
+          `
+        : null}
     </div>`;
   }
 }

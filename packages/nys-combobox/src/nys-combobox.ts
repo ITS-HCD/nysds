@@ -858,9 +858,9 @@ export class NysCombobox extends NysFormControlElement {
 
       elements.push(html`
         <div
-          class="nys-combobox__option ${
-            isFocused ? "nys-combobox__option--focused" : ""
-          } ${isSelected ? "nys-combobox__option--selected" : ""}"
+          class="nys-combobox__option ${isFocused
+            ? "nys-combobox__option--focused"
+            : ""} ${isSelected ? "nys-combobox__option--selected" : ""}"
           role="option"
           id="${this.id}--option-${index}"
           data-index="${index}"
@@ -900,9 +900,9 @@ export class NysCombobox extends NysFormControlElement {
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
         <div
-          class="nys-combobox__container ${
-            this._isOpen ? "nys-combobox__container--open" : ""
-          }"
+          class="nys-combobox__container ${this._isOpen
+            ? "nys-combobox__container--open"
+            : ""}"
         >
           <div class="nys-combobox__input-wrapper">
             <input
@@ -912,11 +912,9 @@ export class NysCombobox extends NysFormControlElement {
               aria-autocomplete="list"
               aria-expanded="${this._isOpen}"
               aria-controls="${this.id}--listbox"
-              aria-activedescendant="${
-                this._highlightedIndex >= 0
-                  ? `${this.id}--option-${this._highlightedIndex}`
-                  : ""
-              }"
+              aria-activedescendant="${this._highlightedIndex >= 0
+                ? `${this.id}--option-${this._highlightedIndex}`
+                : ""}"
               name=${this.name}
               id=${this.id + "--native"}
               ?disabled=${this.disabled}
@@ -942,27 +940,25 @@ export class NysCombobox extends NysFormControlElement {
               @keydown="${this._handleKeyDown}"
             />
             <div class="nys-combobox__buttons">
-              ${
-                this.value
-                  ? html`
-                      <nys-button
-                        class="nys-combobox__clear"
-                        label="Clear selection"
-                        variant="ghost"
-                        size="sm"
-                        circle
-                        @nys-click=${this._handleClearClick}
-                        ?disabled=${this.disabled}
-                      >
-                        <nys-icon
-                          slot="suffix-icon"
-                          size="20"
-                          name="close"
-                        ></nys-icon>
-                      </nys-button>
-                    `
-                  : ""
-              }
+              ${this.value
+                ? html`
+                    <nys-button
+                      class="nys-combobox__clear"
+                      label="Clear selection"
+                      variant="ghost"
+                      size="sm"
+                      circle
+                      @nys-click=${this._handleClearClick}
+                      ?disabled=${this.disabled}
+                    >
+                      <nys-icon
+                        slot="suffix-icon"
+                        size="20"
+                        name="close"
+                      ></nys-icon>
+                    </nys-button>
+                  `
+                : ""}
               <nys-button
                 class="nys-combobox__chevron"
                 label="Toggle dropdown"
@@ -980,22 +976,20 @@ export class NysCombobox extends NysFormControlElement {
               </nys-button>
             </div>
           </div>
-          ${
-            this._isOpen
-              ? html`
-                  <div
-                    class="nys-combobox__listbox ${
-                      this._dropdownAbove ? "nys-combobox__listbox--above" : ""
-                    }"
-                    id="${this.id}--listbox"
-                    role="listbox"
-                    tabindex="-1"
-                  >
-                    ${this._renderOptions()}
-                  </div>
-                `
-              : ""
-          }
+          ${this._isOpen
+            ? html`
+                <div
+                  class="nys-combobox__listbox ${this._dropdownAbove
+                    ? "nys-combobox__listbox--above"
+                    : ""}"
+                  id="${this.id}--listbox"
+                  role="listbox"
+                  tabindex="-1"
+                >
+                  ${this._renderOptions()}
+                </div>
+              `
+            : ""}
         </div>
         <slot
           style="display: none;"

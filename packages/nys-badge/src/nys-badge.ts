@@ -146,8 +146,13 @@ export class NysBadge extends NysElement {
    * @default "info"
    */
   @property({ type: String, reflect: true }) intent:
-    "base" | "info" | "success" | "warning" | "danger" | "error" | "emergency" =
-    "base";
+    | "base"
+    | "info"
+    | "success"
+    | "warning"
+    | "danger"
+    | "error"
+    | "emergency" = "base";
 
   /** Secondary label displayed before the main label. */
   @property({ type: String }) prefixLabel = "";
@@ -276,39 +281,29 @@ export class NysBadge extends NysElement {
 
     return html`
       <mark class="nys-badge">
-        ${
-          prefixIconName
-            ? html`<nys-icon size="16" name=${prefixIconName}></nys-icon>`
-            : ""
-        }
-        ${
-          this.prefixLabel
-            ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
-            : ""
-        }
+        ${prefixIconName
+          ? html`<nys-icon size="16" name=${prefixIconName}></nys-icon>`
+          : ""}
+        ${this.prefixLabel
+          ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
+          : ""}
         <div class="nys-badge__label">
-          ${
-            intentSrText
-              ? html`<span class="nys-badge__sr-only"
-                  >${intentSrText + ": "}</span
-                >`
-              : ""
-          }
+          ${intentSrText
+            ? html`<span class="nys-badge__sr-only"
+                >${intentSrText + ": "}</span
+              >`
+            : ""}
           ${this.label}
-          ${
-            this.srText
-              ? html`<span class="nys-badge__sr-only"
-                  >${": " + this.srText}</span
-                >`
-              : ""
-          }
+          ${this.srText
+            ? html`<span class="nys-badge__sr-only"
+                >${": " + this.srText}</span
+              >`
+            : ""}
         </div>
 
-        ${
-          suffixIconName
-            ? html`<nys-icon size="16" name=${suffixIconName}></nys-icon>`
-            : ""
-        }
+        ${suffixIconName
+          ? html`<nys-icon size="16" name=${suffixIconName}></nys-icon>`
+          : ""}
       </mark>
     `;
   }

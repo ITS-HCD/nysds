@@ -1100,9 +1100,9 @@ export class NysDatepicker extends NysFormControlElement {
           ?inverted=${this.inverted}
         ></nys-label>
         <div
-          class="nys-datepicker--input-container ${
-            this.disabled ? "disabled" : ""
-          }"
+          class="nys-datepicker--input-container ${this.disabled
+            ? "disabled"
+            : ""}"
         >
           <input
             id=${this.id}
@@ -1111,11 +1111,9 @@ export class NysDatepicker extends NysFormControlElement {
             min=${ifDefined(this.minDate || undefined)}
             max=${this.maxDate || "9999-12-31"}
             ?required=${this.required}
-            .value=${
-              this.value instanceof Date
-                ? this.value.toISOString().split("T")[0]
-                : this.value || ""
-            }
+            .value=${this.value instanceof Date
+              ? this.value.toISOString().split("T")[0]
+              : this.value || ""}
             ?disabled=${this.disabled}
             aria-labelledby=${ifDefined(
               this.label ? this.id + "--label" : undefined,
@@ -1135,37 +1133,33 @@ export class NysDatepicker extends NysFormControlElement {
             @blur=${this._handleBlur}
             @keydown=${this._handleInputKeydown}
           />
-          ${
-            !useNative
-              ? html`
-                  <button
-                    id="calendar-button"
-                    @click=${this._toggleDatepicker}
-                    tabindex=${this.disabled ? "-1" : "0"}
-                    ?disabled=${this.disabled}
-                    aria-label="Open calendar"
-                    aria-haspopup="dialog"
-                    aria-controls="wc-datepicker-popup"
-                    aria-expanded=${this.datepickerIsOpen ? "true" : "false"}
-                  >
-                    <nys-icon name="calendar_month" size="24"></nys-icon>
-                  </button>
-                `
-              : null
-          }
+          ${!useNative
+            ? html`
+                <button
+                  id="calendar-button"
+                  @click=${this._toggleDatepicker}
+                  tabindex=${this.disabled ? "-1" : "0"}
+                  ?disabled=${this.disabled}
+                  aria-label="Open calendar"
+                  aria-haspopup="dialog"
+                  aria-controls="wc-datepicker-popup"
+                  aria-expanded=${this.datepickerIsOpen ? "true" : "false"}
+                >
+                  <nys-icon name="calendar_month" size="24"></nys-icon>
+                </button>
+              `
+            : null}
         </div>
 
         <div class="wc-datepicker--container">
           <wc-datepicker
             id="wc-datepicker-popup"
             locale="en-US"
-            .value=${
-              this.value instanceof Date
-                ? this.value
-                : this.value
-                  ? this._parseLocalDate(this.value)
-                  : undefined
-            }
+            .value=${this.value instanceof Date
+              ? this.value
+              : this.value
+                ? this._parseLocalDate(this.value)
+                : undefined}
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
             min-date=${ifDefined(this.minDate || undefined)}
@@ -1173,42 +1167,36 @@ export class NysDatepicker extends NysFormControlElement {
             role="dialog"
             aria-modal=${this.datepickerIsOpen ? "true" : "false"}
           >
-            ${
-              !this.hideTodayButton || !this.hideClearButton
-                ? html`
-                    <div class="wc-datepicker--button-container">
-                      ${
-                        !this.hideTodayButton
-                          ? html`
-                              <nys-button
-                                label="Today"
-                                size="sm"
-                                fullWidth
-                                variant="outline"
-                                ?disabled=${this.disabled}
-                                @nys-click=${this._handleTodayClick}
-                              ></nys-button>
-                            `
-                          : null
-                      }
-                      ${
-                        !this.hideClearButton
-                          ? html`
-                              <nys-button
-                                label="Clear"
-                                size="sm"
-                                fullWidth
-                                variant="outline"
-                                ?disabled=${this.disabled}
-                                @nys-click=${this._handleClearClick}
-                              ></nys-button>
-                            `
-                          : null
-                      }
-                    </div>
-                  `
-                : null
-            }
+            ${!this.hideTodayButton || !this.hideClearButton
+              ? html`
+                  <div class="wc-datepicker--button-container">
+                    ${!this.hideTodayButton
+                      ? html`
+                          <nys-button
+                            label="Today"
+                            size="sm"
+                            fullWidth
+                            variant="outline"
+                            ?disabled=${this.disabled}
+                            @nys-click=${this._handleTodayClick}
+                          ></nys-button>
+                        `
+                      : null}
+                    ${!this.hideClearButton
+                      ? html`
+                          <nys-button
+                            label="Clear"
+                            size="sm"
+                            fullWidth
+                            variant="outline"
+                            ?disabled=${this.disabled}
+                            @nys-click=${this._handleClearClick}
+                          ></nys-button>
+                        `
+                      : null}
+                  </div>
+                `
+              : null}
           </wc-datepicker>
         </div>
       </div>

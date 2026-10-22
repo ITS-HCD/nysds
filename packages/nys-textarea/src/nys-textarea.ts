@@ -194,7 +194,10 @@ export class NysTextarea extends NysFormControlElement {
    * @default "full"
    */
   @property({ type: String, reflect: true }) width:
-    "sm" | "md" | "lg" | "full" = "full";
+    | "sm"
+    | "md"
+    | "lg"
+    | "full" = "full";
 
   /**
    * Visible height in lines.
@@ -475,13 +478,11 @@ export class NysTextarea extends NysFormControlElement {
           id="${this.id}--label"
           label=${this.label}
           description=${this.description}
-          flag=${
-            this.required && !this.readonly
-              ? "required"
-              : this.optional
-                ? "optional"
-                : ""
-          }
+          flag=${this.required && !this.readonly
+            ? "required"
+            : this.optional
+              ? "optional"
+              : ""}
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >

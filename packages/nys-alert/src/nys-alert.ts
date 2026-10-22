@@ -192,7 +192,12 @@ export class NysAlert extends NysElement {
    * @default "base"
    */
   @property({ type: String, reflect: true }) type:
-    "base" | "info" | "success" | "warning" | "danger" | "emergency" = "base";
+    | "base"
+    | "info"
+    | "success"
+    | "warning"
+    | "danger"
+    | "emergency" = "base";
 
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;
@@ -320,96 +325,80 @@ export class NysAlert extends NysElement {
     const { role, ariaLive } = this.ariaAttributes;
 
     return html`
-      ${
-        !this._alertClosed
-          ? html` <div
-              class="nys-alert__container ${
-                this._slotHasContent ||
-                this.text?.trim().length > 0 ||
-                this.primaryAction ||
-                this.secondaryAction
-                  ? ""
-                  : "nys-alert--centered"
-              }"
+      ${!this._alertClosed
+        ? html` <div
+            class="nys-alert__container ${this._slotHasContent ||
+            this.text?.trim().length > 0 ||
+            this.primaryAction ||
+            this.secondaryAction
+              ? ""
+              : "nys-alert--centered"}"
+          >
+            <div part="nys-alert__icon" class="nys-alert__icon">
+              <nys-icon
+                name="${this._resolveIconName()}"
+                size="3xl"
+                label="${this.type} icon"
+              ></nys-icon>
+            </div>
+            <div
+              class="nys-alert__texts"
+              role=${role}
+              aria-live=${ariaLive}
+              aria-atomic="true"
             >
-              <div part="nys-alert__icon" class="nys-alert__icon">
-                <nys-icon
-                  name="${this._resolveIconName()}"
-                  size="3xl"
-                  label="${this.type} icon"
-                ></nys-icon>
-              </div>
-              <div
-                class="nys-alert__texts"
-                role=${role}
-                aria-live=${ariaLive}
-                aria-atomic="true"
-              >
-                ${
-                  this.heading?.trim()
-                    ? html`<p class="nys-alert__header">${this.heading}</p>`
-                    : ""
-                }
-                ${
-                  this._slotHasContent
-                    ? html`<slot></slot>`
-                    : this.text?.trim().length > 0
-                      ? html`<p class="nys-alert__text">${this.text}</p>`
-                      : ""
-                }
-                ${
-                  this.primaryAction || this.secondaryAction
-                    ? html`<div class="nys-alert__actions">
-                        ${
-                          this.primaryAction
-                            ? html`<nys-button
-                                variant="text"
-                                target="_blank"
-                                href=${this.primaryAction}
-                                label=${this.primaryLabel}
-                                ?inverted=${this.type === "emergency"}
-                                id="primary-action"
-                              ></nys-button>`
-                            : ""
-                        }
-                        ${
-                          this.secondaryAction
-                            ? html`<nys-button
-                                variant="text"
-                                target="_blank"
-                                href=${this.secondaryAction}
-                                label=${this.secondaryLabel}
-                                ?inverted=${this.type === "emergency"}
-                                id="secondary-action"
-                              ></nys-button>`
-                            : ""
-                        }
-                      </div> `
-                    : ""
-                }
-              </div>
-              ${
-                this.dismissible
-                  ? html` <nys-button
-                      id="dismiss-btn"
-                      variant="ghost"
-                      circle
-                      icon="close"
-                      size="sm"
-                      ?inverted=${this.type === "emergency"}
-                      label="${this.heading}, alert, Close"
-                      @nys-click=${this._closeAlert}
-                      style=${ifDefined(
-                        this.type === "emergency"
-                          ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
-                          : undefined,
-                      )}
-                    ></nys-button>`
-                  : ""
-              }
-            </div>`
-          : ""
-      }
+              ${this.heading?.trim()
+                ? html`<p class="nys-alert__header">${this.heading}</p>`
+                : ""}
+              ${this._slotHasContent
+                ? html`<slot></slot>`
+                : this.text?.trim().length > 0
+                  ? html`<p class="nys-alert__text">${this.text}</p>`
+                  : ""}
+              ${this.primaryAction || this.secondaryAction
+                ? html`<div class="nys-alert__actions">
+                    ${this.primaryAction
+                      ? html`<nys-button
+                          variant="text"
+                          target="_blank"
+                          href=${this.primaryAction}
+                          label=${this.primaryLabel}
+                          ?inverted=${this.type === "emergency"}
+                          id="primary-action"
+                        ></nys-button>`
+                      : ""}
+                    ${this.secondaryAction
+                      ? html`<nys-button
+                          variant="text"
+                          target="_blank"
+                          href=${this.secondaryAction}
+                          label=${this.secondaryLabel}
+                          ?inverted=${this.type === "emergency"}
+                          id="secondary-action"
+                        ></nys-button>`
+                      : ""}
+                  </div> `
+                : ""}
+            </div>
+            ${this.dismissible
+              ? html` <nys-button
+                  id="dismiss-btn"
+                  variant="ghost"
+                  circle
+                  icon="close"
+                  size="sm"
+                  ?inverted=${this.type === "emergency"}
+                  label="${this.heading}, alert, Close"
+                  @nys-click=${this._closeAlert}
+                  style=${ifDefined(
+                    this.type === "emergency"
+                      ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
+                      : undefined,
+                  )}
+                ></nys-button>`
+              : ""}
+          </div>`
+        : ""}
     `;
   }
 }

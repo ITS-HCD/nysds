@@ -221,7 +221,8 @@ export class NysTable extends NysElement {
     ) as HTMLSlotElement | null;
     const assigned = slot?.assignedElements({ flatten: true }) ?? [];
     return assigned.find((el) => el.tagName === "TABLE") as
-      HTMLTableElement | undefined;
+      | HTMLTableElement
+      | undefined;
   }
 
   private _observeTable(table: HTMLTableElement) {
@@ -553,22 +554,18 @@ export class NysTable extends NysElement {
       <div class="nys-table">
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
-      ${
-        this.download
-          ? html` <nys-button
-              id="${this.id}-download-button"
-              label=${
-                this._captionText
-                  ? `Download ${this._captionText}`
-                  : "Download table"
-              }
-              size="sm"
-              variant="outline"
-              prefixIcon="download"
-              @nys-click=${this.downloadFile}
-            ></nys-button>`
-          : ""
-      }
+      ${this.download
+        ? html` <nys-button
+            id="${this.id}-download-button"
+            label=${this._captionText
+              ? `Download ${this._captionText}`
+              : "Download table"}
+            size="sm"
+            variant="outline"
+            prefixIcon="download"
+            @nys-click=${this.downloadFile}
+          ></nys-button>`
+        : ""}
     `;
   }
 }

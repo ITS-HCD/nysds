@@ -5,7 +5,9 @@ import type { NysIcon } from "./nys-icon";
 
 // Dynamic import from dist to get registry/cache functions from the same module instance
 type TestIconResolution =
-  string | { type: "url"; href: string } | { type: "svg"; content: string };
+  | string
+  | { type: "url"; href: string }
+  | { type: "svg"; content: string };
 type TestIconLibrary = {
   resolver: (
     name: string,

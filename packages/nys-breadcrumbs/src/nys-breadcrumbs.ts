@@ -500,9 +500,9 @@ export class NysBreadcrumbs extends NysElement {
 
   render() {
     return html`<nav
-      class="nys-breadcrumbs ${
-        this.backgroundBar ? "nys-breadcrumbs--background-bar" : ""
-      }"
+      class="nys-breadcrumbs ${this.backgroundBar
+        ? "nys-breadcrumbs--background-bar"
+        : ""}"
       aria-label=${this.ariaLabel || "Breadcrumb"}
     >
       <slot @slotchange=${this._handleSlotChange}></slot>

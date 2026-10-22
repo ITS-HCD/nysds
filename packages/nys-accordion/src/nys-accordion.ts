@@ -119,7 +119,11 @@ export class NysAccordion extends NysElement {
    * the page title.
    */
   @property({ type: String, reflect: true }) headingLevel:
-    "h2" | "h3" | "h4" | "h5" | "h6" = "h3";
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6" = "h3";
 
   /**
    * Lifecycle methods
