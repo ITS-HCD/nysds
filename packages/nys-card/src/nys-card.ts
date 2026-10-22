@@ -377,11 +377,7 @@ export class NysCard extends NysElement {
    * Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.
    */
   @property({ type: String, reflect: true }) target:
-    | "_self"
-    | "_blank"
-    | "_parent"
-    | "_top"
-    | "framename" = "_self";
+    "_self" | "_blank" | "_parent" | "_top" | "framename" = "_self";
 
   /**
    * Click handler. Makes the whole card a single `<button>`. Use instead of
@@ -531,9 +527,11 @@ export class NysCard extends NysElement {
       </div>
       <div class="nys-card__main-content">
         <div>
-          ${showPreheadingText
-            ? html`<p class="nys-card__preheading">${this.preheading}</p>`
-            : ""}
+          ${
+            showPreheadingText
+              ? html`<p class="nys-card__preheading">${this.preheading}</p>`
+              : ""
+          }
           <slot
             name="preheading"
             class="nys-card__preheading-slot"
@@ -541,13 +539,17 @@ export class NysCard extends NysElement {
             @slotchange=${this.handlePreheadingSlotChange}
           ></slot>
           ${this.renderHeading()}
-          ${this.subheading
-            ? html`<p class="nys-card__subheading">${this.subheading}</p>`
-            : ""}
+          ${
+            this.subheading
+              ? html`<p class="nys-card__subheading">${this.subheading}</p>`
+              : ""
+          }
         </div>
-        ${this.description
-          ? html`<p class="nys-card__description">${this.description}</p>`
-          : ""}
+        ${
+          this.description
+            ? html`<p class="nys-card__description">${this.description}</p>`
+            : ""
+        }
         <slot></slot>
       </div>
       <slot name="footer" class="nys-card__footer"></slot>

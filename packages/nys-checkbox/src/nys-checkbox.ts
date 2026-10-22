@@ -589,9 +589,9 @@ export class NysCheckbox extends NysFormControlElement {
     return html`
       <div class="nys-checkbox">
         <div
-          class="nys-checkbox__main-container ${this._hasDescription
-            ? "has-description"
-            : ""}"
+          class="nys-checkbox__main-container ${
+            this._hasDescription ? "has-description" : ""
+          }"
         >
           <div class="nys-checkbox__checkbox-wrapper">
             <input
@@ -621,59 +621,69 @@ export class NysCheckbox extends NysFormControlElement {
                   : undefined,
               )}
             />
-            ${this.checked
-              ? html`<nys-icon
-                  name="check"
-                  size="${this.size === "md"
-                    ? "4xl"
-                    : this.size === "sm"
-                      ? "2xl"
-                      : "4xl"}"
-                  class="nys-checkbox__icon"
-                ></nys-icon>`
-              : ""}
+            ${
+              this.checked
+                ? html`<nys-icon
+                    name="check"
+                    size="${
+                      this.size === "md"
+                        ? "4xl"
+                        : this.size === "sm"
+                          ? "2xl"
+                          : "4xl"
+                    }"
+                    class="nys-checkbox__icon"
+                  ></nys-icon>`
+                : ""
+            }
           </div>
-          ${this.hideLabel || this.labelledby || !(this.label || this.other)
-            ? nothing
-            : html`<nys-label
-                id="${this.id}--label"
-                tooltip=${this.tooltip}
-                label="${this.label || (this.other ? "Other" : "")}"
-                description=${ifDefined(this.description || undefined)}
-                flag=${ifDefined(this.required ? "required" : undefined)}
-                class=${this._isStandalone ? "standalone" : ""}
-              >
-                <slot name="description" slot="description"
-                  >${this.description}</slot
+          ${
+            this.hideLabel || this.labelledby || !(this.label || this.other)
+              ? nothing
+              : html`<nys-label
+                  id="${this.id}--label"
+                  tooltip=${this.tooltip}
+                  label="${this.label || (this.other ? "Other" : "")}"
+                  description=${ifDefined(this.description || undefined)}
+                  flag=${ifDefined(this.required ? "required" : undefined)}
+                  class=${this._isStandalone ? "standalone" : ""}
                 >
-              </nys-label>`}
+                  <slot name="description" slot="description"
+                    >${this.description}</slot
+                  >
+                </nys-label>`
+          }
         </div>
         <div class="nys-checkbox__other-container">
-          ${this.other && this.checked
-            ? html`
-                <nys-textinput
-                  .value=${this.value}
-                  id=${"radiobutton-other-" + this.id}
-                  @nys-input=${this._handleTextInput}
-                  @nys-blur=${this._handleTextInputBlur}
-                  ariaLabel="Other"
-                  aria-invalid=${this.showOtherError ? "true" : "false"}
-                  width=${this.isMobile ? "full" : "md"}
-                  ?disabled=${this.disabled}
-                ></nys-textinput>
-              `
-            : ""}
+          ${
+            this.other && this.checked
+              ? html`
+                  <nys-textinput
+                    .value=${this.value}
+                    id=${"radiobutton-other-" + this.id}
+                    @nys-input=${this._handleTextInput}
+                    @nys-blur=${this._handleTextInputBlur}
+                    ariaLabel="Other"
+                    aria-invalid=${this.showOtherError ? "true" : "false"}
+                    width=${this.isMobile ? "full" : "md"}
+                    ?disabled=${this.disabled}
+                  ></nys-textinput>
+                `
+              : ""
+          }
         </div>
       </div>
-      ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
-        ? html`<nys-errormessage
-            id=${this.id + "--error"}
-            class="single-error-message"
-            ?showError=${this.showError}
-            errorMessage=${this.resolvedErrorMessage()}
-            .showDivider=${!this.tile}
-          ></nys-errormessage>`
-        : ""}
+      ${
+        this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
+          ? html`<nys-errormessage
+              id=${this.id + "--error"}
+              class="single-error-message"
+              ?showError=${this.showError}
+              errorMessage=${this.resolvedErrorMessage()}
+              .showDivider=${!this.tile}
+            ></nys-errormessage>`
+          : ""
+      }
     `;
   }
 }

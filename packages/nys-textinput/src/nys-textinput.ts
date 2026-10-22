@@ -178,13 +178,8 @@ export class NysTextinput extends NysFormControlElement {
    * @default "text"
    */
   @property({ type: String, reflect: true }) type:
-    | "email"
-    | "number"
-    | "password"
-    | "search"
-    | "tel"
-    | "text"
-    | "url" = "text";
+    "email" | "number" | "password" | "search" | "tel" | "text" | "url" =
+    "text";
 
   /** Visible label text. Required for accessibility. */
   @property({ type: String }) label = "";
@@ -230,10 +225,7 @@ export class NysTextinput extends NysFormControlElement {
    * @default "full"
    */
   @property({ type: String, reflect: true }) width:
-    | "sm"
-    | "md"
-    | "lg"
-    | "full" = "full";
+    "sm" | "md" | "lg" | "full" = "full";
 
   /** Step increment for `type="number"`. */
   @property({ type: Number }) step: number | null = null;
@@ -676,11 +668,13 @@ export class NysTextinput extends NysFormControlElement {
           id="${this.id}--label"
           label=${this.label}
           description=${this.description}
-          flag=${this.required && !this.readonly
-            ? "required"
-            : this.optional
-              ? "optional"
-              : ""}
+          flag=${
+            this.required && !this.readonly
+              ? "required"
+              : this.optional
+                ? "optional"
+                : ""
+          }
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
@@ -695,11 +689,13 @@ export class NysTextinput extends NysFormControlElement {
             <span class="nys-textinput__mask-overlay"></span>
             <input
               class="nys-textinput__input"
-              type=${this.type === "password"
-                ? this.showPassword
-                  ? "text"
-                  : "password"
-                : this.type}
+              type=${
+                this.type === "password"
+                  ? this.showPassword
+                    ? "text"
+                    : "password"
+                  : this.type
+              }
               name=${this.name}
               id=${this.id + "--native"}
               ?disabled=${this.disabled}
@@ -735,44 +731,48 @@ export class NysTextinput extends NysFormControlElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
             />
-            ${this.type === "password"
-              ? html` <nys-button
-                  class="inline-icon"
-                  id="password-toggle"
-                  ariaLabel="password toggle"
-                  variant="ghost"
-                  circle
-                  size="sm"
-                  @nys-click=${() =>
-                    !this.disabled && this._togglePasswordVisibility()}
-                >
-                  <nys-icon
-                    slot="circle-icon"
-                    size="2xl"
-                    name=${this.showPassword ? "visibility_off" : "visibility"}
-                  ></nys-icon>
-                </nys-button>`
-              : ""}
-            ${this.type === "search" &&
-            this.value &&
-            !this.disabled &&
-            !this.readonly
-              ? html` <nys-button
-                  class="inline-icon"
-                  id="search-clear"
-                  ariaLabel="clear search"
-                  variant="ghost"
-                  circle
-                  size="sm"
-                  @nys-click=${() => this._clearSearch()}
-                >
-                  <nys-icon
-                    slot="circle-icon"
-                    size="2xl"
-                    name="close"
-                  ></nys-icon>
-                </nys-button>`
-              : ""}
+            ${
+              this.type === "password"
+                ? html` <nys-button
+                    class="inline-icon"
+                    id="password-toggle"
+                    ariaLabel="password toggle"
+                    variant="ghost"
+                    circle
+                    size="sm"
+                    @nys-click=${() =>
+                      !this.disabled && this._togglePasswordVisibility()}
+                  >
+                    <nys-icon
+                      slot="circle-icon"
+                      size="2xl"
+                      name=${this.showPassword ? "visibility_off" : "visibility"}
+                    ></nys-icon>
+                  </nys-button>`
+                : ""
+            }
+            ${
+              this.type === "search" &&
+              this.value &&
+              !this.disabled &&
+              !this.readonly
+                ? html` <nys-button
+                    class="inline-icon"
+                    id="search-clear"
+                    ariaLabel="clear search"
+                    variant="ghost"
+                    circle
+                    size="sm"
+                    @nys-click=${() => this._clearSearch()}
+                  >
+                    <nys-icon
+                      slot="circle-icon"
+                      size="2xl"
+                      name="close"
+                    ></nys-icon>
+                  </nys-button>`
+                : ""
+            }
           </div>
           <slot
             name="endButton"

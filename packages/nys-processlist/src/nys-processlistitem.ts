@@ -76,11 +76,13 @@ export class NysProcesslistitem extends NysElement {
         </div>
         <div class="nys-processlistitem__content">
           <div class="nys-processlistitem__label">${this.label}</div>
-          ${this._hasDescription
-            ? html`<p class="nys-processlistitem__description">
-                <slot name="description">${this.description}</slot>
-              </p>`
-            : ""}
+          ${
+            this._hasDescription
+              ? html`<p class="nys-processlistitem__description">
+                  <slot name="description">${this.description}</slot>
+                </p>`
+              : ""
+          }
         </div>
       </div>
     `;

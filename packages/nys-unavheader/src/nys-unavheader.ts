@@ -75,12 +75,7 @@ interface AlertFeed {
 }
 
 type AlertType =
-  | "base"
-  | "info"
-  | "success"
-  | "warning"
-  | "danger"
-  | "emergency";
+  "base" | "info" | "success" | "warning" | "danger" | "emergency";
 
 /** Feed severity → `nys-alert` type. Unrecognized severities fall back to `info`. */
 const SEVERITY_TYPES: Record<string, AlertType> = {
@@ -831,19 +826,23 @@ export class NysUnavHeader extends NysElement {
           heading=${alert.headline ?? ""}
           icon=${icon}
         >
-          ${alert.description
-            ? html`<p class="nys-unavheader__alert-text">
-                ${alert.description}
-              </p>`
-            : nothing}
-          ${alert.link
-            ? html`<a
-                class="nys-unavheader__alert-link"
-                href=${alert.link}
-                aria-label=${alert.linkAriaLabel?.trim() || nothing}
-                >${linkLabel}</a
-              >`
-            : nothing}
+          ${
+            alert.description
+              ? html`<p class="nys-unavheader__alert-text">
+                  ${alert.description}
+                </p>`
+              : nothing
+          }
+          ${
+            alert.link
+              ? html`<a
+                  class="nys-unavheader__alert-link"
+                  href=${alert.link}
+                  aria-label=${alert.linkAriaLabel?.trim() || nothing}
+                  >${linkLabel}</a
+                >`
+              : nothing
+          }
         </nys-alert>
       </div>
     `;
@@ -906,9 +905,9 @@ export class NysUnavHeader extends NysElement {
         <div
           id="nys-unavheader__trustpanel"
           id="nys-unavheader__trustpanel"
-          class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
-            ? "show"
-            : "hide"}"
+          class="nys-unavheader__trustpanel wrapper ${
+            this.trustbarVisible ? "show" : "hide"
+          }"
         >
           <div class="nys-unavheader__trustpanel content">
             <nys-button
@@ -982,123 +981,132 @@ export class NysUnavHeader extends NysElement {
               </nys-button>
             </div>
             <div class="nys-unavheader__spacer"></div>
-            ${!this.hideTranslate
-              ? html`<div
-                  class="nys-unavheader__translatewrapper"
-                  @keydown=${this._handleTranslateKeydown}
-                  @focusout=${this._handleTranslateFocusout}
-                >
-                  <nys-button
-                    variant="ghost"
-                    circle
-                    label="Translate"
-                    ariaControls="${LANGUAGE_LIST_ID}"
-                    ariaExpanded="${this.languageVisible}"
-                    id="nys-unavheader__translate--mobile"
-                    class="nys-unavheader__iconbutton"
-                    @nys-click=${() =>
-                      this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
-                  >
-                    <nys-icon
-                      slot="circle-icon"
-                      name="language"
-                      size="16"
-                    ></nys-icon>
-                  </nys-button>
-                  ${!this.isSearchFocused
-                    ? html`
-                        <nys-button
-                          variant="ghost"
-                          label="Translate"
-                          ariaControls="${LANGUAGE_LIST_ID}"
-                          ariaExpanded="${this.languageVisible}"
-                          size="sm"
-                          prefixIcon="language"
-                          suffixIcon=${this.languageVisible
-                            ? "chevron_up"
-                            : "chevron_down"}
-                          id="nys-unavheader__translate--desktop"
-                          @nys-click="${() =>
-                            this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
-                        ></nys-button>
-                      `
-                    : null}
-                  <div
-                    id="${LANGUAGE_LIST_ID}"
-                    role="menu"
-                    aria-label="${LANGUAGE_MENU_LABEL}"
-                    class="nys-unavheader__languagelist ${this.languageVisible
-                      ? "show"
-                      : "hide"}"
-                  >
-                    ${this.languages.map(
-                      (lang) =>
-                        // role="presentation" drops the nys-button host out of the
-                        // accessibility tree, so the menu owns the menuitem inside
-                        // it directly instead of a generic wrapper. The menuitem
-                        // role and the roving tabindex are written onto that inner
-                        // button by _syncLanguageMenuAria.
-                        html`<nys-button
-                          role="presentation"
-                          variant="ghost"
-                          fullWidth
-                          lang="${languageTag(lang.code)}"
-                          label="${lang.label}"
-                          class="${LANGUAGE_OPTION_CLASS}"
-                          @click="${() => this._handleLanguageSelect(lang)}"
-                        ></nys-button>`,
-                    )}
-                  </div>
-                </div>`
-              : null}
-            ${!this.hideSearch
-              ? html`
-                  <nys-button
-                    variant="ghost"
-                    circle
-                    label="Search"
-                    ariaControls="nys-unavheader__searchdropdown"
-                    ariaExpanded="${this.searchDropdownVisible}"
-                    id="nys-unavheader__searchbutton"
-                    class="nys-unavheader__iconbutton"
-                    @nys-click=${this._toggleSearchDropdown}
-                  >
-                    <nys-icon
-                      slot="circle-icon"
-                      name="search"
-                      size="16"
-                    ></nys-icon>
-                  </nys-button>
-                  <nys-textinput
-                    class="nys-unavheader__search"
-                    id="nys-unavheader__searchbar"
-                    placeholder="Search"
-                    type="search"
-                    @focus="${this._handleSearchFocus}"
-                    @blur="${this._handleSearchBlur}"
-                    @keyup="${this._handleSearchKeyup}"
+            ${
+              !this.hideTranslate
+                ? html`<div
+                    class="nys-unavheader__translatewrapper"
+                    @keydown=${this._handleTranslateKeydown}
+                    @focusout=${this._handleTranslateFocusout}
                   >
                     <nys-button
-                      id="nys-unavheader__searchbar--button"
-                      slot="endButton"
-                      type="submit"
-                      prefixIcon="search"
-                      @nys-click=${() => {
-                        this._handleSearchButton("nys-unavheader__searchbar");
-                      }}
-                      ><span class="sr-only">Search</span></nys-button
+                      variant="ghost"
+                      circle
+                      label="Translate"
+                      ariaControls="${LANGUAGE_LIST_ID}"
+                      ariaExpanded="${this.languageVisible}"
+                      id="nys-unavheader__translate--mobile"
+                      class="nys-unavheader__iconbutton"
+                      @nys-click=${() =>
+                        this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
                     >
-                  </nys-textinput>
-                `
-              : null}
+                      <nys-icon
+                        slot="circle-icon"
+                        name="language"
+                        size="16"
+                      ></nys-icon>
+                    </nys-button>
+                    ${
+                      !this.isSearchFocused
+                        ? html`
+                            <nys-button
+                              variant="ghost"
+                              label="Translate"
+                              ariaControls="${LANGUAGE_LIST_ID}"
+                              ariaExpanded="${this.languageVisible}"
+                              size="sm"
+                              prefixIcon="language"
+                              suffixIcon=${
+                                this.languageVisible
+                                  ? "chevron_up"
+                                  : "chevron_down"
+                              }
+                              id="nys-unavheader__translate--desktop"
+                              @nys-click="${() =>
+                                this._toggleLanguageList(
+                                  TRANSLATE_TRIGGER_IDS[0],
+                                )}"
+                            ></nys-button>
+                          `
+                        : null
+                    }
+                    <div
+                      id="${LANGUAGE_LIST_ID}"
+                      role="menu"
+                      aria-label="${LANGUAGE_MENU_LABEL}"
+                      class="nys-unavheader__languagelist ${
+                        this.languageVisible ? "show" : "hide"
+                      }"
+                    >
+                      ${this.languages.map(
+                        (lang) =>
+                          // role="presentation" drops the nys-button host out of the
+                          // accessibility tree, so the menu owns the menuitem inside
+                          // it directly instead of a generic wrapper. The menuitem
+                          // role and the roving tabindex are written onto that inner
+                          // button by _syncLanguageMenuAria.
+                          html`<nys-button
+                            role="presentation"
+                            variant="ghost"
+                            fullWidth
+                            lang="${languageTag(lang.code)}"
+                            label="${lang.label}"
+                            class="${LANGUAGE_OPTION_CLASS}"
+                            @click="${() => this._handleLanguageSelect(lang)}"
+                          ></nys-button>`,
+                      )}
+                    </div>
+                  </div>`
+                : null
+            }
+            ${
+              !this.hideSearch
+                ? html`
+                    <nys-button
+                      variant="ghost"
+                      circle
+                      label="Search"
+                      ariaControls="nys-unavheader__searchdropdown"
+                      ariaExpanded="${this.searchDropdownVisible}"
+                      id="nys-unavheader__searchbutton"
+                      class="nys-unavheader__iconbutton"
+                      @nys-click=${this._toggleSearchDropdown}
+                    >
+                      <nys-icon
+                        slot="circle-icon"
+                        name="search"
+                        size="16"
+                      ></nys-icon>
+                    </nys-button>
+                    <nys-textinput
+                      class="nys-unavheader__search"
+                      id="nys-unavheader__searchbar"
+                      placeholder="Search"
+                      type="search"
+                      @focus="${this._handleSearchFocus}"
+                      @blur="${this._handleSearchBlur}"
+                      @keyup="${this._handleSearchKeyup}"
+                    >
+                      <nys-button
+                        id="nys-unavheader__searchbar--button"
+                        slot="endButton"
+                        type="submit"
+                        prefixIcon="search"
+                        @nys-click=${() => {
+                          this._handleSearchButton("nys-unavheader__searchbar");
+                        }}
+                        ><span class="sr-only">Search</span></nys-button
+                      >
+                    </nys-textinput>
+                  `
+                : null
+            }
           </div>
         </div>
         <div
           id="nys-unavheader__searchdropdown"
-          class="nys-unavheader__searchdropdown wrapper ${this
-            .searchDropdownVisible
-            ? "show"
-            : "hide"}"
+          class="nys-unavheader__searchdropdown wrapper ${
+            this.searchDropdownVisible ? "show" : "hide"
+          }"
         >
           <div class="content">
             <nys-textinput

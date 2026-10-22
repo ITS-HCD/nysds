@@ -97,35 +97,37 @@ export class NysDropdownMenuItem extends NysElement {
     const isLink = !!this.href;
 
     return html`<li class="nys-dropdownmenuitem" role="presentation">
-      ${isLink
-        ? html` <a
-            class=${this.disabled ? "disabled" : ""}
-            href=${this.disabled ? "" : this.href}
-            role="menuitem"
-            aria-disabled="${this.disabled ? "true" : "false"}"
-            aria-label=${this.label}
-            tabindex=${this.disabled ? "-1" : "0"}
-            @click="${this._handleClick}"
-            target="${this.target}"
-          >
-            ${this._renderIcon(this.prefixIcon)} ${this.label}
-            ${this._renderIcon(this.suffixIcon)}</a
-          >`
-        : html`
-            <button
+      ${
+        isLink
+          ? html` <a
               class=${this.disabled ? "disabled" : ""}
-              type="button"
+              href=${this.disabled ? "" : this.href}
               role="menuitem"
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-label=${this.label}
               tabindex=${this.disabled ? "-1" : "0"}
-              ?disabled=${this.disabled}
               @click="${this._handleClick}"
+              target="${this.target}"
             >
               ${this._renderIcon(this.prefixIcon)} ${this.label}
-              ${this._renderIcon(this.suffixIcon)}
-            </button>
-          `}
+              ${this._renderIcon(this.suffixIcon)}</a
+            >`
+          : html`
+              <button
+                class=${this.disabled ? "disabled" : ""}
+                type="button"
+                role="menuitem"
+                aria-disabled="${this.disabled ? "true" : "false"}"
+                aria-label=${this.label}
+                tabindex=${this.disabled ? "-1" : "0"}
+                ?disabled=${this.disabled}
+                @click="${this._handleClick}"
+              >
+                ${this._renderIcon(this.prefixIcon)} ${this.label}
+                ${this._renderIcon(this.suffixIcon)}
+              </button>
+            `
+      }
     </li>`;
   }
 }

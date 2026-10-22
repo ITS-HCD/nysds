@@ -551,74 +551,84 @@ export class NysGlobalHeader extends NysElement {
         aria-label=${ifDefined(this._bannerLabel)}
       >
         <div class="nys-globalheader__main-container">
-          ${this._hasLinkContent
-            ? html` <div class="nys-globalheader__button-container">
-                <button
-                  class="nys-globalheader__mobile-menu-button"
-                  aria-expanded="${this._isMobileMenuOpen}"
-                  aria-controls="${this.id}-nav"
-                  @click="${this._toggleMobileMenu}"
-                >
-                  <nys-icon
-                    name="${this._isMobileMenuOpen ? "close" : "menu"}"
-                    size="32"
-                    label="${this._isMobileMenuOpen ? "close" : "menu"} icon"
-                  ></nys-icon>
-                  <span class="nys-globalheader__mobile-menu-button-text"
-                    >${this._isMobileMenuOpen ? "CLOSE" : "MENU"}</span
+          ${
+            this._hasLinkContent
+              ? html` <div class="nys-globalheader__button-container">
+                  <button
+                    class="nys-globalheader__mobile-menu-button"
+                    aria-expanded="${this._isMobileMenuOpen}"
+                    aria-controls="${this.id}-nav"
+                    @click="${this._toggleMobileMenu}"
                   >
-                </button>
-              </div>`
-            : ""}
+                    <nys-icon
+                      name="${this._isMobileMenuOpen ? "close" : "menu"}"
+                      size="32"
+                      label="${this._isMobileMenuOpen ? "close" : "menu"} icon"
+                    ></nys-icon>
+                    <span class="nys-globalheader__mobile-menu-button-text"
+                      >${this._isMobileMenuOpen ? "CLOSE" : "MENU"}</span
+                    >
+                  </button>
+                </div>`
+              : ""
+          }
           ${this._renderBrandMark()}
-          ${!this.homepageLink?.trim()
-            ? html`
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        id="${this.id}-appname"
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        id="${this.id}-agencyname"
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
-              `
-            : html`<a
-                class="nys-globalheader__name-container-link"
-                href=${this.homepageLink?.trim()}
-              >
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
-              </a>`}
+          ${
+            !this.homepageLink?.trim()
+              ? html`
+                  <div class="nys-globalheader__name-container">
+                    ${
+                      this.appName?.trim().length > 0
+                        ? html`<div
+                            id="${this.id}-appname"
+                            class="nys-globalheader__appName nys-globalheader__name"
+                          >
+                            ${this.appName}
+                          </div> `
+                        : ""
+                    }
+                    ${
+                      this.agencyName?.trim().length > 0
+                        ? html`<div
+                            id="${this.id}-agencyname"
+                            class="nys-globalheader__agencyName nys-globalheader__name ${
+                              this.appName?.trim().length > 0 ? "" : "main"
+                            }"
+                          >
+                            ${this.agencyName}
+                          </div> `
+                        : ""
+                    }
+                  </div>
+                `
+              : html`<a
+                  class="nys-globalheader__name-container-link"
+                  href=${this.homepageLink?.trim()}
+                >
+                  <div class="nys-globalheader__name-container">
+                    ${
+                      this.appName?.trim().length > 0
+                        ? html`<div
+                            class="nys-globalheader__appName nys-globalheader__name"
+                          >
+                            ${this.appName}
+                          </div> `
+                        : ""
+                    }
+                    ${
+                      this.agencyName?.trim().length > 0
+                        ? html`<div
+                            class="nys-globalheader__agencyName nys-globalheader__name ${
+                              this.appName?.trim().length > 0 ? "" : "main"
+                            }"
+                          >
+                            ${this.agencyName}
+                          </div> `
+                        : ""
+                    }
+                  </div>
+                </a>`
+          }
           <nav
             id="${this.id}-nav"
             class="nys-globalheader__content"

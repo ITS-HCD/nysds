@@ -356,9 +356,9 @@ export class NysVideo extends NysElement {
     if (!this._playerActive && !this.autoplay) {
       return html`
         <div
-          class="nys-video nys-video--${effectiveSize} ${this.disabled
-            ? "nys-video--disabled"
-            : ""}"
+          class="nys-video nys-video--${effectiveSize} ${
+            this.disabled ? "nys-video--disabled" : ""
+          }"
         >
           ${this._renderAnnouncer()}
           <div class="nys-video__ratio-box">
@@ -376,10 +376,12 @@ export class NysVideo extends NysElement {
               </button>
             </div>
           </div>
-          ${this.titleText &&
-          html`<div class="nys-video__title-text">
-            <p>${this.titleText}</p>
-          </div>`}
+          ${
+            this.titleText &&
+            html`<div class="nys-video__title-text">
+              <p>${this.titleText}</p>
+            </div>`
+          }
         </div>
       `;
     }

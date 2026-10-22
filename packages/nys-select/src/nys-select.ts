@@ -261,10 +261,7 @@ export class NysSelect extends NysFormControlElement {
    * @default "full"
    */
   @property({ type: String, reflect: true }) width:
-    | "sm"
-    | "md"
-    | "lg"
-    | "full" = "full";
+    "sm" | "md" | "lg" | "full" = "full";
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
 

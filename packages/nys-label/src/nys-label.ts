@@ -120,39 +120,47 @@ export class NysLabel extends LitElement {
         <div class="nys-label__tooltip-wrapper">
           <label class="nys-label__label" @click=${this._dispatchLabelClick}
             >${this.label}
-            ${this.flag === "required"
-              ? html`<div class="nys-label__required" aria-hidden="true">
-                  *
-                </div>`
-              : ""}
-            ${this.flag === "optional"
-              ? html`<div class="nys-label__optional">(Optional)</div>`
-              : ""}</label
+            ${
+              this.flag === "required"
+                ? html`<div class="nys-label__required" aria-hidden="true">
+                    *
+                  </div>`
+                : ""
+            }
+            ${
+              this.flag === "optional"
+                ? html`<div class="nys-label__optional">(Optional)</div>`
+                : ""
+            }</label
           >
-          ${this.tooltip
-            ? html`<nys-tooltip
-                  text="${this.tooltip}"
-                  position="top"
-                  focusable
-                  ?inverted=${this.inverted}
-                  for="tooltip-icon-${this.id}"
-                >
-                </nys-tooltip>
-                <nys-icon
-                  id="tooltip-icon-${this.id}"
-                  name="info"
-                  size="3xl"
-                ></nys-icon> `
-            : ""}
+          ${
+            this.tooltip
+              ? html`<nys-tooltip
+                    text="${this.tooltip}"
+                    position="top"
+                    focusable
+                    ?inverted=${this.inverted}
+                    for="tooltip-icon-${this.id}"
+                  >
+                  </nys-tooltip>
+                  <nys-icon
+                    id="tooltip-icon-${this.id}"
+                    name="info"
+                    size="3xl"
+                  ></nys-icon> `
+              : ""
+          }
         </div>
-        ${this._hasDescription
-          ? html`<p
-              class="nys-label__description"
-              @click=${this._dispatchLabelClick}
-            >
-              <slot name="description">${this.description}</slot>
-            </p>`
-          : ""}
+        ${
+          this._hasDescription
+            ? html`<p
+                class="nys-label__description"
+                @click=${this._dispatchLabelClick}
+              >
+                <slot name="description">${this.description}</slot>
+              </p>`
+            : ""
+        }
       </div>
     `;
   }

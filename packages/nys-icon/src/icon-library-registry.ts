@@ -21,9 +21,7 @@
  * return synchronously or via a Promise.
  */
 export type IconResolution =
-  | string
-  | { type: "url"; href: string }
-  | { type: "svg"; content: string };
+  string | { type: "url"; href: string } | { type: "svg"; content: string };
 
 export interface IconLibrary {
   /** Given an icon name, return where/what its SVG is. Return undefined if not found. */

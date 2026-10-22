@@ -564,14 +564,16 @@ export class NysRadiobutton extends NysFormControlElement {
             aria-labelledby=${ifDefined(this._labelledById)}
             aria-label=${ifDefined(this._fallbackAriaLabel)}
           />
-          ${this._renderInternalLabel
-            ? html`<nys-label
-                id="${this._internalLabelId}"
-                label="${this._labelText}"
-                description=${ifDefined(this.description || undefined)}
-              >
-              </nys-label>`
-            : nothing}
+          ${
+            this._renderInternalLabel
+              ? html`<nys-label
+                  id="${this._internalLabelId}"
+                  label="${this._labelText}"
+                  description=${ifDefined(this.description || undefined)}
+                >
+                </nys-label>`
+              : nothing
+          }
         </div>
       </div>
     `;

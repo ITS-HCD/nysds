@@ -795,11 +795,13 @@ export class NysRadiogroup extends NysFormControlElement {
         @slotchange=${this._handleSlotChange}
       ></slot>
       <fieldset
-        aria-label="${this.label}${this._slottedDescriptionText
-          ? ` ${this._slottedDescriptionText}`
-          : this.description
-            ? ` ${this.description}`
-            : ""}"
+        aria-label="${this.label}${
+          this._slottedDescriptionText
+            ? ` ${this._slottedDescriptionText}`
+            : this.description
+              ? ` ${this.description}`
+              : ""
+        }"
         role="radiogroup"
         aria-required=${this.required ? "true" : "false"}
         class="nys-radiogroup"
@@ -850,36 +852,41 @@ export class NysRadiogroup extends NysFormControlElement {
                     @focus=${() => this._handleRadiobtnFocus(radiobtn)}
                     @blur=${() => this._handleRadiobtnBlur(radiobtn)}
                   />
-                  ${(radiobtn.label || radiobtn.other) &&
-                  html`<nys-label
-                    id="${radiobtn.id}-label"
-                    label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
-                    description=${ifDefined(radiobtn.description || undefined)}
-                  >
-                  </nys-label>`}
+                  ${
+                    (radiobtn.label || radiobtn.other) &&
+                    html`<nys-label
+                      id="${radiobtn.id}-label"
+                      label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
+                      description=${ifDefined(radiobtn.description || undefined)}
+                    >
+                    </nys-label>`
+                  }
                 </div>
                 <div class="nys-radiobutton__other-container">
-                  ${radiobtn.other && radiobtn.checked
-                    ? html`
-                        <nys-textinput
-                          .value=${radiobtn.value}
-                          id=${"radiobutton-other-" + radiobtn.id}
-                          @nys-input=${(e: Event) =>
-                            this._handleTextInput(radiobtn, e)}
-                          @nys-blur=${() => this._handleTextInputBlur(radiobtn)}
-                          @keydown=${this._handleOtherKeydown}
-                          @nys-focus=${() =>
-                            radiobtn.classList.remove("focused")}
-                          ariaLabel="Other"
-                          aria-invalid=${radiobtn.showOtherError ||
-                          this._showOtherError
-                            ? "true"
-                            : "false"}
-                          width=${this.isMobile ? "full" : "md"}
-                          ?disabled=${radiobtn.disabled}
-                        ></nys-textinput>
-                      `
-                    : ""}
+                  ${
+                    radiobtn.other && radiobtn.checked
+                      ? html`
+                          <nys-textinput
+                            .value=${radiobtn.value}
+                            id=${"radiobutton-other-" + radiobtn.id}
+                            @nys-input=${(e: Event) =>
+                              this._handleTextInput(radiobtn, e)}
+                            @nys-blur=${() => this._handleTextInputBlur(radiobtn)}
+                            @keydown=${this._handleOtherKeydown}
+                            @nys-focus=${() =>
+                              radiobtn.classList.remove("focused")}
+                            ariaLabel="Other"
+                            aria-invalid=${
+                              radiobtn.showOtherError || this._showOtherError
+                                ? "true"
+                                : "false"
+                            }
+                            width=${this.isMobile ? "full" : "md"}
+                            ?disabled=${radiobtn.disabled}
+                          ></nys-textinput>
+                        `
+                      : ""
+                  }
                 </div>
               </div>
             `,

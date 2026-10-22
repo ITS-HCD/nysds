@@ -110,12 +110,7 @@ export class NysAccordionItem extends NysElement {
    * never the page title.
    */
   @property({ type: String, reflect: true }) headingLevel:
-    | "h2"
-    | "h3"
-    | "h4"
-    | "h5"
-    | "h6"
-    | "" = "";
+    "h2" | "h3" | "h4" | "h5" | "h6" | "" = "";
 
   /** Whether the content panel is visible. Toggle via click or keyboard. */
   @property({ type: Boolean, reflect: true }) expanded = false;
@@ -180,8 +175,7 @@ export class NysAccordionItem extends NysElement {
     if (own) return own;
 
     const group = this.closest("nys-accordion") as
-      | (HTMLElement & { headingLevel?: string })
-      | null;
+      (HTMLElement & { headingLevel?: string }) | null;
 
     return (
       normalizeAccordionHeadingLevel(group?.headingLevel) ??
@@ -288,9 +282,9 @@ export class NysAccordionItem extends NysElement {
         -->
         <div
           id=${contentId}
-          class="nys-accordionitem__content ${this.expanded
-            ? "expanded"
-            : "collapsed"}"
+          class="nys-accordionitem__content ${
+            this.expanded ? "expanded" : "collapsed"
+          }"
           role="region"
           aria-labelledby=${buttonId}
           @nys-child-resize=${this._updateHeight}
