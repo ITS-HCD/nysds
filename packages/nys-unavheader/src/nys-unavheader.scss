@@ -20,6 +20,17 @@
     var(--nys-color-neutral-10, #f6f6f6)
   );
 
+  // Language Dropdown Styles
+  --_nys-unavheader-background-color--language-dropdown: var(
+    --nys-color-surface,
+    #ffffff
+  );
+  --_nys-unavheader-border-color--language-dropdown: var(
+    --nys-color-neutral-100,
+    #d0d0ce
+  );
+  --_nys-unavheader-border-radius--language-dropdown: var(--nys-radius-md, 4px);
+
   /* Typography */
   font-size: var(--nys-font-size-ui-md, 16px);
   font-weight: var(--nys-font-weight-semibold, 600);
@@ -316,14 +327,18 @@ a#nys-unavheader__logolink {
   position: relative;
 }
 
-.nys-unavheader__languagelist.show {
+.nys-unavheader__languagelist.show,
+.nys-unavheader__languagelist.hide {
   position: absolute;
   display: flex;
   flex-direction: column;
   min-width: fit-content;
   width: max-content;
   z-index: 99999;
-  background-color: var(--_nys-unavheader-background-color--section-raised);
+  background-color: var(--_nys-unavheader-background-color--language-dropdown);
+  border: var(--_nys-unavheader-border-color--language-dropdown) solid
+    var(--nys-border-width-md, 2px);
+  border-radius: var(--_nys-unavheader-border-radius--language-dropdown);
   color: var(--nys-color-state-blue-700, #154973);
   margin-top: var(--nys-space-150, 12px);
   right: 0;
@@ -332,8 +347,8 @@ a#nys-unavheader__logolink {
 .nys-unavheader__languagelink {
   --_nys-button-padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
   --nys-button-color: var(--nys-color-state-blue-700, #154973);
-  --nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
-  --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
+  --nys-button-color--hover: var(--nys-color-state-blue-800, #0e324f);
+  --nys-button-color--active: var(--nys-color-state-blue-900, #081b2b);
   --_nys-button-border-radius: 0;
   --_nys-button-justify-content: start;
 
