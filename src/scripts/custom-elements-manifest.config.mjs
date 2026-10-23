@@ -171,6 +171,7 @@ export default {
     "**/packages/**/*library.ts",
     "**/packages/styles/**",
     "**/packages/internals/**",
+    "**/packages/nys-unavbundle/**", // Re-bundles other packages' elements; declares none of its own
     "**/packages/mcp-server/**",
     // Keep dependencies, generated framework output, and example apps out of
     // the manifest. A prior branch shipped a manifest polluted with
