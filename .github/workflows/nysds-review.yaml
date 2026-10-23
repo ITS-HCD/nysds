@@ -18,14 +18,19 @@
 #
 # Requires repo secrets NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID. PRs from forks
 # don't receive secrets, so they are skipped.
+#
+# Only PRs opened by the team below build the review app; everyone else's are
+# skipped. The list is the PR author's GitHub username, matched exactly. Edit
+# the list in the deploy job's `if` when the team changes. (GITHUB_TOKEN can't
+# read org team membership, so the team is listed here instead.)
 
 name: NYSDS Review App
 
 on:
   pull_request:
     branches:
-      - 'develop'
-    types: [opened, synchronize, reopened, closed]
+      - develop
+    types: [opened, synchronize, reopened]
 
 # One run per PR; closing a PR cancels a deploy still in progress so it can't
 # publish after cleanup.
@@ -39,7 +44,11 @@ permissions:
 
 jobs:
   deploy:
-    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    # Review app team: GitHub usernames of PR authors whose PRs build it.
+    if: >-
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      contains(fromJSON('["esteinborn", "plasticmind", "novacat35", "emilygorelik"]'), github.event.pull_request.user.login)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -48,7 +57,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24.17.0'
+          node-version: 24.21.0
 
       - name: Install dependencies
         run: npm i # default is `npm ci` but that causes issues ALL THE TIME, so we're reverting back to `npm i` this should NOT be changed back to npm ci.
