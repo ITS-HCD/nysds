@@ -67,15 +67,13 @@ export type NysFileinputChangeEvent = CustomEvent<NysFileinputChangeDetail>;
  * @fires {Event} nys-focus Fired when focus enters the component from outside.
  * @fires {Event} nys-blur Fired when focus leaves the component. Triggers validation.
  *
- * @usagedos
+ * @usage
  * - Use when a form requires file upload, including when multiple file selection or drag-and-drop is needed.
- *
- * @usagedonts
- * - Use when uploading large files that require resumable upload logic.
- * - Use when selecting only from camera input or other device-native features.
- * - Use when uploading sensitive data without encryption.
- * - Use when file preview of uploaded content is needed.
- * - Use when file upload is not necessary for the task.
+ * - Don't use when uploading large files that require resumable upload logic.
+ * - Don't use when selecting only from camera input or other device-native features.
+ * - Don't use when uploading sensitive data without encryption.
+ * - Don't use when file preview of uploaded content is needed.
+ * - Don't use when file upload is not necessary for the task.
  *
  * @example Basic
  * ```html

@@ -138,6 +138,7 @@ const customJsDocTagsPlugin = () => ({
         const bulletTags = [
           { tag: "usagedos", prop: "usagedos" },
           { tag: "usagedonts", prop: "usagedonts" },
+          { tag: "usage", prop: "usage" },
         ];
 
         for (const { tag, prop } of bulletTags) {

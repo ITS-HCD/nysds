@@ -73,14 +73,12 @@ export type NysComboboxChangeEvent = CustomEvent<NysComboboxChangeDetail>;
  * @fires {Event} nys-focus - Fired when the combobox gains focus.
  * @fires {Event} nys-blur - Fired when the combobox loses focus. Triggers validation.
  *
- * @usagedos
+ * @usage
  * - Use when there are more than 15 options to choose from.
  * - Use when screen real estate is limited.
  * - Use when users can predict or recognize the value they're looking for.
- *
- * @usagedonts
- * - Use when the number of options is small. Use `<nys-select>` or `<nys-radiobutton>` instead.
- * - Use when options are unfamiliar to users and browsing the full list is necessary.
+ * - Don't use when the number of options is small. Use `<nys-select>` or `<nys-radiobutton>` instead.
+ * - Don't use when options are unfamiliar to users and browsing the full list is necessary.
  *
  * @example Basic
  * ```html
