@@ -24,6 +24,9 @@
         <li data-app="preview">
           <a href="/preview/">Accessibility Tests</a>
         </li>
+        <li data-app="a11yScan">
+          <a href="/a11y-scan/">Accessibility Scan</a>
+        </li>
         <li data-app="visual"><a href="/visual/">Visual Changes</a></li>
         <li data-app="codeReview">
           <a href="/code-review/">Codegen Review</a>
@@ -45,7 +48,7 @@
 
         <div class="card-row nys-grid-row nys-grid-gap-300 nys-margin-t-600">
           <div
-            class="nys-grid-col-12 nys-desktop:nys-grid-col-4 nys-display-flex"
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
           >
             <nys-card
               data-app="preview"
@@ -61,7 +64,23 @@
             </nys-card>
           </div>
           <div
-            class="nys-grid-col-12 nys-desktop:nys-grid-col-4 nys-display-flex"
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          >
+            <nys-card
+              data-app="a11yScan"
+              heading="Accessibility Scan"
+              description="Every story checked with axe-core against WCAG 2.2 AA, with the failing code and a suggested fix for each issue."
+              elevated
+            >
+              <nys-icon
+                slot="footer"
+                name="arrow_forward"
+                size="5xl"
+              ></nys-icon>
+            </nys-card>
+          </div>
+          <div
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
           >
             <nys-card
               data-app="visual"
@@ -77,7 +96,7 @@
             </nys-card>
           </div>
           <div
-            class="nys-grid-col-12 nys-desktop:nys-grid-col-4 nys-display-flex"
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
           >
             <nys-card
               data-app="codeReview"

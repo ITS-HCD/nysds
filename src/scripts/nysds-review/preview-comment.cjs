@@ -11,9 +11,9 @@ const MARKER = "<!-- nysds-preview -->";
 function deployedBody({ manifestPath, previewUrl, sha }) {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   // The deploy's landing page links every review tool: the story list,
-  // the visual regression report and the code review.
+  // the accessibility scan, the visual regression report and the code review.
   const tools = previewUrl
-    ? `**[NYSDS Review](${previewUrl}/)**: [accessibility tests](${previewUrl}/preview/) · [visual changes](${previewUrl}/visual/) · [codegen review](${previewUrl}/code-review/)`
+    ? `**[NYSDS Review](${previewUrl}/)**: [accessibility tests](${previewUrl}/preview/) · [accessibility scan](${previewUrl}/a11y-scan/) · [visual changes](${previewUrl}/visual/) · [codegen review](${previewUrl}/code-review/)`
     : "";
   if (!manifest.pages.length) {
     return `${MARKER}

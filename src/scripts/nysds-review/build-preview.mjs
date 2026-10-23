@@ -54,6 +54,9 @@ const OUT = path.join(ROOT, ".preview");
 const DIST = path.join(OUT, "dist");
 const VR_REPORT = path.join(ROOT, ".visual/report");
 const VR_RESULTS = path.join(ROOT, ".visual/results.json");
+// The accessibility scan visual.mjs runs while it captures stories.
+const A11Y_SCAN = path.join(ROOT, ".visual/a11y-scan");
+const A11Y_RESULTS = path.join(ROOT, ".visual/a11y.json");
 const CODE_REVIEW_PAGE = path.join(ROOT, ".code-review/index.html");
 const LANDING_TEMPLATE = path.join(SCRIPT_DIR, "templates/landing.html");
 // The story list at /preview/, filled in from a generated pages.js.
@@ -426,6 +429,29 @@ function visualReportSummary(vr) {
   return summary || "no visual changes";
 }
 
+/**
+ * The accessibility scan's counts, when visual.mjs has written its report:
+ * { scanned, storiesWithIssues, impacts, errors }. Null when there is none.
+ */
+function accessibilityScan() {
+  if (!fs.existsSync(path.join(A11Y_SCAN, "index.html"))) return null;
+  try {
+    return JSON.parse(fs.readFileSync(A11Y_RESULTS, "utf8"));
+  } catch {
+    // The link still works without a summary.
+    return {};
+  }
+}
+
+/** "2 of 40 stories have issues", "no issues in 40 stories", or "". */
+function accessibilityScanSummary(scan) {
+  if (scan?.scanned === undefined) return "";
+  const stories = `${scan.scanned} ${scan.scanned === 1 ? "story" : "stories"}`;
+  if (!scan.storiesWithIssues) return `no issues in ${stories}`;
+  const verb = scan.storiesWithIssues === 1 ? "has" : "have";
+  return `${scan.storiesWithIssues} of ${stories} ${verb} issues`;
+}
+
 // Material Symbols' arrow_back and arrow_forward, the icons nys-icon uses,
 // inline so story pages don't need the nys-icon component.
 const ARROW_PATHS = {
@@ -566,11 +592,14 @@ function previewSummary(pages) {
  * and, for each review tool this build has, where it is and a short summary.
  * A tool that wasn't generated is null.
  */
-function siteData(pages, vr, hasCodeReview, pr) {
+function siteData(pages, vr, hasCodeReview, scan, pr) {
   return {
     pullRequest: pr,
     apps: {
       preview: { href: "/preview/", summary: previewSummary(pages) },
+      a11yScan: scan
+        ? { href: "/a11y-scan/", summary: accessibilityScanSummary(scan) }
+        : null,
       visual: vr
         ? { href: "/visual/", summary: visualReportSummary(vr) }
         : null,
@@ -610,7 +639,8 @@ function previewData(pages, vr, pr) {
 
 /**
  * The site around the story pages: the landing page and its data, the story
- * list at /preview/, the VR report, the code review page and robots.txt.
+ * list at /preview/, the VR report, the accessibility scan, the code review
+ * page and robots.txt.
  */
 function writeSite(pages, vr) {
   const pr = pullRequest();
@@ -625,6 +655,10 @@ function writeSite(pages, vr) {
 
   // Self-contained (relative paths), so it works as-is under /visual/.
   if (vr) copyDir(VR_REPORT, path.join(DIST, "visual"));
+
+  // Self-contained like the VR report.
+  const scan = accessibilityScan();
+  if (scan) copyDir(A11Y_SCAN, path.join(DIST, "a11y-scan"));
 
   // The page and its review-data.js; the page loads NYSDS from jsDelivr.
   const hasCodeReview = fs.existsSync(CODE_REVIEW_PAGE);
@@ -642,7 +676,7 @@ function writeSite(pages, vr) {
   // A script rather than JSON, like the VR report's results.js.
   fs.writeFileSync(
     path.join(DIST, "site-data.js"),
-    `window.SITE_DATA = ${JSON.stringify(siteData(pages, vr, hasCodeReview, pr), null, 2)};\n`,
+    `window.SITE_DATA = ${JSON.stringify(siteData(pages, vr, hasCodeReview, scan, pr), null, 2)};\n`,
   );
 
   fs.writeFileSync(

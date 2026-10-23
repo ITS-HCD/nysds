@@ -314,7 +314,8 @@ html:has(.lightbox[open]) {
 }
 
 .api .del,
-.diff .del {
+.diff .del,
+.diff .flagged {
   background: var(--nys-color-danger-weak);
 }
 
@@ -368,8 +369,18 @@ html:has(.lightbox[open]) {
   color: var(--nys-color-success-strong);
 }
 
-.diff .del .sign {
+.diff .del .sign,
+.diff .flagged .sign {
   color: var(--nys-color-danger-strong);
+}
+
+/* Accessibility scan: the source line that leads to failing rendered code. */
+.diff .traced {
+  background: var(--nys-color-theme-faint);
+}
+
+.diff .traced .sign {
+  color: var(--nys-color-theme);
 }
 
 .diff .hunk td {
@@ -384,4 +395,27 @@ html:has(.lightbox[open]) {
 
 .same {
   columns: 16rem;
+}
+
+/* --- Accessibility scan ---------------------------------------------------- */
+
+/* The suggested fix for a failing element. */
+.fix {
+  background: var(--nys-color-success-weak);
+  border-left: var(--nys-border-width-lg) solid var(--nys-color-success);
+  border-radius: var(--nys-radius-md);
+}
+
+.fix h5 {
+  font-weight: var(--nys-font-weight-semibold);
+}
+
+.fix ul {
+  list-style: disc;
+}
+
+.issue + .issue {
+  margin-top: var(--nys-space-400);
+  padding-top: var(--nys-space-400);
+  border-top: var(--nys-border-width-sm) solid var(--nys-color-theme-weak);
 }

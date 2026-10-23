@@ -32,6 +32,7 @@
  *   --min-change <%>    Percentage of changed pixels below which a story still
  *                       counts as unchanged. Default 0.05.
  *   --concurrency <n>   Number of browser pages capturing in parallel.
+ *   --no-a11y           (vr:test) Skip the accessibility scan.
  *
  * How it works:
  *
@@ -51,6 +52,16 @@
  * packages/styles/dist, runs npm run build:packages first. Interactive states
  * (hover, active, focus) listed in states.mjs get their own screenshots. Stories
  * tagged "!preview" or "skip-vr" are not captured.
+ *
+ * Accessibility: while this branch's stories are captured, each story page's
+ * <main> is also scanned with axe-core against WCAG 2.2 AA, at every viewport,
+ * in its default state and in each interactive state from states.mjs (hover,
+ * press, focus, click), so styles and content those states reveal are checked
+ * too. Each failure is traced from the story's markup to the component's
+ * rendered shadow DOM, and marked in whichever one it's in. The preview's
+ * bottom bar sits outside <main>, so it's never scanned. Stories with
+ * violations are written to a separate report in .visual/a11y-scan/, which the
+ * PR preview publishes at /a11y-scan/.
  *
  * The report only shows what changed. It is written to .visual/report/ as a
  * self-contained static site (relative paths, no server endpoints), so the
@@ -74,9 +85,11 @@ import { availableParallelism } from "node:os";
 import { createServer } from "node:http";
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import { chromium } from "playwright";
 import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
+import { format as formatWithPrettier } from "prettier";
 import STATES from "./states.mjs";
 import {
   buildPages,
@@ -120,6 +133,18 @@ const REVIEW_STYLESHEET = join(
   "templates/nysds-review.css",
 );
 
+// The accessibility scan's report, written beside the visual report.
+const A11Y_REPORT_DIR = join(OUTPUT_DIR, "a11y-scan");
+// Its counts, for the preview's landing page.
+const A11Y_RESULTS_FILE = join(OUTPUT_DIR, "a11y.json");
+const A11Y_TEMPLATE = readFileSync(
+  join(dirname(fileURLToPath(import.meta.url)), "templates/a11y-scan.html"),
+  "utf8",
+);
+const AXE_SCRIPT = createRequire(import.meta.url).resolve(
+  "axe-core/axe.min.js",
+);
+
 const REPORT_TEMPLATE = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "templates/visual-report.html"),
   "utf8",
@@ -147,6 +172,7 @@ function option(name, fallback) {
 
 const storyFilter = String(option("filter", ""));
 const captureStates = !option("no-states", false);
+const scanAccessibility = !option("no-a11y", false);
 
 // pixelmatch's per-pixel color tolerance (0-1, lower is stricter). Base and
 // head are rendered by the same browser, so this can sit below pixelmatch's 0.1
@@ -535,6 +561,7 @@ async function enterInteractiveState(page, shot) {
 function shotsForViewport(stories, allStories, viewport) {
   const shots = stories.map((story) => ({
     id: story.id,
+    storyId: story.id,
     path: story.path,
     title: story.title,
     name: story.name,
@@ -559,6 +586,7 @@ function shotsForViewport(stories, allStories, viewport) {
     for (const state of entry.states) {
       shots.push({
         id: `${story.id}.${state}`,
+        storyId: story.id,
         path: story.path,
         title: story.title,
         name: `${story.name} (${state})`,
@@ -599,8 +627,16 @@ function packagesMissingStateCoverage() {
 /**
  * Screenshots every shot at one viewport into the `kind` folder (baselines or
  * current), several browser pages at a time. Returns the shots that failed.
+ * With a `scans` array, every shot is also scanned with axe-core, in its
+ * state, and its result pushed onto it.
  */
-async function captureShots(shots, baseUrl, viewport, kind = "current") {
+async function captureShots(
+  shots,
+  baseUrl,
+  viewport,
+  kind = "current",
+  scans = null,
+) {
   const [viewportWidth, viewportHeight] = VIEWPORTS[viewport];
   const browser = await chromium.launch();
   const browserContext = await browser.newContext({
@@ -652,6 +688,24 @@ async function captureShots(shots, baseUrl, viewport, kind = "current") {
         if (!matchesBaseline) {
           await waitForStableScreenshot(page, outputFile);
         }
+
+        // After the screenshot, still in the shot's state (hovered, focused,
+        // expanded...): the scan marks failing elements in the page.
+        if (scans) {
+          const scanned = {
+            viewport,
+            id: shot.storyId,
+            state: shot.state ?? "default",
+          };
+          try {
+            scans.push({ ...scanned, ...(await scanStory(page)) });
+          } catch (error) {
+            scans.push({
+              ...scanned,
+              error: String(error.message).split("\n")[0],
+            });
+          }
+        }
       } catch (error) {
         failures.push({
           viewport,
@@ -684,6 +738,368 @@ async function captureShots(shots, baseUrl, viewport, kind = "current") {
   await browser.close();
   process.stdout.write("\n");
   return failures;
+}
+
+// --- Accessibility scans ----------------------------------------------------
+
+// The WCAG 2.2 AA rules NYSDS commits to. axe's best-practice rules are left
+// out: several judge the whole page (one h1, landmarks), not the component.
+const AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
+
+// Most severe first, the order the report lists issues in.
+const IMPACTS = ["critical", "serious", "moderate", "minor"];
+
+/**
+ * Runs axe-core on the story page's <main>, so the preview's bottom bar is
+ * never tested. Violations are reported wherever they are: in the story's own
+ * markup (the source) or in the shadow DOM a component renders.
+ *
+ * Each failing element is traced through both, like the codegen review's
+ * source and generated file. The story's light DOM is returned with the source
+ * element marked (data-a11y-mark="e<index>"): the failing element itself, or
+ * the component that renders it. The component's shadow root is returned
+ * rendered, with the failing element marked (data-a11y-mark="issue") when the
+ * violation is inside it.
+ */
+async function scanStory(page) {
+  await page.addScriptTag({ path: AXE_SCRIPT });
+  return page.evaluate(async (tags) => {
+    const results = await window.axe.run(
+      { include: ["main"] },
+      { runOnly: { type: "tag", values: tags }, resultTypes: ["violations"] },
+    );
+
+    // Markup as written: without Lit's comment markers or inline styles.
+    const clean = (html) =>
+      html
+        .replace(/<!--[\s\S]*?-->/g, "")
+        .replace(/<style[\s\S]*?<\/style>/g, "");
+
+    const main = document.querySelector("main");
+    // Index in document order: the same element gets the same key at every
+    // viewport, so scans of one story line up.
+    const lightElements = [...main.querySelectorAll("*")];
+    const sourceKey = (element) => {
+      const index = lightElements.indexOf(element);
+      return index === -1 ? null : `e${index}`;
+    };
+    const sourceElements = new Set();
+
+    /** The element itself, or its nearest ancestor, that has a shadow root. */
+    function owningComponent(element) {
+      for (let current = element; current && current !== main; ) {
+        if (current.shadowRoot) return current;
+        current = current.parentElement;
+      }
+      return null;
+    }
+
+    const violations = results.violations.map((violation) => ({
+      rule: violation.id,
+      impact: violation.impact,
+      help: violation.help,
+      description: violation.description,
+      helpUrl: violation.helpUrl,
+      nodes: violation.nodes.flatMap((node) => {
+        // In a shadow root, the target is [host, ..., element].
+        const path = node.target[0];
+        const selectors = Array.isArray(path) ? path : [path];
+        const inShadowDom = selectors.length > 1;
+
+        const host = document.querySelector(selectors[0]);
+        let element = host;
+        for (const selector of selectors.slice(1)) {
+          element = element?.shadowRoot?.querySelector(selector);
+        }
+        if (!host || !element) return [];
+
+        let root = null;
+        let rendered = null;
+        if (inShadowDom) {
+          root = element.getRootNode();
+          element.setAttribute("data-a11y-mark", "issue");
+          rendered = clean(root.innerHTML);
+          element.removeAttribute("data-a11y-mark");
+        } else {
+          // Shown for context: the component the failing element belongs to.
+          root = owningComponent(element)?.shadowRoot ?? null;
+          rendered = root ? clean(root.innerHTML) : null;
+        }
+        sourceElements.add(host);
+
+        return [
+          {
+            target: selectors.join(" › "),
+            where: inShadowDom ? "rendered" : "source",
+            sourceKey: sourceKey(host),
+            component: root?.host.localName ?? null,
+            rendered,
+            failureSummary: node.failureSummary ?? "",
+          },
+        ];
+      }),
+    }));
+
+    for (const element of sourceElements) {
+      const key = sourceKey(element);
+      if (key) element.setAttribute("data-a11y-mark", key);
+    }
+    const markup = clean(main.innerHTML);
+    for (const element of sourceElements) {
+      element.removeAttribute("data-a11y-mark");
+    }
+
+    return {
+      axeVersion: window.axe.version,
+      markup,
+      violations: violations.filter((violation) => violation.nodes.length > 0),
+    };
+  }, AXE_TAGS);
+}
+
+/** HTML laid out one element per line, or as it came if it can't be parsed. */
+async function prettyHtml(html) {
+  try {
+    const formatted = await formatWithPrettier(html, {
+      parser: "html",
+      printWidth: 80,
+      htmlWhitespaceSensitivity: "ignore",
+    });
+    return formatted.trim();
+  } catch {
+    return html.trim();
+  }
+}
+
+const MARK_ATTRIBUTE = /\s*data-a11y-mark="([^"]*)"/;
+
+/**
+ * Formatted markup as numbered lines, each with the marks of the element whose
+ * opening tag it belongs to. The data-a11y-mark attributes are removed.
+ */
+function markupLines(formatted) {
+  const lines = [];
+  let openingTagStart = 0;
+  let marks = null;
+
+  for (const text of formatted.split("\n")) {
+    if (/^\s*<[a-z]/i.test(text)) openingTagStart = lines.length;
+    const match = MARK_ATTRIBUTE.exec(text);
+    let line = text;
+    if (match) {
+      marks = match[1].split(" ");
+      // Mark the opening tag's lines before the attribute too.
+      for (let index = openingTagStart; index < lines.length; index++) {
+        lines[index].marks = marks;
+      }
+      line = text.replace(match[0], "");
+      if (!line.trim()) continue;
+    }
+    lines.push({ number: lines.length + 1, text: line, marks: marks ?? [] });
+    // The opening tag ends at the first ">" after the attribute.
+    if (marks && line.includes(">")) marks = null;
+  }
+  return lines;
+}
+
+/** The lines of the element marked `mark`, with `context` lines either side. */
+function linesAround(lines, mark, context) {
+  const first = lines.findIndex((line) => line.marks.includes(mark));
+  if (first === -1) return [];
+  let last = first;
+  while (lines[last + 1]?.marks.includes(mark)) last++;
+  return lines
+    .slice(Math.max(0, first - context), last + 1 + context)
+    .map((line) => ({
+      number: line.number,
+      text: line.text,
+      marked: line.marks.includes(mark),
+    }));
+}
+
+/**
+ * axe's "Fix any of the following: ..." text as groups of suggestions:
+ * [{ heading: "Do one of these", items: [...] }].
+ */
+function fixSuggestions(failureSummary) {
+  const groups = [];
+  for (const line of failureSummary.split("\n")) {
+    const text = line.trim();
+    if (!text) continue;
+    const heading = /^Fix (any|all) of the following:$/.exec(text);
+    if (heading) {
+      groups.push({
+        heading: heading[1] === "any" ? "Do one of these" : "Do all of these",
+        items: [],
+      });
+    } else if (groups.length > 0) {
+      groups.at(-1).items.push(text);
+    } else {
+      groups.push({ heading: "", items: [text] });
+    }
+  }
+  return groups;
+}
+
+/**
+ * Merges each story's scans (one per viewport) into the report's data: its
+ * issues, one per rule, most severe first. Each failing element comes with
+ * its source (its story line, or that of the component rendering it) and the
+ * component's whole rendered markup, with the failing lines marked in
+ * whichever of the two the violation is in.
+ */
+async function accessibilityReportData(scans, stories) {
+  const storiesById = new Map(stories.map((story) => [story.id, story]));
+  const scansByStory = new Map();
+  for (const scan of scans) {
+    if (!scansByStory.has(scan.id)) scansByStory.set(scan.id, []);
+    scansByStory.get(scan.id).push(scan);
+  }
+
+  const reportStories = [];
+  const errors = [];
+  const impactCounts = Object.fromEntries(IMPACTS.map((impact) => [impact, 0]));
+  let axeVersion = "";
+
+  for (const [storyId, storyScans] of scansByStory) {
+    const story = storiesById.get(storyId);
+    const rules = new Map();
+
+    for (const scan of storyScans) {
+      if (scan.error) {
+        errors.push({
+          id: storyId,
+          viewport: scan.viewport,
+          state: scan.state,
+          error: scan.error,
+        });
+        continue;
+      }
+      axeVersion = scan.axeVersion;
+      for (const violation of scan.violations) {
+        if (!rules.has(violation.rule)) {
+          rules.set(violation.rule, { ...violation, nodes: new Map() });
+        }
+        const nodes = rules.get(violation.rule).nodes;
+        for (const node of violation.nodes) {
+          const seen = nodes.get(node.target);
+          // Keep the default state's markup when there is one: it's how the
+          // story first renders. Otherwise, the first state it failed in.
+          if (
+            !seen ||
+            (scan.state === "default" && !seen.states.has("default"))
+          ) {
+            nodes.set(node.target, {
+              ...node,
+              markup: scan.markup,
+              viewports: seen?.viewports ?? new Set(),
+              states: seen?.states ?? new Set(),
+            });
+          }
+          nodes.get(node.target).viewports.add(scan.viewport);
+          nodes.get(node.target).states.add(scan.state);
+        }
+      }
+    }
+    if (rules.size === 0) continue;
+
+    const sortedRules = [...rules.values()].sort(
+      (first, second) =>
+        IMPACTS.indexOf(first.impact) - IMPACTS.indexOf(second.impact) ||
+        first.rule.localeCompare(second.rule),
+    );
+    // Source markup is formatted once per distinct page state.
+    const sourceLinesByMarkup = new Map();
+    async function sourceLines(markup) {
+      if (!sourceLinesByMarkup.has(markup)) {
+        sourceLinesByMarkup.set(markup, markupLines(await prettyHtml(markup)));
+      }
+      return sourceLinesByMarkup.get(markup);
+    }
+
+    const issues = [];
+    for (const [index, rule] of sortedRules.entries()) {
+      const number = index + 1;
+      impactCounts[rule.impact] = (impactCounts[rule.impact] ?? 0) + 1;
+      const nodes = [];
+      for (const node of rule.nodes.values()) {
+        const rendered =
+          node.rendered === null
+            ? null
+            : markupLines(await prettyHtml(node.rendered)).map((line) => ({
+                number: line.number,
+                text: line.text,
+                marked: line.marks.includes("issue"),
+              }));
+        nodes.push({
+          target: node.target,
+          where: node.where,
+          component: node.component,
+          viewports: [...node.viewports],
+          // Empty when it fails at rest; otherwise the states it fails in.
+          states: node.states.has("default") ? [] : [...node.states],
+          source: linesAround(
+            await sourceLines(node.markup),
+            node.sourceKey,
+            0,
+          ),
+          rendered,
+          fix: fixSuggestions(node.failureSummary),
+        });
+      }
+      issues.push({
+        number,
+        rule: rule.rule,
+        impact: rule.impact,
+        help: rule.help,
+        description: rule.description,
+        helpUrl: rule.helpUrl,
+        nodes,
+      });
+    }
+
+    reportStories.push({
+      id: storyId,
+      path: story.path,
+      title: story.title,
+      name: story.name,
+      issues,
+    });
+  }
+
+  return {
+    generated: new Date().toISOString(),
+    axeVersion,
+    tags: AXE_TAGS,
+    viewports,
+    scanned: scansByStory.size,
+    impacts: impactCounts,
+    stories: reportStories,
+    errors,
+  };
+}
+
+/** Writes the accessibility report to .visual/a11y-scan as a static site. */
+async function writeAccessibilityReport(scans, stories) {
+  const reportData = await accessibilityReportData(scans, stories);
+  rmSync(A11Y_REPORT_DIR, { recursive: true, force: true });
+  copyReportAssets(A11Y_REPORT_DIR);
+  // A script rather than JSON, so the report also works opened from disk.
+  writeFileSync(
+    join(A11Y_REPORT_DIR, "a11y-results.js"),
+    `window.A11Y_DATA = ${JSON.stringify(reportData)};\n`,
+  );
+  writeFileSync(join(A11Y_REPORT_DIR, "index.html"), A11Y_TEMPLATE);
+  writeFileSync(
+    A11Y_RESULTS_FILE,
+    JSON.stringify({
+      scanned: reportData.scanned,
+      storiesWithIssues: reportData.stories.length,
+      impacts: reportData.impacts,
+      errors: reportData.errors.length,
+    }),
+  );
+  return reportData;
 }
 
 // --- Building story pages ---------------------------------------------------
@@ -993,6 +1409,7 @@ async function runTestCommand() {
   const results = [];
   const failures = [];
   const unchangedCount = {};
+  const scans = scanAccessibility ? [] : null;
 
   for (const viewport of viewports) {
     const shots = shotsForViewport(stories, allStories, viewport);
@@ -1003,7 +1420,13 @@ async function runTestCommand() {
       `Capturing ${storyShotCount} stories + ${stateShotCount} interactive states at ${size} (${viewport})…`,
     );
 
-    const viewportFailures = await captureShots(shots, baseUrl, viewport);
+    const viewportFailures = await captureShots(
+      shots,
+      baseUrl,
+      viewport,
+      "current",
+      scans,
+    );
     failures.push(...viewportFailures);
     const failedShotIds = new Set(
       viewportFailures.map((failure) => failure.id),
@@ -1085,6 +1508,21 @@ async function runTestCommand() {
   }
   console.log(`  Report: ${REPORT_DIR}  (npm run vr:report to view)\n`);
 
+  if (scans) {
+    const a11y = await writeAccessibilityReport(scans, stories);
+    const issueCount = Object.values(a11y.impacts).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
+    const byImpact = IMPACTS.filter((impact) => a11y.impacts[impact])
+      .map((impact) => `${a11y.impacts[impact]} ${impact}`)
+      .join(" · ");
+    console.log(
+      `  Accessibility: ${a11y.scanned} stories scanned · ${a11y.stories.length} with issues${issueCount ? ` (${byImpact})` : ""}${a11y.errors.length ? ` · ${a11y.errors.length} scan errors` : ""}`,
+    );
+    console.log(`  Report: ${A11Y_REPORT_DIR}\n`);
+  }
+
   // Changes are informational only; only capture failures fail the run.
   process.exitCode = countWithStatus("error") > 0 ? 1 : 0;
 }
@@ -1096,13 +1534,15 @@ const REPORT_IMAGE_KINDS = {
   removed: ["baselines"],
 };
 
-/** Writes the report to .visual/report as a self-contained static site. */
-function writeReport(reportData) {
-  rmSync(REPORT_DIR, { recursive: true, force: true });
-  mkdirSync(join(REPORT_DIR, "assets"), { recursive: true });
+/**
+ * Copies what a report page needs into its assets folder: the NYSDS
+ * component bundle and stylesheet, and the review pages' stylesheet.
+ */
+function copyReportAssets(reportDir) {
+  mkdirSync(join(reportDir, "assets"), { recursive: true });
 
-  // The report's search field, viewport toggle and tabs are NYSDS components
-  // from the single-file UMD bundle, which `npm run build` doesn't produce.
+  // The reports' controls are NYSDS components from the single-file UMD
+  // bundle, which `npm run build` doesn't produce.
   if (!existsSync(NYSDS_BUNDLE)) {
     console.log("Building dist/nysds.js for the report UI…");
     spawnSync("npm", ["run", "build:umd"], { cwd: ROOT, stdio: "inherit" });
@@ -1110,13 +1550,19 @@ function writeReport(reportData) {
   for (const assetFile of [NYSDS_BUNDLE, NYSDS_STYLESHEET, REVIEW_STYLESHEET]) {
     if (existsSync(assetFile)) {
       const assetName = assetFile.split("/").pop();
-      copyFileSync(assetFile, join(REPORT_DIR, "assets", assetName));
+      copyFileSync(assetFile, join(reportDir, "assets", assetName));
     } else {
       console.warn(
         `  Missing ${assetFile}; run npm run build:umd and npm run build:packages, or the report has no controls.`,
       );
     }
   }
+}
+
+/** Writes the report to .visual/report as a self-contained static site. */
+function writeReport(reportData) {
+  rmSync(REPORT_DIR, { recursive: true, force: true });
+  copyReportAssets(REPORT_DIR);
 
   for (const result of reportData.results) {
     for (const kind of REPORT_IMAGE_KINDS[result.status] ?? []) {

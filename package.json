@@ -75,7 +75,9 @@
     "verify:utility-docs": "npm run build:mcp && node src/scripts/verify-utility-docs.mjs",
     "preview:a11y": "node src/scripts/nysds-review/build-preview.mjs",
     "preview:a11y:serve": "vite preview --outDir .preview/dist --port 4310 --strictPort",
-    "review:codegen": "node src/scripts/nysds-review/review-codegen.mjs"
+    "review:codegen": "node src/scripts/nysds-review/review-codegen.mjs",
+    "review:codegen:review": "npm run review:codegen -- --html-file .code-review/index.html",
+    "review": "npm run build:all && npm run vr:test && npm run review:codegen:review && node src/scripts/nysds-review/build-preview.mjs && npm run preview:a11y:serve"
   },
   "repository": {
     "type": "git",
@@ -107,6 +109,7 @@
     "@web/test-runner": "^1.0.0",
     "@web/test-runner-commands": "^1.0.1",
     "@web/test-runner-playwright": "^1.0.0",
+    "axe-core": "^4.12.1",
     "cross-env": "^10.1.0",
     "custom-element-vs-code-integration": "^1.5.0",
     "dotenv-cli": "^10.0.0",
