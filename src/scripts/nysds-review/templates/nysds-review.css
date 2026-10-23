@@ -1,0 +1,421 @@
+/*
+  Styles for the NYSDS Review pages: the landing page, the accessibility
+  preview's story list, the visual regression report and the codegen review.
+  The story pages themselves don't load this file; they stay as light as
+  possible.
+
+  Only what @nysds/styles can't express lives here. Layout, spacing and type
+  are utility classes in the markup, and the stylesheet's reset already zeroes
+  heading, paragraph and list margins and list styles.
+*/
+
+/* --- Shared --------------------------------------------------------------- */
+
+/* Components set display on :host, which would beat the hidden attribute. */
+[hidden] {
+  display: none !important;
+}
+
+.weak {
+  color: var(--nys-color-text-weak);
+}
+
+/* Visually hidden, but still read by screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: var(--nys-size-1px);
+  height: var(--nys-size-1px);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Cards in a row share one height (see nys-card's --nys-card-height). */
+.card-row {
+  --nys-card-height: 100%;
+}
+
+/* Focus rings drawn inside the element, for ones that fill their container. */
+.nysds-preview-list a:focus-visible,
+.item > summary:focus-visible,
+.zoom-trigger:focus-visible,
+.lightbox-viewport:focus-visible {
+  outline: var(--nys-border-width-md) solid var(--nys-color-focus);
+  outline-offset: calc(var(--nys-border-width-md) * -1);
+}
+
+/* --- Accessibility preview: story list ------------------------------------ */
+
+/* Each link is at least 44px tall (--nys-size-550), easy to tap. */
+.nysds-preview-list li::marker {
+  color: var(--nys-color-text-weak);
+  font-variant-numeric: tabular-nums;
+}
+
+.nysds-preview-list a {
+  min-height: var(--nys-size-550);
+  border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+}
+
+.nysds-preview-list li:first-child a {
+  border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+}
+
+.nysds-preview-list a:hover {
+  background: var(--nys-color-theme-faint);
+}
+
+/* --- Visual regression report --------------------------------------------- */
+
+.meta {
+  flex-basis: 100%;
+}
+
+.item {
+  background: var(--nys-color-surface);
+  border: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+  border-radius: var(--nys-radius-lg);
+  overflow: hidden;
+}
+
+.item > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.name,
+.pane h4 {
+  font-weight: var(--nys-font-weight-semibold);
+}
+
+.impact {
+  width: 10rem; /* no size token this large */
+}
+
+.impact .bar {
+  height: var(--nys-size-100);
+  background: var(--nys-color-neutral-50);
+  border-radius: var(--nys-radius-round);
+  overflow: hidden;
+}
+
+.impact .bar i {
+  display: block;
+  height: 100%;
+  background: var(--nys-color-warning);
+}
+
+.item .body {
+  border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+}
+
+.controls input[type="range"] {
+  accent-color: var(--nys-color-link);
+}
+
+.empty {
+  text-align: center;
+}
+
+/* Screenshots sit on a checkerboard, so transparent areas show. */
+.pane .frame,
+.lightbox-viewport {
+  background: repeating-conic-gradient(
+      var(--nys-color-black-transparent-100) 0 25%,
+      transparent 0 50%
+    )
+    0 0 / var(--nys-size-200) var(--nys-size-200);
+  overflow: auto;
+}
+
+.pane .frame {
+  max-height: 70vh;
+  border: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+}
+
+.zoom-trigger img,
+.overlay img,
+.lightbox-viewport img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.overlay img:last-child {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Screenshots open full size in the lightbox. */
+.zoom-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+/* Full-size lightbox: a native modal dialog. */
+.lightbox {
+  width: min(96vw, 100rem);
+  height: 92vh;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  border-radius: var(--nys-radius-lg);
+  background: var(--nys-color-surface);
+  color: var(--nys-color-text);
+  box-shadow: var(--nys-shadow-overlay);
+}
+
+.lightbox[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.lightbox::backdrop {
+  background: var(--nys-color-black-transparent-700);
+}
+
+.lightbox-header,
+.lightbox-footer {
+  flex: none;
+}
+
+.lightbox-header {
+  border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+}
+
+.lightbox-footer {
+  border-top: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
+}
+
+/* Scrolls in both directions so the image keeps its real size. */
+.lightbox-viewport {
+  flex: 1;
+  min-height: 0;
+}
+
+.lightbox-viewport img {
+  max-width: none;
+}
+
+/* The page behind an open lightbox doesn't scroll. */
+html:has(.lightbox[open]) {
+  overflow: hidden;
+}
+
+/* --- Codegen review ------------------------------------------------------- */
+
+.review code,
+.diff,
+.api {
+  font-family: var(--nys-font-family-monospace);
+}
+
+.review code {
+  font-size: var(--nys-font-size-sm);
+  color: inherit;
+  overflow-wrap: break-word;
+}
+
+.review code.flag {
+  white-space: nowrap;
+}
+
+/* Custom element hosts render inline, so spacing on them needs a block box. */
+.review nys-alert,
+.review nys-accordion {
+  display: block;
+}
+
+.review nys-accordion {
+  --nys-accordion-content-max-width: none;
+}
+
+.lede {
+  max-width: 72ch;
+  font-size: var(--nys-font-size-body-lg);
+}
+
+.band {
+  border-top: var(--nys-border-width-sm) solid var(--nys-color-theme-weak);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--nys-space-100) var(--nys-space-300);
+}
+
+.facts dt,
+.tag {
+  font-weight: var(--nys-font-weight-semibold);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.files table {
+  width: 100%;
+}
+
+.files caption {
+  text-align: left;
+  padding-bottom: var(--nys-space-100);
+}
+
+.files td,
+.files th {
+  vertical-align: top;
+  text-align: left;
+}
+
+.tag {
+  display: inline-block;
+  min-width: 3.5em;
+}
+
+.component + .component {
+  margin-top: var(--nys-space-300);
+}
+
+.api {
+  font-size: var(--nys-font-size-sm);
+}
+
+.api li {
+  padding: var(--nys-space-2px) var(--nys-space-100);
+  border-radius: var(--nys-radius-sm);
+}
+
+.api li + li {
+  margin-top: var(--nys-space-2px);
+}
+
+.api .add,
+.diff .add {
+  background: var(--nys-color-success-weak);
+}
+
+.api .del,
+.diff .del,
+.diff .flagged {
+  background: var(--nys-color-danger-weak);
+}
+
+.api .mod {
+  background: var(--nys-color-warning-weak);
+}
+
+.api .sign {
+  display: inline-block;
+  width: 2ch;
+}
+
+.api .sign,
+.diff .sign {
+  font-weight: var(--nys-font-weight-bold);
+}
+
+.diff-scroll {
+  overflow-x: auto;
+  border: var(--nys-border-width-sm) solid var(--nys-color-theme-weak);
+  border-radius: var(--nys-radius-md);
+}
+
+.diff {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--nys-font-size-sm);
+  line-height: 1.6;
+}
+
+.diff td {
+  padding: 0 var(--nys-space-100);
+  white-space: pre;
+  vertical-align: top;
+}
+
+.diff .ln {
+  width: 1%;
+  min-width: 4ch;
+  text-align: right;
+  color: var(--nys-color-text-weak);
+  user-select: none;
+}
+
+.diff .sign {
+  width: 1%;
+  user-select: none;
+}
+
+.diff .add .sign {
+  color: var(--nys-color-success-strong);
+}
+
+.diff .del .sign,
+.diff .flagged .sign {
+  color: var(--nys-color-danger-strong);
+}
+
+/* Accessibility scan: the source line that leads to failing rendered code. */
+.diff .traced {
+  background: var(--nys-color-theme-faint);
+}
+
+.diff .traced .sign {
+  color: var(--nys-color-theme);
+}
+
+.diff .hunk td {
+  background: var(--nys-color-theme-faint);
+  color: var(--nys-color-text-weak);
+}
+
+.diff .note td {
+  color: var(--nys-color-text-weak);
+  font-style: italic;
+}
+
+.same {
+  columns: 16rem;
+}
+
+/* --- Accessibility scan ---------------------------------------------------- */
+
+/* The suggested fix for a failing element. */
+.fix {
+  background: var(--nys-color-success-weak);
+  border-left: var(--nys-border-width-lg) solid var(--nys-color-success);
+  border-radius: var(--nys-radius-md);
+}
+
+.fix h5 {
+  font-weight: var(--nys-font-weight-semibold);
+}
+
+.fix ul {
+  list-style: disc;
+}
+
+.issue + .issue {
+  margin-top: var(--nys-space-400);
+  padding-top: var(--nys-space-400);
+  border-top: var(--nys-border-width-sm) solid var(--nys-color-theme-weak);
+}
