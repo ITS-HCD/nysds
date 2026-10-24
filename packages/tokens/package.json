@@ -7,11 +7,15 @@
   "exports": {
     ".": "./src/tokens.json",
     "./json": "./src/tokens.json",
+    "./resolver": "./src/resolver.json",
+    "./themes/*": "./src/themes/*.json",
     "./css": "./dist/tokens.css"
   },
   "files": [
     "dist/",
     "src/tokens.json",
+    "src/resolver.json",
+    "src/themes/",
     "css.scss"
   ],
   "scripts": {

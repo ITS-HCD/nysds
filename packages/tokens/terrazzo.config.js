@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { defineConfig } from "@terrazzo/cli";
 import css from "@terrazzo/plugin-css";
 import { variableName as nameFromId } from "./scripts/lib/variable-name.mjs";
@@ -15,8 +16,22 @@ const themes = [
   "transportation",
 ];
 
+/** Token ids a theme set overrides, so theme blocks emit only what changes. */
+const themeTokenIds = (theme) => {
+  const ids = [];
+  const walk = (node, path) => {
+    if ("$value" in node) return ids.push(path.join("."));
+    for (const [key, child] of Object.entries(node)) {
+      if (!key.startsWith("$") && child && typeof child === "object") walk(child, [...path, key]);
+    }
+  };
+  walk(JSON.parse(readFileSync(new URL(`./src/themes/${theme}.json`, import.meta.url), "utf8")), []);
+  return ids;
+};
+
 export default defineConfig({
-  tokens: ["./src/tokens.json"],
+  // DTCG resolver: base set (tokens.json) + "theme" modifier (src/themes/*.json)
+  tokens: ["./src/resolver.json"],
   outDir: "./dist/",
   lint: {
     rules: {
@@ -28,20 +43,19 @@ export default defineConfig({
     },
   },
   plugins: [
-    // Main token file — all tokens + all theme mode overrides
+    // Main token file — all tokens (State Blue on :root) + every theme's overrides
     css({
       filename: "tokens.css",
       legacyHex: true,
       variableName,
-      modeSelectors: [
-        // Default theme (State Blue) uses :root, no special selector needed
-        { mode: "admin", selectors: ['[data-theme="admin"]', ".nys-theme-admin"] },
-        { mode: "business", selectors: ['[data-theme="business"]', ".nys-theme-business"] },
-        { mode: "environment", selectors: ['[data-theme="environment"]', ".nys-theme-environment"] },
-        { mode: "health", selectors: ['[data-theme="health"]', ".nys-theme-health"] },
-        { mode: "local", selectors: ['[data-theme="local"]', ".nys-theme-local"] },
-        { mode: "safety", selectors: ['[data-theme="safety"]', ".nys-theme-safety"] },
-        { mode: "transportation", selectors: ['[data-theme="transportation"]', ".nys-theme-transportation"] },
+      permutations: [
+        { input: { theme: "default" }, prepare: (contents) => `:root {\n  ${contents}\n}` },
+        ...themes.map((theme) => ({
+          input: { theme },
+          include: themeTokenIds(theme),
+          prepare: (contents) =>
+            `[data-theme="${theme}"],\n.nys-theme-${theme} {\n  ${contents}\n}`,
+        })),
       ],
     }),
     // Per-theme files — only the CSS vars that change for that theme
@@ -50,16 +64,10 @@ export default defineConfig({
         filename: `../../styles/dist/theme-${theme}.css`,
         legacyHex: true,
         variableName,
-        // skip :root block; only output the mode selector block below
-        // ("**": token-id globs use "." as separator in Terrazzo 2, so "*" matches one segment)
-        exclude: ["**"],
-        modeSelectors: [
-          {
-            mode: theme,
-            selectors: [`:root`],
-          },
+        permutations: [
+          { input: { theme }, include: themeTokenIds(theme), prepare: (contents) => `:root {\n  ${contents}\n}` },
         ],
-      })
+      }),
     ),
   ],
 });

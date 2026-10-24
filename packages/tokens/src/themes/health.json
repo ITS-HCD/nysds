@@ -1,0 +1,28 @@
+{
+  "color": {
+    "$type": "color",
+    "theme": {
+      "faint": {
+        "$value": "{primitive.color.health-purple.10}"
+      },
+      "weaker": {
+        "$value": "{primitive.color.health-purple.50}"
+      },
+      "weak": {
+        "$value": "{primitive.color.health-purple.100}"
+      },
+      "mid": {
+        "$value": "{primitive.color.health-purple.500}"
+      },
+      "default": {
+        "$value": "{primitive.color.health-purple.700}"
+      },
+      "strong": {
+        "$value": "{primitive.color.health-purple.800}"
+      },
+      "stronger": {
+        "$value": "{primitive.color.health-purple.900}"
+      }
+    }
+  }
+}
