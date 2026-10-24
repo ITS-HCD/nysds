@@ -1,33 +1,33 @@
 {
-  "color": {
-    "theme": {
-      "faint": {
-        "$type": "color",
-        "$value": "{primitive.color.safety-gray.10}"
-      },
-      "weaker": {
-        "$type": "color",
-        "$value": "{primitive.color.safety-gray.50}"
-      },
-      "weak": {
-        "$type": "color",
-        "$value": "{primitive.color.safety-gray.100}"
-      },
-      "mid": {
-        "$type": "color",
-        "$value": "{primitive.color.safety-gray.400}"
-      },
-      "default": {
+  "applied": {
+    "color": {
+      "theme": {
         "$type": "color",
         "$value": "{primitive.color.safety-gray.700}"
       },
-      "strong": {
+      "theme-faint": {
+        "$type": "color",
+        "$value": "{primitive.color.safety-gray.10}"
+      },
+      "theme-mid": {
+        "$type": "color",
+        "$value": "{primitive.color.safety-gray.400}"
+      },
+      "theme-strong": {
         "$type": "color",
         "$value": "{primitive.color.safety-gray.800}"
       },
-      "stronger": {
+      "theme-stronger": {
         "$type": "color",
         "$value": "{primitive.color.safety-gray.900}"
+      },
+      "theme-weak": {
+        "$type": "color",
+        "$value": "{primitive.color.safety-gray.100}"
+      },
+      "theme-weaker": {
+        "$type": "color",
+        "$value": "{primitive.color.safety-gray.50}"
       }
     }
   }

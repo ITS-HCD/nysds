@@ -1,33 +1,33 @@
 {
-  "color": {
-    "theme": {
-      "faint": {
-        "$type": "color",
-        "$value": "{primitive.color.business-teal.10}"
-      },
-      "weaker": {
-        "$type": "color",
-        "$value": "{primitive.color.business-teal.50}"
-      },
-      "weak": {
-        "$type": "color",
-        "$value": "{primitive.color.business-teal.100}"
-      },
-      "mid": {
-        "$type": "color",
-        "$value": "{primitive.color.business-teal.500}"
-      },
-      "default": {
+  "applied": {
+    "color": {
+      "theme": {
         "$type": "color",
         "$value": "{primitive.color.business-teal.600}"
       },
-      "strong": {
+      "theme-faint": {
+        "$type": "color",
+        "$value": "{primitive.color.business-teal.10}"
+      },
+      "theme-mid": {
+        "$type": "color",
+        "$value": "{primitive.color.business-teal.500}"
+      },
+      "theme-strong": {
         "$type": "color",
         "$value": "{primitive.color.business-teal.800}"
       },
-      "stronger": {
+      "theme-stronger": {
         "$type": "color",
         "$value": "{primitive.color.business-teal.900}"
+      },
+      "theme-weak": {
+        "$type": "color",
+        "$value": "{primitive.color.business-teal.100}"
+      },
+      "theme-weaker": {
+        "$type": "color",
+        "$value": "{primitive.color.business-teal.50}"
       }
     }
   }

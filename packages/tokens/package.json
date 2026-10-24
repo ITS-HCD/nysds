@@ -19,13 +19,12 @@
     "css.scss"
   ],
   "scripts": {
-    "build": "tz build && node ../../src/scripts/add-banner-tokens.mjs",
+    "build": "node scripts/figma-to-dtcg.mjs && tz build && node ../../src/scripts/add-banner-tokens.mjs",
     "dev": "tz build --watch",
     "tokens:snapshot": "node scripts/css-diff.mjs snapshot",
     "tokens:compare": "node scripts/css-diff.mjs compare",
     "test:scripts": "node --test scripts/*.test.mjs",
-    "figma:inspect": "node --env-file-if-exists=../../.env scripts/figma-pull.mjs --inspect",
-    "figma:pull": "node scripts/css-diff.mjs snapshot pre-pull && node --env-file-if-exists=../../.env scripts/figma-pull.mjs && node scripts/css-diff.mjs snapshot post-pull && node scripts/css-diff.mjs compare pre-pull post-pull --drift"
+    "figma:pull": "node --env-file-if-exists=../../.env scripts/figma-pull.mjs"
   },
   "devDependencies": {
     "@terrazzo/cli": "^2.10.0",

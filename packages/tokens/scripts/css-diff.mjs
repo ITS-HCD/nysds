@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
- * One-time migration harness: snapshot the Terrazzo CSS output and compare two
- * snapshots semantically (resolved, normalized values per selector).
+ * Snapshot the Terrazzo CSS output and compare two snapshots semantically
+ * (resolved, normalized values per selector), e.g. before/after a Figma pull.
  *
  *   node scripts/css-diff.mjs snapshot <name>
  *   node scripts/css-diff.mjs compare <a> <b> [--step <n>] [--drift [--out <file.md>]]
  *
  * Snapshots live in .snapshots/<name>/ (gitignored). Compare prints a summary
- * and writes reports/step-<n>-<b>.md (or reports/compare-<a>-<b>.md).
+ * and writes reports/step-<n>-<b>.md (or reports/compare-<a>-<b>.md); --drift
+ * also writes the Figma ↔ code report from .snapshots/figma-meta.json.
  */
 import { execFileSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -22,12 +23,12 @@ import {
   singleColor,
 } from "./lib/css-vars.mjs";
 import { variableName } from "./lib/variable-name.mjs";
+import { FILES } from "./figma-to-dtcg.mjs";
 
 const PKG = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ROOT = join(PKG, "../..");
 const SNAPSHOTS = join(PKG, ".snapshots");
 const REPORTS = join(PKG, "reports");
-const STYLES_DIST = join(PKG, "../styles/dist");
 
 const [cmd, ...args] = process.argv.slice(2);
 if (cmd === "snapshot" && args[0]) snapshot(args[0]);
@@ -47,15 +48,13 @@ function flag(name) {
 function snapshot(name) {
   const tz = [PKG, ROOT].map((d) => join(d, "node_modules/.bin/tz")).find(existsSync);
   console.log(`Building tokens with ${terrazzoVersion()}…`);
+  execFileSync(process.execPath, ["scripts/figma-to-dtcg.mjs"], { cwd: PKG, stdio: "inherit" });
   execFileSync(tz, ["build"], { cwd: PKG, stdio: "inherit" });
 
   const dir = join(SNAPSHOTS, name);
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(join(dir, "css"), { recursive: true });
   cpSync(join(PKG, "dist/tokens.css"), join(dir, "css/tokens.css"));
-  for (const f of readdirSync(STYLES_DIST).filter((f) => /^theme-.*\.css$/.test(f))) {
-    cpSync(join(STYLES_DIST, f), join(dir, "css", f));
-  }
   cpSync(join(PKG, "src"), join(dir, "tokens"), { recursive: true, filter: (p) => !p.endsWith(".DS_Store") });
   cpSync(join(PKG, "terrazzo.config.js"), join(dir, "terrazzo.config.js"));
   writeFileSync(
@@ -88,6 +87,7 @@ function load(name) {
   for (const b of tokensBlocks.filter((b) => b.selector !== ":root")) {
     contexts.set(`tokens.css ${b.selector}`, { declared: b.decls, scope: new Map([...root, ...b.decls]) });
   }
+  // Terrazzo 0.5 builds also wrote styles/dist/theme-<name>.css
   for (const f of readdirSync(join(dir, "css")).filter((f) => f.startsWith("theme-")).sort()) {
     const decls = new Map(read(f).flatMap((b) => [...b.decls]));
     contexts.set(f, { declared: decls, scope: new Map([...root, ...decls]) });
@@ -131,7 +131,13 @@ function compare(aName, bName, step, drift) {
   const keys = [...new Set([...a.contexts.keys(), ...b.contexts.keys()])];
   for (const ctx of keys) {
     const ca = a.contexts.get(ctx);
-    const cb = b.contexts.get(ctx);
+    let cb = b.contexts.get(ctx);
+    // Per-theme files are no longer built; their vars live in the tokens.css theme block
+    const theme = ctx.match(/^theme-(\w+)\.css$/)?.[1];
+    if (ca && !cb && theme) {
+      cb = b.contexts.get(`tokens.css .nys-theme-${theme}, [data-theme="${theme}"]`);
+      if (cb) structural.push(`\`${ctx}\` is no longer generated; compared against the ${theme} block in tokens.css`);
+    }
     if (!ca || !cb) {
       structural.push(`Context \`${ctx}\` only exists in **${ca ? aName : bName}**`);
       if (!cb) for (const v of ca.declared.keys()) removed.push({ ctx, v });
@@ -194,13 +200,12 @@ function compare(aName, bName, step, drift) {
 
 /**
  * Team-facing report of every place code and Figma disagree, from the CSS
- * compare plus figma/sync-meta.json written by figma-pull.mjs.
+ * compare plus .snapshots/figma-meta.json written by figma-pull.mjs.
  */
 function writeDriftReport({ a, b, changed, file }) {
-  const metaFile = join(PKG, "figma/sync-meta.json");
-  if (!existsSync(metaFile)) throw new Error("No figma/sync-meta.json — run figma-pull.mjs first");
-  const meta = JSON.parse(readFileSync(metaFile, "utf8"));
-  const figmaName = (v) => meta.matched[v]?.figma ?? "";
+  if (!existsSync(FILES.meta)) throw new Error("No .snapshots/figma-meta.json — run figma-pull.mjs first");
+  const meta = JSON.parse(readFileSync(FILES.meta, "utf8"));
+  const figmaName = (v) => meta.published[v]?.figma ?? "";
   const esc = (s) => String(s ?? "").replace(/\|/g, "\\|").replace(/\n/g, " ");
 
   // theme-*.css mirror the tokens.css theme blocks; report tokens.css only.
@@ -210,7 +215,7 @@ function writeDriftReport({ a, b, changed, file }) {
   const follows = rows.filter((c) => c.rawA === c.rawB);
 
   const root = a.contexts.get("tokens.css :root").scope;
-  const codeOnly = meta.codeOnly.map((c) => ({ ...c, value: root.has(c.css) ? resolveValue(root.get(c.css), root) : "" }));
+  const codeOnly = meta.manual.map((c) => ({ ...c, value: root.has(c.css) ? resolveValue(root.get(c.css), root) : "" }));
   const words = (css) => css.replace(/^--nys-/, "").split("-");
   const similar = (x, y) => {
     const [p, q] = [words(x), words(y)];
@@ -218,7 +223,7 @@ function writeDriftReport({ a, b, changed, file }) {
   };
   const renames = [];
   for (const c of codeOnly) {
-    for (const f of meta.figmaOnly) {
+    for (const f of meta.excluded) {
       if (similar(c.css, f.css) && normalizeValue(c.value) === normalizeValue(f.value)) renames.push({ code: c, figma: f });
     }
   }
@@ -226,14 +231,14 @@ function writeDriftReport({ a, b, changed, file }) {
   const md = [];
   md.push("# Figma ↔ code token drift", "");
   md.push(`Generated ${new Date().toISOString()} by \`scripts/css-diff.mjs --drift\`.`, "");
-  md.push(`Figma file \`${meta.fileKey}\`, fetched ${meta.fetched}. Code before sync: snapshot \`${a.name}\`; after: \`${b.name}\`.`, "");
+  md.push(`Figma file \`${meta.fileKey}\`. Before: snapshot \`${a.name}\`; after: \`${b.name}\`.`, "");
   md.push("Figma is the source of truth: every **Value differs** row is now the Figma value in `tokens.css`.");
   md.push("Fill in **Team resolution** (e.g. \"Figma correct\", \"fix in Figma\", \"intentional\").", "");
   md.push("| Section | Count |", "|---|---|");
   md.push(`| Value differs (code changed to Figma) | ${direct.length} |`);
   md.push(`| Follows a changed alias | ${follows.length} |`);
-  md.push(`| In code, missing in Figma (kept) | ${codeOnly.length} |`);
-  md.push(`| In Figma, missing in code (not published) | ${meta.figmaOnly.length} |`);
+  md.push(`| In code, missing in Figma (src/tokens.manual.json) | ${codeOnly.length} |`);
+  md.push(`| In Figma, excluded (figma.config.mjs) | ${meta.excluded.length} |`);
   md.push(`| Possible renames | ${renames.length} |`);
   md.push(`| Type/unit mismatches (kept code) | ${meta.mismatches.length} |`);
   md.push("");
@@ -258,19 +263,19 @@ function writeDriftReport({ a, b, changed, file }) {
   }
 
   md.push("## In code, missing in Figma", "");
-  md.push("No Figma variable maps to these, so they keep their code value. Add them to Figma or deprecate them.", "");
+  md.push("Kept from `src/tokens.manual.json`. Add them to Figma (then delete them there) or deprecate them.", "");
   md.push("| CSS var | Token | Value | Team resolution |", "|---|---|---|---|");
   for (const c of codeOnly) md.push(`| \`${c.css}\` | \`${c.path}\` | \`${esc(c.value)}\` | |`);
   md.push("");
 
-  md.push("## In Figma, missing in code", "");
-  md.push("Not published. To publish one, add its CSS name → token path to `add` in `figma.config.mjs`.", "");
+  md.push("## In Figma, excluded", "");
+  md.push("Not published: matched by `exclude` in `figma.config.mjs`. Remove a pattern to publish it.", "");
   md.push("| CSS var (derived) | Figma variable | Type | Value | Team resolution |", "|---|---|---|---|---|");
-  for (const f of meta.figmaOnly) md.push(`| \`${f.css}\` | ${esc(f.figma)} | ${f.type} | \`${esc(f.value)}\` | |`);
+  for (const f of meta.excluded) md.push(`| \`${f.css}\` | ${esc(f.figma)} | ${f.type} | \`${esc(f.value)}\` | |`);
   md.push("");
 
   md.push("## Possible renames", "");
-  md.push("A code-only and a Figma-only variable with similar names and the same value — likely the same token named differently.", "");
+  md.push("A manual token and an excluded Figma variable with similar names and the same value — likely the same token named differently.", "");
   md.push("| Code CSS var | Figma variable | Value | Team resolution |", "|---|---|---|---|");
   for (const r of renames) md.push(`| \`${r.code.css}\` | ${esc(r.figma.figma)} (\`${r.figma.css}\`) | \`${esc(r.code.value)}\` | |`);
   md.push("");
@@ -295,7 +300,7 @@ function writeDriftReport({ a, b, changed, file }) {
 
   writeFileSync(join(REPORTS, file), md.join("\n"));
   console.log(`Drift report → ${relative(ROOT, join(REPORTS, file))}`);
-  console.log(`  value differs: ${direct.length} (+${follows.length} via aliases), code-only: ${codeOnly.length}, figma-only: ${meta.figmaOnly.length}, renames: ${renames.length}`);
+  console.log(`  value differs: ${direct.length} (+${follows.length} via aliases), manual: ${codeOnly.length}, excluded: ${meta.excluded.length}, renames: ${renames.length}`);
 }
 
 // ---------------------------------------------------------------- output

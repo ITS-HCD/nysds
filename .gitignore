@@ -68,6 +68,5 @@ packages/angular/.ngbuild/
 framework-examples/*/.angular/
 framework-examples/*/.next/
 
-# Token migration snapshots and Figma API cache
+# Token CSS comparison snapshots
 packages/tokens/.snapshots/
-packages/tokens/figma/

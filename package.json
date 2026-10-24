@@ -31,7 +31,7 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "build:umd": "cross-env BUILD_FORMAT=umd vite build",
     "tsc:packages": "tsc -b tsconfig.build.json",
-    "build:packages": "npm run tsc:packages && turbo run build --filter='./packages/*' --filter='!@nysds/codegen' --filter='!@nysds/react' --filter='!@nysds/angular' --filter='!@nysds/vue' --log-order=grouped",
+    "build:packages": "npm run tokens:pull && npm run tsc:packages && turbo run build --filter='./packages/*' --filter='!@nysds/codegen' --filter='!@nysds/react' --filter='!@nysds/angular' --filter='!@nysds/vue' --log-order=grouped",
     "build:root": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd",
     "build:all": "npm run clean:dist && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run build:frameworks && node src/scripts/generate-stories.mjs && npm run build:mcp && npm run lint:fix",
     "build:frameworks": "cross-env NODE_ENV=production turbo run build --filter=@nysds/codegen --filter=@nysds/react --filter=@nysds/angular --filter=@nysds/vue --only",

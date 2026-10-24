@@ -1,6 +1,6 @@
 # pre-pull → post-pull
 
-Generated 2026-10-24T21:38:14.651Z by `scripts/css-diff.mjs`.
+Generated 2026-10-24T22:58:25.344Z by `scripts/css-diff.mjs`.
 
 | | Before | After |
 |---|---|---|
