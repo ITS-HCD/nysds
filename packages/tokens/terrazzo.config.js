@@ -33,15 +33,6 @@ export default defineConfig({
   // DTCG resolver: base set (tokens.json) + "theme" modifier (src/themes/*.json)
   tokens: ["./src/resolver.json"],
   outDir: "./dist/",
-  lint: {
-    rules: {
-      // TEMPORARY (Terrazzo 2 migration): accept string colors/dimensions until
-      // tokens.json is converted to DTCG object notation.
-      "core/valid-color": ["error", { legacyFormat: true }],
-      // legacyFormat is broken for dimensions in 2.10 (strings still error), so off.
-      "core/valid-dimension": "off",
-    },
-  },
   plugins: [
     // Main token file — all tokens (State Blue on :root) + every theme's overrides
     css({

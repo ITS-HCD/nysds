@@ -213,6 +213,75 @@ function getLayerFromPath(jsonPath: string): string {
 }
 
 // ============================================================================
+// DTCG Value Formatting
+// ============================================================================
+
+interface DTCGColor {
+  colorSpace: string;
+  components: number[];
+  alpha?: number;
+  hex?: string;
+}
+
+interface DTCGDimension {
+  value: number;
+  unit: string;
+}
+
+function isDTCGColor(value: unknown): value is DTCGColor {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "colorSpace" in value &&
+    Array.isArray((value as DTCGColor).components)
+  );
+}
+
+function isDTCGDimension(value: unknown): value is DTCGDimension {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as DTCGDimension).value === "number" &&
+    typeof (value as DTCGDimension).unit === "string"
+  );
+}
+
+const toHexByte = (unit: number): string =>
+  Math.round(Math.min(1, Math.max(0, unit)) * 255)
+    .toString(16)
+    .padStart(2, "0");
+
+/**
+ * Convert a DTCG color object to the hex string tokens.css uses
+ * (8-digit hex when alpha < 1).
+ */
+export function colorToCSS(color: DTCGColor): string {
+  const hex =
+    color.hex?.toLowerCase() ??
+    (color.colorSpace === "srgb"
+      ? `#${color.components.map(toHexByte).join("")}`
+      : `color(${color.colorSpace} ${color.components.join(" ")})`);
+  const alpha = color.alpha ?? 1;
+  return alpha < 1 && hex.startsWith("#") ? hex + toHexByte(alpha) : hex;
+}
+
+/**
+ * Convert DTCG 2025.10 object notation (colors, dimensions) to CSS strings,
+ * recursing into composite values such as shadows.
+ */
+export function formatTokenValue(value: unknown): unknown {
+  if (isDTCGColor(value)) return colorToCSS(value);
+  if (isDTCGDimension(value)) return `${value.value}${value.unit}`;
+  if (Array.isArray(value)) return value.map(formatTokenValue);
+  if (typeof value === "object" && value !== null) {
+    return Object.fromEntries(
+      Object.entries(value).map(([k, v]) => [k, formatTokenValue(v)]),
+    );
+  }
+  return value;
+}
+
+// ============================================================================
 // Token Parsing
 // ============================================================================
 
@@ -262,7 +331,7 @@ function parseCSSTokens(
     ) {
       // This is a token
       const tokenObj = value as Record<string, unknown>;
-      const rawValue = tokenObj.$value;
+      const rawValue = formatTokenValue(tokenObj.$value);
       const description = tokenObj.$description as string | undefined;
 
       const cssVariable = toCSSVariable(jsonPath);
