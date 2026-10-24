@@ -61,6 +61,7 @@
     "build-storybook": "npm run build:packages && storybook build",
     "storybook:cibuild": "storybook build",
     "mcp-server:build": "cross-env NODE_ENV=production turbo run build --filter=@nysds/mcp-server",
+    "tokens:pull": "npm run figma:pull -w packages/tokens",
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf packages/**/*/node_modules",
     "clean:dist": "rm -rf packages/angular/.ngbuild && rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && find packages -name node_modules -prune -o -type d -name dist ! -path '*/mcp-server/dist' -exec rm -rf {} + 2>/dev/null && find packages -name node_modules -prune -o -name '*.tsbuildinfo' ! -path '*/mcp-server/*' -exec rm -f {} + 2>/dev/null && rm -f ./*.tsbuildinfo 2>/dev/null || true && rm -rf release && rm NYSDS-*.zip 2>/dev/null || true",
     "clean:turbo": "find packages -type d -name '.turbo' -exec rm -rf {} + && rm -rf .turbo",

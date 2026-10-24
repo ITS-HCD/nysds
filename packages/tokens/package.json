@@ -23,7 +23,9 @@
     "dev": "tz build --watch",
     "tokens:snapshot": "node scripts/css-diff.mjs snapshot",
     "tokens:compare": "node scripts/css-diff.mjs compare",
-    "test:scripts": "node --test scripts/*.test.mjs"
+    "test:scripts": "node --test scripts/*.test.mjs",
+    "figma:inspect": "node --env-file-if-exists=../../.env scripts/figma-pull.mjs --inspect",
+    "figma:pull": "node scripts/css-diff.mjs snapshot pre-pull && node --env-file-if-exists=../../.env scripts/figma-pull.mjs && node scripts/css-diff.mjs snapshot post-pull && node scripts/css-diff.mjs compare pre-pull post-pull --drift"
   },
   "devDependencies": {
     "@terrazzo/cli": "^2.10.0",

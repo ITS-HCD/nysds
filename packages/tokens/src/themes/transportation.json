@@ -1,26 +1,32 @@
 {
   "color": {
-    "$type": "color",
     "theme": {
       "faint": {
+        "$type": "color",
         "$value": "{primitive.color.transportation-blue.10}"
       },
       "weaker": {
-        "$value": "{primitive.color.transportation-blue.50}"
-      },
-      "weak": {
+        "$type": "color",
         "$value": "{primitive.color.transportation-blue.100}"
       },
+      "weak": {
+        "$type": "color",
+        "$value": "{primitive.color.transportation-blue.200}"
+      },
       "mid": {
-        "$value": "{primitive.color.transportation-blue.500}"
+        "$type": "color",
+        "$value": "{primitive.color.transportation-blue.400}"
       },
       "default": {
+        "$type": "color",
         "$value": "{primitive.color.transportation-blue.700}"
       },
       "strong": {
+        "$type": "color",
         "$value": "{primitive.color.transportation-blue.800}"
       },
       "stronger": {
+        "$type": "color",
         "$value": "{primitive.color.transportation-blue.900}"
       }
     }

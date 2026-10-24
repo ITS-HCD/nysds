@@ -4,7 +4,7 @@
  * snapshots semantically (resolved, normalized values per selector).
  *
  *   node scripts/css-diff.mjs snapshot <name>
- *   node scripts/css-diff.mjs compare <a> <b> [--step <n>]
+ *   node scripts/css-diff.mjs compare <a> <b> [--step <n>] [--drift [--out <file.md>]]
  *
  * Snapshots live in .snapshots/<name>/ (gitignored). Compare prints a summary
  * and writes reports/step-<n>-<b>.md (or reports/compare-<a>-<b>.md).
@@ -31,9 +31,9 @@ const STYLES_DIST = join(PKG, "../styles/dist");
 
 const [cmd, ...args] = process.argv.slice(2);
 if (cmd === "snapshot" && args[0]) snapshot(args[0]);
-else if (cmd === "compare" && args[0] && args[1]) compare(args[0], args[1], flag("--step"));
+else if (cmd === "compare" && args[0] && args[1]) compare(args[0], args[1], flag("--step"), args.includes("--drift") && (flag("--out") ?? "figma-code-drift.md"));
 else {
-  console.error("Usage: css-diff.mjs snapshot <name> | compare <a> <b> [--step <n>]");
+  console.error("Usage: css-diff.mjs snapshot <name> | compare <a> <b> [--step <n>] [--drift [--out <file.md>]]");
   process.exit(1);
 }
 
@@ -117,7 +117,7 @@ function walk(node, path, visit) {
 
 // ---------------------------------------------------------------- compare
 
-function compare(aName, bName, step) {
+function compare(aName, bName, step, drift) {
   const a = load(aName);
   const b = load(bName);
 
@@ -187,6 +187,115 @@ function compare(aName, bName, step) {
     renderReport({ a, b, step, removed, added, changed, formatOnly, formatExamples, structural }),
   );
   console.log(`\nReport → ${relative(ROOT, join(REPORTS, file))}`);
+  if (drift) writeDriftReport({ a, b, changed, file: drift });
+}
+
+// ---------------------------------------------------------------- drift report
+
+/**
+ * Team-facing report of every place code and Figma disagree, from the CSS
+ * compare plus figma/sync-meta.json written by figma-pull.mjs.
+ */
+function writeDriftReport({ a, b, changed, file }) {
+  const metaFile = join(PKG, "figma/sync-meta.json");
+  if (!existsSync(metaFile)) throw new Error("No figma/sync-meta.json — run figma-pull.mjs first");
+  const meta = JSON.parse(readFileSync(metaFile, "utf8"));
+  const figmaName = (v) => meta.matched[v]?.figma ?? "";
+  const esc = (s) => String(s ?? "").replace(/\|/g, "\\|").replace(/\n/g, " ");
+
+  // theme-*.css mirror the tokens.css theme blocks; report tokens.css only.
+  // "Direct" = the token's own value changed; "follows" = it aliases a token that changed.
+  const rows = changed.filter((c) => c.ctx.startsWith("tokens.css"));
+  const direct = rows.filter((c) => c.rawA !== c.rawB);
+  const follows = rows.filter((c) => c.rawA === c.rawB);
+
+  const root = a.contexts.get("tokens.css :root").scope;
+  const codeOnly = meta.codeOnly.map((c) => ({ ...c, value: root.has(c.css) ? resolveValue(root.get(c.css), root) : "" }));
+  const words = (css) => css.replace(/^--nys-/, "").split("-");
+  const similar = (x, y) => {
+    const [p, q] = [words(x), words(y)];
+    return p.join("") === q.join("") || p.every((w) => q.includes(w)) || q.every((w) => p.includes(w));
+  };
+  const renames = [];
+  for (const c of codeOnly) {
+    for (const f of meta.figmaOnly) {
+      if (similar(c.css, f.css) && normalizeValue(c.value) === normalizeValue(f.value)) renames.push({ code: c, figma: f });
+    }
+  }
+
+  const md = [];
+  md.push("# Figma ↔ code token drift", "");
+  md.push(`Generated ${new Date().toISOString()} by \`scripts/css-diff.mjs --drift\`.`, "");
+  md.push(`Figma file \`${meta.fileKey}\`, fetched ${meta.fetched}. Code before sync: snapshot \`${a.name}\`; after: \`${b.name}\`.`, "");
+  md.push("Figma is the source of truth: every **Value differs** row is now the Figma value in `tokens.css`.");
+  md.push("Fill in **Team resolution** (e.g. \"Figma correct\", \"fix in Figma\", \"intentional\").", "");
+  md.push("| Section | Count |", "|---|---|");
+  md.push(`| Value differs (code changed to Figma) | ${direct.length} |`);
+  md.push(`| Follows a changed alias | ${follows.length} |`);
+  md.push(`| In code, missing in Figma (kept) | ${codeOnly.length} |`);
+  md.push(`| In Figma, missing in code (not published) | ${meta.figmaOnly.length} |`);
+  md.push(`| Possible renames | ${renames.length} |`);
+  md.push(`| Type/unit mismatches (kept code) | ${meta.mismatches.length} |`);
+  md.push("");
+
+  md.push("## Value differs", "");
+  md.push("| CSS var | Context | Figma variable | Code (before) | Figma (now) | ΔE | Code raw | Figma raw | Team resolution |");
+  md.push("|---|---|---|---|---|---|---|---|---|");
+  for (const c of direct) {
+    const ctx = c.ctx.replace("tokens.css ", "").replace(/^\.nys-theme-(\w+).*/, "theme: $1");
+    md.push(
+      `| \`${c.v}\` | ${ctx} | ${esc(figmaName(c.v))} | \`${c.before}\` | \`${c.after}\` | ${c.dE === null ? "" : c.dE.toFixed(2)} | \`${esc(c.rawA)}\` | \`${esc(c.rawB)}\` | |`,
+    );
+  }
+  md.push("");
+
+  if (follows.length) {
+    md.push("## Follows a changed alias", "");
+    md.push("Unchanged tokens whose resolved value moved because a token they alias changed above.", "");
+    md.push("| CSS var | Context | Aliases | Before | Now |", "|---|---|---|---|---|");
+    for (const c of follows) md.push(`| \`${c.v}\` | ${c.ctx.replace("tokens.css ", "")} | \`${esc(c.rawB)}\` | \`${c.before}\` | \`${c.after}\` |`);
+    md.push("");
+  }
+
+  md.push("## In code, missing in Figma", "");
+  md.push("No Figma variable maps to these, so they keep their code value. Add them to Figma or deprecate them.", "");
+  md.push("| CSS var | Token | Value | Team resolution |", "|---|---|---|---|");
+  for (const c of codeOnly) md.push(`| \`${c.css}\` | \`${c.path}\` | \`${esc(c.value)}\` | |`);
+  md.push("");
+
+  md.push("## In Figma, missing in code", "");
+  md.push("Not published. To publish one, add its CSS name → token path to `add` in `figma.config.mjs`.", "");
+  md.push("| CSS var (derived) | Figma variable | Type | Value | Team resolution |", "|---|---|---|---|---|");
+  for (const f of meta.figmaOnly) md.push(`| \`${f.css}\` | ${esc(f.figma)} | ${f.type} | \`${esc(f.value)}\` | |`);
+  md.push("");
+
+  md.push("## Possible renames", "");
+  md.push("A code-only and a Figma-only variable with similar names and the same value — likely the same token named differently.", "");
+  md.push("| Code CSS var | Figma variable | Value | Team resolution |", "|---|---|---|---|");
+  for (const r of renames) md.push(`| \`${r.code.css}\` | ${esc(r.figma.figma)} (\`${r.figma.css}\`) | \`${esc(r.code.value)}\` | |`);
+  md.push("");
+
+  md.push("## Type/unit mismatches", "");
+  if (meta.mismatches.length) {
+    md.push("| CSS var | Figma variable | Problem | Alias chain |", "|---|---|---|---|");
+    for (const m of meta.mismatches) md.push(`| \`${m.css}\` | ${esc(m.figma)} | ${esc(m.reason)} | ${esc(m.chain?.join(" → "))} |`);
+  } else {
+    md.push("None.");
+  }
+  md.push("");
+
+  md.push("## Not synced", "");
+  if (meta.unmappedThemeModes.length) md.push(`- Theme modes with no theme in code: ${meta.unmappedThemeModes.map((m) => `**${m}**`).join(", ")}`);
+  if (meta.breakpointVariance.length) {
+    md.push(`- ${meta.breakpointVariance.length} variables differ by Responsive mode; code uses **${"Mobile"}** (\`modes.Responsive\` in figma.config.mjs):`);
+    for (const v of meta.breakpointVariance) md.push(`  - \`${v.css}\`: ${esc(JSON.stringify(v.values))}`);
+  }
+  if (meta.warnings.length) for (const w of meta.warnings) md.push(`- \`${w.css}\`: ${esc(w.warning)}`);
+  md.push("");
+
+  writeFileSync(join(REPORTS, file), md.join("\n"));
+  console.log(`Drift report → ${relative(ROOT, join(REPORTS, file))}`);
+  console.log(`  value differs: ${direct.length} (+${follows.length} via aliases), code-only: ${codeOnly.length}, figma-only: ${meta.figmaOnly.length}, renames: ${renames.length}`);
 }
 
 // ---------------------------------------------------------------- output
