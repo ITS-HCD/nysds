@@ -22,8 +22,8 @@
     "test:scripts": "node --test scripts/*.test.mjs"
   },
   "devDependencies": {
-    "@terrazzo/cli": "^0.5.0",
-    "@terrazzo/plugin-css": "^0.5.0"
+    "@terrazzo/cli": "^2.10.0",
+    "@terrazzo/plugin-css": "^2.10.0"
   },
   "keywords": [
     "design-tokens",

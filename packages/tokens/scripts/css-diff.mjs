@@ -45,7 +45,7 @@ function flag(name) {
 // ---------------------------------------------------------------- snapshot
 
 function snapshot(name) {
-  const tz = join(ROOT, "node_modules/.bin/tz");
+  const tz = [PKG, ROOT].map((d) => join(d, "node_modules/.bin/tz")).find(existsSync);
   console.log(`Building tokens with ${terrazzoVersion()}…`);
   execFileSync(tz, ["build"], { cwd: PKG, stdio: "inherit" });
 
@@ -66,7 +66,8 @@ function snapshot(name) {
 }
 
 function terrazzoVersion() {
-  const pkg = JSON.parse(readFileSync(join(ROOT, "node_modules/@terrazzo/cli/package.json"), "utf8"));
+  const file = [PKG, ROOT].map((d) => join(d, "node_modules/@terrazzo/cli/package.json")).find(existsSync);
+  const pkg = JSON.parse(readFileSync(file, "utf8"));
   return `@terrazzo/cli@${pkg.version}`;
 }
 

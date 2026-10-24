@@ -1,6 +1,9 @@
 import { defineConfig } from "@terrazzo/cli";
 import css from "@terrazzo/plugin-css";
-import { variableName } from "./scripts/lib/variable-name.mjs";
+import { variableName as nameFromId } from "./scripts/lib/variable-name.mjs";
+
+// plugin-css passes the whole token (Terrazzo ≥0.6)
+const variableName = (token) => nameFromId(token.id);
 
 const themes = [
   "admin",
@@ -15,6 +18,15 @@ const themes = [
 export default defineConfig({
   tokens: ["./src/tokens.json"],
   outDir: "./dist/",
+  lint: {
+    rules: {
+      // TEMPORARY (Terrazzo 2 migration): accept string colors/dimensions until
+      // tokens.json is converted to DTCG object notation.
+      "core/valid-color": ["error", { legacyFormat: true }],
+      // legacyFormat is broken for dimensions in 2.10 (strings still error), so off.
+      "core/valid-dimension": "off",
+    },
+  },
   plugins: [
     // Main token file — all tokens + all theme mode overrides
     css({
@@ -38,7 +50,9 @@ export default defineConfig({
         filename: `../../styles/dist/theme-${theme}.css`,
         legacyHex: true,
         variableName,
-        exclude: ["*"], // skip :root block; only output the mode selector block below
+        // skip :root block; only output the mode selector block below
+        // ("**": token-id globs use "." as separator in Terrazzo 2, so "*" matches one segment)
+        exclude: ["**"],
         modeSelectors: [
           {
             mode: theme,
