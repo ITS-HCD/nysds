@@ -16,7 +16,10 @@
   ],
   "scripts": {
     "build": "tz build && node ../../src/scripts/add-banner-tokens.mjs",
-    "dev": "tz build --watch"
+    "dev": "tz build --watch",
+    "tokens:snapshot": "node scripts/css-diff.mjs snapshot",
+    "tokens:compare": "node scripts/css-diff.mjs compare",
+    "test:scripts": "node --test scripts/*.test.mjs"
   },
   "devDependencies": {
     "@terrazzo/cli": "^0.5.0",
