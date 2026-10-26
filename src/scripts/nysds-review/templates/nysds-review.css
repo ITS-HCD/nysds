@@ -46,14 +46,14 @@
 
 /* --- Accessibility preview: story list ------------------------------------ */
 
-/* Each link is at least 44px tall (--nys-size-550), easy to tap. */
+/* Each link is at least 44px tall (--nys-size-500), easy to tap. */
 .nysds-preview-list li::marker {
   color: var(--nys-color-text-weak);
   font-variant-numeric: tabular-nums;
 }
 
 .nysds-preview-list a {
-  min-height: var(--nys-size-550);
+  min-height: var(--nys-size-500);
   border-bottom: var(--nys-border-width-sm) solid var(--nys-color-neutral-100);
 }
 
