@@ -106,7 +106,7 @@ export const SingleSelect: Story = {
   render: () => {
     return html`
       <nys-accordion singleSelect>
-        <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
+        <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
         <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
       </nys-accordion>
     `;
@@ -116,7 +116,7 @@ export const SingleSelect: Story = {
       source: {
         code: `
 <nys-accordion singleSelect>
-  <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
+  <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
 </nys-accordion>`,
         type: "auto",
@@ -129,7 +129,7 @@ export const Bordered: Story = {
   render: () => {
     return html`
       <nys-accordion bordered>
-        <nys-accordionitem heading="We are a group of accordions">
+        <nys-accordionitem heading="We are a group of accordions" expanded>
           <p>
             Stronger together! Learn more at
             <a href="https://www.ny.gov" target="_blank">ny.gov</a>
@@ -155,7 +155,7 @@ export const Bordered: Story = {
       source: {
         code: `
 <nys-accordion bordered>
-  <nys-accordionitem heading="We are a group of accordions">
+  <nys-accordionitem heading="We are a group of accordions" expanded>
     <p>
       Stronger together! Learn more at
       <a href="https://www.ny.gov" target="_blank">ny.gov</a>
@@ -218,7 +218,7 @@ export const HeadingLevel: Story = {
 export const ExpandedItem: Story = {
   render: () => {
     return html`
-      <nys-accordion>
+      <nys-accordion bordered>
         <nys-accordionitem heading="How do I apply?" expanded>
           <p>Visit ny.gov and complete the online application.</p>
         </nys-accordionitem>
@@ -232,7 +232,7 @@ export const ExpandedItem: Story = {
     docs: {
       source: {
         code: `
-<nys-accordion>
+<nys-accordion bordered>
   <nys-accordionitem heading="How do I apply?" expanded>
     <p>Visit ny.gov and complete the online application.</p>
   </nys-accordionitem>
