@@ -336,6 +336,7 @@ function formatColorDistance(colorDistance) {
 /** Escape text for a Markdown table cell. */
 function escapeTableCell(text) {
   return String(text ?? "")
+    .replace(/\\/g, "\\\\")
     .replace(/\|/g, "\\|")
     .replace(/\n/g, " ");
 }
