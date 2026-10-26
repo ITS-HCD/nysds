@@ -62,10 +62,31 @@ jobs:
       - name: Install dependencies
         run: npm i # default is `npm ci` but that causes issues ALL THE TIME, so we're reverting back to `npm i` this should NOT be changed back to npm ci.
 
+      # Chromium renders, screenshots and scans each story. It's cached per
+      # Playwright version, so it's only downloaded when Playwright is
+      # upgraded; its system libraries are installed with apt, which can't be
+      # cached, so install-deps runs on a hit. See test-node-js.yaml for why
+      # the root playwright package is called directly.
+      - name: Get Playwright version
+        id: playwright
+        run: echo "version=$(node -p 'require("playwright/package.json").version')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Chromium
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-chromium
+
       - name: Install Chromium
-        # Renders each story to static markup. See test-node-js.yaml for why
-        # the root playwright package is called directly.
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: node node_modules/playwright/cli.js install --with-deps chromium
+        env:
+          DEBIAN_FRONTEND: noninteractive
+
+      - name: Install Chromium system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: node node_modules/playwright/cli.js install-deps chromium
         env:
           DEBIAN_FRONTEND: noninteractive
 
