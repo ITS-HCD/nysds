@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NYSDS Accessibility Scan</title>
+    <!-- Relative paths: visual.mjs copies these next to the page. -->
+    <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
+    <link rel="stylesheet" href="assets/nysds-full.min.css" />
+    <link rel="stylesheet" href="assets/nysds-review.css" />
+    <script src="assets/nysds.js"></script>
+    <script src="a11y-results.js"></script>
+  </head>
+  <body>
+    <!--
+      The accessibility scan report. visual.mjs scans every story page with
+      axe-core while it captures them, then copies this template next to the
+      a11y-results.js it writes. The script at the bottom renders the report
+      from that data.
+    -->
+    <nys-skipnav></nys-skipnav>
+    <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+    <nys-globalheader appName="NYSDS Review" homepageLink="/">
+      <ul id="app-links">
+        <li data-app="preview">
+          <a href="/preview/">Accessibility Tests</a>
+        </li>
+        <li data-app="a11yScan">
+          <a href="/a11y-scan/">Accessibility Scan</a>
+        </li>
+        <li data-app="visual"><a href="/visual/">Visual Changes</a></li>
+        <li data-app="codeReview">
+          <a href="/code-review/">Codegen Review</a>
+        </li>
+      </ul>
+    </nys-globalheader>
+
+    <main id="main-content" class="review">
+      <!-- Widescreen, so the content lines up with the global header and footer. -->
+      <div class="nys-grid-container-widescreen">
+        <div class="nys-grid-row">
+          <div class="nys-grid-col-12">
+            <h1>Accessibility Scan</h1>
+            <p class="lede nys-margin-b-400" id="summary">
+              No scan results. Run npm run vr:test to make them.
+            </p>
+          </div>
+        </div>
+
+        <section
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
+          aria-labelledby="glance"
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="glance" class="nys-font-h4">At a glance</h2>
+          </div>
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+            <div
+              class="card-row nys-grid-row nys-grid-gap-200 nys-margin-b-400"
+            >
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-stories"
+                  heading="0"
+                  headingLevel="h3"
+                  description="stories with issues"
+                ></nys-card>
+              </div>
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-critical"
+                  heading="0"
+                  headingLevel="h3"
+                  description="critical issues"
+                ></nys-card>
+              </div>
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-serious"
+                  heading="0"
+                  headingLevel="h3"
+                  description="serious issues"
+                ></nys-card>
+              </div>
+              <div
+                class="nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+              >
+                <nys-card
+                  id="count-other"
+                  heading="0"
+                  headingLevel="h3"
+                  description="moderate or minor issues"
+                ></nys-card>
+              </div>
+            </div>
+            <h3 class="nys-font-h5 nys-margin-b-50">What this checks</h3>
+            <dl class="facts nys-margin-b-300" id="scan-facts"></dl>
+            <p class="weak">
+              Automated checks find only some accessibility problems. Test each
+              story with a keyboard and a screen reader too, using the
+              <a href="/preview/">accessibility tests</a>.
+            </p>
+          </div>
+        </section>
+
+        <section
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
+          aria-labelledby="issues"
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="issues" class="nys-font-h4">Issues</h2>
+          </div>
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+            <p id="issues-empty">No accessibility violations found.</p>
+            <div
+              class="nys-display-flex nys-flex-gap-100 nys-margin-b-200"
+              id="issues-toolbar"
+              hidden
+            >
+              <nys-button
+                id="expand-all"
+                type="button"
+                variant="outline"
+                size="sm"
+                label="Expand all"
+              ></nys-button>
+              <nys-button
+                id="collapse-all"
+                type="button"
+                variant="outline"
+                size="sm"
+                label="Collapse all"
+              ></nys-button>
+            </div>
+            <div id="issues-list"></div>
+          </div>
+        </section>
+
+        <section
+          class="band nys-grid-row nys-grid-gap-400 nys-padding-y-500"
+          aria-labelledby="errors"
+          id="errors-section"
+          hidden
+        >
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-2">
+            <h2 id="errors" class="nys-font-h4">Scan errors</h2>
+          </div>
+          <div class="nys-grid-col-12 nys-desktop:nys-grid-col-10">
+            <p class="nys-margin-b-150">
+              These story pages couldn't be scanned, so they may have issues
+              that aren't listed above.
+            </p>
+            <ul id="errors-list"></ul>
+          </div>
+        </section>
+      </div>
+    </main>
+    <nys-backtotop></nys-backtotop>
+    <nys-globalfooter agencyName="NYS Design System" homepageLink="/">
+    </nys-globalfooter>
+    <nys-unavfooter></nys-unavfooter>
+
+    <script>
+      // Renders the report from a11y-results.js (window.A11Y_DATA). Every
+      // value from it is escaped: element markup comes from the page scanned.
+
+      const data = window.A11Y_DATA;
+
+      /** How each axe impact reads on the page, as an nys-badge. */
+      const IMPACT_BADGES = {
+        critical: { intent: "danger", label: "Critical" },
+        serious: { intent: "danger", label: "Serious" },
+        moderate: { intent: "warning", label: "Moderate" },
+        minor: { intent: "base", label: "Minor" },
+      };
+
+      const HTML_ESCAPES = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      };
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char]);
+      }
+
+      function plural(count, noun) {
+        return `${count} ${noun}${count === 1 ? "" : "s"}`;
+      }
+
+      function capitalize(text) {
+        return text[0].toUpperCase() + text.slice(1);
+      }
+
+      function impactBadgeHtml(impact) {
+        const { intent, label } = IMPACT_BADGES[impact] ?? {
+          intent: "base",
+          label: capitalize(impact ?? "unknown"),
+        };
+        return `<nys-badge intent="${intent}" label="${label}" size="sm"></nys-badge>`;
+      }
+
+      // --- Summary and "At a glance" ----------------------------------------
+
+      function renderSummary() {
+        const generated = new Date(data.generated).toLocaleString("en-US", {
+          dateStyle: "medium",
+          timeStyle: "short",
+        });
+        document.querySelector("#summary").textContent =
+          `${plural(data.scanned, "story")} scanned with axe-core on ${generated}. ${plural(data.stories.length, "story")} ${data.stories.length === 1 ? "has" : "have"} issues.`;
+
+        const { critical, serious, moderate, minor } = data.impacts;
+        document.querySelector("#count-stories").heading = String(
+          data.stories.length,
+        );
+        document.querySelector("#count-critical").heading = String(critical);
+        document.querySelector("#count-serious").heading = String(serious);
+        document.querySelector("#count-other").heading = String(
+          moderate + minor,
+        );
+
+        const facts = [
+          ["Engine", `axe-core ${escapeHtml(data.axeVersion)}`],
+          [
+            "Standard",
+            `WCAG 2.2 AA <span class="weak">(${data.tags.map((tag) => `<code>${escapeHtml(tag)}</code>`).join(", ")})</span>`,
+          ],
+          [
+            "Scanned",
+            `Each story page's component at ${data.viewports.map(escapeHtml).join(" and ")} widths: in its default state, and hovered, pressed, focused or clicked where the visual tests capture those states`,
+          ],
+          [
+            "Reported",
+            "Failures in the story's markup and in the shadow DOM each component renders, traced from one to the other",
+          ],
+          ["Not scanned", "The preview's bottom bar"],
+        ];
+        document.querySelector("#scan-facts").innerHTML = facts
+          .map(([term, value]) => `<dt>${term}</dt><dd>${value}</dd>`)
+          .join("");
+      }
+
+      // --- Issues -----------------------------------------------------------
+
+      /** The story's markup, numbered, with failing elements highlighted. */
+      /**
+       * Numbered lines of code as a table. Each row is { number, text,
+       * flagged, traced, label, hidden }: flagged rows are failing code,
+       * traced rows lead to it, and a label sits in the gutter beside them.
+       * Hidden rows are collapsed; a { gap } row stands in for each run.
+       */
+      function codeTableHtml(rows, gutterHeading) {
+        const body = rows.map((row) =>
+          row.gap
+            ? `<tr class="hunk" data-gap><td class="ln"></td><td class="sign"></td><td class="code">⋯ ${plural(row.gap, "more line")}</td></tr>`
+            : `<tr${row.flagged ? ' class="flagged"' : row.traced ? ' class="traced"' : ""}${row.hidden ? " hidden data-collapsible" : ""}><td class="ln">${row.number}</td><td class="sign">${row.label ?? ""}</td><td class="code">${escapeHtml(row.text)}</td></tr>`,
+        );
+        return `<div class="diff-scroll"><table class="diff"><thead class="visually-hidden"><tr><th>Line</th><th>${gutterHeading}</th><th>Code</th></tr></thead><tbody>${body.join("")}</tbody></table></div>`;
+      }
+
+      /**
+       * Lines of code with their marked lines shown in the gutter. `failing`
+       * says whether the marked lines are the violation itself (flagged) or
+       * only lead to it (traced: the component that renders it).
+       */
+      function snippetHtml(lines, failing) {
+        const rows = lines.map((line) => ({
+          number: line.number,
+          text: line.text,
+          flagged: line.marked && failing,
+          traced: line.marked && !failing,
+          label: !line.marked
+            ? ""
+            : failing
+              ? '<span aria-hidden="true">!</span><span class="visually-hidden">Failing element</span>'
+              : '<span aria-hidden="true">›</span><span class="visually-hidden">Renders the failing element</span>',
+        }));
+        return collapsedCodeHtml(rows);
+      }
+
+      // Lines kept either side of the marked lines in a long block.
+      const CODE_CONTEXT = 25;
+
+      /**
+       * A code table that shows only the marked lines and CODE_CONTEXT lines
+       * either side of them (or, with nothing marked, the first lines), with
+       * a button below to show every line.
+       */
+      function collapsedCodeHtml(rows) {
+        const first = rows.findIndex((row) => row.flagged || row.traced);
+        const last = rows.findLastIndex((row) => row.flagged || row.traced);
+        const start = first === -1 ? 0 : Math.max(0, first - CODE_CONTEXT);
+        const end =
+          first === -1
+            ? CODE_CONTEXT * 2 - 1
+            : Math.min(rows.length - 1, last + CODE_CONTEXT);
+        if (start === 0 && end >= rows.length - 1) {
+          return codeTableHtml(rows, "Marker");
+        }
+
+        const windowed = [];
+        if (start > 0) windowed.push({ gap: start });
+        rows.forEach((row, index) =>
+          windowed.push({ ...row, hidden: index < start || index > end }),
+        );
+        if (end < rows.length - 1) {
+          // Right after the last visible line (one further with a top gap row).
+          const afterVisible = end + 1 + (start > 0 ? 1 : 0);
+          windowed.splice(afterVisible, 0, { gap: rows.length - 1 - end });
+        }
+        return `<div class="code-window">
+          ${codeTableHtml(windowed, "Marker")}
+          <nys-button class="nys-margin-t-100" size="sm" variant="outline" label="Show all ${rows.length} lines" data-expand-code data-total="${rows.length}"></nys-button>
+        </div>`;
+      }
+
+      /** "line 4" or "lines 4–9". */
+      function lineRange(lines) {
+        if (lines.length === 0) return "";
+        const first = lines[0].number;
+        const last = lines.at(-1).number;
+        return first === last ? `line ${first}` : `lines ${first}–${last}`;
+      }
+
+      /** axe's suggestions for one failing element. */
+      function fixHtml(groups, issue) {
+        const suggestions = groups
+          .map(
+            (group) =>
+              `${group.heading ? `<p class="nys-margin-t-100">${escapeHtml(group.heading)}:</p>` : ""}<ul class="nys-padding-l-300">${group.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`,
+          )
+          .join("");
+        return `<div class="fix nys-margin-t-150 nys-padding-200">
+          <h5 class="nys-font-ui-md">Suggested fix</h5>
+          ${suggestions}
+          <p class="nys-margin-t-150"><a href="${escapeHtml(issue.helpUrl)}">More about <code>${escapeHtml(issue.rule)}</code> (Deque University)</a></p>
+        </div>`;
+      }
+
+      /** How each interactive state reads in "Only when …" badges. */
+      const STATE_LABELS = {
+        hover: "hovered",
+        active: "pressed",
+        focus: "focused",
+        click: "clicked",
+      };
+
+      /** "Only when hovered or focused", for an element that fails only then. */
+      function statesBadgeHtml(states) {
+        if (states.length === 0) return "";
+        const labels = states.map((state) => STATE_LABELS[state] ?? state);
+        const list =
+          labels.length > 1
+            ? `${labels.slice(0, -1).join(", ")} or ${labels.at(-1)}`
+            : labels[0];
+        return ` <nys-badge intent="info" label="Only when ${escapeHtml(list)}" size="sm"></nys-badge>`;
+      }
+
+      /**
+       * One failing element, traced from the story's markup (the source) to
+       * the component's rendered shadow DOM, with the failing lines marked in
+       * whichever of the two the violation is in, and how to fix it.
+       */
+      function nodeHtml(node, issue) {
+        const onlyAt =
+          node.viewports.length < data.viewports.length
+            ? ` <nys-badge intent="base" label="${escapeHtml(capitalize(node.viewports.join(", ")))} only" size="sm"></nys-badge>`
+            : "";
+        const inSource = node.where === "source";
+        const whereBadge = `<nys-badge intent="danger" label="${inSource ? "In the story markup" : "In the rendered output"}" size="sm"></nys-badge>`;
+        const component = node.component
+          ? `<code>&lt;${escapeHtml(node.component)}&gt;</code>`
+          : "";
+
+        const source =
+          node.source.length > 0
+            ? `<p class="nys-margin-b-50"><strong>Source</strong> <span class="weak">story markup, ${lineRange(node.source)}${inSource ? "" : `: the ${component} that renders the failing element`}</span></p>
+          ${snippetHtml(node.source, inSource)}`
+            : "";
+
+        let rendered;
+        if (node.rendered) {
+          const renderedNote = inSource
+            ? `${plural(node.rendered.length, "line")}, shown for context`
+            : `${lineRange(node.rendered.filter((line) => line.marked))} of ${node.rendered.length}`;
+          rendered = `<p class="nys-display-flex nys-flex-align-center nys-flex-gap-100 nys-margin-y-100 weak">
+            <nys-icon name="arrow_downward" size="lg"></nys-icon>
+            <span>renders${node.states.length ? `, when ${escapeHtml(STATE_LABELS[node.states[0]] ?? node.states[0])},` : ""} as</span>
+          </p>
+          <p class="nys-margin-b-50"><strong>Rendered</strong> <span class="weak">${component} shadow DOM, ${renderedNote}</span></p>
+          ${snippetHtml(node.rendered, true)}`;
+        } else {
+          rendered = `<p class="weak nys-margin-t-100">Plain HTML in the story: no component renders it.</p>`;
+        }
+
+        return `<div class="issue-node nys-margin-t-300">
+          <p class="nys-display-flex nys-flex-align-center nys-flex-gap-100 nys-margin-b-150"><strong>Element</strong> <code>${escapeHtml(node.target)}</code> ${whereBadge}${statesBadgeHtml(node.states)}${onlyAt}</p>
+          ${source}
+          ${rendered}
+          ${fixHtml(node.fix, issue)}
+        </div>`;
+      }
+
+      function issueHtml(issue) {
+        return `<li class="issue">
+          <h4 class="nys-font-h5 nys-margin-b-50">Issue ${issue.number}: ${escapeHtml(issue.help)}</h4>
+          <p class="nys-display-flex nys-flex-align-center nys-flex-gap-100 nys-margin-b-100">${impactBadgeHtml(issue.impact)} <code>${escapeHtml(issue.rule)}</code></p>
+          <p class="weak">${escapeHtml(issue.description)}</p>
+          ${issue.nodes.map((node) => nodeHtml(node, issue)).join("")}
+        </li>`;
+      }
+
+      function storyHtml(story, index, expanded) {
+        const heading = `${story.title} - ${story.name} (${plural(story.issues.length, "issue")})`;
+        return `
+          <nys-accordionitem id="story-${index + 1}" heading="${escapeHtml(heading)}"${expanded ? " expanded" : ""}>
+            <div class="item-body">
+              <p class="weak">Story <code>${escapeHtml(story.path)}</code></p>
+              <ol class="issues">${story.issues.map(issueHtml).join("")}</ol>
+            </div>
+          </nys-accordionitem>`;
+      }
+
+      function renderIssues() {
+        if (data.stories.length === 0) return;
+        document.querySelector("#issues-empty").remove();
+        document.querySelector("#issues-toolbar").hidden = false;
+        const expandAll = data.stories.length <= 4;
+        document.querySelector("#issues-list").innerHTML =
+          `<nys-accordion bordered headingLevel="h3">${data.stories
+            .map((story, index) => storyHtml(story, index, expandAll))
+            .join("")}</nys-accordion>`;
+      }
+
+      function renderErrors() {
+        if (data.errors.length === 0) return;
+        document.querySelector("#errors-section").hidden = false;
+        document.querySelector("#errors-list").innerHTML = data.errors
+          .map(
+            (error) =>
+              `<li><code>${escapeHtml(error.viewport)}/${escapeHtml(error.id)}${error.state === "default" ? "" : ` (${escapeHtml(error.state)})`}</code>: ${escapeHtml(error.error)}</li>`,
+          )
+          .join("");
+      }
+
+      if (data) {
+        renderSummary();
+        renderIssues();
+        renderErrors();
+      }
+    </script>
+    <!-- Behavior: expand and collapse stories and long code blocks. -->
+    <script type="module">
+      const items = () => [...document.querySelectorAll("nys-accordionitem")];
+      document
+        .getElementById("expand-all")
+        ?.addEventListener("nys-click", () => {
+          for (const item of items()) item.expanded = true;
+        });
+      document
+        .getElementById("collapse-all")
+        ?.addEventListener("nys-click", () => {
+          for (const item of items()) item.expanded = false;
+        });
+
+      // A long code block's "Show all lines" button: show or hide the lines
+      // outside the window around the failing code.
+      document.addEventListener("nys-click", (event) => {
+        const button = event.target.closest?.("[data-expand-code]");
+        if (!button) return;
+        const block = button.closest(".code-window");
+        const expanded = block.toggleAttribute("data-expanded");
+        for (const row of block.querySelectorAll("[data-collapsible]")) {
+          row.hidden = !expanded;
+        }
+        for (const row of block.querySelectorAll("[data-gap]")) {
+          row.hidden = expanded;
+        }
+        button.label = expanded
+          ? "Show fewer lines"
+          : `Show all ${button.dataset.total} lines`;
+      });
+    </script>
+  </body>
+</html>
