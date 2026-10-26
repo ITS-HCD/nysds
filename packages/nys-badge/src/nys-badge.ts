@@ -25,7 +25,6 @@ import styles from "./nys-badge.scss?inline";
  * - Use the `intent` property to match the badge's visual style to its meaning (e.g., `success` for positive statuses, `warning` for caution).
  * - Place badges near the element they describe so the relationship is clear.
  * - Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.
- * - Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.
  * - Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis.
  *
  * @usagedonts
