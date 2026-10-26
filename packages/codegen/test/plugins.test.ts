@@ -337,7 +337,7 @@ test("angular plugin generates plain wrappers from today's manifest", () => {
 test("deps plugin rewrites dependencies, peer range, and exports", (t) => {
   const dir = tmp("nysds-deps-");
   const rootPackageJson = path.join(dir, "root-package.json");
-  fs.writeFileSync(rootPackageJson, JSON.stringify({ version: "1.21.0" }));
+  fs.writeFileSync(rootPackageJson, JSON.stringify({ version: "1.22.3" }));
 
   const reactPkgPath = path.join(dir, "react-package.json");
   fs.writeFileSync(
@@ -373,8 +373,8 @@ test("deps plugin rewrites dependencies, peer range, and exports", (t) => {
 
   const pkg = JSON.parse(fs.readFileSync(reactPkgPath, "utf8"));
   assert.equal(pkg.dependencies["@lit/react"], "^1.0.8", "kept as written");
-  assert.equal(pkg.dependencies["@nysds/nys-textinput"], "1.21.0");
-  assert.equal(pkg.dependencies["@nysds/nys-accordion"], "1.21.0");
+  assert.equal(pkg.dependencies["@nysds/nys-textinput"], "1.22.3");
+  assert.equal(pkg.dependencies["@nysds/nys-accordion"], "1.22.3");
   assert.equal(pkg.dependencies["@nysds/nys-removed"], undefined, "stale gone");
   assert.equal(
     pkg.peerDependencies["@nysds/components"],
