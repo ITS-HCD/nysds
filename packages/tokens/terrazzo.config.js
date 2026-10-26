@@ -8,17 +8,27 @@ import { variableName as nameFromId } from "./scripts/lib/variable-name.mjs";
 const variableName = (token) => nameFromId(token.id);
 
 /** Token ids a theme set overrides, so theme blocks emit only what changes. */
-const themeTokenIds = (theme) => {
-  const ids = [];
-  const walk = (node, path) => {
-    if ("$value" in node) return ids.push(path.join("."));
-    for (const [key, child] of Object.entries(node)) {
-      if (!key.startsWith("$") && child && typeof child === "object") walk(child, [...path, key]);
+function themeTokenIds(themeName) {
+  const themeFile = new URL(`./src/themes/${themeName}.json`, import.meta.url);
+  const themeDocument = JSON.parse(readFileSync(themeFile, "utf8"));
+  const tokenIds = [];
+
+  function collectTokenIds(node, pathSoFar) {
+    if ("$value" in node) {
+      tokenIds.push(pathSoFar.join("."));
+      return;
     }
-  };
-  walk(JSON.parse(readFileSync(new URL(`./src/themes/${theme}.json`, import.meta.url), "utf8")), []);
-  return ids;
-};
+    for (const [key, child] of Object.entries(node)) {
+      const isChildGroupOrToken = !key.startsWith("$") && child !== null && typeof child === "object";
+      if (isChildGroupOrToken) {
+        collectTokenIds(child, [...pathSoFar, key]);
+      }
+    }
+  }
+
+  collectTokenIds(themeDocument, []);
+  return tokenIds;
+}
 
 export default defineConfig({
   // DTCG resolver: base set (tokens.json) + "theme" modifier (src/themes/*.json)

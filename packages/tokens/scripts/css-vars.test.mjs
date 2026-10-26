@@ -51,7 +51,7 @@ test("parseBlocks normalizes selector lists", () => {
   const blocks = parseBlocks(`/* x */ :root { --a: 1px; }\n.t-x,\n[data-theme='x'] { --a: 2px; }`);
   assert.equal(blocks.length, 2);
   assert.equal(blocks[1].selector, '.t-x, [data-theme="x"]');
-  assert.equal(blocks[1].decls.get("--a"), "2px");
+  assert.equal(blocks[1].declarations.get("--a"), "2px");
 });
 
 test("deltaE is 0 for identical colors and grows with difference", () => {

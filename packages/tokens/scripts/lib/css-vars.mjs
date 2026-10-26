@@ -1,200 +1,377 @@
 /**
- * Parsing, resolution and normalization of CSS custom properties, used by
- * css-diff.mjs to compare Terrazzo builds semantically rather than textually.
+ * Parsing, resolving and normalizing CSS custom properties. Used by
+ * css-diff.mjs to compare two Terrazzo builds by meaning rather than by text:
+ * "#000", "#000000" and "rgb(0 0 0)" all count as the same value.
  */
 
-/** Parse a stylesheet into [{ selector, decls: Map<name, value> }]. */
-export function parseBlocks(css) {
-  const src = css.replace(/\/\*[\s\S]*?\*\//g, "");
+// ---------------------------------------------------------------------------
+// Parsing a stylesheet
+// ---------------------------------------------------------------------------
+
+/**
+ * Parse a stylesheet into its rule blocks and the custom properties each declares.
+ *
+ * @returns {Array<{ selector: string, declarations: Map<string, string> }>}
+ *   Rules nested in at-rules (e.g. @media) get the at-rule prepended to their selector.
+ */
+export function parseBlocks(cssText) {
+  const cssWithoutComments = cssText.replace(/\/\*[\s\S]*?\*\//g, "");
   const blocks = [];
-  const stack = [];
-  let buf = "";
-  for (const ch of src) {
-    if (ch === "{") {
-      stack.push(buf.trim());
-      buf = "";
-    } else if (ch === "}") {
-      const prelude = stack.pop();
-      const body = buf;
-      buf = "";
-      if (prelude === undefined || prelude.startsWith("@")) continue;
-      const wrappers = stack.filter((s) => s.startsWith("@"));
-      const decls = new Map();
-      for (const part of splitTopLevel(body, ";")) {
-        const i = part.indexOf(":");
-        if (i === -1) continue;
-        const name = part.slice(0, i).trim();
-        if (name.startsWith("--")) decls.set(name, part.slice(i + 1).trim());
-      }
-      blocks.push({ selector: [...wrappers, normalizeSelector(prelude)].join(" "), decls });
-    } else {
-      buf += ch;
+  const openPreludes = []; // selectors and at-rules of the blocks we are inside
+  let currentText = "";
+
+  for (const character of cssWithoutComments) {
+    if (character === "{") {
+      openPreludes.push(currentText.trim());
+      currentText = "";
+      continue;
     }
+
+    if (character === "}") {
+      const prelude = openPreludes.pop();
+      const blockBody = currentText;
+      currentText = "";
+
+      const isAtRuleOrStray = prelude === undefined || prelude.startsWith("@");
+      if (isAtRuleOrStray) {
+        continue;
+      }
+
+      const declarations = new Map();
+      for (const declaration of splitTopLevel(blockBody, ";")) {
+        const colonIndex = declaration.indexOf(":");
+        if (colonIndex === -1) {
+          continue;
+        }
+        const propertyName = declaration.slice(0, colonIndex).trim();
+        if (propertyName.startsWith("--")) {
+          const propertyValue = declaration.slice(colonIndex + 1).trim();
+          declarations.set(propertyName, propertyValue);
+        }
+      }
+
+      const enclosingAtRules = openPreludes.filter((openPrelude) => openPrelude.startsWith("@"));
+      const selector = [...enclosingAtRules, normalizeSelector(prelude)].join(" ");
+      blocks.push({ selector, declarations });
+      continue;
+    }
+
+    currentText += character;
   }
+
   return blocks;
 }
 
-export function normalizeSelector(sel) {
-  return sel
-    .split(",")
-    .map((s) => s.trim().replace(/\s+/g, " ").replace(/'/g, '"'))
-    .filter(Boolean)
-    .sort()
-    .join(", ");
+/**
+ * Normalize a selector list so equivalent lists compare equal: trimmed,
+ * single-spaced, double quotes, and sorted.
+ *
+ * "[data-theme='x'],\n.t-x" → '.t-x, [data-theme="x"]'
+ */
+export function normalizeSelector(selectorList) {
+  const selectors = [];
+  for (const selector of selectorList.split(",")) {
+    const normalized = selector.trim().replace(/\s+/g, " ").replace(/'/g, '"');
+    if (normalized !== "") {
+      selectors.push(normalized);
+    }
+  }
+  selectors.sort();
+  return selectors.join(", ");
 }
 
-/** Split on a delimiter, ignoring delimiters inside parentheses or quotes. */
-export function splitTopLevel(str, delim) {
-  const out = [];
-  let depth = 0;
-  let quote = null;
-  let cur = "";
-  for (const ch of str) {
-    if (quote) {
-      if (ch === quote) quote = null;
-    } else if (ch === '"' || ch === "'") quote = ch;
-    else if (ch === "(") depth++;
-    else if (ch === ")") depth--;
-    else if (depth === 0 && ch === delim) {
-      out.push(cur);
-      cur = "";
+/** Split text on a delimiter, ignoring delimiters inside parentheses or quotes. */
+export function splitTopLevel(text, delimiter) {
+  const pieces = [];
+  let parenthesisDepth = 0;
+  let openQuote = null;
+  let currentPiece = "";
+
+  for (const character of text) {
+    if (openQuote) {
+      if (character === openQuote) {
+        openQuote = null;
+      }
+    } else if (character === '"' || character === "'") {
+      openQuote = character;
+    } else if (character === "(") {
+      parenthesisDepth += 1;
+    } else if (character === ")") {
+      parenthesisDepth -= 1;
+    } else if (parenthesisDepth === 0 && character === delimiter) {
+      pieces.push(currentPiece);
+      currentPiece = "";
       continue;
     }
-    cur += ch;
+    currentPiece += character;
   }
-  if (cur.trim()) out.push(cur);
-  return out;
+
+  if (currentPiece.trim() !== "") {
+    pieces.push(currentPiece);
+  }
+  return pieces;
 }
+
+// ---------------------------------------------------------------------------
+// Resolving var() references
+// ---------------------------------------------------------------------------
 
 /**
- * Resolve var() references against a scope (Map of name → raw value).
- * Unresolvable references are kept as `var(--x)` so they still compare.
+ * Replace every var() in a value with what it refers to, recursively.
+ *
+ * @param {string} value
+ * @param {Map<string, string>} scope  custom property name → raw value
+ * @param {Set<string>} propertiesBeingResolved  guards against reference loops
+ * @returns {string}  the value with references resolved. A reference that can't
+ *   be resolved is kept as `var(--name)` so it still compares.
  */
-export function resolveValue(value, scope, seen = new Set()) {
-  let out = "";
-  let i = 0;
-  while (i < value.length) {
-    const start = value.indexOf("var(", i);
-    if (start === -1) {
-      out += value.slice(i);
+export function resolveValue(value, scope, propertiesBeingResolved = new Set()) {
+  let result = "";
+  let position = 0;
+
+  while (position < value.length) {
+    const referenceStart = value.indexOf("var(", position);
+    if (referenceStart === -1) {
+      result += value.slice(position);
       break;
     }
-    out += value.slice(i, start);
-    let depth = 0;
-    let end = start + 3;
-    for (; end < value.length; end++) {
-      if (value[end] === "(") depth++;
-      else if (value[end] === ")" && --depth === 0) break;
+    result += value.slice(position, referenceStart);
+
+    // Find the parenthesis that closes this var(
+    let parenthesisDepth = 0;
+    let referenceEnd = referenceStart + 3; // the "(" of "var("
+    while (referenceEnd < value.length) {
+      const character = value[referenceEnd];
+      if (character === "(") {
+        parenthesisDepth += 1;
+      } else if (character === ")") {
+        parenthesisDepth -= 1;
+        if (parenthesisDepth === 0) {
+          break;
+        }
+      }
+      referenceEnd += 1;
     }
-    const inner = value.slice(start + 4, end);
-    const [name, ...rest] = splitTopLevel(inner, ",");
-    const ref = name.trim();
-    const fallback = rest.length ? rest.join(",").trim() : null;
-    if (scope.has(ref) && !seen.has(ref)) {
-      out += resolveValue(scope.get(ref), scope, new Set([...seen, ref]));
+
+    const referenceArguments = value.slice(referenceStart + 4, referenceEnd);
+    const [nameArgument, ...fallbackPieces] = splitTopLevel(referenceArguments, ",");
+    const referencedProperty = nameArgument.trim();
+    const fallback = fallbackPieces.length > 0 ? fallbackPieces.join(",").trim() : null;
+
+    const canResolve = scope.has(referencedProperty) && !propertiesBeingResolved.has(referencedProperty);
+    if (canResolve) {
+      const nextPropertiesBeingResolved = new Set(propertiesBeingResolved);
+      nextPropertiesBeingResolved.add(referencedProperty);
+      result += resolveValue(scope.get(referencedProperty), scope, nextPropertiesBeingResolved);
     } else if (fallback !== null) {
-      out += resolveValue(fallback, scope, seen);
+      result += resolveValue(fallback, scope, propertiesBeingResolved);
     } else {
-      out += `var(${ref})`;
+      result += `var(${referencedProperty})`;
     }
-    i = end + 1;
+
+    position = referenceEnd + 1;
   }
-  return out;
+
+  return result;
 }
 
-/** Parse a CSS color into { r, g, b, a } (0–1), or null if not a color we know. */
-export function parseColor(str) {
-  const s = str.trim().toLowerCase();
-  let m = s.match(/^#([0-9a-f]{3,8})$/);
-  if (m) {
-    let h = m[1];
-    if (h.length === 3 || h.length === 4) h = [...h].map((c) => c + c).join("");
-    if (h.length !== 6 && h.length !== 8) return null;
-    const n = (o) => parseInt(h.slice(o, o + 2), 16) / 255;
-    return { r: n(0), g: n(2), b: n(4), a: h.length === 8 ? n(6) : 1 };
+// ---------------------------------------------------------------------------
+// Colors
+// ---------------------------------------------------------------------------
+
+/**
+ * Parse a CSS color into channels from 0 to 1, or return null if it isn't a
+ * format we recognize. Supports hex (3, 4, 6, 8 digits), rgb()/rgba(),
+ * color(srgb …) and `transparent`.
+ *
+ * @returns {{ red: number, green: number, blue: number, alpha: number } | null}
+ */
+export function parseColor(text) {
+  const color = text.trim().toLowerCase();
+
+  const hexMatch = color.match(/^#([0-9a-f]{3,8})$/);
+  if (hexMatch) {
+    let hexDigits = hexMatch[1];
+    const isShortForm = hexDigits.length === 3 || hexDigits.length === 4;
+    if (isShortForm) {
+      hexDigits = [...hexDigits].map((digit) => digit + digit).join("");
+    }
+    if (hexDigits.length !== 6 && hexDigits.length !== 8) {
+      return null;
+    }
+    const readChannel = (offset) => parseInt(hexDigits.slice(offset, offset + 2), 16) / 255;
+    return {
+      red: readChannel(0),
+      green: readChannel(2),
+      blue: readChannel(4),
+      alpha: hexDigits.length === 8 ? readChannel(6) : 1,
+    };
   }
-  m = s.match(/^rgba?\((.*)\)$/);
-  if (m) {
-    const parts = m[1].split(/[\s,/]+/).filter(Boolean);
-    if (parts.length < 3) return null;
-    const ch = (p) => (p.endsWith("%") ? parseFloat(p) / 100 : parseFloat(p) / 255);
-    return { r: ch(parts[0]), g: ch(parts[1]), b: ch(parts[2]), a: alpha(parts[3]) };
+
+  const rgbMatch = color.match(/^rgba?\((.*)\)$/);
+  if (rgbMatch) {
+    const channels = rgbMatch[1].split(/[\s,/]+/).filter((channel) => channel !== "");
+    if (channels.length < 3) {
+      return null;
+    }
+    const readChannel = (channel) => {
+      if (channel.endsWith("%")) {
+        return parseFloat(channel) / 100;
+      }
+      return parseFloat(channel) / 255;
+    };
+    return {
+      red: readChannel(channels[0]),
+      green: readChannel(channels[1]),
+      blue: readChannel(channels[2]),
+      alpha: parseAlpha(channels[3]),
+    };
   }
-  m = s.match(/^color\(\s*srgb\s+(.*)\)$/);
-  if (m) {
-    const parts = m[1].split(/[\s/]+/).filter(Boolean);
-    const ch = (p) => (p.endsWith("%") ? parseFloat(p) / 100 : parseFloat(p));
-    return { r: ch(parts[0]), g: ch(parts[1]), b: ch(parts[2]), a: alpha(parts[3]) };
+
+  const srgbMatch = color.match(/^color\(\s*srgb\s+(.*)\)$/);
+  if (srgbMatch) {
+    const channels = srgbMatch[1].split(/[\s/]+/).filter((channel) => channel !== "");
+    const readChannel = (channel) => {
+      if (channel.endsWith("%")) {
+        return parseFloat(channel) / 100;
+      }
+      return parseFloat(channel);
+    };
+    return {
+      red: readChannel(channels[0]),
+      green: readChannel(channels[1]),
+      blue: readChannel(channels[2]),
+      alpha: parseAlpha(channels[3]),
+    };
   }
-  if (s === "transparent") return { r: 0, g: 0, b: 0, a: 0 };
+
+  if (color === "transparent") {
+    return { red: 0, green: 0, blue: 0, alpha: 0 };
+  }
+
   return null;
 }
 
-function alpha(p) {
-  if (p === undefined || p === "none") return 1;
-  return p.endsWith("%") ? parseFloat(p) / 100 : parseFloat(p);
+function parseAlpha(alphaText) {
+  if (alphaText === undefined || alphaText === "none") {
+    return 1;
+  }
+  if (alphaText.endsWith("%")) {
+    return parseFloat(alphaText) / 100;
+  }
+  return parseFloat(alphaText);
 }
 
-/** Canonical 8-bit hex form, used to decide whether two colors are the same. */
-export function colorKey({ r, g, b, a }) {
-  const h = (v) =>
-    Math.round(Math.min(1, Math.max(0, v)) * 255)
+/**
+ * A color as 8-bit hex (8 digits only when not opaque). Two colors are the
+ * same when their keys match.
+ */
+export function colorKey(color) {
+  const toHexPair = (channel) => {
+    const clampedChannel = Math.min(1, Math.max(0, channel));
+    return Math.round(clampedChannel * 255)
       .toString(16)
       .padStart(2, "0");
-  return `#${h(r)}${h(g)}${h(b)}${a < 1 ? h(a) : ""}`;
+  };
+
+  let key = `#${toHexPair(color.red)}${toHexPair(color.green)}${toHexPair(color.blue)}`;
+  if (color.alpha < 1) {
+    key += toHexPair(color.alpha);
+  }
+  return key;
 }
 
-function normalizeNumber(tok) {
-  const m = tok.match(/^(-?\d*\.?\d+)([a-z%]*)$/i);
-  if (!m) return tok;
-  const n = parseFloat(m[1]);
-  const unit = m[2].toLowerCase();
-  if (n === 0 && unit !== "%") return "0";
-  return `${Number(n.toFixed(6))}${unit}`;
-}
-
-/** Normalize a resolved value so format-only differences compare equal. */
-export function normalizeValue(value) {
-  return splitTopLevel(value, ",")
-    .map((part) =>
-      tokenize(part.trim())
-        .map((tok) => {
-          const c = parseColor(tok);
-          if (c) return colorKey(c);
-          if (/^["']/.test(tok)) return `"${tok.slice(1, -1)}"`;
-          return normalizeNumber(tok);
-        })
-        .join(" "),
-    )
-    .join(", ");
-}
-
-/** Split on whitespace, keeping parenthesized groups and quoted strings whole. */
-function tokenize(str) {
-  return splitTopLevel(str.replace(/\s+/g, " "), " ").map((t) => t.trim()).filter(Boolean);
-}
-
-/** If the value is a single color, return it parsed; else null. */
+/** If the whole value is one color, return it parsed; otherwise null. */
 export function singleColor(value) {
   return parseColor(value.trim());
 }
 
-// ΔE in OKLab, scaled ×100 so ~1 is a just-noticeable difference.
-export function deltaE(c1, c2) {
-  const [l1, a1, b1] = toOklab(c1);
-  const [l2, a2, b2] = toOklab(c2);
-  return Math.hypot(l1 - l2, a1 - a2, b1 - b2) * 100;
+/**
+ * Perceived difference between two colors: Euclidean distance in OKLab, scaled
+ * by 100 so that about 1 is just noticeable. Alpha is not included.
+ */
+export function deltaE(firstColor, secondColor) {
+  const [firstLightness, firstA, firstB] = toOklab(firstColor);
+  const [secondLightness, secondA, secondB] = toOklab(secondColor);
+  const distance = Math.hypot(firstLightness - secondLightness, firstA - secondA, firstB - secondB);
+  return distance * 100;
 }
 
-function toOklab({ r, g, b }) {
-  const lin = (v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
-  const [R, G, B] = [lin(r), lin(g), lin(b)];
-  const l = Math.cbrt(0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B);
-  const m = Math.cbrt(0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B);
-  const s = Math.cbrt(0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B);
+function toOklab(color) {
+  const toLinear = (channel) => {
+    if (channel <= 0.04045) {
+      return channel / 12.92;
+    }
+    return ((channel + 0.055) / 1.055) ** 2.4;
+  };
+  const linearRed = toLinear(color.red);
+  const linearGreen = toLinear(color.green);
+  const linearBlue = toLinear(color.blue);
+
+  const longCone = Math.cbrt(0.4122214708 * linearRed + 0.5363325363 * linearGreen + 0.0514459929 * linearBlue);
+  const mediumCone = Math.cbrt(0.2119034982 * linearRed + 0.6806995451 * linearGreen + 0.1073969566 * linearBlue);
+  const shortCone = Math.cbrt(0.0883024619 * linearRed + 0.2817188376 * linearGreen + 0.6299787005 * linearBlue);
+
   return [
-    0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s,
-    1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
-    0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s,
+    0.2104542553 * longCone + 0.793617785 * mediumCone - 0.0040720468 * shortCone,
+    1.9779984951 * longCone - 2.428592205 * mediumCone + 0.4505937099 * shortCone,
+    0.0259040371 * longCone + 0.7827717662 * mediumCone - 0.808675766 * shortCone,
   ];
+}
+
+// ---------------------------------------------------------------------------
+// Normalizing values
+// ---------------------------------------------------------------------------
+
+/** "0.6250rem" → "0.625rem", "0px" → "0"; anything that isn't a number is returned as is. */
+function normalizeNumber(word) {
+  const numberMatch = word.match(/^(-?\d*\.?\d+)([a-z%]*)$/i);
+  if (!numberMatch) {
+    return word;
+  }
+  const number = parseFloat(numberMatch[1]);
+  const unit = numberMatch[2].toLowerCase();
+  if (number === 0 && unit !== "%") {
+    return "0";
+  }
+  return `${Number(number.toFixed(6))}${unit}`;
+}
+
+/** Split on spaces, keeping parenthesized groups and quoted strings whole. */
+function splitIntoWords(text) {
+  const singleSpaced = text.replace(/\s+/g, " ");
+  const words = [];
+  for (const word of splitTopLevel(singleSpaced, " ")) {
+    const trimmedWord = word.trim();
+    if (trimmedWord !== "") {
+      words.push(trimmedWord);
+    }
+  }
+  return words;
+}
+
+/**
+ * Normalize a resolved value so that format-only differences compare equal:
+ * colors become 8-bit hex, numbers lose trailing zeros, quotes become double
+ * quotes. Comma-separated lists (shadows, font stacks) are normalized per item.
+ */
+export function normalizeValue(value) {
+  const normalizedItems = [];
+
+  for (const item of splitTopLevel(value, ",")) {
+    const normalizedWords = [];
+    for (const word of splitIntoWords(item.trim())) {
+      const color = parseColor(word);
+      if (color) {
+        normalizedWords.push(colorKey(color));
+      } else if (/^["']/.test(word)) {
+        normalizedWords.push(`"${word.slice(1, -1)}"`);
+      } else {
+        normalizedWords.push(normalizeNumber(word));
+      }
+    }
+    normalizedItems.push(normalizedWords.join(" "));
+  }
+
+  return normalizedItems.join(", ");
 }

@@ -1,19 +1,24 @@
 #!/usr/bin/env node
 /**
- * Read-only pull of local variables from the NYSDS Figma file via the Figma
- * Variables REST API (Enterprise). Runs before every `npm run build:packages`
+ * Read-only pull of local variables from the NYSDS Figma file through the Figma
+ * Variables REST API (Enterprise plan). Runs before every `npm run build:packages`
  * (root `tokens:pull`), so tokens and styles build from current Figma data.
  *
  * Needs a personal access token with only the `file_variables:read` scope in
  * FIGMA_TOKEN (repo-root .env). Without one, or if Figma can't be reached, it
- * warns and the build uses the committed figma/variables.json.
+ * prints a warning and the build uses the committed figma/variables.json.
  *
- * When the variables changed, it stores the API response (in a stable order) in
- * figma/variables.json (the source of truth), converts it to DTCG, and writes
- * reports/figma-code-drift.md (CSS before/after) and reports/missing-descriptions.md.
- * `--force` regenerates the reports even when nothing changed.
+ * When the variables changed, it:
+ *   1. snapshots the current CSS,
+ *   2. stores the API response in figma/variables.json (in a stable order),
+ *   3. converts it to DTCG (scripts/figma-to-dtcg.mjs),
+ *   4. writes reports/missing-descriptions.md,
+ *   5. snapshots the new CSS and writes reports/figma-code-drift.md.
  *
- * FIGMA_FILE_KEY overrides the file (default: the figma_token_sync branch).
+ * Options:
+ *   --force   regenerate the reports even when nothing changed
+ *
+ * FIGMA_FILE_KEY overrides which Figma file is read (default: the figma_token_sync branch).
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -21,101 +26,217 @@ import { dirname, join, relative } from "node:path";
 import { convert, FILES, writeTokens } from "./figma-to-dtcg.mjs";
 import { variableName } from "./lib/variable-name.mjs";
 
-const PKG = join(dirname(FILES.figma), "..");
-const ROOT = join(PKG, "../..");
-const LEGACY = join(PKG, "reports/legacy-descriptions.json");
-const MISSING = join(PKG, "reports/missing-descriptions.md");
+const PACKAGE_DIRECTORY = join(dirname(FILES.figma), "..");
+const REPOSITORY_ROOT = join(PACKAGE_DIRECTORY, "../..");
+const LEGACY_DESCRIPTIONS_FILE = join(PACKAGE_DIRECTORY, "reports/legacy-descriptions.json");
+const MISSING_DESCRIPTIONS_REPORT = join(PACKAGE_DIRECTORY, "reports/missing-descriptions.md");
 
 // figma_token_sync branch of 💠 NYS Design System (main file: U2QpuSUXRTxbgG64Fzi9bu)
-const DEFAULT_FILE_KEY = "xNdGOyHyVVHWlQIyEQEL9t";
+const DEFAULT_FIGMA_FILE_KEY = "xNdGOyHyVVHWlQIyEQEL9t";
 
-const force = process.argv.includes("--force");
-const committed = () => `using committed ${relative(ROOT, FILES.figma)}`;
+const forceReports = process.argv.includes("--force");
+const usingCommittedFileMessage = `using committed ${relative(REPOSITORY_ROOT, FILES.figma)}`;
 
-const token = process.env.FIGMA_TOKEN;
-if (!token) {
-  console.warn(`figma:pull: FIGMA_TOKEN is not set (repo-root .env) — ${committed()}`);
-  process.exit(0);
-}
-const fileKey = process.env.FIGMA_FILE_KEY || DEFAULT_FILE_KEY;
-const body = await fetchVariables(fileKey);
-if (!body) process.exit(0);
+// ---------------------------------------------------------------------------
+// Fetch
+// ---------------------------------------------------------------------------
 
-// Figma returns the id-keyed maps and each collection's variableIds in a different
-// order on each call; sort them so the stored file only changes when the variables
-// do. Values are kept as returned.
-const sortKeys = (map) => Object.fromEntries(Object.entries(map ?? {}).sort(([x], [y]) => x.localeCompare(y)));
-const collections = sortKeys(body.meta?.variableCollections);
-for (const c of Object.values(collections)) if (Array.isArray(c.variableIds)) c.variableIds = [...c.variableIds].sort();
-const stored = { ...body, meta: { ...body.meta, variableCollections: collections, variables: sortKeys(body.meta?.variables) } };
-const next = JSON.stringify(stored, null, 2) + "\n";
-const changed = !existsSync(FILES.figma) || readFileSync(FILES.figma, "utf8") !== next;
-if (!changed && !force) {
-  console.log(`figma:pull: ${fileKey} unchanged`);
+const figmaToken = process.env.FIGMA_TOKEN;
+if (!figmaToken) {
+  console.warn(`figma:pull: FIGMA_TOKEN is not set (repo-root .env) — ${usingCommittedFileMessage}`);
   process.exit(0);
 }
 
-// CSS before/after for the drift report
-const cssDiff = (...args) => execFileSync(process.execPath, ["scripts/css-diff.mjs", ...args], { cwd: PKG, stdio: "inherit" });
-cssDiff("snapshot", "pre-pull");
+const figmaFileKey = process.env.FIGMA_FILE_KEY || DEFAULT_FIGMA_FILE_KEY;
+const figmaResponse = await fetchVariables(figmaFileKey);
+if (!figmaResponse) {
+  process.exit(0);
+}
 
-writeFileSync(FILES.figma, next);
-console.log(`figma:pull: ${changed ? "updated" : "re-converted"} ${relative(ROOT, FILES.figma)} from ${fileKey}`);
+// ---------------------------------------------------------------------------
+// Compare with the stored file
+// ---------------------------------------------------------------------------
 
-const result = convert(body, JSON.parse(readFileSync(FILES.manual, "utf8")));
-writeTokens(result);
-const { meta } = result;
+const newFileContents = JSON.stringify(sortForStorage(figmaResponse), null, 2) + "\n";
+const storedFileExists = existsSync(FILES.figma);
+const variablesChanged = !storedFileExists || readFileSync(FILES.figma, "utf8") !== newFileContents;
+
+if (!variablesChanged && !forceReports) {
+  console.log(`figma:pull: ${figmaFileKey} unchanged`);
+  process.exit(0);
+}
+
+// ---------------------------------------------------------------------------
+// Store, convert, report
+// ---------------------------------------------------------------------------
+
+runCSSDiff("snapshot", "pre-pull");
+
+writeFileSync(FILES.figma, newFileContents);
+const action = variablesChanged ? "updated" : "re-converted";
+console.log(`figma:pull: ${action} ${relative(REPOSITORY_ROOT, FILES.figma)} from ${figmaFileKey}`);
+
+const manualTokens = JSON.parse(readFileSync(FILES.manual, "utf8"));
+const conversion = convert(figmaResponse, manualTokens);
+writeTokens(conversion);
+
+const { meta } = conversion;
+const publishedCount = Object.keys(meta.published).length;
 console.log(
-  `Converted: ${Object.keys(meta.published).length} tokens from Figma, ${meta.manual.length} from tokens.manual.json, ${meta.excluded.length} excluded`,
+  `Converted: ${publishedCount} tokens from Figma, ${meta.manual.length} from tokens.manual.json, ${meta.excluded.length} excluded`,
 );
-if (meta.unmappedThemeModes.length) console.log(`Theme modes not synced: ${meta.unmappedThemeModes.join(", ")}`);
-for (const m of meta.mismatches) console.warn(`  ✗ ${m.css}: ${m.reason}`);
-for (const w of meta.warnings) console.warn(`  ! ${w.css}: ${w.warning}`);
+if (meta.unmappedThemeModes.length > 0) {
+  console.log(`Theme modes not synced: ${meta.unmappedThemeModes.join(", ")}`);
+}
+for (const mismatch of meta.mismatches) {
+  console.warn(`  ✗ ${mismatch.css}: ${mismatch.reason}`);
+}
+for (const warning of meta.warnings) {
+  console.warn(`  ! ${warning.css}: ${warning.warning}`);
+}
 
 mkdirSync(dirname(FILES.meta), { recursive: true });
-writeFileSync(FILES.meta, JSON.stringify({ fileKey, ...meta }, null, 2) + "\n");
-writeMissingDescriptions(fileKey, meta, result.tokens);
-console.log(`Wrote ${relative(ROOT, MISSING)}`);
+writeFileSync(FILES.meta, JSON.stringify({ fileKey: figmaFileKey, ...meta }, null, 2) + "\n");
 
-cssDiff("snapshot", "post-pull");
-cssDiff("compare", "pre-pull", "post-pull", "--drift");
+writeMissingDescriptionsReport(figmaFileKey, meta, conversion.tokens);
+console.log(`Wrote ${relative(REPOSITORY_ROOT, MISSING_DESCRIPTIONS_REPORT)}`);
+
+runCSSDiff("snapshot", "post-pull");
+runCSSDiff("compare", "pre-pull", "post-pull", "--drift");
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
 /** The Variables API response, or null (after a warning) if it can't be fetched. */
 async function fetchVariables(fileKey) {
-  let res;
+  const url = `https://api.figma.com/v1/files/${fileKey}/variables/local`;
+
+  let response;
   try {
-    res = await fetch(`https://api.figma.com/v1/files/${fileKey}/variables/local`, {
-      headers: { "X-Figma-Token": token },
-    });
+    response = await fetch(url, { headers: { "X-Figma-Token": figmaToken } });
   } catch (error) {
-    console.warn(`figma:pull: could not reach Figma (${error.cause?.code ?? error.message}) — ${committed()}`);
+    const reason = error.cause?.code ?? error.message;
+    console.warn(`figma:pull: could not reach Figma (${reason}) — ${usingCommittedFileMessage}`);
     return null;
   }
-  const body = await res.json().catch(() => ({}));
-  if (!res.ok || body.error) {
-    console.warn(`figma:pull: Figma API ${res.status}: ${body.message ?? body.err ?? res.statusText} — ${committed()}`);
-    if (res.status === 403) {
-      console.warn("  Check the token has the file_variables:read scope, the account is a full Enterprise member, and it can view the file.");
+
+  let responseBody;
+  try {
+    responseBody = await response.json();
+  } catch {
+    responseBody = {};
+  }
+
+  const requestFailed = !response.ok || responseBody.error;
+  if (requestFailed) {
+    const reason = responseBody.message ?? responseBody.err ?? response.statusText;
+    console.warn(`figma:pull: Figma API ${response.status}: ${reason} — ${usingCommittedFileMessage}`);
+    if (response.status === 403) {
+      console.warn(
+        "  Check the token has the file_variables:read scope, the account is a full Enterprise member, and it can view the file.",
+      );
     }
     return null;
   }
-  return body;
+
+  return responseBody;
 }
 
-function writeMissingDescriptions(fileKey, meta, tokens) {
-  const legacy = existsSync(LEGACY) ? JSON.parse(readFileSync(LEGACY, "utf8")) : {};
-  // keyed by the pre-sync token path; match on the CSS name, which did not change
-  const legacyByCSS = new Map(Object.entries(legacy).map(([path, text]) => [variableName(path), text]));
-  const esc = (s) => String(s ?? "").replace(/\|/g, "\\|").replace(/\n/g, " ");
-  const groups = new Map();
-  const missing = Object.entries(meta.published).filter(([, p]) => !p.described);
-  for (const [css, p] of missing) {
-    const collection = p.figma.split(" / ")[0];
-    if (!groups.has(collection)) groups.set(collection, []);
-    groups.get(collection).push({ css, figma: p.figma.split(" / ")[1], suggestion: legacyByCSS.get(css) });
+/**
+ * Figma returns the variable and collection maps, and each collection's
+ * variableIds list, in a different order on every call. Sort them so the stored
+ * file only changes when the variables do. Values are kept exactly as returned.
+ */
+function sortForStorage(response) {
+  const sortedCollections = sortObjectKeys(response.meta?.variableCollections);
+  for (const collection of Object.values(sortedCollections)) {
+    if (Array.isArray(collection.variableIds)) {
+      collection.variableIds = [...collection.variableIds].sort();
+    }
   }
-  const total = Object.keys(meta.published).length;
-  const md = [
+
+  return {
+    ...response,
+    meta: {
+      ...response.meta,
+      variableCollections: sortedCollections,
+      variables: sortObjectKeys(response.meta?.variables),
+    },
+  };
+}
+
+function sortObjectKeys(object) {
+  const entries = Object.entries(object ?? {});
+  entries.sort(([firstKey], [secondKey]) => firstKey.localeCompare(secondKey));
+  return Object.fromEntries(entries);
+}
+
+/** Run scripts/css-diff.mjs with the given arguments, showing its output. */
+function runCSSDiff(...cssDiffArguments) {
+  execFileSync(process.execPath, ["scripts/css-diff.mjs", ...cssDiffArguments], {
+    cwd: PACKAGE_DIRECTORY,
+    stdio: "inherit",
+  });
+}
+
+/** Escape text for a Markdown table cell. */
+function escapeTableCell(text) {
+  return String(text ?? "")
+    .replace(/\|/g, "\\|")
+    .replace(/\n/g, " ");
+}
+
+/** Read a token from a DTCG document by its dot-separated path. */
+function getToken(document, path) {
+  let node = document;
+  for (const segment of path.split(".")) {
+    if (node === undefined || node === null) {
+      return undefined;
+    }
+    node = node[segment];
+  }
+  return node;
+}
+
+/**
+ * List every published variable that has no description in Figma, grouped by
+ * Figma collection, with the description code had before the sync as a suggestion.
+ */
+function writeMissingDescriptionsReport(fileKey, meta, tokens) {
+  // Legacy descriptions are keyed by the old token path; match on the CSS name,
+  // which did not change.
+  const legacyDescriptionsByCSSName = new Map();
+  if (existsSync(LEGACY_DESCRIPTIONS_FILE)) {
+    const legacyDescriptions = JSON.parse(readFileSync(LEGACY_DESCRIPTIONS_FILE, "utf8"));
+    for (const [oldTokenPath, description] of Object.entries(legacyDescriptions)) {
+      legacyDescriptionsByCSSName.set(variableName(oldTokenPath), description);
+    }
+  }
+
+  const rowsByCollection = new Map();
+  let missingCount = 0;
+  for (const [cssName, publishedEntry] of Object.entries(meta.published)) {
+    if (publishedEntry.described) {
+      continue;
+    }
+    missingCount += 1;
+
+    const [collectionName, figmaVariableName] = publishedEntry.figma.split(" / ");
+    if (!rowsByCollection.has(collectionName)) {
+      rowsByCollection.set(collectionName, []);
+    }
+    rowsByCollection.get(collectionName).push({
+      cssName,
+      figmaVariableName,
+      suggestion: legacyDescriptionsByCSSName.get(cssName),
+    });
+  }
+
+  const totalCount = Object.keys(meta.published).length;
+  const describedCount = totalCount - missingCount;
+
+  const lines = [
     "# Missing descriptions",
     "",
     `Generated ${new Date().toISOString()} by \`scripts/figma-pull.mjs\` from Figma file \`${fileKey}\`.`,
@@ -123,29 +244,36 @@ function writeMissingDescriptions(fileKey, meta, tokens) {
     "Token descriptions come only from Figma variable descriptions. Write these in Figma, then re-run `npm run figma:pull -w packages/tokens`.",
     "The suggestion column is the description code had before the sync (`reports/legacy-descriptions.json`).",
     "",
-    `**${missing.length}** of ${total} synced variables have no description (${total - missing.length} do).`,
+    `**${missingCount}** of ${totalCount} synced variables have no description (${describedCount} do).`,
     "",
   ];
-  for (const [collection, rows] of [...groups].sort(([a], [b]) => a.localeCompare(b))) {
-    md.push(`## ${collection} (${rows.length})`, "", "| Figma variable | CSS var | Suggested description |", "|---|---|---|");
-    for (const r of rows) md.push(`| \`${r.figma}\` | \`${r.css}\` | ${esc(r.suggestion)} |`);
-    md.push("");
-  }
-  if (meta.manual.length) {
-    md.push(
-      `## Manual tokens (${meta.manual.length})`,
-      "",
-      "No Figma variable yet, so their description stays in `src/tokens.manual.json`.",
-      "",
-      "| CSS var | Token | Current description |",
-      "|---|---|---|",
-    );
-    for (const m of meta.manual) md.push(`| \`${m.css}\` | \`${m.path}\` | ${esc(getToken(tokens, m.path)?.$description)} |`);
-    md.push("");
-  }
-  writeFileSync(MISSING, md.join("\n"));
-}
 
-function getToken(doc, path) {
-  return path.split(".").reduce((node, key) => node?.[key], doc);
+  const collectionNames = [...rowsByCollection.keys()].sort((first, second) => first.localeCompare(second));
+  for (const collectionName of collectionNames) {
+    const rows = rowsByCollection.get(collectionName);
+    lines.push(`## ${collectionName} (${rows.length})`);
+    lines.push("");
+    lines.push("| Figma variable | CSS var | Suggested description |");
+    lines.push("|---|---|---|");
+    for (const row of rows) {
+      lines.push(`| \`${row.figmaVariableName}\` | \`${row.cssName}\` | ${escapeTableCell(row.suggestion)} |`);
+    }
+    lines.push("");
+  }
+
+  if (meta.manual.length > 0) {
+    lines.push(`## Manual tokens (${meta.manual.length})`);
+    lines.push("");
+    lines.push("No Figma variable yet, so their description stays in `src/tokens.manual.json`.");
+    lines.push("");
+    lines.push("| CSS var | Token | Current description |");
+    lines.push("|---|---|---|");
+    for (const manualEntry of meta.manual) {
+      const currentDescription = getToken(tokens, manualEntry.path)?.$description;
+      lines.push(`| \`${manualEntry.css}\` | \`${manualEntry.path}\` | ${escapeTableCell(currentDescription)} |`);
+    }
+    lines.push("");
+  }
+
+  writeFileSync(MISSING_DESCRIPTIONS_REPORT, lines.join("\n"));
 }
