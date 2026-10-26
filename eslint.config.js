@@ -5,7 +5,8 @@ import typescriptPlugin from "@typescript-eslint/eslint-plugin";
 
 export default [
   {
-    ignores: ["**/*.js"],
+    // .visual/base holds a worktree of the base branch for visual regression.
+    ignores: ["**/*.js", ".visual/**"],
   },
   {
     files: ["src/**/*.ts", "packages/**/*.ts", ".storybook/**/*.ts"],
