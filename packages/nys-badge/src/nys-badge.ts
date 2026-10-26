@@ -164,37 +164,13 @@ export class NysBadge extends NysElement {
   /** Strong visual intent with bolder text and background. */
   @property({ type: Boolean, reflect: true }) strong = false;
 
-  // Icons (string or boolean)
-  private _prefixIcon: string | boolean = "";
+  /** Icon shown before the label. */
   @property({ type: String, attribute: "prefixicon" })
-  get prefixIcon(): string | boolean {
-    return this._prefixIcon;
-  }
-  set prefixIcon(value: string | boolean) {
-    if (value === "" || value === null) {
-      // boolean attribute without value → true
-      this._prefixIcon = true;
-    } else if (value === "false" || value === false) {
-      this._prefixIcon = "";
-    } else {
-      this._prefixIcon = value;
-    }
-  }
+  prefixIcon: string | boolean | null = null;
 
-  private _suffixIcon: string | boolean = "";
+  /** Icon shown after the label. */
   @property({ type: String, attribute: "suffixicon" })
-  get suffixIcon(): string | boolean {
-    return this._suffixIcon;
-  }
-  set suffixIcon(value: string | boolean) {
-    if (value === "" || value === null) {
-      this._suffixIcon = true;
-    } else if (value === "false" || value === false) {
-      this._suffixIcon = "";
-    } else {
-      this._suffixIcon = value;
-    }
-  }
+  suffixIcon: string | boolean | null = null;
 
   /**
    * Lifecycle methods
@@ -207,16 +183,6 @@ export class NysBadge extends NysElement {
     // static, non-interactive label content, so no host role is reflected
     // (defaultRole stays null).
     super.connectedCallback();
-
-    const attr = this.getAttribute("prefixicon");
-    if (attr !== null && this.prefixIcon === "") {
-      this.prefixIcon = attr;
-    }
-
-    const suffixAttr = this.getAttribute("suffixicon");
-    if (suffixAttr !== null && this.suffixIcon === "") {
-      this.suffixIcon = suffixAttr;
-    }
   }
 
   /**
@@ -262,11 +228,11 @@ export class NysBadge extends NysElement {
    * @param icon The icon property value (string or boolean)
    * @returns Icon name or null if no icon should be rendered
    */
-  private resolveIcon(icon: string | boolean): string | null {
-    if (icon === true) {
+  private resolveIcon(icon: string | boolean | null): string | null {
+    if (icon === true || icon === "") {
       return NysBadge.DEFAULT_ICONS[this.intent] ?? "info";
     }
-    if (typeof icon === "string" && icon.trim() !== "") {
+    if (typeof icon === "string" && icon.trim() !== "" && icon !== "false") {
       return icon;
     }
     return null;

@@ -474,10 +474,9 @@ export class NysRadiobutton extends NysFormControlElement {
     target.focus();
   }
 
-  private _handleWrapperClick = () => {
-    if (!this.disabled) {
-      this._inputEl?.click();
-    }
+  private _handleWrapperClick = (event: MouseEvent) => {
+    if (this.disabled || event.target === this._inputEl) return;
+    this._inputEl?.click();
   };
 
   /** The text the internal `<nys-label>` shows, and the last-resort name. */

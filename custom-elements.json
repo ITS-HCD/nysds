@@ -1566,36 +1566,22 @@
             },
             {
               "kind": "field",
-              "name": "_prefixIcon",
-              "type": {
-                "text": "string | boolean"
-              },
-              "privacy": "private",
-              "default": "\"\""
-            },
-            {
-              "kind": "field",
               "name": "prefixIcon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown before the label.",
               "attribute": "prefixicon"
-            },
-            {
-              "kind": "field",
-              "name": "_suffixIcon",
-              "type": {
-                "text": "string | boolean"
-              },
-              "privacy": "private",
-              "default": "\"\""
             },
             {
               "kind": "field",
               "name": "suffixIcon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown after the label.",
               "attribute": "suffixicon"
             },
             {
@@ -1645,7 +1631,7 @@
                 {
                   "name": "icon",
                   "type": {
-                    "text": "string | boolean"
+                    "text": "string | boolean | null"
                   },
                   "description": "The icon property value (string or boolean)"
                 }
@@ -1729,15 +1715,19 @@
             {
               "name": "prefixicon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown before the label.",
               "fieldName": "prefixIcon"
             },
             {
               "name": "suffixicon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown after the label.",
               "fieldName": "suffixIcon"
             }
           ],
