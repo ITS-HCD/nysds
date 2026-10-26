@@ -118,7 +118,7 @@ import styles from "./nys-icon.scss?inline";
  * ```
  *
  *
- *  @render External Library - Material
+ * @render External Library - Material
  * ```html
  * <nys-icon name="favorite" library="material"></nys-icon>
  * <script data-scope="module">

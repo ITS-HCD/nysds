@@ -463,6 +463,7 @@ function adoptLightStyles() {
  * ```
  *
  * @render Page layout
+ * ```html
  * <style>
  *  .page-layout__body {
  *    background-color: var(--nys-color-white, #ffffff);
