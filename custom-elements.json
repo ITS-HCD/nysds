@@ -91,7 +91,7 @@
               "kind": "field",
               "name": "headingLevel",
               "type": {
-                "text": "\"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\""
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\""
               },
               "default": "\"h3\"",
               "description": "Heading element wrapping every item's toggle button (`h2` through `h6`).\n\nEach item's trigger is a real heading, so this is what places the accordion\nin the page outline: choose one level below the heading that introduces the\naccordion (an accordion under an `h2` section heading uses the `h3`\ndefault). An individual `nys-accordionitem` can override it with its own\n`headingLevel`. `h1` is not offered because an accordion trigger is never\nthe page title.",
@@ -160,7 +160,7 @@
             {
               "name": "headingLevel",
               "type": {
-                "text": "\"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\""
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\""
               },
               "default": "\"h3\"",
               "description": "Heading element wrapping every item's toggle button (`h2` through `h6`).\n\nEach item's trigger is a real heading, so this is what places the accordion\nin the page outline: choose one level below the heading that introduces the\naccordion (an accordion under an `h2` section heading uses the `h3`\ndefault). An individual `nys-accordionitem` can override it with its own\n`headingLevel`. `h1` is not offered because an accordion trigger is never\nthe page title.",
@@ -269,7 +269,7 @@
               "kind": "field",
               "name": "headingLevel",
               "type": {
-                "text": "\"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"\""
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | \"\""
               },
               "default": "\"\"",
               "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
@@ -391,7 +391,7 @@
             {
               "name": "headingLevel",
               "type": {
-                "text": "\"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"\""
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | \"\""
               },
               "default": "\"\"",
               "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
@@ -619,7 +619,7 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "\"base\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"emergency\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"emergency\""
               },
               "default": "\"base\"",
               "description": "Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use\n`role=\"alert\"` (assertive live region); `base`/`info`/`success` use `role=\"status\"` (polite).",
@@ -789,7 +789,7 @@
             {
               "name": "type",
               "type": {
-                "text": "\"base\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"emergency\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"emergency\""
               },
               "default": "\"base\"",
               "description": "Semantic alert type affecting color and ARIA role. `warning`/`danger`/`emergency` use\n`role=\"alert\"` (assertive live region); `base`/`info`/`success` use `role=\"status\"` (polite).",
@@ -1524,7 +1524,7 @@
               "kind": "field",
               "name": "intent",
               "type": {
-                "text": "\"base\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"error\" | \"emergency\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"error\"\n    | \"emergency\""
               },
               "default": "\"base\"",
               "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead",
@@ -1692,7 +1692,7 @@
             {
               "name": "intent",
               "type": {
-                "text": "\"base\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"error\" | \"emergency\""
+                "text": "| \"base\"\n    | \"info\"\n    | \"success\"\n    | \"warning\"\n    | \"danger\"\n    | \"error\"\n    | \"emergency\""
               },
               "default": "\"base\"",
               "description": "Semantic intent affecting color: `base`, `info`, `success`, `warning` `danger`, `emergency`. `error` has been deprecated and support will be removed in a future release. Use `danger` instead",
@@ -2490,7 +2490,7 @@
               "kind": "field",
               "name": "variant",
               "type": {
-                "text": "\"filled\" | \"outline\" | \"ghost\" | \"text\""
+                "text": "| \"filled\"\n    | \"outline\"\n    | \"ghost\"\n    | \"text\""
               },
               "default": "\"filled\"",
               "description": "Visual style: `filled` for primary (one per section), `outline` for secondary, `ghost` for tertiary, `text` for inline actions. Avoid `text` for navigation.",
@@ -2548,7 +2548,7 @@
               "kind": "field",
               "name": "ariaCurrent",
               "type": {
-                "text": "\"page\" | \"step\" | \"location\" | \"date\" | \"time\" | \"true\" | \"false\" | \"\""
+                "text": "| \"page\"\n    | \"step\"\n    | \"location\"\n    | \"date\"\n    | \"time\"\n    | \"true\"\n    | \"false\"\n    | \"\""
               },
               "default": "\"\"",
               "description": "Marks this button as the current item within a set of related controls — the current\npage of a pagination control, the current step of a wizard. Sets `aria-current` on the\ninternal `<button>`/`<a>`.\n\nUse `\"page\"` inside a pagination landmark, `\"step\"` inside a step indicator, and\n`\"true\"` when no more specific token fits. Only one control in a set is ever current:\nleave the property unset on all the others rather than setting `\"false\"`, which the\nspec reads as \"explicitly not current\" and adds nothing.\n\nSetting `aria-current` directly on the `<nys-button>` host does nothing: a custom\nelement with no role does not map its ARIA attributes into the accessibility tree,\nand host ARIA does not cross into the shadow root.",
@@ -2647,7 +2647,7 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "\"submit\" | \"reset\" | \"button\""
+                "text": "| \"submit\"\n    | \"reset\"\n    | \"button\""
               },
               "default": "\"button\"",
               "description": "Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.",
@@ -2678,7 +2678,7 @@
               "kind": "field",
               "name": "target",
               "type": {
-                "text": "\"_self\" | \"_blank\" | \"_parent\" | \"_top\" | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon=\"open_in_new\"`), `_parent`, `_top`, or frame name.",
@@ -2891,7 +2891,7 @@
             {
               "name": "variant",
               "type": {
-                "text": "\"filled\" | \"outline\" | \"ghost\" | \"text\""
+                "text": "| \"filled\"\n    | \"outline\"\n    | \"ghost\"\n    | \"text\""
               },
               "default": "\"filled\"",
               "description": "Visual style: `filled` for primary (one per section), `outline` for secondary, `ghost` for tertiary, `text` for inline actions. Avoid `text` for navigation.",
@@ -2936,7 +2936,7 @@
             {
               "name": "ariaCurrent",
               "type": {
-                "text": "\"page\" | \"step\" | \"location\" | \"date\" | \"time\" | \"true\" | \"false\" | \"\""
+                "text": "| \"page\"\n    | \"step\"\n    | \"location\"\n    | \"date\"\n    | \"time\"\n    | \"true\"\n    | \"false\"\n    | \"\""
               },
               "default": "\"\"",
               "description": "Marks this button as the current item within a set of related controls — the current\npage of a pagination control, the current step of a wizard. Sets `aria-current` on the\ninternal `<button>`/`<a>`.\n\nUse `\"page\"` inside a pagination landmark, `\"step\"` inside a step indicator, and\n`\"true\"` when no more specific token fits. Only one control in a set is ever current:\nleave the property unset on all the others rather than setting `\"false\"`, which the\nspec reads as \"explicitly not current\" and adds nothing.\n\nSetting `aria-current` directly on the `<nys-button>` host does nothing: a custom\nelement with no role does not map its ARIA attributes into the accessibility tree,\nand host ARIA does not cross into the shadow root.",
@@ -3017,7 +3017,7 @@
             {
               "name": "type",
               "type": {
-                "text": "\"submit\" | \"reset\" | \"button\""
+                "text": "| \"submit\"\n    | \"reset\"\n    | \"button\""
               },
               "default": "\"button\"",
               "description": "Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.",
@@ -3035,7 +3035,7 @@
             {
               "name": "target",
               "type": {
-                "text": "\"_self\" | \"_blank\" | \"_parent\" | \"_top\" | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon=\"open_in_new\"`), `_parent`, `_top`, or frame name.",
@@ -3361,7 +3361,7 @@
               "kind": "field",
               "name": "target",
               "type": {
-                "text": "\"_self\" | \"_blank\" | \"_parent\" | \"_top\" | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
@@ -3632,7 +3632,7 @@
             {
               "name": "target",
               "type": {
-                "text": "\"_self\" | \"_blank\" | \"_parent\" | \"_top\" | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
@@ -8586,7 +8586,7 @@
               "kind": "field",
               "name": "status",
               "type": {
-                "text": "\"pending\" | \"processing\" | \"done\" | \"error\""
+                "text": "| \"pending\"\n    | \"processing\"\n    | \"done\"\n    | \"error\""
               },
               "default": "\"pending\"",
               "description": "Upload status: `pending` (queued), `processing` (uploading), `done` (complete), `error` (failed).",
@@ -8690,7 +8690,7 @@
             {
               "name": "status",
               "type": {
-                "text": "\"pending\" | \"processing\" | \"done\" | \"error\""
+                "text": "| \"pending\"\n    | \"processing\"\n    | \"done\"\n    | \"error\""
               },
               "default": "\"pending\"",
               "description": "Upload status: `pending` (queued), `processing` (uploading), `done` (complete), `error` (failed).",
@@ -13413,7 +13413,7 @@
               "kind": "field",
               "name": "width",
               "type": {
-                "text": "\"sm\" | \"md\" | \"lg\" | \"full\""
+                "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\""
               },
               "default": "\"full\"",
               "description": "Select width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
@@ -13670,7 +13670,7 @@
             {
               "name": "width",
               "type": {
-                "text": "\"sm\" | \"md\" | \"lg\" | \"full\""
+                "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\""
               },
               "default": "\"full\"",
               "description": "Select width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
@@ -15612,7 +15612,7 @@
               "kind": "field",
               "name": "width",
               "type": {
-                "text": "\"sm\" | \"md\" | \"lg\" | \"full\""
+                "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\""
               },
               "default": "\"full\"",
               "description": "Textarea width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
@@ -15976,7 +15976,7 @@
             {
               "name": "width",
               "type": {
-                "text": "\"sm\" | \"md\" | \"lg\" | \"full\""
+                "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\""
               },
               "default": "\"full\"",
               "description": "Textarea width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
@@ -16198,7 +16198,7 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "\"email\" | \"number\" | \"password\" | \"search\" | \"tel\" | \"text\" | \"url\""
+                "text": "| \"email\"\n    | \"number\"\n    | \"password\"\n    | \"search\"\n    | \"tel\"\n    | \"text\"\n    | \"url\""
               },
               "default": "\"text\"",
               "description": "Input type: `text` (default), `email`, `number`, `password`, `search`, `tel` (auto-masked), `url`.",
@@ -16344,7 +16344,7 @@
               "kind": "field",
               "name": "width",
               "type": {
-                "text": "\"sm\" | \"md\" | \"lg\" | \"full\""
+                "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\""
               },
               "default": "\"full\"",
               "description": "Input width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
@@ -16659,7 +16659,7 @@
             {
               "name": "type",
               "type": {
-                "text": "\"email\" | \"number\" | \"password\" | \"search\" | \"tel\" | \"text\" | \"url\""
+                "text": "| \"email\"\n    | \"number\"\n    | \"password\"\n    | \"search\"\n    | \"tel\"\n    | \"text\"\n    | \"url\""
               },
               "default": "\"text\"",
               "description": "Input type: `text` (default), `email`, `number`, `password`, `search`, `tel` (auto-masked), `url`.",
@@ -16785,7 +16785,7 @@
             {
               "name": "width",
               "type": {
-                "text": "\"sm\" | \"md\" | \"lg\" | \"full\""
+                "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\""
               },
               "default": "\"full\"",
               "description": "Input width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
