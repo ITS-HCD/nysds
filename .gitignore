@@ -70,3 +70,12 @@ framework-examples/*/.next/
 
 # Token CSS comparison snapshots
 packages/tokens/.snapshots/
+
+# Ignore accessibility preview build (src/scripts/nysds-review/build-preview.mjs)
+.preview/
+
+# Local visual regression output
+.visual/
+
+# Codegen review page for the PR preview (npm run review:codegen -- --html-file .code-review/index.html)
+.code-review/
