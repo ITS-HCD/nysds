@@ -37,12 +37,28 @@ export class NysDropdownMenuItem extends NysElement {
     delegatesFocus: true,
   };
 
+  /** Text shown in the item. Also the accessible name and the `nys-click` detail label. */
   @property({ type: String }) label = "";
+
+  /** Link URL. Renders a link when set, a button when empty. */
   @property({ type: String }) href = "";
+
+  /** Disables the item. No `nys-click` event and no link navigation. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Where the link opens (e.g. `_self`, `_blank`). Only used with `href`. */
   @property({ type: String }) target = "_self";
+
+  /** Icon name shown before the label. */
   @property({ type: String }) prefixIcon = "";
-  @property({ type: String }) divider = "";
+
+  /** Icon name shown after the label. */
+  @property({ type: String }) suffixIcon = "";
+
+  /** Divider setting for the item.
+   * Update: commenting out, perhaps implementing at a future date.
+   */
+  // @property({ type: String }) divider = "";
 
   // super.connectedCallback() (NysElement) auto-assigns this.id when
   // one is not provided (prefix = localName, i.e. "nys-dropdownmenuitem-<ts>-<n>").
@@ -71,6 +87,12 @@ export class NysDropdownMenuItem extends NysElement {
     );
   }
 
+  private _renderIcon(iconName: string) {
+    return iconName
+      ? html`<nys-icon size="16" name=${iconName}></nys-icon>`
+      : "";
+  }
+
   render() {
     const isLink = !!this.href;
 
@@ -86,10 +108,8 @@ export class NysDropdownMenuItem extends NysElement {
             @click="${this._handleClick}"
             target="${this.target}"
           >
-            ${this.prefixIcon
-              ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
-              : ""}
-            ${this.label}</a
+            ${this._renderIcon(this.prefixIcon)} ${this.label}
+            ${this._renderIcon(this.suffixIcon)}</a
           >`
         : html`
             <button
@@ -102,10 +122,8 @@ export class NysDropdownMenuItem extends NysElement {
               ?disabled=${this.disabled}
               @click="${this._handleClick}"
             >
-              ${this.prefixIcon
-                ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
-                : ""}
-              ${this.label}
+              ${this._renderIcon(this.prefixIcon)} ${this.label}
+              ${this._renderIcon(this.suffixIcon)}
             </button>
           `}
     </li>`;

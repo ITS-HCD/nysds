@@ -57,7 +57,7 @@ import styles from "./nys-accordion.scss?inline";
  * @example Single Select
  * ```html
  * <nys-accordion singleSelect>
- *   <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
+ *   <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
  *   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
  * </nys-accordion>
  * ```
@@ -66,7 +66,7 @@ import styles from "./nys-accordion.scss?inline";
  * ```html
  *
  * <nys-accordion bordered>
- *  <nys-accordionitem heading="We are a group of accordions">
+ *  <nys-accordionitem heading="We are a group of accordions" expanded>
  *   <p>Stronger together! Learn more at
  *      <a href="https://www.ny.gov" target="_blank">ny.gov</a>
  *    </p>
