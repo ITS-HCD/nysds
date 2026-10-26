@@ -67,3 +67,12 @@ packages/angular/.ngbuild/
 # Example app build output. dist/ at any depth is covered by the dist/ rule.
 framework-examples/*/.angular/
 framework-examples/*/.next/
+
+# Ignore accessibility preview build (src/scripts/nysds-review/build-preview.mjs)
+.preview/
+
+# Local visual regression output
+.visual/
+
+# Codegen review page for the PR preview (npm run review:codegen -- --html-file .code-review/index.html)
+.code-review/

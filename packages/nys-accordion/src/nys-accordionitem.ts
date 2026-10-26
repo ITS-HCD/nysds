@@ -67,7 +67,7 @@ function normalizeAccordionHeadingLevel(
  *
  * @example Expanded item
  * ```html
- * <nys-accordion>
+ * <nys-accordion bordered>
  *   <nys-accordionitem heading="How do I apply?" expanded>
  *     <p>Visit ny.gov and complete the online application.</p>
  *   </nys-accordionitem>
