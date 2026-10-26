@@ -9,11 +9,11 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@angular/common": "^20.3.31",
-    "@angular/compiler": "^20.3.31",
-    "@angular/core": "^20.3.31",
-    "@angular/forms": "^20.3.31",
-    "@angular/platform-browser": "^20.3.31",
+    "@angular/common": "^20.3.34",
+    "@angular/compiler": "^20.3.34",
+    "@angular/core": "^20.3.34",
+    "@angular/forms": "^20.3.34",
+    "@angular/platform-browser": "^20.3.34",
     "@nysds/angular": "*",
     "@nysds/styles": "*",
     "rxjs": "^7.8.0",
@@ -21,9 +21,9 @@
     "zone.js": "^0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^20.0.0",
-    "@angular/cli": "^20.0.0",
-    "@angular/compiler-cli": "^20.3.31",
+    "@angular/build": "^20.3.41",
+    "@angular/cli": "^20.3.41",
+    "@angular/compiler-cli": "^20.3.34",
     "@playwright/test": "1.61.0",
     "typescript": "^5.9.3"
   }
