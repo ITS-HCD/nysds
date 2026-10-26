@@ -26,21 +26,19 @@ import styles from "./nys-icon.scss?inline";
  *
  * @cssprop [--nys-icon-size] - Width and height of the component
  *
- * @usagedos
+ * @usage
  * - Use icons to draw attention to actions, help users scan for key information, or enhance recognizable common actions (e.g., search, download, share).
  * - Pair icons with a text label—few icons are universally understood alone.
  * - Use icons consistently: same icon and label for the same meaning throughout your app.
  * - Use `ariaLabel` when the icon conveys meaning, so screen readers can announce its purpose.
  * - Use icons from the NYS Design System library; if unavailable, use Google Material Symbols (rounded, unfilled).
  * - Match icon size and color to the design system.
- *
- * @usagedonts
- * - Use an icon if its meaning isn't immediately clear—if you suspect users won't recognize it, remove it.
- * - Use icons to compensate for unclear page hierarchy or confusing content organization.
- * - Use standalone icons for actions—use `<nys-button>` with an icon inside instead.
- * - Replace meaningful text with icons unless the icon is universally recognized or paired with a label.
- * - Overuse icons—too many create visual noise and reduce focus.
- * - Use excessive icon customization that breaks design consistency.
+ * - Don't use an icon if its meaning isn't immediately clear—if you suspect users won't recognize it, remove it.
+ * - Don't use icons to compensate for unclear page hierarchy or confusing content organization.
+ * - Don't use standalone icons for actions—use `<nys-button>` with an icon inside instead.
+ * - Don't replace meaningful text with icons unless the icon is universally recognized or paired with a label.
+ * - Don't overuse icons—too many create visual noise and reduce focus.
+ * - Don't use excessive icon customization that breaks design consistency.
  *
  * @example Basic
  * ```html
