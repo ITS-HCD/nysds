@@ -736,12 +736,17 @@ export class NysRadiogroup extends NysFormControlElement {
     }
   }
 
-  private _handleRadiobtnClick = (radiobtn: NysRadiobutton) => {
-    if (!radiobtn.disabled) {
-      this.shadowRoot
-        ?.querySelector<HTMLInputElement>(`#input-${radiobtn.id}`)
-        ?.click();
-    }
+  private _handleRadiobtnClick = (
+    radiobtn: NysRadiobutton,
+    event: MouseEvent,
+  ) => {
+    const input = this.shadowRoot?.querySelector<HTMLInputElement>(
+      `#input-${radiobtn.id}`,
+    );
+
+    // Clicks on the input (the radio circle) already select it. Clicking it again breaks Firefox.
+    if (radiobtn.disabled || event.target === input) return;
+    input?.click();
   };
 
   /** True when `node` is inside this group, including its shadow DOM. */
@@ -822,7 +827,8 @@ export class NysRadiogroup extends NysFormControlElement {
             (radiobtn, index) => html`
               <div
                 class="nys-radiobutton"
-                @click=${() => this._handleRadiobtnClick(radiobtn)}
+                @click=${(event: MouseEvent) =>
+                  this._handleRadiobtnClick(radiobtn, event)}
               >
                 <div class="nys-radiobutton__main-container">
                   <!-- <span class="nys-radiobutton__radio" tabindex="-1"></span> -->
