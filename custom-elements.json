@@ -1574,36 +1574,22 @@
             },
             {
               "kind": "field",
-              "name": "_prefixIcon",
-              "type": {
-                "text": "string | boolean"
-              },
-              "privacy": "private",
-              "default": "\"\""
-            },
-            {
-              "kind": "field",
               "name": "prefixIcon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown before the label.",
               "attribute": "prefixicon"
-            },
-            {
-              "kind": "field",
-              "name": "_suffixIcon",
-              "type": {
-                "text": "string | boolean"
-              },
-              "privacy": "private",
-              "default": "\"\""
             },
             {
               "kind": "field",
               "name": "suffixIcon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown after the label.",
               "attribute": "suffixicon"
             },
             {
@@ -1653,7 +1639,7 @@
                 {
                   "name": "icon",
                   "type": {
-                    "text": "string | boolean"
+                    "text": "string | boolean | null"
                   },
                   "description": "The icon property value (string or boolean)"
                 }
@@ -1737,15 +1723,19 @@
             {
               "name": "prefixicon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown before the label.",
               "fieldName": "prefixIcon"
             },
             {
               "name": "suffixicon",
               "type": {
-                "text": "string | boolean"
+                "text": "string | boolean | null"
               },
+              "default": "null",
+              "description": "Icon shown after the label.",
               "fieldName": "suffixIcon"
             }
           ],
@@ -1839,6 +1829,7 @@
             "Keep badge labels short -- one or two words like \"New\", \"Beta\", or \"Updated\".",
             "Use the `intent` property to match the badge's visual style to its meaning (e.g., `success` for positive statuses, `warning` for caution).",
             "Place badges near the element they describe so the relationship is clear.",
+            "Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.",
             "Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.",
             "Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis."
           ],
