@@ -290,6 +290,25 @@ describe("nys-modal", () => {
     expect(closeDetail.id).to.equal("my-modal");
   });
 
+  it("restores the previous html and body overflow on close", async () => {
+    document.documentElement.style.overflow = "scroll";
+    document.body.style.overflow = "auto";
+
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    expect(document.documentElement.style.overflow).to.equal("hidden");
+
+    el.open = false;
+    await el.updateComplete;
+
+    expect(document.documentElement.style.overflow).to.equal("scroll");
+    expect(document.body.style.overflow).to.equal("auto");
+
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+  });
+
   /*** Accessibility ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
