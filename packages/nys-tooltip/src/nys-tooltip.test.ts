@@ -718,10 +718,8 @@ describe("nys-tooltip", () => {
     );
 
     const innerButton = button.shadowRoot!.querySelector("button")!;
-    const descId = innerButton.getAttribute("aria-describedby")!;
-    expect(button.shadowRoot!.getElementById(descId)?.textContent).to.equal(
-      "Hint: Hello World",
-    );
+    const ariaDesc = innerButton.getAttribute("aria-description")!;
+    expect(ariaDesc).to.equal("Hint: Hello World");
   });
 
   it("passes the a11y audit", async () => {

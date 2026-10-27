@@ -72,11 +72,9 @@ describe("nys-button", () => {
       ></nys-button>`,
     );
     const button = el.shadowRoot!.querySelector("button")!;
-    const descId = button.getAttribute("aria-describedby")!;
+    const ariaDesc = button.getAttribute("aria-description")!;
 
-    expect(el.shadowRoot!.getElementById(descId)?.textContent).to.equal(
-      "Saves your draft",
-    );
+    expect(ariaDesc).to.equal("Saves your draft");
   });
 
   it("should trigger click event only once", async () => {
