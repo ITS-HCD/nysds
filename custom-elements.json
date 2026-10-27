@@ -2613,16 +2613,6 @@
             },
             {
               "kind": "field",
-              "name": "ariaDescribedBy",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
-              "attribute": "ariaDescribedBy"
-            },
-            {
-              "kind": "field",
               "name": "ariaDescription",
               "type": {
                 "text": "string"
@@ -2743,11 +2733,6 @@
             {
               "kind": "method",
               "name": "_manageFormAction",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_getDescribedBy",
               "privacy": "private"
             },
             {
@@ -2997,15 +2982,6 @@
               "default": "\"\"",
               "description": "Value submitted with the form data, mirroring a native submit button.\n\nWhen `type=\"submit\"` and both `name` and `value` are set, the entry\n`name=value` is included in the form's data only for submissions this\nbutton triggers. It is not included when the form is submitted another\nway (Enter in a text field, another button, `form.requestSubmit()`),\nand it is not readable from `new FormData(form)` outside a submission,\nmatching native submitter semantics.\n\nA form-associated custom element cannot act as a native submitter, so\nthe value is staged through `ElementInternals.setFormValue()` for the\nduration of the submission and cleared afterward.",
               "fieldName": "value"
-            },
-            {
-              "name": "ariaDescribedBy",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
-              "fieldName": "ariaDescribedBy"
             },
             {
               "name": "ariaDescription",
