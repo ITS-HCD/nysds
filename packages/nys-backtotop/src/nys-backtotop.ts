@@ -25,13 +25,11 @@ import styles from "./nys-backtotop.scss?inline";
  * @summary Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * @element nys-backtotop
  *
- * @usagedos
+ * @usage
  * - Place exactly one `<nys-backtotop>` per page, above the `<nys-globalfooter>` in your markup.
  * - Use on long-form content pages such as state policy documents, agency service directories, program eligibility guides, extensive search results, or data tables.
  * - Set `position="left"` when the bottom-right corner is occupied by another floating element, such as a chatbot button.
  * - Let the component manage its own visibility. The auto-show behavior activates after 1.5 viewport heights on pages that are at least 4 screens tall.
- *
- * @usagedonts
  * - Don't add multiple `<nys-backtotop>` components to a single page.
  * - Don't use on pages where content fits within a single viewport without scrolling.
  * - Don't use if your page already has anchor-based in-page navigation such as a table of contents. A back-to-top button is likely redundant.
@@ -57,7 +55,7 @@ import styles from "./nys-backtotop.scss?inline";
  *     font-size: var(--nys-font-size-sm);
  *   }
  * </style>
- * <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+ * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
  * <nys-globalheader appName="Back to Top Example"></nys-globalheader>
  * <main style="padding: 0 2rem">
  *   <h1>Sample Content on page</h1>
@@ -99,7 +97,7 @@ import styles from "./nys-backtotop.scss?inline";
  *     --_nys-button-border-radius: var(--nys-radius-round);
  *  }
  * </style>
- * <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+ * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
  * <nys-globalheader appName="Back to Top Example"></nys-globalheader>
  * <main style="padding: 0 2rem">
  *   <h1>Sample Content on page</h1>

@@ -66,17 +66,15 @@ export type NysTextinputChangeEvent = CustomEvent<NysTextinputChangeDetail>;
  * @fires {Event} nys-focus - Fired when the input gains focus.
  * @fires {Event} nys-blur - Fired when the input loses focus. Triggers validation.
  *
- * @usagedos
+ * @usage
  * - Use to collect short, single-line, open-ended text input (e.g., names, email addresses, or short descriptions).
  * - Use clear, concise labels that describe the expected input.
  * - Add helper text with the `description` property for context.
  * - Validate input live to catch errors early (e.g., invalid email formats).
- *
- * @usagedonts
- * - Use for long or multi-line responses. Use `<nys-textarea>` instead.
- * - Use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.
- * - Overwhelm users with too many fields. Group related inputs.
- * - Use placeholders as labels.
+ * - Don't use for long or multi-line responses. Use `<nys-textarea>` instead.
+ * - Don't use when input can be chosen from predefined options. Use `<nys-select>`, `<nys-radiobutton>`, or `<nys-checkbox>` instead.
+ * - Don't overwhelm users with too many fields. Group related inputs.
+ * - Don't use placeholders as labels.
  *
  * @example Basic
  * ```html

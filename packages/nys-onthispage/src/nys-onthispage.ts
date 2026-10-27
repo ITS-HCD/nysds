@@ -218,6 +218,58 @@ export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
  * Smooth scrolling is also turned off automatically for visitors who have
  * `prefers-reduced-motion` enabled.
  *
+ * @example Page layout
+ * ```html
+ * <nys-unavheader></nys-unavheader>
+ *
+ * <nys-globalheader appName="NYS Design System" homepageLink="/">
+ *   <ul>
+ *     <li><a href="#">Item 1</a></li>
+ *     <li><a href="#">Item 2</a></li>
+ *     <li><a href="#">Item 3</a></li>
+ *     <li><a href="#">Item 4</a></li>
+ *     <li><a href="#">Item 5</a></li>
+ *   </ul>
+ * </nys-globalheader>
+ *
+ * <div class="nys-grid-container">
+ *   <div class="nys-grid-row nys-grid-gap">
+ *     <main class="nys-desktop:nys-grid-col-9">
+ *       <h1>Welcome to the Empire State of Mind</h1>
+ *       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit? Nope. Here, we say: grab a bagel, check the Erie Canal, and see what the Adirondacks are up to today.</p>
+ *
+ *       <h2>Apple picking season</h2>
+ *       <p style="min-height: 60vh;">Orchards from the Hudson Valley to the Finger Lakes are open. Bring a basket, a sweater, and a strong opinion about cider donuts. Honeycrisp is the correct answer, but we will hear other opinions.</p>
+ *
+ *       <h2>Pizza by the slice</h2>
+ *       <p style="min-height: 60vh;">Fold it. Do not eat it with a fork. A proper slice is hot, floppy, and cheaper than your parking meter. Every borough believes theirs is the best, and every borough is slightly right.</p>
+ *
+ *       <h2>Road trip to Niagara Falls</h2>
+ *       <p style="min-height: 60vh;">Pack snacks and head west on the Thruway. Rest stops are plentiful, the falls are loud, and the mist is free. Bring a poncho if you plan to get close.</p>
+ *
+ *       <h2>Snow day survival guide</h2>
+ *       <p style="min-height: 60vh;">Upstate gets a lot of snow, and Upstate is not impressed. Shovel early, check on your neighbors, and keep the hot chocolate within reach.</p>
+ *     </main>
+ *
+ *     <aside class="nys-desktop:nys-grid-col-3 nys-order-first nys-desktop:nys-order-last" style="margin-top: var(--nys-space-600)">
+ *       <nys-onthispage sticky offset="24"></nys-onthispage>
+ *     </aside>
+ *   </div>
+ * </div>
+ *
+ * <nys-globalfooter agencyName="NYS Design System" homepageLink="/">
+ *   <ul>
+ *     <li><a href="#">Privacy Policy</a></li>
+ *     <li><a href="#">Terms of Use</a></li>
+ *   </ul>
+ * </nys-globalfooter>
+ * <nys-unavfooter></nys-unavfooter>
+ * ```
+ * On mobile/tablet the nav stacks above the content. From the desktop
+ * it moves to the right column. `main` comes first in the source so screen
+ * readers reach the content before the nav. Use `order` to changes the
+ * visual position.
+ *
  * @example Listen for link activation
  * ```html
  * <div style="display: flex; gap: 2rem; align-items: flex-start;">

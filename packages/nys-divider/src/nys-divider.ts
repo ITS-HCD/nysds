@@ -13,14 +13,12 @@ import styles from "./nys-divider.scss?inline";
  * @summary Horizontal divider for visual separation of content sections.
  * @element nys-divider
  *
- * @usagedos
+ * @usage
  * - Ensure consistent padding/margin above and below dividers to avoid crowding.
  * - Use the `inverted` option on dark backgrounds.
- *
- * @usagedonts
- * - Overuse dividers and clutter the interface, reducing scannability.
- * - Use the divider to separate content appearing side bys side.
- * - Use the `inverted` option on light backgrounds.
+ * - Don't overuse dividers and clutter the interface, reducing scannability.
+ * - Don't use the divider to separate content appearing side by side.
+ * - Don't use the `inverted` option on light backgrounds.
  *
  * @example Basic
  * ```html

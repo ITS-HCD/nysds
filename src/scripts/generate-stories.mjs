@@ -708,12 +708,12 @@ async function main() {
         (f) => f.endsWith(".ts") && !f.endsWith(".stories.ts") && !f.endsWith(".test.ts")
       );
     for (const f of componentSourceFiles) {
-      // Ignore JSDoc prose (descriptions, usage dos/donts) — it mentions other
-      // components as `<nys-foo>`, which are references, not rendered markup.
-      // @example bodies are real markup and are kept.
-      const content = stripJsDocProse(
-        fs.readFileSync(path.join(dir, f), "utf8")
-      );
+      // Strip comments so JSDoc guidance prose (e.g. "use <nys-select> instead")
+      // isn't mistaken for a tag the component actually renders.
+      const content = fs
+        .readFileSync(path.join(dir, f), "utf8")
+        .replace(/\/\*[\s\S]*?\*\//g, "")
+        .replace(/^\s*\/\/.*$/gm, "");
       const tagRe = /<(nys-[\w-]+)/g;
       let m;
       while ((m = tagRe.exec(content)) !== null) usedTags.add(m[1]);
