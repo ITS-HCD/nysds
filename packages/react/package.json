@@ -114,6 +114,10 @@
       "types": "./dist/generated/NysGlobalHeader.d.ts",
       "import": "./dist/generated/NysGlobalHeader.js"
     },
+    "./hero": {
+      "types": "./dist/generated/NysHero.d.ts",
+      "import": "./dist/generated/NysHero.js"
+    },
     "./icon": {
       "types": "./dist/generated/NysIcon.d.ts",
       "import": "./dist/generated/NysIcon.js"
@@ -257,6 +261,7 @@
     "@nysds/nys-fileinput": "1.22.3",
     "@nysds/nys-globalfooter": "1.22.3",
     "@nysds/nys-globalheader": "1.22.3",
+    "@nysds/nys-hero": "1.22.3",
     "@nysds/nys-icon": "1.22.3",
     "@nysds/nys-iconlist": "1.22.3",
     "@nysds/nys-label": "1.22.3",

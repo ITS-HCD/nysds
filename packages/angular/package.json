@@ -114,6 +114,10 @@
       "types": "./dist/globalheader/index.d.ts",
       "default": "./dist/fesm2022/nysds-angular-globalheader.mjs"
     },
+    "./hero": {
+      "types": "./dist/hero/index.d.ts",
+      "default": "./dist/fesm2022/nysds-angular-hero.mjs"
+    },
     "./icon": {
       "types": "./dist/icon/index.d.ts",
       "default": "./dist/fesm2022/nysds-angular-icon.mjs"
@@ -261,6 +265,7 @@
     "@nysds/nys-fileinput": "1.22.3",
     "@nysds/nys-globalfooter": "1.22.3",
     "@nysds/nys-globalheader": "1.22.3",
+    "@nysds/nys-hero": "1.22.3",
     "@nysds/nys-icon": "1.22.3",
     "@nysds/nys-iconlist": "1.22.3",
     "@nysds/nys-label": "1.22.3",

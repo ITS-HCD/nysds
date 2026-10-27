@@ -1,0 +1,41 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Hero Styles */
+  --_nys-hero-width: fit-content;
+  --_nys-hero-height: var(--nys-size-600, 48px);
+  --_nys-hero-border-radius: var(--nys-radius-xl, 12px);
+  --_nys-hero-padding: var(--nys-space-100, 8px);
+  --_nys-hero-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-hero-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-hero-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-hero-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-hero-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+.nys-hero {
+  width: var(--_nys-hero-width);
+  height: var(--_nys-hero-height);
+  border-radius: var(--_nys-hero-radius);
+  padding: var(--_nys-hero-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_nys-hero-gap);
+  font-family: var(--_nys-hero-font-family);
+  font-size: var(--_nys-hero-font-size);
+  font-weight: var(--_nys-hero-font-weight);
+  line-height: var(--_nys-hero-line-height);
+}

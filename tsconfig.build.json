@@ -1,6 +1,7 @@
 {
   "files": [],
   "references": [
+    { "path": "packages/codegen" },
     { "path": "packages/internals" },
     { "path": "packages/nys-accordion" },
     { "path": "packages/nys-alert" },
@@ -19,6 +20,7 @@
     { "path": "packages/nys-fileinput" },
     { "path": "packages/nys-globalfooter" },
     { "path": "packages/nys-globalheader" },
+    { "path": "packages/nys-hero" },
     { "path": "packages/nys-icon" },
     { "path": "packages/nys-iconlist" },
     { "path": "packages/nys-label" },
@@ -38,8 +40,7 @@
     { "path": "packages/nys-unavfooter" },
     { "path": "packages/nys-unavheader" },
     { "path": "packages/nys-verticalnav" },
-    { "path": "packages/nys-video" },
-    { "path": "packages/codegen" }
+    { "path": "packages/nys-video" }
     // Framework packages (@nysds/react, @nysds/angular) are not listed here.
     // `tsc -b` runs before `npm run cem` generates their wrapper sources, so they
     // cannot be in the reference graph. They build afterward via `build:frameworks`.
