@@ -16858,6 +16858,11 @@
               "title": "Suffix Button",
               "code": "<nys-textinput id=\"search-demo\" type=\"search\" placeholder=\"Search\">\n<nys-button\nslot=\"endButton\"\nariaLabel=\"Search\"\nprefixIcon=\"search\"\nonclick=\"alert('searching for: ' + document.getElementById('search-demo').value)\"\n></nys-button>\n</nys-textinput>",
               "lang": "html"
+            },
+            {
+              "title": "Suffix Button (RTL)",
+              "code": "<div dir=\"rtl\">\n<nys-textinput id=\"search-demo\" type=\"search\" placeholder=\"Search\">\n<nys-button\nslot=\"endButton\"\nariaLabel=\"Search\"\nprefixIcon=\"search\"\nonclick=\"alert('searching for: ' + document.getElementById('search-demo').value)\"\n></nys-button>\n</nys-textinput>\n</div>",
+              "lang": "html"
             }
           ],
           "usage": [
