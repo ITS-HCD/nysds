@@ -27,6 +27,8 @@ Everything the two elements reach at runtime is compiled into the one file:
 
 ## Installing
 
+[Follow the UNAV instructions on GitHub to setup localize](https://github.com/ITS-HCD/unav-next)
+
 copy `dist/nys-unavbundle.js` and point a `<script src>` at it.
 
 ### npm
