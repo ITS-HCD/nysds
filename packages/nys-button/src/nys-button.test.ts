@@ -49,19 +49,34 @@ describe("nys-button", () => {
     expect(label?.textContent).to.equal("Click Me");
   });
 
-  it("sets aria-describedby when ariaDescribedBy is provided", async () => {
-    const el = await fixture(
-      html`<nys-button label="Save" ariaDescribedBy="help-text"></nys-button>`,
-    );
-    const button = el.shadowRoot?.querySelector("button")!;
-    expect(button.getAttribute("aria-describedby")).to.equal("help-text");
-  });
+  // it("sets aria-describedby when ariaDescribedBy is provided", async () => {
+  //   const el = await fixture(
+  //     html`<nys-button label="Save" ariaDescribedBy="help-text"></nys-button>`,
+  //   );
+  //   const button = el.shadowRoot?.querySelector("button")!;
+  //   expect(button.getAttribute("aria-describedby")).to.equal("help-text");
+  // });
 
   it("does not set aria-label or aria-describedby by default", async () => {
     const el = await fixture(html`<nys-button label="Save"></nys-button>`);
     const button = el.shadowRoot?.querySelector("button")!;
     expect(button.hasAttribute("aria-label")).to.be.false;
     expect(button.hasAttribute("aria-describedby")).to.be.false;
+  });
+
+  it("describes the button from ariaDescription inside its shadow root", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button
+        label="Save"
+        ariaDescription="Saves your draft"
+      ></nys-button>`,
+    );
+    const button = el.shadowRoot!.querySelector("button")!;
+    const descId = button.getAttribute("aria-describedby")!;
+
+    expect(el.shadowRoot!.getElementById(descId)?.textContent).to.equal(
+      "Saves your draft",
+    );
   });
 
   it("should trigger click event only once", async () => {

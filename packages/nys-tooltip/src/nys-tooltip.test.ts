@@ -700,6 +700,28 @@ describe("nys-tooltip", () => {
     window.ResizeObserver = originalResizeObserver;
   });
 
+  it("passes the tooltip text to nys-button as its description", async () => {
+    const el = await fixture(html`
+      <div>
+        <nys-button id="my-button" label="Save"></nys-button>
+        <nys-tooltip for="my-button" text="Hello World"></nys-tooltip>
+      </div>
+    `);
+
+    const button = el.querySelector("nys-button") as HTMLElement;
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+    await (button as any).updateComplete;
+
+    expect(button.getAttribute("ariaDescription")).to.equal("Hello World");
+
+    const innerButton = button.shadowRoot!.querySelector("button")!;
+    const descId = innerButton.getAttribute("aria-describedby")!;
+    expect(button.shadowRoot!.getElementById(descId)?.textContent).to.equal(
+      "Hello World",
+    );
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-tooltip text="My Text"></nys-tooltip>`);
     await expect(el).shadowDom.to.be.accessible();
