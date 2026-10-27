@@ -1021,7 +1021,21 @@ export class NysUnavHeader extends NysElement {
     // so a plain `contains` is enough to tell "still inside the menu" apart
     if (next && wrapper.contains(next)) return;
 
-    this.languageVisible = false;
+    if (next) {
+      this.languageVisible = false;
+      return;
+    }
+
+    // No relatedTarget: either focus went nowhere (clicking away), or Chromium is
+    // firing focusout because a re-render removed the focused option (e.g. a
+    // shorter `languages` array). The latter happens mid-render, so closing here
+    // would set state inside the update cycle (lit.dev/msg/change-in-update) and
+    // close a menu the user never left. Decide once the render has settled: a
+    // removed option is disconnected by then.
+    const option = e.target as Node;
+    this.updateComplete.then(() => {
+      if (option.isConnected) this.languageVisible = false;
+    });
   }
 
   private _handleSearchFocus() {
