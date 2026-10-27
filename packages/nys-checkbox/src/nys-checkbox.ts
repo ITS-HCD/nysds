@@ -255,6 +255,13 @@ export class NysCheckbox extends NysFormControlElement {
     if ((changed.has("checked") || changed.has("value")) && !this.groupExist) {
       this.setFormValue(this.checked ? this.value : null);
     }
+
+    // Derive the required message before render; _manageRequire() runs after
+    // render (it needs the <input> as the validity anchor) and must not set
+    // reactive state there.
+    if (changed.has("required") && this.required && !this.checked) {
+      this.internalValidationMessage = "This field is required";
+    }
   }
 
   updated(changed: Map<string, unknown>) {
@@ -307,7 +314,6 @@ export class NysCheckbox extends NysFormControlElement {
     if (!input) return;
 
     if (this.required && !this.checked) {
-      this.internalValidationMessage = "This field is required";
       this.setValidityFromState(
         { valueMissing: true },
         this.resolvedErrorMessage(),
