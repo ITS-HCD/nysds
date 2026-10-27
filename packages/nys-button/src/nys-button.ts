@@ -544,9 +544,7 @@ export class NysButton extends NysFormControlElement {
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
-                aria-describedby=${ifDefined(
-                  this.ariaDescription ? `${this.id}-description` : undefined,
-                )}
+                aria-description=${ifDefined(this.ariaDescription || undefined)}
                 aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
                 aria-current=${ifDefined(this.ariaCurrent || undefined)}
               >
@@ -615,20 +613,10 @@ export class NysButton extends NysFormControlElement {
               @blur=${this._handleBlur}
               @keydown=${this._handleKeydown}
               @keyup=${this._handleKeyup}
-              aria-describedby=${ifDefined(
-                this.ariaDescription ? `${this.id}-description` : undefined,
-              )}
+              aria-description=${ifDefined(this.ariaDescription || undefined)}
               aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
               aria-current=${ifDefined(this.ariaCurrent || undefined)}
             >
-              ${this.ariaDescription
-                ? html`<span
-                    id="${this.id}-description"
-                    class="sr-only"
-                    aria-hidden="true"
-                    >${this.ariaDescription}</span
-                  >`
-                : ""}
               <slot
                 name="prefix-icon"
                 @slotchange=${this._onPrefixSlotChange}
