@@ -2623,6 +2623,16 @@
             },
             {
               "kind": "field",
+              "name": "ariaDescription",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Aria description for the button's name. Useful for adding additional SR context\nsuch as hint texts from the nys-tooltip (since that cannot be resolved by `ariaDescribedBy`).",
+              "attribute": "ariaDescription"
+            },
+            {
+              "kind": "field",
               "name": "type",
               "type": {
                 "text": "| \"submit\"\n    | \"reset\"\n    | \"button\""
@@ -2733,6 +2743,11 @@
             {
               "kind": "method",
               "name": "_manageFormAction",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getDescribedBy",
               "privacy": "private"
             },
             {
@@ -2991,6 +3006,15 @@
               "default": "\"\"",
               "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
               "fieldName": "ariaDescribedBy"
+            },
+            {
+              "name": "ariaDescription",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Aria description for the button's name. Useful for adding additional SR context\nsuch as hint texts from the nys-tooltip (since that cannot be resolved by `ariaDescribedBy`).",
+              "fieldName": "ariaDescription"
             },
             {
               "name": "type",

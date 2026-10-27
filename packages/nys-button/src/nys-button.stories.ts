@@ -39,6 +39,7 @@ export const Basic: Story = {
     disabled: false,
     value: "",
     ariaDescribedBy: "",
+    ariaDescription: "",
     type: "button",
     href: "",
     target: "_self",
@@ -94,6 +95,7 @@ export const Basic: Story = {
         ?disabled=${args.disabled}
         value=${args.value}
         ariaDescribedBy=${args.ariaDescribedBy}
+        ariaDescription=${args.ariaDescription}
         type=${args.type}
         href=${args.href}
         target=${args.target}
