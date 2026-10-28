@@ -764,6 +764,9 @@ export class NysTextinput extends NysFormControlElement {
                     slot="circle-icon"
                     size="2xl"
                     name=${this.showPassword ? "visibility_off" : "visibility"}
+                    label=${this.showPassword
+                      ? "hide password"
+                      : "show password"}
                   ></nys-icon>
                 </nys-button>`
               : nothing}
