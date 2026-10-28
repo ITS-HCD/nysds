@@ -15,7 +15,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@nysds/nys-button": "^1.21.1"
+    "@nysds/nys-button": "^1.23.0"
   },
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
