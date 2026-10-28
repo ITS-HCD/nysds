@@ -96,16 +96,13 @@ export type NysCheckboxErrorClearEvent =
  * @fires {NysCheckboxErrorEvent} nys-error - Internal group coordination: reports an empty "other" field to the parent `nys-checkboxgroup`. Not part of the public API.
  * @fires {NysCheckboxErrorClearEvent} nys-error-clear - Internal group coordination: clears a previously reported "other" field error. Not part of the public API.
  *
- * @usagedos
+ * @usage
  * - Use for binary decisions (agree/disagree), confirmation, or multi-select lists.
  * - Use for selecting multiple options from a list of up to 10 choices.
  * - Use `nys-checkboxgroup` to group checkboxes with a shared label and description.
- *
- * @usagedonts
- * - Use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a <nys-select> for 7 or more.
- * - Use a checkbox when changing its state immediately affects the system. Use a `<nys-toggle>` instead (e.g., enabling Dark Mode).
- * - Use when you have more than 10 options to choose from.
- * - Change the state of one checkbox based on another being clicked.
+ * - Don't use when users need to select only one option. Use a `<nys-radiobutton>` for 1–6 choices or a <nys-select> for 7 or more.
+ * - Don't use when you have more than 10 options to choose from.
+ * - Don't change the state of one checkbox based on another being clicked.
  *
  * @example Single
  * ```html

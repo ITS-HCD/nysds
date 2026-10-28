@@ -54,14 +54,12 @@ function adoptLightStyles() {
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
  *
- * @usagedos
+ * @usage
  * - Use to display tabular data such as statistical information or directories of locations and resources with consistent structure.
- *
- * @usagedonts
- * - Use in place of a layout grid. Table content should follow a consistent structure using headers and logical columns and rows.
- * - Use for non-tabular content. Consider definition lists or hierarchical lists instead.
- * - Use when cell content is long-form; table cells should be brief and scannable. If you need multiple bullet points or paragraphs in a cell, consider page headers or an accordion instead.
- * - Add `rowspan` or `colspan` with the `sortable` property.
+ * - Don't use in place of a layout grid. Table content should follow a consistent structure using headers and logical columns and rows.
+ * - Don't use for non-tabular content. Consider definition lists or hierarchical lists instead.
+ * - Don't use when cell content is long-form; table cells should be brief and scannable. If you need multiple bullet points or paragraphs in a cell, consider page headers or an accordion instead.
+ * - Don't add `rowspan` or `colspan` with the `sortable` property.
  *
  * @example Basic
  * ```html

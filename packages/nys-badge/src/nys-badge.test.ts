@@ -37,8 +37,8 @@ describe("nys-badge", () => {
       <nys-badge label="My Label" prefixIcon suffixIcon></nys-badge>
     `);
     expect(el.label).to.equal("My Label");
-    expect(el.prefixIcon).to.be.true;
-    expect(el.suffixIcon).to.be.true;
+    expect(el.prefixIcon).to.equal("");
+    expect(el.suffixIcon).to.equal("");
   });
 
   it("default intent is base", async () => {
@@ -189,6 +189,43 @@ describe("nys-badge", () => {
     expect(srOnly[0].textContent).to.equal(": action required");
   });
 
+  it("registers every nys-* element it renders", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Test" prefixIcon></nys-badge>`,
+    );
+    expect(findUnregisteredChildren(el)).to.deep.equal([]);
+  });
+
+  it("renders the default icon for a bare prefixicon / suffixicon attribute", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge
+        label="Approved"
+        intent="success"
+        prefixicon
+        suffixicon
+      ></nys-badge>`,
+    );
+    await el.updateComplete;
+    const icons = el.shadowRoot!.querySelectorAll("nys-icon");
+    expect(icons.length).to.equal(2);
+    expect(icons[0].getAttribute("name")).to.equal("check_circle");
+  });
+
+  it("removes the icon when the attribute is removed", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge
+        label="Approved"
+        intent="success"
+        prefixicon
+        suffixicon
+      ></nys-badge>`,
+    );
+    el.removeAttribute("prefixicon");
+    el.removeAttribute("suffixicon");
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelectorAll("nys-icon").length).to.equal(0);
+  });
+
   it("passes the a11y audit with a non-base intent", async () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge
@@ -198,12 +235,5 @@ describe("nys-badge", () => {
       ></nys-badge>`,
     );
     await expect(el).shadowDom.to.be.accessible();
-  });
-
-  it("registers every nys-* element it renders", async () => {
-    const el = await fixture<NysBadge>(
-      html`<nys-badge label="Test" prefixIcon></nys-badge>`,
-    );
-    expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });
