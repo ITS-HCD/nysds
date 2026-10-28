@@ -704,7 +704,9 @@ export class NysTextinput extends NysFormControlElement {
             @slotchange=${() => this._validateButtonSlot("startButton")}
           ></slot>
           <div class="nys-textinput__container">
-            <span class="nys-textinput__mask-overlay"></span>
+            ${this._maskPatterns[this.type]
+              ? html`<span class="nys-textinput__mask-overlay"></span>`
+              : nothing}
             <input
               class="nys-textinput__input"
               type=${this.type === "password"
