@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import {
@@ -764,7 +764,7 @@ export class NysTextinput extends NysFormControlElement {
                     name=${this.showPassword ? "visibility_off" : "visibility"}
                   ></nys-icon>
                 </nys-button>`
-              : ""}
+              : nothing}
             ${this.type === "search" &&
             this.value &&
             !this.disabled &&
@@ -772,7 +772,7 @@ export class NysTextinput extends NysFormControlElement {
               ? html` <nys-button
                   class="inline-icon"
                   id="search-clear"
-                  ariaLabel="clear search"
+                  label="clear search"
                   variant="ghost"
                   circle
                   size="sm"
@@ -784,7 +784,7 @@ export class NysTextinput extends NysFormControlElement {
                     name="close"
                   ></nys-icon>
                 </nys-button>`
-              : ""}
+              : nothing}
           </div>
           <slot
             name="endButton"
