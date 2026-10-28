@@ -357,3 +357,38 @@ export const SuffixButton: Story = {
     },
   },
 };
+
+export const SuffixButtonRTL: Story = {
+  render: () => {
+    return html`
+      <div dir="rtl">
+        <nys-textinput id="search-demo" type="search" placeholder="Search">
+          <nys-button
+            slot="endButton"
+            ariaLabel="Search"
+            prefixIcon="search"
+            onclick="alert('searching for: ' + document.getElementById('search-demo').value)"
+          ></nys-button>
+        </nys-textinput>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div dir="rtl">
+  <nys-textinput id="search-demo" type="search" placeholder="Search">
+    <nys-button
+      slot="endButton"
+      ariaLabel="Search"
+      prefixIcon="search"
+      onclick="alert('searching for: ' + document.getElementById('search-demo').value)"
+    ></nys-button>
+  </nys-textinput>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};

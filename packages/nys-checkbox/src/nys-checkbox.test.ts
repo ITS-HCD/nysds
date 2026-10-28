@@ -828,7 +828,7 @@ describe("nys-checkbox", () => {
     const fieldset = el.shadowRoot!.querySelector("fieldset")!;
     expect(fieldset.getAttribute("aria-labelledby")).to.equal("grp--label");
     expect(fieldset.hasAttribute("aria-label")).to.equal(false);
-    expect(fieldset.getAttribute("role")).to.equal("radiogroup");
+    expect(fieldset.hasAttribute("role")).to.equal(false);
     const label = el.shadowRoot!.getElementById("grp--label");
     expect(label).to.exist;
     expect(label!.tagName.toLowerCase()).to.equal("nys-label");

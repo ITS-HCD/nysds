@@ -55,17 +55,15 @@ export type NysToggleChangeEvent = CustomEvent<NysToggleChangeDetail>;
  * @fires {Event} nys-focus Fired when toggle gains focus.
  * @fires {Event} nys-blur Fired when toggle loses focus.
  *
- * @usagedos
+ * @usage
  * - Provide a clear label and optional description to explain what the toggle controls.
  * - Ensure the page clearly reflects the toggle's on/off state through visible changes.
  * - Use when the state change will be implemented immediately.
- *
- * @usagedonts
- * - Use for forms where immediate action isn't expected. Use `<nys-checkbox>` instead.
- * - Use for selecting one or more options from a list. Use `<nys-checkbox>` or `<nys-radiobutton>` instead.
- * - Use for complex or multi-state choices.
- * - Overuse for minor settings that don't affect the user experience.
- * - Hide labels unless an accessible alternative is in place.
+ * - Don't use for forms where immediate action isn't expected. Use `<nys-checkbox>` instead.
+ * - Don't use for selecting one or more options from a list. Use `<nys-checkbox>` or `<nys-radiobutton>` instead.
+ * - Don't use for complex or multi-state choices.
+ * - Don't overuse for minor settings that don't affect the user experience.
+ * - Don't hide labels unless an accessible alternative is in place.
  *
  * @example Basic
  * ```html
