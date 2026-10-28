@@ -263,9 +263,9 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * - Don't place anywhere other than the top of the page.
  * - Don't modify the universal header.
  *
- * @example Basic - Localize
+ * @example Basic
  * ```html
- * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
+ * <nys-unavheader translateKey="MY_TRANSLATE_KEY"></nys-unavheader>
  * ```
  *
  * @example Basic - Smartling
@@ -278,7 +278,7 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * <nys-unavheader hideSearch></nys-unavheader>
  * ```
  *
- *  @example Hide translate
+ * @example Hide translate
  * ```html
  * <nys-unavheader hideTranslate></nys-unavheader>
  * ```

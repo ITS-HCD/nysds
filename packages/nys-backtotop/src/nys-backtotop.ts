@@ -55,7 +55,7 @@ import styles from "./nys-backtotop.scss?inline";
  *     font-size: var(--nys-font-size-sm);
  *   }
  * </style>
- * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
+ * <nys-unavheader translateKey="MY_TRANSLATE_KEY"></nys-unavheader>
  * <nys-globalheader appName="Back to Top Example"></nys-globalheader>
  * <main style="padding: 0 2rem">
  *   <h1>Sample Content on page</h1>
@@ -97,7 +97,7 @@ import styles from "./nys-backtotop.scss?inline";
  *     --_nys-button-border-radius: var(--nys-radius-round);
  *  }
  * </style>
- * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
+ * <nys-unavheader translateKey="MY_TRANSLATE_KEY"></nys-unavheader>
  * <nys-globalheader appName="Back to Top Example"></nys-globalheader>
  * <main style="padding: 0 2rem">
  *   <h1>Sample Content on page</h1>
