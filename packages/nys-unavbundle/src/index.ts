@@ -2,7 +2,7 @@
  * `@nysds/nys-unavbundle` — the universal nav as a single drop-in script.
  *
  * ```html
- * <script src="https://unpkg.com/@nysds/nys-unavbundle"></script>
+ * <script src="nys-unavbundle.js"></script>
  * <nys-unavheader></nys-unavheader>
  * ...
  * <nys-unavfooter></nys-unavfooter>
