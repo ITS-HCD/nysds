@@ -313,10 +313,16 @@ export class NysButton extends NysFormControlElement {
    */
   @property({ type: String }) value = "";
 
+  // /**
+  //  * ID(s) of element(s) describing this button. Sets `aria-describedby`.
+  //  */
+  // @property({ type: String }) ariaDescribedBy = "";
+
   /**
-   * ID(s) of element(s) describing this button. Sets `aria-describedby`.
+   * Aria description for the button's name. Useful for adding additional SR context
+   * such as hint texts from the nys-tooltip (since that cannot be resolved by `ariaDescribedBy`).
    */
-  @property({ type: String }) ariaDescribedBy = "";
+  @property({ type: String }) ariaDescription = "";
 
   /**
    * Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.
@@ -422,6 +428,13 @@ export class NysButton extends NysFormControlElement {
       }
     }
   }
+
+  // private _getDescribedBy() {
+  //   const ids: string[] = [];
+  //   if (this.ariaDescription) ids.push(`${this.id}-description`);
+  //   if (this.ariaDescribedBy) ids.push(this.ariaDescribedBy);
+  //   return ids.join(" ") || undefined;
+  // }
 
   /**
    * Event Handlers
@@ -531,7 +544,7 @@ export class NysButton extends NysFormControlElement {
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
-                aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+                aria-description=${ifDefined(this.ariaDescription || undefined)}
                 aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
                 aria-current=${ifDefined(this.ariaCurrent || undefined)}
               >
@@ -600,7 +613,7 @@ export class NysButton extends NysFormControlElement {
               @blur=${this._handleBlur}
               @keydown=${this._handleKeydown}
               @keyup=${this._handleKeyup}
-              aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+              aria-description=${ifDefined(this.ariaDescription || undefined)}
               aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
               aria-current=${ifDefined(this.ariaCurrent || undefined)}
             >
