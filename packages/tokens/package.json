@@ -7,20 +7,28 @@
   "exports": {
     ".": "./src/tokens.json",
     "./json": "./src/tokens.json",
+    "./resolver": "./src/resolver.json",
+    "./themes/*": "./src/themes/*.json",
     "./css": "./dist/tokens.css"
   },
   "files": [
     "dist/",
     "src/tokens.json",
+    "src/resolver.json",
+    "src/themes/",
     "css.scss"
   ],
   "scripts": {
-    "build": "tz build && node ../../src/scripts/add-banner-tokens.mjs",
-    "dev": "tz build --watch"
+    "build": "node scripts/figma-to-dtcg.mjs && tz build && node ../../src/scripts/add-banner-tokens.mjs",
+    "dev": "tz build --watch",
+    "tokens:snapshot": "node scripts/css-diff.mjs snapshot",
+    "tokens:compare": "node scripts/css-diff.mjs compare",
+    "test:scripts": "node --test scripts/*.test.mjs",
+    "figma:pull": "node --env-file-if-exists=../../.env scripts/figma-pull.mjs"
   },
   "devDependencies": {
-    "@terrazzo/cli": "^0.5.0",
-    "@terrazzo/plugin-css": "^0.5.0"
+    "@terrazzo/cli": "^2.10.0",
+    "@terrazzo/plugin-css": "^2.10.0"
   },
   "keywords": [
     "design-tokens",

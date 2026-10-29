@@ -1,0 +1,34 @@
+{
+  "applied": {
+    "color": {
+      "theme": {
+        "$type": "color",
+        "$value": "{primitive.color.health-purple.700}"
+      },
+      "theme-faint": {
+        "$type": "color",
+        "$value": "{primitive.color.health-purple.10}"
+      },
+      "theme-mid": {
+        "$type": "color",
+        "$value": "{primitive.color.health-purple.400}"
+      },
+      "theme-strong": {
+        "$type": "color",
+        "$value": "{primitive.color.health-purple.800}"
+      },
+      "theme-stronger": {
+        "$type": "color",
+        "$value": "{primitive.color.health-purple.900}"
+      },
+      "theme-weak": {
+        "$type": "color",
+        "$value": "{primitive.color.health-purple.200}"
+      },
+      "theme-weaker": {
+        "$type": "color",
+        "$value": "{primitive.color.health-purple.100}"
+      }
+    }
+  }
+}

@@ -11,6 +11,11 @@
         "vite.config.ts",
         "tsconfig.json",
         "terrazzo.config.js",
+        // Tokens build converts the stored Figma response (figma/variables.json)
+        // with figma.config.mjs; root build:packages refreshes it before turbo runs.
+        "figma/**",
+        "figma.config.mjs",
+        "scripts/**/*.mjs",
         // Framework wrappers are generated from the manifest; a manifest
         // change must invalidate their build cache (framework-support WS0).
         "$TURBO_ROOT$/custom-elements.json",

@@ -68,6 +68,9 @@ packages/angular/.ngbuild/
 framework-examples/*/.angular/
 framework-examples/*/.next/
 
+# Token CSS comparison snapshots
+packages/tokens/.snapshots/
+
 # Ignore accessibility preview build (src/scripts/nysds-review/build-preview.mjs)
 .preview/
 
