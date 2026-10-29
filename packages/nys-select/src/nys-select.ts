@@ -550,6 +550,22 @@ export class NysSelect extends NysFormControlElement {
     dispatchNysFocusBlur(this, "blur");
   }
 
+  // Derive the required message before rendering, not after, so the write
+  // _manageRequire() makes from firstUpdated()/updated() is a no-op and Lit
+  // doesn't schedule a second update (see lit.dev/msg/change-in-update).
+  willUpdate(changedProperties: Map<string, unknown>): void {
+    super.willUpdate(changedProperties);
+
+    if (
+      !this.hasUpdated ||
+      changedProperties.has("value") ||
+      changedProperties.has("required")
+    ) {
+      this.internalValidationMessage =
+        this.required && !this.value ? "This field is required." : "";
+    }
+  }
+
   // Check if the current value matches any option, and if so, set it as selected
   updated(changedProperties: Map<string, unknown>): void {
     super.updated(changedProperties);

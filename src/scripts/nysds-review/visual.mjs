@@ -558,6 +558,9 @@ async function enterInteractiveState(page, shot) {
  * hover or focus. `allStories` is the full list, used to find each state's
  * story; `stories` is the list after --filter.
  */
+// states.mjs entries whose `story` matched no story page, warned about once.
+const unmatchedStateStories = new Set();
+
 function shotsForViewport(stories, allStories, viewport) {
   const shots = stories.map((story) => ({
     id: story.id,
@@ -581,7 +584,18 @@ function shotsForViewport(stories, allStories, viewport) {
           candidate.path.endsWith(`/${entry.story}`),
         )
       : packageStories[0];
-    if (!story || !includedStoryIds.has(story.id)) continue;
+    if (!story) {
+      // A typo in `story` would otherwise drop the entry's shots silently.
+      const key = `${entry.package}/${entry.story ?? ""}`;
+      if (!unmatchedStateStories.has(key)) {
+        unmatchedStateStories.add(key);
+        console.warn(
+          `  ⚠ states.mjs: no story page ${key} (story is the export name in kebab case)`,
+        );
+      }
+      continue;
+    }
+    if (!includedStoryIds.has(story.id)) continue;
 
     for (const state of entry.states) {
       shots.push({

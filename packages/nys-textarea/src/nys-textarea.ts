@@ -249,6 +249,19 @@ export class NysTextarea extends NysFormControlElement {
     if (changedProperties.has("rows") && this.rows == null) {
       this.rows = 4;
     }
+
+    // Derive the required message before rendering, not after, so the write
+    // _manageRequire() makes from firstUpdated()/updated() is a no-op and Lit
+    // doesn't schedule a second update (see lit.dev/msg/change-in-update).
+    if (
+      !this.hasUpdated ||
+      changedProperties.has("value") ||
+      changedProperties.has("required") ||
+      changedProperties.has("readonly")
+    ) {
+      this.internalValidationMessage =
+        this.required && !this.value ? "This field is required" : "";
+    }
   }
 
   async updated(changedProperties: Map<string | number | symbol, unknown>) {
