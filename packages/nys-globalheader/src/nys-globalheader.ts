@@ -600,6 +600,7 @@ export class NysGlobalHeader extends NysElement {
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0
                     ? html`<div
+                        id="${this.id}-appname"
                         class="nys-globalheader__appName nys-globalheader__name"
                       >
                         ${this.appName}
@@ -607,6 +608,7 @@ export class NysGlobalHeader extends NysElement {
                     : ""}
                   ${this.agencyName?.trim().length > 0
                     ? html`<div
+                        id="${this.id}-agencyname"
                         class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
                           .length > 0
                           ? ""
