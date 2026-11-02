@@ -18293,11 +18293,6 @@
             },
             {
               "kind": "method",
-              "name": "_initGoogletagmanager",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "_initLocalize",
               "privacy": "private"
             },
