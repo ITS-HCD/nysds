@@ -1,0 +1,96 @@
+# Code owners for ITS-HCD/nysds
+#
+# GitHub requests a review from the owners of the files a pull request
+# changes. It sends the request when the pull request opens, or when a draft
+# is marked ready for review. Draft pull requests don't trigger requests.
+#
+# Code owner approval isn't required to merge. To make it a merge gate, turn on
+# "Require review from Code Owners" in the branch protection for develop and main.
+#
+# Ownership comes from line-weighted commit history (release and version-bump
+# commits excluded) and team meeting notes, as of November 2026. The first
+# owner on a line is the primary owner and the second is the backup. GitHub
+# requests both, skips whoever opened the pull request, and counts either
+# approval as a code owner review.
+#
+# The last matching pattern wins, so keep specific paths after general ones.
+# To check this file, open it on GitHub. GitHub flags any invalid lines.
+
+# Default owner for anything not listed later in this file
+*                                            @ITS-HCD/ds-core
+
+# Build, tooling, CI, and release
+/package.json                                @esteinborn @emilygorelik
+/package-lock.json                           @esteinborn @emilygorelik
+/turbo.json                                  @esteinborn @emilygorelik
+/vite.config.js                              @esteinborn @emilygorelik
+/tsconfig.json                               @esteinborn @emilygorelik
+/tsconfig.build.json                         @esteinborn @emilygorelik
+/eslint.config.js                            @esteinborn @emilygorelik
+/stylelint.config.mjs                        @esteinborn @emilygorelik
+/web-test-runner.config.js                   @esteinborn @emilygorelik
+/plopfile.js                                 @esteinborn @emilygorelik
+/figma.config.json                           @esteinborn @emilygorelik
+/.storybook/                                 @esteinborn @emilygorelik
+/.github/                                    @esteinborn @plasticmind
+
+# Foundations
+/packages/tokens/                            @plasticmind @esteinborn
+/packages/styles/                            @esteinborn @NovaCat35
+
+# MCP server, code generation, and framework wrappers
+/packages/mcp-server/                        @plasticmind @esteinborn
+/packages/codegen/                           @plasticmind @esteinborn
+/packages/internals/                         @plasticmind @esteinborn
+/packages/react/                             @plasticmind @esteinborn
+/packages/angular/                           @plasticmind @esteinborn
+/packages/vue/                               @plasticmind @esteinborn
+/framework-examples/                         @plasticmind @esteinborn
+
+# Documentation
+/docs/                                       @plasticmind @esteinborn
+
+# Components
+/packages/nys-accordion/                     @NovaCat35 @emilygorelik
+/packages/nys-alert/                         @emilygorelik @NovaCat35
+/packages/nys-avatar/                        @NovaCat35 @emilygorelik
+/packages/nys-backtotop/                     @emilygorelik @NovaCat35
+/packages/nys-badge/                         @emilygorelik @NovaCat35
+/packages/nys-breadcrumbs/                   @NovaCat35 @emilygorelik
+/packages/nys-button/                        @emilygorelik @NovaCat35
+/packages/nys-card/                          @emilygorelik @NovaCat35
+/packages/nys-checkbox/                      @NovaCat35 @emilygorelik
+/packages/nys-combobox/                      @emilygorelik @NovaCat35
+/packages/nys-datepicker/                    @NovaCat35 @emilygorelik
+/packages/nys-divider/                       @emilygorelik @NovaCat35
+/packages/nys-dropdownmenu/                  @NovaCat35 @emilygorelik
+/packages/nys-errormessage/                  @emilygorelik @NovaCat35
+/packages/nys-fileinput/                     @NovaCat35 @emilygorelik
+/packages/nys-globalfooter/                  @NovaCat35 @emilygorelik
+/packages/nys-globalheader/                  @NovaCat35 @emilygorelik
+/packages/nys-icon/                          @esteinborn @NovaCat35
+/packages/nys-iconlist/                      @emilygorelik @NovaCat35
+/packages/nys-label/                         @emilygorelik @NovaCat35
+/packages/nys-modal/                         @NovaCat35 @emilygorelik
+/packages/nys-pagination/                    @emilygorelik @NovaCat35
+/packages/nys-processlist/                   @emilygorelik @NovaCat35
+/packages/nys-radiobutton/                   @NovaCat35 @emilygorelik
+/packages/nys-select/                        @emilygorelik @NovaCat35
+/packages/nys-skipnav/                       @NovaCat35 @emilygorelik
+/packages/nys-stepper/                       @emilygorelik @NovaCat35
+/packages/nys-tab/                           @emilygorelik @NovaCat35
+/packages/nys-table/                         @emilygorelik @NovaCat35
+/packages/nys-textarea/                      @emilygorelik @NovaCat35
+/packages/nys-textinput/                     @emilygorelik @NovaCat35
+/packages/nys-toggle/                        @emilygorelik @NovaCat35
+/packages/nys-tooltip/                       @NovaCat35 @emilygorelik
+/packages/nys-unavfooter/                    @NovaCat35 @esteinborn
+/packages/nys-unavheader/                    @emilygorelik @esteinborn
+/packages/nys-verticalnav/                   @NovaCat35 @emilygorelik
+/packages/nys-video/                         @NovaCat35 @emilygorelik
+
+# Universal navigation bundle (packages the unav header and footer)
+/packages/nys-unavbundle/                    @esteinborn @emilygorelik
+
+# This file
+/.github/CODEOWNERS                          @plasticmind @esteinborn
