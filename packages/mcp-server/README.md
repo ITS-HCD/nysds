@@ -17,19 +17,6 @@ Jump to the configuration for your assistant:
 - [Cursor](#cursor)
 - [Gemini CLI](#gemini-cli)
 
-### Using the Next Channel
-
-To pull in the latest bleeding-edge changes before they hit the stable release, point to the `next` dist-tag by replacing `@nysds/mcp-server` with `@nysds/mcp-server@next` in any of the configurations below. For example:
-
-```json
-"args": ["-y", "@nysds/mcp-server@next"]
-```
-
-To go back to stable, just remove `@next`.
-
-> [!NOTE]
-> Next releases may include breaking changes, incomplete features, or components not fully supported. They're useful for previewing upcoming work, but stick with the stable channel for production use.
-
 ### Optional: Local Installation
 
 If you prefer to install the server locally — for example, to use the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) or to pin a specific version — you can install it globally:
