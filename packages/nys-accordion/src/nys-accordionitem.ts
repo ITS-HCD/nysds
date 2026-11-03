@@ -104,7 +104,7 @@ export class NysAccordionItem extends NysElement {
    *
    * Pick the level that puts the trigger in the right place in the page
    * outline — one level below the heading that introduces the accordion. Leave
-   * it empty to follow the `headingLevel` of the enclosing `nys-accordion`,
+   * it unset to follow the `headingLevel` of the enclosing `nys-accordion`,
    * which is the usual way to set it for a whole group; `h3` applies when
    * neither is specified. `h1` is not offered because an accordion trigger is
    * never the page title.
@@ -131,8 +131,8 @@ export class NysAccordionItem extends NysElement {
   connectedCallback() {
     // super.connectedCallback() (NysElement) assigns a unique id
     // when one is not provided. The accordion item host carries no role: the
-    // semantics live on the inner heading/button (toggle) and the region panel,
-    // so defaultRole stays null.
+    // semantics live on the inner heading and its toggle button, so
+    // defaultRole stays null.
     super.connectedCallback();
   }
 

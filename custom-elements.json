@@ -267,9 +267,9 @@
               "kind": "field",
               "name": "headingLevel",
               "type": {
-                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | \"\""
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | undefined"
               },
-              "default": "\"\"",
+              "default": "undefined",
               "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
               "attribute": "headingLevel",
               "reflects": true
@@ -389,9 +389,9 @@
             {
               "name": "headingLevel",
               "type": {
-                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | \"\""
+                "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | undefined"
               },
-              "default": "\"\"",
+              "default": "undefined",
               "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
               "fieldName": "headingLevel"
             },

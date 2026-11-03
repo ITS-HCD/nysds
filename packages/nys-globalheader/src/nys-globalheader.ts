@@ -162,7 +162,7 @@ const isFocusable = (el: HTMLElement) => el.getClientRects().length > 0;
  * <nys-globalheader nysLogo appName="Admin Dashboard"></nys-globalheader>
  * ```
  *
- *  * @example Custom landmark label
+ * @example Custom landmark label
  * ```html
  * <!-- Names the banner landmark directly instead of from the visible title.
  *      Keep it distinct from nys-unavheader's ("New York State"). -->
