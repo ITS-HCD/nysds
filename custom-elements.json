@@ -1572,7 +1572,7 @@
               },
               "default": "null",
               "description": "Icon shown before the label.",
-              "attribute": "prefixicon"
+              "attribute": "prefixIcon"
             },
             {
               "kind": "field",
@@ -1582,7 +1582,7 @@
               },
               "default": "null",
               "description": "Icon shown after the label.",
-              "attribute": "suffixicon"
+              "attribute": "suffixIcon"
             },
             {
               "kind": "field",
@@ -1713,7 +1713,7 @@
               "fieldName": "strong"
             },
             {
-              "name": "prefixicon",
+              "name": "prefixIcon",
               "type": {
                 "text": "string | boolean | null"
               },
@@ -1722,7 +1722,7 @@
               "fieldName": "prefixIcon"
             },
             {
-              "name": "suffixicon",
+              "name": "suffixIcon",
               "type": {
                 "text": "string | boolean | null"
               },
@@ -2656,7 +2656,7 @@
               "kind": "field",
               "name": "target",
               "type": {
-                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | string"
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon=\"open_in_new\"`), `_parent`, `_top`, or frame name.",
@@ -3013,7 +3013,7 @@
             {
               "name": "target",
               "type": {
-                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | string"
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon=\"open_in_new\"`), `_parent`, `_top`, or frame name.",
@@ -3337,7 +3337,7 @@
               "kind": "field",
               "name": "target",
               "type": {
-                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | string"
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
@@ -3608,7 +3608,7 @@
             {
               "name": "target",
               "type": {
-                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | \"framename\""
+                "text": "| \"_self\"\n    | \"_blank\"\n    | \"_parent\"\n    | \"_top\"\n    | string"
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab), `_parent`, `_top`, or frame name. Only used with `href`.",
@@ -14086,13 +14086,13 @@
             },
             {
               "kind": "field",
-              "name": "counterText",
+              "name": "_counterText",
               "type": {
                 "text": "string"
               },
+              "privacy": "private",
               "default": "\"initial\"",
-              "description": "Progress text displayed in compact mode (e.g., \"Step 2 of 5\"). Auto-managed — do not set manually.",
-              "attribute": "counterText"
+              "description": "Progress text displayed in compact mode (e.g., \"Step 2 of 5\"). Derived from the steps."
             },
             {
               "kind": "field",
@@ -14188,15 +14188,6 @@
               "default": "\"\"",
               "description": "Title displayed above the step list and compact counter.",
               "fieldName": "label"
-            },
-            {
-              "name": "counterText",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"initial\"",
-              "description": "Progress text displayed in compact mode (e.g., \"Step 2 of 5\"). Auto-managed — do not set manually.",
-              "fieldName": "counterText"
             },
             {
               "name": "isCompactExpanded",
@@ -18035,43 +18026,43 @@
           "members": [
             {
               "kind": "field",
-              "name": "trustbarVisible",
+              "name": "_trustbarVisible",
               "type": {
                 "text": "boolean"
               },
+              "privacy": "private",
               "default": "false",
-              "description": "Internal: Whether trust bar panel is expanded.",
-              "attribute": "trustbarVisible"
+              "description": "Whether trust bar panel is expanded."
             },
             {
               "kind": "field",
-              "name": "searchDropdownVisible",
+              "name": "_searchDropdownVisible",
               "type": {
                 "text": "boolean"
               },
+              "privacy": "private",
               "default": "false",
-              "description": "Internal: Whether search dropdown is visible (mobile).",
-              "attribute": "searchDropdownVisible"
+              "description": "Whether search dropdown is visible (mobile)."
             },
             {
               "kind": "field",
-              "name": "languageVisible",
+              "name": "_languageVisible",
               "type": {
                 "text": "boolean"
               },
+              "privacy": "private",
               "default": "false",
-              "description": "Internal: Whether language dropdown is visible.",
-              "attribute": "languageVisible"
+              "description": "Whether language dropdown is visible."
             },
             {
               "kind": "field",
-              "name": "isSearchFocused",
+              "name": "_isSearchFocused",
               "type": {
                 "text": "boolean"
               },
+              "privacy": "private",
               "default": "false",
-              "description": "Internal: Whether search input is focused.",
-              "attribute": "isSearchFocused"
+              "description": "Whether search input is focused."
             },
             {
               "kind": "field",
@@ -18574,42 +18565,6 @@
           ],
           "attributes": [
             {
-              "name": "trustbarVisible",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal: Whether trust bar panel is expanded.",
-              "fieldName": "trustbarVisible"
-            },
-            {
-              "name": "searchDropdownVisible",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal: Whether search dropdown is visible (mobile).",
-              "fieldName": "searchDropdownVisible"
-            },
-            {
-              "name": "languageVisible",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal: Whether language dropdown is visible.",
-              "fieldName": "languageVisible"
-            },
-            {
-              "name": "isSearchFocused",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal: Whether search input is focused.",
-              "fieldName": "isSearchFocused"
-            },
-            {
               "name": "hideTranslate",
               "type": {
                 "text": "boolean"
@@ -18953,6 +18908,15 @@
               "kind": "method",
               "name": "renderContentMobile",
               "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "NysVerticalnavToggleEvent"
+              },
+              "description": "Fired when the mobile accordion opens or closes. Detail: `{id, expanded}`. Bubbles and composed.",
+              "name": "nys-verticalnav-toggle"
             }
           ],
           "attributes": [

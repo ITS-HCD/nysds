@@ -41,7 +41,6 @@ export const Basic: Story = {
     ariaDescribedBy: "",
     type: "button",
     href: "",
-    target: "_self",
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md", "lg"] },
@@ -70,10 +69,6 @@ export const Basic: Story = {
       control: { type: "select" },
       options: ["submit", "reset", "button"],
     },
-    target: {
-      control: { type: "select" },
-      options: ["_self", "_blank", "_parent", "_top", "framename"],
-    },
   },
   render: (args) => {
     return html`
@@ -96,7 +91,6 @@ export const Basic: Story = {
         ariaDescribedBy=${args.ariaDescribedBy}
         type=${args.type}
         href=${args.href}
-        target=${args.target}
       ></nys-button>
     `;
   },

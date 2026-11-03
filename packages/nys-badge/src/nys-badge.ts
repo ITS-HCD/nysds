@@ -165,11 +165,11 @@ export class NysBadge extends NysElement {
   @property({ type: Boolean, reflect: true }) strong = false;
 
   /** Icon shown before the label. */
-  @property({ type: String, attribute: "prefixicon" })
+  @property({ type: String })
   prefixIcon: string | boolean | null = null;
 
   /** Icon shown after the label. */
-  @property({ type: String, attribute: "suffixicon" })
+  @property({ type: String })
   suffixIcon: string | boolean | null = null;
 
   /**
