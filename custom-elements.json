@@ -233,7 +233,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.\n\nPlace inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button\naccessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.\n\nPer the WAI-ARIA Accordion pattern the toggle button is wrapped in a real\nheading element so the panels appear in the document outline and screen\nreader users can jump between them by heading. Set `headingLevel` (here or on\nthe parent `nys-accordion`) to the level that fits the surrounding page.",
+          "description": "A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.\n\nPlace inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button\naccessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.\n\nThe toggle button sits inside a real heading (`h2`-`h6`). Set `headingLevel`\nhere or on the parent `nys-accordion` to match the surrounding page.",
           "name": "NysAccordionItem",
           "slots": [
             {
@@ -270,7 +270,7 @@
                 "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | undefined"
               },
               "default": "undefined",
-              "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
+              "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nUse one level below the heading that introduces the accordion. If unset,\nthe item follows the parent `nys-accordion`, then falls back to `h3`.",
               "attribute": "headingLevel",
               "reflects": true
             },
@@ -305,7 +305,7 @@
                   "text": "NysAccordionHeadingLevel"
                 }
               },
-              "description": "The level actually rendered: this item's own `headingLevel`, otherwise the\none set on the enclosing `nys-accordion`, otherwise the `h3` default.\n\nThe group's value is read here rather than pushed down from the container\nso there is a single source of truth per item and an item-level value\nalways wins. `nys-accordion` re-renders its items when its own level\nchanges (see `_notifyHeadingLevel` there)."
+              "description": "The item's own level, else the parent accordion's, else `h3`."
             },
             {
               "kind": "method",
@@ -355,7 +355,7 @@
                   }
                 }
               ],
-              "description": "WAI-ARIA Accordion pattern: the toggle button must be contained in a\nheading at the level appropriate for the surrounding page. A real `h2`-`h6`\nelement is used rather than `role=\"heading\"` + `aria-level` so the trigger\ncarries native heading semantics everywhere — including the places that\nread the DOM instead of the accessibility tree."
+              "description": "Wraps the toggle button in a real heading, per the WAI-ARIA accordion pattern."
             }
           ],
           "events": [
@@ -392,7 +392,7 @@
                 "text": "| \"h2\"\n    | \"h3\"\n    | \"h4\"\n    | \"h5\"\n    | \"h6\"\n    | undefined"
               },
               "default": "undefined",
-              "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nPick the level that puts the trigger in the right place in the page\noutline — one level below the heading that introduces the accordion. Leave\nit empty to follow the `headingLevel` of the enclosing `nys-accordion`,\nwhich is the usual way to set it for a whole group; `h3` applies when\nneither is specified. `h1` is not offered because an accordion trigger is\nnever the page title.",
+              "description": "Heading element that wraps the toggle button (`h2` through `h6`).\n\nUse one level below the heading that introduces the accordion. If unset,\nthe item follows the parent `nys-accordion`, then falls back to `h3`.",
               "fieldName": "headingLevel"
             },
             {

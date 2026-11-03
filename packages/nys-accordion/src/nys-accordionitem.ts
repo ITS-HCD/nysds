@@ -227,12 +227,15 @@ export class NysAccordionItem extends NysElement {
   }
 
   render() {
+    const contentId = `${this.id}-content`;
+
     const trigger = html`<button
       class="nys-accordionitem__heading"
       type="button"
       @click=${this._handleExpand}
       @keydown=${this._handleKeydown}
       aria-expanded=${this.expanded ? "true" : "false"}
+      aria-controls=${contentId}
     >
       <span class="nys-accordionitem__heading-title">${this.heading}</span>
       <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
