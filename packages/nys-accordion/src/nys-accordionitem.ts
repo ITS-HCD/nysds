@@ -115,7 +115,7 @@ export class NysAccordionItem extends NysElement {
     | "h4"
     | "h5"
     | "h6"
-    | "" = "";
+    | undefined = undefined;
 
   /** Whether the content panel is visible. Toggle via click or keyboard. */
   @property({ type: Boolean, reflect: true }) expanded = false;
@@ -291,7 +291,6 @@ export class NysAccordionItem extends NysElement {
           class="nys-accordionitem__content ${this.expanded
             ? "expanded"
             : "collapsed"}"
-          role="region"
           aria-labelledby=${buttonId}
           @nys-child-resize=${this._updateHeight}
         >
