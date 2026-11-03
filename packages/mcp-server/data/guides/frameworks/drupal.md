@@ -16,9 +16,9 @@ Add the NYSDS styles and scripts to your theme's `*.libraries.yml`:
 nysds:
   css:
     theme:
-      # New project: includes reset, typography, and utility classes
+      # Full install (new projects): CSS variables + reset + typography + utility classes
       /node_modules/@nysds/styles/dist/nysds-full.min.css: { minified: true }
-      # Existing project: CSS variables only
+      # Default install (existing projects): CSS variables only. No reset, typography, or utility classes.
       # /node_modules/@nysds/styles/dist/nysds.min.css: { minified: true }
   js:
     /node_modules/@nysds/components/dist/nysds.es.js: { attributes: { type: module } }

@@ -8,7 +8,10 @@
  * - nysds://component/{tag} - Individual component docs
  */
 
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import {
+  ResourceTemplate,
+  type McpServer,
+} from "@modelcontextprotocol/sdk/server/mcp.js";
 import { getAllComponents, getComponent } from "../lib/cem-parser.js";
 
 export function registerComponentResources(server: McpServer): void {
@@ -41,17 +44,26 @@ export function registerComponentResources(server: McpServer): void {
   );
 
   // nysds://component/{tag} - Individual component docs
+  // Registered as a template so nysds://component/nys-button resolves; a plain
+  // string URI would only ever match the literal "{tag}".
   server.resource(
     "component",
-    "nysds://component/{tag}",
+    new ResourceTemplate("nysds://component/{tag}", {
+      list: async () => ({
+        resources: getAllComponents().map((c) => ({
+          uri: `nysds://component/${c.tagName}`,
+          name: c.tagName!,
+          description: c.summary || c.description?.split("\n")[0],
+          mimeType: "application/json",
+        })),
+      }),
+    }),
     {
       description: "Full documentation for a specific NYSDS component",
       mimeType: "application/json",
     },
-    async (uri) => {
-      // Extract tag from URI: nysds://component/nys-button -> nys-button
-      const tag = uri.pathname.split("/").pop() || "";
-      const component = getComponent(tag);
+    async (uri, { tag }) => {
+      const component = getComponent(String(tag));
 
       if (!component) {
         return {

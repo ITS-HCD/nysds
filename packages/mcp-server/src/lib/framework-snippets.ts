@@ -15,7 +15,8 @@ import {
 } from "@nysds/codegen";
 import { getCEM, type CEMExample, type CEMFormControl } from "./cem-parser.js";
 
-export type FrameworkFilter = "html" | "react" | "angular";
+// Vue has no snippet transform: its templates take the HTML examples as-is.
+export type FrameworkFilter = "html" | "react" | "angular" | "vue";
 
 export interface FrameworkSnippet {
   code: string;
