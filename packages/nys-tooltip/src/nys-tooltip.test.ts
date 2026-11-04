@@ -110,7 +110,7 @@ describe("nys-tooltip", () => {
   it("links tooltip to nys-icon and passes tooltip text to the icon", async () => {
     const el = await fixture(html`
       <div>
-        <nys-icon id="my-icon"></nys-icon>
+        <nys-icon id="my-icon" name="info"></nys-icon>
         <nys-tooltip for="my-icon" text="Hello World"></nys-tooltip>
       </div>
     `);

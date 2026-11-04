@@ -348,6 +348,19 @@ export class NysCombobox extends NysFormControlElement {
       this._selectedLabel = option ? option.label : "";
       this._filterText = this._selectedLabel;
     }
+
+    // The required message is reactive state too. _manageRequire() runs after
+    // render (it needs the <input> as the validity anchor), so it only syncs
+    // ElementInternals and reads the message set here.
+    if (
+      !this.hasUpdated ||
+      changedProperties.has("value") ||
+      changedProperties.has("required")
+    ) {
+      this.internalValidationMessage = this._isRequiredMissing()
+        ? "This field is required"
+        : "";
+    }
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -457,19 +470,18 @@ export class NysCombobox extends NysFormControlElement {
     this._manageRequire();
   }
 
-  private _manageRequire() {
-    const isInvalid =
-      this.required && (!this.value || this.value?.trim() === "");
+  private _isRequiredMissing() {
+    return this.required && (!this.value || this.value?.trim() === "");
+  }
 
-    if (isInvalid) {
-      this.internalValidationMessage = "This field is required";
+  private _manageRequire() {
+    if (this._isRequiredMissing()) {
       this.setValidityFromState(
         { valueMissing: true },
         this.resolvedErrorMessage(),
         this._input,
       );
     } else {
-      this.internalValidationMessage = "";
       this.clearValidity();
       this._hasUserInteracted = false;
     }
