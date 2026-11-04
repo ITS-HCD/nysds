@@ -10785,11 +10785,6 @@
               "default": "false"
             },
             {
-              "kind": "field",
-              "name": "_boundHandleKeydown",
-              "privacy": "private"
-            },
-            {
               "kind": "method",
               "name": "_hideBodyScroll",
               "privacy": "private",
@@ -10826,7 +10821,7 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
+              "kind": "field",
               "name": "_updateSlottedButtonWidth",
               "privacy": "private"
             },
@@ -10846,17 +10841,9 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
+              "kind": "field",
               "name": "_handleKeydown",
               "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ],
               "description": "Event Handlers\n--------------------------------------------------------------------------"
             },
             {
