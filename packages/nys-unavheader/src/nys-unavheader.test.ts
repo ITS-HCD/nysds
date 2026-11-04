@@ -928,6 +928,48 @@ describe("nys-unavheader", () => {
       expect(text?.textContent?.trim()).to.equal("Translate");
     });
 
+    it("displays the selected language on the desktop translate button", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const desktop = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      );
+      const text = desktop?.shadowRoot?.querySelector(
+        "button .nys-button__text",
+      );
+      expect(text?.textContent?.trim()).to.equal("English");
+    });
+
+    it("updates the desktop translate button text when a language is selected", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const spanishOption = el.shadowRoot?.querySelectorAll<HTMLElement>(
+        ".nys-unavheader__languagelink",
+      )[1];
+
+      spanishOption?.dispatchEvent(
+        new MouseEvent("click", { bubbles: true, cancelable: true }),
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const desktop = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      );
+      const text = desktop?.shadowRoot?.querySelector(
+        "button .nys-button__text",
+      );
+      expect(text?.textContent?.trim()).to.equal("Español");
+    });
+
     it("keeps the language options out of the tab order until the menu opens", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,

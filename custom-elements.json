@@ -18175,6 +18175,16 @@
             },
             {
               "kind": "field",
+              "name": "_selectedLanguage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"English\"",
+              "description": "The currently selected language label displayed on the translate button. Defaults to \"English\"."
+            },
+            {
+              "kind": "field",
               "name": "_openWithFocus",
               "type": {
                 "text": "\"first\" | \"last\" | null"

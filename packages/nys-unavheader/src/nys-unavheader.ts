@@ -461,6 +461,18 @@ export class NysUnavHeader extends NysElement {
     // Also covers re-attachment, where the pending request was aborted on the way out
     this._loadAlerts();
     this._initLocalize();
+
+    if (this._selectedLanguage === "English" && document.documentElement.lang) {
+      const match = this.languages.find(
+        (l) =>
+          languageTag(l.code).toLowerCase() ===
+            document.documentElement.lang.toLowerCase() ||
+          l.code.toLowerCase() === document.documentElement.lang.toLowerCase(),
+      );
+      if (match) {
+        this._selectedLanguage = match.label;
+      }
+    }
   }
 
   disconnectedCallback() {
@@ -568,6 +580,9 @@ export class NysUnavHeader extends NysElement {
 
   /** Index of the option holding the menu's single tab stop. */
   private _activeOption = 0;
+
+  /** The currently selected language label displayed on the translate button. Defaults to "English". */
+  @state() private _selectedLanguage = "English";
 
   /**
    * Where focus lands when the menu opens, set only by a keyboard activation. A
@@ -849,6 +864,7 @@ export class NysUnavHeader extends NysElement {
   }
 
   private _handleLanguageSelect(e: Event, language: Language) {
+    this._selectedLanguage = language.label;
     this._closeLanguageList();
 
     const event = new CustomEvent("nys-language-select", {
@@ -1329,7 +1345,7 @@ export class NysUnavHeader extends NysElement {
                     ? html`<!-- See Aaron's PR comment; 'ariaControls' removed, and nys-button role changed from presentation to listitem -->
                         <nys-button
                           variant="ghost"
-                          label="Translate"
+                          label=${this._selectedLanguage}
                           ariaExpanded="${this.languageVisible}"
                           size="sm"
                           prefixIcon="language"
