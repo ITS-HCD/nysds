@@ -244,7 +244,7 @@ export class NysModal extends NysElement {
   // Bound reference so the same function is used for both add/removeEventListener.
   // (Previously two distinct arrow wrappers were used, so the listener was never
   // actually removed on disconnect — a leak that left stale handlers firing.)
-  private _boundHandleKeydown = (e: KeyboardEvent) => this._handleKeydown(e);
+  // private _boundHandleKeydown = (e: KeyboardEvent) => this._handleKeydown(e);
 
   connectedCallback() {
     // super.connectedCallback() (NysElement) assigns an id when one
@@ -254,7 +254,7 @@ export class NysModal extends NysElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.addEventListener("keydown", this._boundHandleKeydown);
+    window.addEventListener("keydown", this._handleKeydown);
   }
 
   disconnectedCallback() {
@@ -264,7 +264,7 @@ export class NysModal extends NysElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.removeEventListener("keydown", this._boundHandleKeydown);
+    window.removeEventListener("keydown", this._handleKeydown);
   }
 
   async updated(changeProps: Map<string, any>) {
@@ -360,7 +360,7 @@ export class NysModal extends NysElement {
 
   // Design has it that the slotted action buttons should be fullWidth and display:column direction for mobile view.
   // Therefore, we need to account for mobile size and screen resizes
-  private _updateSlottedButtonWidth() {
+  private _updateSlottedButtonWidth = () => {
     if (!this._actionButtonSlot) return; // use the cached variable
     const isMobile = this._mobileMedia.matches;
 
@@ -373,7 +373,7 @@ export class NysModal extends NysElement {
         }
       });
     });
-  }
+  };
 
   private _dispatchOpenEvent() {
     this.dispatchEvent(
@@ -412,7 +412,7 @@ export class NysModal extends NysElement {
    * --------------------------------------------------------------------------
    */
 
-  private async _handleKeydown(e: KeyboardEvent) {
+  private _handleKeydown = (e: KeyboardEvent) => {
     if (!this.open) return;
 
     // Exit the modal for "escape" key
@@ -486,7 +486,7 @@ export class NysModal extends NysElement {
         }
       }
     }
-  }
+  };
 
   private _closeModal() {
     this.open = false;
