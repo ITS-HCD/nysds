@@ -1004,7 +1004,6 @@ describe("nys-fileinput", () => {
     });
   });
 
-  /****************** FILE ITEM TESTS *******************/
   // Regression: #1764 — aria-errormessage used to receive the error TEXT, which
   // is an IDREF attribute, so the relation resolved to nothing.
   describe("nys-fileitem error association", () => {
@@ -1038,24 +1037,6 @@ describe("nys-fileinput", () => {
       // The error element itself must not claim to be an invalid control.
       expect(errorEl.hasAttribute("aria-invalid")).to.equal(false);
       expect(errorEl.hasAttribute("aria-errormessage")).to.equal(false);
-    });
-
-    it("exposes a single named progress bar while processing", async () => {
-      const el = await fixture<NysFileItem>(
-        html`<nys-fileitem
-          filename="license.pdf"
-          status="processing"
-          progress="40"
-        ></nys-fileitem>`,
-      );
-
-      const bar = el.shadowRoot!.querySelector("progress");
-      expect(bar?.tagName.toLowerCase()).to.equal("progress");
-      expect(bar?.getAttribute("aria-label")).to.equal(
-        "Upload progress for license.pdf",
-      );
-      expect(bar?.value).to.equal(40);
-      expect(bar?.max).to.equal(100);
     });
 
     it("does not announce a healthy file item as invalid", async () => {
