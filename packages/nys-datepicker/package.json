@@ -27,7 +27,7 @@
     "@nysds/nys-button": "^1.23.1",
     "@nysds/nys-label": "^1.23.1",
     "@nysds/nys-errormessage": "^1.23.1",
-    "wc-datepicker": "^0.10.0"
+    "wc-datepicker": "^0.13.0"
   },
   "devDependencies": {
     "@nysds/internals": "^1.23.1",
