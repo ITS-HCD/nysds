@@ -5363,6 +5363,11 @@
             },
             {
               "kind": "method",
+              "name": "_isRequiredMissing",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_manageRequire",
               "privacy": "private"
             },

@@ -319,6 +319,18 @@ export class NysFileinput extends NysFormControlElement {
     this._setValue();
   }
 
+  // Derive the required message before rendering, not after, so the write
+  // _manageRequire() makes from firstUpdated()/updated() is a no-op and Lit
+  // doesn't schedule a second update (see lit.dev/msg/change-in-update).
+  willUpdate(changedProperties: Map<string, unknown>) {
+    if (!this.hasUpdated || changedProperties.has("required")) {
+      this.internalValidationMessage =
+        this.required && this._selectedFiles.length == 0
+          ? "Please upload a file."
+          : "";
+    }
+  }
+
   updated(changedProperties: Map<string, unknown>) {
     void this._syncControlErrorAssociation();
 
