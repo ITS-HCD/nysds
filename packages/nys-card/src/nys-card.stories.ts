@@ -34,14 +34,9 @@ export const Basic: Story = {
     inset: false,
     elevated: false,
     href: "",
-    target: "_self",
   },
   argTypes: {
     size: { control: { type: "select" }, options: ["sm", "md", "lg"] },
-    target: {
-      control: { type: "select" },
-      options: ["_self", "_blank", "_parent", "_top", "framename"],
-    },
   },
   render: (args) => {
     return html`
@@ -55,7 +50,6 @@ export const Basic: Story = {
           ?inset=${args.inset}
           ?elevated=${args.elevated}
           href=${args.href}
-          target=${args.target}
         ></nys-card>
       </div>
     `;
