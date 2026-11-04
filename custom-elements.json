@@ -10754,6 +10754,15 @@
             },
             {
               "kind": "field",
+              "name": "_originalHtmlOverflow",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
               "name": "_originalBodyOverflow",
               "type": {
                 "text": "string | null"
