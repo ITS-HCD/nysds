@@ -16,10 +16,10 @@ Then reference in your layout:
 
 ```html
 <head>
-  <!-- New project: includes reset, typography, and utility classes -->
+  <!-- Full install (new projects): CSS variables + reset + typography + utility classes -->
   <link rel="stylesheet" href="node_modules/@nysds/styles/dist/nysds-full.min.css" />
 
-  <!-- Existing project: CSS variables only -->
+  <!-- Default install (existing projects): CSS variables only. No reset, typography, or utility classes. -->
   <!-- <link rel="stylesheet" href="node_modules/@nysds/styles/dist/nysds.min.css" /> -->
 
   <script type="module" src="node_modules/@nysds/components/dist/nysds.es.js"></script>

@@ -2,7 +2,7 @@
  * Framework usage notes
  *
  * Short, framework-specific guidance attached to `get_component` responses
- * when the caller asks for `framework: "react"` or `"angular"` — the import
+ * when the caller asks for `framework: "react"`, `"angular"`, or `"vue"` — the import
  * line, the event-prop naming rule, and (when the component is a form
  * control) how it binds into that framework's forms. Naming follows the
  * rules in `.claude/plans/framework-support/README.md` section 4.1, reused
@@ -77,6 +77,21 @@ export function buildAngularUsageNotes(
     }`,
     forms: formControl
       ? 'Implements ControlValueAccessor: works with [(ngModel)], formControlName (Reactive Forms), and Signal Forms [formField] with no CUSTOM_ELEMENTS_SCHEMA. Add the nysControlErrors directive to let Angular own validation display instead of the component\'s own errorMessage/showError. See get_guide({ topic: "installation", framework: "angular" }).'
+      : undefined,
+  };
+}
+
+export function buildVueUsageNotes(
+  className: string,
+  formControl: CEMFormControl | undefined,
+): FrameworkUsageNotes {
+  return {
+    package: "@nysds/vue",
+    import: `import { ${className} } from "@nysds/vue";`,
+    events:
+      "Events keep their full NYSDS names: listen with @nys-change, @nys-input, and so on. The handler receives the typed event, so e.detail autocompletes. Use the nys-* events rather than native @input/@change.",
+    forms: formControl
+      ? `Form control (${formControl.kind}). v-model binds ${formControl.kind}. The HTML examples work in a Vue template as written; swap the tag for <${className}> to use the typed wrapper. See get_guide({ topic: "installation", framework: "vue" }).`
       : undefined,
   };
 }

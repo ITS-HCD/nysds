@@ -31,7 +31,7 @@ Add NYSDS styles to your `angular.json`:
         "build": {
           "options": {
             "styles": [
-              "node_modules/@nysds/styles/nysds-full.min.css"
+              "node_modules/@nysds/styles/dist/nysds-full.min.css"
             ]
           }
         }
@@ -40,6 +40,19 @@ Add NYSDS styles to your `angular.json`:
   }
 }
 ```
+
+`@nysds/styles` has two installs:
+
+- **Full install** (`node_modules/@nysds/styles/dist/nysds-full.min.css`, shown above): the CSS variables
+  that style the components, plus a CSS reset, typography, and the NYSDS
+  utility classes (`nys-grid-*`, `nys-margin-*`, and so on). Use it for a
+  new app.
+- **Default install** (`node_modules/@nysds/styles/dist/nysds.min.css`): the CSS variables only. No reset,
+  typography, or utility classes. Use it when your app already has its own,
+  and don't use NYSDS utility classes with it: they won't exist.
+
+Load one, not both. Component-level styles live in each component's
+shadow DOM and need no extra setup.
 
 ## First component
 
