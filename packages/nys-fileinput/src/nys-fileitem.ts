@@ -161,15 +161,12 @@ export class NysFileItem extends NysElement {
           ></nys-button>
         </div>
         ${this.status === "processing"
-          ? html`<div
-              class="file-item__progress-container"
-              role="progressbar"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              aria-valuenow="${this.progress}"
-              aria-label="Upload progress for ${this.filename}"
-            >
-              <progress value=${this.progress} max="100"></progress>
+          ? html`<div class="file-item__progress-container">
+              <progress
+                value=${this.progress}
+                max="100"
+                aria-label="Upload progress for ${this.filename}"
+              ></progress>
             </div>`
           : null}
       </div>
