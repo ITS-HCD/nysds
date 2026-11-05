@@ -136,10 +136,17 @@ export class NysDropdownMenu extends NysElement {
   // component keeps defaultRole = null and does not move a role onto the host.
   connectedCallback() {
     super.connectedCallback();
+    // disconnectedCallback unwires the trigger, so a moved menu wires it again.
+    if (this.hasUpdated && this.for && !this._trigger) {
+      this.updateComplete.then(() => this._connectTrigger());
+    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    // Release the window and document listeners and the ResizeObserver, and
+    // stop the trigger from toggling a menu that is no longer on the page.
+    this._disconnectTrigger(false);
   }
 
   async firstUpdated() {
@@ -225,8 +232,8 @@ export class NysDropdownMenu extends NysElement {
   // whatever trigger is currently connected, and closes the menu if it was
   // open against that trigger. Called before wiring a new trigger (`for`
   // changed) so a stale trigger never keeps listening.
-  private _disconnectTrigger() {
-    if (this.showDropdown) this._closeDropdown();
+  private _disconnectTrigger(restoreFocus = true) {
+    if (this.showDropdown) this._closeDropdown(restoreFocus);
 
     if (this._trigger) {
       this._trigger.removeEventListener("click", this._toggleDropdown);
@@ -267,22 +274,26 @@ export class NysDropdownMenu extends NysElement {
       this._positionMenu();
       this._focusOnItem(this._lastFocusedIndex);
     } else {
-      window.removeEventListener("scroll", this._handleWindowScroll, true);
-      document.removeEventListener("click", this._handleDocumentClick);
-      this._menuElement!.removeEventListener(
-        "keydown",
-        this._handleMenuKeydown,
-      );
-
-      this._resizeObserver?.disconnect();
-      this._resizeObserver = null;
+      this._removeOpenListeners();
     }
   };
 
-  private _closeDropdown() {
+  // Every close path comes through here, not only a second trigger click.
+  private _removeOpenListeners() {
+    window.removeEventListener("scroll", this._handleWindowScroll, true);
+    document.removeEventListener("click", this._handleDocumentClick);
+    this._menuElement?.removeEventListener("keydown", this._handleMenuKeydown);
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = null;
+  }
+
+  // `restoreFocus` is false when the user already moved focus somewhere else
+  // (an outside click); pulling it back to the trigger would undo their click.
+  private _closeDropdown(restoreFocus = true) {
     this.showDropdown = false;
     this._ariaTarget?.setAttribute("aria-expanded", "false");
-    this._trigger?.focus();
+    this._removeOpenListeners();
+    if (restoreFocus) this._trigger?.focus();
   }
 
   private _getMenuItems(): HTMLElement[] {
@@ -303,7 +314,7 @@ export class NysDropdownMenu extends NysElement {
     const clickedTrigger = this._trigger && path.includes(this._trigger);
 
     if (!clickedInsideMenu && !clickedTrigger) {
-      this._closeDropdown();
+      this._closeDropdown(false);
     }
   };
 
