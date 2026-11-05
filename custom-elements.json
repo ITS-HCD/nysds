@@ -18246,6 +18246,32 @@
             },
             {
               "kind": "method",
+              "name": "_getLanguageFromHostname",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | undefined"
+                }
+              },
+              "description": "Extracts the language code from the hostname subdomain if present (e.g. \"es.agency.ny.gov\" -> \"es\")."
+            },
+            {
+              "kind": "method",
+              "name": "_updateSelectedLanguageFromCode",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "code",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Matches a language code or tag against supported languages and updates _selectedLanguage."
+            },
+            {
+              "kind": "method",
               "name": "_stripLanguagePrefix",
               "privacy": "private",
               "return": {

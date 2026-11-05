@@ -970,6 +970,62 @@ describe("nys-unavheader", () => {
       expect(text?.textContent?.trim()).to.equal("Español");
     });
 
+    it("syncs the desktop translate button with Localize's remembered language on init and event", async () => {
+      let registeredHandler: ((data: any) => void) | undefined;
+      (window as any).Localize = {
+        initialize: () => {},
+        hideWidget: () => {},
+        getLanguage: () => "es",
+        on: (event: string, fn: (data: any) => void) => {
+          if (event === "setLanguage") registeredHandler = fn;
+        },
+      };
+
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+      );
+      await el.updateComplete;
+      await aTimeout(0);
+
+      const desktop = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      );
+      const text = desktop?.shadowRoot?.querySelector(
+        "button .nys-button__text",
+      );
+      expect(text?.textContent?.trim()).to.equal("Español");
+
+      registeredHandler?.("fr");
+      await el.updateComplete;
+      await aTimeout(0);
+      expect(
+        desktop?.shadowRoot
+          ?.querySelector("button .nys-button__text")
+          ?.textContent?.trim(),
+      ).to.equal("Français");
+
+      delete (window as any).Localize;
+    });
+
+    it("adds notranslate and translate='no' to the translate trigger and wrapper", async () => {
+      const el = await fixture<NysUnavHeader>(
+        html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,
+      );
+      await el.updateComplete;
+
+      const wrapper = el.shadowRoot?.querySelector(
+        ".nys-unavheader__translatewrapper",
+      );
+      expect(wrapper?.hasAttribute("notranslate")).to.be.true;
+      expect(wrapper?.getAttribute("translate")).to.equal("no");
+
+      const desktop = el.shadowRoot?.getElementById(
+        "nys-unavheader__translate--desktop",
+      );
+      expect(desktop?.hasAttribute("notranslate")).to.be.true;
+      expect(desktop?.getAttribute("translate")).to.equal("no");
+    });
+
     it("keeps the language options out of the tab order until the menu opens", async () => {
       const el = await fixture<NysUnavHeader>(
         html`<nys-unavheader translateKey="test-key"></nys-unavheader>`,

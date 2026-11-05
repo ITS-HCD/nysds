@@ -462,16 +462,11 @@ export class NysUnavHeader extends NysElement {
     this._loadAlerts();
     this._initLocalize();
 
-    if (this._selectedLanguage === "English" && document.documentElement.lang) {
-      const match = this.languages.find(
-        (l) =>
-          languageTag(l.code).toLowerCase() ===
-            document.documentElement.lang.toLowerCase() ||
-          l.code.toLowerCase() === document.documentElement.lang.toLowerCase(),
-      );
-      if (match) {
-        this._selectedLanguage = match.label;
-      }
+    const hostLang = this._getLanguageFromHostname();
+    if (hostLang) {
+      this._updateSelectedLanguageFromCode(hostLang);
+    } else if (document.documentElement.lang) {
+      this._updateSelectedLanguageFromCode(document.documentElement.lang);
     }
   }
 
@@ -711,6 +706,40 @@ export class NysUnavHeader extends NysElement {
    * site lives at the bare host.
    */
 
+  /** Extracts the language code from the hostname subdomain if present (e.g. "es.agency.ny.gov" -> "es"). */
+  private _getLanguageFromHostname(): string | undefined {
+    if (typeof window === "undefined" || !window.location?.hostname)
+      return undefined;
+    const hostname = window.location.hostname.toLowerCase();
+    for (const lang of this.languages) {
+      if (lang.code.toLowerCase() === "en") continue;
+      const prefix = `${lang.code.toLowerCase()}.`;
+      if (hostname.startsWith(prefix)) {
+        return lang.code;
+      }
+    }
+    return undefined;
+  }
+
+  /** Matches a language code or tag against supported languages and updates _selectedLanguage. */
+  private _updateSelectedLanguageFromCode(code?: string) {
+    if (!code) return;
+    const clean = code.trim().toLowerCase();
+    const match = this.languages.find((lang) => {
+      const c = lang.code.toLowerCase();
+      const tag = languageTag(lang.code).toLowerCase();
+      return (
+        c === clean ||
+        tag === clean ||
+        clean.startsWith(`${c}-`) ||
+        clean.startsWith(`${tag}-`)
+      );
+    });
+    if (match) {
+      this._selectedLanguage = match.label;
+    }
+  }
+
   /** Removes a leading language-code subdomain label (e.g. "es.") if present. */
   private _stripLanguagePrefix(hostname: string): string {
     const codes = this.languages
@@ -791,6 +820,21 @@ export class NysUnavHeader extends NysElement {
           ],
         });
         (window as any).Localize?.hideWidget?.();
+
+        const currentLang = (window as any).Localize?.getLanguage?.();
+        if (currentLang) {
+          this._updateSelectedLanguageFromCode(currentLang);
+        }
+
+        (window as any).Localize?.on?.("setLanguage", (data: any) => {
+          const code =
+            typeof data === "string"
+              ? data
+              : data?.language || (window as any).Localize?.getLanguage?.();
+          if (code) {
+            this._updateSelectedLanguageFromCode(code);
+          }
+        });
         // The disclaimer is *not* wired to Localize: it must only ever
         // appear as a direct result of a user clicking a language (see
         // _handleLanguageSelect), never as a side effect of Localize's own
@@ -1320,7 +1364,9 @@ export class NysUnavHeader extends NysElement {
             <div class="nys-unavheader__spacer"></div>
             ${!this.hideTranslate
               ? html`<div
-                  class="nys-unavheader__translatewrapper"
+                  class="nys-unavheader__translatewrapper notranslate"
+                  translate="no"
+                  notranslate
                   @keydown=${this._handleTranslateKeydown}
                   @focusout=${this._handleTranslateFocusout}
                 >
@@ -1331,7 +1377,9 @@ export class NysUnavHeader extends NysElement {
                     ariaControls="${LANGUAGE_LIST_ID}"
                     ariaExpanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
-                    class="nys-unavheader__iconbutton"
+                    class="nys-unavheader__iconbutton notranslate"
+                    translate="no"
+                    notranslate
                     @nys-click=${() =>
                       this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[1])}
                   >
@@ -1353,6 +1401,9 @@ export class NysUnavHeader extends NysElement {
                             ? "chevron_up"
                             : "chevron_down"}
                           id="nys-unavheader__translate--desktop"
+                          class="notranslate"
+                          translate="no"
+                          notranslate
                           @nys-click="${() =>
                             this._toggleLanguageList(TRANSLATE_TRIGGER_IDS[0])}"
                         ></nys-button>`
