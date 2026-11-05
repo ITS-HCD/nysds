@@ -189,12 +189,15 @@
   /* to make sure the button outline renders on top of the input */
 }
 
-.nys-textinput__buttoncontainer.has-start-button ::slotted(nys-button) {
+.nys-textinput__buttoncontainer.has-start-button ::slotted(nys-button),
+.nys-textinput__buttoncontainer.has-end-button:dir(rtl) ::slotted(nys-button) {
   --_nys-button-border-radius: var(--_nys-textinput-border-radius) 0 0
     var(--_nys-textinput-border-radius);
 }
 
-.nys-textinput__buttoncontainer.has-end-button ::slotted(nys-button) {
+.nys-textinput__buttoncontainer.has-end-button ::slotted(nys-button),
+.nys-textinput__buttoncontainer.has-start-button:dir(rtl)
+  ::slotted(nys-button) {
   --_nys-button-border-radius: 0 var(--_nys-textinput-border-radius)
     var(--_nys-textinput-border-radius) 0;
 }
