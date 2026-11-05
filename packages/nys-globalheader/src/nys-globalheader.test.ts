@@ -255,6 +255,43 @@ describe("nys-globalheader", () => {
     );
   });
 
+  it("resolves the banner name to the app name when the title is a homepage link", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="eFile"
+        agencyName="Tax Department"
+        homepageLink="https://ny.gov"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const labelledBy = header?.getAttribute("aria-labelledby");
+    const target = labelledBy
+      ? el.shadowRoot?.getElementById(labelledBy)
+      : null;
+    expect(target, "aria-labelledby should point at a rendered element").to
+      .exist;
+    expect(target?.textContent?.trim()).to.equal("eFile");
+  });
+
+  it("resolves the banner name to the agency name when a homepage link has no app name", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        agencyName="Tax Department"
+        homepageLink="https://ny.gov"
+      ></nys-globalheader>`,
+    );
+
+    const header = el.shadowRoot?.querySelector("header");
+    const labelledBy = header?.getAttribute("aria-labelledby");
+    const target = labelledBy
+      ? el.shadowRoot?.getElementById(labelledBy)
+      : null;
+    expect(target, "aria-labelledby should point at a rendered element").to
+      .exist;
+    expect(target?.textContent?.trim()).to.equal("Tax Department");
+  });
+
   it("falls back to a default banner name when no title is provided", async () => {
     const el = await fixture<NysGlobalHeader>(
       html`<nys-globalheader></nys-globalheader>`,
