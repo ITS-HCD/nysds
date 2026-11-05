@@ -18167,6 +18167,16 @@
             },
             {
               "kind": "field",
+              "name": "_selectedLanguage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"English\"",
+              "description": "The currently selected language label displayed on the translate button. Defaults to \"English\"."
+            },
+            {
+              "kind": "field",
               "name": "_openWithFocus",
               "type": {
                 "text": "\"first\" | \"last\" | null"
@@ -18225,6 +18235,32 @@
                 }
               ],
               "description": "Moves both focus and the tab stop to an option, wrapping at either end. Index\n-1 is the last option, so \"previous from the first\" and \"End\" are the same call."
+            },
+            {
+              "kind": "method",
+              "name": "_getLanguageFromHostname",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | undefined"
+                }
+              },
+              "description": "Extracts the language code from the hostname subdomain if present (e.g. \"es.agency.ny.gov\" -> \"es\")."
+            },
+            {
+              "kind": "method",
+              "name": "_updateSelectedLanguageFromCode",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "code",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Matches a language code or tag against supported languages and updates _selectedLanguage."
             },
             {
               "kind": "method",
