@@ -377,22 +377,23 @@ export class NysTooltip extends NysElement {
       // actually writes, so this reaches the icon's rendered <svg>.
       el.setAttribute("ariaLabel", `Hint: ${this.text}`);
     } else if (tagName === "nys-button") {
-      // nys-button has no ariaLabel/ariaDescription prop, so setAttribute here
-      // reached nothing — and setting the plain aria-describedby *attribute*
-      // (what _associateTrigger does above) doesn't reach it either, since the
-      // host has no role and never maps its own light-DOM ARIA into the
-      // internal <button>. Route through the real `ariaDescribedBy` *property*
-      // instead, pointing at this tooltip's own id — the same id
-      // _associateTrigger already builds toward — so nys-button renders a
-      // working aria-describedby on its real internal <button>.
-      const button = el as unknown as { ariaDescribedBy?: string };
-      const existing = (button.ariaDescribedBy || "")
-        .split(/\s+/)
-        .filter(Boolean);
-      if (!existing.includes(this.id)) {
-        existing.push(this.id);
-        button.ariaDescribedBy = existing.join(" ");
-      }
+      // // nys-button has no ariaLabel/ariaDescription prop, so setAttribute here
+      // // reached nothing — and setting the plain aria-describedby *attribute*
+      // // (what _associateTrigger does above) doesn't reach it either, since the
+      // // host has no role and never maps its own light-DOM ARIA into the
+      // // internal <button>. Route through the real `ariaDescribedBy` *property*
+      // // instead, pointing at this tooltip's own id — the same id
+      // // _associateTrigger already builds toward — so nys-button renders a
+      // // working aria-describedby on its real internal <button>.
+      // const button = el as unknown as { ariaDescribedBy?: string };
+      // const existing = (button.ariaDescribedBy || "")
+      //   .split(/\s+/)
+      //   .filter(Boolean);
+      // if (!existing.includes(this.id)) {
+      //   existing.push(this.id);
+      //   button.ariaDescribedBy = existing.join(" ");
+      // }
+      el.setAttribute("ariaDescription", `Hint: ${this.text}`);
     }
   }
 
