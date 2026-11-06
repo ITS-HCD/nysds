@@ -298,7 +298,9 @@ export class NysFileinput extends NysFormControlElement {
 
   private get _selectionSummary(): string {
     const files = this._selectedFiles;
-    if (files.length === 0) return "";
+    if (files.length === 0) {
+      return [this.label, this.description].filter(Boolean).join(" ")
+    }
 
     const base =
       files.length === 1
