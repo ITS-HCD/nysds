@@ -448,3 +448,46 @@ describe("nys-dropdownmenuitem", () => {
     expect(icons[1].getAttribute("name")).to.equal("open_in_new");
   });
 });
+
+// ----------- nys-dropdownmenu inside a shadow root -----------
+
+describe("nys-dropdownmenu inside a shadow root", () => {
+  it("moves focus through the items with ArrowDown", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div></div>`);
+    const root = host.attachShadow({ mode: "open" });
+    root.innerHTML = `
+      <button id="shadow-trigger">Open</button>
+      <nys-dropdownmenu for="shadow-trigger">
+        <nys-dropdownmenuitem label="One" href="/one"></nys-dropdownmenuitem>
+        <nys-dropdownmenuitem label="Two" href="/two"></nys-dropdownmenuitem>
+        <nys-dropdownmenuitem label="Three" href="/three"></nys-dropdownmenuitem>
+      </nys-dropdownmenu>`;
+    const menu = root.querySelector<NysDropdownMenu>("nys-dropdownmenu")!;
+    await menu.updateComplete;
+    // Trigger wiring runs after the first update
+    await new Promise((r) => setTimeout(r, 0));
+
+    root.querySelector<HTMLButtonElement>("#shadow-trigger")!.click();
+    await menu.updateComplete;
+    // _focusOnItem waits one frame before focusing
+    await new Promise((r) => requestAnimationFrame(r));
+    await new Promise((r) => setTimeout(r, 0));
+
+    const focusedLabel = () =>
+      (root.activeElement as NysDropdownMenuItem | null)?.label;
+    const arrowDown = () =>
+      root.activeElement!.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "ArrowDown",
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+    expect(focusedLabel()).to.equal("One");
+    arrowDown();
+    expect(focusedLabel()).to.equal("Two");
+    arrowDown();
+    expect(focusedLabel()).to.equal("Three");
+  });
+});

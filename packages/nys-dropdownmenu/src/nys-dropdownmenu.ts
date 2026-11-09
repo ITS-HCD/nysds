@@ -544,7 +544,9 @@ export class NysDropdownMenu extends NysElement {
 
   private _handleMenuKeydown = (event: KeyboardEvent) => {
     const items = this._getMenuItems();
-    const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+    // Items share this host's root, which can be a shadow root
+    const root = this.getRootNode() as Document | ShadowRoot;
+    const currentIndex = items.indexOf(root.activeElement as HTMLElement);
 
     switch (event.key) {
       case "Escape":
