@@ -216,12 +216,6 @@ export class NysModal extends NysElement {
   /** Prevents dismissal via close button or Escape key. User must take an action. */
   @property({ type: Boolean, reflect: true }) mandatory = false;
 
-  /**
-   * Modal width: `sm` (400px), `md` (600px), or `lg` (800px).
-   * @default "md"
-   */
-  @property({ type: String, reflect: true }) width: "sm" | "md" | "lg" = "md";
-
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
   private _prevFocusedElement: HTMLElement | null = null;
   private _originalBodyOverflow: string | null = null;
