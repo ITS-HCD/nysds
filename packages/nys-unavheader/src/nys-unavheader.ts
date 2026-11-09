@@ -998,7 +998,7 @@ export class NysUnavHeader extends NysElement {
     if (next && wrapper.contains(next)) return;
 
     if (next) {
-      this.languageVisible = false;
+      this._languageVisible = false;
       return;
     }
 
@@ -1010,7 +1010,7 @@ export class NysUnavHeader extends NysElement {
     // removed option is disconnected by then.
     const option = e.target as Node;
     this.updateComplete.then(() => {
-      if (option.isConnected) this.languageVisible = false;
+      if (option.isConnected) this._languageVisible = false;
     });
   }
 
