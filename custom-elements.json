@@ -10730,17 +10730,6 @@
             },
             {
               "kind": "field",
-              "name": "width",
-              "type": {
-                "text": "\"sm\" | \"md\" | \"lg\""
-              },
-              "default": "\"md\"",
-              "description": "Modal width: `sm` (400px), `md` (600px), or `lg` (800px).",
-              "attribute": "width",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "_actionButtonSlot",
               "type": {
                 "text": "HTMLSlotElement | null"
@@ -10936,15 +10925,6 @@
               "default": "false",
               "description": "Prevents dismissal via close button or Escape key. User must take an action.",
               "fieldName": "mandatory"
-            },
-            {
-              "name": "width",
-              "type": {
-                "text": "\"sm\" | \"md\" | \"lg\""
-              },
-              "default": "\"md\"",
-              "description": "Modal width: `sm` (400px), `md` (600px), or `lg` (800px).",
-              "fieldName": "width"
             }
           ],
           "superclass": {
