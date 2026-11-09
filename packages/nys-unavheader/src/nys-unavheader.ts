@@ -263,9 +263,9 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * - Don't place anywhere other than the top of the page.
  * - Don't modify the universal header.
  *
- * @example Basic - Localize
+ * @example Basic
  * ```html
- * <nys-unavheader translateKey="NEf4Y5qMb9PGP"></nys-unavheader>
+ * <nys-unavheader translateKey="MY_TRANSLATE_KEY"></nys-unavheader>
  * ```
  *
  * @example Basic - Smartling
@@ -278,7 +278,7 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
  * <nys-unavheader hideSearch></nys-unavheader>
  * ```
  *
- *  @example Hide translate
+ * @example Hide translate
  * ```html
  * <nys-unavheader hideTranslate></nys-unavheader>
  * ```
@@ -461,7 +461,6 @@ export class NysUnavHeader extends NysElement {
     // Also covers re-attachment, where the pending request was aborted on the way out
     this._loadAlerts();
     this._initLocalize();
-    this._initGoogletagmanager();
   }
 
   disconnectedCallback() {
@@ -751,29 +750,6 @@ export class NysUnavHeader extends NysElement {
     if (this.translateKey) return undefined;
     return this._smartlingUrl(language.code);
   }
-  private _initGoogletagmanager() {
-    let gtmScript = document.getElementById(
-      "nys-gtm-script",
-    ) as HTMLScriptElement;
-    if (!gtmScript) {
-      // @ts-ignore
-      (function (w, d, s, l, i) {
-        // @ts-ignore
-        w[l] = w[l] || [];
-        // @ts-ignore
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        // @ts-ignore
-        j.async = true;
-        // @ts-ignore
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        // @ts-ignore
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-T4FP6H");
-    }
-  }
 
   private _initLocalize() {
     if (this.hideTranslate) return;
@@ -1021,7 +997,21 @@ export class NysUnavHeader extends NysElement {
     // so a plain `contains` is enough to tell "still inside the menu" apart
     if (next && wrapper.contains(next)) return;
 
-    this.languageVisible = false;
+    if (next) {
+      this.languageVisible = false;
+      return;
+    }
+
+    // No relatedTarget: either focus went nowhere (clicking away), or Chromium is
+    // firing focusout because a re-render removed the focused option (e.g. a
+    // shorter `languages` array). The latter happens mid-render, so closing here
+    // would set state inside the update cycle (lit.dev/msg/change-in-update) and
+    // close a menu the user never left. Decide once the render has settled: a
+    // removed option is disconnected by then.
+    const option = e.target as Node;
+    this.updateComplete.then(() => {
+      if (option.isConnected) this.languageVisible = false;
+    });
   }
 
   private _handleSearchFocus() {

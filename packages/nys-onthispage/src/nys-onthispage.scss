@@ -5,9 +5,9 @@
   --_nys-onthispage-border-radius--item: var(--nys-radius-sm, 2px);
 
   /* List Item */
-  --_nys-onthispage-padding--item: var(--nys-space-100, 8px)
-    var(--nys-space-4px, 4px) var(--nys-space-100, 8px)
-    var(--nys-space-200, 16px);
+  --_nys-onthispage-padding-block--item: var(--nys-space-100, 8px);
+  --_nys-onthispage-padding-inline-start--item: var(--nys-space-200, 16px);
+  --_nys-onthispage-padding-inline-end--item: var(--nys-space-4px, 4px);
 
   // ---- THE BORDER ----
   --_nys-onthispage-border-width--item: var(--nys-size-50, 4px);
@@ -108,7 +108,7 @@
         border-radius: var(--_nys-onthispage-border-radius);
         top: 0;
         bottom: 0;
-        left: 0;
+        inset-inline-start: 0;
         position: absolute;
       }
 
@@ -117,7 +117,9 @@
         // The actual link
         .nys-onthispage__link {
           display: block;
-          padding: var(--_nys-onthispage-padding--item);
+          padding-block: var(--_nys-onthispage-padding-block--item);
+          padding-inline: var(--_nys-onthispage-padding-inline-start--item)
+            var(--_nys-onthispage-padding-inline-end--item);
           text-decoration: none;
           color: var(--_nys-onthispage-color--item);
           border-radius: var(--_nys-onthispage-border-radius--item);
@@ -133,7 +135,7 @@
               border-radius: var(--_nys-onthispage-border-radius);
               top: 0;
               bottom: 0;
-              left: 0;
+              inset-inline-start: 0;
               position: absolute;
             }
             background-color: var(
@@ -155,7 +157,7 @@
               border-radius: var(--_nys-onthispage-border-radius);
               top: 0;
               bottom: 0;
-              left: 0;
+              inset-inline-start: 0;
               position: absolute;
             }
             background-color: var(
@@ -174,7 +176,7 @@
               border-radius: var(--_nys-onthispage-border-radius);
               top: 0;
               bottom: 0;
-              left: 0;
+              inset-inline-start: 0;
               position: absolute;
             }
             color: var(--_nys-onthispage-color--item-target);
