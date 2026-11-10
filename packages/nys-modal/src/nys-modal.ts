@@ -262,6 +262,7 @@ export class NysModal extends NysElement {
   }
 
   async updated(changeProps: Map<string, any>) {
+    const wasOpen = changeProps.get("open") as boolean | undefined;
     // Hide main body's scroll bar if modal is open/active
     if (changeProps.has("open")) {
       if (this.open) {
@@ -270,7 +271,7 @@ export class NysModal extends NysElement {
         await this.updateComplete;
         this._savePrevFocused();
         this._focusOnModal();
-      } else {
+      } else if (wasOpen) {
         this._restorePrevFocused();
         this._restoreBodyScroll();
         this._dispatchCloseEvent();
@@ -484,7 +485,6 @@ export class NysModal extends NysElement {
 
   private _closeModal() {
     this.open = false;
-    this._dispatchCloseEvent();
   }
 
   render() {
