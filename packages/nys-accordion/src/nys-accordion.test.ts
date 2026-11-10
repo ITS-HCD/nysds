@@ -4,7 +4,6 @@ import {
   fixture,
   oneEvent,
   nextFrame,
-  aTimeout,
 } from "@open-wc/testing";
 import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-accordion.js";
