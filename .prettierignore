@@ -5,3 +5,5 @@ packages/*/node_modules
 packages/styles/uswds
 storybook-static
 coverage
+packages/angular/.ngbuild
+.visual

@@ -68,7 +68,7 @@ export function registerGuideTools(server: McpServer): void {
         ])
         .describe("The guide topic to retrieve"),
       framework: z
-        .enum(["angular", "react", "dotnet", "drupal", "vanilla"])
+        .enum(["angular", "react", "vue", "dotnet", "drupal", "vanilla"])
         .optional()
         .describe(
           "When provided, returns framework-specific setup guide instead of the topic guide. Use with topic 'installation' to get framework install instructions.",

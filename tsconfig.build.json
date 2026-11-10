@@ -37,6 +37,12 @@
     { "path": "packages/nys-tooltip" },
     { "path": "packages/nys-unavfooter" },
     { "path": "packages/nys-unavheader" },
-    { "path": "packages/nys-video" }
+    { "path": "packages/nys-verticalnav" },
+    { "path": "packages/nys-video" },
+    { "path": "packages/codegen" }
+    // Framework packages (@nysds/react, @nysds/angular) are not listed here.
+    // `tsc -b` runs before `npm run cem` generates their wrapper sources, so they
+    // cannot be in the reference graph. They build afterward via `build:frameworks`.
+    // Angular is also built by ng-packagr, not `tsc -b`.
   ]
 }

@@ -10,6 +10,16 @@ import "@nysds/nys-icon";
 import "@nysds/nys-button";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
+
+/** Detail payload for the `nys-column-sort` event fired by `nys-table`. */
+export interface NysTableColumnSortDetail {
+  columnIndex: number;
+  columnLabel: string;
+  sortDirection: "asc" | "desc" | "none";
+}
+
+/** The `nys-column-sort` event fired by `nys-table`. */
+export type NysTableColumnSortEvent = CustomEvent<NysTableColumnSortDetail>;
 // @ts-ignore: SCSS module imported via bundler as inline
 import lightStyles from "./nys-table.light.scss?inline";
 
@@ -38,20 +48,18 @@ function adoptLightStyles() {
  *   consumer CSS/JS. Its cell styling is applied from `nys-table.light.scss`,
  *   adopted once onto `document.adoptedStyleSheets`.
  *
- * @fires nys-click - Fired when the download button or sortable headers are clicked.
- * @fires nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
+ * @fires {Event} nys-click - Fired when the download button or sortable headers are clicked.
+ * @fires {NysTableColumnSortEvent} nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
  *
- * @usagedos
+ * @usage
  * - Use to display tabular data such as statistical information or directories of locations and resources with consistent structure.
- *
- * @usagedonts
- * - Use in place of a layout grid. Table content should follow a consistent structure using headers and logical columns and rows.
- * - Use for non-tabular content. Consider definition lists or hierarchical lists instead.
- * - Use when cell content is long-form; table cells should be brief and scannable. If you need multiple bullet points or paragraphs in a cell, consider page headers or an accordion instead.
- * - Add `rowspan` or `colspan` with the `sortable` property.
+ * - Don't use in place of a layout grid. Table content should follow a consistent structure using headers and logical columns and rows.
+ * - Don't use for non-tabular content. Consider definition lists or hierarchical lists instead.
+ * - Don't use when cell content is long-form; table cells should be brief and scannable. If you need multiple bullet points or paragraphs in a cell, consider page headers or an accordion instead.
+ * - Don't add `rowspan` or `colspan` with the `sortable` property.
  *
  * @example Basic
  * ```html

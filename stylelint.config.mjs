@@ -1,5 +1,7 @@
 /** @type {import("stylelint").Config} */
 export default {
+  // .visual/base holds a worktree of the base branch for visual regression.
+  ignoreFiles: [".visual/**"],
   rules: {
     // Color
     "color-named": "never",

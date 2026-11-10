@@ -14,6 +14,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A floating "Back to top" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).\n\n**Placement:** For best accessibility, place as the first focusable element in the page footer.\nIf no footer exists, place at the bottom of the body tag (after main content). Floating\npositioning allows it to overlay content without taking up layout space.\n\n**Focus Management:** When clicked, after scrolling to the top, focus is moved to `<body>`.\nThis places the user before the skip-navigation link so they can re-use it to jump directly\nback to main content — and works regardless of whether the page uses `<main>` or heading landmarks.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<footer>\n  <NysBacktotop />\n  {/* Other footer content */}\n</footer>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<footer>\n  <nys-backtotop></nys-backtotop>\n  <!-- Other footer content -->\n</footer>\n```',
+      },
     },
   },
 };
@@ -38,7 +42,7 @@ export const Basic: Story = {
           font-size: var(--nys-font-size-sm);
         }
       </style>
-      <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+      <nys-unavheader translateKey="MY_TRANSLATE_KEY"></nys-unavheader>
       <nys-globalheader appName="Back to Top Example"></nys-globalheader>
       <main style="padding: 0 2rem">
         <h1>Sample Content on page</h1>
@@ -91,7 +95,7 @@ export const Left: Story = {
           --_nys-button-border-radius: var(--nys-radius-round);
         }
       </style>
-      <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+      <nys-unavheader translateKey="MY_TRANSLATE_KEY"></nys-unavheader>
       <nys-globalheader appName="Back to Top Example"></nys-globalheader>
       <main style="padding: 0 2rem">
         <h1>Sample Content on page</h1>

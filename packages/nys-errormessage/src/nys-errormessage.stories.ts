@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          '**Internal component.** Displays error messages for form validation with icon and ARIA alert role.\n\nUsed internally by form components. Not intended for direct use. Shows error icon and message\nwhen `showError` is true. Integrates with ElementInternals for native form validation messages.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysErrorMessage showError errorMessage="This is an error message" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-errormessage showError errorMessage="This is an error message"></nys-errormessage>\n```',
+      },
     },
   },
 };

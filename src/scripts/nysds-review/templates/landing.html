@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>NYSDS Review Tools</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
+    <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />
+    <link rel="stylesheet" href="/assets/css/nysds-review.css" />
+  </head>
+  <body>
+    <!--
+      The landing page of the PR preview deploy, written to / by
+      build-preview.mjs. site-data.js (generated alongside it) says which
+      review tools this build has and summarizes each one; the script at the
+      bottom fills them in before the NYSDS components load.
+    -->
+    <nys-skipnav></nys-skipnav>
+    <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+    <nys-globalheader appName="NYSDS Review" homepageLink="/">
+      <ul id="app-links">
+        <li data-app="preview">
+          <a href="/preview/">Accessibility Tests</a>
+        </li>
+        <li data-app="a11yScan">
+          <a href="/a11y-scan/">Accessibility Scan</a>
+        </li>
+        <li data-app="visual"><a href="/visual/">Visual Changes</a></li>
+        <li data-app="codeReview">
+          <a href="/code-review/">Codegen Review</a>
+        </li>
+      </ul>
+    </nys-globalheader>
+
+    <main id="main-content">
+      <!-- Widescreen, so the content lines up with the global header and footer. -->
+      <div class="nys-grid-container-widescreen nys-padding-b-600">
+        <div class="nys-grid-row">
+          <div class="nys-grid-col-12">
+            <h1>Review this change</h1>
+            <p id="pull-request" class="nys-font-body-md nys-margin-t-200">
+              Built from a local checkout.
+            </p>
+          </div>
+        </div>
+
+        <div class="card-row nys-grid-row nys-grid-gap-300 nys-margin-t-600">
+          <div
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          >
+            <nys-card
+              data-app="preview"
+              heading="Accessibility Tests"
+              description="Every story of the changed components on its own page, for testing with screen readers, keyboards, and zoom."
+              elevated
+            >
+              <nys-icon
+                slot="footer"
+                name="arrow_forward"
+                size="5xl"
+              ></nys-icon>
+            </nys-card>
+          </div>
+          <div
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          >
+            <nys-card
+              data-app="a11yScan"
+              heading="Accessibility Scan"
+              description="Every story checked with axe-core against WCAG 2.2 AA, with the failing code and a suggested fix for each issue."
+              elevated
+            >
+              <nys-icon
+                slot="footer"
+                name="arrow_forward"
+                size="5xl"
+              ></nys-icon>
+            </nys-card>
+          </div>
+          <div
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          >
+            <nys-card
+              data-app="visual"
+              heading="Visual Changes"
+              description="Screenshots of every story and its hover, press and focus states, compared with the base branch."
+              elevated
+            >
+              <nys-icon
+                slot="footer"
+                name="arrow_forward"
+                size="5xl"
+              ></nys-icon>
+            </nys-card>
+          </div>
+          <div
+            class="nys-grid-col-12 nys-tablet:nys-grid-col-6 nys-desktop:nys-grid-col-3 nys-display-flex"
+          >
+            <nys-card
+              data-app="codeReview"
+              heading="Codegen Review"
+              description="What this change does to the generated framework wrappers, which are gitignored and missing from the pull request diff."
+              elevated
+            >
+              <nys-icon
+                slot="footer"
+                name="arrow_forward"
+                size="5xl"
+              ></nys-icon>
+            </nys-card>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <nys-backtotop></nys-backtotop>
+    <nys-globalfooter agencyName="NYS Design System" homepageLink="/">
+    </nys-globalfooter>
+    <nys-unavfooter></nys-unavfooter>
+
+    <script src="/site-data.js"></script>
+    <script>
+      const siteData = window.SITE_DATA ?? { pullRequest: null, apps: {} };
+
+      // "Pull request #123: Title" with the title linked to GitHub. Set as text,
+      // never HTML: the title is whatever the PR author typed.
+      function showPullRequest(pullRequest) {
+        if (!pullRequest) return;
+        const line = document.querySelector("#pull-request");
+        line.textContent = `Pull request #${pullRequest.number}: `;
+        if (pullRequest.url) {
+          const link = document.createElement("a");
+          link.href = pullRequest.url;
+          link.textContent = pullRequest.title;
+          line.append(link);
+        } else {
+          line.append(pullRequest.title);
+        }
+      }
+
+      // Each card links to its tool and shows this build's summary. A tool that
+      // wasn't generated keeps its card, unlinked and saying so, and loses its
+      // header link.
+      function showApps(apps) {
+        for (const card of document.querySelectorAll("nys-card[data-app]")) {
+          const app = apps[card.dataset.app];
+          if (app) {
+            card.setAttribute("href", app.href);
+            if (app.summary) card.setAttribute("subheading", app.summary);
+          } else {
+            card.setAttribute("subheading", "Not generated for this build");
+            card.querySelector("nys-icon")?.remove();
+          }
+        }
+        for (const item of document.querySelectorAll("#app-links li")) {
+          if (!apps[item.dataset.app]) item.remove();
+        }
+      }
+
+      showPullRequest(siteData.pullRequest);
+      showApps(siteData.apps);
+    </script>
+    <!-- After the script above, so components upgrade the finished markup. -->
+    <script src="/assets/js/nysds.js"></script>
+  </body>
+</html>

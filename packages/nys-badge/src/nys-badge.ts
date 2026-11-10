@@ -18,7 +18,7 @@ import styles from "./nys-badge.scss?inline";
  * @summary Compact label for status, counts, or categorization with semantic styling.
  * @element nys-badge
  *
- * @usagedos
+ * @usage
  * - Indicate the status of an item, such as "new", "updated", or "beta".
  * - Provide additional context or information about an item without cluttering the interface.
  * - Keep badge labels short -- one or two words like "New", "Beta", or "Updated".
@@ -26,15 +26,13 @@ import styles from "./nys-badge.scss?inline";
  * - Place badges near the element they describe so the relationship is clear.
  * - Use the `prefixIcon` or `suffixIcon` attributes to reinforce meaning when the label alone may be ambiguous.
  * - Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis.
- *
- * @usagedonts
- * - Use badges when the information is too complex to be conveyed in a small badge.
- * - Use badges when they would not add significant value to the user experience.
- * - Use badges as interactive elements -- they are not buttons or links.
- * - Pack long sentences or multiple values into a single badge label.
- * - Mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.
- * - Rely on color alone to convey meaning; always include a text label.
- * - Stack multiple badges on a single element unless each communicates a distinct, necessary status.
+ * - Don't use badges when the information is too complex to be conveyed in a small badge.
+ * - Don't use badges when they would not add significant value to the user experience.
+ * - Don't use badges as interactive elements -- they are not buttons or links.
+ * - Don't pack long sentences or multiple values into a single badge label.
+ * - Don't mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.
+ * - Don't rely on color alone to convey meaning; always include a text label.
+ * - Don't stack multiple badges on a single element unless each communicates a distinct, necessary status.
  *
  * @example Basic
  * ```html
@@ -166,37 +164,13 @@ export class NysBadge extends NysElement {
   /** Strong visual intent with bolder text and background. */
   @property({ type: Boolean, reflect: true }) strong = false;
 
-  // Icons (string or boolean)
-  private _prefixIcon: string | boolean = "";
+  /** Icon shown before the label. */
   @property({ type: String, attribute: "prefixicon" })
-  get prefixIcon(): string | boolean {
-    return this._prefixIcon;
-  }
-  set prefixIcon(value: string | boolean) {
-    if (value === "" || value === null) {
-      // boolean attribute without value → true
-      this._prefixIcon = true;
-    } else if (value === "false" || value === false) {
-      this._prefixIcon = "";
-    } else {
-      this._prefixIcon = value;
-    }
-  }
+  prefixIcon: string | boolean | null = null;
 
-  private _suffixIcon: string | boolean = "";
+  /** Icon shown after the label. */
   @property({ type: String, attribute: "suffixicon" })
-  get suffixIcon(): string | boolean {
-    return this._suffixIcon;
-  }
-  set suffixIcon(value: string | boolean) {
-    if (value === "" || value === null) {
-      this._suffixIcon = true;
-    } else if (value === "false" || value === false) {
-      this._suffixIcon = "";
-    } else {
-      this._suffixIcon = value;
-    }
-  }
+  suffixIcon: string | boolean | null = null;
 
   /**
    * Lifecycle methods
@@ -209,16 +183,6 @@ export class NysBadge extends NysElement {
     // static, non-interactive label content, so no host role is reflected
     // (defaultRole stays null).
     super.connectedCallback();
-
-    const attr = this.getAttribute("prefixicon");
-    if (attr !== null && this.prefixIcon === "") {
-      this.prefixIcon = attr;
-    }
-
-    const suffixAttr = this.getAttribute("suffixicon");
-    if (suffixAttr !== null && this.suffixIcon === "") {
-      this.suffixIcon = suffixAttr;
-    }
   }
 
   /**
@@ -264,11 +228,11 @@ export class NysBadge extends NysElement {
    * @param icon The icon property value (string or boolean)
    * @returns Icon name or null if no icon should be rendered
    */
-  private resolveIcon(icon: string | boolean): string | null {
-    if (icon === true) {
+  private resolveIcon(icon: string | boolean | null): string | null {
+    if (icon === true || icon === "") {
       return NysBadge.DEFAULT_ICONS[this.intent] ?? "info";
     }
-    if (typeof icon === "string" && icon.trim() !== "") {
+    if (typeof icon === "string" && icon.trim() !== "" && icon !== "false") {
       return icon;
     }
     return null;

@@ -11,6 +11,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Shows contextual help text on hover/focus. Auto-positions to stay within viewport and supports keyboard dismiss.\n\nLink to a trigger element via `for` attribute matching the trigger\'s `id`. Tooltip appears on hover or focus\nand dismisses on blur, mouse leave, or Escape key. Use for supplementary info only—not critical content.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<div style={{ display: "flex", justifyContent: "center", gap: "5px", padding: "40px" }}>\n  <NysTooltip for="my-button" text="I am a tooltip." />\n  <NysButton id="my-button" label="Hover Me" />\n</div>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<div style="display: flex; justify-content: center; gap: 5px; padding: 40px">\n  <nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>\n  <nys-button id="my-button" label="Hover Me"></nys-button>\n</div>\n```',
+      },
     },
   },
 };

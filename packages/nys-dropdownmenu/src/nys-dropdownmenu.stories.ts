@@ -12,6 +12,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Dropdown menus enable users to select an action from a list of options.\nThey’re commonly used to save space by grouping related actions, or to provide actions in a confined space.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysButton id="my-trigger-id" label="Open Menu" />\n<NysDropdownMenu id="my-dropdownmenu" for="my-trigger-id">\n  <NysDropdownMenuItem label="Profile" href="/profile" />\n  <NysDropdownMenuItem label="Repositories & Github Pages" href="/repos" />\n  <NysDropdownMenuItem label="Organizations" href="/organizations" />\n  <NysDropdownMenuItem label="Sign out" href="/logout" />\n</NysDropdownMenu>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-button id="my-trigger-id" label="Open Menu"></nys-button>\n<nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">\n  <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>\n  <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>\n  <nys-dropdownmenuitem label="Organizations" href="/organizations"></nys-dropdownmenuitem>\n  <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>\n</nys-dropdownmenu>\n```',
+      },
     },
   },
 };
@@ -28,7 +32,7 @@ export const Basic: Story = {
     disabled: false,
     target: "_self",
     prefixIcon: "",
-    divider: "",
+    suffixIcon: "",
   },
   render: (args) => {
     return html`
@@ -48,7 +52,7 @@ export const Basic: Story = {
             ?disabled=${args.disabled}
             target=${args.target}
             prefixIcon=${args.prefixIcon}
-            divider=${args.divider}
+            suffixIcon=${args.suffixIcon}
           ></nys-dropdownmenuitem>
           <nys-dropdownmenuitem
             label="Repositories & Github Pages"
@@ -77,6 +81,77 @@ export const Basic: Story = {
 <nys-dropdownmenuitem label="Organizations" href="/organizations"></nys-dropdownmenuitem>
 <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
 </nys-dropdownmenu>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const PrefixSuffixIcon: Story = {
+  render: () => {
+    return html`
+      <div
+        style="margin: 200px; display: flex; justify-content: center; align-items: center"
+      >
+        <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
+        <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+          <nys-dropdownmenuitem
+            label="Profile"
+            href="/profile"
+            prefixIcon="account_circle"
+          ></nys-dropdownmenuitem>
+          <nys-dropdownmenuitem
+            label="Repositories & Github Pages"
+            href="/repos"
+            prefixIcon="drive_folder_upload"
+            suffixIcon="open_in_new"
+          ></nys-dropdownmenuitem>
+          <nys-dropdownmenuitem
+            label="Organizations"
+            href="/organizations"
+            prefixIcon="account_balance_filled"
+            suffixIcon="chevron_right"
+          ></nys-dropdownmenuitem>
+          <nys-dropdownmenuitem
+            label="Sign out"
+            href="/logout"
+            suffixIcon="lock_filled"
+          ></nys-dropdownmenuitem>
+        </nys-dropdownmenu>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div>
+  <nys-button id="my-trigger-id" label="Open Menu"></nys-button>
+  <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+    <nys-dropdownmenuitem
+      label="Profile"
+      href="/profile"
+      prefixIcon="account_circle"
+    ></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem
+      label="Repositories & Github Pages"
+      href="/repos"
+      prefixIcon="drive_folder_upload"
+      suffixIcon="open_in_new"
+    ></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem
+      label="Organizations"
+      href="/organizations"
+      prefixIcon="account_balance_filled"
+      suffixIcon="chevron_right"
+    ></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem
+      label="Sign out"
+      href="/logout"
+      suffixIcon="lock_filled"
+    ></nys-dropdownmenuitem>
+  </nys-dropdownmenu>
 </div>`,
         type: "auto",
       },

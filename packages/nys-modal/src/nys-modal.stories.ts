@@ -10,6 +10,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.\n\nSet `open` to show the modal. Content goes in the default slot; action buttons in the `actions` slot.\nDismisses via close button or Escape key unless `mandatory` is set. Focus returns to trigger on close.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysModal id="modal1" heading="Update Available">\n  <p>\n    Would you like to install the latest version? Albany ipsum dolor sit Empire, Hudson consectetur Adirondack elit, sed do MetroCard tempor incididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea Cuomo consequat.\n  </p>\n</NysModal>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-modal id="modal1" heading="Update Available">\n  <p>\n    Would you like to install the latest version? Albany ipsum dolor sit Empire, Hudson consectetur Adirondack elit, sed do MetroCard tempor incididunt ut Capitol et Broadway magna Niagara. Ut enim ad Erie veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea Cuomo consequat.\n  </p>\n</nys-modal>\n```',
+      },
     },
   },
 };
@@ -24,10 +28,6 @@ export const Basic: Story = {
     subheading: "",
     open: false,
     mandatory: false,
-    width: "md",
-  },
-  argTypes: {
-    width: { control: { type: "select" }, options: ["sm", "md", "lg"] },
   },
   render: (args) => {
     return html`
@@ -47,7 +47,6 @@ export const Basic: Story = {
           subheading=${args.subheading}
           ?open=${args.open}
           ?mandatory=${args.mandatory}
-          width=${args.width}
         >
           <p>
             Would you like to install the latest version? Albany ipsum dolor sit

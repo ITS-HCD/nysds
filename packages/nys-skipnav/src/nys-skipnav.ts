@@ -13,13 +13,11 @@ import styles from "./nys-skipnav.scss?inline";
  * @summary Skip navigation link for keyboard accessibility. Hidden until focused.
  * @element nys-skipnav
  *
- * @usagedos
+ * @usage
  * - Use on pages with a large header, navigation, or other repeated content before the main section.
  * - Ensure the `href` on `<nys-skipnav>` matches the `id` of the main content container.
- *
- * @usagedonts
- * - Use if your layout already starts with the main content and there is nothing to skip over.
- * - Mismatch the `href` and target `id`.
+ * - Don't use if your layout already starts with the main content and there is nothing to skip over.
+ * - Don't mismatch the `href` and target `id`.
  *
  * @example Basic
  * ```html

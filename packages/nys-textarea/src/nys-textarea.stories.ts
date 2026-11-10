@@ -12,6 +12,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A multi-line text input for collecting longer responses like comments, descriptions, or feedback.\nForm-associated with validation support via ElementInternals.\n\nUse for detailed responses needing multiple lines. For single-line input, use `nys-textinput`.\nFor predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysTextarea label="Comments" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-textarea label="Comments"></nys-textarea>\n```',
+      },
     },
   },
 };

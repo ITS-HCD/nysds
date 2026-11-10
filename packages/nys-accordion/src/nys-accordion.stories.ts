@@ -11,6 +11,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.\n\nEach item\'s toggle button is wrapped in a real heading element. Set\n`headingLevel` here to place the whole group correctly in the page outline.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysAccordion>\n  <NysAccordionItem id="accordionId1" heading="How do I renew my passport or apply for a new one?">\n    <p>\n      You can apply for or renew a U.S. passport through the U.S. Department of State. Some renewals can be done by mail.\n    </p>\n    <div style={{ display: "flex", gap: "0.5rem", fontSize: "1rem" }}>\n      <a href="https://www.ny.gov" target="_blank">Check your registration</a>\n      <a href="https://www.ny.gov" target="_blank">Fill out application</a>\n    </div>\n  </NysAccordionItem>\n  <NysAccordionItem id="accordionId2" heading="How can I find out if I’m registered to vote?">\n    <p>\n      You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.\n    </p>\n  </NysAccordionItem>\n</NysAccordion>\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-accordion>\n  <nys-accordionitem id="accordionId1" heading="How do I renew my passport or apply for a new one?">\n    <p>\n      You can apply for or renew a U.S. passport through the U.S. Department of State. Some renewals can be done by mail.\n    </p>\n    <div style="display: flex; gap: 0.5rem; font-size: 1rem">\n      <a href="https://www.ny.gov" target="_blank">Check your registration</a>\n      <a href="https://www.ny.gov" target="_blank">Fill out application</a>\n    </div>\n  </nys-accordionitem>\n  <nys-accordionitem id="accordionId2" heading="How can I find out if I’m registered to vote?">\n    <p>\n      You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.\n    </p>\n  </nys-accordionitem>\n</nys-accordion>\n```',
+      },
     },
   },
 };
@@ -102,7 +106,7 @@ export const SingleSelect: Story = {
   render: () => {
     return html`
       <nys-accordion singleSelect>
-        <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
+        <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
         <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
       </nys-accordion>
     `;
@@ -112,7 +116,7 @@ export const SingleSelect: Story = {
       source: {
         code: `
 <nys-accordion singleSelect>
-  <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
+  <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
 </nys-accordion>`,
         type: "auto",
@@ -125,7 +129,7 @@ export const Bordered: Story = {
   render: () => {
     return html`
       <nys-accordion bordered>
-        <nys-accordionitem heading="We are a group of accordions">
+        <nys-accordionitem heading="We are a group of accordions" expanded>
           <p>
             Stronger together! Learn more at
             <a href="https://www.ny.gov" target="_blank">ny.gov</a>
@@ -151,7 +155,7 @@ export const Bordered: Story = {
       source: {
         code: `
 <nys-accordion bordered>
-  <nys-accordionitem heading="We are a group of accordions">
+  <nys-accordionitem heading="We are a group of accordions" expanded>
     <p>
       Stronger together! Learn more at
       <a href="https://www.ny.gov" target="_blank">ny.gov</a>
@@ -214,7 +218,7 @@ export const HeadingLevel: Story = {
 export const ExpandedItem: Story = {
   render: () => {
     return html`
-      <nys-accordion>
+      <nys-accordion bordered>
         <nys-accordionitem heading="How do I apply?" expanded>
           <p>Visit ny.gov and complete the online application.</p>
         </nys-accordionitem>
@@ -228,7 +232,7 @@ export const ExpandedItem: Story = {
     docs: {
       source: {
         code: `
-<nys-accordion>
+<nys-accordion bordered>
   <nys-accordionitem heading="How do I apply?" expanded>
     <p>Visit ny.gov and complete the online application.</p>
   </nys-accordionitem>

@@ -11,6 +11,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.\n\nUse `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,\nand `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysAlert heading="This is a heading" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-alert heading="This is a heading"></nys-alert>\n```',
+      },
     },
   },
 };

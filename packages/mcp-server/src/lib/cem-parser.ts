@@ -57,6 +57,18 @@ export interface CEMExample {
   lang?: string;
 }
 
+/**
+ * `@formControl <kind> <changeEvent> [inputEvent]` metadata, written by WS1
+ * on every form-control component's class JSDoc and parsed into the
+ * manifest by the CEM plugin. Drives the Angular `ControlValueAccessor`
+ * base class choice and the React/Angular snippet transformer's forms mode.
+ */
+export interface CEMFormControl {
+  kind: "value" | "checked" | "files";
+  changeEvent: string;
+  inputEvent?: string;
+}
+
 export interface CEMDeclaration {
   kind: "class";
   name: string;
@@ -71,6 +83,7 @@ export interface CEMDeclaration {
   cssParts?: CEMCssPart[];
   superclass?: { name: string; package?: string };
   examples?: CEMExample[];
+  formControl?: CEMFormControl;
 }
 
 export interface CEMModule {

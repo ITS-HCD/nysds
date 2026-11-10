@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>NYSDS Component Testing Environment</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
+    <link rel="stylesheet" href="/assets/css/nysds-full.min.css" />
+    <link rel="stylesheet" href="/assets/css/nysds-review.css" />
+  </head>
+  <body>
+    <!--
+      The accessibility preview's story list, written to /preview/ by
+      build-preview.mjs. pages.js (generated alongside it) lists the stories
+      to test, grouped by component, plus the pull request and the visual
+      regression summary. The script at the bottom fills the page in from it.
+    -->
+    <nys-skipnav></nys-skipnav>
+    <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+    <nys-globalheader appName="NYSDS Review" homepageLink="/">
+      <ul id="app-links">
+        <li data-app="preview">
+          <a href="/preview/">Accessibility Tests</a>
+        </li>
+        <li data-app="a11yScan">
+          <a href="/a11y-scan/">Accessibility Scan</a>
+        </li>
+        <li data-app="visual"><a href="/visual/">Visual Changes</a></li>
+        <li data-app="codeReview">
+          <a href="/code-review/">Codegen Review</a>
+        </li>
+      </ul>
+    </nys-globalheader>
+
+    <main class="nys-grid-container-widescreen">
+      <div class="nys-grid-row">
+        <div class="nys-grid-col-12">
+          <h1 id="story-count">No components to preview</h1>
+          <p id="no-stories">
+            This pull request changes no components with stories.
+          </p>
+          <div id="components"></div>
+        </div>
+      </div>
+    </main>
+    <nys-backtotop></nys-backtotop>
+    <footer>
+      <nys-globalfooter agencyName="NYS Design System" homepageLink="/">
+      </nys-globalfooter>
+      <nys-unavfooter></nys-unavfooter>
+    </footer>
+
+    <!-- One component's stories. Cloned once per component. -->
+    <template id="component-template">
+      <section class="nys-margin-t-400">
+        <h3 class="nys-font-ui-lg" data-field="title"></h3>
+        <ol
+          class="nysds-preview-list nys-font-ui-md nys-margin-t-150 nys-padding-l-600"
+        ></ol>
+      </section>
+    </template>
+
+    <!-- One story link. Cloned once per story. -->
+    <template id="story-template">
+      <li>
+        <a
+          class="nys-display-flex nys-flex-align-center nys-padding-y-100 nys-padding-x-200"
+        ></a>
+      </li>
+    </template>
+
+    <script src="/preview/pages.js"></script>
+    <script>
+      // Every value from pages.js is set as text, never as HTML: the PR title
+      // and story names come from outside this page. Each part below skips
+      // itself when the template doesn't have its element, so a layout change
+      // can't stop the story list from rendering.
+      const previewData = window.PREVIEW_DATA ?? {
+        pullRequest: null,
+        visualReport: null,
+        components: [],
+      };
+
+      function plural(count, singular, pluralForm) {
+        return `${count} ${count === 1 ? singular : pluralForm}`;
+      }
+
+      // "<linked PR title> - Pull request #123" in the header, and the PR
+      // number in the browser tab's title.
+      function showPullRequest(pullRequest) {
+        if (!pullRequest) return;
+        document.title = `PR #${pullRequest.number} – ${document.title}`;
+
+        const heading = document.querySelector("#page-heading");
+        if (!heading) return;
+        const label = `Pull request #${pullRequest.number}`;
+        heading.textContent = "";
+        if (pullRequest.url) {
+          const link = document.createElement("a");
+          link.href = pullRequest.url;
+          link.textContent = pullRequest.title;
+          heading.append(link, ` - ${label}`);
+        } else {
+          heading.append(label);
+        }
+      }
+
+      // The bar linking to the visual regression report, when there is one.
+      function showVisualReport(visualReport) {
+        const bar = document.querySelector("#visual-report");
+        if (!visualReport || !bar) return;
+        bar.hidden = false;
+        const summary = document.querySelector("#visual-report-summary");
+        if (visualReport.summary && summary) {
+          summary.textContent = ` — ${visualReport.summary}`;
+        }
+      }
+
+      // One section per component, in testing order, listing its stories.
+      function showComponents(components) {
+        const storyCount = components.reduce(
+          (total, component) => total + component.pages.length,
+          0,
+        );
+        if (storyCount === 0) return;
+
+        document.querySelector("#story-count").textContent =
+          `${plural(storyCount, "story", "stories")} from ${plural(components.length, "component", "components")}`;
+        document.querySelector("#no-stories")?.remove();
+
+        const componentTemplate = document.querySelector("#component-template");
+        const storyTemplate = document.querySelector("#story-template");
+        const container = document.querySelector("#components");
+
+        for (const component of components) {
+          const section = componentTemplate.content.cloneNode(true);
+          section.querySelector('[data-field="title"]').textContent =
+            component.title;
+          const list = section.querySelector("ol");
+
+          for (const page of component.pages) {
+            const item = storyTemplate.content.cloneNode(true);
+            const link = item.querySelector("a");
+            link.href = `/${page.path}/`;
+            link.textContent = page.story;
+            list.append(item);
+          }
+          container.append(section);
+        }
+      }
+
+      showPullRequest(previewData.pullRequest);
+      showVisualReport(previewData.visualReport);
+      showComponents(previewData.components);
+    </script>
+    <!--
+      The header components (nys-unavheader, nys-globalheader, …) come from
+      the full NYSDS bundle, loaded after the script above so they upgrade the
+      finished markup. build-preview.mjs copies it to /assets/js/nysds.js.
+    -->
+    <script src="/assets/js/nysds.js"></script>
+  </body>
+</html>

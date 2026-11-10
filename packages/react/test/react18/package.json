@@ -1,0 +1,9 @@
+{
+  "name": "nysds-react-18-fixture",
+  "private": true,
+  "description": "React 18 copy for the version matrix. Installed by `npm run test:react18`; vitest.config.ts aliases react and react-dom here when REACT_VERSION=18. Not a workspace.",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

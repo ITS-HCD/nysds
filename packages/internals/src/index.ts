@@ -3,7 +3,13 @@
 // code. Not published.
 
 export { generateId } from "./id";
-export type { AriaRelation, AriaTargets, FormValue } from "./types";
+export type {
+  AriaRelation,
+  AriaTargets,
+  FormControlKind,
+  FormValue,
+} from "./types";
+export { dispatchNysEvent, dispatchNysFocusBlur } from "./form-events";
 export {
   supportsElementRefs,
   associateControl,

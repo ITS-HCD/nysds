@@ -14,6 +14,10 @@ const meta: Meta = {
     docs: {
       source: { type: "dynamic" },
       inlineStories: true,
+      description: {
+        component:
+          'A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.\nValidates file types via magic bytes (not just extension). Form-associated via ElementInternals.\n\nUse for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.\n\nRead or write the current selection via the `files` (`File[]`) and `value` (`File | null`)\nproperties — useful for rehydrating state or binding from a framework form model.\nSetting them is silent (does not emit `nys-change`).\n\n### Frameworks\n\n**React** (`@nysds/react`)\n\n```jsx\n<NysFileinput label="Upload a file" />\n```\n\n**Angular** (`@nysds/angular`)\n\n```html\n<nys-fileinput label="Upload a file"></nys-fileinput>\n```',
+      },
     },
   },
 };

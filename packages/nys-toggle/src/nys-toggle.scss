@@ -211,7 +211,7 @@
 }
 
 :host([size="md"]) {
-  --_nys-toggle-width: var(--nys-size-550, 44px);
+  --_nys-toggle-width: var(--nys-size-500, 44px);
   --_nys-toggle-height: var(--nys-size-300, 24px);
   --_nys-toggle-size--knob: var(--nys-size-250, 20px);
 

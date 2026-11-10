@@ -39,7 +39,7 @@ export class NysProcesslistitem extends NysElement {
    * A description is shown when either the property or the slot has content, so an item with
    * neither renders no empty paragraph.
    */
-  get _hasDescription() {
+  private get _hasDescription() {
     return !!this.description || !!this.querySelector('[slot="description"]');
   }
 

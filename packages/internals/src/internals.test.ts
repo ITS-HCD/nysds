@@ -10,6 +10,8 @@ import {
   ReflectsAriaMixin,
   FormControlMixin,
   findUnregisteredChildren,
+  dispatchNysEvent,
+  dispatchNysFocusBlur,
 } from "./index";
 
 /* -------------------------------------------------------------------------- */
@@ -470,5 +472,135 @@ describe("findUnregisteredChildren", () => {
     expect(findUnregisteredChildren(el)).to.not.include(
       "nys-findunregistered-registered-child",
     );
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* form-events                                                                */
+/* -------------------------------------------------------------------------- */
+
+describe("dispatchNysEvent", () => {
+  it("dispatches a CustomEvent that bubbles and is composed, with the given detail", async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div><form-test-el></form-test-el></div>`,
+    );
+    const el = wrapper.querySelector("form-test-el") as HTMLElement;
+    let received: CustomEvent | null = null;
+    wrapper.addEventListener("nys-change", (e) => {
+      received = e as CustomEvent;
+    });
+
+    dispatchNysEvent(el, "nys-change", { id: "a", name: "b", value: "c" });
+
+    expect(received).to.be.instanceOf(CustomEvent);
+    expect(received!.bubbles).to.be.true;
+    expect(received!.composed).to.be.true;
+    expect(received!.detail).to.deep.equal({ id: "a", name: "b", value: "c" });
+  });
+
+  it("escapes a shadow root when dispatched from a shadow child", async () => {
+    const el = await fixture<FormTestEl>(html`<form-test-el></form-test-el>`);
+    const input = el.shadowRoot!.querySelector("input")!;
+    let received = false;
+    el.addEventListener("nys-input", () => {
+      received = true;
+    });
+
+    dispatchNysEvent(input, "nys-input", { id: "a", value: "c" });
+
+    expect(received).to.be.true;
+  });
+});
+
+describe("dispatchNysFocusBlur", () => {
+  it("dispatches nys-focus and nys-blur as plain Events that bubble and are composed", async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div><form-test-el></form-test-el></div>`,
+    );
+    const el = wrapper.querySelector("form-test-el") as HTMLElement;
+    const received: Event[] = [];
+    wrapper.addEventListener("nys-focus", (e) => received.push(e));
+    wrapper.addEventListener("nys-blur", (e) => received.push(e));
+
+    dispatchNysFocusBlur(el, "focus");
+    dispatchNysFocusBlur(el, "blur");
+
+    expect(received).to.have.length(2);
+    expect(received[0].type).to.equal("nys-focus");
+    expect(received[1].type).to.equal("nys-blur");
+    for (const e of received) {
+      expect(e.bubbles).to.be.true;
+      expect(e.composed).to.be.true;
+      expect(e).to.not.be.instanceOf(CustomEvent);
+    }
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* Error message precedence                                                   */
+/* -------------------------------------------------------------------------- */
+
+class ErrorPrecedenceEl extends FormControlMixin(LitElement) {
+  errorMessage = "";
+  setInternal(message: string) {
+    this.internalValidationMessage = message;
+  }
+  get resolved(): string {
+    return this.resolvedErrorMessage();
+  }
+  callFormReset() {
+    this.formResetCallback();
+  }
+  render() {
+    return html`<span id="msg">${this.resolvedErrorMessage()}</span>`;
+  }
+}
+customElements.define("error-precedence-el", ErrorPrecedenceEl);
+
+describe("error message precedence", () => {
+  it("never overwrites a consumer-supplied errorMessage", async () => {
+    const el = await fixture<ErrorPrecedenceEl>(
+      html`<error-precedence-el></error-precedence-el>`,
+    );
+    el.errorMessage = "Consumer message";
+    el.setInternal("Internal validation message");
+
+    expect(el.resolved).to.equal("Consumer message");
+    expect(el.errorMessage).to.equal("Consumer message");
+  });
+
+  it("falls back to the internal validation message when errorMessage is empty", async () => {
+    const el = await fixture<ErrorPrecedenceEl>(
+      html`<error-precedence-el></error-precedence-el>`,
+    );
+    el.setInternal("Internal validation message");
+
+    expect(el.resolved).to.equal("Internal validation message");
+  });
+
+  it("schedules a re-render when the internal message changes", async () => {
+    const el = await fixture<ErrorPrecedenceEl>(
+      html`<error-precedence-el></error-precedence-el>`,
+    );
+    el.setInternal("Rendered message");
+    expect(el.isUpdatePending).to.be.true;
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector("#msg")!.textContent).to.equal(
+      "Rendered message",
+    );
+  });
+
+  it("clears the internal message on form reset but keeps the consumer message", async () => {
+    const el = await fixture<ErrorPrecedenceEl>(
+      html`<error-precedence-el></error-precedence-el>`,
+    );
+    el.errorMessage = "Consumer message";
+    el.setInternal("Internal validation message");
+    el.callFormReset();
+
+    expect(el.resolved).to.equal("Consumer message");
+    el.errorMessage = "";
+    expect(el.resolved).to.equal("");
   });
 });

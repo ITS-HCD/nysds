@@ -51,6 +51,8 @@ let labelIdCounter = 0;
  * ```
  *
  * @slot description - Custom HTML description content below the label.
+ *
+ * @fires {Event} nys-label-click - Fired when the label is clicked. Bubbles and composed. Listened for by form components (for example nys-fileinput and nys-toggle) that need label-activation behavior.
  */
 export class NysLabel extends LitElement {
   static styles = unsafeCSS(styles);
@@ -78,7 +80,7 @@ export class NysLabel extends LitElement {
   private _labelInternals: ElementInternals | null =
     typeof this.attachInternals === "function" ? this.attachInternals() : null;
 
-  get _hasDescription() {
+  private get _hasDescription() {
     // This accounts for both description prop or slotted content.
     const slot = this.querySelector('[slot="description"]');
     return !!this.description || !!slot;

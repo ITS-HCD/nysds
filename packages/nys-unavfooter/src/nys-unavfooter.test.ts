@@ -1,6 +1,7 @@
-import { expect, html, fixture } from "@open-wc/testing";
-import { NysUnavFooter } from "./nys-unavfooter";
+import { expect, html, fixture, aTimeout } from "@open-wc/testing";
+import type { NysUnavFooter } from "./nys-unavfooter";
 import "../dist/nys-unavfooter.js";
+import sinon from "sinon";
 
 describe("nys-unavfooter", () => {
   it("should render with NYS logo link", async () => {
@@ -24,14 +25,13 @@ describe("nys-unavfooter", () => {
     const links = el.shadowRoot?.querySelectorAll("ul li a");
 
     const linkTexts = Array.from(links || []);
-    expect(linkTexts).to.have.lengthOf(6);
+    expect(linkTexts).to.have.lengthOf(5);
 
-    expect(linkTexts[0].textContent?.trim()).to.equal("Agencies");
-    expect(linkTexts[1].textContent?.trim()).to.equal("App Directory");
+    expect(linkTexts[0].textContent?.trim()).to.equal("State Agencies");
+    expect(linkTexts[1].textContent?.trim()).to.equal("Mobile Apps");
     expect(linkTexts[2].textContent?.trim()).to.equal("Counties");
-    expect(linkTexts[3].textContent?.trim()).to.equal("Events");
-    expect(linkTexts[4].textContent?.trim()).to.equal("Programs");
-    expect(linkTexts[5].textContent?.trim()).to.equal("Services");
+    expect(linkTexts[3].textContent?.trim()).to.equal("Services & Benefits");
+    expect(linkTexts[4].textContent?.trim()).to.equal("Explore New York");
   });
 
   it("renders the navigation links", async () => {
@@ -41,15 +41,14 @@ describe("nys-unavfooter", () => {
     const linkHrefs = Array.from(links || []).map((link) =>
       link.getAttribute("href"),
     );
-    expect(linkHrefs).to.have.lengthOf(6);
+    expect(linkHrefs).to.have.lengthOf(5);
 
     expect(linkHrefs).to.include.members([
-      "https://www.ny.gov/agencies",
+      "https://www.ny.gov/state-agencies",
       "https://www.ny.gov/mobileapps",
       "https://www.ny.gov/counties",
-      "https://www.ny.gov/events",
-      "https://www.ny.gov/programs",
-      "https://www.ny.gov/services",
+      "https://www.ny.gov/services-and-benefits",
+      "https://www.ny.gov/visit-and-explore",
     ]);
   });
 });
@@ -73,7 +72,7 @@ describe("nys-unavfooter accessibility", () => {
     expect(nav, "a <nav> landmark should wrap the links").to.exist;
     expect(nav?.getAttribute("aria-label")).to.equal("New York State");
     // The link list lives inside the nav landmark.
-    expect(nav?.querySelectorAll("ul li a")).to.have.lengthOf(6);
+    expect(nav?.querySelectorAll("ul li a")).to.have.lengthOf(5);
   });
 
   it("renders the statewide content-info footer landmark", async () => {
@@ -147,5 +146,109 @@ describe("nys-unavfooter accessibility", () => {
       html`<nys-unavfooter id="my-footer"></nys-unavfooter>`,
     );
     expect(el.id).to.equal("my-footer");
+  });
+});
+
+describe("nys-unavfooter statewide CTA", () => {
+  let fetchStub: sinon.SinonStub;
+
+  afterEach(() => {
+    fetchStub?.restore();
+  });
+
+  const mockFetch = (body: unknown, ok = true) => {
+    fetchStub = sinon.stub(window, "fetch").resolves({
+      ok,
+      status: ok ? 200 : 500,
+      json: async () => body,
+    } as Response);
+  };
+
+  it("fetches from the statewide CTA endpoint on initialization", async () => {
+    mockFetch({ cta: { status: "off" } });
+
+    await fixture<NysUnavFooter>(html`<nys-unavfooter></nys-unavfooter>`);
+    await aTimeout(0);
+
+    expect(fetchStub.calledOnce).to.be.true;
+    expect(fetchStub.firstCall.args[0]).to.equal(
+      "https://alerts-cta.static-assets.ny.gov/cta.json",
+    );
+  });
+
+  it('renders the CTA when the feed\'s status is "on"', async () => {
+    mockFetch({
+      cta: {
+        status: "on",
+        buttonText: "Get started",
+        textAria: "Get started with the design system",
+        description: "A short description.",
+        link: "https://example.com/get-started",
+      },
+    });
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    const cta = el.shadowRoot?.querySelector(".nys-unavfooter__cta");
+    expect(cta, "the CTA container should render").to.exist;
+
+    const description = cta?.querySelector(".nys-unavfooter__cta-text");
+    expect(description?.tagName, "the description is a <p>").to.equal("P");
+    expect(description?.textContent?.trim()).to.equal("A short description.");
+
+    const button = cta?.querySelector("#nys-unavfooter__cta-button") as
+      | (HTMLElement & { label?: string; href?: string })
+      | null;
+    expect(button, "the CTA button should render").to.exist;
+    expect(button?.label).to.equal("Get started");
+    expect(button?.href).to.equal("https://example.com/get-started");
+
+    // The accessible name (textAria) is written onto the real inner control,
+    // distinct from the visible buttonText.
+    await button?.updateComplete;
+    const control = button?.shadowRoot?.querySelector(".nys-button");
+    expect(control?.getAttribute("aria-label")).to.equal(
+      "Get started with the design system",
+    );
+  });
+
+  it('does not render the CTA when the feed\'s status is not "on"', async () => {
+    mockFetch({ cta: { status: "off", buttonText: "Get started" } });
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector(".nys-unavfooter__cta")).to.not.exist;
+  });
+
+  it("does not render the CTA, and does not throw, when the feed is unreachable", async () => {
+    fetchStub = sinon.stub(window, "fetch").rejects(new Error("network down"));
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector(".nys-unavfooter__cta")).to.not.exist;
+  });
+
+  it("does not render the CTA when the response isn't ok", async () => {
+    mockFetch({ cta: { status: "on", buttonText: "Get started" } }, false);
+
+    const el = await fixture<NysUnavFooter>(
+      html`<nys-unavfooter></nys-unavfooter>`,
+    );
+    await aTimeout(0);
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector(".nys-unavfooter__cta")).to.not.exist;
   });
 });
