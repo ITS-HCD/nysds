@@ -5363,6 +5363,11 @@
             },
             {
               "kind": "method",
+              "name": "_isRequiredMissing",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_manageRequire",
               "privacy": "private"
             },
@@ -10725,17 +10730,6 @@
             },
             {
               "kind": "field",
-              "name": "width",
-              "type": {
-                "text": "\"sm\" | \"md\" | \"lg\""
-              },
-              "default": "\"md\"",
-              "description": "Modal width: `sm` (400px), `md` (600px), or `lg` (800px).",
-              "attribute": "width",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "_actionButtonSlot",
               "type": {
                 "text": "HTMLSlotElement | null"
@@ -10748,6 +10742,15 @@
               "name": "_prevFocusedElement",
               "type": {
                 "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_originalHtmlOverflow",
+              "type": {
+                "text": "string | null"
               },
               "privacy": "private",
               "default": "null"
@@ -10783,11 +10786,6 @@
               },
               "privacy": "private",
               "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "_boundHandleKeydown",
-              "privacy": "private"
             },
             {
               "kind": "method",
@@ -10826,7 +10824,7 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
+              "kind": "field",
               "name": "_updateSlottedButtonWidth",
               "privacy": "private"
             },
@@ -10846,17 +10844,9 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
+              "kind": "field",
               "name": "_handleKeydown",
               "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ],
               "description": "Event Handlers\n--------------------------------------------------------------------------"
             },
             {
@@ -10935,15 +10925,6 @@
               "default": "false",
               "description": "Prevents dismissal via close button or Escape key. User must take an action.",
               "fieldName": "mandatory"
-            },
-            {
-              "name": "width",
-              "type": {
-                "text": "\"sm\" | \"md\" | \"lg\""
-              },
-              "default": "\"md\"",
-              "description": "Modal width: `sm` (400px), `md` (600px), or `lg` (800px).",
-              "fieldName": "width"
             }
           ],
           "superclass": {

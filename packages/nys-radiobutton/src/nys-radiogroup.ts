@@ -294,6 +294,20 @@ export class NysRadiogroup extends NysFormControlElement {
     this._updateGroupTabIndex();
   }
 
+  // Derive the required message before rendering, not after, so the write
+  // _manageRequire() makes from updated() is a no-op and Lit doesn't schedule
+  // a second update (see lit.dev/msg/change-in-update).
+  willUpdate(changedProperties: Map<string | symbol, unknown>) {
+    if (
+      (changedProperties.has("required") || changedProperties.has("value")) &&
+      !this.showError &&
+      this.querySelector("nys-radiobutton")
+    ) {
+      this.internalValidationMessage =
+        this.required && !this._value ? "Please select an option." : "";
+    }
+  }
+
   updated(changedProperties: Map<string | symbol, unknown>) {
     if (changedProperties.has("required") || changedProperties.has("value")) {
       if (!this.showError) {

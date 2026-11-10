@@ -1,4 +1,4 @@
-import { html, unsafeCSS } from "lit";
+import { html, nothing, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
 // This element is rendered inside this component's shadow DOM (the leading
@@ -67,11 +67,13 @@ export class NysIconlistitem extends NysElement {
   render() {
     return html`
       <div class="nys-iconlistitem">
-        <nys-icon
-          name=${this.icon}
-          size="20"
-          class="nys-iconlistitem__icon"
-        ></nys-icon>
+        ${this.icon
+          ? html`<nys-icon
+              name=${this.icon}
+              size="20"
+              class="nys-iconlistitem__icon"
+            ></nys-icon>`
+          : nothing}
         <div class="nys-iconlistitem__label">
           <slot></slot>
           <slot

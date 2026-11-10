@@ -216,14 +216,9 @@ export class NysModal extends NysElement {
   /** Prevents dismissal via close button or Escape key. User must take an action. */
   @property({ type: Boolean, reflect: true }) mandatory = false;
 
-  /**
-   * Modal width: `sm` (400px), `md` (600px), or `lg` (800px).
-   * @default "md"
-   */
-  @property({ type: String, reflect: true }) width: "sm" | "md" | "lg" = "md";
-
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
   private _prevFocusedElement: HTMLElement | null = null;
+  private _originalHtmlOverflow: string | null = null;
   private _originalBodyOverflow: string | null = null;
   private _mobileMedia = window.matchMedia("(max-width: 480px)");
 
@@ -243,7 +238,7 @@ export class NysModal extends NysElement {
   // Bound reference so the same function is used for both add/removeEventListener.
   // (Previously two distinct arrow wrappers were used, so the listener was never
   // actually removed on disconnect — a leak that left stale handlers firing.)
-  private _boundHandleKeydown = (e: KeyboardEvent) => this._handleKeydown(e);
+  // private _boundHandleKeydown = (e: KeyboardEvent) => this._handleKeydown(e);
 
   connectedCallback() {
     // super.connectedCallback() (NysElement) assigns an id when one
@@ -253,7 +248,7 @@ export class NysModal extends NysElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.addEventListener("keydown", this._boundHandleKeydown);
+    window.addEventListener("keydown", this._handleKeydown);
   }
 
   disconnectedCallback() {
@@ -263,7 +258,7 @@ export class NysModal extends NysElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.removeEventListener("keydown", this._boundHandleKeydown);
+    window.removeEventListener("keydown", this._handleKeydown);
   }
 
   async updated(changeProps: Map<string, any>) {
@@ -292,13 +287,21 @@ export class NysModal extends NysElement {
     if (this._originalBodyOverflow === null) {
       this._originalBodyOverflow = document.body.style.overflow;
     }
+    if (this._originalHtmlOverflow === null) {
+      this._originalHtmlOverflow = document.documentElement.style.overflow;
+    }
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
   }
 
   private _restoreBodyScroll() {
     if (this._originalBodyOverflow !== null) {
       document.body.style.overflow = this._originalBodyOverflow;
       this._originalBodyOverflow = null;
+    }
+    if (this._originalHtmlOverflow !== null) {
+      document.documentElement.style.overflow = this._originalHtmlOverflow;
+      this._originalHtmlOverflow = null;
     }
   }
 
@@ -351,7 +354,7 @@ export class NysModal extends NysElement {
 
   // Design has it that the slotted action buttons should be fullWidth and display:column direction for mobile view.
   // Therefore, we need to account for mobile size and screen resizes
-  private _updateSlottedButtonWidth() {
+  private _updateSlottedButtonWidth = () => {
     if (!this._actionButtonSlot) return; // use the cached variable
     const isMobile = this._mobileMedia.matches;
 
@@ -364,7 +367,7 @@ export class NysModal extends NysElement {
         }
       });
     });
-  }
+  };
 
   private _dispatchOpenEvent() {
     this.dispatchEvent(
@@ -403,7 +406,7 @@ export class NysModal extends NysElement {
    * --------------------------------------------------------------------------
    */
 
-  private async _handleKeydown(e: KeyboardEvent) {
+  private _handleKeydown = (e: KeyboardEvent) => {
     if (!this.open) return;
 
     // Exit the modal for "escape" key
@@ -477,7 +480,7 @@ export class NysModal extends NysElement {
         }
       }
     }
-  }
+  };
 
   private _closeModal() {
     this.open = false;
