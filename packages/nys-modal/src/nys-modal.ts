@@ -216,14 +216,9 @@ export class NysModal extends NysElement {
   /** Prevents dismissal via close button or Escape key. User must take an action. */
   @property({ type: Boolean, reflect: true }) mandatory = false;
 
-  /**
-   * Modal width: `sm` (400px), `md` (600px), or `lg` (800px).
-   * @default "md"
-   */
-  @property({ type: String, reflect: true }) width: "sm" | "md" | "lg" = "md";
-
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
   private _prevFocusedElement: HTMLElement | null = null;
+  private _originalHtmlOverflow: string | null = null;
   private _originalBodyOverflow: string | null = null;
   private _mobileMedia = window.matchMedia("(max-width: 480px)");
 
@@ -292,13 +287,21 @@ export class NysModal extends NysElement {
     if (this._originalBodyOverflow === null) {
       this._originalBodyOverflow = document.body.style.overflow;
     }
+    if (this._originalHtmlOverflow === null) {
+      this._originalHtmlOverflow = document.documentElement.style.overflow;
+    }
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
   }
 
   private _restoreBodyScroll() {
     if (this._originalBodyOverflow !== null) {
       document.body.style.overflow = this._originalBodyOverflow;
       this._originalBodyOverflow = null;
+    }
+    if (this._originalHtmlOverflow !== null) {
+      document.documentElement.style.overflow = this._originalHtmlOverflow;
+      this._originalHtmlOverflow = null;
     }
   }
 
