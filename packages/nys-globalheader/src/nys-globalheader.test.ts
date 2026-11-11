@@ -684,3 +684,37 @@ function clickWithoutNavigation(el: HTMLElement) {
     }),
   );
 }
+
+describe("nys-globalheader current link after a client-side click", () => {
+  it("moves aria-current to the clicked link when the header marked the match itself", async () => {
+    const originalPath = window.location.pathname;
+    history.pushState({}, "", "/services");
+
+    try {
+      const el = await fixture<NysGlobalHeader>(html`
+        <nys-globalheader>
+          <ul>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/about">About</a></li>
+          </ul>
+        </nys-globalheader>
+      `);
+      await new Promise((r) => setTimeout(r, 0));
+      await el.updateComplete;
+
+      const services = el.querySelector<HTMLAnchorElement>(
+        'a[href="/services"]',
+      )!;
+      const about = el.querySelector<HTMLAnchorElement>('a[href="/about"]')!;
+      expect(services.getAttribute("aria-current")).to.equal("page");
+
+      clickWithoutNavigation(about);
+
+      expect(about.getAttribute("aria-current")).to.equal("page");
+      expect(services.getAttribute("aria-current")).to.be.null;
+      expect(about.closest("li")!.classList.contains("active")).to.be.true;
+    } finally {
+      history.replaceState({}, "", originalPath);
+    }
+  });
+});
