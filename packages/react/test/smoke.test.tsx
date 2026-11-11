@@ -312,6 +312,53 @@ describe("nys-checkboxgroup (group value)", () => {
   });
 });
 
+describe("useNysField on nys-checkboxgroup", () => {
+  it("commits the group's array and ignores the child's event", async () => {
+    const commits: unknown[] = [];
+    function Harness() {
+      const [v, setV] = React.useState<string[]>([]);
+      const field = {
+        value: v,
+        onChange: (next: unknown) => {
+          commits.push(next);
+          setV(next as string[]);
+        },
+        onBlur: () => {},
+      };
+      return (
+        <lib.NysCheckboxgroup
+          label="Pick any"
+          name="pickany"
+          {...lib.useNysField<string[]>(field)}
+        >
+          <lib.NysCheckbox label="Option A" name="pickany" value="a" />
+          <lib.NysCheckbox label="Option B" name="pickany" value="b" />
+        </lib.NysCheckboxgroup>
+      );
+    }
+    const container = await render(<Harness />);
+    const group = container.querySelector(
+      "nys-checkboxgroup",
+    ) as NysCheckboxgroupElement;
+    const boxes = Array.from(
+      container.querySelectorAll("nys-checkbox"),
+    ) as Array<LitLike & NysCheckboxElement>;
+    await group.updateComplete;
+    await Promise.all(boxes.map((b) => b.updateComplete));
+
+    await act(async () => {
+      innerInput(boxes[1]).click();
+    });
+    await group.updateComplete;
+    await Promise.all(boxes.map((b) => b.updateComplete));
+
+    expect(commits.every((c) => Array.isArray(c))).toBe(true);
+    expect(commits.at(-1)).toEqual(["b"]);
+    expect(group.value).toEqual(["b"]);
+    expect(boxes[1].checked).toBe(true);
+  });
+});
+
 describe("nys-fileinput (files kind)", () => {
   it("files set through setFiles reach the element and the form model", async () => {
     const ref = React.createRef<NysFileinputElement>();
