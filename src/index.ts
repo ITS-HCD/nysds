@@ -20,6 +20,7 @@ export * from "../packages/nys-icon/src/index";
 export * from "../packages/nys-iconlist/src/index";
 export * from "../packages/nys-label/src/index";
 export * from "../packages/nys-modal/src/index";
+export * from "../packages/nys-onthispage/src/index";
 export * from "../packages/nys-pagination/src/index";
 export * from "../packages/nys-processlist/src/index";
 export * from "../packages/nys-radiobutton/src/index";
