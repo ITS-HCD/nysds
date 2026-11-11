@@ -1791,3 +1791,46 @@ describe("nys-datepicker", () => {
     expect(findUnregisteredChildren(el)).to.deep.equal([]);
   });
 });
+
+describe("nys-datepicker eager validation after value changes", () => {
+  const settle = async (el: NysDatepicker) => {
+    await el.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve));
+    await el.updateComplete;
+  };
+
+  it("keeps a range error and invalid state after an out-of-range edit", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker minDate="2026-01-01"></nys-datepicker>`,
+    );
+    (el as any)._hasUserInteracted = true;
+
+    const input = el.shadowRoot!.querySelector("input") as HTMLInputElement;
+    input.value = "2025-06-01";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await settle(el);
+
+    const errorEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(el.showError).to.be.true;
+    expect(input.validationMessage).to.not.equal("");
+    expect(errorEl.getAttribute("errorMessage")).to.equal(
+      input.validationMessage,
+    );
+    expect((el as any).internals.validity.valid).to.be.false;
+  });
+
+  it("clears a required error when the app sets a value after blur", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker required></nys-datepicker>`,
+    );
+    el.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    await el.updateComplete;
+    expect(el.showError).to.be.true;
+
+    el.value = "2026-12-01";
+    await settle(el);
+
+    expect(el.showError).to.be.false;
+    expect((el as any).internals.validity.valid).to.be.true;
+  });
+});
