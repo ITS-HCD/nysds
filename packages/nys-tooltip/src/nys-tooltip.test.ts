@@ -705,3 +705,52 @@ describe("nys-tooltip", () => {
     await expect(el).shadowDom.to.be.accessible();
   });
 });
+
+describe("observer cleanup", () => {
+  it("keeps one ResizeObserver while the tooltip stays open", async () => {
+    const el = await fixture(html`
+      <div>
+        <nys-button id="ro-btn" label="Help"></nys-button>
+        <nys-tooltip for="ro-btn" text="One observer"></nys-tooltip>
+      </div>
+    `);
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+
+    const OriginalRO = window.ResizeObserver;
+    let created = 0;
+    (window as any).ResizeObserver = class extends OriginalRO {
+      constructor(cb: ResizeObserverCallback) {
+        super(cb);
+        created++;
+      }
+    };
+    try {
+      (tooltip as any)._showTooltip();
+      // Give each observer's first notification time to fire.
+      for (let i = 0; i < 5; i++) {
+        await new Promise((r) => requestAnimationFrame(r));
+      }
+      expect(created).to.equal(1);
+    } finally {
+      (tooltip as any)._removeScrollListeners();
+      window.ResizeObserver = OriginalRO;
+    }
+  });
+
+  it("removes its scroll and resize listeners when removed while open", async () => {
+    const el = await fixture(html`
+      <div>
+        <nys-button id="rm-btn" label="Help"></nys-button>
+        <nys-tooltip for="rm-btn" text="Cleanup"></nys-tooltip>
+      </div>
+    `);
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+    (tooltip as any)._showTooltip();
+
+    tooltip.remove();
+
+    expect((tooltip as any)._resizeObserver).to.be.null;
+  });
+});
