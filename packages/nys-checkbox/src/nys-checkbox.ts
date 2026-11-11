@@ -531,7 +531,12 @@ export class NysCheckbox extends NysFormControlElement {
       e.preventDefault();
       if (!this.disabled) {
         this.checked = !this.checked;
-        this.setFormValue(this.checked ? this.value : null);
+        // A group with shared names owns the combined form value, so a
+        // grouped checkbox must not write its own entry (same guard as
+        // _handleChange() and willUpdate()).
+        if (!this.groupExist) {
+          this.setFormValue(this.checked ? this.value : null);
+        }
 
         // Wait for DOM updates before validating. This is necessary to ensure the native input validation state is updated before this.validate().
         await this.updateComplete;
