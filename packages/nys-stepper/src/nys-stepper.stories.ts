@@ -26,7 +26,6 @@ export const Basic: Story = {
   args: {
     name: "stepper",
     label: "Register for Design System Office Hours",
-    counterText: "initial",
     isCompactExpanded: false,
     selected: false,
     current: false,
@@ -40,7 +39,6 @@ export const Basic: Story = {
           class="nys-desktop:nys-grid-col-3"
           name=${args.name}
           label=${args.label}
-          counterText=${args.counterText}
           ?isCompactExpanded=${args.isCompactExpanded}
         >
           <nys-step

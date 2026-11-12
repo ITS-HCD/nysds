@@ -30,6 +30,7 @@ on:
   pull_request:
     branches:
       - develop
+      - main
     types: [opened, synchronize, reopened]
 
 # One run per PR; closing a PR cancels a deploy still in progress so it can't

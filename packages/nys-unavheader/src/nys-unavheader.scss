@@ -329,6 +329,7 @@ a#nys-unavheader__logolink {
 
 .nys-unavheader__languagelist.show {
   position: absolute;
+  inset-inline-end: 0;
   display: flex;
   flex-direction: column;
   min-width: fit-content;
@@ -340,7 +341,6 @@ a#nys-unavheader__logolink {
   border-radius: var(--_nys-unavheader-border-radius--language-dropdown);
   color: var(--nys-color-state-blue-700, #154973);
   margin-top: var(--nys-space-150, 12px);
-  right: 0;
 }
 
 .nys-unavheader__languagelink {

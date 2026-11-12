@@ -96,6 +96,12 @@ export default [
     viewports: ["desktop"],
   },
   {
+    package: "nys-modal",
+    story: "actions-slot",
+    target: "#modal-wrapper3 > nys-button",
+    states: ["click"],
+  },
+  {
     package: "nys-radiobutton",
     // The radios render inside nys-radiogroup's shadow DOM, not in nys-radiobutton.
     target: "nys-radiogroup .nys-radiobutton",
