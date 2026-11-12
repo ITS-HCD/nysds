@@ -1004,9 +1004,31 @@ describe("nys-fileinput", () => {
     });
   });
 
-  // Regression: #1764 — aria-errormessage used to receive the error TEXT, which
-  // is an IDREF attribute, so the relation resolved to nothing.
-  describe("nys-fileitem error association", () => {
+  /**************** File Item Tests ****************/
+  describe("nys-fileitem tests", () => {
+    it("exposes a single named progress bar while processing", async () => {
+      const el = await fixture<NysFileItem>(
+        html`<nys-fileitem
+          filename="license.pdf"
+          status="processing"
+          progress="40"
+        ></nys-fileitem>`,
+      );
+
+      const bar = el.shadowRoot!.querySelector(
+        "progress",
+      ) as HTMLProgressElement;
+
+      expect(bar?.tagName.toLowerCase()).to.equal("progress");
+      expect(bar?.getAttribute("aria-label")).to.equal(
+        "Upload progress for license.pdf",
+      );
+      expect(bar?.value).to.equal(40);
+      expect(bar?.max).to.equal(100);
+    });
+
+    // Regression: #1764 — aria-errormessage used to receive the error TEXT, which
+    // is an IDREF attribute, so the relation resolved to nothing.
     it("references the error element by id, not by its text", async () => {
       const el = await fixture(html`
         <nys-fileitem
