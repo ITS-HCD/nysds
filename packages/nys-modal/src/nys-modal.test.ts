@@ -198,6 +198,41 @@ describe("nys-modal", () => {
     expect(closeFired).to.be.false;
   });
 
+  it("fires nys-close only once when closed with Escape", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeCount = 0;
+    el.addEventListener("nys-close", () => closeCount++);
+
+    const event = new KeyboardEvent("keydown", {
+      key: "Escape",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+    await el.updateComplete;
+
+    expect(closeCount).to.equal(1);
+  });
+
+  it("_closeModal fires nys-close only once", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeCount = 0;
+    el.addEventListener("nys-close", () => closeCount++);
+
+    (el as any)._closeModal();
+    await el.updateComplete;
+
+    expect(closeCount).to.equal(1);
+  });
+
   it("Tab does nothing special when there are no focusable elements", async () => {
     const el = await fixture<NysModal>(
       html`<nys-modal heading="Test" open mandatory></nys-modal>`,
@@ -290,7 +325,71 @@ describe("nys-modal", () => {
     expect(closeDetail.id).to.equal("my-modal");
   });
 
+  it("restores the previous html and body overflow on close", async () => {
+    document.documentElement.style.overflow = "scroll";
+    document.body.style.overflow = "auto";
+
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    expect(document.documentElement.style.overflow).to.equal("hidden");
+
+    el.open = false;
+    await el.updateComplete;
+
+    expect(document.documentElement.style.overflow).to.equal("scroll");
+    expect(document.body.style.overflow).to.equal("auto");
+
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+  });
+
   /*** Accessibility ***/
+  /*** Media query change ***/
+  function setMobile(el: NysModal, isMobile: boolean) {
+    const media = (el as any)._mobileMedia as MediaQueryList;
+    Object.defineProperty(media, "matches", {
+      value: isMobile,
+      configurable: true,
+    });
+    media.dispatchEvent(new Event("change"));
+  }
+
+  async function openModalWithActions() {
+    const el = await fixture<NysModal>(html`
+      <nys-modal heading="Test" open>
+        <div slot="actions">
+          <nys-button label="Cancel" variant="outline"></nys-button>
+          <nys-button label="Update"></nys-button>
+        </div>
+      </nys-modal>
+    `);
+    await nextFrame(); // wait for slotchange
+    return el;
+  }
+
+  it("sets fullWidth on action buttons on mobile and removes it on desktop", async () => {
+    const el = await openModalWithActions();
+    const buttons = el.querySelectorAll("nys-button");
+
+    setMobile(el, true);
+    buttons.forEach((btn) => expect(btn.hasAttribute("fullWidth")).to.be.true);
+
+    setMobile(el, false);
+    buttons.forEach((btn) => expect(btn.hasAttribute("fullWidth")).to.be.false);
+  });
+
+  it("ignores media query changes after the modal is removed", async () => {
+    const el = await openModalWithActions();
+    const buttons = el.querySelectorAll("nys-button");
+
+    el.remove();
+    setMobile(el, true);
+
+    buttons.forEach((btn) => expect(btn.hasAttribute("fullWidth")).to.be.false);
+  });
+
+  /****************************** Accessibility ******************************/
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-modal heading="Update Available"></nys-modal>`,

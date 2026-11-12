@@ -322,17 +322,17 @@ const DEFAULT_LANDMARK_LABEL = "New York State";
 export class NysUnavHeader extends NysElement {
   static styles = unsafeCSS(styles);
 
-  /** Internal: Whether trust bar panel is expanded. */
-  @property({ type: Boolean }) trustbarVisible = false;
+  /** Whether trust bar panel is expanded. */
+  @state() private _trustbarVisible = false;
 
-  /** Internal: Whether search dropdown is visible (mobile). */
-  @property({ type: Boolean }) searchDropdownVisible = false;
+  /** Whether search dropdown is visible (mobile). */
+  @state() private _searchDropdownVisible = false;
 
-  /** Internal: Whether language dropdown is visible. */
-  @property({ type: Boolean }) languageVisible = false;
+  /** Whether language dropdown is visible. */
+  @state() private _languageVisible = false;
 
-  /** Internal: Whether search input is focused. */
-  @property({ type: Boolean }) isSearchFocused = false;
+  /** Whether search input is focused. */
+  @state() private _isSearchFocused = false;
 
   /** Hides the translation dropdown. */
   @property({ type: Boolean }) hideTranslate = false;
@@ -491,9 +491,9 @@ export class NysUnavHeader extends NysElement {
 
     this._syncLanguageMenuAria();
 
-    if (!changed.has("languageVisible")) return;
+    if (!changed.has("_languageVisible")) return;
 
-    if (!this.languageVisible) {
+    if (!this._languageVisible) {
       // The next open starts at the top of the list
       this._openWithFocus = null;
       this._activeOption = 0;
@@ -523,11 +523,11 @@ export class NysUnavHeader extends NysElement {
   }
 
   private _toggleTrustbar(clickID?: string) {
-    this.trustbarVisible = !this.trustbarVisible;
+    this._trustbarVisible = !this._trustbarVisible;
 
-    if (this.trustbarVisible) {
-      this.languageVisible = false;
-      this.searchDropdownVisible = false;
+    if (this._trustbarVisible) {
+      this._languageVisible = false;
+      this._searchDropdownVisible = false;
     }
 
     if (clickID === "no focus") return;
@@ -536,7 +536,7 @@ export class NysUnavHeader extends NysElement {
       clickID === "nys-unavheader__know--inline" || !clickID;
 
     if (shouldMoveFocus) {
-      const targetId = this.trustbarVisible
+      const targetId = this._trustbarVisible
         ? "nys-unavheader__closetrustbar"
         : "nys-unavheader__know--inline";
 
@@ -579,11 +579,11 @@ export class NysUnavHeader extends NysElement {
   private _toggleLanguageList(triggerId?: string) {
     if (triggerId) this._translateTrigger = triggerId;
 
-    this.languageVisible = !this.languageVisible;
-    if (this.languageVisible) {
+    this._languageVisible = !this._languageVisible;
+    if (this._languageVisible) {
       this._openWithFocus ??= "first";
-      this.trustbarVisible = false;
-      this.searchDropdownVisible = false;
+      this._trustbarVisible = false;
+      this._searchDropdownVisible = false;
     }
   }
 
@@ -593,8 +593,8 @@ export class NysUnavHeader extends NysElement {
    * one would drop focus to the top of the page (WCAG 2.4.3).
    */
   private _closeLanguageList() {
-    if (!this.languageVisible) return;
-    this.languageVisible = false;
+    if (!this._languageVisible) return;
+    this._languageVisible = false;
 
     this.updateComplete.then(() => {
       const trigger =
@@ -800,10 +800,10 @@ export class NysUnavHeader extends NysElement {
   }
 
   private _toggleSearchDropdown() {
-    this.searchDropdownVisible = !this.searchDropdownVisible;
-    if (this.searchDropdownVisible) {
-      this.trustbarVisible = false;
-      this.languageVisible = false;
+    this._searchDropdownVisible = !this._searchDropdownVisible;
+    if (this._searchDropdownVisible) {
+      this._trustbarVisible = false;
+      this._languageVisible = false;
     }
   }
 
@@ -916,7 +916,7 @@ export class NysUnavHeader extends NysElement {
     if (!target) return;
 
     if (e.key === "Escape") {
-      if (!this.languageVisible) return;
+      if (!this._languageVisible) return;
       e.stopPropagation();
       this._closeLanguageList();
       return;
@@ -937,7 +937,7 @@ export class NysUnavHeader extends NysElement {
         // the page must not scroll out from under it
         e.preventDefault();
         const edge = e.key === "ArrowDown" ? "first" : "last";
-        if (this.languageVisible) {
+        if (this._languageVisible) {
           this._focusOption(edge === "first" ? 0 : -1);
         } else {
           this._openWithFocus = edge;
@@ -950,7 +950,7 @@ export class NysUnavHeader extends NysElement {
       case "Spacebar":
         // The button's own click follows and does the toggling. All this has to do
         // is say where focus goes if that click is the one that opens the menu.
-        this._openWithFocus = this.languageVisible ? null : "first";
+        this._openWithFocus = this._languageVisible ? null : "first";
         break;
       default:
         break;
@@ -989,7 +989,7 @@ export class NysUnavHeader extends NysElement {
    * focus is the point here: the browser is already moving it somewhere else.
    */
   private _handleTranslateFocusout(e: FocusEvent) {
-    if (!this.languageVisible) return;
+    if (!this._languageVisible) return;
 
     const wrapper = e.currentTarget as HTMLElement;
     const next = e.relatedTarget as Node | null;
@@ -997,17 +997,31 @@ export class NysUnavHeader extends NysElement {
     // so a plain `contains` is enough to tell "still inside the menu" apart
     if (next && wrapper.contains(next)) return;
 
-    this.languageVisible = false;
+    if (next) {
+      this._languageVisible = false;
+      return;
+    }
+
+    // No relatedTarget: either focus went nowhere (clicking away), or Chromium is
+    // firing focusout because a re-render removed the focused option (e.g. a
+    // shorter `languages` array). The latter happens mid-render, so closing here
+    // would set state inside the update cycle (lit.dev/msg/change-in-update) and
+    // close a menu the user never left. Decide once the render has settled: a
+    // removed option is disconnected by then.
+    const option = e.target as Node;
+    this.updateComplete.then(() => {
+      if (option.isConnected) this._languageVisible = false;
+    });
   }
 
   private _handleSearchFocus() {
-    this.isSearchFocused = true;
-    this.trustbarVisible = false;
-    this.languageVisible = false;
+    this._isSearchFocused = true;
+    this._trustbarVisible = false;
+    this._languageVisible = false;
   }
 
   private _handleSearchBlur() {
-    this.isSearchFocused = false;
+    this._isSearchFocused = false;
   }
 
   private _handleSearchKeyup(e: KeyboardEvent) {
@@ -1209,7 +1223,7 @@ export class NysUnavHeader extends NysElement {
               variant="text"
               size="sm"
               ariaControls="nys-unavheader__trustpanel"
-              ariaExpanded="${this.trustbarVisible}"
+              ariaExpanded="${this._trustbarVisible}"
               @nys-click="${(e: CustomEvent) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1219,14 +1233,14 @@ export class NysUnavHeader extends NysElement {
               <nys-icon
                 slot="suffix-icon"
                 size="12"
-                name="${this.trustbarVisible ? "chevron_up" : "chevron_down"}"
+                name="${this._trustbarVisible ? "chevron_up" : "chevron_down"}"
               ></nys-icon>
             </nys-button>
           </div>
         </div>
         <div
           id="nys-unavheader__trustpanel"
-          class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
+          class="nys-unavheader__trustpanel wrapper ${this._trustbarVisible
             ? "show"
             : "hide"}"
         >
@@ -1240,7 +1254,7 @@ export class NysUnavHeader extends NysElement {
               size="sm"
               label="Close this notice"
               ariaControls="nys-unavheader__trustpanel"
-              ariaExpanded="${this.trustbarVisible}"
+              ariaExpanded="${this._trustbarVisible}"
               @nys-click="${() =>
                 this._toggleTrustbar("nys-unavheader__know--inline")}"
             ></nys-button>
@@ -1288,7 +1302,7 @@ export class NysUnavHeader extends NysElement {
                 id="nys-unavheader__know--inline"
                 label="Here's how you know"
                 ariaControls="nys-unavheader__trustpanel"
-                ariaExpanded="${this.trustbarVisible}"
+                ariaExpanded="${this._trustbarVisible}"
                 variant="text"
                 size="sm"
                 @nys-click="${() =>
@@ -1297,7 +1311,9 @@ export class NysUnavHeader extends NysElement {
                 <nys-icon
                   slot="suffix-icon"
                   size="12"
-                  name="${this.trustbarVisible ? "chevron_up" : "chevron_down"}"
+                  name="${this._trustbarVisible
+                    ? "chevron_up"
+                    : "chevron_down"}"
                 ></nys-icon>
               </nys-button>
             </div>
@@ -1313,7 +1329,7 @@ export class NysUnavHeader extends NysElement {
                     circle
                     label="Translate"
                     ariaControls="${LANGUAGE_LIST_ID}"
-                    ariaExpanded="${this.languageVisible}"
+                    ariaExpanded="${this._languageVisible}"
                     id="nys-unavheader__translate--mobile"
                     class="nys-unavheader__iconbutton"
                     @nys-click=${() =>
@@ -1325,15 +1341,15 @@ export class NysUnavHeader extends NysElement {
                       size="16"
                     ></nys-icon>
                   </nys-button>
-                  ${!this.isSearchFocused
+                  ${!this._isSearchFocused
                     ? html`<!-- See Aaron's PR comment; 'ariaControls' removed, and nys-button role changed from presentation to listitem -->
                         <nys-button
                           variant="ghost"
                           label="Translate"
-                          ariaExpanded="${this.languageVisible}"
+                          ariaExpanded="${this._languageVisible}"
                           size="sm"
                           prefixIcon="language"
-                          suffixIcon=${this.languageVisible
+                          suffixIcon=${this._languageVisible
                             ? "chevron_up"
                             : "chevron_down"}
                           id="nys-unavheader__translate--desktop"
@@ -1345,7 +1361,7 @@ export class NysUnavHeader extends NysElement {
                     id="${LANGUAGE_LIST_ID}"
                     role="list"
                     aria-label="${LANGUAGE_MENU_LABEL}"
-                    class="nys-unavheader__languagelist ${this.languageVisible
+                    class="nys-unavheader__languagelist ${this._languageVisible
                       ? "show"
                       : "hide"}"
                   >
@@ -1382,7 +1398,7 @@ export class NysUnavHeader extends NysElement {
                     circle
                     label="Search"
                     ariaControls="nys-unavheader__searchdropdown"
-                    ariaExpanded="${this.searchDropdownVisible}"
+                    ariaExpanded="${this._searchDropdownVisible}"
                     id="nys-unavheader__searchbutton"
                     class="nys-unavheader__iconbutton"
                     @nys-click=${this._toggleSearchDropdown}
@@ -1420,7 +1436,7 @@ export class NysUnavHeader extends NysElement {
         <div
           id="nys-unavheader__searchdropdown"
           class="nys-unavheader__searchdropdown wrapper ${this
-            .searchDropdownVisible
+            ._searchDropdownVisible
             ? "show"
             : "hide"}"
         >

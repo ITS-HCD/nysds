@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import {
@@ -704,7 +704,9 @@ export class NysTextinput extends NysFormControlElement {
             @slotchange=${() => this._validateButtonSlot("startButton")}
           ></slot>
           <div class="nys-textinput__container">
-            <span class="nys-textinput__mask-overlay"></span>
+            ${this._maskPatterns[this.type]
+              ? html`<span class="nys-textinput__mask-overlay"></span>`
+              : nothing}
             <input
               class="nys-textinput__input"
               type=${this.type === "password"
@@ -762,9 +764,12 @@ export class NysTextinput extends NysFormControlElement {
                     slot="circle-icon"
                     size="2xl"
                     name=${this.showPassword ? "visibility_off" : "visibility"}
+                    label=${this.showPassword
+                      ? "hide password"
+                      : "show password"}
                   ></nys-icon>
                 </nys-button>`
-              : ""}
+              : nothing}
             ${this.type === "search" &&
             this.value &&
             !this.disabled &&
@@ -772,7 +777,7 @@ export class NysTextinput extends NysFormControlElement {
               ? html` <nys-button
                   class="inline-icon"
                   id="search-clear"
-                  ariaLabel="clear search"
+                  label="clear search"
                   variant="ghost"
                   circle
                   size="sm"
@@ -784,7 +789,7 @@ export class NysTextinput extends NysFormControlElement {
                     name="close"
                   ></nys-icon>
                 </nys-button>`
-              : ""}
+              : nothing}
           </div>
           <slot
             name="endButton"

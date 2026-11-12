@@ -57,10 +57,11 @@ All NYS web pages should follow a consistent structure using NYSDS components fo
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page Title | Agency Name</title>
 
-  <!-- NYSDS Styles -->
-  <link rel="stylesheet" href="path/to/@nysds/styles/dist/nysds-full.min.css">
-  <!-- Agency Theme (optional) -->
-  <link rel="stylesheet" href="path/to/@nysds/styles/dist/nysds-theme-[agency].min.css">
+  <!-- NYSDS Styles: the full install. This template uses nys-grid-* utility
+       classes, which the default install (nysds.min.css) doesn't include. -->
+  <link rel="stylesheet" href="node_modules/@nysds/styles/dist/nysds-full.min.css">
+  <!-- Agency theme (optional): set data-theme on <html>, e.g. <html lang="en" data-theme="health">.
+       Both installs already include every theme; there is no separate theme stylesheet. -->
   <!-- Fonts -->
   <link rel="stylesheet" href="path/to/nysds-fonts.css">
   <link rel="preload" href="path/to/fonts/proximanova-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">

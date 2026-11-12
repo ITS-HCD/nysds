@@ -301,6 +301,31 @@ export class NysDatepicker extends NysFormControlElement {
     setTimeout(() => this._onDocumentClick(), 0);
   }
 
+  // Normalize `value` and derive the required message before rendering, not
+  // after, so the writes _setValue()/_manageRequire() make in updated() are
+  // no-ops and Lit doesn't schedule a second update
+  // (see lit.dev/msg/change-in-update).
+  willUpdate(changedProperties: Map<string | number | symbol, unknown>): void {
+    super.willUpdate(changedProperties);
+
+    if (changedProperties.has("value")) {
+      if (!this.value) {
+        this.value = undefined;
+      } else if (typeof this.value === "string") {
+        this.value = this._parseLocalDate(this.value);
+      }
+    }
+
+    if (
+      !this.hasUpdated ||
+      changedProperties.has("value") ||
+      changedProperties.has("required")
+    ) {
+      this.internalValidationMessage =
+        this.required && !this.value ? "This field is required." : "";
+    }
+  }
+
   updated(changedProperties: Map<string | number | symbol, unknown>): void {
     super.updated(changedProperties);
 

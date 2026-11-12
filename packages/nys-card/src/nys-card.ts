@@ -379,7 +379,7 @@ export class NysCard extends NysElement {
     | "_blank"
     | "_parent"
     | "_top"
-    | "framename" = "_self";
+    | string = "_self";
 
   /**
    * Click handler. Makes the whole card a single `<button>`. Use instead of
