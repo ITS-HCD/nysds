@@ -148,7 +148,7 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 
 | Tool              | Description                                                            |
 | ----------------- | ---------------------------------------------------------------------- |
-| `find_tokens`     | Search or browse tokens by CSS variable name, description, or category. Every query word must match (`"theme mid"`), and name matches rank first. Themed tokens are marked `themed`; pass `theme` (or put a theme name like `"health"` in the query) to get their values in that theme. |
+| `find_tokens`     | Search or browse tokens by CSS variable name, description, or category. Every query word must match (`"theme mid"`), and name matches rank first. Themed tokens are marked `themed`; pass `theme` (or put a theme name like `"health"` in the query) to get their values in that theme. By default (`include: "recommended"`) color primitives such as `--nys-color-blue-600` are left out, and the response's `hidden` field says how many matches were hidden; pass `include: "all"` or `"primitive"` to see them. |
 | `get_token`       | Details for one token: value, resolved value, layer, and alternatives. Accepts `--nys-color-text`, `nys-color-text`, `color-text`, or `var(--nys-color-text)`. Themed tokens return their value in all 8 agency themes; pass `theme` to make that theme's value the top-level one. Palette primitives list the theme tokens that use them (`usedByThemes`). |
 | `get_token_graph` | Token dependency graph showing references and usage, including per-theme references (`themeReferences`, `usedByThemes`) |
 

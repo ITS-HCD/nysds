@@ -123,7 +123,7 @@ export function registerTokenTools(server: McpServer): void {
         .enum(["recommended", "primitive", "all"])
         .default("recommended")
         .describe(
-          "'recommended' (default) excludes color primitives; 'primitive' returns only primitives; 'all' returns everything",
+          "'recommended' (default) excludes color primitives (the raw palette, e.g. --nys-color-blue-600) and reports how many it hid in `hidden`; 'primitive' returns only primitives; 'all' returns everything",
         ),
       theme: z
         .string()
@@ -142,32 +142,50 @@ export function registerTokenTools(server: McpServer): void {
           .filter((name) => name !== "default"),
       );
 
+      /**
+       * Apply the category filter and query to a token list. Query matches are
+       * ranked so name matches come before description-only matches; the sort
+       * is stable, so ties keep their original order.
+       */
+      const match = (list: CSSTokenInfo[]): CSSTokenInfo[] => {
+        if (category) {
+          list = list.filter(
+            (t) => t.category.toLowerCase() === category.toLowerCase(),
+          );
+        }
+        if (!query) return list;
+        const ranked = list
+          .map((t) => ({ t, rank: rankTokenMatch(t, query, themeNames) }))
+          .filter((r) => r.rank !== undefined);
+        ranked.sort((a, b) => a.rank! - b.rank!);
+        return ranked.map((r) => r.t);
+      };
+
       // Pick token set based on include value
       let tokens: CSSTokenInfo[];
       if (include === "primitive") {
-        tokens = getPrimitiveTokens();
+        tokens = match(getPrimitiveTokens());
       } else if (include === "all") {
-        tokens = getCSSTokens();
+        tokens = match(getCSSTokens());
       } else {
-        tokens = getRecommendedTokens();
+        tokens = match(getRecommendedTokens());
       }
 
-      // Apply category filter
-      if (category) {
-        tokens = tokens.filter(
-          (t) => t.category.toLowerCase() === category.toLowerCase(),
-        );
-      }
-
-      // Apply query filter (case-insensitive match on cssVariable or description),
-      // ranked so name matches come before description-only matches
-      if (query) {
-        const ranked = tokens
-          .map((t) => ({ t, rank: rankTokenMatch(t, query, themeNames) }))
-          .filter((r) => r.rank !== undefined);
-        // Array.prototype.sort is stable, so ties keep their original order
-        ranked.sort((a, b) => a.rank! - b.rank!);
-        tokens = ranked.map((r) => r.t);
+      // The default filter drops color primitives. Report how many matches it
+      // hid, so a result for "blue" doesn't read as "no blue tokens exist".
+      let hidden: { colorPrimitives: number; hint: string } | undefined;
+      if (include === "recommended") {
+        const hiddenCount = match(
+          getCSSTokens().filter(
+            (t) => t.category === "color" && t.layer === "primitive",
+          ),
+        ).length;
+        if (hiddenCount > 0) {
+          hidden = {
+            colorPrimitives: hiddenCount,
+            hint: 'Color primitives are excluded by default. Pass include: "all" or "primitive" to see them.',
+          };
+        }
       }
 
       // Themes to show values for: the theme argument, plus any named in the query
@@ -201,7 +219,11 @@ export function registerTokenTools(server: McpServer): void {
         content: [
           {
             type: "text",
-            text: JSON.stringify({ count: results.length, results }, null, 2),
+            text: JSON.stringify(
+              { count: results.length, results, hidden },
+              null,
+              2,
+            ),
           },
         ],
       };
