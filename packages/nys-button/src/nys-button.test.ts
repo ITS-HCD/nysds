@@ -49,14 +49,6 @@ describe("nys-button", () => {
     expect(label?.textContent).to.equal("Click Me");
   });
 
-  // it("sets aria-describedby when ariaDescribedBy is provided", async () => {
-  //   const el = await fixture(
-  //     html`<nys-button label="Save" ariaDescribedBy="help-text"></nys-button>`,
-  //   );
-  //   const button = el.shadowRoot?.querySelector("button")!;
-  //   expect(button.getAttribute("aria-describedby")).to.equal("help-text");
-  // });
-
   it("does not set aria-label or aria-describedby by default", async () => {
     const el = await fixture(html`<nys-button label="Save"></nys-button>`);
     const button = el.shadowRoot?.querySelector("button")!;
