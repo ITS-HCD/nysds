@@ -25,6 +25,15 @@ function adoptLightStyles() {
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, _lightSheet];
 }
 
+/** Detail payload for the `nys-verticalnav-toggle` event fired by `nys-verticalnav`. */
+export interface NysVerticalnavToggleDetail {
+  id: string;
+  expanded: boolean;
+}
+
+/** The `nys-verticalnav-toggle` event fired by `nys-verticalnav`. */
+export type NysVerticalnavToggleEvent = CustomEvent<NysVerticalnavToggleDetail>;
+
 /**
  * Vertical navigation component with responsive desktop/mobile behavior.
  *
@@ -37,6 +46,8 @@ function adoptLightStyles() {
  *
  * @summary Responsive navigation that becomes an accordion on smaller screens.
  * @element nys-verticalnav
+ *
+ * @fires {NysVerticalnavToggleEvent} nys-verticalnav-toggle - Fired when the mobile accordion opens or closes. Detail: `{id, expanded}`. Bubbles and composed.
  *
  * @usage
  * - Use for navigation where every item links to a different page.
@@ -607,7 +618,7 @@ export class NysVerticalnav extends NysElement {
   private _handleAccordionToggle = (e: CustomEvent) => {
     this.expanded = e.detail.expanded;
     this.dispatchEvent(
-      new CustomEvent("nys-verticalnav-toggle", {
+      new CustomEvent<NysVerticalnavToggleDetail>("nys-verticalnav-toggle", {
         detail: { id: this.id, expanded: this.expanded },
         bubbles: true,
         composed: true,
