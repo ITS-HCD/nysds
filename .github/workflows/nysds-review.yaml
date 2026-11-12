@@ -29,7 +29,8 @@ name: NYSDS Review App
 on:
   pull_request:
     branches:
-      - [develop, main]
+      - develop
+      - main
     types: [opened, synchronize, reopened]
 
 # One run per PR; closing a PR cancels a deploy still in progress so it can't
