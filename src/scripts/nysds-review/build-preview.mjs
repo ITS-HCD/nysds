@@ -9,7 +9,9 @@
  * using assistive technology. The home page is an ordered list of every story.
  *
  * Affected packages are the nys-* packages changed since the base branch plus
- * every package that depends on them, directly or transitively. A change to a
+ * every package that depends on them, directly or transitively. Only source
+ * changes count: package.json, *.test.ts, *.stories.ts and Markdown files are
+ * ignored. A change to a
  * shared package (tokens, styles, internals, codegen) or to the story generator
  * affects every component.
  *
@@ -72,6 +74,8 @@ const PREVIEW_STYLESHEET = path.join(
 const NYSDS_BUNDLE = path.join(ROOT, "dist/nysds.js");
 const SHARED_PACKAGES = new Set(["tokens", "styles", "internals", "codegen"]);
 const SHARED_FILES = new Set(["src/scripts/generate-stories.mjs"]);
+// Changed files that never make a component "affected" (see changedFiles).
+const IGNORED_CHANGES = /(\.md|(^|\/)package\.json|\.test\.ts|\.stories\.ts)$/;
 
 // --- Affected packages ------------------------------------------------------
 
@@ -103,12 +107,15 @@ function changedFiles(base) {
   // Markdown is ignored too: a README can't change what a component renders,
   // and one in a shared package (packages/codegen/README.md) would otherwise
   // put every component in the preview.
+  // package.json, tests and stories are ignored as well: a release version bump
+  // touches every package.json, and none of these change the component's
+  // source, so they'd flag components that have nothing new to test.
   const ignoreWhitespace = ["-w", "--ignore-blank-lines"];
   const files = new Set([
     ...git("diff", "--name-only", ...ignoreWhitespace, `${base}...HEAD`),
     ...git("diff", "--name-only", ...ignoreWhitespace, "HEAD"),
   ]);
-  return [...files].filter((file) => !file.endsWith(".md"));
+  return [...files].filter((file) => !IGNORED_CHANGES.test(file));
 }
 
 /** Returns [{ dir, reason }] — changed packages first, then their dependents. */
