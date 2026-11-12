@@ -19,6 +19,7 @@ import {
 import {
   buildAngularUsageNotes,
   buildReactUsageNotes,
+  buildVueUsageNotes,
 } from "../lib/framework-usage.js";
 
 export function registerComponentTools(server: McpServer): void {
@@ -76,7 +77,7 @@ export function registerComponentTools(server: McpServer): void {
   // get_component - Full documentation for a specific component
   server.tool(
     "get_component",
-    "Get full documentation for a specific NYSDS component including properties, events, slots, and CSS custom properties. Set framework to 'react' or 'angular' to get that framework's import line, event-prop naming, and forms guidance alongside HTML/React/Angular code examples.",
+    "Get full documentation for a specific NYSDS component including properties, events, slots, and CSS custom properties. Set framework to 'react', 'angular', or 'vue' to get that framework's import line, event naming, and forms guidance alongside HTML/React/Angular code examples.",
     {
       tagName: z
         .string()
@@ -88,10 +89,10 @@ export function registerComponentTools(server: McpServer): void {
           "Include code examples from component JSDoc. Set to true when you need usage patterns. Each example carries html, react, and angular snippets.",
         ),
       framework: z
-        .enum(["html", "react", "angular"])
+        .enum(["html", "react", "angular", "vue"])
         .default("html")
         .describe(
-          "Which framework to optimize the response for. 'html' (default) returns plain custom-element usage. 'react' and 'angular' add framework-specific usage notes (import line, event-prop naming, forms binding) and, for a form-control component, transform that framework's example snippets into its idiomatic controlled/reactive-forms pattern.",
+          "Which framework to optimize the response for. 'html' (default) returns plain custom-element usage. 'react', 'angular', and 'vue' add framework-specific usage notes (import line, event naming, forms binding). For a form-control component, 'react' and 'angular' also transform that framework's example snippets into its idiomatic controlled/reactive-forms pattern; Vue templates use the HTML snippets as written.",
         ),
     },
     async ({ tagName, includeExamples, framework }) => {
@@ -131,6 +132,8 @@ export function registerComponentTools(server: McpServer): void {
           component.name,
           formControl,
         );
+      } else if (framework === "vue") {
+        usage.vue = buildVueUsageNotes(component.name, formControl);
       }
 
       return {
@@ -150,7 +153,7 @@ export function registerComponentTools(server: McpServer): void {
                       )
                     : undefined,
                 usage: Object.keys(usage).length > 0 ? usage : undefined,
-                resourceUri: `nysds://component/${tagName}`,
+                resourceUri: `nysds://component/${component.tagName}`,
               },
               null,
               2,
