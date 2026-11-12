@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import {
@@ -296,6 +296,23 @@ export class NysFileinput extends NysFormControlElement {
     return innerButton;
   }
 
+  private get _selectionSummary(): string {
+    const files = this._selectedFiles;
+    if (files.length === 0) {
+      return [this.label, this.description].filter(Boolean).join(" ");
+    }
+
+    const base =
+      files.length === 1
+        ? `You have selected ${files[0].file.name}.`
+        : `You have selected ${files.length} files: ${files
+            .map((entry) => entry.file.name)
+            .join(", ")}.`;
+
+    const hasInvalid = files.some((entry) => entry.status === "error");
+    return hasInvalid ? `${base} One or more files are invalid.` : base;
+  }
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -346,25 +363,14 @@ export class NysFileinput extends NysFormControlElement {
   }
 
   /**
-   * Point the exposed control at the rendered <nys-errormessage> and, in
-   * dropzone mode, at the "or drag here" instructional text.
+   * Sets the accessible description of the "Choose file" button.
    *
-   * The native <input type="file"> is `hidden`, `aria-hidden` and `tabindex="-1"`,
-   * so it is not in the accessibility tree and must not carry these
-   * associations. The element a user actually reaches is the <button> inside the
-   * "Choose file" <nys-button>'s shadow root — that's also the keyboard path for
-   * the dropzone (Enter/Space opens the native file picker via real button
-   * semantics); the dropzone `<div>` itself is a non-interactive, pointer-only
-   * drop target and never receives focus.
-   *
-   * The button and these targets sit in different shadow roots, so an IDREF
-   * written on the button would dangle. ARIA element reflection does cross into a
-   * shadow-including ancestor tree, so associateControlRefs sets the control's own
-   * ariaDescribedByElements (plus an aria-description string fallback for engines
-   * that expose the IDL but do not yet honor it). aria-describedby — not
-   * aria-errormessage — is what Blink actually surfaces for a control inside a
-   * shadow root; see src/scripts/verify-a11y-names.mjs. aria-errormessage is set
-   * through its element-reflection form where the engine supports it.
+   * The real button lives inside <nys-button>'s shadow root, so a normal
+   * aria-describedby id can't reach elements out here. Instead we link the
+   * elements directly with associateControlRefs. The description is built, in
+   * order, from: the dropzone hint, the selected-files summary, and the error
+   * message. An aria-description string is also set for browsers that ignore
+   * element references.
    */
   private async _syncControlErrorAssociation() {
     const nysButton = this.renderRoot?.querySelector('[name="file-btn"]') as
@@ -388,9 +394,7 @@ export class NysFileinput extends NysFormControlElement {
         ) as HTMLElement | null)
       : null;
 
-    // Only present in dropzone mode, and only while the drag-active state
-    // (which swaps the button + hint for a "Drop file to upload" message) isn't
-    // showing.
+    // "or drag here" text (dropzone mode only, hidden while dragging)
     const hintEl =
       this.dropzone && !this._dragActive
         ? (this.renderRoot?.querySelector(
@@ -398,17 +402,27 @@ export class NysFileinput extends NysFormControlElement {
           ) as HTMLElement | null)
         : null;
 
-    control.setAttribute("aria-invalid", errorEl ? "true" : "false");
-    associateControlRefs(control, "describedby", [hintEl, errorEl]);
+    // "You have selected ..." text (only when files are selected)
+    const selectionEl =
+      this._selectedFiles.length > 0
+        ? (this.renderRoot?.querySelector(
+            ".nys-fileinput__selection",
+          ) as HTMLElement | null)
+        : null;
 
-    // <nys-errormessage> keeps its text in its own shadow root, so the helper's
-    // textContent-derived fallback comes back empty for that piece — the hint
-    // <p> is plain text, so its portion is already correct. Rebuild the full
-    // fallback string here so neither part clobbers the other. aria-describedby
-    // wins wherever the element reference is honored.
+    control.setAttribute("aria-invalid", errorEl ? "true" : "false");
+    associateControlRefs(control, "describedby", [
+      hintEl,
+      selectionEl,
+      errorEl,
+    ]);
+
+    // <nys-errormessage> keeps its text in its own shadow root, so we build
+    // the fallback string by hand instead of reading its textContent.
     const message = this.resolvedErrorMessage();
     const descriptionParts = [
       hintEl?.textContent?.trim() || undefined,
+      selectionEl?.textContent?.trim() || undefined,
       errorEl && message ? message : undefined,
     ].filter((part): part is string => !!part);
 
@@ -911,6 +925,11 @@ export class NysFileinput extends NysFormControlElement {
                     or drag here
                   </p>`}
           </div>`}
+      ${this._selectedFiles.length > 0
+        ? html`<span class="nys-fileinput__selection sr-only">
+            ${this._selectionSummary}
+          </span>`
+        : nothing}
       ${this.showError
         ? html`
             <nys-errormessage
@@ -919,7 +938,7 @@ export class NysFileinput extends NysFormControlElement {
               errorMessage=${this.resolvedErrorMessage()}
             ></nys-errormessage>
           `
-        : null}
+        : nothing}
       ${this._selectedFiles.length > 0
         ? html`
             <ul>
@@ -936,7 +955,7 @@ export class NysFileinput extends NysFormControlElement {
               )}
             </ul>
           `
-        : null}
+        : nothing}
     </div>`;
   }
 }
