@@ -935,6 +935,31 @@ describe("nys-datepicker", () => {
     expect(el.showError).to.be.false;
   });
 
+  it("disables wc-datepicker month options outside minDate/maxDate", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker
+        minDate="2026-04-05"
+        maxDate="2026-07-15"
+        startDate="2026-04-10"
+      ></nys-datepicker>
+    `);
+    await (el as any)._whenWcDatepickerReady();
+
+    const options = Array.from(
+      el.shadowRoot!.querySelectorAll<HTMLOptionElement>(
+        ".wc-datepicker__month-select option",
+      ),
+    );
+
+    expect(options).to.have.length(12);
+    expect(options[0].disabled).to.be.true; // Jan, before minDate
+    expect(options[2].disabled).to.be.true; // Mar, before minDate
+    expect(options[3].disabled).to.be.false; // Apr, in range
+    expect(options[6].disabled).to.be.false; // Jul, in range
+    expect(options[7].disabled).to.be.true; // Aug, after maxDate
+    expect(options[11].disabled).to.be.true; // Dec, after maxDate
+  });
+
   it("does not show required error when focusout fires before selectDate on first date selection", async () => {
     const el = await fixture<NysDatepicker>(html`
       <nys-datepicker
