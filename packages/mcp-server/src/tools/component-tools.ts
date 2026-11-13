@@ -14,6 +14,11 @@ import { isPublicMember } from "@nysds/codegen";
 import { getComponent, getAllComponents } from "../lib/cem-parser.js";
 import { searchComponents } from "../lib/search.js";
 import {
+  getIconNames,
+  iconAttributes,
+  ICON_GUIDE_POINTER,
+} from "../lib/icons.js";
+import {
   buildExampleSnippets,
   type FrameworkFilter,
 } from "../lib/framework-snippets.js";
@@ -126,6 +131,19 @@ export function registerComponentTools(server: McpServer): void {
           !(m.kind === "field" && attributeFields.has(m.name)),
       );
 
+      // Icon-name attributes get the built-in NYSDS icon set, so agents pick
+      // a name that renders.
+      const iconAttrs = iconAttributes(component);
+      const iconNames = getIconNames();
+      const icons =
+        iconAttrs.length > 0 && iconNames.length > 0
+          ? {
+              attributes: iconAttrs,
+              names: iconNames,
+              note: ICON_GUIDE_POINTER,
+            }
+          : undefined;
+
       const usage: Record<string, unknown> = {};
       if (framework === "react") {
         usage.react = buildReactUsageNotes(
@@ -152,6 +170,7 @@ export function registerComponentTools(server: McpServer): void {
                 ...rest,
                 members: publicMembers?.length ? publicMembers : undefined,
                 formControl,
+                icons,
                 examples:
                   includeExamples && examples && examples.length > 0
                     ? buildExampleSnippets(

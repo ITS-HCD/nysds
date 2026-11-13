@@ -141,8 +141,8 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | Tool                     | Description                                                                                 |
 | ------------------------ | ------------------------------------------------------------------------------------------- |
 | `find_components`        | Search for components by name/description, or list all (omit query)                         |
-| `get_component`          | Full documentation for a specific component. Use `includeExamples: true` for code examples (each carries `html`, `react`, and `angular` snippets). Pass `framework: "react"`, `"angular"`, or `"vue"` for that framework's import line, event naming, and forms guidance. |
-| `validate_component_api` | Validate attribute/property names, enum values, and `nys-*` event bindings for a component. Accepts HTML global attributes (`class`, `slot`, `aria-*`, `data-*`) and Lit binding prefixes (`.prop`, `?attr`, `@event`). |
+| `get_component`          | Full documentation for a specific component. Use `includeExamples: true` for code examples (each carries `html`, `react`, and `angular` snippets). Pass `framework: "react"`, `"angular"`, or `"vue"` for that framework's import line, event naming, and forms guidance. Components with icon-name attributes (`nys-icon`'s `name`, `prefixIcon`, `icon`, etc.) include `icons.names`: the built-in NYSDS icon set. |
+| `validate_component_api` | Validate attribute/property names, enum values, and `nys-*` event bindings for a component. Accepts HTML global attributes (`class`, `slot`, `aria-*`, `data-*`) and Lit binding prefixes (`.prop`, `?attr`, `@event`). Warns when an icon name isn't in the NYSDS icon set (unless `nys-icon` sets another `library`). |
 
 ### Design Tokens
 
@@ -157,7 +157,7 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | Tool                  | Description                                                                                                                                                                                  |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `get_utility_classes` | Every utility class, by category: display, flexbox (including order), float, grid, margin & padding, opacity, overflow, position, responsive, typography, and z-index. Each category says whether it supports breakpoint prefixes (`nys-tablet:`, etc.), and `responsive` lists them all. Requires the full `@nysds/styles` install. |
-| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, or themes. With `topic: "installation"`, pass `framework` (angular, react, vue, dotnet, drupal, vanilla) for that framework's setup guide. The angular, react, and vue guides are the `@nysds/angular`, `@nysds/react`, and `@nysds/vue` package READMEs. |
+| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, themes, or icons (the NYSDS icon names, and registering another icon library with `registerIconLibrary()`). With `topic: "installation"`, pass `framework` (angular, react, vue, dotnet, drupal, vanilla) for that framework's setup guide. The angular, react, and vue guides are the `@nysds/angular`, `@nysds/react`, and `@nysds/vue` package READMEs. |
 
 ## Available Resources
 

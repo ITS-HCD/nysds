@@ -266,12 +266,12 @@ export class NysButton extends NysFormControlElement {
     | "" = "";
 
   /**
-   * Material Symbol icon before label. Not shown for `circle` mode.
+   * NYSDS icon name (see `nys-icon`) shown before the label. Not shown for `circle` mode.
    */
   @property({ type: String }) prefixIcon = "";
 
   /**
-   * Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.
+   * NYSDS icon name (see `nys-icon`) shown after the label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.
    */
   @property({ type: String }) suffixIcon = "";
 

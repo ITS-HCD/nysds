@@ -48,6 +48,7 @@ Thumbs.db
 # MCP server bundled data (copied at build time)
 packages/mcp-server/data/cem/
 packages/mcp-server/data/tokens/
+packages/mcp-server/data/icons/
 
 # Ignore AI assistant files
 CLAUDE.md
