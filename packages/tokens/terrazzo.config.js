@@ -1,65 +1,53 @@
+import { readFileSync } from "node:fs";
 import { defineConfig } from "@terrazzo/cli";
 import css from "@terrazzo/plugin-css";
+import figma from "./figma.config.mjs";
+import { variableName as nameFromId } from "./scripts/lib/variable-name.mjs";
 
-const variableName = (id) => {
-  // Convert dots to dashes and add prefix
-  let name = `--nys-${id.replace(/\./g, "-")}`;
-  // Strip layer prefixes: primitive, applied, appearance, theme
-  // (e.g., "primitive.color.blue.600" → "--nys-color-blue-600")
-  // (e.g., "applied.color.text.default" → "--nys-color-text")
-  name = name.replace(/--nys-(primitive|applied|appearance|theme)-/, "--nys-");
-  // Legacy: also strip nested -primitive- and -semantic- if present
-  name = name.replace(/-primitive-/, "-");
-  name = name.replace(/-semantic-/, "-");
-  // Remove "-default" suffix for backward compatibility
-  // (e.g., "color.theme.default" → "--nys-color-theme")
-  return name.replace(/-default$/, "");
-};
+// plugin-css passes the whole token (Terrazzo ≥0.6)
+const variableName = (token) => nameFromId(token.id);
 
-const themes = [
-  "admin",
-  "business",
-  "environment",
-  "health",
-  "local",
-  "safety",
-  "transportation",
-];
+/** Token ids a theme set overrides, so theme blocks emit only what changes. */
+function themeTokenIds(themeName) {
+  const themeFile = new URL(`./src/themes/${themeName}.json`, import.meta.url);
+  const themeDocument = JSON.parse(readFileSync(themeFile, "utf8"));
+  const tokenIds = [];
+
+  function collectTokenIds(node, pathSoFar) {
+    if ("$value" in node) {
+      tokenIds.push(pathSoFar.join("."));
+      return;
+    }
+    for (const [key, child] of Object.entries(node)) {
+      const isChildGroupOrToken = !key.startsWith("$") && child !== null && typeof child === "object";
+      if (isChildGroupOrToken) {
+        collectTokenIds(child, [...pathSoFar, key]);
+      }
+    }
+  }
+
+  collectTokenIds(themeDocument, []);
+  return tokenIds;
+}
 
 export default defineConfig({
-  tokens: ["./src/tokens.json"],
+  // DTCG resolver: base set (tokens.json) + "theme" modifier (src/themes/*.json)
+  tokens: ["./src/resolver.json"],
   outDir: "./dist/",
   plugins: [
-    // Main token file — all tokens + all theme mode overrides
+    // All tokens (State Blue on :root) + each agency theme's overrides
     css({
       filename: "tokens.css",
       legacyHex: true,
       variableName,
-      modeSelectors: [
-        // Default theme (State Blue) uses :root, no special selector needed
-        { mode: "admin", selectors: ['[data-theme="admin"]', ".nys-theme-admin"] },
-        { mode: "business", selectors: ['[data-theme="business"]', ".nys-theme-business"] },
-        { mode: "environment", selectors: ['[data-theme="environment"]', ".nys-theme-environment"] },
-        { mode: "health", selectors: ['[data-theme="health"]', ".nys-theme-health"] },
-        { mode: "local", selectors: ['[data-theme="local"]', ".nys-theme-local"] },
-        { mode: "safety", selectors: ['[data-theme="safety"]', ".nys-theme-safety"] },
-        { mode: "transportation", selectors: ['[data-theme="transportation"]', ".nys-theme-transportation"] },
+      permutations: [
+        { input: { theme: "default" }, prepare: (contents) => `:root {\n  ${contents}\n}` },
+        ...Object.keys(figma.themes).map((theme) => ({
+          input: { theme },
+          include: themeTokenIds(theme),
+          prepare: (contents) => `[data-theme="${theme}"],\n.nys-theme-${theme} {\n  ${contents}\n}`,
+        })),
       ],
     }),
-    // Per-theme files — only the CSS vars that change for that theme
-    ...themes.map((theme) =>
-      css({
-        filename: `../../styles/dist/theme-${theme}.css`,
-        legacyHex: true,
-        variableName,
-        exclude: ["*"], // skip :root block; only output the mode selector block below
-        modeSelectors: [
-          {
-            mode: theme,
-            selectors: [`:root`],
-          },
-        ],
-      })
-    ),
   ],
 });

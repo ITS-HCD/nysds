@@ -1,0 +1,67 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
+  "name": "NYSDS",
+  "version": "2025.10",
+  "description": "NYS Design System tokens. Base set plus one theme modifier for agency themes.",
+  "sets": {
+    "base": {
+      "sources": [
+        {
+          "$ref": "./tokens.json"
+        }
+      ]
+    }
+  },
+  "modifiers": {
+    "theme": {
+      "description": "Agency theme. \"default\" is State Blue (the base set).",
+      "default": "default",
+      "contexts": {
+        "default": [],
+        "admin": [
+          {
+            "$ref": "./themes/admin.json"
+          }
+        ],
+        "business": [
+          {
+            "$ref": "./themes/business.json"
+          }
+        ],
+        "environment": [
+          {
+            "$ref": "./themes/environment.json"
+          }
+        ],
+        "health": [
+          {
+            "$ref": "./themes/health.json"
+          }
+        ],
+        "local": [
+          {
+            "$ref": "./themes/local.json"
+          }
+        ],
+        "safety": [
+          {
+            "$ref": "./themes/safety.json"
+          }
+        ],
+        "transportation": [
+          {
+            "$ref": "./themes/transportation.json"
+          }
+        ]
+      }
+    }
+  },
+  "resolutionOrder": [
+    {
+      "$ref": "#/sets/base"
+    },
+    {
+      "$ref": "#/modifiers/theme"
+    }
+  ]
+}

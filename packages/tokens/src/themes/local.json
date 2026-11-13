@@ -1,0 +1,34 @@
+{
+  "applied": {
+    "color": {
+      "theme": {
+        "$type": "color",
+        "$value": "{primitive.color.local-brown.700}"
+      },
+      "theme-faint": {
+        "$type": "color",
+        "$value": "{primitive.color.local-brown.10}"
+      },
+      "theme-mid": {
+        "$type": "color",
+        "$value": "{primitive.color.local-brown.400}"
+      },
+      "theme-strong": {
+        "$type": "color",
+        "$value": "{primitive.color.local-brown.800}"
+      },
+      "theme-stronger": {
+        "$type": "color",
+        "$value": "{primitive.color.local-brown.900}"
+      },
+      "theme-weak": {
+        "$type": "color",
+        "$value": "{primitive.color.local-brown.200}"
+      },
+      "theme-weaker": {
+        "$type": "color",
+        "$value": "{primitive.color.local-brown.100}"
+      }
+    }
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "gutter": {
+    "xs": {
+      "$type": "dimension",
+      "$value": { "value": 1.25, "unit": "rem" }
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": { "value": 1.25, "unit": "rem" }
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": { "value": 2, "unit": "rem" }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": { "value": 2, "unit": "rem" }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": { "value": 4, "unit": "rem" }
+    }
+  },
+  "shadow": {
+    "raised": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 4, "unit": "px" },
+          "blur": { "value": 6, "unit": "px" },
+          "spread": { "value": -1, "unit": "px" },
+          "color": { "colorSpace": "srgb", "components": [0,0,0], "alpha": 0.102, "hex": "#000000" }
+        },
+        {
+          "offsetX": { "value": 0, "unit": "px" },
+          "offsetY": { "value": 4, "unit": "px" },
+          "blur": { "value": 6, "unit": "px" },
+          "spread": { "value": -1, "unit": "px" },
+          "color": { "colorSpace": "srgb", "components": [0,0,0], "alpha": 0.0118, "hex": "#000000" }
+        }
+      ]
+    },
+    "overlay": {
+      "$type": "shadow",
+      "$value": {
+        "offsetX": { "value": 0, "unit": "px" },
+        "offsetY": { "value": 25, "unit": "px" },
+        "blur": { "value": 50, "unit": "px" },
+        "spread": { "value": -12, "unit": "px" },
+        "color": { "colorSpace": "srgb", "components": [0,0,0], "alpha": 0.302, "hex": "#000000" }
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "alt": {
+        "$type": "fontFamily",
+        "$value": ["Oswald", "Arial", "sans-serif"]
+      },
+      "monospace": {
+        "$type": "fontFamily",
+        "$value": ["Roboto Mono Web", "Bitstream Vera Sans Mono", "Consolas", "Courier", "monospace"]
+      }
+    },
+    "size": {
+      "body-lg": {
+        "$type": "dimension",
+        "$value": "{font.size.lg}",
+        "$description": "Body text size (large). USE for lead paragraphs and emphasized body text."
+      },
+      "h1": {
+        "$type": "dimension",
+        "$value": "{font.size.7xl}",
+        "$description": "Heading 1 size. USE for primary page headings."
+      },
+      "h2": {
+        "$type": "dimension",
+        "$value": "{font.size.5xl}",
+        "$description": "Heading 2 size. USE for section headings."
+      },
+      "h3": {
+        "$type": "dimension",
+        "$value": "{font.size.4xl}",
+        "$description": "Heading 3 size. USE for subsection headings."
+      },
+      "h4": {
+        "$type": "dimension",
+        "$value": "{font.size.2xl}",
+        "$description": "Heading 4 size. USE for minor headings."
+      },
+      "h5": {
+        "$type": "dimension",
+        "$value": "{font.size.2xl}",
+        "$description": "Heading 5 size. USE for minor headings."
+      },
+      "h6": {
+        "$type": "dimension",
+        "$value": "{font.size.lg}",
+        "$description": "Heading 6 size. USE for minor headings."
+      }
+    },
+    "weight": {
+      "thin": {
+        "$type": "fontWeight",
+        "$value": 100
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600
+      },
+      "extrabold": {
+        "$type": "fontWeight",
+        "$value": 800
+      },
+      "black": {
+        "$type": "fontWeight",
+        "$value": 900
+      }
+    },
+    "lineheight": {
+      "h1": {
+        "$type": "dimension",
+        "$value": { "value": 2.5, "unit": "rem" },
+        "$description": "Line height for h1 text. PAIR WITH --nys-font-size-h1."
+      },
+      "h2": {
+        "$type": "dimension",
+        "$value": { "value": 2.25, "unit": "rem" },
+        "$description": "Line height for h2 text. PAIR WITH --nys-font-size-h2."
+      },
+      "h3": {
+        "$type": "dimension",
+        "$value": { "value": 2, "unit": "rem" },
+        "$description": "Line height for h3 text. PAIR WITH --nys-font-size-h3."
+      },
+      "h4": {
+        "$type": "dimension",
+        "$value": { "value": 2, "unit": "rem" },
+        "$description": "Line height for h4 text. PAIR WITH --nys-font-size-h4."
+      },
+      "h5": {
+        "$type": "dimension",
+        "$value": { "value": 1.75, "unit": "rem" },
+        "$description": "Line height for h5 text. PAIR WITH --nys-font-size-h5."
+      },
+      "h6": {
+        "$type": "dimension",
+        "$value": { "value": 1.75, "unit": "rem" },
+        "$description": "Line height for h6 text. PAIR WITH --nys-font-size-h6."
+      }
+    },
+    "letterspacing": {
+      "negative-200": {
+        "$type": "dimension",
+        "$value": { "value": -0.02, "unit": "rem" }
+      },
+      "h1": {
+        "$type": "dimension",
+        "$value": "{font.letterspacing.0}",
+        "$description": "Letter spacing for h1 text. PAIR WITH --nys-font-size-h1."
+      },
+      "h2": {
+        "$type": "dimension",
+        "$value": "{font.letterspacing.100}",
+        "$description": "Letter spacing for h2 text. PAIR WITH --nys-font-size-h2."
+      },
+      "h3": {
+        "$type": "dimension",
+        "$value": "{font.letterspacing.100}",
+        "$description": "Letter spacing for h3 text. PAIR WITH --nys-font-size-h3."
+      },
+      "h4": {
+        "$type": "dimension",
+        "$value": "{font.letterspacing.200}",
+        "$description": "Letter spacing for h4 text. PAIR WITH --nys-font-size-h4."
+      },
+      "h5": {
+        "$type": "dimension",
+        "$value": "{font.letterspacing.200}",
+        "$description": "Letter spacing for h5 text. PAIR WITH --nys-font-size-h5."
+      },
+      "h6": {
+        "$type": "dimension",
+        "$value": "{font.letterspacing.300}",
+        "$description": "Letter spacing for h6 text. PAIR WITH --nys-font-size-h6."
+      }
+    },
+    "decoration": {
+      "thickness": {
+        "regular": {
+          "$type": "string",
+          "$value": "7%"
+        },
+        "strong": {
+          "$type": "string",
+          "$value": "14%"
+        }
+      }
+    }
+  },
+  "decoration": {
+    "thickness": {
+      "regular": {
+        "$type": "string",
+        "$value": "7%"
+      },
+      "strong": {
+        "$type": "string",
+        "$value": "14%"
+      }
+    }
+  }
+}
