@@ -19,7 +19,7 @@
     "data/"
   ],
   "scripts": {
-    "copy-data": "mkdir -p data/cem data/tokens && cp ../../custom-elements.json data/cem/ && cp ../tokens/src/tokens.json data/tokens/ && cp ../tokens/dist/tokens.css data/tokens/",
+    "copy-data": "mkdir -p data/cem data/tokens data/icons && cp ../../custom-elements.json data/cem/ && cp ../tokens/src/tokens.json data/tokens/ && cp ../tokens/dist/tokens.css data/tokens/ && cp ../nys-icon/manifest.json data/icons/",
     "sync:guides": "node scripts/sync-guides.mjs",
     "build": "npm run copy-data && npm run sync:guides && tsc",
     "dev": "tsc --watch",

@@ -10,8 +10,14 @@
 
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { isPublicMember } from "@nysds/codegen";
 import { getComponent, getAllComponents } from "../lib/cem-parser.js";
 import { searchComponents } from "../lib/search.js";
+import {
+  getIconNames,
+  iconAttributes,
+  ICON_GUIDE_POINTER,
+} from "../lib/icons.js";
 import {
   buildExampleSnippets,
   type FrameworkFilter,
@@ -110,14 +116,33 @@ export function registerComponentTools(server: McpServer): void {
         };
       }
 
-      // Remove members array to avoid duplication with attributes
-      // Attributes contains the HTML API, members duplicates this plus private methods
-      const {
-        // members: _members,
-        examples,
-        formControl,
-        ...componentWithoutMembers
-      } = component;
+      const { members, examples, formControl, ...rest } = component;
+
+      // Keep only the public API, and describe each attribute once: drop
+      // private, protected, deprecated and Lit-internal members (the same
+      // rule the framework wrappers use), and fields `attributes` already
+      // covers. Public methods such as focus() and property-only fields stay.
+      const attributeFields = new Set(
+        (component.attributes ?? []).map((a) => a.fieldName ?? a.name),
+      );
+      const publicMembers = members?.filter(
+        (m) =>
+          isPublicMember(m) &&
+          !(m.kind === "field" && attributeFields.has(m.name)),
+      );
+
+      // Icon-name attributes get the built-in NYSDS icon set, so agents pick
+      // a name that renders.
+      const iconAttrs = iconAttributes(component);
+      const iconNames = getIconNames();
+      const icons =
+        iconAttrs.length > 0 && iconNames.length > 0
+          ? {
+              attributes: iconAttrs,
+              names: iconNames,
+              note: ICON_GUIDE_POINTER,
+            }
+          : undefined;
 
       const usage: Record<string, unknown> = {};
       if (framework === "react") {
@@ -142,8 +167,10 @@ export function registerComponentTools(server: McpServer): void {
             type: "text",
             text: JSON.stringify(
               {
-                ...componentWithoutMembers,
+                ...rest,
+                members: publicMembers?.length ? publicMembers : undefined,
                 formControl,
+                icons,
                 examples:
                   includeExamples && examples && examples.length > 0
                     ? buildExampleSnippets(

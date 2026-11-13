@@ -2545,7 +2545,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon before label. Not shown for `circle` mode.",
+              "description": "NYSDS icon name (see `nys-icon`) shown before the label. Not shown for `circle` mode.",
               "attribute": "prefixIcon"
             },
             {
@@ -2555,7 +2555,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
+              "description": "NYSDS icon name (see `nys-icon`) shown after the label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
               "attribute": "suffixIcon"
             },
             {
@@ -2926,7 +2926,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon before label. Not shown for `circle` mode.",
+              "description": "NYSDS icon name (see `nys-icon`) shown before the label. Not shown for `circle` mode.",
               "fieldName": "prefixIcon"
             },
             {
@@ -2935,7 +2935,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
+              "description": "NYSDS icon name (see `nys-icon`) shown after the label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
               "fieldName": "suffixIcon"
             },
             {
@@ -9763,7 +9763,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Renders SVG icons from a registered icon library. The built-in NYSDS icon\nlibrary (Material Symbols) is the default. Custom libraries (Font Awesome,\nMaterial Icons, etc.) can be registered via `registerIconLibrary()`.\n\nPass `name` to select an icon. Use `library` to choose a registered library\n(defaults to `\"default\"` for NYSDS icons). Use `ariaLabel` to make the icon\naccessible (removes `aria-hidden`). Supports size presets, rotation,\nflipping, and custom colors.",
+          "description": "Renders SVG icons from a registered icon library. The default library is\nthe curated NYSDS icon set built into the package; only its names render\nwithout setup. Other libraries (Font Awesome, Material Icons, your own\nSVGs, etc.) can be registered via `registerIconLibrary()` and selected with\n`library`.\n\nPass `name` to select an icon. Use `library` to choose a registered library\n(defaults to `\"default\"` for NYSDS icons). Use `ariaLabel` to make the icon\naccessible (removes `aria-hidden`). Supports size presets, rotation,\nflipping, and custom colors.",
           "name": "NysIcon",
           "cssProperties": [
             {
@@ -10045,7 +10045,7 @@
             "Pair icons with a text label—few icons are universally understood alone.",
             "Use icons consistently: same icon and label for the same meaning throughout your app.",
             "Use `ariaLabel` when the icon conveys meaning, so screen readers can announce its purpose.",
-            "Use icons from the NYS Design System library; if unavailable, use Google Material Symbols (rounded, unfilled).",
+            "Use icons from the NYS Design System library. If it doesn't have the icon you need, register another library with `registerIconLibrary()` and set `library`.",
             "Match icon size and color to the design system.",
             "Don't use an icon if its meaning isn't immediately clear—if you suspect users won't recognize it, remove it.",
             "Don't use icons to compensate for unclear page hierarchy or confusing content organization.",
@@ -10298,7 +10298,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbols icon name passed to `<nys-icon>`.",
+              "description": "NYSDS icon name passed to `<nys-icon>`.",
               "attribute": "icon"
             },
             {
@@ -10344,7 +10344,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbols icon name passed to `<nys-icon>`.",
+              "description": "NYSDS icon name passed to `<nys-icon>`.",
               "fieldName": "icon"
             },
             {

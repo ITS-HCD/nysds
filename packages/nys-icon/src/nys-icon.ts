@@ -12,9 +12,11 @@ import { fetchIcon, parseIcon } from "./icon-cache";
 import styles from "./nys-icon.scss?inline";
 
 /**
- * Renders SVG icons from a registered icon library. The built-in NYSDS icon
- * library (Material Symbols) is the default. Custom libraries (Font Awesome,
- * Material Icons, etc.) can be registered via `registerIconLibrary()`.
+ * Renders SVG icons from a registered icon library. The default library is
+ * the curated NYSDS icon set built into the package; only its names render
+ * without setup. Other libraries (Font Awesome, Material Icons, your own
+ * SVGs, etc.) can be registered via `registerIconLibrary()` and selected with
+ * `library`.
  *
  * Pass `name` to select an icon. Use `library` to choose a registered library
  * (defaults to `"default"` for NYSDS icons). Use `ariaLabel` to make the icon
@@ -31,7 +33,7 @@ import styles from "./nys-icon.scss?inline";
  * - Pair icons with a text label—few icons are universally understood alone.
  * - Use icons consistently: same icon and label for the same meaning throughout your app.
  * - Use `ariaLabel` when the icon conveys meaning, so screen readers can announce its purpose.
- * - Use icons from the NYS Design System library; if unavailable, use Google Material Symbols (rounded, unfilled).
+ * - Use icons from the NYS Design System library. If it doesn't have the icon you need, register another library with `registerIconLibrary()` and set `library`.
  * - Match icon size and color to the design system.
  * - Don't use an icon if its meaning isn't immediately clear—if you suspect users won't recognize it, remove it.
  * - Don't use icons to compensate for unclear page hierarchy or confusing content organization.
