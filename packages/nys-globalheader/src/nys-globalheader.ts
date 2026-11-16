@@ -1,4 +1,4 @@
-import { html, unsafeCSS } from "lit";
+import { html, unsafeCSS, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import nysLogo from "./nys-brand.logo";
 import "@nysds/nys-icon";
@@ -541,6 +541,32 @@ export class NysGlobalHeader extends NysElement {
     return this._bannerLabelledBy ? undefined : DEFAULT_LANDMARK_LABEL;
   }
 
+  private _renderNames() {
+    const hasApp = !!this.appName?.trim();
+    const hasAgency = !!this.agencyName?.trim();
+
+    return html`<div class="nys-globalheader__name-container">
+      ${hasApp
+        ? html`<div
+            id="${this.id}-appname"
+            class="nys-globalheader__appName nys-globalheader__name"
+          >
+            ${this.appName}
+          </div>`
+        : nothing}
+      ${hasAgency
+        ? html`<div
+            id="${this.id}-agencyname"
+            class="nys-globalheader__agencyName nys-globalheader__name ${hasApp
+              ? ""
+              : "main"}"
+          >
+            ${this.agencyName}
+          </div>`
+        : nothing}
+    </div>`;
+  }
+
   render() {
     return html`
       <header
@@ -570,52 +596,12 @@ export class NysGlobalHeader extends NysElement {
             : ""}
           ${this._renderBrandMark()}
           ${!this.homepageLink?.trim()
-            ? html`
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        id="${this.id}-appname"
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        id="${this.id}-agencyname"
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
-              `
+            ? this._renderNames()
             : html`<a
                 class="nys-globalheader__name-container-link"
                 href=${this.homepageLink?.trim()}
               >
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
+                ${this._renderNames()}
               </a>`}
           <nav
             id="${this.id}-nav"
