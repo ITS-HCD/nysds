@@ -8011,10 +8011,19 @@
               "readonly": true
             },
             {
+              "kind": "field",
+              "name": "_selectionSummary",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "_syncControlErrorAssociation",
               "privacy": "private",
-              "description": "Point the exposed control at the rendered <nys-errormessage> and, in\ndropzone mode, at the \"or drag here\" instructional text.\n\nThe native <input type=\"file\"> is `hidden`, `aria-hidden` and `tabindex=\"-1\"`,\nso it is not in the accessibility tree and must not carry these\nassociations. The element a user actually reaches is the <button> inside the\n\"Choose file\" <nys-button>'s shadow root — that's also the keyboard path for\nthe dropzone (Enter/Space opens the native file picker via real button\nsemantics); the dropzone `<div>` itself is a non-interactive, pointer-only\ndrop target and never receives focus.\n\nThe button and these targets sit in different shadow roots, so an IDREF\nwritten on the button would dangle. ARIA element reflection does cross into a\nshadow-including ancestor tree, so associateControlRefs sets the control's own\nariaDescribedByElements (plus an aria-description string fallback for engines\nthat expose the IDL but do not yet honor it). aria-describedby — not\naria-errormessage — is what Blink actually surfaces for a control inside a\nshadow root; see src/scripts/verify-a11y-names.mjs. aria-errormessage is set\nthrough its element-reflection form where the engine supports it."
+              "description": "Sets the accessible description of the \"Choose file\" button.\n\nThe real button lives inside <nys-button>'s shadow root, so a normal\naria-describedby id can't reach elements out here. Instead we link the\nelements directly with associateControlRefs. The description is built, in\norder, from: the dropzone hint, the selected-files summary, and the error\nmessage. An aria-description string is also set for browsers that ignore\nelement references."
             },
             {
               "kind": "method",
