@@ -28,19 +28,19 @@ describe("nys-unavheader", () => {
     ) as HTMLElement;
 
     expect(trustbarToggle).to.exist;
-    expect(el.trustbarVisible).to.be.false;
+    expect((el as any)._trustbarVisible).to.be.false;
 
     trustbarToggle.dispatchEvent(
       new MouseEvent("click", { bubbles: true, composed: true }),
     );
     await el.updateComplete;
-    expect(el.trustbarVisible).to.be.true;
+    expect((el as any)._trustbarVisible).to.be.true;
 
     trustbarToggle.dispatchEvent(
       new MouseEvent("click", { bubbles: true, composed: true }),
     );
     await el.updateComplete;
-    expect(el.trustbarVisible).to.be.false;
+    expect((el as any)._trustbarVisible).to.be.false;
   });
 
   it("toggles trustbar and manages focus when clicking the inline 'Here's how you know' button", async () => {
@@ -69,7 +69,7 @@ describe("nys-unavheader", () => {
     );
     await el.updateComplete;
 
-    expect(el.trustbarVisible).to.be.true;
+    expect((el as any)._trustbarVisible).to.be.true;
 
     // Focus should move to close button
     await el.updateComplete;
@@ -81,7 +81,7 @@ describe("nys-unavheader", () => {
     );
     await el.updateComplete;
 
-    expect(el.trustbarVisible).to.be.false;
+    expect((el as any)._trustbarVisible).to.be.false;
 
     // Focus should return to inline button
     await el.updateComplete;
@@ -162,8 +162,8 @@ describe("nys-unavheader", () => {
       html`<nys-unavheader></nys-unavheader>`,
     );
 
-    el.trustbarVisible = true;
-    el.languageVisible = true;
+    (el as any)._trustbarVisible = true;
+    (el as any)._languageVisible = true;
     await el.updateComplete;
 
     const searchBar = el.shadowRoot?.getElementById(
@@ -178,9 +178,9 @@ describe("nys-unavheader", () => {
     );
     await el.updateComplete;
 
-    expect(el.isSearchFocused).to.be.true;
-    expect(el.trustbarVisible).to.be.false;
-    expect(el.languageVisible).to.be.false;
+    expect((el as any)._isSearchFocused).to.be.true;
+    expect((el as any)._trustbarVisible).to.be.false;
+    expect((el as any)._languageVisible).to.be.false;
 
     // Blur
     searchBar.dispatchEvent(
@@ -188,7 +188,7 @@ describe("nys-unavheader", () => {
     );
     await el.updateComplete;
 
-    expect(el.isSearchFocused).to.be.false;
+    expect((el as any)._isSearchFocused).to.be.false;
   });
 
   it("blurs search input and clears focus on Escape key", async () => {
@@ -196,7 +196,7 @@ describe("nys-unavheader", () => {
       html`<nys-unavheader></nys-unavheader>`,
     );
 
-    el.isSearchFocused = true;
+    (el as any)._isSearchFocused = true;
     await el.updateComplete;
 
     const searchBar = el.shadowRoot?.getElementById(
@@ -218,7 +218,7 @@ describe("nys-unavheader", () => {
     await el.updateComplete;
 
     expect(blurSpy.calledOnce).to.be.true;
-    expect(el.isSearchFocused).to.be.false;
+    expect((el as any)._isSearchFocused).to.be.false;
   });
 
   it("triggers search handler on Enter key when value is non-empty", async () => {
@@ -898,7 +898,7 @@ describe("nys-unavheader", () => {
         );
       }
 
-      el.languageVisible = true;
+      (el as any)._languageVisible = true;
       await el.updateComplete;
       await aTimeout(0);
 
@@ -941,7 +941,7 @@ describe("nys-unavheader", () => {
       expect(list.classList.contains("hide")).to.be.true;
       expect(getComputedStyle(list).display).to.equal("none");
 
-      el.languageVisible = true;
+      (el as any)._languageVisible = true;
       await el.updateComplete;
       expect(list.classList.contains("show")).to.be.true;
       expect(getComputedStyle(list).display).to.not.equal("none");
@@ -968,7 +968,7 @@ describe("nys-unavheader", () => {
         new CustomEvent("nys-click", { bubbles: true, composed: true }),
       );
       await el.updateComplete;
-      expect(el.languageVisible).to.be.true;
+      expect((el as any)._languageVisible).to.be.true;
 
       const option = el.shadowRoot?.querySelector(
         ".nys-unavheader__languagelink",
@@ -983,7 +983,7 @@ describe("nys-unavheader", () => {
       await el.updateComplete;
       await aTimeout(0);
 
-      expect(el.languageVisible).to.be.false;
+      expect((el as any)._languageVisible).to.be.false;
       // Focus must not be dropped to the top of the page when the menu vanishes.
       // Compare ids, not elements — a failed element-to-element diff makes chai
       // serialize the whole Lit component graph, which freezes the test page.
@@ -1096,7 +1096,7 @@ describe("nys-unavheader", () => {
     };
 
     const open = async (el: NysUnavHeader) => {
-      el.languageVisible = true;
+      (el as any)._languageVisible = true;
       await settle(el);
     };
 
@@ -1165,7 +1165,7 @@ describe("nys-unavheader", () => {
       ) as HTMLElement;
       await press(el, trigger, "ArrowDown");
 
-      expect(el.languageVisible).to.be.true;
+      expect((el as any)._languageVisible).to.be.true;
       expect(activeIndex(el)).to.equal(0);
     });
 
@@ -1180,7 +1180,7 @@ describe("nys-unavheader", () => {
       ) as HTMLElement;
       await press(el, trigger, "ArrowUp");
 
-      expect(el.languageVisible).to.be.true;
+      expect((el as any)._languageVisible).to.be.true;
       expect(activeIndex(el)).to.equal(el.languages.length - 1);
     });
 
@@ -1276,7 +1276,7 @@ describe("nys-unavheader", () => {
       });
       items[0].dispatchEvent(leaveWithin);
       await settle(el);
-      expect(el.languageVisible).to.be.true;
+      expect((el as any)._languageVisible).to.be.true;
 
       // Tab past the last option: the browser is already moving focus, so the menu
       // only has to get out of the way.
@@ -1291,7 +1291,7 @@ describe("nys-unavheader", () => {
         }),
       );
       await settle(el);
-      expect(el.languageVisible).to.be.false;
+      expect((el as any)._languageVisible).to.be.false;
     });
   });
 
@@ -1389,7 +1389,7 @@ describe("nys-unavheader", () => {
       ).to.equal("false");
     }
 
-    el.trustbarVisible = true;
+    (el as any)._trustbarVisible = true;
     await el.updateComplete;
     await aTimeout(0);
 

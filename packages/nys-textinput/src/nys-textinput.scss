@@ -171,6 +171,10 @@
   width: 100%;
   background-color: var(--_nys-textinput-background-color);
   border-radius: var(--_nys-textinput-border-radius);
+
+  &:has(.inline-icon) .nys-textinput__input {
+    padding-inline-end: var(--nys-space-500, 40px);
+  }
 }
 
 ::slotted(nys-button) {
@@ -204,7 +208,7 @@
 
 .inline-icon {
   position: absolute;
-  right: var(--nys-space-50, 4px);
+  inset-inline-end: var(--nys-space-50, 4px);
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;

@@ -38,10 +38,39 @@ export interface CSSTokenInfo {
   description?: string;
   /** Token category (color, font, space, etc.) */
   category: string;
-  /** Token layer (primitive, applied, color, etc.) */
+  /** Token layer (primitive, applied, theme, etc.) */
   layer: string;
   /** Original JSON path for debugging */
   jsonPath: string;
+  /**
+   * Per-theme values, keyed by theme name ("default" first). Present only
+   * when the token's value changes by agency theme, directly or through an
+   * alias of a token that does.
+   */
+  themes?: Record<string, ThemeValue>;
+  /** Raw `$extensions.mode` overrides from tokens.json, as CSS values */
+  modeOverrides?: Record<
+    string,
+    { cssValue: string; referencesVariable?: string }
+  >;
+}
+
+/**
+ * A token's value under one agency theme
+ */
+export interface ThemeValue {
+  cssValue: string;
+  referencesVariable?: string;
+  resolvedValue?: string;
+}
+
+/**
+ * An agency theme and the selectors tokens.css applies it with
+ */
+export interface ThemeInfo {
+  name: string;
+  /** Selectors from tokens.css; empty for the default theme, which is :root */
+  selectors: string[];
 }
 
 /**
@@ -50,7 +79,12 @@ export interface CSSTokenInfo {
 export interface TokenGraphNode {
   cssVariable: string;
   referencesVariable?: string;
+  /** Per-theme references for a themed token, keyed by theme name */
+  themeReferences?: Record<string, string>;
+  /** Every token that references this one, in any theme */
   usedBy: string[];
+  /** For consumers that only reference this token in some themes: consumer -> themes */
+  usedByThemes?: Record<string, string[]>;
 }
 
 // ============================================================================
@@ -190,8 +224,8 @@ function getCategoryFromPath(jsonPath: string): string {
  *
  * Layers:
  * - primitive: Raw values (colors, sizes, fonts, spacing, etc.)
- * - applied: Semantic tokens that reference primitives (includes color.theme.* defaults)
- * - theme: Agency theme overrides
+ * - applied: Semantic tokens that reference primitives
+ * - theme: color.theme.* tokens, whose value changes per agency theme
  * - appearance: Light/dark mode variations
  */
 function getLayerFromPath(jsonPath: string): string {
@@ -202,9 +236,9 @@ function getLayerFromPath(jsonPath: string): string {
     return parts[0];
   }
 
-  // color.theme.* tokens are applied semantic tokens (agency themes override these)
+  // color.theme.* tokens are the ones agency themes remap
   if (parts[0] === "color" && parts[1] === "theme") {
-    return "applied";
+    return "theme";
   }
 
   // Non-prefixed categories (space, size, font, radius, etc.) contain raw values
@@ -264,6 +298,7 @@ function parseCSSTokens(
       const tokenObj = value as Record<string, unknown>;
       const rawValue = tokenObj.$value;
       const description = tokenObj.$description as string | undefined;
+      const modeOverrides = parseModeOverrides(tokenObj.$extensions);
 
       const cssVariable = toCSSVariable(jsonPath);
       const category = getCategoryFromPath(jsonPath);
@@ -309,6 +344,7 @@ function parseCSSTokens(
         category,
         layer,
         jsonPath,
+        modeOverrides,
       });
     } else if (typeof value === "object" && value !== null) {
       // Recurse into nested group
@@ -323,6 +359,83 @@ function parseCSSTokens(
   }
 
   return tokens;
+}
+
+/**
+ * Read `$extensions.mode` (agency theme overrides) into CSS values
+ */
+function parseModeOverrides(
+  extensions: unknown,
+): CSSTokenInfo["modeOverrides"] {
+  const mode = (extensions as { mode?: unknown } | undefined)?.mode;
+  if (!mode || typeof mode !== "object") return undefined;
+
+  const overrides: NonNullable<CSSTokenInfo["modeOverrides"]> = {};
+  for (const [theme, raw] of Object.entries(mode as Record<string, unknown>)) {
+    if (typeof raw !== "string") continue;
+    if (raw.startsWith("{")) {
+      const { cssValue, referencesVariable } = aliasToVarRef(raw);
+      overrides[theme] = { cssValue, referencesVariable };
+    } else {
+      overrides[theme] = { cssValue: raw };
+    }
+  }
+  return Object.keys(overrides).length > 0 ? overrides : undefined;
+}
+
+/**
+ * Fill in `themes` on every token whose value changes by agency theme: the
+ * mode tokens themselves, plus any alias whose chain passes through one.
+ */
+function resolveThemeValues(tokens: CSSTokenInfo[]): void {
+  const byVariable = new Map(tokens.map((t) => [t.cssVariable, t]));
+  const themeNames = collectThemeNames(tokens);
+  if (themeNames.length <= 1) return;
+
+  // The value a token takes in one theme, before following its alias
+  const ownValue = (t: CSSTokenInfo, theme: string) =>
+    t.modeOverrides?.[theme] ?? {
+      cssValue: t.cssValue,
+      referencesVariable: t.referencesVariable,
+    };
+
+  const resolveIn = (t: CSSTokenInfo, theme: string) => {
+    let current: CSSTokenInfo | undefined = t;
+    let themed = false;
+    for (let depth = 0; current && depth < 10; depth++) {
+      if (current.modeOverrides) themed = true;
+      const value = ownValue(current, theme);
+      if (!value.referencesVariable)
+        return { resolved: value.cssValue, themed };
+      current = byVariable.get(value.referencesVariable);
+    }
+    return { resolved: current?.resolvedValue, themed };
+  };
+
+  for (const token of tokens) {
+    if (!resolveIn(token, "default").themed) continue;
+    const themes: Record<string, ThemeValue> = {};
+    for (const theme of themeNames) {
+      const value = ownValue(token, theme);
+      themes[theme] = {
+        cssValue: value.cssValue,
+        referencesVariable: value.referencesVariable,
+        resolvedValue: resolveIn(token, theme).resolved,
+      };
+    }
+    token.themes = themes;
+  }
+}
+
+/**
+ * Theme names in tokens.json order, with "default" (the :root values) first
+ */
+function collectThemeNames(tokens: CSSTokenInfo[]): string[] {
+  const names = new Set<string>(["default"]);
+  for (const t of tokens) {
+    for (const theme of Object.keys(t.modeOverrides ?? {})) names.add(theme);
+  }
+  return [...names];
 }
 
 /**
@@ -370,19 +483,41 @@ export function buildTokenGraph(): Map<string, TokenGraphNode> {
 
   // Initialize all nodes
   for (const token of tokens) {
+    const themeReferences: Record<string, string> = {};
+    for (const [theme, value] of Object.entries(token.modeOverrides ?? {})) {
+      if (value.referencesVariable) {
+        themeReferences[theme] = value.referencesVariable;
+      }
+    }
     graph.set(token.cssVariable, {
       cssVariable: token.cssVariable,
       referencesVariable: token.referencesVariable,
+      themeReferences:
+        Object.keys(themeReferences).length > 0
+          ? {
+              default: token.referencesVariable ?? token.cssValue,
+              ...themeReferences,
+            }
+          : undefined,
       usedBy: [],
     });
   }
 
-  // Build usedBy relationships
-  for (const token of tokens) {
-    if (token.referencesVariable) {
-      const referenced = graph.get(token.referencesVariable);
-      if (referenced) {
-        referenced.usedBy.push(token.cssVariable);
+  // Build usedBy relationships, counting each theme's reference
+  for (const node of graph.values()) {
+    const references: Record<string, string> = node.themeReferences ?? {};
+    if (!node.themeReferences && node.referencesVariable) {
+      references.all = node.referencesVariable;
+    }
+    for (const [theme, target] of Object.entries(references)) {
+      const referenced = graph.get(target);
+      if (!referenced) continue;
+      if (!referenced.usedBy.includes(node.cssVariable)) {
+        referenced.usedBy.push(node.cssVariable);
+      }
+      if (theme !== "all") {
+        referenced.usedByThemes ??= {};
+        (referenced.usedByThemes[node.cssVariable] ??= []).push(theme);
       }
     }
   }
@@ -411,6 +546,7 @@ export function getCSSTokens(): CSSTokenInfo[] {
 
   cachedCSSTokens = parseCSSTokens(rawTokens);
   resolveAllValues(cachedCSSTokens);
+  resolveThemeValues(cachedCSSTokens);
   return cachedCSSTokens;
 }
 
@@ -431,11 +567,48 @@ export function getCSSTokenByVariable(
   variableName: string,
 ): CSSTokenInfo | undefined {
   const tokens = getCSSTokens();
-  // Normalize: accept with or without -- prefix
-  const normalized = variableName.startsWith("--")
-    ? variableName
-    : `--nys-${variableName}`;
+  // Normalize: accept "--nys-x", "nys-x", "x", or "var(--nys-x)", any case
+  const bare = variableName
+    .trim()
+    .replace(/^var\(\s*/i, "")
+    .replace(/\s*\)$/, "")
+    .replace(/^-+/, "")
+    .replace(/^nys-/i, "")
+    .toLowerCase();
+  const normalized = `--nys-${bare}`;
   return tokens.find((t) => t.cssVariable === normalized);
+}
+
+/**
+ * Agency themes in tokens.json order, "default" first. Selectors follow the
+ * pattern tokens.css is built with (see packages/tokens/terrazzo.config.js);
+ * the default theme is :root and has no selector of its own.
+ */
+export function getThemes(): ThemeInfo[] {
+  return collectThemeNames(getCSSTokens()).map((name) => ({
+    name,
+    selectors:
+      name === "default"
+        ? []
+        : [`[data-theme="${name}"]`, `.nys-theme-${name}`],
+  }));
+}
+
+/**
+ * A token's value in one theme: its themed value if it has one, else its
+ * base value (unthemed tokens are the same in every theme)
+ */
+export function getTokenValueInTheme(
+  token: CSSTokenInfo,
+  theme: string,
+): ThemeValue {
+  return (
+    token.themes?.[theme] ?? {
+      cssValue: token.cssValue,
+      referencesVariable: token.referencesVariable,
+      resolvedValue: token.resolvedValue,
+    }
+  );
 }
 
 /**

@@ -352,7 +352,7 @@ export class NysButton extends NysFormControlElement {
     | "_blank"
     | "_parent"
     | "_top"
-    | "framename" = "_self";
+    | string = "_self";
 
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;

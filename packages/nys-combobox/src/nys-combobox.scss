@@ -231,7 +231,10 @@
     var(--_nys-combobox-border-width);
   border-radius: var(--_nys-combobox-border-radius);
   box-shadow: var(--_nys-combobox-shadow--dropdown);
-  max-height: var(--_nys-combobox-max-height--dropdown);
+  max-height: min(
+    var(--_nys-combobox-max-height--dropdown),
+    var(--_nys-combobox-available-height, 100vh)
+  );
   overflow-y: auto;
   z-index: 1000;
   box-sizing: border-box;

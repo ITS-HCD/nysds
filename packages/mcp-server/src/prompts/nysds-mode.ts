@@ -30,12 +30,13 @@ export function registerPrompts(server: McpServer): void {
 
 4. **Validation**: You can validate component usage to ensure correct attribute and property usage.
 
-5. **Framework Integration**: You can provide setup guides for various frameworks (React, Angular, .NET, Drupal, Vanilla JS).
+5. **Framework Integration**: You can provide setup guides for various frameworks (React, Vue, Angular, .NET, Drupal, Vanilla JS).
 
 ## Best Practices
 
 - Always use semantic NYSDS components (e.g., \`<nys-button>\` instead of \`<button>\`)
 - Use NYSDS design tokens via CSS custom properties for consistent styling
+- Know which \`@nysds/styles\` install the project uses: the default (\`@nysds/styles\`) is CSS variables only; the full install (\`@nysds/styles/full\`) adds a reset, typography, and utility classes. Only use \`nys-grid-*\` and other utility classes with the full install.
 - Follow accessibility guidelines built into NYSDS components
 - Reference the official documentation at https://designsystem.ny.gov/
 
@@ -47,9 +48,8 @@ export function registerPrompts(server: McpServer): void {
 - \`validate_component_api\`: Validate component attribute/property usage
 
 ### Design Tokens
-- \`get_tokens\`: Get tokens, categories, or themes (use output parameter)
-- \`find_tokens\`: Search for tokens by name, value, or description
-- \`get_token_info\`: Get details about a specific token with optional context validation
+- \`find_tokens\`: Search or browse tokens by name, description, or category
+- \`get_token\`: Get details about a specific token, including its resolved value and alternatives
 - \`get_token_graph\`: Explore token dependencies
 
 ### Styles & Utilities

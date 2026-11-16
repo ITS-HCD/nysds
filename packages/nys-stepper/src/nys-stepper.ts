@@ -1,5 +1,5 @@
 import { html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { NysElement } from "@nysds/internals";
 import "./nys-step";
 // @ts-ignore: SCSS module imported via bundler as inline
@@ -209,8 +209,8 @@ export class NysStepper extends NysElement {
   /** Title displayed above the step list and compact counter. */
   @property({ type: String }) label = "";
 
-  /** Progress text displayed in compact mode (e.g., "Step 2 of 5"). Auto-managed — do not set manually. */
-  @property({ type: String }) counterText = "initial";
+  /** Progress text displayed in compact mode (e.g., "Step 2 of 5"). Derived from the steps. */
+  @state() private _counterText = "initial";
 
   /** Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter. */
   @property({ type: Boolean, reflect: true })
@@ -350,8 +350,8 @@ export class NysStepper extends NysElement {
           : `Step 1 of ${totalSteps}`;
     }
 
-    if (newCounterText !== this.counterText) {
-      this.counterText = newCounterText;
+    if (newCounterText !== this._counterText) {
+      this._counterText = newCounterText;
     }
   }
 
@@ -461,10 +461,10 @@ export class NysStepper extends NysElement {
               tabindex="0"
               aria-label=${this.isCompactExpanded
                 ? "Collapse step navigation to view the form"
-                : `Expand step navigation. You are on ${this.counterText}`}
+                : `Expand step navigation. You are on ${this._counterText}`}
               aria-expanded=${this.isCompactExpanded ? "true" : "false"}
             >
-              ${this.counterText}
+              ${this._counterText}
             </div>
           </div>
         </div>

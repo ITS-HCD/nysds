@@ -1,7 +1,7 @@
 /**
  * Search Utilities
  *
- * Fuzzy search functionality for components and tokens.
+ * Search functionality for components.
  */
 
 import { getAllComponents } from "./cem-parser.js";
@@ -14,10 +14,12 @@ export interface SearchResult {
 }
 
 /**
- * Simple fuzzy matching score
- * Returns a score between 0 and 1, where 1 is an exact match
+ * Score a query against a short identifier (tag name or class name).
+ * Returns a score between 0 and 1, where 1 is an exact match. Falls back to
+ * an in-order character match ("btn" -> "nys-button"), which is only safe on
+ * short identifiers: against prose it matches almost anything.
  */
-function fuzzyScore(query: string, text: string): number {
+function identifierScore(query: string, text: string): number {
   const lowerQuery = query.toLowerCase();
   const lowerText = text.toLowerCase();
 
@@ -34,7 +36,15 @@ function fuzzyScore(query: string, text: string): number {
     return 0.7;
   }
 
+  // "date picker" / "date-picker" -> "nys-datepicker"
+  const compactQuery = lowerQuery.replace(/[\s_-]+/g, "");
+  if (compactQuery && lowerText.replace(/-/g, "").includes(compactQuery)) {
+    return 0.85;
+  }
+
   // Character-by-character fuzzy match
+  if (/\s/.test(lowerQuery) || lowerQuery.length < 3) return 0;
+
   let queryIndex = 0;
   let score = 0;
   let consecutiveBonus = 0;
@@ -59,6 +69,24 @@ function fuzzyScore(query: string, text: string): number {
 }
 
 /**
+ * Score a query against prose (summary or description). Every query word
+ * must start a word in the text; the full phrase scores higher.
+ */
+function proseScore(query: string, text: string): number {
+  if (!text) return 0;
+  const lowerQuery = query.toLowerCase().trim();
+  const phrase = new RegExp(`\\b${escapeRegex(lowerQuery)}`, "i");
+  if (phrase.test(text)) return 0.8;
+
+  const words = lowerQuery.split(/\s+/).filter((w) => w.length > 1);
+  if (words.length < 2) return 0;
+  const allWords = words.every((w) =>
+    new RegExp(`\\b${escapeRegex(w)}`, "i").test(text),
+  );
+  return allWords ? 0.6 : 0;
+}
+
+/**
  * Escape special regex characters
  */
 function escapeRegex(str: string): string {
@@ -71,6 +99,7 @@ function escapeRegex(str: string): string {
 export function searchComponents(query: string): SearchResult[] {
   const components = getAllComponents();
   const results: SearchResult[] = [];
+  const trimmed = query.trim();
 
   for (const component of components) {
     const tagName = component.tagName || "";
@@ -79,10 +108,10 @@ export function searchComponents(query: string): SearchResult[] {
     const summary = component.summary || description.split("\n")[0] || "";
 
     // Calculate scores for different fields
-    const tagScore = fuzzyScore(query, tagName) * 1.2; // Boost tag matches
-    const nameScore = fuzzyScore(query, name) * 1.1;
-    const summaryScore = fuzzyScore(query, summary);
-    const descScore = fuzzyScore(query, description) * 0.8;
+    const tagScore = identifierScore(trimmed, tagName) * 1.2; // Boost tag matches
+    const nameScore = identifierScore(trimmed, name) * 1.1;
+    const summaryScore = proseScore(trimmed, summary);
+    const descScore = proseScore(trimmed, description) * 0.75;
 
     const maxScore = Math.max(tagScore, nameScore, summaryScore, descScore);
 
@@ -91,18 +120,11 @@ export function searchComponents(query: string): SearchResult[] {
         tagName,
         name,
         summary,
-        score: maxScore,
+        score: Math.round(maxScore * 100) / 100,
       });
     }
   }
 
   // Sort by score descending
   return results.sort((a, b) => b.score - a.score);
-}
-
-/**
- * Check if a string matches a search query
- */
-export function matchesQuery(text: string, query: string): boolean {
-  return fuzzyScore(query, text) > 0;
 }

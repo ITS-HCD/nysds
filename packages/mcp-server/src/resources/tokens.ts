@@ -20,6 +20,7 @@ import {
   getCSSTokenCategories,
   buildTokenGraph,
   getTokensCSS,
+  getThemes,
 } from "../lib/token-parser.js";
 
 export function registerTokenResources(server: McpServer): void {
@@ -46,6 +47,7 @@ export function registerTokenResources(server: McpServer): void {
         description: t.description,
         category: t.category,
         layer: t.layer,
+        themes: t.themes,
       }));
 
       return {
@@ -57,6 +59,7 @@ export function registerTokenResources(server: McpServer): void {
               {
                 totalTokens: tokens.length,
                 categories: categories.map((c) => c.category),
+                themes: getThemes(),
                 tokens: formatted,
               },
               null,
@@ -141,7 +144,9 @@ export function registerTokenResources(server: McpServer): void {
         .map((n) => ({
           cssVariable: n.cssVariable,
           referencesVariable: n.referencesVariable,
+          themeReferences: n.themeReferences,
           usedBy: n.usedBy.length > 0 ? n.usedBy : undefined,
+          usedByThemes: n.usedByThemes,
         }));
 
       return {
@@ -186,9 +191,7 @@ export function registerTokenResources(server: McpServer): void {
       // Group by layer for better organization
       const primitive = tokens.filter((t) => t.layer === "primitive");
       const applied = tokens.filter((t) => t.layer === "applied");
-      const base = tokens.filter(
-        (t) => t.layer === "base" || t.layer === "color",
-      );
+      const theme = tokens.filter((t) => t.layer === "theme");
 
       const formatToken = (t: (typeof tokens)[0]) => ({
         cssVariable: t.cssVariable,
@@ -196,6 +199,7 @@ export function registerTokenResources(server: McpServer): void {
         referencesVariable: t.referencesVariable,
         resolvedValue: t.resolvedValue,
         description: t.description,
+        themes: t.themes,
       });
 
       return {
@@ -219,9 +223,11 @@ export function registerTokenResources(server: McpServer): void {
                     tokens: applied.map(formatToken),
                   },
                   theme: {
-                    count: base.length,
-                    description: "Theme-aware colors that change per agency",
-                    tokens: base.map(formatToken),
+                    count: theme.length,
+                    description:
+                      "Theme-aware colors that change per agency. cssValue/resolvedValue are the default theme; themes holds every theme's value.",
+                    selectors: getThemes(),
+                    tokens: theme.map(formatToken),
                   },
                 },
               },
