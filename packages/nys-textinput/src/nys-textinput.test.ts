@@ -763,6 +763,27 @@ describe("nys-textinput", () => {
   });
 
   // -------------------------------------------------------------------------
+  // Manual Error Validation set by user
+  // -------------------------------------------------------------------------
+  it("keeps a user-set error visible after blur", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput
+        label="License number"
+        errorMessage="Enter a license number."
+        showError
+      ></nys-textinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    const error = el.shadowRoot!.querySelector("nys-errormessage")!;
+
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(error.hasAttribute("showError")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
   // Accessibility
   // -------------------------------------------------------------------------
   it("passes the a11y audit", async () => {

@@ -6,13 +6,12 @@ import {
   dispatchNysEvent,
   dispatchNysFocusBlur,
 } from "@nysds/internals";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-combobox is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render. It
-// also guarantees the clear/toggle nys-buttons upgrade, since their accessible
-// name lands on nys-button's real inner <button>, which only exists once
-// nys-button renders.
+/*
+ * These elements are used inside nys-combobox's shadow DOM, so they need
+ * to be registered whenever nys-combobox is used. The label and error
+ * message support accessibility. Registering nys-button also ensures the
+ * clear and toggle buttons render correctly, including their accessible names.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";
@@ -290,9 +289,6 @@ export class NysCombobox extends NysFormControlElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
-  /** Shows error message when true. Set by validation or manually. */
-  @property({ type: Boolean, reflect: true }) showError = false;
-
   /** Error message text. Shown only when `showError` is true. Never overwritten by internal validation. */
   @property({ type: String }) errorMessage = "";
 
@@ -311,6 +307,22 @@ export class NysCombobox extends NysFormControlElement {
   private _selectedLabel = "";
   private _defaultValue = "";
   private _hasResolvedSlottedValue = false;
+
+  private _showError = false;
+  private _errorSetByComponent = false;
+
+  /** Shows error message when true. Set by validation or manually. */
+  @property({ type: Boolean, reflect: true })
+  get showError(): boolean {
+    return this._showError;
+  }
+
+  set showError(value: boolean) {
+    const oldValue = this._showError;
+    this._showError = Boolean(value);
+    this._errorSetByComponent = false;
+    this.requestUpdate("showError", oldValue);
+  }
 
   /**
    * Lifecycle methods
@@ -488,18 +500,23 @@ export class NysCombobox extends NysFormControlElement {
   }
 
   private _setValidityMessage(message: string = "") {
-    this.showError = !!message;
     // Store the component's own validation text; a consumer-supplied
     // errorMessage always wins via resolvedErrorMessage().
     this.internalValidationMessage = message;
 
     if (message) {
+      this.showError = true;
+      this._errorSetByComponent = true;
       this.setValidityFromState(
         { customError: true },
         this.resolvedErrorMessage(),
         this._input,
       );
     } else {
+      if (this._errorSetByComponent) {
+        this.showError = false;
+        this._errorSetByComponent = false;
+      }
       this.clearValidity();
     }
   }
@@ -541,6 +558,7 @@ export class NysCombobox extends NysFormControlElement {
     // Reset validation UI. Clears only the component's own validation text;
     // a consumer-supplied errorMessage is never touched.
     this.showError = false;
+    this._errorSetByComponent = false;
     this.internalValidationMessage = "";
     this.clearValidity();
 

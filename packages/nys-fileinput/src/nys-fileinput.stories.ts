@@ -36,11 +36,11 @@ export const Basic: Story = {
     disabled: false,
     required: false,
     optional: false,
-    showError: false,
     errorMessage: "",
     dropzone: false,
     width: "full",
     inverted: false,
+    showError: false,
   },
   argTypes: {
     width: { control: { type: "select" }, options: ["lg", "full"] },
@@ -57,11 +57,11 @@ export const Basic: Story = {
         ?disabled=${args.disabled}
         ?required=${args.required}
         ?optional=${args.optional}
-        ?showError=${args.showError}
         errorMessage=${args.errorMessage}
         ?dropzone=${args.dropzone}
         width=${args.width}
         ?inverted=${args.inverted}
+        ?showError=${args.showError}
       ></nys-fileinput>
     `;
   },

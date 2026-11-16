@@ -36,8 +36,8 @@ export const Basic: Story = {
     tooltip: "",
     width: "full",
     inverted: false,
-    showError: false,
     errorMessage: "",
+    showError: false,
   },
   argTypes: {
     width: { control: { type: "select" }, options: ["md", "lg", "full"] },
@@ -55,8 +55,8 @@ export const Basic: Story = {
         tooltip=${args.tooltip}
         width=${args.width}
         ?inverted=${args.inverted}
-        ?showError=${args.showError}
         errorMessage=${args.errorMessage}
+        ?showError=${args.showError}
       >
         <option value="apple">Apple</option>
         <option value="banana">Banana</option>

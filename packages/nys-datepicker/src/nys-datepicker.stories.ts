@@ -33,7 +33,6 @@ export const Basic: Story = {
     disabled: false,
     required: false,
     optional: false,
-    showError: false,
     errorMessage: "",
     tooltip: "",
     type: "date",
@@ -43,6 +42,7 @@ export const Basic: Story = {
     minDate: "",
     maxDate: "",
     inverted: false,
+    showError: false,
   },
   argTypes: {
     width: { control: { type: "select" }, options: ["md", "lg", "full"] },
@@ -58,7 +58,6 @@ export const Basic: Story = {
         ?disabled=${args.disabled}
         ?required=${args.required}
         ?optional=${args.optional}
-        ?showError=${args.showError}
         errorMessage=${args.errorMessage}
         tooltip=${args.tooltip}
         type=${args.type}
@@ -68,6 +67,7 @@ export const Basic: Story = {
         minDate=${args.minDate}
         maxDate=${args.maxDate}
         ?inverted=${args.inverted}
+        ?showError=${args.showError}
       ></nys-datepicker>
     `;
   },

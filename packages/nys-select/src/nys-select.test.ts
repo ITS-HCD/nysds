@@ -988,6 +988,30 @@ describe("nys-select", () => {
   });
 
   // -------------------------------------------------------------------------
+  // Manual Error Validation set by user
+  // -------------------------------------------------------------------------
+
+  it("keeps a consumer-set error visible after blur", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select
+        label="Borough"
+        errorMessage="Please choose a borough."
+        showError
+      >
+        <option value="bronx">The Bronx</option>
+      </nys-select>`,
+    );
+    const select = el.shadowRoot!.querySelector("select")!;
+    const error = el.shadowRoot!.querySelector("nys-errormessage")!;
+
+    select.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(error.hasAttribute("showError")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
   // @nysds/internals migration — accessible name, self-registration, form
   // -------------------------------------------------------------------------
 
