@@ -201,9 +201,6 @@ export class NysDatepicker extends NysFormControlElement {
   /** Show "Optional" flag. Use when most fields are required. */
   @property({ type: Boolean, reflect: true }) optional = false;
 
-  /** Show error state. */
-  @property({ type: Boolean, reflect: true }) showError = false;
-
   /** Error message text. */
   @property({ type: String }) errorMessage = "";
 
@@ -252,12 +249,30 @@ export class NysDatepicker extends NysFormControlElement {
   @state() private datepickerIsOpen = false;
 
   private readonly DATEPICKER_GAP = 4;
-  // private _calendarResizeObserver: ResizeObserver | null = null;
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  // True when the user edited the value (typing) since the last committed
-  // nys-change; lets blur commit typed dates exactly once. Never set by
-  // programmatic `value` writes.
+
+  /**
+   * Set when the user types a new date.
+   * On blur, fires nys-change once, then resets.
+   * Setting `value` in code does not set it.
+   */
   private _dirtySinceCommit = false;
+
+  private _showError = false;
+  private _errorSetByComponent = false;
+
+  /** Shows error message when true. Set by validation or manually. */
+  @property({ type: Boolean, reflect: true })
+  get showError(): boolean {
+    return this._showError;
+  }
+
+  set showError(value: boolean) {
+    const oldValue = this._showError;
+    this.showError = value;
+    this._errorSetByComponent = false;
+    this.requestUpdate("showError", oldValue);
+  }
 
   /**
    * Lifecycle methods
@@ -480,9 +495,6 @@ export class NysDatepicker extends NysFormControlElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    // Keep a manually-forced error visible when validation passes.
-    if (!message && this.showError && this.errorMessage?.trim()) return;
-
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
     // Store the component's own validation text; a consumer-supplied
@@ -490,12 +502,18 @@ export class NysDatepicker extends NysFormControlElement {
     this.internalValidationMessage = message;
 
     if (message) {
+      this.showError = true;
+      this._errorSetByComponent = true;
       this.setValidityFromState(
         { customError: true },
         this.resolvedErrorMessage(),
         input,
       );
     } else {
+      if (this._errorSetByComponent) {
+        this.showError = false;
+        this._errorSetByComponent = false;
+      }
       this.clearValidity();
     }
   }
@@ -528,6 +546,22 @@ export class NysDatepicker extends NysFormControlElement {
         innerInput.focus();
       }
     }
+  }
+
+  public formResetCallback() {
+    this.value = undefined;
+    this.setFormValue("");
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) input.value = "";
+
+    this._dirtySinceCommit = false;
+    this.showError = false;
+    this._errorSetByComponent = false;
+    this.internalValidationMessage = "";
+    this.clearValidity();
+
+    this.requestUpdate();
   }
 
   /**

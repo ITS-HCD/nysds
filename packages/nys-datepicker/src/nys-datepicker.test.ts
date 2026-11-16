@@ -1424,6 +1424,27 @@ describe("nys-datepicker", () => {
   });
 
   // -------------------------------------------------------------------------
+  // Manual Error Validation set by user
+  // -------------------------------------------------------------------------
+  it("keeps a consumer-set error visible after blur", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker
+        label="Start date"
+        errorMessage="Select a start date."
+        showError
+      ></nys-datepicker>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    const error = el.shadowRoot!.querySelector("nys-errormessage")!;
+
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(error.hasAttribute("showError")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
   // wc-datepicker element exists in shadow DOM
   // -------------------------------------------------------------------------
 
