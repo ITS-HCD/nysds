@@ -259,9 +259,6 @@ export class NysTextinput extends NysFormControlElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
-  /** Shows error message when true. Set by validation or manually. */
-  @property({ type: Boolean, reflect: true }) showError = false;
-
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
@@ -274,6 +271,22 @@ export class NysTextinput extends NysFormControlElement {
   private _maskPatterns: Record<string, string> = {
     tel: "(___) ___-____",
   };
+
+  private _showError = false;
+  private _errorSetByComponent = false;
+
+  /** Shows error message when true. Set by validation or manually. */
+  @property({ type: Boolean, reflect: true })
+  get showError(): boolean {
+    return this._showError;
+  }
+
+  set showError(value: boolean) {
+    const oldValue = this._showError;
+    this.showError = value;
+    this._errorSetByComponent = false;
+    this.requestUpdate("showError", oldValue);
+  }
 
   /**
    * Lifecycle methods
@@ -384,20 +397,23 @@ export class NysTextinput extends NysFormControlElement {
     const input = this._inputEl;
     if (!input) return;
 
-    // Always show the visual error if there is a message
-    this.showError = !!message;
-
     // Store validation output separately. A consumer-supplied errorMessage is
     // never overwritten; resolvedErrorMessage() gives it precedence.
     this.internalValidationMessage = message;
 
     if (message) {
+      this.showError = true;
+      this._errorSetByComponent = true;
       this.setValidityFromState(
         { customError: true },
         this.resolvedErrorMessage(),
         input,
       );
     } else {
+      if (this._errorSetByComponent) {
+        this.showError = false;
+        this._errorSetByComponent = false;
+      }
       this.clearValidity();
     }
   }
@@ -448,6 +464,7 @@ export class NysTextinput extends NysFormControlElement {
     // Reset validation UI. Clears only the component's own validation text; a
     // consumer-supplied errorMessage is never overwritten.
     this.showError = false;
+    this._errorSetByComponent = false;
     this.internalValidationMessage = "";
     this.clearValidity();
 
