@@ -211,9 +211,6 @@ export class NysTextarea extends NysFormControlElement {
   @property({ type: String, reflect: true }) resize: "vertical" | "none" =
     "vertical";
 
-  /** Shows error message when true. Set by validation or manually. */
-  @property({ type: Boolean, reflect: true }) showError = false;
-
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
@@ -221,6 +218,22 @@ export class NysTextarea extends NysFormControlElement {
   @property({ type: String }) ariaLabel = "";
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
+
+  private _showError = false;
+  private _errorSetByComponent = false;
+
+  /** Shows error message when true. Set by validation or manually. */
+  @property({ type: Boolean, reflect: true })
+  get showError(): boolean {
+    return this._showError;
+  }
+
+  set showError(value: boolean) {
+    const oldValue = this._showError;
+    this.showError = value;
+    this._errorSetByComponent = false;
+    this.requestUpdate("showError", oldValue);
+  }
 
   /**
    * Lifecycle methods
@@ -325,19 +338,23 @@ export class NysTextarea extends NysFormControlElement {
     const textarea = this.shadowRoot?.querySelector("textarea");
     if (!textarea) return;
 
-    // Toggle the HTML <div> tag error message
-    this.showError = !!message;
     // Store the component's own validation text; a consumer-supplied
     // errorMessage always wins via resolvedErrorMessage().
     this.internalValidationMessage = message;
 
     if (message) {
+      this.showError = true;
+      this._errorSetByComponent = true;
       this.setValidityFromState(
         { customError: true },
         this.resolvedErrorMessage(),
         textarea,
       );
     } else {
+      if (this._errorSetByComponent) {
+        this.showError = false;
+        this._errorSetByComponent = false;
+      }
       this.clearValidity();
     }
   }
@@ -365,6 +382,7 @@ export class NysTextarea extends NysFormControlElement {
     // Reset validation UI. Clears only the component's own validation text;
     // a consumer-supplied errorMessage is never touched.
     this.showError = false;
+    this._errorSetByComponent = false;
     this.internalValidationMessage = "";
     this.clearValidity();
 

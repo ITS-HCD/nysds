@@ -523,6 +523,28 @@ it("fires nys-selectionchange with correct detail on selectionchange", async () 
 });
 
 // -------------------------------------------------------------------------
+// Manual Error Validation set by user
+// -------------------------------------------------------------------------
+
+it("keeps a consumer-set error visible after blur", async () => {
+  const el = await fixture<NysTextarea>(
+    html`<nys-textarea
+      label="Comments"
+      errorMessage="Enter a comment."
+      showError
+    ></nys-textarea>`,
+  );
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  const error = el.shadowRoot!.querySelector("nys-errormessage")!;
+
+  textarea.dispatchEvent(new Event("blur"));
+  await el.updateComplete;
+
+  expect(el.showError).to.be.true;
+  expect(error.hasAttribute("showError")).to.be.true;
+});
+
+// -------------------------------------------------------------------------
 // Regression test: clearing "value" prop must sync setFormValue()
 // -------------------------------------------------------------------------
 it("programmatically setting value to empty string or null updates FormData", async () => {
