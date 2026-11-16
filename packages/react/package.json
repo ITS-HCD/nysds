@@ -265,6 +265,7 @@
     "@nysds/nys-iconlist": "1.23.2",
     "@nysds/nys-label": "1.23.2",
     "@nysds/nys-modal": "1.23.2",
+    "@nysds/nys-onthispage": "1.23.2",
     "@nysds/nys-pagination": "1.23.2",
     "@nysds/nys-processlist": "1.23.2",
     "@nysds/nys-radiobutton": "1.23.2",
