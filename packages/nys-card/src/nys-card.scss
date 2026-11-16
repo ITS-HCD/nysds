@@ -93,7 +93,7 @@
 }
 
 :host([inset]) {
-  --_nys-card-border-radius--media: var(--nys-radius-md, 4px);
+  --_nys-card-border-radius--media: var(--nys-radius-lg, 8px);
 
   .nys-card__media-container {
     padding: var(--_nys-card-padding--media-inset)
