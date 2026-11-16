@@ -269,7 +269,7 @@ export class NysSelect extends NysFormControlElement {
 
   /** Shows error message when true. Set by validation or manually. */
   @property({ type: Boolean, reflect: true })
-  get showError(): Boolean {
+  get showError(): boolean {
     return this._showError;
   }
 

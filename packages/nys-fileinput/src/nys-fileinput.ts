@@ -189,9 +189,6 @@ export class NysFileinput extends NysFormControlElement {
   /** Shows "Optional" flag. */
   @property({ type: Boolean, reflect: true }) optional = false;
 
-  /** Shows error message when true. */
-  @property({ type: Boolean, reflect: true }) showError = false;
-
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
@@ -256,6 +253,22 @@ export class NysFileinput extends NysFormControlElement {
 
   set value(file: File | null) {
     this.files = file ? [file] : [];
+  }
+
+  private _showError = false;
+  private _errorSetByComponent = false;
+
+  /** Shows error message when true. Set by validation or manually. */
+  @property({ type: Boolean, reflect: true })
+  get showError(): boolean {
+    return this._showError;
+  }
+
+  set showError(value: boolean) {
+    const oldValue = this._showError;
+    this._showError = Boolean(value);
+    this._errorSetByComponent = false;
+    this.requestUpdate("showError", oldValue);
   }
 
   /**
@@ -482,8 +495,13 @@ export class NysFileinput extends NysFormControlElement {
     // always wins at render time via resolvedErrorMessage().
     this.internalValidationMessage = message;
 
-    // Toggle the component-level error message UI
-    this.showError = showComponentError;
+    if (showComponentError) {
+      this.showError = true;
+      this._errorSetByComponent = true;
+    } else if (this._errorSetByComponent) {
+      this.showError = false;
+      this._errorSetByComponent = false;
+    }
 
     if (message) {
       this.setValidityFromState(
@@ -536,6 +554,7 @@ export class NysFileinput extends NysFormControlElement {
     // Reset validation UI. Clears only the component's own validation text —
     // a consumer-supplied errorMessage is never overwritten.
     this.showError = false;
+    this._errorSetByComponent = false;
     this.internalValidationMessage = "";
     this.clearValidity();
 

@@ -5215,17 +5215,6 @@
             },
             {
               "kind": "field",
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "attribute": "showError",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -5348,6 +5337,34 @@
               },
               "privacy": "private",
               "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_showError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_errorSetByComponent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "attribute": "showError",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -5724,15 +5741,6 @@
               "fieldName": "inverted"
             },
             {
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "fieldName": "showError"
-            },
-            {
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -5740,6 +5748,14 @@
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true. Never overwritten by internal validation.",
               "fieldName": "errorMessage"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "fieldName": "showError"
             }
           ],
           "superclass": {
@@ -5964,17 +5980,6 @@
             },
             {
               "kind": "field",
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Show error state.",
-              "attribute": "showError",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -6120,7 +6125,36 @@
                 "text": "boolean"
               },
               "privacy": "private",
+              "default": "false",
+              "description": "Set when the user types a new date.\nOn blur, fires nys-change once, then resets.\nSetting `value` in code does not set it."
+            },
+            {
+              "kind": "field",
+              "name": "_showError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
               "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_errorSetByComponent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "attribute": "showError",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -6193,6 +6227,11 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -6563,15 +6602,6 @@
               "fieldName": "optional"
             },
             {
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Show error state.",
-              "fieldName": "showError"
-            },
-            {
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -6669,6 +6699,14 @@
               "default": "undefined",
               "description": "Selected date. Accepts Date object or ISO string (YYYY-MM-DD).",
               "fieldName": "value"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "fieldName": "showError"
             }
           ],
           "superclass": {
@@ -7888,17 +7926,6 @@
             },
             {
               "kind": "field",
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true.",
-              "attribute": "showError",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -7963,6 +7990,34 @@
                 "text": "File | null"
               },
               "description": "Single-file convenience accessor (parity with `nys-textinput`'s `value`).\nReads the first selected file (or `null`); setting replaces the selection."
+            },
+            {
+              "kind": "field",
+              "name": "_showError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_errorSetByComponent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "attribute": "showError",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -8388,15 +8443,6 @@
               "fieldName": "optional"
             },
             {
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true.",
-              "fieldName": "showError"
-            },
-            {
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -8431,6 +8477,14 @@
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
               "fieldName": "inverted"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "fieldName": "showError"
             }
           ],
           "superclass": {
@@ -13318,17 +13372,6 @@
             },
             {
               "kind": "field",
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "attribute": "showError",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -13356,6 +13399,34 @@
               },
               "privacy": "private",
               "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_showError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_errorSetByComponent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "attribute": "showError",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -13578,15 +13649,6 @@
               "fieldName": "inverted"
             },
             {
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "fieldName": "showError"
-            },
-            {
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -13603,6 +13665,14 @@
               "default": "\"full\"",
               "description": "Select width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
               "fieldName": "width"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "fieldName": "showError"
             }
           ],
           "superclass": {
@@ -15551,17 +15621,6 @@
             },
             {
               "kind": "field",
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "attribute": "showError",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -15588,6 +15647,34 @@
               },
               "privacy": "private",
               "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_showError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_errorSetByComponent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "attribute": "showError",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -15910,15 +15997,6 @@
               "fieldName": "resize"
             },
             {
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "fieldName": "showError"
-            },
-            {
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -15935,6 +16013,14 @@
               "default": "\"\"",
               "description": "Accessible label used only when no visible `label` is provided.",
               "fieldName": "ariaLabel"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "fieldName": "showError"
             }
           ],
           "superclass": {
@@ -16301,17 +16387,6 @@
             },
             {
               "kind": "field",
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "attribute": "showError",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -16354,6 +16429,34 @@
               },
               "privacy": "private",
               "default": "{ tel: \"(___) ___-____\", }"
+            },
+            {
+              "kind": "field",
+              "name": "_showError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_errorSetByComponent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "attribute": "showError",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -16735,15 +16838,6 @@
               "fieldName": "inverted"
             },
             {
-              "name": "showError",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Shows error message when true. Set by validation or manually.",
-              "fieldName": "showError"
-            },
-            {
               "name": "errorMessage",
               "type": {
                 "text": "string"
@@ -16751,6 +16845,14 @@
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
               "fieldName": "errorMessage"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows error message when true. Set by validation or manually.",
+              "fieldName": "showError"
             }
           ],
           "superclass": {

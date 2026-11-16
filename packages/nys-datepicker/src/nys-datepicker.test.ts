@@ -1276,14 +1276,16 @@ describe("nys-datepicker", () => {
   // _handleTodayClick with _hasUserInteracted clears error
   // -------------------------------------------------------------------------
 
-  it("_handleTodayClick with _hasUserInteracted=true clears showError when required", async () => {
+  it("clears a required error when Today is clicked", async () => {
     const el = await fixture<NysDatepicker>(
       html`<nys-datepicker required></nys-datepicker>`,
     );
-    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
 
-    el.showError = true;
-    (el as any)._hasUserInteracted = true;
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+    expect(el.showError).to.be.true;
+
     (el as any)._handleTodayClick();
     await el.updateComplete;
 

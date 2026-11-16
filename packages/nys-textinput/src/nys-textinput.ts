@@ -283,7 +283,7 @@ export class NysTextinput extends NysFormControlElement {
 
   set showError(value: boolean) {
     const oldValue = this._showError;
-    this.showError = value;
+    this._showError = Boolean(value);
     this._errorSetByComponent = false;
     this.requestUpdate("showError", oldValue);
   }

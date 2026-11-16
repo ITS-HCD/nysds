@@ -269,7 +269,7 @@ export class NysDatepicker extends NysFormControlElement {
 
   set showError(value: boolean) {
     const oldValue = this._showError;
-    this.showError = value;
+    this._showError = Boolean(value);
     this._errorSetByComponent = false;
     this.requestUpdate("showError", oldValue);
   }
@@ -495,8 +495,6 @@ export class NysDatepicker extends NysFormControlElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    // Toggle the HTML <div> tag error message
-    this.showError = !!message;
     // Store the component's own validation text; a consumer-supplied
     // errorMessage always wins via resolvedErrorMessage().
     this.internalValidationMessage = message;
