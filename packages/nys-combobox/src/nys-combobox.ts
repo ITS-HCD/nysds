@@ -6,13 +6,12 @@ import {
   dispatchNysEvent,
   dispatchNysFocusBlur,
 } from "@nysds/internals";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-combobox is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render. It
-// also guarantees the clear/toggle nys-buttons upgrade, since their accessible
-// name lands on nys-button's real inner <button>, which only exists once
-// nys-button renders.
+/*
+ * These elements are used inside nys-combobox's shadow DOM, so they need
+ * to be registered whenever nys-combobox is used. The label and error
+ * message support accessibility. Registering nys-button also ensures the
+ * clear and toggle buttons render correctly, including their accessible names.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";

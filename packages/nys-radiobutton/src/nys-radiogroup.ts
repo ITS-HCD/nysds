@@ -7,11 +7,12 @@ import {
   dispatchNysFocusBlur,
 } from "@nysds/internals";
 import type { NysRadiobutton } from "./nys-radiobutton";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-radiogroup is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render.
-// nys-textinput renders the "other" free-text field for a checked "other" radio.
+/*
+ * These elements are used inside nys-radiogroup's shadow DOM, so they
+ * need to be registered whenever nys-radiogroup is used. The label and
+ * error message support accessibility, and nys-textinput provides the
+ * "other" text field when that option is selected.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-textinput";

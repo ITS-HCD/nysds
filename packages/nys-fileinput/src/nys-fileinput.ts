@@ -9,10 +9,11 @@ import {
 } from "@nysds/internals";
 import { validateFileHeader } from "./validateFileHeader";
 import "./nys-fileitem";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-fileinput is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render.
+/*
+ * These elements are used inside nys-fileinput's shadow DOM, so they
+ * need to be registered whenever nys-fileinput is used. The label and
+ * error message support accessibility.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline

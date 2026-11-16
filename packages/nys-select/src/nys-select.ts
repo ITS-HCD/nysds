@@ -7,11 +7,12 @@ import {
   dispatchNysFocusBlur,
 } from "@nysds/internals";
 import { NysOption } from "./nys-option";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-select is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render.
-// nys-icon renders the chevron-down indicator.
+/*
+ * These elements are rendered inside nys-select's shadow DOM, so they need
+ * to be registered whenever nys-select is used. Importing them here ensures
+ * the label and error message render correctly for accessibility, and
+ * nys-icon provides the dropdown chevron.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";

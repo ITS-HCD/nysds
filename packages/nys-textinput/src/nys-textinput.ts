@@ -6,12 +6,12 @@ import {
   dispatchNysEvent,
   dispatchNysFocusBlur,
 } from "@nysds/internals";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-textinput is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render.
-// nys-button/nys-icon render the password-visibility toggle and search-clear
-// controls.
+/*
+ * These elements are used inside nys-textinput's shadow DOM, so they
+ * need to be registered whenever nys-textinput is used. The label and
+ * error message support accessibility, while nys-button and nys-icon
+ * provide the password toggle and search-clear controls.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
