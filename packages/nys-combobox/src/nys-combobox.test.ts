@@ -1418,6 +1418,25 @@ describe("nys-combobox", () => {
   });
 
   // -------------------------------------------------------------------------
+  // Manual Error Validation set by user
+  // -------------------------------------------------------------------------
+  it("keeps a consumer-set error visible after blur", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Fruit" errorMessage="Select a fruit." showError>
+        <option value="apple">Apple</option>
+      </nys-combobox>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    const error = el.shadowRoot!.querySelector("nys-errormessage")!;
+
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(error.hasAttribute("showError")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
   // Regression test: clearing "value" prop must sync setFormValue()
   // -------------------------------------------------------------------------
   it("programmatically setting value to empty string or null updates FormData", async () => {
