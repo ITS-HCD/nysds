@@ -9310,6 +9310,11 @@
               "privacy": "private",
               "description": "Literal name for the banner: the author's override, or the \"Site\" default when\nthere is no visible title to reference. Undefined whenever `_bannerLabelledBy`\nhas something to point at, so the landmark never carries both.",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_renderNames",
+              "privacy": "private"
             }
           ],
           "attributes": [
