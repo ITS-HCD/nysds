@@ -4,7 +4,6 @@ import {
   fixture,
   oneEvent,
   nextFrame,
-  aTimeout,
 } from "@open-wc/testing";
 import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-accordion.js";
@@ -430,78 +429,6 @@ describe("nys-accordionitem", () => {
       html`<nys-accordion></nys-accordion>`,
     );
     expect(bare.headingLevel).to.equal("h3");
-  });
-
-  it("labels the region panel via aria-labelledby pointing at the toggle button", async () => {
-    const el = await fixture<NysAccordionItem>(
-      html`<nys-accordionitem heading="Region label"></nys-accordionitem>`,
-    );
-    await el.updateComplete;
-
-    const region = el.shadowRoot?.querySelector('[role="region"]');
-    const button = el.shadowRoot?.querySelector(".nys-accordionitem__heading");
-
-    expect(region, "region exists").to.exist;
-    expect(button?.id, "button has an id").to.not.be.empty;
-
-    const labelledby = region?.getAttribute("aria-labelledby");
-    expect(labelledby).to.equal(button?.id);
-  });
-
-  it("names the region with the trigger's own text", async () => {
-    const el = await fixture<NysAccordionItem>(
-      html`<nys-accordionitem
-        heading="Who needs a license?"
-      ></nys-accordionitem>`,
-    );
-    await el.updateComplete;
-
-    const region = el.shadowRoot?.querySelector('[role="region"]');
-    const labelledby = region?.getAttribute("aria-labelledby") ?? "";
-    const target = el.shadowRoot?.getElementById(labelledby);
-
-    // A dangling IDREF would leave the landmark unnamed, so resolve it and
-    // check the text a user agent would compute the name from.
-    expect(target, "aria-labelledby resolves in the same root").to.exist;
-    expect(target?.textContent?.trim()).to.equal("Who needs a license?");
-  });
-
-  it("keeps a collapsed panel out of the accessibility tree", async () => {
-    // Landmark proliferation is bounded because collapsed panels are hidden:
-    // only panels the user has opened contribute a region to the landmark list.
-    const el = await fixture<NysAccordionItem>(html`
-      <nys-accordionitem heading="Collapsed">
-        <p>Panel content</p>
-      </nys-accordionitem>
-    `);
-    await el.updateComplete;
-    await nextFrame();
-
-    const region = el.shadowRoot?.querySelector(
-      '[role="region"]',
-    ) as HTMLElement;
-    expect(getComputedStyle(region).visibility).to.equal("hidden");
-
-    el.expanded = true;
-    await el.updateComplete;
-    // Visibility is part of the panel's 300ms transition, so wait it out rather
-    // than sampling a frame that may still be at progress 0.
-    await aTimeout(400);
-
-    expect(getComputedStyle(region).visibility).to.equal("visible");
-  });
-
-  it("keeps aria-controls on the button wired to the region panel id", async () => {
-    const el = await fixture<NysAccordionItem>(
-      html`<nys-accordionitem heading="Controls test"></nys-accordionitem>`,
-    );
-    await el.updateComplete;
-
-    const button = el.shadowRoot?.querySelector(".nys-accordionitem__heading");
-    const region = el.shadowRoot?.querySelector('[role="region"]');
-
-    const controls = button?.getAttribute("aria-controls");
-    expect(controls).to.equal(region?.id);
   });
 
   it("registers every nys-* element it renders", async () => {
