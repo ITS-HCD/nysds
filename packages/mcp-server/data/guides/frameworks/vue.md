@@ -48,6 +48,19 @@ resolve, and a stylesheet isn't a module. If `npm run build` fails with
 declare module "@nysds/styles/*";
 ```
 
+`@nysds/styles` has two installs:
+
+- **Full install** (`@nysds/styles/full`, shown above): the CSS variables
+  that style the components, plus a CSS reset, typography, and the NYSDS
+  utility classes (`nys-grid-*`, `nys-margin-*`, and so on). Use it for a
+  new app.
+- **Default install** (`@nysds/styles`): the CSS variables only. No reset,
+  typography, or utility classes. Use it when your app already has its own,
+  and don't use NYSDS utility classes with it: they won't exist.
+
+Load one, not both. Component-level styles live in each component's
+shadow DOM and need no extra setup.
+
 Optional agency theme: `<html data-theme="health">`. Themes: `admin`,
 `business`, `environment`, `health`, `local`, `safety`, `transportation`.
 Fonts aren't bundled. Load them the way your agency normally does.

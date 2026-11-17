@@ -28,10 +28,6 @@ export const Basic: Story = {
     subheading: "",
     open: false,
     mandatory: false,
-    width: "md",
-  },
-  argTypes: {
-    width: { control: { type: "select" }, options: ["sm", "md", "lg"] },
   },
   render: (args) => {
     return html`
@@ -51,7 +47,6 @@ export const Basic: Story = {
           subheading=${args.subheading}
           ?open=${args.open}
           ?mandatory=${args.mandatory}
-          width=${args.width}
         >
           <p>
             Would you like to install the latest version? Albany ipsum dolor sit

@@ -62,6 +62,10 @@ jobs:
       # Node-only suites (node:test). They are excluded from the Web Test
       # Runner glob because that runner executes files in Playwright browsers.
       run: npm test -w @nysds/codegen
+    - name: Test MCP server
+      # node:test suites that start the built server and compare its token
+      # and theme output against packages/tokens/dist/tokens.css.
+      run: npm test -w @nysds/mcp-server
     - name: Test Components
       run: npm run test:ai
       # continue-on-error: true

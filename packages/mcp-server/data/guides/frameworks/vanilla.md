@@ -8,13 +8,13 @@ npm install @nysds/components @nysds/styles
 
 ## Load styles
 
-Choose the right stylesheet for your project:
+Load one of the two `@nysds/styles` installs. The full install includes the CSS variables plus a reset, typography, and utility classes; the default install includes only the CSS variables. See `get_guide({ topic: "styles" })` for the differences.
 
 ```html
-<!-- New project: includes reset, typography, and utility classes -->
+<!-- Full install (new projects): CSS variables + reset + typography + utility classes -->
 <link rel="stylesheet" href="node_modules/@nysds/styles/dist/nysds-full.min.css" />
 
-<!-- Existing project: CSS variables only (styles components, nothing else) -->
+<!-- Default install (existing projects): CSS variables only. No reset, typography, or utility classes. -->
 <link rel="stylesheet" href="node_modules/@nysds/styles/dist/nysds.min.css" />
 ```
 

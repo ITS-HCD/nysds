@@ -25,9 +25,18 @@ Import the design system stylesheet once, in your app's main.tsx:
 import "@nysds/styles/full";
 ```
 
-Without it, components render unstyled. `@nysds/styles` ships the
-design tokens and global styles; component-level styles live in each
-component's shadow DOM and need no extra setup.
+Without it, components render unstyled. `@nysds/styles` has two installs:
+
+- **Full install** (`@nysds/styles/full`, shown above): the CSS variables
+  that style the components, plus a CSS reset, typography, and the NYSDS
+  utility classes (`nys-grid-*`, `nys-margin-*`, and so on). Use it for a
+  new app.
+- **Default install** (`@nysds/styles`): the CSS variables only. No reset,
+  typography, or utility classes. Use it when your app already has its own,
+  and don't use NYSDS utility classes with it: they won't exist.
+
+Load one, not both. Component-level styles live in each component's
+shadow DOM and need no extra setup.
 
 ## First component
 
@@ -189,8 +198,8 @@ import registers it); check the browser console for load errors. If you
 render raw `<nys-*>` tags instead of wrappers, import the
 `@nysds/nys-*` package yourself.
 
-**Everything renders unstyled.** Import `@nysds/styles` once at the app
-entry (see Load styles).
+**Everything renders unstyled.** Import `@nysds/styles/full` (or the
+default `@nysds/styles`) once at the app entry (see Load styles).
 
 **Hooks error or "Invalid hook call".** Usually a duplicate React.
 Check `npm ls react` and dedupe; `@nysds/react` declares React as a

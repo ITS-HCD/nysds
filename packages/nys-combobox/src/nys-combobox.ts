@@ -582,14 +582,35 @@ export class NysCombobox extends NysFormControlElement {
   private _positionDropdown() {
     if (!this._listbox || !this._input) return;
 
-    const inputRect = this._input.getBoundingClientRect();
-    const listboxHeight = this._listbox.offsetHeight;
-    const viewportHeight = window.innerHeight;
-    const spaceBelow = viewportHeight - inputRect.bottom;
-    const spaceAbove = inputRect.top;
+    const listbox = this._listbox;
+    const AVAILABLE_VAR = "--_nys-combobox-available-height";
+    const GAP = 4; // matches the 4px offset in the SCSS
+    const VIEWPORT_MARGIN = 8; // keep clear of the viewport edge
+    const MIN_HEIGHT = 80; // floor so the list never collapses to nothing
 
-    // Show above if not enough space below and more space above
-    this._dropdownAbove = spaceBelow < listboxHeight && spaceAbove > spaceBelow;
+    // Measure the natural height (capped only by the CSS max-height),
+    // not a height left over from a previous constraint.
+    listbox.style.removeProperty(AVAILABLE_VAR);
+    const naturalHeight = listbox.offsetHeight;
+
+    const inputRect = this._input.getBoundingClientRect();
+    const spaceBelow =
+      window.innerHeight - inputRect.bottom - GAP - VIEWPORT_MARGIN;
+    const spaceAbove = inputRect.top - GAP - VIEWPORT_MARGIN;
+
+    // Prefer below. Flip only if it doesn't fit below AND there's more room above.
+    const above = naturalHeight > spaceBelow && spaceAbove > spaceBelow;
+    const available = above ? spaceAbove : spaceBelow;
+
+    this._dropdownAbove = above;
+
+    // If it still doesn't fit on the better side, shrink it and let it scroll.
+    if (naturalHeight > available) {
+      listbox.style.setProperty(
+        AVAILABLE_VAR,
+        `${Math.max(available, MIN_HEIGHT)}px`,
+      );
+    }
   }
 
   /**
@@ -720,6 +741,8 @@ export class NysCombobox extends NysFormControlElement {
     const count = this._filteredOptions.filter((opt) => !opt.disabled).length;
     this._announcement =
       count > 0 ? `${count} options available` : "No results found";
+
+    this.updateComplete.then(() => this._positionDropdown());
 
     if (this._hasUserInteracted) {
       this._validate();
