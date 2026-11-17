@@ -141,6 +141,154 @@ describe("nys-dropdownmenu", () => {
     expect(menu.showDropdown).to.be.false;
   });
 
+  /****** Close behavior and cleanup ******/
+  // These tests use a native <button> trigger. The nys-button in
+  // fixtureWithTrigger() is never registered here, so it can't take focus.
+  async function fixtureWithNativeTrigger() {
+    const el = await fixture(html`
+      <div>
+        <button id="native-trigger">Open</button>
+        <nys-dropdownmenu for="native-trigger">
+          <nys-dropdownmenuitem
+            label="Profile"
+            href="/profile"
+          ></nys-dropdownmenuitem>
+        </nys-dropdownmenu>
+        <input id="elsewhere" />
+      </div>
+    `);
+    const menu = el.querySelector<NysDropdownMenu>("nys-dropdownmenu")!;
+    await menu.updateComplete;
+    // The trigger is wired after the menu's first update completes.
+    await menu.updateComplete;
+    const trigger = el.querySelector<HTMLButtonElement>("#native-trigger")!;
+    const elsewhere = el.querySelector<HTMLInputElement>("#elsewhere")!;
+    return { el, menu, trigger, elsewhere };
+  }
+
+  it("leaves focus where an outside click put it", async () => {
+    const { menu, trigger, elsewhere } = await fixtureWithNativeTrigger();
+
+    trigger.click();
+    await menu.updateComplete;
+    await new Promise((r) => requestAnimationFrame(r)); // let _focusOnItem run
+    expect(menu.showDropdown).to.be.true;
+
+    elsewhere.focus(); // a real click focuses on mousedown, before click fires
+    elsewhere.click();
+    await menu.updateComplete;
+
+    expect(menu.showDropdown).to.be.false;
+    expect(trigger.getAttribute("aria-expanded")).to.equal("false");
+    expect(document.activeElement).to.equal(elsewhere);
+  });
+
+  it("restores focus to the trigger on Escape", async () => {
+    const { menu, trigger } = await fixtureWithNativeTrigger();
+
+    trigger.click();
+    await menu.updateComplete;
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+    );
+    await menu.updateComplete;
+
+    expect(menu.showDropdown).to.be.false;
+    expect(document.activeElement).to.equal(trigger);
+  });
+
+  it("keeps one live observer and no document listener after close and reopen", async () => {
+    const { menu, trigger, elsewhere } = await fixtureWithNativeTrigger();
+
+    const RealResizeObserver = window.ResizeObserver;
+    let created = 0;
+    let live = 0;
+    window.ResizeObserver = class extends RealResizeObserver {
+      constructor(cb: ResizeObserverCallback) {
+        super(cb);
+        created++;
+        live++;
+      }
+      disconnect() {
+        live--;
+        super.disconnect();
+      }
+    };
+
+    const realAdd = document.addEventListener;
+    const realRemove = document.removeEventListener;
+    let clickListeners = 0;
+    document.addEventListener = function (type: string, ...rest: any[]) {
+      if (type === "click") clickListeners++;
+      return (realAdd as any).call(this, type, ...rest);
+    } as typeof document.addEventListener;
+    document.removeEventListener = function (type: string, ...rest: any[]) {
+      if (type === "click") clickListeners--;
+      return (realRemove as any).call(this, type, ...rest);
+    } as typeof document.removeEventListener;
+
+    try {
+      trigger.click();
+      await menu.updateComplete;
+      elsewhere.click(); // outside click closes the menu
+      await menu.updateComplete;
+
+      expect(live).to.equal(0);
+      expect(clickListeners).to.equal(0);
+      expect((menu as any)._resizeObserver).to.be.null;
+
+      trigger.click(); // reopen
+      await menu.updateComplete;
+
+      expect(created).to.equal(2);
+      expect(live).to.equal(1);
+      expect(clickListeners).to.equal(1);
+
+      elsewhere.click();
+      await menu.updateComplete;
+      expect(live).to.equal(0);
+      expect(clickListeners).to.equal(0);
+    } finally {
+      window.ResizeObserver = RealResizeObserver;
+      document.addEventListener = realAdd;
+      document.removeEventListener = realRemove;
+    }
+  });
+
+  it("releases the open-state listeners when the menu is removed while open", async () => {
+    const { menu, trigger } = await fixtureWithNativeTrigger();
+
+    trigger.click();
+    await menu.updateComplete;
+    expect((menu as any)._resizeObserver).to.exist;
+
+    menu.remove();
+
+    expect((menu as any)._resizeObserver).to.be.null;
+    expect(menu.showDropdown).to.be.false;
+  });
+
+  it("unwires the trigger when the menu is removed from the page", async () => {
+    const { menu, trigger } = await fixtureWithNativeTrigger();
+    menu.remove();
+
+    trigger.click();
+
+    expect(trigger.hasAttribute("aria-expanded")).to.be.false;
+    expect(trigger.hasAttribute("aria-haspopup")).to.be.false;
+  });
+
+  it("wires the trigger again after the menu is moved", async () => {
+    const { el, menu, trigger } = await fixtureWithNativeTrigger();
+    el.appendChild(menu); // a move: disconnectedCallback, then connectedCallback
+    await menu.updateComplete;
+    await menu.updateComplete;
+
+    trigger.click();
+    await menu.updateComplete;
+    expect(menu.showDropdown).to.be.true;
+  });
+
   it("_findMostAvailableSpace returns bottom-start when bottom > top and start >= end", async () => {
     const { menu } = await fixtureWithTrigger();
     const result = (menu as any)._findMostAvailableSpace({
