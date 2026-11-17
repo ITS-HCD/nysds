@@ -2,6 +2,7 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-backtotop";
 import "@nysds/nys-button";
+import "@nysds/nys-globalfooter";
 import "@nysds/nys-globalheader";
 import "@nysds/nys-icon";
 import "@nysds/nys-unavfooter";
@@ -58,6 +59,9 @@ export const Basic: Story = {
           position=${args.position}
           ?visible=${args.visible}
         ></nys-backtotop>
+        <nys-globalfooter
+          agencyName="Office of Information Technology Services"
+        ></nys-globalfooter>
         <nys-unavfooter></nys-unavfooter>
       </footer>
     `;
@@ -114,6 +118,9 @@ export const Left: Story = {
           label="Chat with us"
           size="sm"
         ></nys-button>
+        <nys-globalfooter
+          agencyName="Office of Information Technology Services"
+        ></nys-globalfooter>
         <nys-unavfooter></nys-unavfooter>
       </footer>
     `;

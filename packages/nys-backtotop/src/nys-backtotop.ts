@@ -68,6 +68,7 @@ import styles from "./nys-backtotop.scss?inline";
  * </main>
  * <footer>
  *   <nys-backtotop visible></nys-backtotop>
+ *   <nys-globalfooter agencyName="Office of Information Technology Services"></nys-globalfooter>
  *   <nys-unavfooter></nys-unavfooter>
  * </footer>
  * ```
@@ -111,6 +112,7 @@ import styles from "./nys-backtotop.scss?inline";
  * <footer>
  *   <nys-backtotop visible position="left"></nys-backtotop>
  *   <nys-button prefixIcon="sms" variant="outline" label="Chat with us" size="sm"></nys-button>
+ *   <nys-globalfooter agencyName="Office of Information Technology Services"></nys-globalfooter>
  *   <nys-unavfooter></nys-unavfooter>
  * </footer>
  * ```
