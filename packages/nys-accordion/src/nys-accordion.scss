@@ -113,6 +113,8 @@ p {
   outline-offset: var(--_nys-accordion-outline-offset);
   outline: solid var(--_nys-accordion-outline-width)
     var(--_nys-accordion-outline-color);
+  position:relative;
+  z-index: 1;
 }
 
 .nys-accordionitem__heading .nys-accordionitem__heading-title {
