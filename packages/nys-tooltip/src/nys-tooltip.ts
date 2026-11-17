@@ -158,6 +158,13 @@ export class NysTooltip extends NysElement {
       tooltip.removeEventListener("mouseleave", this._handleBlurOrMouseLeave);
     }
     window.removeEventListener("keydown", this._handleEscapeKey);
+    // A tooltip removed while open still has scroll and resize listeners,
+    // and maybe a pending fade-out. Remove those too.
+    this._removeScrollListeners();
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+      this._hideTimeout = null;
+    }
   }
 
   async firstUpdated() {
@@ -286,6 +293,10 @@ export class NysTooltip extends NysElement {
   // Listen to window scroll so a focus tooltip can auto position even when user move across the page
   private _addScrollListeners() {
     window.addEventListener("scroll", this._handleScrollOrResize, true);
+    // _showTooltip runs on every scroll and resize, and a new observer
+    // reports a size as soon as it starts observing. Reuse the open observer
+    // so repositioning doesn't create another one on every frame.
+    if (this._resizeObserver) return;
     this._resizeObserver = new ResizeObserver(() => {
       this._handleScrollOrResize();
     });
