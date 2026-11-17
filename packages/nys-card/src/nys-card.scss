@@ -102,7 +102,7 @@
 
   /* Keep the accent inset from the media, not the padded container */
   .nys-card--media-accent {
-    right: calc(
+    inset-inline-end: calc(
       var(--_nys-card-offset--media-accent) +
         var(--_nys-card-padding--media-inset)
     );
@@ -176,7 +176,7 @@
 
     .nys-card--media-accent {
       position: absolute;
-      right: var(--_nys-card-offset--media-accent);
+      inset-inline-end: var(--_nys-card-offset--media-accent);
       bottom: var(--_nys-card-offset--media-accent);
       width: var(--_nys-card-size--media-accent);
       height: var(--_nys-card-size--media-accent);
