@@ -352,6 +352,14 @@ export class NysDatepicker extends NysFormControlElement {
     if (changedProperties.has("required") && !changedProperties.has("value")) {
       this._manageRequire();
     }
+
+    // The required-only sync above can drop a range or incomplete-date error.
+    if (
+      this._hasUserInteracted &&
+      (changedProperties.has("value") || changedProperties.has("required"))
+    ) {
+      this.updateComplete.then(() => this._validate());
+    }
   }
 
   private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {
