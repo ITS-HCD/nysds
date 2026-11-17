@@ -54,13 +54,13 @@ p {
   &__label {
     display: flex;
     gap: var(--_nys-label-gap);
-    text-align: left;
+    text-align: start;
     font-weight: var(--_nys-label-font-weight);
     color: var(--_nys-label-color);
   }
 
   &__description {
-    text-align: left;
+    text-align: start;
     font-weight: var(--_nys-description-font-weight);
     font-style: var(--_nys-description-font-style);
     color: var(--_nys-description-font-color);
