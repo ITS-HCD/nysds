@@ -29,9 +29,35 @@ interface NysOnThisPageClickDetail {
 export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
 
 /**
- * `<nys-onthispage>` is an in-page navigation component.
+ * In-page navigation that lists the headings on a page as links, so users can jump to a section.
+ * The link for the section the user is currently reading is highlighted.
  *
- * @fires {NysOnThisPageClickEvent} nys-click - A link was activated. `detail: { id, label, index }`
+ * The component collects headings from the `scope` element (default `main`) at the `headingTracker`
+ * level (default `h2`). Headings without an `id` get one generated from their text. Headings inside
+ * `nys-accordion`, inside a `[hidden]` element, or marked with `data-nys-onthispage-ignore` are left out.
+ * Nothing renders until at least two headings are found.
+ *
+ * Clicking a link scrolls to the heading and moves focus to it.
+ *
+ * @summary In-page navigation that links to page headings and highlights the current section.
+ * @element nys-onthispage
+ *
+ * @fires {NysOnThisPageClickEvent} nys-click - Fired when a link is activated, by mouse or keyboard. Detail: `{id, label, index}`.
+ *
+ * @usage
+ * - Use as a table of contents on lengthy pages to give a structural overview and let users jump to a section.
+ * - Use on pages with at least three distinct sections, or content longer than three screen heights.
+ * - Keep the link order the same as the order of the section headings on the page.
+ * - Use "On this page" as the heading so the nav is clearly labeled and stands apart from other links.
+ * - Keep the link text identical to the heading it links to.
+ * - Let link text wrap to a second line instead of truncating it.
+ * - Clearly show the active link so users can track their position as they scroll or after they click a link.
+ * - On desktop, place it in the left sidebar. If vertical navigation is on the left, place it in the right sidebar.
+ * - On tablet and mobile, place it above the main content and below the page heading.
+ * - Don't use on pages with minimal content or a small number of sections, where scrolling isn't an issue.
+ * - Don't use to link to other pages. Use `<nys-verticalnav>` instead.
+ * - Don't use for heading levels lower than H3, such as H4, H5, or H6.
+ * - Don't shorten, rephrase, or summarize a heading for its link.
  *
  * @example Basic
  * ```html
