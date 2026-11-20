@@ -63,7 +63,7 @@
 }
 
 .nys-modal_body ::slotted(:not(:first-child)) {
-  margin-block-start: var(--nys-space-200, 16px);
+  margin-top: var(--nys-space-200, 16px);
 }
 
 h2,
