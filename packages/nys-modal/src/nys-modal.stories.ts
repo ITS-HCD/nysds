@@ -55,6 +55,13 @@ export const Basic: Story = {
             veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland ex ea
             Cuomo consequat.
           </p>
+          <p>
+            2 Would you like to install the latest version? Albany ipsum dolor
+            sit Empire, Hudson consectetur Adirondack elit, sed do MetroCard
+            tempor incididunt ut Capitol et Broadway magna Niagara. Ut enim ad
+            Erie veniam, quis nostrud Catskill ullamco Bronx nisi ut LongIsland
+            ex ea Cuomo consequat.
+          </p>
         </nys-modal>
       </div>
     `;
