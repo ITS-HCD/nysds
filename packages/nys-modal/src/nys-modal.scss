@@ -58,8 +58,12 @@
   box-sizing: border-box;
 }
 
-::slotted(p) {
-  margin: 0 !important;
+.nys-modal_body ::slotted(p) {
+  margin: 0;
+}
+
+.nys-modal_body ::slotted(:not(:first-child)) {
+  margin-block-start: var(--nys-space-200, 16px);
 }
 
 h2,
