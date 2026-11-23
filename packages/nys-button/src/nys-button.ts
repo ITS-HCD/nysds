@@ -313,11 +313,6 @@ export class NysButton extends NysFormControlElement {
    */
   @property({ type: String }) value = "";
 
-  // /**
-  //  * ID(s) of element(s) describing this button. Sets `aria-describedby`.
-  //  */
-  // @property({ type: String }) ariaDescribedBy = "";
-
   /**
    * Aria description for the button's name. Useful for adding additional SR context
    * such as hint texts from the nys-tooltip (since that cannot be resolved by `ariaDescribedBy`).
@@ -428,13 +423,6 @@ export class NysButton extends NysFormControlElement {
       }
     }
   }
-
-  // private _getDescribedBy() {
-  //   const ids: string[] = [];
-  //   if (this.ariaDescription) ids.push(`${this.id}-description`);
-  //   if (this.ariaDescribedBy) ids.push(this.ariaDescribedBy);
-  //   return ids.join(" ") || undefined;
-  // }
 
   /**
    * Event Handlers
