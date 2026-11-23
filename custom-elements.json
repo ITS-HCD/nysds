@@ -2613,13 +2613,13 @@
             },
             {
               "kind": "field",
-              "name": "ariaDescribedBy",
+              "name": "ariaDescription",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
-              "attribute": "ariaDescribedBy"
+              "description": "Aria description for the button's name. Useful for adding additional SR context\nsuch as hint texts from the nys-tooltip (since that cannot be resolved by `ariaDescribedBy`).",
+              "attribute": "ariaDescription"
             },
             {
               "kind": "field",
@@ -2984,13 +2984,13 @@
               "fieldName": "value"
             },
             {
-              "name": "ariaDescribedBy",
+              "name": "ariaDescription",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID(s) of element(s) describing this button. Sets `aria-describedby`.",
-              "fieldName": "ariaDescribedBy"
+              "description": "Aria description for the button's name. Useful for adding additional SR context\nsuch as hint texts from the nys-tooltip (since that cannot be resolved by `ariaDescribedBy`).",
+              "fieldName": "ariaDescription"
             },
             {
               "name": "type",
