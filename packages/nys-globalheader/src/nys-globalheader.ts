@@ -226,6 +226,9 @@ export class NysGlobalHeader extends NysElement {
    */
   private _authorSetsCurrent = false;
 
+  /** The link this header marked current itself, which must not read as the author's. */
+  private _autoCurrentLink: HTMLAnchorElement | null = null;
+
   /**
    * Watches for the viewport growing past the mobile breakpoint. The menu and its
    * toggle are `display: none` there, so an open menu that survived a resize would
@@ -289,9 +292,14 @@ export class NysGlobalHeader extends NysElement {
     const links = this._getAssignedLinks();
 
     // The author owns the current-page signal the moment they set it themselves.
-    this._authorSetsCurrent = links.some((a) => isCurrent(a));
+    this._authorSetsCurrent = links.some(
+      (a) => a !== this._autoCurrentLink && isCurrent(a),
+    );
 
     if (this._authorSetsCurrent) {
+      // Only the author's link stays current once they've marked one
+      this._autoCurrentLink?.removeAttribute("aria-current");
+      this._autoCurrentLink = null;
       links.forEach((a) => {
         a.closest("li")?.classList.toggle("active", isCurrent(a));
       });
@@ -329,6 +337,7 @@ export class NysGlobalHeader extends NysElement {
         ? a.setAttribute("aria-current", "page")
         : a.removeAttribute("aria-current");
     });
+    this._autoCurrentLink = bestMatch.a;
   }
 
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
@@ -481,6 +490,7 @@ export class NysGlobalHeader extends NysElement {
         ? a.setAttribute("aria-current", "page")
         : a.removeAttribute("aria-current");
     });
+    this._autoCurrentLink = ahref;
   };
 
   /**
