@@ -141,14 +141,14 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | Tool                     | Description                                                                                 |
 | ------------------------ | ------------------------------------------------------------------------------------------- |
 | `find_components`        | Search for components by name/description, or list all (omit query)                         |
-| `get_component`          | Full documentation for a specific component. Use `includeExamples: true` for code examples (each carries `html`, `react`, and `angular` snippets). Pass `framework: "react"`, `"angular"`, or `"vue"` for that framework's import line, event naming, and forms guidance. |
-| `validate_component_api` | Validate attribute/property names, enum values, and `nys-*` event bindings for a component. Accepts HTML global attributes (`class`, `slot`, `aria-*`, `data-*`) and Lit binding prefixes (`.prop`, `?attr`, `@event`). |
+| `get_component`          | Full documentation for a specific component. Use `includeExamples: true` for code examples (each carries `html`, `react`, and `angular` snippets). Pass `framework: "react"`, `"angular"`, or `"vue"` for that framework's import line, event naming, and forms guidance. Components with icon-name attributes (`nys-icon`'s `name`, `prefixIcon`, `icon`, etc.) include `icons.names`: the built-in NYSDS icon set. |
+| `validate_component_api` | Validate attribute/property names, enum values, and `nys-*` event bindings for a component. Accepts HTML global attributes (`class`, `slot`, `aria-*`, `data-*`) and Lit binding prefixes (`.prop`, `?attr`, `@event`). Warns when an icon name isn't in the NYSDS icon set (unless `nys-icon` sets another `library`). |
 
 ### Design Tokens
 
 | Tool              | Description                                                            |
 | ----------------- | ---------------------------------------------------------------------- |
-| `find_tokens`     | Search or browse tokens by CSS variable name, description, or category. Every query word must match (`"theme mid"`), and name matches rank first. Themed tokens are marked `themed`; pass `theme` (or put a theme name like `"health"` in the query) to get their values in that theme. |
+| `find_tokens`     | Search or browse tokens by CSS variable name, description, or category. Every query word must match (`"theme mid"`), and name matches rank first. Themed tokens are marked `themed`; pass `theme` (or put a theme name like `"health"` in the query) to get their values in that theme. By default (`include: "recommended"`) color primitives such as `--nys-color-blue-600` are left out, and the response's `hidden` field says how many matches were hidden; pass `include: "all"` or `"primitive"` to see them. |
 | `get_token`       | Details for one token: value, resolved value, layer, and alternatives. Accepts `--nys-color-text`, `nys-color-text`, `color-text`, or `var(--nys-color-text)`. Themed tokens return their value in all 8 agency themes; pass `theme` to make that theme's value the top-level one. Palette primitives list the theme tokens that use them (`usedByThemes`). |
 | `get_token_graph` | Token dependency graph showing references and usage, including per-theme references (`themeReferences`, `usedByThemes`) |
 
@@ -157,7 +157,7 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 | Tool                  | Description                                                                                                                                                                                  |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `get_utility_classes` | Every utility class, by category: display, flexbox (including order), float, grid, margin & padding, opacity, overflow, position, responsive, typography, and z-index. Each category says whether it supports breakpoint prefixes (`nys-tablet:`, etc.), and `responsive` lists them all. Requires the full `@nysds/styles` install. |
-| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, or themes. With `topic: "installation"`, pass `framework` (angular, react, vue, dotnet, drupal, vanilla) for that framework's setup guide. The angular, react, and vue guides are the `@nysds/angular`, `@nysds/react`, and `@nysds/vue` package READMEs. |
+| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, themes, or icons (the NYSDS icon names, and registering another icon library with `registerIconLibrary()`). With `topic: "installation"`, pass `framework` (angular, react, vue, dotnet, drupal, vanilla) for that framework's setup guide. The angular, react, and vue guides are the `@nysds/angular`, `@nysds/react`, and `@nysds/vue` package READMEs. |
 
 ## Available Resources
 
