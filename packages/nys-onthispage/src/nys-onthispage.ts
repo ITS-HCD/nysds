@@ -344,10 +344,14 @@ export class NysOnthispage extends NysElement {
    * @default "h2"
    */ @property({ type: String }) headingTracker: HeadingTag = "h2";
 
-  /** Nav heading text. */
+  /** Nav heading text.
+   * @default "On this page"
+   */
   @property({ type: String }) heading = "On this page";
 
-  /** CSS selector for the container whose headings are tracked. */
+  /** CSS selector for the container whose headings are tracked.
+   * @default "main"
+   */
   @property({ type: String }) scope = "main";
 
   /** Pins the nav to the top of the viewport at least 600px. Desktop only! */
@@ -356,6 +360,7 @@ export class NysOnthispage extends NysElement {
   /**
    * Distance (px) from the viewport top to the trigger line. Also sets
    * `scroll-margin-top` on tracked headings and the sticky `top` value.
+   * @default 80
    */
   @property({ type: Number }) offset = 80;
 
