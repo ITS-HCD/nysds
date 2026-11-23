@@ -1293,3 +1293,97 @@ describe("nys-checkboxgroup event contract", () => {
     expect(errorEl.errorMessage).to.equal("Pick at least one");
   });
 });
+
+describe("nys-checkboxgroup form value", () => {
+  const settle = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+  it("adds one entry for a Space toggle on a grouped child and removes it on mouse uncheck", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-checkboxgroup label="Pick">
+          <nys-checkbox name="p" value="a" label="A"></nys-checkbox>
+          <nys-checkbox name="p" value="b" label="B"></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+    const group = form.querySelector<NysCheckboxgroup>("nys-checkboxgroup")!;
+    const box = group.querySelector<NysCheckbox>("nys-checkbox")!;
+    await group.updateComplete;
+    await box.updateComplete;
+    await settle();
+    const input = box.shadowRoot!.querySelector("input")!;
+
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { code: "Space", bubbles: true }),
+    );
+    await box.updateComplete;
+    await settle();
+    expect(new FormData(form).getAll("p")).to.deep.equal(["a"]);
+
+    input.click();
+    await box.updateComplete;
+    await settle();
+    expect(new FormData(form).getAll("p")).to.not.include("a");
+  });
+
+  it("submits pre-checked children without interaction", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-checkboxgroup label="Pick">
+          <nys-checkbox name="p" value="a" label="A" checked></nys-checkbox>
+          <nys-checkbox name="p" value="b" label="B"></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+    const group = form.querySelector<NysCheckboxgroup>("nys-checkboxgroup")!;
+    await group.updateComplete;
+    await settle();
+
+    expect(new FormData(form).getAll("p")).to.deep.equal(["a"]);
+  });
+
+  it("includes a checkbox added after the first render in the group value", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-checkboxgroup label="Pick">
+          <nys-checkbox name="p" value="a" label="A"></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+    const group = form.querySelector<NysCheckboxgroup>("nys-checkboxgroup")!;
+    await group.updateComplete;
+    await settle();
+
+    const added = document.createElement("nys-checkbox") as NysCheckbox;
+    added.name = "p";
+    added.value = "b";
+    added.label = "B";
+    added.checked = true;
+    group.appendChild(added);
+    await added.updateComplete;
+    await settle();
+
+    expect(added.groupExist).to.be.true;
+    expect(new FormData(form).getAll("p")).to.deep.equal(["b"]);
+  });
+
+  it("keeps a name set on the group when a child changes", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-checkboxgroup label="Pick" name="picks">
+          <nys-checkbox value="a" label="A"></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+    const group = form.querySelector<NysCheckboxgroup>("nys-checkboxgroup")!;
+    const box = group.querySelector<NysCheckbox>("nys-checkbox")!;
+    await group.updateComplete;
+    await box.updateComplete;
+
+    box.shadowRoot!.querySelector("input")!.click();
+    await group.updateComplete;
+
+    expect(group.name).to.equal("picks");
+    expect(new FormData(form).get("picks")).to.equal("a");
+  });
+});

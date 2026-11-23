@@ -548,7 +548,8 @@ export class NysCheckboxgroup extends NysFormControlElement {
       const customEvent = event as CustomEvent;
       const { name } = customEvent.detail;
 
-      this.name = name;
+      // Children that share an empty name leave a name set on the group alone.
+      if (name) this.name = name;
       this.setFormValue(selectedValues.join(", "));
     }
     this._setValueFromChildren(selectedValues);
@@ -675,11 +676,20 @@ export class NysCheckboxgroup extends NysFormControlElement {
     const checkboxes = Array.from(
       this.querySelectorAll("nys-checkbox"),
     ) as NysCheckbox[];
-    this._setValueFromChildren(
-      checkboxes
-        .filter((checkbox) => checkbox.checked)
-        .map((checkbox) => checkbox.value),
-    );
+    const selectedValues = checkboxes
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value);
+    this._setValueFromChildren(selectedValues);
+
+    // Claim form ownership for checkboxes added after the first render, and
+    // submit pre-checked children before the user changes anything.
+    this._setGroupExist();
+    if (this._hasSharedNames) {
+      if (checkboxes[0].name) this.name = checkboxes[0].name;
+      this.setFormValue(
+        selectedValues.length ? selectedValues.join(", ") : null,
+      );
+    }
   }
 
   private async _checkOtherInputs(checkboxes: NysCheckbox[]) {
