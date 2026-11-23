@@ -333,12 +333,17 @@ export class NysOnthispage extends NysElement {
 
   /** Heading level to track and link. `h1` is excluded.
    * @default "h2"
-   */ @property({ type: String }) headingTracker: HeadingTag = "h2";
+   */
+  @property({ type: String }) headingTracker: HeadingTag = "h2";
 
-  /** Nav heading text. */
+  /** Nav heading text.
+   * @default "On this page"
+   */
   @property({ type: String }) heading = "On this page";
 
-  /** CSS selector for the container whose headings are tracked. */
+  /** CSS selector for the container whose headings are tracked.
+   * @default "main"
+   */
   @property({ type: String }) scope = "main";
 
   /** Pins the nav to the top of the viewport at least 600px. Desktop only! */
@@ -357,7 +362,9 @@ export class NysOnthispage extends NysElement {
   })
   smoothScroll = true;
 
-  /** `hash` pushes history, `replace` updates the URL silently, `none` leaves it alone. */
+  /** `hash` pushes history, `replace` updates the URL silently, `none` leaves it alone.
+   * @default "none"
+   */
   @property({ type: String }) hashBehavior: HashBehavior = "none";
 
   @state() private _items: TrackedHeading[] = [];
