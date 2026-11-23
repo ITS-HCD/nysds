@@ -46,24 +46,32 @@ export function useNysField(
   onNysBlur: () => void;
 };
 export function useNysField(field: NysFieldLike, kind: NysFieldKind = "value") {
+  // NYSDS events bubble and are composed, so a host also hears its
+  // children's events: a nys-checkbox's nys-change reaches its
+  // nys-checkboxgroup after the group's own event. Only the host's own
+  // event carries the host's value. The Vue runtime applies the same check.
+  const isOwn = (e: Event) => e.target === e.currentTarget;
   const onNysBlur = () => field.onBlur();
   if (kind === "checked") {
     return {
       checked: !!field.value,
-      onNysChange: (e: CustomEvent<{ checked: boolean }>) =>
-        field.onChange(e.detail.checked),
+      onNysChange: (e: CustomEvent<{ checked: boolean }>) => {
+        if (isOwn(e)) field.onChange(e.detail.checked);
+      },
       onNysBlur,
     };
   }
   if (kind === "files") {
     return {
-      onNysChange: (e: CustomEvent<{ files: File[] }>) =>
-        field.onChange(e.detail.files),
+      onNysChange: (e: CustomEvent<{ files: File[] }>) => {
+        if (isOwn(e)) field.onChange(e.detail.files);
+      },
       onNysBlur,
     };
   }
-  const commit = (e: CustomEvent<{ value: unknown }>) =>
-    field.onChange(e.detail.value);
+  const commit = (e: CustomEvent<{ value: unknown }>) => {
+    if (isOwn(e)) field.onChange(e.detail.value);
+  };
   return {
     value: field.value ?? "",
     onNysInput: commit,
