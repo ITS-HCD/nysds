@@ -17,7 +17,7 @@ import styles from "./nys-iconlistitem.scss?inline";
  * @summary An icon-paired list item for use inside `<nys-iconlist>`.
  * @element nys-iconlistitem
  *
- * @prop {string} icon - Material Symbols icon name passed to `<nys-icon>`.
+ * @prop {string} icon - NYSDS icon name passed to `<nys-icon>`.
  *
  * @slot - Primary label text.
  * @slot secondary - Optional second line of text rendered below the primary label.
@@ -26,7 +26,7 @@ export class NysIconlistitem extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
-   * Material Symbols icon name displayed beside the label.
+   * NYSDS icon name (see `nys-icon`) displayed beside the label.
    */
   @property({ type: String }) icon = "";
 

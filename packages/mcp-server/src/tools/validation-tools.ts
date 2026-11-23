@@ -11,6 +11,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { isPublicProp, normalizeTypeText } from "@nysds/codegen";
 import { getComponent } from "../lib/cem-parser.js";
+import { getIconNames, iconAttributes } from "../lib/icons.js";
 
 // HTML global attributes: valid on every element, custom elements included.
 // aria-*, data-*, and on* handlers are matched by prefix below.
@@ -179,6 +180,27 @@ export function registerValidationTools(server: McpServer): void {
             ? `Unknown attribute/property: "${key}". Did you mean "${suggestion.name}"?`
             : `Unknown attribute/property: "${key}"`,
         );
+      }
+
+      // Icon names outside the built-in NYSDS set render nothing unless the
+      // app registers a library that has them, so warn rather than error.
+      // nys-icon with a non-default `library` resolves from that library.
+      const iconNames = new Set(getIconNames());
+      const library = Object.entries(attributes).find(
+        ([k]) => k.toLowerCase() === "library",
+      )?.[1];
+      const usesDefaultLibrary = !library || library === "default";
+      if (iconNames.size > 0 && usesDefaultLibrary) {
+        const iconAttrs = new Set(
+          iconAttributes(component).map((a) => a.toLowerCase()),
+        );
+        for (const [key, value] of Object.entries(attributes)) {
+          if (!iconAttrs.has(key.toLowerCase()) || !value) continue;
+          if (iconNames.has(value)) continue;
+          warnings.push(
+            `"${value}" is not in the NYSDS icon set, so it won't render unless your app registers it. Use a name from get_component({ tagName: "${tagName}" }).icons.names, or see get_guide({ topic: "icons" }) to add another library.`,
+          );
+        }
       }
 
       const result = {
