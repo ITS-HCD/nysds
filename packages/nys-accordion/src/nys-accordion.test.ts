@@ -1,10 +1,4 @@
-import {
-  expect,
-  html,
-  fixture,
-  oneEvent,
-  nextFrame,
-} from "@open-wc/testing";
+import { expect, html, fixture, oneEvent, nextFrame } from "@open-wc/testing";
 import { findUnregisteredChildren } from "@nysds/internals";
 import "../dist/nys-accordion.js";
 import { NysAccordionItem } from "./nys-accordionitem";
