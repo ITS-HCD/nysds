@@ -291,10 +291,19 @@ export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
  * </nys-globalfooter>
  * <nys-unavfooter></nys-unavfooter>
  * ```
- * On mobile/tablet the nav stacks above the content. From the desktop
- * it moves to the right column. `main` comes first in the source so screen
- * readers reach the content before the nav. Use `order` to changes the
- * visual position.
+ * On mobile and tablet, the nav sits above the content. On desktop, this
+ * example puts it in the right column, but it can go on the left too.
+ *
+ * In your HTML, put `main` before the `aside` so screen readers read the
+ * content first. Then use order classes on the `aside` to change where it
+ * shows up on screen:
+ * - `nys-order-first` puts the nav on top for mobile and tablet.
+ * - `nys-desktop:nys-order-last` moves it to the right on desktop. Leave this
+ *   class off to keep it on the left.
+ *
+ * The grid classes set the widths. Here, `main` uses
+ * `nys-desktop:nys-grid-col-9` and the `aside` uses
+ * `nys-desktop:nys-grid-col-3`. See the grid utility docs for more.
  *
  * @example Listen for link activation
  * ```html
