@@ -11,6 +11,7 @@ import { readFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { getCSSTokens, getThemes } from "../lib/token-parser.js";
+import { getIconNames } from "../lib/icons.js";
 
 // ESM-compatible __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -100,12 +101,13 @@ const TOPIC_TO_FILE: Record<string, string> = {
   fonts: "fonts.md",
   "page-structure": "page-structure.md",
   themes: "themes.md",
+  icons: "icons.md",
 };
 
 export function registerGuideTools(server: McpServer): void {
   server.tool(
     "get_guide",
-    "Get NYSDS guides for installation, forms, styles, fonts, page structure, themes, or framework setup",
+    "Get NYSDS guides for installation, forms, styles, fonts, page structure, themes, icons (the built-in icon names and registering another icon library), or framework setup",
     {
       topic: z
         .enum([
@@ -115,6 +117,7 @@ export function registerGuideTools(server: McpServer): void {
           "fonts",
           "page-structure",
           "themes",
+          "icons",
         ])
         .describe("The guide topic to retrieve"),
       framework: z
@@ -134,6 +137,10 @@ export function registerGuideTools(server: McpServer): void {
         content = filename ? loadGuide(filename) : `Unknown topic: ${topic}`;
         if (topic === "themes") {
           content += `\n${renderThemeValueTables()}`;
+        }
+        if (topic === "icons") {
+          const names = getIconNames();
+          content += `\n## NYSDS icon names (${names.length})\n\n${names.map((n) => `\`${n}\``).join(", ")}\n`;
         }
         if (framework) {
           content += `\n\n---\n\nNote: \`framework\` only applies to topic "installation". For ${framework} setup, call get_guide({ topic: "installation", framework: "${framework}" }).\n`;
