@@ -65,6 +65,12 @@ export class NysFileItem extends NysElement {
   @property({ type: String }) errorMessage = "";
 
   /**
+   * Label of the field this file belongs to. Set by `nys-fileinput`; appended
+   * @internal
+   */
+  @property({ type: String }) fieldLabel = "";
+
+  /**
    * True when this item is actually in an error state. `aria-invalid` reflects
    * this rather than being hardcoded, so a healthy item is never announced as
    * invalid.
@@ -86,6 +92,12 @@ export class NysFileItem extends NysElement {
    */
   private get _errorId(): string {
     return `${this.id}--error`;
+  }
+
+  /** Accessible name for the remove button scope to the field label provided by file input */
+  private get _removeAriaLabel(): string {
+    const base = `Remove file: ${this.filename}`;
+    return this.fieldLabel ? `${base} from ${this.fieldLabel}` : base;
   }
 
   private _handleRemove() {
@@ -154,7 +166,7 @@ export class NysFileItem extends NysElement {
           <nys-button
             circle
             icon="close"
-            label="Remove file: ${this.filename}"
+            label=${this._removeAriaLabel}
             size="sm"
             variant="ghost"
             @nys-click=${this._handleRemove}
@@ -165,7 +177,9 @@ export class NysFileItem extends NysElement {
               <progress
                 value=${this.progress}
                 max="100"
-                aria-label="Upload progress for ${this.filename}"
+                aria-label=${this.fieldLabel
+                  ? `Upload progress for ${this.filename} in ${this.fieldLabel}`
+                  : `Upload progress for ${this.filename}`}
               ></progress>
             </div>`
           : null}

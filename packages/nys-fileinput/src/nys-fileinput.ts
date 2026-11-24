@@ -928,6 +928,7 @@ export class NysFileinput extends NysFormControlElement {
                   html`<li>
                     <nys-fileitem
                       filename=${entry.file.name}
+                      fieldLabel=${this.label || this.ariaLabel || ""}
                       status=${entry.status}
                       progress=${entry.progress}
                       errorMessage=${entry.errorMsg || ""}
