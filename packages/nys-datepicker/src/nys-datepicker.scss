@@ -307,39 +307,6 @@ wc-datepicker {
   line-height: var(--_nys-datepicker-line-height);
   letter-spacing: var(--_nys-datepicker-letterspacing);
 
-  &--disabled {
-    *:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .wc-datepicker__date {
-      cursor: not-allowed;
-      opacity: 0.5;
-
-      &:focus {
-        outline: none;
-        border-color: var(--_nys-datepicker-border-color--date--disabled);
-        box-shadow: none;
-      }
-
-      &:hover:not(.wc-datepicker__date--selected) {
-        background-color: transparent;
-      }
-
-      &--selected:hover {
-        color: var(--_nys-datepicker-background-color);
-        background-color: var(
-          --_nys-datepicker-background-color--date--selected
-        );
-      }
-    }
-
-    #wc-month-dropdown-icon {
-      color: var(--_nys-datepicker-color--date--disabled);
-    }
-  }
-
   &__header {
     display: flex;
     align-items: center;
@@ -473,7 +440,9 @@ wc-datepicker {
     }
 
     &:disabled,
-    &[aria-disabled="true"] {
+    &[aria-disabled="true"],
+    &--disabled {
+      cursor: not-allowed;
       background-color: var(
         --_nys-datepicker-background-color--navigation--disabled
       );
