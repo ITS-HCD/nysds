@@ -8609,6 +8609,16 @@
               "readonly": true
             },
             {
+              "kind": "field",
+              "name": "_removeAriaLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Accessible name for the remove button scope to the field label provided by file input",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "_handleRemove",
               "privacy": "private"

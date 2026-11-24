@@ -65,7 +65,8 @@ export class NysFileItem extends NysElement {
   @property({ type: String }) errorMessage = "";
 
   /**
-   * Label of the field this file belongs to. Set by `nys-fileinput`; appended
+   * Label of the field this file belongs to. Set by `nys-fileinput` so screen
+   * readers know which field a remove button or progress bar belongs to.
    * @internal
    */
   @property({ type: String }) fieldLabel = "";
@@ -94,7 +95,7 @@ export class NysFileItem extends NysElement {
     return `${this.id}--error`;
   }
 
-  /** Accessible name for the remove button scope to the field label provided by file input */
+  /** Accessible name for the remove button. Includes the field label from `nys-fileinput` when set. */
   private get _removeAriaLabel(): string {
     const base = `Remove file: ${this.filename}`;
     return this.fieldLabel ? `${base} from ${this.fieldLabel}` : base;
