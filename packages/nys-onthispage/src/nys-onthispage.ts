@@ -223,7 +223,7 @@ export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
  * ```html
  * <div style="display: flex; gap: 2rem; align-items: flex-start;">
  *   <nys-onthispage
- *     smoothScroll="false"
+ *     disableSmoothScroll
  *     style="flex: 0 0 220px;"
  *   ></nys-onthispage>
  *
@@ -355,7 +355,11 @@ export class NysOnthispage extends NysElement {
    */
   @property({ type: String }) scope = "main";
 
-  /** Pins the nav to the top of the viewport at least 600px. Desktop only! */
+  /**
+   * Pins the nav to the top of the viewport while scrolling.
+   * Only applies on view ports 600px wide or larger.
+   *  @default false
+   */
   @property({ type: Boolean, reflect: true }) sticky = false;
 
   /**
@@ -365,14 +369,10 @@ export class NysOnthispage extends NysElement {
    */
   @property({ type: Number }) offset = 80;
 
-  /** Smooth-scroll is default. Users can use `prefers-reduced-motion` to toggle it off.
-   * @default true
+  /** Turns off smooth scrolling. Already off for visitors with `prefers-reduced-motion`.
+   * @default false
    */
-  @property({
-    type: Boolean,
-    converter: (value) => value !== null && value !== "false",
-  })
-  smoothScroll = true;
+  @property({ type: Boolean, reflect: true }) disableSmoothScroll = false;
 
   /** `hash` pushes history, `replace` updates the URL silently, `none` leaves it alone.
    * @default "none"
@@ -481,7 +481,7 @@ export class NysOnthispage extends NysElement {
     });
   };
 
-  // "How to apply!" -> "how-to-apply". Falls back to "section" if nothing is left. */
+  // "How to apply!" -> "how-to-apply". Falls back to "section" if nothing is left.
   private _slugify(text: string): string {
     return (
       text
@@ -623,10 +623,18 @@ export class NysOnthispage extends NysElement {
       "(prefers-reduced-motion: reduce)",
     ).matches;
     item.el.scrollIntoView({
-      behavior: this.smoothScroll && !reduceMotion ? "smooth" : "auto",
+      behavior: this.disableSmoothScroll || reduceMotion ? "auto" : "smooth",
     });
 
-    item.el.setAttribute("tabindex", "-1");
+    // Headings can't take focus without tabindex. That's why it's needed here.
+    if (!item.el.hasAttribute("tabindex")) {
+      item.el.setAttribute("tabindex", "-1");
+      item.el.addEventListener(
+        "blur",
+        () => item.el.removeAttribute("tabindex"),
+        { once: true },
+      );
+    }
     item.el.focus({ preventScroll: true });
 
     if (this.hashBehavior === "hash") {
