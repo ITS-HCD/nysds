@@ -364,14 +364,18 @@ export class NysOnthispage extends NysElement {
    */
   @property({ type: Number }) offset = 80;
 
-  /** Smooth-scroll is default. Users can use `prefers-reduced-motion` to toggle it off. */
+  /** Smooth-scroll is default. Users can use `prefers-reduced-motion` to toggle it off.
+   * @default true
+   */
   @property({
     type: Boolean,
     converter: (value) => value !== null && value !== "false",
   })
   smoothScroll = true;
 
-  /** `hash` pushes history, `replace` updates the URL silently, `none` leaves it alone. */
+  /** `hash` pushes history, `replace` updates the URL silently, `none` leaves it alone.
+   * @default "none"
+   */
   @property({ type: String }) hashBehavior: HashBehavior = "none";
 
   @state() private _items: TrackedHeading[] = [];
