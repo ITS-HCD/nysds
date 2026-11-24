@@ -8,18 +8,13 @@ const bannerText = `/*!
    * License: MIT
  */`;
 
- // Sass or the minifier can put @charset at the top of the CSS.
-// It is only valid as the first thing in a file, so remove it before adding the banner.
-const CHARSET_RULE = /^@charset\s*["'][^"']*["'];?\s*/i;
-
 function cssBannerPlugin(banner) {
   return {
     name: "css-banner",
     generateBundle(_, bundle) {
       for (const file of Object.values(bundle)) {
         if (file.type === "asset" && file.fileName.endsWith(".css")) {
-          const css = String(file.source).replace(CHARSET_RULE, "");
-          file.source = banner + "\n" + css;
+          file.source = banner + "\n" + file.source;
         }
       }
     },
@@ -33,6 +28,8 @@ export default defineConfig({
       scss: {
         // Allow @import from node_modules
         includePaths: ["node_modules"],
+        // Stop Sass from adding @charset "UTF-8" to output with non-ASCII characters
+        charset: false,
       },
     },
   },
