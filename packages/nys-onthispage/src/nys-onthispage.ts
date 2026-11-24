@@ -342,7 +342,8 @@ export class NysOnthispage extends NysElement {
 
   /** Heading level to track and link. `h1` is excluded.
    * @default "h2"
-   */ @property({ type: String }) headingTracker: HeadingTag = "h2";
+   */
+  @property({ type: String }) headingTracker: HeadingTag = "h2";
 
   /** Nav heading text.
    * @default "On this page"
