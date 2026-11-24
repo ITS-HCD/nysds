@@ -327,6 +327,29 @@ export const DropdownGroup: Story = {
                 <li><a href="">Color Contrast</a></li>
               </ul>
             </nys-verticalnavgroup>
+            <nys-verticalnavgroup
+              label="A label that is long enoughnabcedefghi"
+            >
+              <ul>
+                <li><a href="">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+            <nys-verticalnavgroup label="asdfasdfasdfasdfasdfasdfdsdfasdfasdf">
+              <ul>
+                <li><a href="">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
+            <nys-verticalnavgroup label="asdfasdfasdfasdfasdfasdfdsdf">
+              <ul>
+                <li><a href="">WCAG Guidelines</a></li>
+                <li><a href="">Screen Readers</a></li>
+                <li><a href="">Color Contrast</a></li>
+              </ul>
+            </nys-verticalnavgroup>
           </li>
           <li>
             <h3>Resources</h3>
@@ -349,6 +372,27 @@ export const DropdownGroup: Story = {
     <li><a href="/components">Components</a></li>
     <li>
       <nys-verticalnavgroup label="Accessibility">
+        <ul>
+          <li><a href="">WCAG Guidelines</a></li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+      <nys-verticalnavgroup label="A label that is long enoughnabcedefghi">
+        <ul>
+          <li><a href="">WCAG Guidelines</a></li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+      <nys-verticalnavgroup label="asdfasdfasdfasdfasdfasdfdsdfasdfasdf">
+        <ul>
+          <li><a href="">WCAG Guidelines</a></li>
+          <li><a href="">Screen Readers</a></li>
+          <li><a href="">Color Contrast</a></li>
+        </ul>
+      </nys-verticalnavgroup>
+      <nys-verticalnavgroup label="asdfasdfasdfasdfasdfasdfdsdf">
         <ul>
           <li><a href="">WCAG Guidelines</a></li>
           <li><a href="">Screen Readers</a></li>

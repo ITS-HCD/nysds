@@ -104,6 +104,8 @@ nys-accordion {
     font-size: var(--_nys-verticalnav-font-size);
     font-weight: var(--_nys-verticalnav-font-weight--header-accordion);
     line-height: var(--_nys-verticalnav-line-height);
+    text-align: start;
+    gap: var(--nys-space-100, 8px);
 
     &:not(:disabled):hover {
       background-color: var(--_nys-verticalnav-trigger--hover);
@@ -122,6 +124,11 @@ nys-accordion {
     &:disabled {
       color: var(--_nys-verticalnav-trigger--disabled);
     }
+  }
+
+  &__label {
+    min-width: 0;
+    overflow-wrap: break-word;
   }
 
   &__chevron {
