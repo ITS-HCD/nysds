@@ -72,7 +72,7 @@
 
 // Sticky is desktop-only + tablet (not sticky for mobile).
 @media (width >= 480px) {
-  :host([sticky]) {
+  :host(:not([disablesticky])) {
     position: sticky;
     top: var(--_nys-onthispage-offset, 80px);
   }

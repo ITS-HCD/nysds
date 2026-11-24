@@ -11063,13 +11063,13 @@
             },
             {
               "kind": "field",
-              "name": "sticky",
+              "name": "disableSticky",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Pins the nav to the top of the viewport at least 600px. Desktop only!",
-              "attribute": "sticky",
+              "description": "Turns off the sticky behavior, so the nav scrolls with the page.\nSticky only applies on viewports 480px wide or larger.",
+              "attribute": "disableSticky",
               "reflects": true
             },
             {
@@ -11084,13 +11084,13 @@
             },
             {
               "kind": "field",
-              "name": "smoothScroll",
+              "name": "disableSmoothScroll",
               "type": {
                 "text": "boolean"
               },
-              "default": "true",
-              "description": "Smooth-scroll is default. Users can use `prefers-reduced-motion` to toggle it off.",
-              "attribute": "smoothScroll",
+              "default": "false",
+              "description": "Turns off smooth scrolling. Already off for visitors with `prefers-reduced-motion`.",
+              "attribute": "disableSmoothScroll",
               "reflects": true
             },
             {
@@ -11316,13 +11316,13 @@
               "fieldName": "scope"
             },
             {
-              "name": "sticky",
+              "name": "disableSticky",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Pins the nav to the top of the viewport at least 600px. Desktop only!",
-              "fieldName": "sticky"
+              "description": "Turns off the sticky behavior, so the nav scrolls with the page.\nSticky only applies on viewports 480px wide or larger.",
+              "fieldName": "disableSticky"
             },
             {
               "name": "offset",
@@ -11334,13 +11334,13 @@
               "fieldName": "offset"
             },
             {
-              "name": "smoothScroll",
+              "name": "disableSmoothScroll",
               "type": {
                 "text": "boolean"
               },
-              "default": "true",
-              "description": "Smooth-scroll is default. Users can use `prefers-reduced-motion` to toggle it off.",
-              "fieldName": "smoothScroll"
+              "default": "false",
+              "description": "Turns off smooth scrolling. Already off for visitors with `prefers-reduced-motion`.",
+              "fieldName": "disableSmoothScroll"
             },
             {
               "name": "hashBehavior",
@@ -11366,8 +11366,8 @@
               "lang": "html"
             },
             {
-              "title": "Sticky",
-              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage sticky offset=\"24\"></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n<p>Use this guide to find out if you qualify and how to apply.</p>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n<p style=\"min-height: 60vh;\">Review the requirements before submitting your application.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n<p style=\"min-height: 60vh;\">Keep a copy of your application for your records.</p>\n\n<h2>Required documents</h2>\n<p>Bring a valid proof of identity, proof of address, and any other supporting documentation.</p>\n<p style=\"min-height: 60vh;\">Ensure your documents are current and legible.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n<p style=\"min-height: 60vh;\">You will receive a notification when a decision has been made.</p>\n</main>\n</div>",
+              "title": "Turn off sticky",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage disableSticky offset=\"24\"></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n<p>Use this guide to find out if you qualify and how to apply.</p>\n\n<h2>Eligibility</h2>\n<p>You must be a New York State resident aged 18 or older.</p>\n<p style=\"min-height: 60vh;\">Review the requirements before submitting your application.</p>\n\n<h2>How to apply</h2>\n<p>Complete the online form and upload your supporting documents.</p>\n<p style=\"min-height: 60vh;\">Keep a copy of your application for your records.</p>\n\n<h2>Required documents</h2>\n<p>Bring a valid proof of identity, proof of address, and any other supporting documentation.</p>\n<p style=\"min-height: 60vh;\">Ensure your documents are current and legible.</p>\n\n<h2>What happens next</h2>\n<p>We review applications within 10 business days.</p>\n<p style=\"min-height: 60vh;\">You will receive a notification when a decision has been made.</p>\n</main>\n</div>",
               "lang": "html"
             },
             {
@@ -11397,12 +11397,12 @@
             },
             {
               "title": "Turn off smooth scrolling",
-              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage\nsmoothScroll=\"false\"\nstyle=\"flex: 0 0 220px;\"\n></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p style=\"min-height: 80vh;\">You must be a New York State resident.</p>\n\n<h2>How to apply</h2>\n<p style=\"min-height: 80vh;\">Complete the online form.</p>\n\n<h2>What happens next</h2>\n<p style=\"min-height: 80vh;\">We review applications within 10 business days.</p>\n</main>\n</div>",
+              "code": "<div style=\"display: flex; gap: 2rem; align-items: flex-start;\">\n<nys-onthispage\ndisableSmoothScroll\nstyle=\"flex: 0 0 220px;\"\n></nys-onthispage>\n\n<main style=\"flex: 1; min-width: 0;\">\n<h1>Apply for a permit</h1>\n\n<h2>Eligibility</h2>\n<p style=\"min-height: 80vh;\">You must be a New York State resident.</p>\n\n<h2>How to apply</h2>\n<p style=\"min-height: 80vh;\">Complete the online form.</p>\n\n<h2>What happens next</h2>\n<p style=\"min-height: 80vh;\">We review applications within 10 business days.</p>\n</main>\n</div>",
               "lang": "html"
             },
             {
               "title": "Page layout",
-              "code": "<nys-unavheader></nys-unavheader>\n\n<nys-globalheader appName=\"NYS Design System\" homepageLink=\"/\">\n<ul>\n<li><a href=\"#\">Item 1</a></li>\n<li><a href=\"#\">Item 2</a></li>\n<li><a href=\"#\">Item 3</a></li>\n<li><a href=\"#\">Item 4</a></li>\n<li><a href=\"#\">Item 5</a></li>\n</ul>\n</nys-globalheader>\n\n<div class=\"nys-grid-container\">\n<div class=\"nys-grid-row nys-grid-gap\">\n<main class=\"nys-desktop:nys-grid-col-9\">\n<h1>Welcome to the Empire State of Mind</h1>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit? Nope. Here, we say: grab a bagel, check the Erie Canal, and see what the Adirondacks are up to today.</p>\n\n<h2>Apple picking season</h2>\n<p style=\"min-height: 60vh;\">Orchards from the Hudson Valley to the Finger Lakes are open. Bring a basket, a sweater, and a strong opinion about cider donuts. Honeycrisp is the correct answer, but we will hear other opinions.</p>\n\n<h2>Pizza by the slice</h2>\n<p style=\"min-height: 60vh;\">Fold it. Do not eat it with a fork. A proper slice is hot, floppy, and cheaper than your parking meter. Every borough believes theirs is the best, and every borough is slightly right.</p>\n\n<h2>Road trip to Niagara Falls</h2>\n<p style=\"min-height: 60vh;\">Pack snacks and head west on the Thruway. Rest stops are plentiful, the falls are loud, and the mist is free. Bring a poncho if you plan to get close.</p>\n\n<h2>Snow day survival guide</h2>\n<p style=\"min-height: 60vh;\">Upstate gets a lot of snow, and Upstate is not impressed. Shovel early, check on your neighbors, and keep the hot chocolate within reach.</p>\n</main>\n\n<aside class=\"nys-desktop:nys-grid-col-3 nys-order-first nys-desktop:nys-order-last\" style=\"margin-top: var(--nys-space-600)\">\n<nys-onthispage sticky offset=\"24\"></nys-onthispage>\n</aside>\n</div>\n</div>\n\n<nys-globalfooter agencyName=\"NYS Design System\" homepageLink=\"/\">\n<ul>\n<li><a href=\"#\">Privacy Policy</a></li>\n<li><a href=\"#\">Terms of Use</a></li>\n</ul>\n</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>",
+              "code": "<nys-unavheader></nys-unavheader>\n\n<nys-globalheader appName=\"NYS Design System\" homepageLink=\"/\">\n<ul>\n<li><a href=\"#\">Item 1</a></li>\n<li><a href=\"#\">Item 2</a></li>\n<li><a href=\"#\">Item 3</a></li>\n<li><a href=\"#\">Item 4</a></li>\n<li><a href=\"#\">Item 5</a></li>\n</ul>\n</nys-globalheader>\n\n<div class=\"nys-grid-container\">\n<div class=\"nys-grid-row nys-grid-gap\">\n<main class=\"nys-desktop:nys-grid-col-9\">\n<h1>Welcome to the Empire State of Mind</h1>\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit? Nope. Here, we say: grab a bagel, check the Erie Canal, and see what the Adirondacks are up to today.</p>\n\n<h2>Apple picking season</h2>\n<p style=\"min-height: 60vh;\">Orchards from the Hudson Valley to the Finger Lakes are open. Bring a basket, a sweater, and a strong opinion about cider donuts. Honeycrisp is the correct answer, but we will hear other opinions.</p>\n\n<h2>Pizza by the slice</h2>\n<p style=\"min-height: 60vh;\">Fold it. Do not eat it with a fork. A proper slice is hot, floppy, and cheaper than your parking meter. Every borough believes theirs is the best, and every borough is slightly right.</p>\n\n<h2>Road trip to Niagara Falls</h2>\n<p style=\"min-height: 60vh;\">Pack snacks and head west on the Thruway. Rest stops are plentiful, the falls are loud, and the mist is free. Bring a poncho if you plan to get close.</p>\n\n<h2>Snow day survival guide</h2>\n<p style=\"min-height: 60vh;\">Upstate gets a lot of snow, and Upstate is not impressed. Shovel early, check on your neighbors, and keep the hot chocolate within reach.</p>\n</main>\n\n<aside class=\"nys-desktop:nys-grid-col-3 nys-order-first nys-desktop:nys-order-last\" style=\"margin-top: var(--nys-space-600)\">\n<nys-onthispage offset=\"24\"></nys-onthispage>\n</aside>\n</div>\n</div>\n\n<nys-globalfooter agencyName=\"NYS Design System\" homepageLink=\"/\">\n<ul>\n<li><a href=\"#\">Privacy Policy</a></li>\n<li><a href=\"#\">Terms of Use</a></li>\n</ul>\n</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>",
               "lang": "html"
             },
             {

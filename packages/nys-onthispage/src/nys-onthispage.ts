@@ -91,10 +91,10 @@ export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
  * </div>
  * ```
  *
- * @example Sticky
+ * @example Turn off sticky
  * ```html
  * <div style="display: flex; gap: 2rem; align-items: flex-start;">
- *   <nys-onthispage sticky offset="24"></nys-onthispage>
+ *   <nys-onthispage disableSticky offset="24"></nys-onthispage>
  *
  *   <main style="flex: 1; min-width: 0;">
  *     <h1>Apply for a permit</h1>
@@ -278,7 +278,7 @@ export type NysOnThisPageClickEvent = CustomEvent<NysOnThisPageClickDetail>;
  *     </main>
  *
  *     <aside class="nys-desktop:nys-grid-col-3 nys-order-first nys-desktop:nys-order-last" style="margin-top: var(--nys-space-600)">
- *       <nys-onthispage sticky offset="24"></nys-onthispage>
+ *       <nys-onthispage offset="24"></nys-onthispage>
  *     </aside>
  *   </div>
  * </div>
@@ -356,11 +356,11 @@ export class NysOnthispage extends NysElement {
   @property({ type: String }) scope = "main";
 
   /**
-   * Pins the nav to the top of the viewport while scrolling.
-   * Only applies on view ports 600px wide or larger.
-   *  @default false
+   * Turns off the sticky behavior, so the nav scrolls with the page.
+   * Sticky only applies on viewports 480px wide or larger.
+   * @default false
    */
-  @property({ type: Boolean, reflect: true }) sticky = false;
+  @property({ type: Boolean, reflect: true }) disableSticky = false;
 
   /**
    * Distance (px) from the viewport top to the trigger line. Also sets

@@ -69,9 +69,9 @@ describe("nys-onthispage", () => {
     expect(el.headingTracker).to.equal("h2");
     expect(el.heading).to.equal("On this page");
     expect(el.scope).to.equal("main");
-    expect(el.sticky).to.be.false;
+    expect(el.disableSticky).to.be.false;
     expect(el.offset).to.equal(80);
-    expect(el.smoothScroll).to.be.true;
+    expect(el.disableSmoothScroll).to.be.false;
     expect(el.hashBehavior).to.equal("none");
   });
 
@@ -83,8 +83,8 @@ describe("nys-onthispage", () => {
         scope="#guide"
         offset="24"
         hashBehavior="replace"
-        smoothScroll="false"
-        sticky
+        disableSmoothScroll
+        disableSticky
       ></nys-onthispage>
     `);
     expect(el.heading).to.equal("In this guide");
@@ -92,8 +92,8 @@ describe("nys-onthispage", () => {
     expect(el.scope).to.equal("#guide");
     expect(el.offset).to.equal(24);
     expect(el.hashBehavior).to.equal("replace");
-    expect(el.smoothScroll).to.be.false;
-    expect(el.sticky).to.be.true;
+    expect(el.disableSmoothScroll).to.be.true;
+    expect(el.disableSticky).to.be.true;
   });
 
   it("renders one link per h2 and skips the h1", async () => {
@@ -279,6 +279,17 @@ describe("nys-onthispage", () => {
     expect(el.shadowRoot!.querySelectorAll("a").length).to.equal(5);
   });
 
+  it("is sticky by default and not when disableSticky is set", async () => {
+    const el = await fixture<NysOnthispage>(
+      html`<nys-onthispage></nys-onthispage>`,
+    );
+    expect(getComputedStyle(el).position).to.equal("sticky");
+
+    el.disableSticky = true;
+    await el.updateComplete;
+    expect(getComputedStyle(el).position).to.not.equal("sticky");
+  });
+
   it("sets scroll-margin-top on headings from offset", async () => {
     const wrapper = await fixture(basicPage());
     const el = wrapper.querySelector("nys-onthispage") as NysOnthispage;
@@ -335,7 +346,7 @@ describe("nys-onthispage", () => {
   it("scrolls to the heading and moves focus when a link is clicked", async () => {
     const wrapper = await fixture(longPage());
     const el = wrapper.querySelector("nys-onthispage") as NysOnthispage;
-    el.smoothScroll = false;
+    el.disableSmoothScroll = true;
     await el.updateComplete;
 
     el.shadowRoot!.querySelectorAll("a")[1].click();
@@ -356,7 +367,7 @@ describe("nys-onthispage", () => {
   it("fires nys-click with id, label and index", async () => {
     const wrapper = await fixture(longPage());
     const el = wrapper.querySelector("nys-onthispage") as NysOnthispage;
-    el.smoothScroll = false;
+    el.disableSmoothScroll = true;
     await el.updateComplete;
 
     let detail: unknown;
@@ -375,7 +386,7 @@ describe("nys-onthispage", () => {
   it("leaves the URL alone when hashBehavior is none", async () => {
     const wrapper = await fixture(longPage());
     const el = wrapper.querySelector("nys-onthispage") as NysOnthispage;
-    el.smoothScroll = false;
+    el.disableSmoothScroll = true;
     await el.updateComplete;
 
     el.shadowRoot!.querySelectorAll("a")[1].click();
@@ -385,7 +396,7 @@ describe("nys-onthispage", () => {
   it("updates the hash without a new history entry when hashBehavior is replace", async () => {
     const wrapper = await fixture(longPage());
     const el = wrapper.querySelector("nys-onthispage") as NysOnthispage;
-    el.smoothScroll = false;
+    el.disableSmoothScroll = true;
     el.hashBehavior = "replace";
     await el.updateComplete;
 
@@ -399,7 +410,7 @@ describe("nys-onthispage", () => {
   it("updates the hash and adds a history entry when hashBehavior is hash", async () => {
     const wrapper = await fixture(longPage());
     const el = wrapper.querySelector("nys-onthispage") as NysOnthispage;
-    el.smoothScroll = false;
+    el.disableSmoothScroll = true;
     el.hashBehavior = "hash";
     await el.updateComplete;
 
