@@ -233,3 +233,26 @@ export const MandatoryAction: Story = {
     },
   },
 };
+
+export const Testing: Story = {
+  render: () => {
+    return html`
+      <nys-modal heading="About the beta" open>
+        <p><a href="#inside">Link inside the dialog</a></p>
+      </nys-modal>
+      <a href="#behind">Link behind the overlay</a>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-modal heading="About the beta" open>
+  <p><a href="#inside">Link inside the dialog</a></p>
+</nys-modal>
+<a href="#behind">Link behind the overlay</a>`,
+        type: "auto",
+      },
+    },
+  },
+};

@@ -10963,6 +10963,10 @@
               "code": "<nys-modal\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\"></nys-button>\n</div>\n</nys-modal>",
               "lang": "html",
               "render": "<div id=\"modal-wrapper4\">\n<nys-button label=\"Open Modal\" onclick=\"document.querySelector('.modal4').open = true; document.getElementById('modal-wrapper4').style.padding = '100px 0'\"></nys-button>\n<nys-modal\nclass=\"modal4\"\nid=\"modal4\"\nheading=\"There is no way to X out of here\"\nsubheading=\"Don't use this prop unless you add in the actions slot so the user does not get stuck in here.\"\nmandatory\n>\n<div slot=\"actions\">\n<nys-button label=\"Get me out\" onclick=\"alert('Ok, ok. You can go now.'); document.querySelector('.modal4').open = false; document.getElementById('modal-wrapper4').style.padding = '0'\"></nys-button>\n</div>\n</nys-modal>\n</div>"
+            },
+            {
+              "title": "Testing",
+              "code": "<nys-modal heading=\"About the beta\" open>\n<p><a href=\"#inside\">Link inside the dialog</a></p>\n</nys-modal>\n<a href=\"#behind\">Link behind the overlay</a>"
             }
           ],
           "usage": [
