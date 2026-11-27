@@ -325,6 +325,8 @@ export const DropdownGroup: Story = {
                 <li><a href="">WCAG Guidelines</a></li>
                 <li><a href="">Screen Readers</a></li>
                 <li><a href="">Color Contrast</a></li>
+                <li><a href="">Accordion Accessibility Checklist</a></li>
+                <li><a href="">Build an Accessible Accordion</a></li>
               </ul>
             </nys-verticalnavgroup>
           </li>
@@ -353,6 +355,8 @@ export const DropdownGroup: Story = {
           <li><a href="">WCAG Guidelines</a></li>
           <li><a href="">Screen Readers</a></li>
           <li><a href="">Color Contrast</a></li>
+          <li><a href="">Accordion Accessibility Checklist</a></li>
+          <li><a href="">Build an Accessible Accordion</a></li>
         </ul>
       </nys-verticalnavgroup>
     </li>

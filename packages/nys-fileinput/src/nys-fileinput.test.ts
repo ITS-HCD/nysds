@@ -1096,6 +1096,37 @@ describe("nys-fileinput", () => {
       const idB = b.shadowRoot!.querySelector(".file-item__error")!.id;
       expect(idA).to.not.equal(idB);
     });
+
+    it("names remove buttons by field when two inputs hold the same file", async () => {
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div>
+          <nys-fileinput label="Conviction documents"></nys-fileinput>
+          <nys-fileinput label="Disciplinary documents"></nys-fileinput>
+        </div>
+      `);
+      const inputs = wrapper.querySelectorAll<NysFileinput>("nys-fileinput");
+
+      const names = [];
+      for (const input of inputs) {
+        await input.setFiles([
+          new File(["x"], "doc.txt", { type: "text/plain" }),
+        ]);
+        await input.updateComplete;
+        const item = input.shadowRoot!.querySelector("nys-fileitem")!;
+        const button = item.shadowRoot!.querySelector("nys-button") as any;
+        await button.updateComplete;
+        names.push(
+          button.shadowRoot
+            .querySelector(".nys-button__text")
+            .textContent.trim(),
+        );
+      }
+
+      expect(names).to.deep.equal([
+        "Remove file: doc.txt from Conviction documents",
+        "Remove file: doc.txt from Disciplinary documents",
+      ]);
+    });
   });
 
   describe("self-registration", () => {
