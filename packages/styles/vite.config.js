@@ -28,6 +28,8 @@ export default defineConfig({
       scss: {
         // Allow @import from node_modules
         includePaths: ["node_modules"],
+        // Stop Sass from adding @charset "UTF-8" to output with non-ASCII characters
+        charset: false,
       },
     },
   },
