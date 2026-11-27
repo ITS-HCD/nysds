@@ -6,12 +6,12 @@ import {
   dispatchNysEvent,
   dispatchNysFocusBlur,
 } from "@nysds/internals";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-textinput is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render.
-// nys-button/nys-icon render the password-visibility toggle and search-clear
-// controls.
+/*
+ * These elements are used inside nys-textinput's shadow DOM, so they
+ * need to be registered whenever nys-textinput is used. The label and
+ * error message support accessibility, while nys-button and nys-icon
+ * provide the password toggle and search-clear controls.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
@@ -259,9 +259,6 @@ export class NysTextinput extends NysFormControlElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
-  /** Shows error message when true. Set by validation or manually. */
-  @property({ type: Boolean, reflect: true }) showError = false;
-
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
@@ -274,6 +271,22 @@ export class NysTextinput extends NysFormControlElement {
   private _maskPatterns: Record<string, string> = {
     tel: "(___) ___-____",
   };
+
+  private _showError = false;
+  private _errorSetByComponent = false;
+
+  /** Shows error message when true. Set by validation or manually. */
+  @property({ type: Boolean, reflect: true })
+  get showError(): boolean {
+    return this._showError;
+  }
+
+  set showError(value: boolean) {
+    const oldValue = this._showError;
+    this._showError = Boolean(value);
+    this._errorSetByComponent = false;
+    this.requestUpdate("showError", oldValue);
+  }
 
   /**
    * Lifecycle methods
@@ -384,20 +397,23 @@ export class NysTextinput extends NysFormControlElement {
     const input = this._inputEl;
     if (!input) return;
 
-    // Always show the visual error if there is a message
-    this.showError = !!message;
-
     // Store validation output separately. A consumer-supplied errorMessage is
     // never overwritten; resolvedErrorMessage() gives it precedence.
     this.internalValidationMessage = message;
 
     if (message) {
+      this.showError = true;
+      this._errorSetByComponent = true;
       this.setValidityFromState(
         { customError: true },
         this.resolvedErrorMessage(),
         input,
       );
     } else {
+      if (this._errorSetByComponent) {
+        this.showError = false;
+        this._errorSetByComponent = false;
+      }
       this.clearValidity();
     }
   }
@@ -448,6 +464,7 @@ export class NysTextinput extends NysFormControlElement {
     // Reset validation UI. Clears only the component's own validation text; a
     // consumer-supplied errorMessage is never overwritten.
     this.showError = false;
+    this._errorSetByComponent = false;
     this.internalValidationMessage = "";
     this.clearValidity();
 

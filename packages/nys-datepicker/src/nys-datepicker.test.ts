@@ -1301,14 +1301,16 @@ describe("nys-datepicker", () => {
   // _handleTodayClick with _hasUserInteracted clears error
   // -------------------------------------------------------------------------
 
-  it("_handleTodayClick with _hasUserInteracted=true clears showError when required", async () => {
+  it("clears a required error when Today is clicked", async () => {
     const el = await fixture<NysDatepicker>(
       html`<nys-datepicker required></nys-datepicker>`,
     );
-    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
 
-    el.showError = true;
-    (el as any)._hasUserInteracted = true;
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+    expect(el.showError).to.be.true;
+
     (el as any)._handleTodayClick();
     await el.updateComplete;
 
@@ -1446,6 +1448,27 @@ describe("nys-datepicker", () => {
     await el.updateComplete;
     const label = el.shadowRoot!.querySelector("nys-label")!;
     expect(label.hasAttribute("inverted")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // Manual Error Validation set by user
+  // -------------------------------------------------------------------------
+  it("keeps a consumer-set error visible after blur", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker
+        label="Start date"
+        errorMessage="Select a start date."
+        showError
+      ></nys-datepicker>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    const error = el.shadowRoot!.querySelector("nys-errormessage")!;
+
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(error.hasAttribute("showError")).to.be.true;
   });
 
   // -------------------------------------------------------------------------

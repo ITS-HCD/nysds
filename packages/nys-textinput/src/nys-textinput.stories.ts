@@ -41,8 +41,8 @@ export const Basic: Story = {
     ariaLabel: "",
     width: "full",
     inverted: false,
-    showError: false,
     errorMessage: "",
+    showError: false,
   },
   argTypes: {
     type: {
@@ -69,8 +69,8 @@ export const Basic: Story = {
         ariaLabel=${args.ariaLabel}
         width=${args.width}
         ?inverted=${args.inverted}
-        ?showError=${args.showError}
         errorMessage=${args.errorMessage}
+        ?showError=${args.showError}
       ></nys-textinput>
     `;
   },

@@ -36,9 +36,9 @@ export const Basic: Story = {
     optional: false,
     tooltip: "",
     inverted: false,
-    showError: false,
     errorMessage: "",
     width: "full",
+    showError: false,
   },
   argTypes: {
     width: { control: { type: "select" }, options: ["sm", "md", "lg", "full"] },
@@ -57,9 +57,9 @@ export const Basic: Story = {
         ?optional=${args.optional}
         tooltip=${args.tooltip}
         ?inverted=${args.inverted}
-        ?showError=${args.showError}
         errorMessage=${args.errorMessage}
         width=${args.width}
+        ?showError=${args.showError}
       >
         <option value="bronx" label="The Bronx"></option>
         <option value="brooklyn" label="Brooklyn"></option>

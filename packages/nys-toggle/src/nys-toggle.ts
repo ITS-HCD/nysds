@@ -6,11 +6,11 @@ import {
   dispatchNysEvent,
   dispatchNysFocusBlur,
 } from "@nysds/internals";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-toggle is used. Importing them here
-// (intentional side effect) guarantees the visible label — which the
-// accessible name association depends on — always renders, along with the
-// check/close knob icon.
+/*
+ * These elements are used inside nys-toggle's shadow DOM, so they need
+ * to be registered whenever nys-toggle is used. The label supports
+ * accessibility, and nys-icon renders the check/close indicator.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-icon";
 // @ts-ignore: SCSS module imported via bundler as inline

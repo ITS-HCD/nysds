@@ -1004,7 +1004,30 @@ describe("nys-fileinput", () => {
     });
   });
 
-  /**************** File Item Tests ****************/
+  // -------------------------------------------------------------------------
+  // Manual Error Validation set by user
+  // -------------------------------------------------------------------------
+  it("keeps a consumer-set error visible after blur", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Upload a file"
+        errorMessage="Upload a file."
+        showError
+      ></nys-fileinput>`,
+    );
+    const wrapper = el.shadowRoot!.querySelector(".nys-fileinput")!;
+
+    wrapper.dispatchEvent(new FocusEvent("focusout"));
+    await el.updateComplete;
+
+    const error = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(el.showError).to.be.true;
+    expect(error.hasAttribute("showError")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // File Item Tests
+  // -------------------------------------------------------------------------
   describe("nys-fileitem tests", () => {
     it("exposes a single named progress bar while processing", async () => {
       const el = await fixture<NysFileItem>(

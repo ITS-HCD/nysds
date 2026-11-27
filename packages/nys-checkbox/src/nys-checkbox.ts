@@ -8,12 +8,12 @@ import {
   dispatchNysFocusBlur,
 } from "@nysds/internals";
 import "./nys-checkboxgroup";
-// These internal elements are rendered inside this component's shadow DOM, so
-// they must be registered whenever nys-checkbox is used. Importing them here
-// (intentional side effect) guarantees the visible label and error message —
-// which the accessible name/error association depends on — always render.
-// nys-icon renders the checked-state checkmark; nys-textinput renders the
-// "other" free-text field.
+/*
+ * These elements are used inside nys-checkbox's shadow DOM, so they need
+ * to be registered whenever nys-checkbox is used. The label and error
+ * message support accessibility, nys-icon renders the checkmark, and
+ * nys-textinput provides the "other" text field.
+ */
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-icon";
