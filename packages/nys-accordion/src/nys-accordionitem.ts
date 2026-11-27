@@ -292,6 +292,7 @@ export class NysAccordionItem extends NysElement {
             ? "expanded"
             : "collapsed"}"
           role="region"
+          ?hidden=${!this.expanded}
           aria-labelledby=${buttonId}
           @nys-child-resize=${this._updateHeight}
         >
