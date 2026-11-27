@@ -27,6 +27,7 @@ export default defineConfig({
     // A distributed bundle should carry the @license notices of everything
     // inlined into it.
     legalComments: "inline",
+    charset: "ascii",
   },
   resolve: {
     alias: sourceAliases(repoRoot),
