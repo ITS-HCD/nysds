@@ -1,6 +1,6 @@
 {
   "name": "@nysds/mcp-server",
-  "version": "1.23.2",
+  "version": "1.24.0",
   "description": "MCP server for the New York State Design System. Exposes components, tokens, and documentation to AI assistants.",
   "type": "module",
   "bin": {
@@ -29,12 +29,12 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
-    "@nysds/codegen": "^1.23.2",
+    "@nysds/codegen": "^1.24.0",
     "zod": "^3.25"
   },
   "devDependencies": {
-    "@nysds/styles": "^1.23.2",
-    "@nysds/tokens": "^1.23.2",
+    "@nysds/styles": "^1.24.0",
+    "@nysds/tokens": "^1.24.0",
     "@types/node": "^22.0.0",
     "typescript": "^5.9.3"
   },
