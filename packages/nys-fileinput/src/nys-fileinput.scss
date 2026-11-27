@@ -135,3 +135,13 @@ progress::-webkit-progress-value {
 progress::-webkit-progress-bar {
   background-color: var(--_nys-fileinput-progress-background);
 }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+}

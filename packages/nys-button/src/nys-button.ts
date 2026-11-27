@@ -266,12 +266,12 @@ export class NysButton extends NysFormControlElement {
     | "" = "";
 
   /**
-   * Material Symbol icon before label. Not shown for `circle` mode.
+   * NYSDS icon name (see `nys-icon`) shown before the label. Not shown for `circle` mode.
    */
   @property({ type: String }) prefixIcon = "";
 
   /**
-   * Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.
+   * NYSDS icon name (see `nys-icon`) shown after the label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.
    */
   @property({ type: String }) suffixIcon = "";
 
@@ -314,9 +314,10 @@ export class NysButton extends NysFormControlElement {
   @property({ type: String }) value = "";
 
   /**
-   * ID(s) of element(s) describing this button. Sets `aria-describedby`.
+   * Aria description for the button's name. Useful for adding additional SR context
+   * such as hint texts from the nys-tooltip (since that cannot be resolved by `ariaDescribedBy`).
    */
-  @property({ type: String }) ariaDescribedBy = "";
+  @property({ type: String }) ariaDescription = "";
 
   /**
    * Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.
@@ -531,7 +532,7 @@ export class NysButton extends NysFormControlElement {
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
                 @keyup="${this._handleKeyup}"
-                aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+                aria-description=${ifDefined(this.ariaDescription || undefined)}
                 aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
                 aria-current=${ifDefined(this.ariaCurrent || undefined)}
               >
@@ -600,7 +601,7 @@ export class NysButton extends NysFormControlElement {
               @blur=${this._handleBlur}
               @keydown=${this._handleKeydown}
               @keyup=${this._handleKeyup}
-              aria-describedby=${ifDefined(this.ariaDescribedBy || undefined)}
+              aria-description=${ifDefined(this.ariaDescription || undefined)}
               aria-expanded=${ifDefined(this.ariaExpanded || undefined)}
               aria-current=${ifDefined(this.ariaCurrent || undefined)}
             >
