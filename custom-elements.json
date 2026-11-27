@@ -10794,9 +10794,24 @@
             },
             {
               "kind": "method",
-              "name": "_hideBodyScroll",
+              "name": "_showDialog",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_handleCancel",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleDialogClose",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_hideBodyScroll",
+              "privacy": "private"
             },
             {
               "kind": "method",

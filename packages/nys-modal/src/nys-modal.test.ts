@@ -24,8 +24,7 @@ function accessibleName(root: ShadowRoot, el: Element): string {
   return el.getAttribute("aria-label")?.trim() ?? "";
 }
 
-const getDialog = (el: NysModal) =>
-  el.shadowRoot!.querySelector('[role="dialog"]')!;
+const getDialog = (el: NysModal) => el.shadowRoot!.querySelector("dialog")!;
 
 describe("nys-modal", () => {
   it("renders the component", async () => {
@@ -413,26 +412,22 @@ describe("nys-modal", () => {
   });
 
   /*** Regression (WCAG 4.1.2): dialog accessible name wiring ***/
-  it("puts role=dialog and aria-modal on the element that receives focus", async () => {
+  it("opens as a native dialog and focuses the modal box", async () => {
     const el = await fixture<NysModal>(
       html`<nys-modal heading="Update Available" open></nys-modal>`,
     );
     await el.updateComplete;
 
-    const dialog = getDialog(el);
-    // The dialog semantics belong on the modal box, not the backdrop.
-    expect(dialog.classList.contains("nys-modal")).to.be.true;
-    expect(dialog.getAttribute("aria-modal")).to.equal("true");
-    expect(dialog.getAttribute("tabindex")).to.equal("-1");
-
-    // The backdrop is presentational.
+    const dialog = getDialog(el) as HTMLDialogElement;
+    const box = el.shadowRoot!.querySelector(".nys-modal")!;
     const overlay = el.shadowRoot!.querySelector(".nys-modal-overlay")!;
-    expect(overlay.hasAttribute("role")).to.be.false;
-    expect(overlay.hasAttribute("aria-modal")).to.be.false;
 
-    // ...and it is the element focus is moved to when the modal opens.
+    expect(dialog.open).to.be.true;
+    expect(box.getAttribute("tabindex")).to.equal("-1");
+    expect(overlay.hasAttribute("role")).to.be.false;
+
     await nextFrame();
-    expect(el.shadowRoot!.activeElement).to.equal(dialog);
+    expect(el.shadowRoot!.activeElement).to.equal(box);
   });
 
   it("names the dialog from the visible heading via aria-labelledby", async () => {
