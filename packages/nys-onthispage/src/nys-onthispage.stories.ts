@@ -28,9 +28,9 @@ export const Basic: Story = {
   args: {
     heading: "On this page",
     scope: "main",
-    sticky: false,
+    disableSticky: false,
     offset: 80,
-    smoothScroll: true,
+    disableSmoothScroll: false,
   },
   render: (args) => {
     return html`
@@ -39,9 +39,9 @@ export const Basic: Story = {
           style="flex: 0 0 220px"
           heading=${args.heading}
           scope=${args.scope}
-          ?sticky=${args.sticky}
+          ?disableSticky=${args.disableSticky}
           offset=${args.offset}
-          ?smoothScroll=${args.smoothScroll}
+          ?disableSmoothScroll=${args.disableSmoothScroll}
         ></nys-onthispage>
 
         <main style="flex: 1; min-width: 0">
@@ -114,11 +114,11 @@ export const Basic: Story = {
   },
 };
 
-export const Sticky: Story = {
+export const TurnOffSticky: Story = {
   render: () => {
     return html`
       <div style="display: flex; gap: 2rem; align-items: flex-start">
-        <nys-onthispage sticky offset="24"></nys-onthispage>
+        <nys-onthispage disableSticky offset="24"></nys-onthispage>
 
         <main style="flex: 1; min-width: 0">
           <h1>Apply for a permit</h1>
@@ -159,7 +159,7 @@ export const Sticky: Story = {
       source: {
         code: `
 <div style="display: flex; gap: 2rem; align-items: flex-start">
-  <nys-onthispage sticky offset="24"></nys-onthispage>
+  <nys-onthispage disableSticky offset="24"></nys-onthispage>
 
   <main style="flex: 1; min-width: 0">
     <h1>Apply for a permit</h1>
@@ -419,7 +419,7 @@ export const TurnOffSmoothScrolling: Story = {
     return html`
       <div style="display: flex; gap: 2rem; align-items: flex-start">
         <nys-onthispage
-          smoothScroll="false"
+          disableSmoothScroll
           style="flex: 0 0 220px"
         ></nys-onthispage>
 
@@ -445,7 +445,7 @@ export const TurnOffSmoothScrolling: Story = {
       source: {
         code: `
 <div style="display: flex; gap: 2rem; align-items: flex-start">
-  <nys-onthispage smoothScroll="false" style="flex: 0 0 220px"></nys-onthispage>
+  <nys-onthispage disableSmoothScroll style="flex: 0 0 220px"></nys-onthispage>
 
   <main style="flex: 1; min-width: 0">
     <h1>Apply for a permit</h1>
@@ -525,7 +525,7 @@ export const PageLayout: Story = {
             class="nys-desktop:nys-grid-col-3 nys-order-first nys-desktop:nys-order-last"
             style="margin-top: var(--nys-space-600)"
           >
-            <nys-onthispage sticky offset="24"></nys-onthispage>
+            <nys-onthispage offset="24"></nys-onthispage>
           </aside>
         </div>
       </div>
@@ -595,7 +595,7 @@ export const PageLayout: Story = {
       class="nys-desktop:nys-grid-col-3 nys-order-first nys-desktop:nys-order-last"
       style="margin-top: var(--nys-space-600)"
     >
-      <nys-onthispage sticky offset="24"></nys-onthispage>
+      <nys-onthispage offset="24"></nys-onthispage>
     </aside>
   </div>
 </div>
