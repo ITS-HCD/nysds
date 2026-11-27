@@ -140,10 +140,18 @@ nys-accordion {
   }
 
   &__items {
-    display: none;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
 
     --_nys-verticalnav-link-indent: var(--nys-space-300, 24px);
   }
+}
+
+:host([expanded]) .nys-verticalnavgroup__items {
+  visibility: visible;
+  height: auto;
 }
 
 :host([disabled]) {
