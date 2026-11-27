@@ -72,6 +72,22 @@ p {
   margin: 0;
 }
 
+.nys-modal-dialog {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  overflow: visible;
+
+  &::backdrop {
+    background: transparent;
+  }
+}
+
 /*** Modal Overlay (black transparent background) ***/
 .nys-modal-overlay {
   position: fixed;

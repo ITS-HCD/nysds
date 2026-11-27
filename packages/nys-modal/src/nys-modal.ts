@@ -185,6 +185,12 @@ export type NysModalCloseEvent = CustomEvent<NysModalCloseDetail>;
  *   </nys-modal>
  * </div>
  * ```
+ *
+ * @example Testing
+ * <nys-modal heading="About the beta" open>
+ * <p><a href="#inside">Link inside the dialog</a></p>
+ * </nys-modal>
+ * <a href="#behind">Link behind the overlay</a>
  */
 
 export class NysModal extends NysElement {
@@ -266,10 +272,10 @@ export class NysModal extends NysElement {
     // Hide main body's scroll bar if modal is open/active
     if (changeProps.has("open")) {
       if (this.open) {
-        this._hideBodyScroll();
-        this._dispatchOpenEvent();
-        await this.updateComplete;
         this._savePrevFocused();
+        this._hideBodyScroll();
+        this._showDialog();
+        this._dispatchOpenEvent();
         this._focusOnModal();
       } else if (wasOpen) {
         this._restorePrevFocused();
@@ -283,6 +289,28 @@ export class NysModal extends NysElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
+  private _showDialog() {
+    const dialog = this.shadowRoot?.querySelector<HTMLDialogElement>("dialog");
+    if (dialog?.isConnected && !dialog.open) dialog.showModal();
+  }
+
+  // When users press "Escape" key.
+  private _handleCancel = (e: Event) => {
+    if (this.mandatory) e.preventDefault();
+  };
+
+  // Native close that bypassed `open` (e.g. a repeated Escape or a
+  // method="dialog" form). Mandatory modals reopen, others sync `open`.
+  private _handleDialogClose = () => {
+    if (!this.open) return;
+
+    if (this.mandatory) {
+      this._showDialog();
+    } else {
+      this._closeModal();
+    }
+  };
 
   private _hideBodyScroll() {
     if (this._originalBodyOverflow === null) {
@@ -500,56 +528,55 @@ export class NysModal extends NysElement {
     const describedBy = this._getAriaDescribedBy() || undefined;
 
     return this.open
-      ? html`<div class="nys-modal-overlay">
-          <div
-            class="nys-modal"
-            tabindex="-1"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="${ifDefined(labelledBy)}"
-            aria-label="${ifDefined(label)}"
-            aria-describedby="${ifDefined(describedBy)}"
-          >
-            <div class="nys-modal_header">
-              <div class="nys-modal_header-inner">
-                ${hasHeading
-                  ? html`<h2 id="${this.id}-heading">${this.heading}</h2>`
-                  : ""}
-                ${!this.mandatory
-                  ? html`<nys-button
-                      id="dismiss-modal"
-                      circle
-                      icon="close"
-                      variant="ghost"
-                      label="Close this window"
-                      @nys-click=${this._closeModal}
-                    ></nys-button>`
+      ? html`<dialog
+          class="nys-modal-dialog"
+          aria-labelledby="${ifDefined(labelledBy)}"
+          aria-label="${ifDefined(label)}"
+          aria-describedby="${ifDefined(describedBy)}"
+          @cancel=${this._handleCancel}
+          @close=${this._handleDialogClose}
+        >
+          <div class="nys-modal-overlay">
+            <div class="nys-modal" tabindex="-1">
+              <div class="nys-modal_header">
+                <div class="nys-modal_header-inner">
+                  ${hasHeading
+                    ? html`<h2 id="${this.id}-heading">${this.heading}</h2>`
+                    : ""}
+                  ${!this.mandatory
+                    ? html`<nys-button
+                        id="dismiss-modal"
+                        circle
+                        icon="close"
+                        variant="ghost"
+                        label="Close this window"
+                        @nys-click=${this._closeModal}
+                      ></nys-button>`
+                    : ""}
+                </div>
+                ${this.subheading
+                  ? html`<p id="${this.id}-subheading">${this.subheading}</p>`
                   : ""}
               </div>
-              ${this.subheading
-                ? html`<p id="${this.id}-subheading">${this.subheading}</p>`
-                : ""}
-            </div>
-
-            <div
-              id="${this.id}-desc"
-              class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}"
-            >
-              <div class="nys-modal_body-inner">
-                <slot @slotchange=${this._handleBodySlotChange}></slot>
+              <div
+                id="${this.id}-desc"
+                class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}"
+              >
+                <div class="nys-modal_body-inner">
+                  <slot @slotchange=${this._handleBodySlotChange}></slot>
+                </div>
               </div>
-            </div>
-
-            <div
-              class="nys-modal_footer ${!this.hasActionSlots ? "hidden" : ""}"
-            >
-              <slot
-                name="actions"
-                @slotchange=${this._handleActionSlotChange}
-              ></slot>
+              <div
+                class="nys-modal_footer ${!this.hasActionSlots ? "hidden" : ""}"
+              >
+                <slot
+                  name="actions"
+                  @slotchange=${this._handleActionSlotChange}
+                ></slot>
+              </div>
             </div>
           </div>
-        </div>`
+        </dialog>`
       : "";
   }
 }

@@ -55,7 +55,7 @@ export function defineEventsTests(test, expect, path, options = {}) {
 
       await page.locator("[data-testid='open-modal']").click();
       await expect(state).toHaveText("open");
-      await expect(page.locator("nys-modal [role='dialog']")).toBeVisible();
+      await expect(page.locator("nys-modal dialog")).toBeVisible();
 
       await page.keyboard.press("Escape");
       await expect(state).toHaveText("closed");
